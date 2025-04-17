@@ -1,0 +1,332 @@
+{% extends "web_app/template/base.html" %}
+
+{% block content %}
+<main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+
+  {% for category in categories %}
+    {% if category.title == "Cybersecurity" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in cyber_security_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+    {% elif category.title == "IT (Cyberspace)" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in it_work_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+      {% elif category.title == "Cyberspace Effects" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in it_work_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+      {% elif category.title == "Cyberspace Enablers" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in enabler_work_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+      {% elif category.title == "Software Engineering" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in software_engineering_work_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-12">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+      {% elif category.title == "Data/AI" %}
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <!-- Titre + description TOUJOURS visibles -->
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <!-- Rôles triés par ID prefix -->
+          {% for line in data_work_lines %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-12">
+              {% for work_role in line %}
+                {% if work_role == None %}
+                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                {% else %}
+                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                    <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                        <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                            {{ work_role.opm_id }}
+                        </p>
+                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                    </div>
+                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                        {% if work_role.ncwf_2017_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                        {% if work_role.ncwf_2024_work_role %}
+                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                        {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+      </div>
+    {% else %}
+      <!-- Autres catégories normales -->
+      <div class="category-container rounded-lg mt-6"
+           style="background-color: rgba({{ category.color }}, 0.75);">
+
+          <div class="category-content">
+              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                   style="background-color: rgba({{ category.color }}, 1);">
+                  {{ category.title }}
+              </div>
+              <div class="text-white p-2">
+                  {{ category.description }}
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+            {% for work_role in category.dcwf_work_roles.all %}
+              <div class="bg-white rounded-lg shadow-md grid grid-rows-3">
+                <div class="text-center px-5 pt-5 flex flex-col justify-center">
+                    <p class="text-gray-500 font-semibold" style="color: rgba({{ category.color }}, 1);">
+                        {{ work_role.opm_id }}
+                    </p>
+                    <p class="font-bold text-base">{{ work_role.title }}</p>
+                </div>
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                    {% if work_role.ncwf_2017_work_role %}
+                        <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                        <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                    {% endif %}
+                </div>
+                <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                    {% if work_role.ncwf_2024_work_role %}
+                        <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                        <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                    {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</main>
+{% endblock %}

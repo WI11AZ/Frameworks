@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'favicon/favicon-96x96.png' %}" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}"/>
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}"/>
+    <meta name="apple-mobile-web-app-title" content="Anxiety Breaker"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .category-container {
+          max-height: 180px;
+          overflow: hidden; /* Cache les éléments qui dépassent */
+          transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+          background-color: rgba(255, 255, 255, 0.1); /* Effet lumineux */
+          border-radius: 8px;
+          padding: 10px;
+          position: relative;
+        }
+      
+        .category-container:hover {
+          max-height: 2000px;  /* ou une grande valeur pour que l'élément s'étende */
+          padding: 24px;
+          background-color: rgba(255, 255, 255, 0.2);
+          overflow: visible;  /* Affiche tout le contenu au survol */
+        }
+      
+        .category-header {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          color: white;
+          z-index: 10;
+          position: relative;
+          padding-bottom: 4px;
+        }
+      
+        .category-content {
+          opacity: 1;
+          pointer-events: auto;
+          margin-top: 16px;
+        }
+        
+      </style>
+      
+      
+</head>
+
+<body class="h-full">
+<div class="min-h-full">
+    {% include "web_app/template/menu.html" %}
+
+    <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        </div>
+    </header>
+    <main>
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+</div>
+
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Stop the menu from being hiding or hide it
+    mobileMenuButton.addEventListener('click', () => {
+        // Remove the hidden class to show the menu or add it to hide it
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+
+
+{% block scripts %}
+{% endblock %}
+</body>
+
+</html>
