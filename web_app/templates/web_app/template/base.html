@@ -16,7 +16,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .category-container {
-          max-height: 180px;
+          max-height: 200px;
+          max-width: 900px;
           overflow: hidden; /* Cache les éléments qui dépassent */
           transition: max-height 0.4s ease-out, padding 0.4s ease-out;
           background-color: rgba(255, 255, 255, 0.1); /* Effet lumineux */
@@ -47,6 +48,82 @@
           pointer-events: auto;
           margin-top: 16px;
         }
+
+
+
+        
+        .role-card {
+            cursor: pointer;
+        }
+
+        /* Case à droite qui reste cachée au départ */
+        .case-detailed-info {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: -250px;  /* Positionne la case à droite de la catégorie */
+            width: 250px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;  /* S'assure qu'elle est au-dessus des autres éléments */
+            transition: right 0.3s ease; /* Ajoute une transition pour un effet fluide */
+        }
+
+        /* Active l'affichage de la case avec une animation de glissement */
+        .case-detailed-info.visible {
+            right: 0; /* Glisse la case vers la droite */
+        }
+
+
+        
+        
+
+
+
+
+
+        .hidden {
+          display: none;
+        }
+
+    /* Style général des work-role (inchangé) */
+        .work-role {
+          cursor: pointer;
+        }
+
+        /* Style de base du detail-box (positionné dynamiquement via JavaScript) */
+        .detail-box {
+          position: fixed;
+          right: 0;
+          top: 0;
+          width: 33%;
+          height: 100%;
+          z-index: 999;
+          box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+          overflow-y: auto;
+          padding: 1.5rem;
+          color: white;
+          background-color: white; /* fallback */
+          background-repeat: no-repeat;
+          background-position: bottom right;
+          background-size: 150px; /* taille raisonnable */
+        }
+
+        .bg-dd { background-color: #ff0000; }  /* Rouge */
+        .bg-io { background-color: #0db8c4; }  /* Turquoise */
+        .bg-pd { background-color: #ff75bc; }  /* Rose */
+        .bg-in { background-color: #6e51c7; }  /* Mauve */
+        .bg-ci { background-color: #ffd500; }  /* Jaune */
+        .bg-ce { background-color: #00c54c; }  /* Vert */
+        .bg-og { background-color: #00469c; }  /* Bleu */
+        
+
+
+        
         
       </style>
       
@@ -54,21 +131,23 @@
 </head>
 
 <body class="h-full">
-<div class="min-h-full">
-    {% include "web_app/template/menu.html" %}
-
-    <header class="bg-white shadow">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-        </div>
-    </header>
-    <main>
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
-</div>
+  <div class="min-h-full">
+      {% include "web_app/template/menu.html" %}
+  
+      <header class="bg-white shadow">
+          <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+              <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+          </div>
+      </header>
+  
+      <main>
+          <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+              {% block content %}
+              <!-- Ajout des catégories et work roles ici -->
+              {% endblock %}
+          </div>
+      </main>
+  </div>
 
 <script>
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -79,11 +158,296 @@
         // Remove the hidden class to show the menu or add it to hide it
         mobileMenu.classList.toggle('hidden');
     });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.work-role-card');
+    const tooltip = document.getElementById('opm-tooltip');
+
+    const opmDescriptions = {
+      '2210': 'OPM 2210 : Spécialiste des systèmes informatiques',
+      '0132': 'OPM 0132 : Analyste du renseignement',
+      // Ajoute d’autres descriptions ici selon tes OPM_ID
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', (e) => {
+        const opmId = card.getAttribute('data-opm-id');
+        
+        // surligne toutes les cartes avec le même opm_id
+        document.querySelectorAll(`[data-opm-id="${opmId}"]`).forEach(c => {
+          c.classList.add('highlighted');
+        });
+
+        // affiche le tooltip s’il y a une description
+        if (opmDescriptions[opmId]) {
+          tooltip.innerText = opmDescriptions[opmId];
+          tooltip.style.display = 'block';
+
+          // position du tooltip à droite de la souris
+          tooltip.style.left = e.pageX + 20 + 'px';
+          tooltip.style.top = e.pageY + 'px';
+        }
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        tooltip.style.left = e.pageX + 20 + 'px';
+        tooltip.style.top = e.pageY + 'px';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        const opmId = card.getAttribute('data-opm-id');
+        document.querySelectorAll(`[data-opm-id="${opmId}"]`).forEach(c => {
+          c.classList.remove('highlighted');
+        });
+        tooltip.style.display = 'none';
+      });
+    });
+  });
+
+</script>
+
+
+
+
+<script>
+  function toggleDetail(workRoleId) {
+    const detailBox = document.getElementById(`detail-box-${workRoleId}`);
+    if (detailBox) {
+      detailBox.classList.toggle('hidden');  // Toggle visibility (hidden/visible)
+    }
+  }
+</script>
+
+
+
+
+
+
+<script>
+  const categoryLabels = {
+    DD: "Design & Development",
+    IO: "Implementation & Operation",
+    PD: "Protection & Defense",
+    IN: "Investigation",
+    CI: "Cyberspace Intelligence",
+    CE: "Cyberspace Effects",
+    OG: "Oversight & Governance"
+  };
+
+  const backgroundColors = {
+    DD: "#dc2626", // rouge
+    IO: "#06b6d4", // turquoise
+    PD: "#ec4899", // rose
+    IN: "#8b5cf6", // mauve
+    CI: "#facc15", // jaune
+    CE: "#22c55e", // vert
+    OG: "#3b82f6"  // bleu
+  };
+
+  const backgroundImages = {
+    DD: 'url("/images/backgrounds/DD.png")',
+    IO: 'url("/images/backgrounds/IO.png")',
+    PD: 'url("/images/backgrounds/PD.png")',
+    IN: 'url("/images/backgrounds/IN.png")',
+    CI: 'url("/images/backgrounds/CI.png")',
+    CE: 'url("/images/backgrounds/CE.png")',
+    OG: 'url("/images/backgrounds/OG.png")'
+  };
+
+  function toggleDetail(workRoleId) {
+    const detailBox = document.getElementById('detail-box');
+    const contentBox = document.getElementById('detail-box-content');
+    const workRole = document.getElementById('work-role-' + workRoleId);
+
+    if (!workRoleId || !workRole) {
+      detailBox.classList.add('hidden');
+      contentBox.innerHTML = '';
+      detailBox.style.backgroundColor = '';
+      detailBox.style.backgroundImage = '';
+      return;
+    }
+
+    const blocks = workRole.querySelectorAll('div');
+    let html = '';
+    let nistId = '';
+    let title = '';
+    let foundNist = false;
+
+    const lastBlock = blocks[blocks.length - 1];
+    if (lastBlock) {
+      const ps = lastBlock.querySelectorAll('p');
+      ps.forEach(p => {
+        const text = p.innerText.trim();
+        if (!foundNist) {
+          const match = text.match(/\b([A-Z]{2}-[A-Z]{3}-\d{3})\b/);
+          if (match) {
+            nistId = match[1];
+            foundNist = true;
+          }
+        }
+        if (!title && p.classList.contains('font-normal')) {
+          title = text;
+        }
+      });
+    }
+
+    const prefix = nistId ? nistId.split('-')[0] : '??';
+    const category = categoryLabels[prefix] || prefix;
+    const bgColor = backgroundColors[prefix] || '#ffffff';
+    const bgImage = backgroundImages[prefix] || '';
+
+    // Appliquer couleur + image
+    detailBox.style.backgroundColor = bgColor;
+    detailBox.style.backgroundImage = bgImage;
+
+    html += `<h2 class="text-xl font-bold mb-4">${category} – ${title}</h2>`;
+
+    const descriptionEl = workRole.querySelector('.description');
+    if (descriptionEl) {
+      const descriptionText = descriptionEl.innerText.trim();
+      if (descriptionText) {
+        html += `<div class="mb-4"><h3 class="font-semibold mb-1">Description</h3><p>${descriptionText}</p></div>`;
+      }
+    }
+
+    const ksatIdEl = workRole.querySelector('.ksat-id');
+    if (ksatIdEl) {
+      const ksatText = ksatIdEl.innerText.trim();
+      if (ksatText) {
+        html += `<div class="mb-4"><h3 class="font-semibold mb-1">KSAT ID</h3><p>${ksatText}</p></div>`;
+      }
+    }
+
+    const dcwfIdEl = workRole.querySelector('.dcwf-id');
+    if (dcwfIdEl) {
+      const dcwfText = dcwfIdEl.innerText.trim();
+      if (dcwfText) {
+        html += `<div class="mb-4"><h3 class="font-semibold mb-1">DCWF ID</h3><p>${dcwfText}</p></div>`;
+      }
+    }
+
+    blocks.forEach(block => {
+      const lines = Array.from(block.querySelectorAll('p'))
+        .map(p => p.innerText.trim())
+        .filter(t => t);
+      if (lines.length) {
+        html += `<div class="mb-4">${lines.map(l => `<p>${l}</p>`).join('')}</div>`;
+      }
+    });
+
+    contentBox.innerHTML = html;
+    detailBox.classList.remove('hidden');
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function updateCompareButtonVisibility() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const compareButton = document.getElementById('compare-button');
+      const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+
+      compareButton.style.display = checkedCount > 0 ? 'inline-block' : 'none';
+
+      // Avertir si plus de 3 cases cochées
+      const warning = document.getElementById('warning-message');
+      if (checkedCount > 3) {
+          warning.style.display = 'block';
+      } else {
+          warning.style.display = 'none';
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.addEventListener('change', updateCompareButtonVisibility));
+  });
+
+  function compareSelected() {
+      const selected = [];
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxes.forEach(cb => {
+          const workRoleCard = cb.closest('.work-role');
+          if (workRoleCard) {
+              selected.push(workRoleCard.id);
+          }
+      });
+      alert("Éléments sélectionnés : " + selected.join(", "));
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>
+  // 1. On ajoute un écouteur de changement sur toutes les cases à cocher
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', updateCompareButton);
+  });
+
+  function updateCompareButton() {
+    const selected = document.querySelectorAll('input[type=checkbox]:checked').length;
+    const btn       = document.getElementById('compare-button');
+    const warning   = document.getElementById('warning-message');
+
+    // n’affiche le bouton que si au moins une sélection
+    btn.style.display     = selected > 0 ? 'block' : 'none';
+    // n’affiche l’avertissement que si > 3 sélectionnés
+    warning.style.display = selected > 3 ? 'block' : 'none';
+  }
+
+  function compareSelected() {
+    // on récupère les IDs de work_role sélectionnés
+    const ids = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
+      .map(cb => {
+         // extraction de l'ID depuis le name, par ex. "checkbox_zone_1_123"
+         const m = cb.name.match(/_(\d+)$/);
+         return m ? m[1] : null;
+      })
+      .filter(x => x);
+
+    if (ids.length === 0) {
+      alert('Veuillez sélectionner au moins un rôle à comparer.');
+      return;
+    }
+
+    // on ouvre une nouvelle fenêtre en GET avec ?ids=1&ids=2…
+    const params = new URLSearchParams();
+    ids.forEach(id => params.append('ids', id));
+    window.open(`/compare/?${params.toString()}`, '_blank');
+  }
 </script>
 
 
 {% block scripts %}
 {% endblock %}
+
 </body>
 
 </html>

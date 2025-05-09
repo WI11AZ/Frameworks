@@ -2,6 +2,14 @@ from django.http import HttpResponse
 from django.template import loader
 from collections import defaultdict
 from web_app.models import DcwfCategory, DcwfWorkRole, DcwfWorkRoleKsatRelation
+from django.shortcuts import render, get_list_or_404
+from django.http import HttpResponse
+from .models import (
+    DcwfCategory,
+    DcwfWorkRole,   # <- votre modèle pour les rôles
+    DcwfKsat,       # <- votre modèle pour les KSATs
+)
+
 
 
 def get_nist_id(role):
@@ -116,6 +124,7 @@ def get_sorted_data_ai_roles(roles):
 def home(request):
     template = loader.get_template("web_app/home/index.html")
 
+    # 1. Tes requêtes existantes
     it_work_roles = DcwfCategory.objects.get(title="IT (Cyberspace)").dcwf_work_roles.all()
     cyber_security_work_roles = DcwfCategory.objects.get(title="Cybersecurity").dcwf_work_roles.all()
     cyber_effects_work_roles = DcwfCategory.objects.get(title="Cyberspace Effects").dcwf_work_roles.all()
@@ -124,6 +133,7 @@ def home(request):
     software_engineering_work_roles = DcwfCategory.objects.get(title="Software Engineering").dcwf_work_roles.all()
     data_work_roles = DcwfCategory.objects.get(title="Data/AI").dcwf_work_roles.all()
 
+    # 2. Tes tris existants
     sorted_cyber_security_lines = get_sorted_cyber_roles(cyber_security_work_roles)
     it_work_lines = get_sorted_it_roles(it_work_roles)
     cyber_effects_work_lines = get_sorted_cybereffects_roles(cyber_effects_work_roles)
@@ -131,6 +141,15 @@ def home(request):
     software_engineering_work_lines = get_sorted_software_engineering_roles(software_engineering_work_roles)
     data_work_lines = get_sorted_data_ai_roles(data_work_roles)
 
+    # 3. Liste des OPM IDs à surligner
+    #    Ajuste le type (int ou str) selon celui de work_role.opm_id
+    highlight_ids = [901, 722, 723, 752, 661, 622, 631, 461, 511, 521,
+        531, 541, 141, 121, 111, 112, 443, 151, 331, 332,
+        333, 322, 221, 211, 212, 651, 652, 621, 641, 671,
+        632, 411, 451, 803, 801, 802, 804, 312, 421, 422,
+        612, 805, 731, 732, 751, 711, 712, 311, 431, 611,]
+
+    # 4. Contexte final
     context = {
         "it_work_lines": it_work_lines,
         "cyber_security_lines": sorted_cyber_security_lines,
@@ -140,9 +159,10 @@ def home(request):
         "software_engineering_work_lines": software_engineering_work_lines,
         "data_work_lines": data_work_lines,
         "categories": DcwfCategory.objects.all(),
+        "highlight_ids": highlight_ids,
     }
-    return HttpResponse(template.render(context, request))
 
+    return HttpResponse(template.render(context, request))
 
 def work_role(request, work_role_id):
     template = loader.get_template("web_app/work_role/index.html")
@@ -164,3 +184,55 @@ def work_role(request, work_role_id):
         "cat_dict": cat_dict,
     }
     return HttpResponse(template.render(context, request))
+
+
+
+
+
+
+def compare(request):
+    # 1. Récupère les ids passés en GET
+    ids = request.GET.getlist('ids')
+    try:
+        ids = [int(i) for i in ids]
+    except ValueError:
+        ids = []
+
+    # 2. Charge les rôles avec leurs relations vers DcwfKsat
+    work_roles = get_list_or_404(
+        DcwfWorkRole.objects.prefetch_related(
+            'dcwfworkroleksatrelation_set__dcwf_ksat',
+            'dcwfworkroleksatrelation_set__dcwf_ksat__ncwf_2017_ksat'
+        ),
+        id__in=ids
+    )
+
+    # 3. Récupère tous les KSATs de ces rôles et précharge NCWF 2017
+    ksats = DcwfKsat.objects.filter(
+        dcwfworkroleksatrelation__dcwf_work_role__in=work_roles
+    ).distinct().prefetch_related('ncwf_2017_ksat')
+
+    # --- Correction ici : on utilise les clés singulières ---
+    cat_dict = {
+        'knowledge': [],
+        'skill':     [],
+        'ability':   [],
+        'task':      [],
+    }
+    for k in ksats:
+        key = k.category.lower()  # ex. "Knowledge" → "knowledge"
+        if key in cat_dict:
+            # pour chaque rôle, on teste l’existence de ce KSAT
+            presence_list = [
+                wr.dcwfworkroleksatrelation_set.filter(dcwf_ksat=k).exists()
+                for wr in work_roles
+            ]
+            cat_dict[key].append({
+                'ksat':     k,
+                'presence': presence_list,
+            })
+
+    return render(request, 'web_app/ksat/compare_ksat.html', {
+        'work_roles': work_roles,
+        'cat_dict':   cat_dict,
+    })

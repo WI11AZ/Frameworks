@@ -1,0 +1,75 @@
+{% extends "web_app/template/base.html" %}
+{% block content %}
+<main class="mx-auto max-w-7xl p-6">
+  <h1 class="text-3xl font-bold mb-6">Comparaison des KSAT</h1>
+
+  <!-- Onglets -->
+  <div id="tab-buttons" class="flex border-b mb-4">
+    {% for key in cat_dict.keys %}
+      <button data-tab="{{ key }}"
+              class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
+        {{ key|title }}{% if key != 'knowledge' %}s{% endif %}
+      </button>
+    {% endfor %}
+  </div>
+
+  <!-- Contenus -->
+  <div id="tab-contents">
+    {% for key, entries in cat_dict.items %}
+      <div id="{{ key }}" class="tab-content hidden">
+        <table class="min-w-full table-auto border-collapse mb-6">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-3 py-2 border text-left">Description / ID</th>
+              {% for wr in work_roles %}
+                <th class="px-3 py-2 border">{{ wr.title }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in entries %}
+              <tr class="hover:bg-gray-50">
+                <td class="px-3 py-2 border align-top">
+                  <p class="font-medium">{{ entry.ksat.description }}</p>
+                  <div class="mt-1 text-sm text-gray-600 space-x-2">
+                    <a href="{{ entry.ksat.url }}" class="underline">DCWF {{ entry.ksat.dcwf_id }}</a>
+                    {% if entry.ksat.ncwf_2017_ksat %}
+                      <a href="{{ entry.ksat.ncwf_2017_ksat.url }}" class="underline">
+                        NCWF-2017 {{ entry.ksat.ncwf_2017_ksat.ncwf_id }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </td>
+                {% for present in entry.presence %}
+                  <td class="px-3 py-2 border text-center align-middle">
+                    {% if present %}✔{% else %}✖{% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll(".tab-button");
+  const contents = document.querySelectorAll(".tab-content");
+
+  function activate(btn) {
+    tabs.forEach(b => {
+      b.classList.toggle("border-blue-500", b===btn);
+      b.classList.toggle("text-blue-600", b===btn);
+    });
+    contents.forEach(c => c.classList.add("hidden"));
+    document.getElementById(btn.dataset.tab).classList.remove("hidden");
+  }
+
+  tabs.forEach(btn => btn.addEventListener("click", () => activate(btn)));
+  if (tabs.length) activate(tabs[0]);
+});
+</script>
+{% endblock %}

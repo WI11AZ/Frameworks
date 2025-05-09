@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="text-2xl font-bold mb-4">Comparaison des KSAT</h1>
+  <table class="min-w-full table-auto border-collapse">
+    <thead>
+      <tr>
+        <th class="px-2 py-1 border">KSAT</th>
+        {% for wr in work_roles %}
+          <th class="px-2 py-1 border">{{ wr.title }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for k in all_ksats %}
+        <tr>
+          <td class="px-2 py-1 border">{{ k.name }}</td>
+          {% for wr in work_roles %}
+            <td class="px-2 py-1 border text-center">
+              {% if k in wr.ksats.all %}
+                ✔
+              {% else %}
+                ✖
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
