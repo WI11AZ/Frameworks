@@ -210,9 +210,11 @@ def compare(request):
     ncwf_2024_work_roles = Ncwf2024WorkRole.objects.filter(id__in=ncwf_2024_ids)
 
     # 3. Récupère les KSATs
-    # On peut faire ca plus efficient, mais si c'est pas un problème de perf, on va pas compliquér le code
     ksats_dcwf = DcwfKsat.objects.filter(dcwf_work_role_relations__dcwf_work_role__in=dcwf_work_roles).distinct()
-    ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).distinct()
+    # Prenez les ksats ncwf_2017 qui sont les mêmes que ceux dcwf
+    ncwf_2017_ksats_in_dcwf = ksats_dcwf.values_list('ncwf_2017_ksat', flat=True)
+    # Exclure les ksats ncwf_2017 qui sont déjà dans dcwf
+    ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).exclude(id__in=ncwf_2017_ksats_in_dcwf).distinct()
     tks_ncwf_2024 = Ncwf2024Tks.objects.filter(ncwf_2024_work_roles__in=ncwf_2024_work_roles).distinct()
 
 
