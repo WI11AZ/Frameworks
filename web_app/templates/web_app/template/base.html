@@ -406,23 +406,37 @@
     }
 
     function compareSelected() {
-        // on récupère les IDs de work_role sélectionnés
-        const ids = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
-            .map(cb => {
-                // extraction de l'ID depuis le name, par ex. "checkbox_zone_1_123"
-                const m = cb.name.match(/_(\d+)$/);
-                return m ? m[1] : null;
-            })
-            .filter(x => x);
+        const checkboxes = Array.from(document.querySelectorAll('input[type=checkbox]:checked'));
 
-        if (ids.length === 0) {
+        const dcwf_ids = [];
+        const ncwf_2024_ids = [];
+        const ncwf_2017_ids = [];
+
+        checkboxes.forEach(cb => {
+            const name = cb.name;
+
+            if (name.startsWith('dcwf_')) {
+                const m = name.match(/dcwf_(\d+)$/);
+                if (m) dcwf_ids.push(m[1]);
+            } else if (name.startsWith('ncwf_2024_')) {
+                const m = name.match(/ncwf_2024_(\d+)$/);
+                if (m) ncwf_2024_ids.push(m[1]);
+            } else if (name.startsWith('ncwf_2017_')) {
+                const m = name.match(/ncwf_2017_(\d+)$/);
+                if (m) ncwf_2017_ids.push(m[1]);
+            }
+        });
+
+        if (dcwf_ids.length === 0 && ncwf_2024_ids.length === 0 && ncwf_2017_ids.length === 0) {
             alert('Veuillez sélectionner au moins un rôle à comparer.');
             return;
         }
 
-        // on ouvre une nouvelle fenêtre en GET avec ?ids=1&ids=2…
         const params = new URLSearchParams();
-        ids.forEach(id => params.append('ids', id));
+        dcwf_ids.forEach(id => params.append('dcwf_ids', id));
+        ncwf_2024_ids.forEach(id => params.append('ncwf_2024_ids', id));
+        ncwf_2017_ids.forEach(id => params.append('ncwf_2017_ids', id));
+
         window.open(`/compare/?${params.toString()}`, '_blank');
     }
 </script>

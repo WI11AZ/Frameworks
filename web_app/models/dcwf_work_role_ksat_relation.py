@@ -7,8 +7,8 @@ class KsatRelation(models.TextChoices):
 
 
 class DcwfWorkRoleKsatRelation(models.Model):
-    dcwf_work_role = models.ForeignKey("DcwfWorkRole", on_delete=models.CASCADE)
-    dcwf_ksat = models.ForeignKey("DcwfKsat", on_delete=models.CASCADE)
+    dcwf_work_role = models.ForeignKey("DcwfWorkRole", on_delete=models.CASCADE, related_name="dcwf_ksat_relations")
+    dcwf_ksat = models.ForeignKey("DcwfKsat", on_delete=models.CASCADE, related_name="dcwf_work_role_relations")
     type = models.CharField(max_length=10, choices=KsatRelation.choices)
 
     class Meta:

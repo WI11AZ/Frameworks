@@ -1,13 +1,14 @@
-from django.http import HttpResponse
 from django.template import loader
 from collections import defaultdict
-from web_app.models import DcwfCategory, DcwfWorkRole, DcwfWorkRoleKsatRelation
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse
 from .models import (
     DcwfCategory,
-    DcwfWorkRole,   # <- votre modèle pour les rôles
-    DcwfKsat,       # <- votre modèle pour les KSATs
+    DcwfWorkRole,
+    Ncwf2017WorkRole,
+    Ncwf2024WorkRole,
+    DcwfKsat,
+DcwfWorkRoleKsatRelation
 )
 
 
@@ -189,50 +190,41 @@ def work_role(request, work_role_id):
 
 
 
-
 def compare(request):
     # 1. Récupère les ids passés en GET
-    ids = request.GET.getlist('ids')
+    dcwf_ids = request.GET.getlist('dcwf_ids')
+    ncwf_2017_ids = request.GET.getlist('ncwf_2017_ids')
+    ncwf_2024_ids = request.GET.getlist('ncwf_2024_ids')
     try:
-        ids = [int(i) for i in ids]
+        dcwf_ids = [int(i) for i in dcwf_ids]
     except ValueError:
-        ids = []
+        dcwf_ids = []
 
-    # 2. Charge les rôles avec leurs relations vers DcwfKsat
-    work_roles = get_list_or_404(
-        DcwfWorkRole.objects.prefetch_related(
-            'dcwfworkroleksatrelation_set__dcwf_ksat',
-            'dcwfworkroleksatrelation_set__dcwf_ksat__ncwf_2017_ksat'
-        ),
-        id__in=ids
-    )
+    # Peut-être que fais un try/except ici aussi, mais je pense pas que c'est nécessaire ?
+    ncwf_2017_ids = [int(i) for i in ncwf_2017_ids]
+    ncwf_2024_ids = [int(i) for i in ncwf_2024_ids]
 
-    # 3. Récupère tous les KSATs de ces rôles et précharge NCWF 2017
-    ksats = DcwfKsat.objects.filter(
-        dcwfworkroleksatrelation__dcwf_work_role__in=work_roles
-    ).distinct().prefetch_related('ncwf_2017_ksat')
+    # 2. Récupère les Work Roles
+    dcwf_work_roles = DcwfWorkRole.objects.filter(id__in=dcwf_ids)
+    ncwf_2017_work_roles = Ncwf2017WorkRole.objects.filter(id__in=ncwf_2017_ids)
+    ncwf_2024_work_roles = Ncwf2024WorkRole.objects.filter(id__in=ncwf_2024_ids)
+
+    # 3. Récupère les KSATs
+    # On peut faire ca plus efficient, mais si c'est pas un problème de perf, on va pas compliquér le code
+    ksats_dcwf = list(set([ksats for work_role in dcwf_work_roles for ksats in work_role.dcwf_ksats()]))
+    ksats_ncwf_2017 = list(set([ksats for work_role in ncwf_2017_work_roles for ksats in work_role.ncwf_2017_ksats.all()]))
+    tks_ncwf_2024 = list(set([tks for work_role in ncwf_2024_work_roles for tks in work_role.ncwf_2024_tks.all()]))
+
+
+    ksats = ksats_dcwf + ksats_ncwf_2017 + tks_ncwf_2024
+    work_roles = list(dcwf_work_roles) + list(ncwf_2017_work_roles) + list(ncwf_2024_work_roles)
 
     # --- Correction ici : on utilise les clés singulières ---
-    cat_dict = {
-        'knowledge': [],
-        'skill':     [],
-        'ability':   [],
-        'task':      [],
-    }
-    for k in ksats:
-        key = k.category.lower()  # ex. "Knowledge" → "knowledge"
-        if key in cat_dict:
-            # pour chaque rôle, on teste l’existence de ce KSAT
-            presence_list = [
-                wr.dcwfworkroleksatrelation_set.filter(dcwf_ksat=k).exists()
-                for wr in work_roles
-            ]
-            cat_dict[key].append({
-                'ksat':     k,
-                'presence': presence_list,
-            })
+    ksat_dict = {'knowledge': [], 'skill': [], 'ability': [], 'task': []}
+    for ksat in ksats:
+        ksat_dict.get(ksat.category.lower(), []).append(ksat)
 
     return render(request, 'web_app/ksat/compare_ksat.html', {
         'work_roles': work_roles,
-        'cat_dict':   cat_dict,
+        'ksat_dict':   ksat_dict,
     })
