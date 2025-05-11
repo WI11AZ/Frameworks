@@ -8,7 +8,7 @@ from .models import (
     Ncwf2017WorkRole,
     Ncwf2024WorkRole,
     DcwfKsat,
-DcwfWorkRoleKsatRelation
+    DcwfWorkRoleKsatRelation, Ncwf2017Ksat, Ncwf2024Tks
 )
 
 
@@ -211,12 +211,12 @@ def compare(request):
 
     # 3. Récupère les KSATs
     # On peut faire ca plus efficient, mais si c'est pas un problème de perf, on va pas compliquér le code
-    ksats_dcwf = list(set([ksats for work_role in dcwf_work_roles for ksats in work_role.dcwf_ksats()]))
-    ksats_ncwf_2017 = list(set([ksats for work_role in ncwf_2017_work_roles for ksats in work_role.ncwf_2017_ksats.all()]))
-    tks_ncwf_2024 = list(set([tks for work_role in ncwf_2024_work_roles for tks in work_role.ncwf_2024_tks.all()]))
+    ksats_dcwf = DcwfKsat.objects.filter(dcwf_work_role_relations__dcwf_work_role__in=dcwf_work_roles).distinct()
+    ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).distinct()
+    tks_ncwf_2024 = Ncwf2024Tks.objects.filter(ncwf_2024_work_roles__in=ncwf_2024_work_roles).distinct()
 
 
-    ksats = ksats_dcwf + ksats_ncwf_2017 + tks_ncwf_2024
+    ksats = list(ksats_dcwf) + list(ksats_ncwf_2017) + list(tks_ncwf_2024)
     work_roles = list(dcwf_work_roles) + list(ncwf_2017_work_roles) + list(ncwf_2024_work_roles)
 
     # --- Correction ici : on utilise les clés singulières ---
