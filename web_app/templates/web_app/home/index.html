@@ -1,533 +1,628 @@
 {% extends "web_app/template/base.html" %}
 
 {% block content %}
-<main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
-  {% for category in categories %}
-    {% if category.title == "Cybersecurity" %}
-    <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-      <!-- Titre + description TOUJOURS visibles -->
-      <div class="category-content">
-          <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-              {{ category.title }}
-          </div>
-          <div class="text-white p-2">
-              {{ category.description }}
-          </div>
-      </div>
-  
-      <!-- Rôles triés par ID prefix -->
-      {% for line in cyber_security_lines %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
-          {% for work_role in line %}
-              {% if work_role == None %}
-                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
-                  
-              {% else %}
-                  <!-- Conteneur relatif pour positionner le detail-box -->
-                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+    {% for category in categories %}
+        {% if category.title == "Cybersecurity" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in cyber_security_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- IT -->
+        {% elif category.title == "IT (Cyberspace)" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in it_work_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Cyberspace Effects -->
+        {% elif category.title == "Cyberspace Effects" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in cyber_effects_work_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Cyberspace Enablers -->
+        {% elif category.title == "Cyberspace Enablers" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in enabler_work_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <!-- Software Engineering -->
+        {% elif category.title == "Software Engineering" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in software_engineering_work_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- Data/AI -->
+        {% elif category.title == "Data/AI" %}
+            <div class="category-container rounded-lg mt-6 relative"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+                <!-- Titre + description TOUJOURS visibles -->
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <!-- Rôles triés par ID prefix -->
+                {% for line in data_work_lines %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-16">
+                        {% for work_role in line %}
+                            {% if work_role == None %}
+                                <div class="col-span-1"></div>  {# Espace vide, transparent #}
+                            {% else %}
+                                <!-- Conteneur relatif pour positionner le detail-box -->
+                                <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+
+                                    <!-- ZONE 1 -->
+                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                        <p class="font-semibold flex items-center justify-center"
+                                           style="color: rgba({{ category.color }},1);">
+                                            {% if work_role.opm_id in highlight_ids %}
+                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                            {% endif %}
+                                            {{ work_role.opm_id }}
+                                        </p>
+                                        <p class="font-bold text-base">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                    </div>
+
+                                    <!-- ZONE 2 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2017_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- ZONE 3 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        {% if work_role.ncwf_2024_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Données cachées -->
+                                    <p class="hidden description">{{ work_role.description }}</p>
+                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                                    <p class="hidden description">{{ item.description }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+
+
+
+
+
+
+
+
+            <!-- Autres catégories normales -->
+            <div class="category-container rounded-lg mt-6"
+                 style="background-color: rgba({{ category.color }}, 0.75);">
+
+                <div class="category-content">
+                    <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
+                         style="background-color: rgba({{ category.color }}, 1);">
+                        {{ category.title }}
+                    </div>
+                    <div class="text-white p-2">
+                        {{ category.description }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
+                    {% for work_role in category.dcwf_work_roles.all %}
+                        <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative"
+                             id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+                            <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                                <p class="font-semibold flex items-center justify-center"
+                                   style="color: rgba({{ category.color }},1);">
+                                    {% if work_role.opm_id in highlight_ids %}
+                                        <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                    {% endif %}
+                                    {{ work_role.opm_id }}
+                                </p>
+                                <p class="font-bold text-base">{{ work_role.title }}</p>
+                                <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                       class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                            </div>
+                            <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                {% if work_role.ncwf_2017_work_role %}
+                                    <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                    <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                    <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                           class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                {% endif %}
+                            </div>
+                            <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                {% if work_role.ncwf_2024_work_role %}
+                                    <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                    <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                    <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
+                                           class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
+                                {% endif %}
+                            </div>
+                            <p class="hidden description">{{ work_role.description }}</p>
+                            <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
+                            <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
+                            <p class="hidden description">{{ item.description }}</p>
+                        </div>
+                        <!-- Div caché pour afficher plus de détails -->
+                        <div id="detail-box"
+                             class="detail-box hidden fixed right-0 top-0 h-full w-[400px] p-6 shadow-xl overflow-y-auto z-50">
+                            <button onclick="toggleDetail(null)" class="text-red-500 font-bold float-right">X</button>
+                            <div id="detail-box-content"></div>
+                            <button id="compare-button"
+                                    onclick="compareSelected()"
+                                    class="mt-4 px-4 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700"
+                                    style="display: none;">
+                                Comparer
+                                <p id="warning-message"
+                                   class="text-red-600 font-semibold mt-2"
+                                   style="display: none;">
+                                    ⚠️ Il est recommandé de comparer un maximum de 3 rôles pour plus de lisibilité.
+                                </p>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Synchroniser les cases à cocher entre Zone 1 (DCWF) et Zone 2 (NCWF 2017)
+        
+        // Cibler toutes les work-role boxes
+        const workRoles = document.querySelectorAll('.work-role');
+        
+        workRoles.forEach(workRole => {
+            // Trouver les checkboxes des zones 1 et 2
+            const zone1Checkbox = workRole.querySelector('input[name^="dcwf_"]');
+            const zone2Checkbox = workRole.querySelector('input[name^="ncwf_2017_"]');
+            
+            // Vérifier si les deux checkboxes existent
+            if (zone1Checkbox && zone2Checkbox) {
+                // Ajouter un événement change à la checkbox de la zone 1
+                zone1Checkbox.addEventListener('change', function(event) {
+                    // Synchroniser l'état avec la checkbox de la zone 2
+                    zone2Checkbox.checked = this.checked;
                     
-    <!-- ZONE 1 -->
-    <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-        <p class="font-bold text-base">{{ work_role.title }}</p>
-        <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-    </div>
+                    // Empêcher la propagation du clic pour éviter de déclencher
+                    // l'événement onclick du conteneur parent workRole
+                    event.stopPropagation();
+                    
+                    // Mettre à jour le bouton de comparaison si la fonction existe
+                    if (typeof updateCompareButton === 'function') {
+                        updateCompareButton();
+                    }
+                });
+                
+                // Ajouter un événement change à la checkbox de la zone 2
+                zone2Checkbox.addEventListener('change', function(event) {
+                    // Synchroniser l'état avec la checkbox de la zone 1
+                    zone1Checkbox.checked = this.checked;
+                    
+                    // Empêcher la propagation du clic
+                    event.stopPropagation();
+                    
+                    // Mettre à jour le bouton de comparaison si la fonction existe
+                    if (typeof updateCompareButton === 'function') {
+                        updateCompareButton();
+                    }
+                });
+            }
+        });
+        
+        // Empêcher les checkboxes de déclencher la fonction toggleDetail
+        document.querySelectorAll('.work-role input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        });
+    });
+</script>
 
-    <!-- ZONE 2 -->
-    <div class="text-center px-5 py-1 flex flex-col justify-center">
-        {% if work_role.ncwf_2017_work_role %}
-            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-            <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-        {% endif %}
-    </div>
-
-    <!-- ZONE 3 -->
-    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-        {% if work_role.ncwf_2024_work_role %}
-            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-            <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-        {% endif %}
-    </div>
-
-    <!-- Données cachées -->
-    <p class="hidden description">{{ work_role.description }}</p>
-    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-    <p class="hidden description">{{ item.description }}</p>
-
-</div>        
-              {% endif %}
-          {% endfor %}
-      </div>
-      {% endfor %}
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <!-- IT -->
-    {% elif category.title == "IT (Cyberspace)" %}
-      <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-      <!-- Titre + description TOUJOURS visibles -->
-      <div class="category-content">
-          <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-              {{ category.title }}
-          </div>
-          <div class="text-white p-2">
-              {{ category.description }}
-          </div>
-      </div>
-  
-      <!-- Rôles triés par ID prefix -->
-      {% for line in it_work_lines %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
-          {% for work_role in line %}
-              {% if work_role == None %}
-                  <div class="col-span-1"></div>  {# Espace vide, transparent #}
-              {% else %}
-                  <!-- Conteneur relatif pour positionner le detail-box -->
-                  <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-
-    <!-- ZONE 1 -->
-    <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-        <p class="font-bold text-base">{{ work_role.title }}</p>
-        <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-    </div>
-
-    <!-- ZONE 2 -->
-    <div class="text-center px-5 py-1 flex flex-col justify-center">
-        {% if work_role.ncwf_2017_work_role %}
-            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-            <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-        {% endif %}
-    </div>
-
-    <!-- ZONE 3 -->
-    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-        {% if work_role.ncwf_2024_work_role %}
-            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-            <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-        {% endif %}
-    </div>
-
-    <!-- Données cachées -->
-    <p class="hidden description">{{ work_role.description }}</p>
-    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-    <p class="hidden description">{{ item.description }}</p>
-</div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-      </div>
-
-
-
-
-
-
-      
-
-
-
-
-
-      <!-- Cyberspace Effects -->
-      {% elif category.title == "Cyberspace Effects" %}
-      <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-        <!-- Titre + description TOUJOURS visibles -->
-        <div class="category-content">
-            <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-                {{ category.title }}
-            </div>
-            <div class="text-white p-2">
-                {{ category.description }}
-            </div>
-        </div>
-    
-        <!-- Rôles triés par ID prefix -->
-        {% for line in cyber_effects_work_lines %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
-            {% for work_role in line %}
-                {% if work_role == None %}
-                    <div class="col-span-1"></div>  {# Espace vide, transparent #}
-                {% else %}
-                    <!-- Conteneur relatif pour positionner le detail-box -->
-                    <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-  
-      <!-- ZONE 1 -->
-      <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-          <p class="font-bold text-base">{{ work_role.title }}</p>
-          <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-      </div>
-  
-      <!-- ZONE 2 -->
-      <div class="text-center px-5 py-1 flex flex-col justify-center">
-          {% if work_role.ncwf_2017_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- ZONE 3 -->
-      <div class="text-center px-5 pb-5 flex flex-col justify-center">
-          {% if work_role.ncwf_2024_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- Données cachées -->
-      <p class="hidden description">{{ work_role.description }}</p>
-      <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-      <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-      <p class="hidden description">{{ item.description }}</p>
-  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-      <!-- Cyberspace Enablers -->
-      {% elif category.title == "Cyberspace Enablers" %}
-      <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-        <!-- Titre + description TOUJOURS visibles -->
-        <div class="category-content">
-            <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-                {{ category.title }}
-            </div>
-            <div class="text-white p-2">
-                {{ category.description }}
-            </div>
-        </div>
-    
-        <!-- Rôles triés par ID prefix -->
-        {% for line in enabler_work_lines %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
-            {% for work_role in line %}
-                {% if work_role == None %}
-                    <div class="col-span-1"></div>  {# Espace vide, transparent #}
-                {% else %}
-                    <!-- Conteneur relatif pour positionner le detail-box -->
-                    <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-  
-      <!-- ZONE 1 -->
-      <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-          <p class="font-bold text-base">{{ work_role.title }}</p>
-          <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-      </div>
-  
-      <!-- ZONE 2 -->
-      <div class="text-center px-5 py-1 flex flex-col justify-center">
-          {% if work_role.ncwf_2017_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- ZONE 3 -->
-      <div class="text-center px-5 pb-5 flex flex-col justify-center">
-          {% if work_role.ncwf_2024_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- Données cachées -->
-      <p class="hidden description">{{ work_role.description }}</p>
-      <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-      <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-      <p class="hidden description">{{ item.description }}</p>
-  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-      </div>
-
-
-
-
-
-
-
-
-
-
-      <!-- Software Engineering -->
-      {% elif category.title == "Software Engineering" %}
-      <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-        <!-- Titre + description TOUJOURS visibles -->
-        <div class="category-content">
-            <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-                {{ category.title }}
-            </div>
-            <div class="text-white p-2">
-                {{ category.description }}
-            </div>
-        </div>
-    
-        <!-- Rôles triés par ID prefix -->
-        {% for line in software_engineering_work_lines %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
-            {% for work_role in line %}
-                {% if work_role == None %}
-                    <div class="col-span-1"></div>  {# Espace vide, transparent #}
-                {% else %}
-                    <!-- Conteneur relatif pour positionner le detail-box -->
-                    <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-  
-      <!-- ZONE 1 -->
-      <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-          <p class="font-bold text-base">{{ work_role.title }}</p>
-          <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-      </div>
-  
-      <!-- ZONE 2 -->
-      <div class="text-center px-5 py-1 flex flex-col justify-center">
-          {% if work_role.ncwf_2017_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- ZONE 3 -->
-      <div class="text-center px-5 pb-5 flex flex-col justify-center">
-          {% if work_role.ncwf_2024_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- Données cachées -->
-      <p class="hidden description">{{ work_role.description }}</p>
-      <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-      <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-      <p class="hidden description">{{ item.description }}</p>
-  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-      </div>
-
-
-
-
-
-
-
-
-
-      <!-- Data/AI -->
-      {% elif category.title == "Data/AI" %}
-      <div class="category-container rounded-lg mt-6 relative" style="background-color: rgba({{ category.color }}, 0.75);">
-        <!-- Titre + description TOUJOURS visibles -->
-        <div class="category-content">
-            <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded" style="background-color: rgba({{ category.color }}, 1);">
-                {{ category.title }}
-            </div>
-            <div class="text-white p-2">
-                {{ category.description }}
-            </div>
-        </div>
-    
-        <!-- Rôles triés par ID prefix -->
-        {% for line in data_work_lines %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-16">
-            {% for work_role in line %}
-                {% if work_role == None %}
-                    <div class="col-span-1"></div>  {# Espace vide, transparent #}
-                {% else %}
-                    <!-- Conteneur relatif pour positionner le detail-box -->
-                    <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-  
-      <!-- ZONE 1 -->
-      <div class="px-5 pt-5 flex flex-col items-center justify-center">
-        <p class="font-semibold flex items-center justify-center"
-           style="color: rgba({{ category.color }},1);">
-          {% if work_role.opm_id in highlight_ids %}
-            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-          {% endif %}
-          {{ work_role.opm_id }}
-        </p>
-          <p class="font-bold text-base">{{ work_role.title }}</p>
-          <input type="checkbox" name="checkbox_zone_1_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-      </div>
-  
-      <!-- ZONE 2 -->
-      <div class="text-center px-5 py-1 flex flex-col justify-center">
-          {% if work_role.ncwf_2017_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_2_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- ZONE 3 -->
-      <div class="text-center px-5 pb-5 flex flex-col justify-center">
-          {% if work_role.ncwf_2024_work_role %}
-              <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-              <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-              <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-          {% endif %}
-      </div>
-  
-      <!-- Données cachées -->
-      <p class="hidden description">{{ work_role.description }}</p>
-      <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-      <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-      <p class="hidden description">{{ item.description }}</p>
-  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
-      </div>
-    {% else %}
-
-
-
-
-
-
-
-    
-      <!-- Autres catégories normales -->
-      <div class="category-container rounded-lg mt-6"
-           style="background-color: rgba({{ category.color }}, 0.75);">
-
-          <div class="category-content">
-              <div class="text-white text-lg font-bold p-2 w-max mb-4 rounded"
-                   style="background-color: rgba({{ category.color }}, 1);">
-                  {{ category.title }}
-              </div>
-              <div class="text-white p-2">
-                  {{ category.description }}
-              </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-10">
-            {% for work_role in category.dcwf_work_roles.all %}
-              <div class="bg-white rounded-lg shadow-md grid grid-rows-3 work-role relative" id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
-                <div class="px-5 pt-5 flex flex-col items-center justify-center">
-                    <p class="font-semibold flex items-center justify-center"
-                       style="color: rgba({{ category.color }},1);">
-                      {% if work_role.opm_id in highlight_ids %}
-                        <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
-                      {% endif %}
-                      {{ work_role.opm_id }}
-                    </p>
-                    <p class="font-bold text-base">{{ work_role.title }}</p>
-                    <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-                </div>
-                <div class="text-center px-5 py-1 flex flex-col justify-center">
-                    {% if work_role.ncwf_2017_work_role %}
-                        <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-                        <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-                        <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-                    {% endif %}
-                </div>
-                <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                    {% if work_role.ncwf_2024_work_role %}
-                        <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-                        <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-                        <input type="checkbox" name="checkbox_zone_3_{{ work_role.id }}" class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-                    {% endif %}
-                </div>
-                <p class="hidden description">{{ work_role.description }}</p>
-                <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-                <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-                <p class="hidden description">{{ item.description }}</p>
-              </div>
-              <!-- Div caché pour afficher plus de détails -->
-              <div id="detail-box" class="detail-box hidden fixed right-0 top-0 h-full w-[400px] p-6 shadow-xl overflow-y-auto z-50">
-                <button onclick="toggleDetail(null)" class="text-red-500 font-bold float-right">X</button>
-                <div id="detail-box-content"></div>
-                <button id="compare-button"
-                    onclick="compareSelected()"
-                    class="mt-4 px-4 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700"
-                    style="display: none;">
-                    Comparer
-                    <p id="warning-message"
-                        class="text-red-600 font-semibold mt-2"
-                        style="display: none;">
-                        ⚠️ Il est recommandé de comparer un maximum de 3 rôles pour plus de lisibilité.
-                    </p>
-                </button>
-             </div>
-            {% endfor %}
-          </div>
-      </div>
-    {% endif %}
-  {% endfor %}
-  
- 
 {% endblock %}

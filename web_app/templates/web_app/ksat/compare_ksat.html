@@ -1,11 +1,23 @@
 {% extends "web_app/template/base.html" %}
+{% load work_role_tags %}
+{% load ksat_tags %}
+{% load select_options_tags %}
+{% load modal_info_tags %}
+
+{% block script %}
+{% endblock script %}
+
 {% block content %}
 <main class="mx-auto max-w-7xl p-6">
-  <h1 class="text-3xl font-bold mb-6">Comparaison des KSAT</h1>
-
+  <h1 class="text-3xl font-bold mb-6">
+  Comparison of KSATs for
+  {% for role in formatted_roles %}
+    <span class="font-medium">{{ role.title }} <span class="text-gray-500">({{ role.framework }})</span></span>{% if not forloop.last %}, {% endif %}
+  {% endfor %}
+  </h1>
   <!-- Onglets -->
   <div id="tab-buttons" class="flex border-b mb-4">
-    {% for key in cat_dict.keys %}
+    {% for key in ksat_dict.keys %}
       <button data-tab="{{ key }}"
               class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
         {{ key|title }}{% if key != 'knowledge' %}s{% endif %}
@@ -15,34 +27,126 @@
 
   <!-- Contenus -->
   <div id="tab-contents">
-    {% for key, entries in cat_dict.items %}
+    {% for key, ksats in ksat_dict.items %}
       <div id="{{ key }}" class="tab-content hidden">
         <table class="min-w-full table-auto border-collapse mb-6">
           <thead>
             <tr class="bg-gray-100">
-              <th class="px-3 py-2 border text-left">Description / ID</th>
-              {% for wr in work_roles %}
-                <th class="px-3 py-2 border">{{ wr.title }}</th>
+              <th class="px-3 py-2 border text-left">
+                <div class="flex items-center">
+                  <span>Description / ID</span>
+                  <!-- Boutons d'information visibles pour les onglets Task, Knowledge, Skill et Abilities -->
+                  <span class="ml-2 flex space-x-2 items-center info-buttons {% if key == 'task' or key == 'knowledge' or key == 'skill' or key == 'abilitie' %}{% else %}hidden{% endif %}">
+                    <span class="flex items-center">
+                      <span class="text-xs mr-1 text-gray-600">Importance</span>
+                      <button type="button" id="info-button-1" class="text-xs bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600" title="{% if key == 'skill' or key == 'abilitie' %}Importance: 0 - Aucune compétence requise, 1 - Importance 1 (Critique, 'Must have'), 2 - Importance 2 (Important mais acquis rapidement), 3 - Importance 3 (Secondaire / Complémentaire){% else %}Légende du premier select (Importance){% endif %}">
+                        ?
+                      </button>
+                    </span>
+                    <span class="flex items-center">
+                      <span class="text-xs mr-1 text-gray-600">Type 1</span>
+                      <button type="button" id="info-button-2" class="text-xs bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600" title="{% if key == 'skill' or key == 'abilitie' %}Type 2: 1 - Must be familiar with this competency and be generally capable of independently handling simple tasks or assignments. 2 - Must be capable of independently handling some complex tasks or assignments related to this competency, but may need direction and guidance on others. 3 - Must be capable of independently handling a wide variety of complex and or high profile tasks or assignments related to this competency. Must be an authority in this area and or often sought out by others for advice or to teach/mentor others on highly complex or challenging tasks or assignments related to this competency.{% else %}Légende du second select (Type de maîtrise){% endif %}">
+                        ?
+                      </button>
+                    </span>
+                    <span class="flex items-center">
+                      <span class="text-xs mr-1 text-gray-600">Type 2</span>
+                      <button type="button" id="info-button-3" class="text-xs bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600" title="{% if key == 'skill' or key == 'abilitie' %}Type 3: 1 - Must be familiar with this competency and be generally capable of independently handling simple tasks or assignments. 2 - Must be capable of independently handling some complex tasks or assignments related to this competency, but may need direction and guidance on others.{% else %}Légende du troisième select (Type de maîtrise){% endif %}">
+                        ?
+                      </button>
+                    </span>
+                  </span>
+                </div>
+              </th>
+              {% for role in formatted_roles %}
+                <th class="px-3 py-2 border">
+                  {{ role.title }}
+                  <span class="text-xs text-gray-600 ml-1">({{ role.framework }})</span>
+                </th>
               {% endfor %}
             </tr>
           </thead>
           <tbody>
-            {% for entry in entries %}
+            {% for ksat in ksats %}
               <tr class="hover:bg-gray-50">
                 <td class="px-3 py-2 border align-top">
-                  <p class="font-medium">{{ entry.ksat.description }}</p>
+                  <p class="font-medium">{{ ksat.description }}</p>
                   <div class="mt-1 text-sm text-gray-600 space-x-2">
-                    <a href="{{ entry.ksat.url }}" class="underline">DCWF {{ entry.ksat.dcwf_id }}</a>
-                    {% if entry.ksat.ncwf_2017_ksat %}
-                      <a href="{{ entry.ksat.ncwf_2017_ksat.url }}" class="underline">
-                        NCWF-2017 {{ entry.ksat.ncwf_2017_ksat.ncwf_id }}
-                      </a>
-                    {% endif %}
+                      {% dcwf_url ksat %}
+                      {% ncwf_2017_url ksat %}
+                      <div class="mt-2 text-xs text-gray-500">ID: {{ ksat.id }}</div>
+                  {% if key == 'skill' %}
+                  <!-- DÉBUT DES SELECTS POUR SKILLS -->
+                  <div class="mt-2 flex space-x-2 select-group">
+                    <!-- Premier select pour Skills -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Skill' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSkillSelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Deuxième select pour Skills -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Skill' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSkillSecondarySelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Troisième select pour Skills -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Skill' 'Type de maîtrise 3' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
+                    </div>
                   </div>
+                  <!-- FIN DES SELECTS POUR SKILLS -->
+                  
+                  {% elif key == 'abilitie' %}
+                  <!-- DÉBUT DES SELECTS POUR ABILITIES -->
+                  <div class="mt-2 flex space-x-2 select-group">
+                    <!-- Premier select pour Abilities -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Ability' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSkillSelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Deuxième select pour Abilities -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Ability' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSkillSecondarySelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Troisième select pour Abilities -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Ability' 'Type de maîtrise 3' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
+                    </div>
+                  </div>
+                  <!-- FIN DES SELECTS POUR ABILITIES -->
+                  
+                  {% elif key == 'task' %}
+                  <!-- DÉBUT DES SELECTS POUR TASK -->
+                  <div class="mt-2 flex space-x-2 select-group">
+                    <!-- Premier select pour Task -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Task' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Deuxième select pour Task -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Task' 'Type de maîtrise 1' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSecondarySelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <!-- Troisième select pour Task -->
+                    <div class="relative select-container">
+                      {% render_select_options 'Task' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
+                    </div>
+                  </div>
+                  <!-- FIN DES SELECTS POUR TASK -->
+                  {% endif %}
+                  
+                  {% if key == 'knowledge' %}
+                  <div class="mt-2 flex space-x-2 select-group">
+                    <div class="relative select-container">
+                      {% render_select_options 'Knowledge' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select knowledge-select' 'handleKnowledgeSelectChange(this); showInfoTooltip(this);' %}
+                    </div>
+                    <div class="relative select-container">
+                      {% render_select_options 'Knowledge' 'Type de maîtrise 1' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleKnowledgeSecondarySelectChange(this); showInfoTooltip(this);' "knowledge-second-select" %}
+                    </div>
+                    <div class="relative select-container">
+                      {% render_select_options 'Knowledge' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' "knowledge-third-select" %}
+                    </div>
+                  </div>
+                  {% endif %}
                 </td>
-                {% for present in entry.presence %}
+                {% for role in formatted_roles %}
                   <td class="px-3 py-2 border text-center align-middle">
-                    {% if present %}✔{% else %}✖{% endif %}
+                    {% if role.model_obj|has_ksat:ksat %}✅{% else %}❌{% endif %}
                   </td>
                 {% endfor %}
               </tr>
@@ -55,7 +159,575 @@
 </main>
 
 <script>
+// Variables qui seront initialisées au chargement pour éviter le hardcoding
+let allSelectValues = {};
+
+// Fonction pour gérer la dépendance entre le deuxième et le troisième select pour Task
+function handleSecondarySelectChange(select) {
+  const selectedValue = select.value;
+  const selectGroup = select.closest('.select-group');
+  const thirdSelect = selectGroup.querySelectorAll('.secondary-select')[1];
+  const primarySelect = selectGroup.querySelector('.primary-select');
+  
+  // Vérifier si nous sommes dans un onglet Task
+  const isTaskTab = selectGroup.closest('#task') !== null;
+  
+  // Réinitialiser le troisième select
+  thirdSelect.innerHTML = '';
+  
+  // Fonction pour cloner une option
+  function cloneOption(sourceOption) {
+    const option = document.createElement('option');
+    option.value = sourceOption.value;
+    option.text = sourceOption.text || sourceOption.value;
+    option.title = sourceOption.title || '';
+    return option;
+  }
+  
+  // Fonction pour trouver l'option avec une valeur spécifique
+  function findOptionByValue(selectElement, value) {
+    return Array.from(selectElement.options).find(opt => opt.value === value);
+  }
+  
+  // Pour Task: Si le premier select n'est pas 2, désactiver le troisième select indépendamment de la valeur du second select
+  if (isTaskTab && primarySelect && primarySelect.value !== '2') {
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50');
+    return;
+  }
+  
+  // Traitement spécifique pour l'onglet Task
+  if (isTaskTab) {
+    // Trouver tous les selects dans Task pour récupérer les options
+    const allSelects = document.querySelectorAll('#task select');
+    let thirdSelectSource = null;
+    
+    // Trouver le select source qui contient les options originales pour le troisième select
+    allSelects.forEach(selectEl => {
+      if (selectEl !== thirdSelect && 
+          selectEl.parentElement.closest('.select-container') && 
+          selectEl.parentElement.nextElementSibling && 
+          selectEl.parentElement.nextElementSibling.nextElementSibling) {
+        thirdSelectSource = selectEl.parentElement.nextElementSibling.nextElementSibling.querySelector('select');
+      }
+    });
+    
+    // Utiliser le select que l'on vient de réinitialiser comme source de secours
+    if (!thirdSelectSource) {
+      thirdSelectSource = thirdSelect;
+    }
+    
+    // Pour Task: Quand le select n2 est sur B, désactiver le select n3
+    if (selectedValue === 'B') {
+      thirdSelect.disabled = true;
+      thirdSelect.classList.add('opacity-50');
+      return;
+    }
+    
+    // Pour Task: Quand le select n2 est sur S, activer select n3 avec option B uniquement
+    if (selectedValue === 'S') {
+      thirdSelect.disabled = false;
+      thirdSelect.classList.remove('opacity-50');
+      
+      // Chercher l'option B mais n'en ajouter qu'une seule
+      let optionBAdded = false;
+      for (const selectEl of allSelects) {
+        if (optionBAdded) break;
+        
+        for (const opt of selectEl.options) {
+          if (opt.value === 'B' && !optionBAdded) {
+            thirdSelect.appendChild(cloneOption(opt));
+            optionBAdded = true;
+            break;
+          }
+        }
+      }
+      return;
+    }
+    
+    // Pour Task: Quand le select n2 est sur M, activer select n3 avec options B et S
+    if (selectedValue === 'M') {
+      thirdSelect.disabled = false;
+      thirdSelect.classList.remove('opacity-50');
+      
+      // Chercher et ajouter l'option B (une seule fois)
+      let optionBAdded = false;
+      let optionSAdded = false;
+      
+      // Parcourir tous les selects pour trouver les options B et S
+      for (const selectEl of allSelects) {
+        // Si on a déjà trouvé les deux options, on peut arrêter la recherche
+        if (optionBAdded && optionSAdded) break;
+        
+        for (const opt of selectEl.options) {
+          // Ajouter l'option B si elle n'a pas encore été ajoutée
+          if (opt.value === 'B' && !optionBAdded) {
+            thirdSelect.appendChild(cloneOption(opt));
+            optionBAdded = true;
+          }
+          // Ajouter l'option S si elle n'a pas encore été ajoutée
+          else if (opt.value === 'S' && !optionSAdded) {
+            thirdSelect.appendChild(cloneOption(opt));
+            optionSAdded = true;
+          }
+          
+          // Si on a trouvé les deux options, on peut sortir de la boucle
+          if (optionBAdded && optionSAdded) break;
+        }
+      }
+      return;
+    }
+  } 
+  
+  // Si ce n'est pas un onglet Task ou si la valeur du select n2 n'est pas reconnue, garder le comportement d'origine
+  if (selectedValue === '1') { // Option B (Basic)
+    // Désactiver le troisième select
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50');
+  } else {
+    // Réactiver le troisième select
+    thirdSelect.disabled = false;
+    thirdSelect.classList.remove('opacity-50');
+    
+    // Pour les autres onglets (non-Task), chercher les options existantes
+    const otherSelects = document.querySelectorAll('select');
+    
+    // Ajouter l'option correspondant à la valeur 1 (B)
+    otherSelects.forEach(selectEl => {
+      selectEl.querySelectorAll('option').forEach(opt => {
+        if (opt.value === '1') {
+          thirdSelect.appendChild(cloneOption(opt));
+        }
+      });
+    });
+    
+    // Si option value 3 (M - Master) est sélectionnée, ajouter également l'option value 2 (S - Senior)
+    if (selectedValue === '3') {
+      otherSelects.forEach(selectEl => {
+        selectEl.querySelectorAll('option').forEach(opt => {
+          if (opt.value === '2' && !findOptionByValue(thirdSelect, '2')) {
+            thirdSelect.appendChild(cloneOption(opt));
+          }
+        });
+      });
+    }
+  }
+}
+// Fonction pour gérer la dépendance entre le premier et les autres selects pour Knowledge
+function handleKnowledgeSelectChange(select) {
+  const selectedValue = select.value;
+  const container = select.closest('.select-group');
+  const secondSelect = container.querySelector('#knowledge-second-select');
+  const thirdSelect = container.querySelector('#knowledge-third-select');
+  
+  if (selectedValue === '0') {
+    // Désactiver les deux selects secondaires
+    secondSelect.disabled = true;
+    thirdSelect.disabled = true;
+    secondSelect.classList.add('opacity-50');
+    thirdSelect.classList.add('opacity-50');
+  } else {
+    // Activer le second select
+    secondSelect.disabled = false;
+    secondSelect.classList.remove('opacity-50');
+    
+    // Si le premier select n'est pas égal à 2, désactiver le troisième select
+    if (selectedValue !== '2') {
+      thirdSelect.disabled = true;
+      thirdSelect.classList.add('opacity-50');
+      thirdSelect.innerHTML = ''; // Vider le troisième select
+    } else {
+      // Activer le troisième select seulement si le premier select est 2
+      thirdSelect.disabled = false;
+      thirdSelect.classList.remove('opacity-50');
+      // Gérer l'état du troisième select seulement si le premier select est 2
+      handleKnowledgeSecondarySelectChange(secondSelect);
+    }
+  }
+}
+
+// Fonction pour gérer la dépendance entre le deuxième et troisième select pour Knowledge
+function handleKnowledgeSecondarySelectChange(select) {
+  const selectedValue = select.value;
+  const selectGroup = select.closest('.select-group');
+  const secondarySelects = Array.from(selectGroup.querySelectorAll('.secondary-select'));
+  const thirdSelect = secondarySelects[1]; // Le troisième select est le deuxième des secondary-select
+  const primarySelect = selectGroup.querySelector('.primary-select');
+  
+  // Réinitialiser le troisième select
+  thirdSelect.innerHTML = '';
+  
+  // Pour Knowledge: Vérifier si nous sommes dans l'onglet Knowledge
+  const isKnowledgeTab = selectGroup.closest('#knowledge') !== null;
+  
+  // Si nous ne sommes pas dans l'onglet Knowledge, laisser les autres fonctions gérer le comportement
+  if (!isKnowledgeTab) return;
+  
+  // Pour Knowledge: Vérifier si le premier select a la valeur "2"
+  if (primarySelect && primarySelect.value !== '2') {
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50');
+    return;
+  }
+  
+  // Règles spécifiques pour Knowledge
+  
+  // Si select n2 a la valeur A, désactiver le select n3
+  if (selectedValue === 'A') {
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50');
+    return;
+  }
+  
+  // Activer le select n3 pour les autres cas
+  thirdSelect.disabled = false;
+  thirdSelect.classList.remove('opacity-50');
+  
+  // Trouver toutes les options existantes pour Knowledge dans le DOM
+  // pour éviter le hardcoding
+  const allSelects = document.querySelectorAll('select');
+  let knowledgeOptions = [];
+  
+  // Collecter toutes les options des selects de Type de maîtrise 2 dans Knowledge
+  allSelects.forEach(selectEl => {
+    if (selectEl.closest('#knowledge') && 
+        Array.from(selectEl.classList).includes('secondary-select')) {
+      Array.from(selectEl.options).forEach(opt => {
+        if (!knowledgeOptions.some(ko => ko.value === opt.value && ko.text === opt.text)) {
+          knowledgeOptions.push({
+            value: opt.value,
+            text: opt.text,
+            title: opt.title
+          });
+        }
+      });
+    }
+  });
+  
+  // Filtrer et ajouter les options appropriées selon la valeur du select n2
+  const optionA = knowledgeOptions.find(opt => opt.text === 'A') || {
+    value: '1',
+    text: 'A',
+    title: "Level A: Can identify basic facts and terms about the subject."
+  };
+  
+  const optionB = knowledgeOptions.find(opt => opt.text === 'B') || {
+    value: '2',
+    text: 'B',
+    title: "Level B: Can identify relationships of basic facts and state general principles about the subject."
+  };
+  
+  const optionC = knowledgeOptions.find(opt => opt.text === 'C') || {
+    value: '3',
+    text: 'C',
+    title: "Level C: Can analyze facts and principals and draw conclusions about the subject."
+  };
+  
+  // Ajouter l'option A pour tous les cas (B, C, D)
+  const newOptA = document.createElement('option');
+  newOptA.value = optionA.value;
+  newOptA.text = optionA.text;
+  newOptA.title = optionA.title;
+  thirdSelect.appendChild(newOptA);
+  
+  // Ajouter l'option B pour les cas C et D
+  if (selectedValue === 'C' || selectedValue === 'D') {
+    const newOptB = document.createElement('option');
+    newOptB.value = optionB.value;
+    newOptB.text = optionB.text;
+    newOptB.title = optionB.title;
+    thirdSelect.appendChild(newOptB);
+  }
+  
+  // Ajouter l'option C uniquement pour le cas D
+  if (selectedValue === 'D') {
+    const newOptC = document.createElement('option');
+    newOptC.value = optionC.value;
+    newOptC.text = optionC.text;
+    newOptC.title = optionC.title;
+    thirdSelect.appendChild(newOptC);
+  }
+}
+
+// Déclaration des variables globales pour les données modales
+let modalInfoData = null;
+let modalDataLoaded = false;
+
+// Fonction pour charger les données modales via une requête AJAX
+function initModalData() {
+  return new Promise((resolve, reject) => {
+    console.log('Chargement des données modales via AJAX...');
+    
+    // Créer une requête XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/modal-info/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
+    
+    // Gérer la réponse
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          modalInfoData = JSON.parse(xhr.responseText);
+          modalDataLoaded = true;
+          console.log('Données modales chargées avec succès via AJAX');
+          resolve(true);
+        } catch(e) {
+          console.error('Erreur lors du parsing des données modales:', e);
+          modalDataLoaded = false;
+          reject(e);
+        }
+      } else {
+        console.error('Erreur lors du chargement des données modales:', xhr.status);
+        modalDataLoaded = false;
+        reject(new Error('Erreur HTTP: ' + xhr.status));
+      }
+    };
+    
+    // Gérer les erreurs
+    xhr.onerror = function() {
+      console.error('Erreur réseau lors du chargement des données modales');
+      modalDataLoaded = false;
+      reject(new Error('Erreur réseau'));
+    };
+    
+    // Envoyer la requête
+    xhr.send();
+  });
+}
+
+// Fonction pour afficher la fenêtre modale d'information
+function showModalInfo(buttonId) {
+  console.log('Affichage du modal pour le bouton:', buttonId);
+  
+  // Vérifier si les données sont chargées
+  if (!modalDataLoaded || !modalInfoData || !modalInfoData.categories) {
+    console.log('Les données ne sont pas encore chargées, on essaie de les charger...');
+    
+    // Afficher un message d'attente
+    const waitingModal = document.createElement('div');
+    waitingModal.style.position = 'fixed';
+    waitingModal.style.top = '0';
+    waitingModal.style.left = '0';
+    waitingModal.style.width = '100%';
+    waitingModal.style.height = '100%';
+    waitingModal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    waitingModal.style.display = 'flex';
+    waitingModal.style.justifyContent = 'center';
+    waitingModal.style.alignItems = 'center';
+    waitingModal.style.zIndex = '9999';
+    
+    const messageBox = document.createElement('div');
+    messageBox.style.backgroundColor = 'white';
+    messageBox.style.padding = '20px';
+    messageBox.style.borderRadius = '5px';
+    messageBox.innerHTML = 'Chargement des informations détaillées...';
+    
+    waitingModal.appendChild(messageBox);
+    document.body.appendChild(waitingModal);
+    
+    // Essayer de charger les données via AJAX
+    initModalData()
+      .then(() => {
+        // Supprimer le message d'attente
+        document.body.removeChild(waitingModal);
+        
+        // Rappeler cette fonction maintenant que les données sont chargées
+        showModalInfo(buttonId);
+      })
+      .catch(error => {
+        // Supprimer le message d'attente
+        document.body.removeChild(waitingModal);
+        
+        // Afficher un message d'erreur
+        alert('Impossible de charger les informations détaillées. Veuillez réessayer ultérieurement.');
+        console.error('Erreur lors du chargement des données modales:', error);
+      });
+    
+    return;
+  }
+  
+  console.log('Données modales disponibles:', modalInfoData);
+  
+  // Déterminer le type de KSAT actif
+  const isKnowledgeTab = document.getElementById('knowledge').classList.contains('hidden') === false;
+  const isSkillTab = document.getElementById('skill').classList.contains('hidden') === false;
+  const isAbilitieTab = document.getElementById('abilitie').classList.contains('hidden') === false;
+  
+  let ksatType = 'task'; // Par défaut
+  if (isKnowledgeTab) ksatType = 'knowledge';
+  if (isSkillTab) ksatType = 'skill';
+  if (isAbilitieTab) ksatType = 'ability';
+  
+  console.log('Type KSAT actif:', ksatType);
+  
+  // Déterminer le titre et les options en fonction du bouton
+  let modalTitle = '';
+  let options = [];
+  
+  // Récupérer les données du modal depuis l'objet modalInfoData
+  if (modalInfoData.categories[buttonId] &&
+      modalInfoData.categories[buttonId].infos && 
+      modalInfoData.categories[buttonId].infos[ksatType]) {
+    const modalInfo = modalInfoData.categories[buttonId].infos[ksatType];
+    modalTitle = modalInfo.title || getDefaultTitle(buttonId);
+    options = modalInfo.options || [];
+    console.log('Données trouvées pour', buttonId, 'et', ksatType, ':', modalInfo);
+  } else {
+    console.warn('Aucune donnée trouvée pour', buttonId, 'et', ksatType);
+    modalTitle = getDefaultTitle(buttonId);
+  }
+  
+  // Fonction pour obtenir un titre par défaut en fonction du bouton
+  function getDefaultTitle(buttonId) {
+    switch(buttonId) {
+      case 'info-button-1':
+        return 'Importance (0-3)';
+      case 'info-button-2':
+        return 'Type de maîtrise (B, S, M)';
+      case 'info-button-3':
+        return 'Type de maîtrise simplifié (B, S)';
+      default:
+        return 'Information';
+    }
+  }
+  
+  // Créer le modal
+  const modal = document.createElement('div');
+  modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+  
+  const modalContent = document.createElement('div');
+  modalContent.className = 'bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-auto';
+  
+  // En-tête
+  const header = document.createElement('div');
+  header.className = 'border-b px-4 py-3 flex justify-between items-center sticky top-0 bg-white';
+  header.innerHTML = `
+    <h3 class="font-bold text-lg">${modalTitle}</h3>
+    <button type="button" class="text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+  `;
+  
+  // Corps
+  const body = document.createElement('div');
+  body.className = 'p-4';
+  
+  // Si aucune option n'est disponible, afficher un message
+  if (!options.length) {
+    const message = document.createElement('p');
+    message.textContent = 'Aucune information disponible pour cette section.';
+    message.className = 'text-gray-600 italic';
+    body.appendChild(message);
+  }
+  
+  // Créer le contenu pour chaque option
+  options.forEach(option => {
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'mb-4 pb-4 border-b last:border-0';
+    
+    // Titre avec badge
+    const title = document.createElement('h4');
+    title.className = 'font-bold text-md mb-2 flex items-center';
+    const badge = document.createElement('span');
+    badge.className = 'inline-block w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center mr-2';
+    badge.textContent = option.text || '';
+    
+    title.appendChild(badge);
+    
+    // Extraire le titre principal (avant le premier saut de ligne)
+    const titleText = option.title ? option.title.split('\n')[0].trim() : '';
+    title.appendChild(document.createTextNode(titleText));
+    optionDiv.appendChild(title);
+    
+    // Contenu formaté (après le premier saut de ligne)
+    if (option.title && option.title.includes('\n')) {
+      const content = document.createElement('div');
+      content.className = 'text-sm text-gray-700 pl-8';
+      
+      const formattedText = option.title
+        .substring(option.title.indexOf('\n'))
+        .replace(/---/g, '<hr class="my-2 border-gray-200">')
+        .replace(/\n/g, '<br>');
+      
+      content.innerHTML = formattedText;
+      optionDiv.appendChild(content);
+    }
+    
+    body.appendChild(optionDiv);
+  });
+  
+  // Assembler le modal
+  modalContent.appendChild(header);
+  modalContent.appendChild(body);
+  modal.appendChild(modalContent);
+  
+  // Ajouter au DOM
+  document.body.appendChild(modal);
+  
+  // Gestionnaires d'événements pour fermer le modal
+  const closeBtn = header.querySelector('button');
+  closeBtn.addEventListener('click', () => document.body.removeChild(modal));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) document.body.removeChild(modal);
+  });
+}
+
+// Cette fonction sera appelée une fois le DOM chargé pour récupérer les données JSON
+function loadModalData() {
+  console.log('Tentative de chargement des données modales...');
+  try {
+    const modalInfoElement = document.getElementById('modal-info-data');
+    console.log('Elément modal-info-data:', modalInfoElement);
+    
+    if (modalInfoElement && modalInfoElement.textContent.trim()) {
+      console.log('Contenu JSON brut:', modalInfoElement.textContent.substring(0, 100) + '...');
+      modalInfoData = JSON.parse(modalInfoElement.textContent);
+      console.log('Données modales chargées avec succès', modalInfoData);
+      modalDataLoaded = true;
+      return true;
+    } else {
+      console.warn('Script JSON des modals vide ou introuvable - vérifiez que populate_modal_infos.py a été exécuté');
+      modalDataLoaded = false;
+      return false;
+    }
+  } catch(e) {
+    console.error('Erreur lors du chargement des données modales:', e);
+    modalDataLoaded = false;
+    return false;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('DOM chargé, initialisation de l\'interface...');
+  
+  // Initialiser les données modales via AJAX (asynchrone)
+  initModalData()
+    .then(success => {
+      console.log('Initialisation des données modales réussie!');
+    })
+    .catch(error => {
+      console.error('Impossible d\'initialiser les données modales:', error);
+      const errorDiv = document.createElement('div');
+      errorDiv.style.backgroundColor = '#ffeeee';
+      errorDiv.style.color = '#cc0000';
+      errorDiv.style.padding = '10px';
+      errorDiv.style.margin = '10px';
+      errorDiv.style.borderRadius = '5px';
+      errorDiv.innerHTML = '<strong>Erreur:</strong> Impossible de charger les informations détaillées. Contactez l\'administrateur.';
+      document.body.prepend(errorDiv);
+    });
+  
+  // Attachement direct des gestionnaires d'événements aux boutons d'information
+  console.log('Attachement des événements aux boutons d\'information...');
+  document.querySelectorAll('[id^="info-button-"]').forEach(button => {
+    console.log('Attachement événement au bouton:', button.id);
+    button.onclick = function(e) {
+      console.log('Clic sur le bouton d\'information:', this.id);
+      e.preventDefault();
+      e.stopPropagation();
+      showModalInfo(this.id);
+    };
+  });
+  
   const tabs = document.querySelectorAll(".tab-button");
   const contents = document.querySelectorAll(".tab-content");
 
@@ -66,10 +738,399 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     contents.forEach(c => c.classList.add("hidden"));
     document.getElementById(btn.dataset.tab).classList.remove("hidden");
+    
+    // Afficher/masquer les boutons d'information selon l'onglet actif
+    const isActiveTab = btn.dataset.tab === 'task' || btn.dataset.tab === 'knowledge';
+    document.querySelectorAll('.info-buttons').forEach(buttons => {
+      if (isActiveTab) {
+        buttons.classList.remove('hidden');
+      } else {
+        buttons.classList.add('hidden');
+      }
+    });
   }
 
   tabs.forEach(btn => btn.addEventListener("click", () => activate(btn)));
   if (tabs.length) activate(tabs[0]);
+  
+  // Initialiser les selects au chargement
+  document.querySelectorAll('.primary-select').forEach(select => {
+    if (select.classList.contains('knowledge-select')) {
+      handleKnowledgeSelectChange(select);
+    } else {
+      handleSelectChange(select);
+    }
+  });
+  
+  // Initialiser la dépendance entre les selects pour Task et Knowledge
+  document.querySelectorAll('.select-group').forEach(group => {
+    const secondarySelects = group.querySelectorAll('.secondary-select');
+    if (secondarySelects.length >= 1) {
+      const secondSelect = secondarySelects[0];
+      
+      // Si c'est un groupe de selects de Knowledge
+      if (group.querySelector('.knowledge-select')) {
+        handleKnowledgeSecondarySelectChange(secondSelect);
+      } else {
+        // Sinon c'est un groupe de selects de Task ou autre
+        handleSecondarySelectChange(secondSelect);
+      }
+    }
+  });
+  
+  // Les données des modals sont déjà chargées au début du script
+  console.log('Configuration des modals terminée');
+});
+
+// Fonction pour gérer le changement du premier select pour les Tasks et Knowledge
+function handleSelectChange(primarySelect) {
+  const selectGroup = primarySelect.closest('.select-group');
+  const secondarySelects = Array.from(selectGroup.querySelectorAll('.secondary-select'));
+  const select2 = secondarySelects[0];
+  const select3 = secondarySelects[1];
+  
+  // Gérer le select 2
+  if (primarySelect.value === '0') {
+    // Si le premier select est 0, désactiver le select 2
+    select2.disabled = true;
+    select2.classList.add('opacity-50', 'cursor-not-allowed');
+    select2.selectedIndex = 0;
+  } else {
+    // Sinon, activer le select 2
+    select2.disabled = false;
+    select2.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+  
+  // Gérer le select 3
+  if (primarySelect.value === '2') {
+    // Si le premier select est 2, activer le select 3
+    select3.disabled = false;
+    select3.classList.remove('opacity-50', 'cursor-not-allowed');
+  } else {
+    // Sinon, désactiver le select 3
+    select3.disabled = true;
+    select3.classList.add('opacity-50', 'cursor-not-allowed');
+    select3.selectedIndex = 0;
+  }
+}
+
+// Fonction pour gérer le changement du premier select pour les Skills
+function handleSkillSelectChange(primarySelect) {
+  const selectGroup = primarySelect.closest('.select-group');
+  const secondarySelects = Array.from(selectGroup.querySelectorAll('.secondary-select'));
+  const select2 = secondarySelects[0];
+  const select3 = secondarySelects[1];
+  
+  // Gérer le select 2
+  if (primarySelect.value === '0') {
+    // Si le premier select est 0, désactiver le select 2
+    select2.disabled = true;
+    select2.classList.add('opacity-50', 'cursor-not-allowed');
+    select2.selectedIndex = 0;
+    
+    // Désactiver aussi le select 3
+    select3.disabled = true;
+    select3.classList.add('opacity-50', 'cursor-not-allowed');
+    select3.selectedIndex = 0;
+  } else {
+    // Sinon, activer le select 2
+    select2.disabled = false;
+    select2.classList.remove('opacity-50', 'cursor-not-allowed');
+    
+    // Vérifier si le premier select est 2, seul cas où le select 3 peut être activé
+    if (primarySelect.value === '2') {
+      // Le select 3 pourra être activé en fonction du select 2
+      handleSkillSecondarySelectChange(select2);
+    } else {
+      // Pour les valeurs 1 et 3 du premier select, désactiver toujours le select 3
+      select3.disabled = true;
+      select3.classList.add('opacity-50', 'cursor-not-allowed');
+      select3.selectedIndex = 0;
+    }
+  }
+}
+
+// Fonction pour gérer le changement du deuxième select pour les Skills et Abilities
+function handleSkillSecondarySelectChange(secondarySelect) {
+  const selectGroup = secondarySelect.closest('.select-group');
+  const thirdSelect = selectGroup.querySelectorAll('.secondary-select')[1];
+  const primarySelect = selectGroup.querySelector('.primary-select');
+  
+  // Vérifier si nous sommes dans l'onglet Skills ou Abilities
+  const isSkillTab = selectGroup.closest('#skill') !== null;
+  const isAbilitieTab = selectGroup.closest('#abilitie') !== null;
+  
+  // Si nous ne sommes ni dans Skills ni dans Abilities, sortir de la fonction
+  if (!isSkillTab && !isAbilitieTab) return;
+  
+  // Réinitialiser le troisième select
+  thirdSelect.innerHTML = '';
+  thirdSelect.selectedIndex = 0;
+  
+  // Vérifier d'abord si le premier select a l'option 2 sélectionnée
+  // C'est la seule valeur du premier select qui permet d'activer le troisième select
+  if (primarySelect.value !== '2') {
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50', 'cursor-not-allowed');
+    return;
+  }
+  
+  // Pour Skills et Abilities: récupérer dynamiquement les options 1, 2, 3 depuis les selects existants
+  const allSelects = document.querySelectorAll('select');
+  let options = [];
+  
+  // Déterminer dans quel onglet nous sommes
+  const currentTab = isSkillTab ? '#skill' : '#abilitie';
+  
+  // Collecter les options des selects dans l'onglet actuel
+  allSelects.forEach(selectEl => {
+    if (selectEl.closest(currentTab)) {
+      Array.from(selectEl.options).forEach(opt => {
+        // Ajouter uniquement les options avec les valeurs 1, 2, 3 et éviter les doublons
+        if (['1', '2', '3'].includes(opt.value) && 
+            !options.some(so => so.value === opt.value)) {
+          options.push({
+            value: opt.value,
+            text: opt.text || opt.value, // Utiliser la valeur si le texte est vide
+            title: opt.title || ''
+          });
+        }
+      });
+    }
+  });
+  
+  // Trier les options par valeur
+  options.sort((a, b) => parseInt(a.value) - parseInt(b.value));
+  
+  // Si aucune option n'a été trouvée dans le DOM, utiliser des valeurs par défaut (en dernier recours)
+  if (options.length === 0) {
+    options = [
+      { value: '1', text: '1', title: "Must be familiar with this competency" },
+      { value: '2', text: '2', title: "Must be capable of independently handling some complex tasks" },
+      { value: '3', text: '3', title: "Must be capable of independently handling a wide variety of complex tasks" }
+    ];
+  }
+  
+  // Gérer les options et l'état du troisième select en fonction de la valeur du deuxième select
+  thirdSelect.disabled = false;
+  thirdSelect.classList.remove('opacity-50', 'cursor-not-allowed');
+  
+  // Pour Skills et Abilities: Ajouter les options 1, 2, 3 au select n3
+  options.forEach(option => {
+    const newOpt = document.createElement('option');
+    newOpt.value = option.value;
+    newOpt.text = option.text;
+    newOpt.title = option.title;
+    thirdSelect.appendChild(newOpt);
+    
+    // Si le deuxième select est 2, désactiver l'option 2 et 3
+    if (secondarySelect.value === '2' && (option.value === '2' || option.value === '3')) {
+      newOpt.disabled = true;
+    }
+    // Si le deuxième select est 1, désactiver tout le select n3
+    else if (secondarySelect.value === '1') {
+      thirdSelect.disabled = true;
+      thirdSelect.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  });
+  
+  // Forçage de la sélection à 1 si le select n2 est 2
+  if (secondarySelect.value === '2') {
+    thirdSelect.value = '1';
+  }
+}
+
+// Fonction améliorée pour afficher les infos dans un tooltip après une sélection
+function showInfoTooltip(select) {
+  const tooltip = select.parentNode.querySelector('.info-tooltip');
+  const selectedOption = select.options[select.selectedIndex];
+  
+  // Utiliser la description complète si disponible, sinon utiliser le titre
+  const tooltipText = selectedOption.getAttribute('data-description') || selectedOption.title;
+  
+  console.log('Affichage tooltip pour', selectedOption.value, 'avec texte:', tooltipText);
+  
+  // Cacher tous les autres tooltips ouverts
+  document.querySelectorAll('.info-tooltip:not(.hidden)').forEach(t => {
+    if (t !== tooltip) t.classList.add('hidden');
+  });
+  
+  if (tooltipText) {
+    // Formatter le texte pour une meilleure lisibilité
+    const formattedText = tooltipText
+      .replace(/---/g, '<hr class="my-2 border-gray-500">')  // Transformer les separateurs en lignes horizontales
+      .replace(/\n/g, '<br>')  // Remplacer les sauts de ligne par des balises HTML
+      .replace(/\n/g, '<br>')  // Conserver les sauts de ligne
+      .split('<br>').map(line => line.trim()).join('<br>');  // Nettoyer les espaces superflus
+    
+    // Construire le tooltip avec bouton de fermeture
+    const closeButton = `<button type="button" class="close-tooltip float-right text-gray-400 hover:text-white text-xs bg-gray-700 hover:bg-gray-600 rounded-full w-4 h-4 flex items-center justify-center ml-2 mb-1">&times;</button>`;
+    
+    // En-tête avec l'option sélectionnée
+    const header = `<div class="font-bold text-sm mb-2">${selectedOption.text} - ${formattedText.split('<br>')[0]}</div>`;
+    
+    // Corps du texte sans le titre
+    const body = formattedText.substring(formattedText.indexOf('<br>'));
+    
+    tooltip.innerHTML = closeButton + header + body;
+    tooltip.classList.remove('hidden');
+    
+    // Positionnement optimal
+    if (tooltip.offsetWidth > 300) {
+      tooltip.style.left = '-100px';
+    }
+    
+    // Ajouter un gestionnaire d'événement pour le bouton de fermeture
+    tooltip.querySelector('.close-tooltip').addEventListener('click', (e) => {
+      e.stopPropagation();
+      tooltip.classList.add('hidden');
+    });
+  }
+}
+
+// Fermer le tooltip en cliquant ailleurs
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.info-tooltip') && !event.target.closest('select')) {
+    document.querySelectorAll('.info-tooltip').forEach(tooltip => {
+      tooltip.classList.add('hidden');
+    });
+  }
+});
+
+// Attacher la fermeture aux boutons de fermeture des tooltips
+document.addEventListener('click', function(event) {
+  if (event.target.closest('.close-tooltip')) {
+    event.target.closest('.info-tooltip').classList.add('hidden');
+  }
+});
+
+// Script spécifique pour forcer l'affichage des boutons d'information dans l'onglet Skills et Abilities
+function showInfoButtonsForSkillsAndAbilities() {
+  // Récupérer tous les boutons d'onglets
+  const tabButtons = document.querySelectorAll('.tab-button');
+  
+  // Ajouter des gestionnaires d'événements pour le clic sur les onglets
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      if (tabId === 'skill' || tabId === 'abilitie') {
+        // Attendre un peu que le DOM soit mis à jour après le changement d'onglet
+        setTimeout(() => {
+          // Trouver le contenu de l'onglet
+          const tab = document.getElementById(tabId);
+          if (tab) {
+            // Trouver tous les boutons d'information dans cet onglet
+            const infoButtons = tab.querySelector('.info-buttons');
+            if (infoButtons) {
+              // Supprimer la classe hidden
+              infoButtons.classList.remove('hidden');
+              console.log('Info buttons forced visible in ' + tabId + ' tab');
+            } else {
+              console.log('No info buttons found in ' + tabId + ' tab');
+            }
+          }
+        }, 100);
+      }
+    });
+  });
+  
+  // Vérifier si l'onglet Skills ou Abilities est déjà actif au chargement
+  window.addEventListener('load', function() {
+    // Force le rafraîchissement de tous les onglets pour s'assurer que les boutons sont visibles
+    document.querySelectorAll('#tab-contents > div').forEach(tab => {
+      if (!tab.classList.contains('hidden') && (tab.id === 'skill' || tab.id === 'abilitie')) {
+        const infoButtons = tab.querySelector('.info-buttons');
+        if (infoButtons) {
+          infoButtons.classList.remove('hidden');
+          console.log('Info buttons forced visible in ' + tab.id + ' tab on load');
+        }
+      }
+    });
+    
+    // Force un clic sur l'onglet abilities pour s'assurer qu'il s'affiche correctement
+    setTimeout(() => {
+      document.querySelectorAll('.tab-button').forEach(button => {
+        if (button.getAttribute('data-tab') === 'abilitie') {
+          console.log('Simulating click on abilities tab');
+          button.click();
+        }
+      });
+    }, 500);
+  });
+}
+
+// Appeler la fonction
+showInfoButtonsForSkillsAndAbilities();
+
+// Ce script s'exécute immédiatement
+document.addEventListener('DOMContentLoaded', function() {
+  // Attendre que la page soit complètement chargée
+  setTimeout(() => {
+    // Créer un tableau des onglets à activer manuellement pour forcer la mise à jour
+    const tabsToForceUpdate = ['skill', 'abilitie'];
+    
+    // Sauvegarder l'onglet actif initial
+    let activeTabButton = null;
+    document.querySelectorAll('.tab-button').forEach(button => {
+      if (button.classList.contains('text-blue-600')) {
+        activeTabButton = button;
+      }
+    });
+    
+    // Parcourir chaque onglet à forcer
+    let currentIndex = 0;
+    
+    function processNextTab() {
+      if (currentIndex < tabsToForceUpdate.length) {
+        const tabId = tabsToForceUpdate[currentIndex];
+        currentIndex++;
+        
+        // Trouver le bouton d'onglet
+        const tabButton = Array.from(document.querySelectorAll('.tab-button')).find(button => {
+          return button.getAttribute('data-tab') === tabId;
+        });
+        
+        if (tabButton) {
+          console.log('Force updating tab: ' + tabId);
+          tabButton.click();
+          
+          // Traiter le prochain onglet après un court délai
+          setTimeout(processNextTab, 100);
+        } else {
+          processNextTab(); // Passer au suivant si l'onglet n'est pas trouvé
+        }
+      } else {
+        // Une fois tous les onglets traités, revenir à l'onglet initial
+        if (activeTabButton) {
+          console.log('Returning to initial tab');
+          activeTabButton.click();
+        } else {
+          // Si aucun onglet actif n'a été trouvé, cliquer sur le premier
+          const firstTab = document.querySelector('.tab-button');
+          if (firstTab) {
+            console.log('Clicking first tab as fallback');
+            firstTab.click();
+          }
+        }
+      }
+    }
+    
+    // Démarrer le traitement des onglets
+    processNextTab();
+  }, 500);
 });
 </script>
+<!-- Les données modales sont maintenant chargées directement dans la variable JavaScript -->
+
+<!-- Style de débogage -->
+<style>
+.debug-info {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin: 5px 0;
+  font-size: 12px;
+  color: #333;
+}
+</style>
 {% endblock %}

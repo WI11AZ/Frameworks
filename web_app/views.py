@@ -1,13 +1,14 @@
-from django.http import HttpResponse
 from django.template import loader
 from collections import defaultdict
-from web_app.models import DcwfCategory, DcwfWorkRole, DcwfWorkRoleKsatRelation
 from django.shortcuts import render, get_list_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import (
     DcwfCategory,
-    DcwfWorkRole,   # <- votre modèle pour les rôles
-    DcwfKsat,       # <- votre modèle pour les KSATs
+    DcwfWorkRole,
+    Ncwf2017WorkRole,
+    Ncwf2024WorkRole,
+    DcwfKsat,
+    DcwfWorkRoleKsatRelation, Ncwf2017Ksat, Ncwf2024Tks
 )
 
 
@@ -175,9 +176,9 @@ def work_role(request, work_role_id):
     tasks_list = [ksat for ksat in ksats if ksat.category == "task"]
     cat_dict = {
         "knowledge": knowledge_list,
-        "skills": skills_list,
-        "abilities": abilities_list,
-        "tasks": tasks_list,
+        "skill": skills_list,
+        "abilitie": abilities_list,
+        "task": tasks_list,
     }
     context = {
         "work_role": work_role,
@@ -189,50 +190,125 @@ def work_role(request, work_role_id):
 
 
 
-
 def compare(request):
     # 1. Récupère les ids passés en GET
-    ids = request.GET.getlist('ids')
+    dcwf_ids = request.GET.getlist('dcwf_ids')
+    ncwf_2017_ids = request.GET.getlist('ncwf_2017_ids')
+    ncwf_2024_ids = request.GET.getlist('ncwf_2024_ids')
     try:
-        ids = [int(i) for i in ids]
+        dcwf_ids = [int(i) for i in dcwf_ids]
     except ValueError:
-        ids = []
+        dcwf_ids = []
 
-    # 2. Charge les rôles avec leurs relations vers DcwfKsat
-    work_roles = get_list_or_404(
-        DcwfWorkRole.objects.prefetch_related(
-            'dcwfworkroleksatrelation_set__dcwf_ksat',
-            'dcwfworkroleksatrelation_set__dcwf_ksat__ncwf_2017_ksat'
-        ),
-        id__in=ids
-    )
+    # Peut-être que fais un try/except ici aussi, mais je pense pas que c'est nécessaire ?
+    ncwf_2017_ids = [int(i) for i in ncwf_2017_ids]
+    ncwf_2024_ids = [int(i) for i in ncwf_2024_ids]
 
-    # 3. Récupère tous les KSATs de ces rôles et précharge NCWF 2017
-    ksats = DcwfKsat.objects.filter(
-        dcwfworkroleksatrelation__dcwf_work_role__in=work_roles
-    ).distinct().prefetch_related('ncwf_2017_ksat')
+    # 2. Récupère les Work Roles avec leurs titres spécifiques
+    formatted_roles = []
+    
+    # Rôles DCWF
+    dcwf_work_roles = DcwfWorkRole.objects.filter(id__in=dcwf_ids)
+    for role in dcwf_work_roles:
+        formatted_roles.append({
+            'model_obj': role,
+            'title': role.title,
+            'framework': 'DCWF',
+            'id': role.id,
+            'model_type': 'dcwf'
+        })
+    
+    # Rôles NCWF 2017
+    ncwf_2017_work_roles = Ncwf2017WorkRole.objects.filter(id__in=ncwf_2017_ids)
+    for role in ncwf_2017_work_roles:
+        formatted_roles.append({
+            'model_obj': role,
+            'title': role.title,  # Utilise le titre spécifique du NCWF 2017
+            'framework': 'NCWF 2017',
+            'id': role.id,
+            'model_type': 'ncwf_2017'
+        })
+        
+    # Rôles NCWF 2024
+    ncwf_2024_work_roles = Ncwf2024WorkRole.objects.filter(id__in=ncwf_2024_ids)
+    for role in ncwf_2024_work_roles:
+        formatted_roles.append({
+            'model_obj': role,
+            'title': role.title,  # Utilise le titre spécifique du NCWF 2024
+            'framework': 'NCWF 2024',
+            'id': role.id,
+            'model_type': 'ncwf_2024'
+        })
 
-    # --- Correction ici : on utilise les clés singulières ---
-    cat_dict = {
-        'knowledge': [],
-        'skill':     [],
-        'ability':   [],
-        'task':      [],
-    }
-    for k in ksats:
-        key = k.category.lower()  # ex. "Knowledge" → "knowledge"
-        if key in cat_dict:
-            # pour chaque rôle, on teste l’existence de ce KSAT
-            presence_list = [
-                wr.dcwfworkroleksatrelation_set.filter(dcwf_ksat=k).exists()
-                for wr in work_roles
-            ]
-            cat_dict[key].append({
-                'ksat':     k,
-                'presence': presence_list,
-            })
+    # 3. Récupère les KSATs
+    ksats_dcwf = DcwfKsat.objects.filter(dcwf_work_role_relations__dcwf_work_role__in=dcwf_work_roles).distinct()
+    # Prenez les ksats ncwf_2017 qui sont les mêmes que ceux dcwf
+    ncwf_2017_ksats_in_dcwf = ksats_dcwf.values_list('ncwf_2017_ksat', flat=True)
+    # Exclure les ksats ncwf_2017 qui sont déjà dans dcwf
+    ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).exclude(id__in=ncwf_2017_ksats_in_dcwf).distinct()
+    tks_ncwf_2024 = Ncwf2024Tks.objects.filter(ncwf_2024_work_roles__in=ncwf_2024_work_roles).distinct()
+
+
+    # Combiner les KSATs pour la comparaison
+    ksats = list(ksats_dcwf) + list(ksats_ncwf_2017) + list(tks_ncwf_2024)
+    
+    # Les rôles originaux sont toujours nécessaires pour certaines fonctionnalités existantes
+    work_roles = list(dcwf_work_roles) + list(ncwf_2017_work_roles) + list(ncwf_2024_work_roles)
+
+    # --- Correction ici : on utilise les clés singulières et on force l'affichage des abilités ---
+    ksat_dict = { 'task': [],'knowledge': [], 'skill': [], 'abilitie': []}
+    
+    # Vérifier les catégories disponibles
+    categories_found = set()
+    ability_ksats_found = False
+    
+    for ksat in ksats:
+        category = ksat.category.lower()
+        categories_found.add(category)
+        # Vérifier si des abilities sont présentes
+        if category == 'ability':
+            ability_ksats_found = True
+            print(f"ABILITY TROUVÉ: KSAT ID: {ksat.id}, Description: {ksat.description}")
+            # S'assurer qu'il est ajouté à la bonne clé du dictionnaire
+            ksat_dict['abilitie'].append(ksat)
+        else:
+            # Autres catégories
+            ksat_dict.get(category, []).append(ksat)
+    
+    # Afficher les catégories trouvées pour le débogage
+    print(f"Catégories trouvées: {categories_found}")
+    print(f"Des KSATs de type 'ability' ont été trouvés: {ability_ksats_found}")
+    print(f"Contenu du ksat_dict: {[key + ': ' + str(len(items)) for key, items in ksat_dict.items()]}")
+    
+    # Si aucun KSAT de type ability n'est trouvé, ajouter un KSAT fictif pour déboguer
+    if not ability_ksats_found:
+        print("Aucun KSAT de type 'ability' trouvé, ajout d'un KSAT fictif pour déboguer")
+        # Créer un objet dict qui reproduit la structure minimale d'un KSAT
+        dummy_ability = {'id': 0, 'description': 'TEST - Ceci est un KSAT fictif pour déboguer'}
+        # Vous pouvez remplacer ce dictionnaire par un vrai objet DcwfKsat si nécessaire
+        # ksat_dict['abilitie'].append(dummy_ability)
 
     return render(request, 'web_app/ksat/compare_ksat.html', {
         'work_roles': work_roles,
-        'cat_dict':   cat_dict,
+        'ksat_dict': ksat_dict,
+        'formatted_roles': formatted_roles,
     })
+
+
+def get_modal_info_json_view(request):
+    """
+    Vue pour retourner les informations des modales au format JSON.
+    Cette vue est utilisée par le code JavaScript pour charger dynamiquement
+    les informations des modales.
+    """
+    from web_app.templatetags.modal_info_tags import get_modal_info_json
+    import json
+    
+    # Récupérer les données depuis la fonction du template tag
+    json_str = get_modal_info_json()
+    
+    # Parser le JSON pour le repasser à JsonResponse
+    json_data = json.loads(json_str)
+    
+    # Retourner le JSON avec les bons headers CORS
+    return JsonResponse(json_data)
