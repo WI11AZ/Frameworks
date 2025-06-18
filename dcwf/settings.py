@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-63+s%a^vtne=0rbb$l@k9_vw61lf*0!tk%y6gu(hqw%q6llz%i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '93b0-87-66-170-74.ngrok-free.app', '.ngrok-free.app']
+ALLOWED_HOSTS = ['dashboardbeta.onrender.com']
 
 
 # Application definition
