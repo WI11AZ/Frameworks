@@ -19,6 +19,37 @@
     <!-- Script serverStorage pour sauvegardes côté serveur -->
     <script src="{% static 'js/serverStorage.js' %}"></script>
     <style>
+        @keyframes holographic {
+            0% { 
+                opacity: 0.85; 
+                transform: scale(1) perspective(500px) rotateY(-3deg);
+                text-shadow: 0 0 6px #00ffff, 0 0 10px #00ffff, 0 0 14px rgba(183, 0, 255, 0.6);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), inset 0 0 5px rgba(0, 255, 255, 0.4);
+                filter: brightness(0.9) contrast(1.1);
+            }
+            33% {
+                opacity: 0.95;
+                transform: scale(1.03) perspective(500px) rotateY(-1deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), inset 0 0 8px rgba(0, 255, 255, 0.5);
+                filter: brightness(1.1) contrast(1.2);
+            }
+            66% { 
+                opacity: 1; 
+                transform: scale(1.05) perspective(500px) rotateY(1deg);
+                text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px rgba(183, 0, 255, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 12px rgba(0, 255, 255, 0.6);
+                filter: brightness(1.2) contrast(1.3);
+            }
+            100% { 
+                opacity: 0.9; 
+                transform: scale(1) perspective(500px) rotateY(3deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 12px rgba(0, 255, 255, 0.7), inset 0 0 7px rgba(0, 255, 255, 0.5);
+                filter: brightness(1) contrast(1.2);
+            }
+        }
+        
         .category-container {
             max-height: 200px;
             max-width: 900px;
