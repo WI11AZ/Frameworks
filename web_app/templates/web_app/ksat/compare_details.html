@@ -1,0 +1,835 @@
+{% extends "web_app/template/base.html" %}
+{% load work_role_tags %}
+{% load ksat_tags %}
+{% load select_options_tags %}
+{% load modal_info_tags %}
+
+{% block script %}
+<style>
+  body {
+    background-color: #f9fafb;
+  }
+  
+  main {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style pour les entêtes de section */
+  .section-header {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style pour les entêtes dans le tableau */
+  .table-section-header {
+    background: #ffffff;
+    border-left: 5px solid #3b82f6;
+    color: #000000;
+    padding: 0.75rem 1rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style pour les icônes dans les entêtes */
+  .table-section-header svg {
+    color: #000000;
+  }
+  
+  .section-header::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 24px;
+    background-color: white;
+    margin-right: 1rem;
+    border-radius: 4px;
+  }
+  
+  /* Style pour les tables */
+  .comparison-table {
+    width: 100%;
+    table-layout: fixed; /* Force la largeur des colonnes à être respectée */
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 2.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .comparison-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .comparison-table th {
+    background-color: #4b5563;
+    color: white;
+    text-align: left;
+    padding: 1rem;
+    font-weight: 600;
+    border: none;
+  }
+  
+  .comparison-table tr:not(.category-header-row):not(.category-separator):nth-child(even) {
+    background-color: #f3f4f6;
+  }
+  
+  .comparison-table tr:not(.category-header-row):not(.category-separator):hover {
+    background-color: #e5edff;
+    transition: background-color 0.2s ease;
+  }
+  
+  .comparison-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+  }
+  
+  /* Style pour la colonne de description */
+  .description-column {
+    width: 60% !important;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left !important;
+  }
+  
+  /* Style pour les colonnes de valeurs */
+  .value-column {
+    width: 13.33% !important;
+    text-align: center !important;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  
+
+  
+  /* Pour mettre en évidence les valeurs importantes */
+  .importance-high {
+    color: #dc2626;
+    font-weight: bold;
+  }
+  
+  .importance-medium {
+    color: #f59e0b;
+    font-weight: bold;
+  }
+  
+  .close-button {
+    transition: all 0.3s ease;
+    transform: scale(1);
+  }
+  
+  .close-button:hover {
+    transform: scale(1.05);
+  }
+  
+  .empty-message {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+    font-size: 1.2rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    border: 1px dashed #d1d5db;
+    margin: 2rem 0;
+  }
+  
+  @media print {
+    .section-header {
+      background: none;
+      color: black;
+      border-bottom: 2px solid #3b82f6;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0.5rem 0;
+    }
+    
+    .section-header::before {
+      display: none;
+    }
+    
+    .comparison-table {
+      box-shadow: none;
+    }
+    
+    .comparison-table th {
+      background-color: #f3f4f6;
+      color: black;
+      border-bottom: 2px solid #3b82f6;
+    }
+    
+    .close-button {
+      display: none;
+    }
+  }
+  
+  /* Styles pour la version PDF */
+  .pdf-container {
+    background-color: white;
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .pdf-container .table-section-header {
+    background: #f0f0f0;
+    color: black;
+    border-left: 5px solid #3b82f6;
+  }
+  
+  .pdf-container .comparison-table th {
+    background-color: #4b5563;
+    color: white;
+  }
+  
+  /* Nouveaux styles pour les compteurs */
+  .counter-badge {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  
+  .counter-badge span {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    display: inline-block;
+    min-width: 90px;
+    text-align: center;
+  }
+  
+  #counters-section, #opm-counters-container > div {
+    background-color: #f7f7f7;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  #counters-section span, #opm-counters-container span {
+    font-size: 0.875rem;
+  }
+  
+  #counters-section .flex, #opm-counters-container .flex {
+    display: flex;
+    align-items: center;
+  }
+  
+  #counters-section .space-x-5, #opm-counters-container .space-x-5 {
+    margin-right: 1.25rem;
+  }
+  
+  #counters-section .hidden {
+    display: none;
+  }
+  
+  /* Styles spécifiques pour les compteurs OPM ID */
+  #opm-counters-container {
+    margin-top: 0.5rem;
+  }
+  
+  #opm-counters-container > div {
+    background-color: #f7f7f7;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid #3b82f6;
+  }
+  
+  /* Style spécifique pour le compteur total */
+  #total-counter, #opm-counters-container .pl-2 {
+    margin-left: 0.5rem;
+    white-space: nowrap;
+  }
+</style>
+{% endblock script %}
+
+{% block content %}
+<main class="mx-auto max-w-7xl p-8 my-6">
+  <div class="flex flex-col mb-8 space-y-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-gray-800">
+        <span class="text-blue-600">C</span>omparaison détaillée des KSATs
+      </h1>
+      
+      <div class="space-x-4 flex">
+        <button id="print-button" class="flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          Imprimer
+        </button>
+        <button id="excel-export-button" class="flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Exporter Excel
+        </button>
+        <button id="export-button" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Exporter PDF
+        </button>
+        <button id="close-button" class="close-button flex items-center px-4 py-2 bg-gray-100 text-gray-600 rounded hover:bg-gray-200 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Fermer
+        </button>
+      </div>
+    </div>
+    
+    <!-- Message d'information placé entre le titre et les compteurs -->
+    <div class="info-box bg-blue-50 p-4 rounded my-4">
+      <p class="text-blue-800">Cette vue présente les éléments sélectionnés avec une importance supérieure à 0. Les catégories sont présentées séquentiellement.</p>
+    </div>
+    
+    <!-- Compteurs de sélection en ligne avec des badges colorés -->
+    <div id="counters-section" class="flex justify-between items-center py-3 px-4 bg-gray-50 rounded-lg shadow-sm">
+      <div class="text-sm font-medium text-gray-700">Sélections par catégorie :</div>
+      <div class="flex space-x-5 items-center">
+        <div id="tasks-counter" class="counter-badge">
+          <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-medium">Tasks: <span class="font-semibold">0/0</span></span>
+        </div>
+        <div id="knowledge-counter" class="counter-badge">
+          <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-md font-medium">Knowledge: <span class="font-semibold">0/0</span></span>
+        </div>
+        <div id="skills-counter" class="counter-badge">
+          <span class="px-2 py-1 bg-green-100 text-green-800 rounded-md font-medium">Skills: <span class="font-semibold">0/0</span></span>
+        </div>
+        <div id="abilities-counter" class="counter-badge">
+          <span class="px-2 py-1 bg-red-100 text-red-800 rounded-md font-medium">Abilities: <span class="font-semibold">0/0</span></span>
+        </div>
+        <div id="total-counter" class="pl-2 border-l border-gray-300">
+          <span class="px-2 py-1 bg-gray-200 text-gray-800 rounded-md font-medium">Total: <span class="font-semibold">0/0</span></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Compteurs par OPM ID -->
+    <div id="opm-counters-container" class="mt-2">
+      <!-- Les compteurs par OPM ID seront ajoutés ici dynamiquement -->
+    </div>
+
+  </div>
+  
+  <div id="comparison-container">
+    <!-- Le contenu sera injecté par JavaScript -->
+  </div>
+</main>
+
+<script>
+// Charger la bibliothèque jsPDF pour l'export PDF
+function loadScript(url, callback) {
+  const script = document.createElement('script');
+  script.src = url;
+  script.onload = callback;
+  document.head.appendChild(script);
+}
+
+// Charger les bibliothèques nécessaires
+loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function() {
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', function() {
+    console.log('Bibliothèques PDF chargées avec succès');
+  });
+});
+
+// Charger la bibliothèque SheetJS pour l'export Excel
+loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js', function() {
+  console.log('Bibliothèque Excel chargée avec succès');
+});
+
+// Fonction pour exporter en PDF
+function exportToPDF() {
+  // Créer une copie du contenu sans la barre de navigation et les boutons
+  const content = document.getElementById('comparison-container');
+  const pdfContent = content.cloneNode(true);
+  
+  // Ajouter un titre
+  const title = document.createElement('h1');
+  title.textContent = 'Comparaison détaillée des KSATs';
+  title.style.fontSize = '24px';
+  title.style.fontWeight = 'bold';
+  title.style.marginBottom = '20px';
+  title.style.textAlign = 'center';
+  
+  // Créer un conteneur temporaire
+  const tempContainer = document.createElement('div');
+  tempContainer.className = 'pdf-container';
+  tempContainer.appendChild(title);
+  tempContainer.appendChild(pdfContent);
+  
+  // Uniquement s'assurer que les spans s'affichent correctement sans changer leur apparence
+  const countSpans = tempContainer.querySelectorAll('.table-section-header span');
+  countSpans.forEach(span => {
+    span.style.display = 'inline-block';
+  });
+  
+  // Ajouter le conteneur au body mais le rendre invisible
+  tempContainer.style.position = 'absolute';
+  tempContainer.style.left = '-9999px';
+  document.body.appendChild(tempContainer);
+  
+  // Utiliser html2canvas et jsPDF pour générer le PDF
+  html2canvas(tempContainer, {
+    scale: 2, // Qualité doublée pour éviter la pixellisation
+    useCORS: true,
+    logging: false,
+    allowTaint: true,
+    backgroundColor: '#ffffff',
+    imageTimeout: 15000, // Temps plus long pour le rendu complet
+    onclone: function(clonedDoc) {
+      // Optimisations pour une meilleure qualité de rendu
+      Array.from(clonedDoc.querySelectorAll('*')).forEach(el => {
+        if (el.style.transform) {
+          el.style.transform = 'none';
+        }
+      });
+    }
+  }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new window.jspdf.jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a4'
+    });
+    
+    const imgWidth = 297; // A4 height in mm (en paysage)
+    const pageHeight = 210; // A4 width in mm (en paysage)
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    
+    let heightLeft = imgHeight;
+    let position = 0;
+    
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+    
+    // Ajouter des pages supplémentaires si nécessaire
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+    
+    // Télécharger le PDF
+    pdf.save('Comparison_KSATs_Landscape.pdf');
+    
+    // Supprimer le conteneur temporaire
+    document.body.removeChild(tempContainer);
+  });
+}
+
+// Fonction pour exporter en Excel
+function exportToExcel() {
+  // Récupérer les données de comparaison
+  const comparisonData = JSON.parse(localStorage.getItem('comparisonData'));
+  if (!comparisonData) {
+    alert('Aucune donnée disponible pour l\'export Excel');
+    return;
+  }
+  
+  // Créer un tableau pour l'Excel avec en-têtes
+  const worksheetData = [
+    ['Catégorie', 'Description', 'OPM ID', 'Référence DCWF', 'Référence NCWF', 'Importance', 'Type 1', 'Type 2']
+  ];
+  
+  // Ajouter chaque catégorie au tableau Excel
+  ['task', 'knowledge', 'skill', 'abilitie'].forEach(type => {
+    if (comparisonData[type] && comparisonData[type].length > 0) {
+      // Définir le nom de la catégorie
+      let typeName = '';
+      switch(type) {
+        case 'task': typeName = 'Tasks'; break;
+        case 'knowledge': typeName = 'Knowledge'; break;
+        case 'skill': typeName = 'Skills'; break;
+        case 'abilitie': typeName = 'Abilities'; break;
+      }
+      
+      // Ajouter les éléments de cette catégorie
+      comparisonData[type].forEach(item => {
+        worksheetData.push([
+          typeName,
+          item.description,
+          Object.keys(item.opmIdStatus || {}).filter(opmId => item.opmIdStatus[opmId]).join(', ') || 'N/A',
+          item.dcwfUrl ? item.dcwfUrl.text : 'N/A',
+          item.ncwfUrl ? item.ncwfUrl.text : 'N/A',
+          item.importance,
+          item.type1,
+          item.type2
+        ]);
+      });
+    }
+  });
+  
+  // Créer un nouveau workbook
+  const wb = XLSX.utils.book_new();
+  // Créer une feuille avec les données
+  const ws = XLSX.utils.aoa_to_sheet(worksheetData);
+  
+  // Ajouter la feuille au workbook
+  XLSX.utils.book_append_sheet(wb, ws, 'KSAT Comparison');
+  
+  // Générer le fichier Excel et le télécharger
+  XLSX.writeFile(wb, 'KSAT_Comparison.xlsx');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Configurer les gestionnaires d'événements pour les boutons
+  document.getElementById('print-button').addEventListener('click', function() {
+    window.print();
+  });
+  
+  document.getElementById('excel-export-button').addEventListener('click', function() {
+    exportToExcel();
+  });
+  
+  document.getElementById('export-button').addEventListener('click', function() {
+    exportToPDF();
+  });
+  
+  document.getElementById('close-button').addEventListener('click', function() {
+    window.close();
+  });
+  
+  // Récupérer les totaux depuis localStorage
+  // Si non disponible, nous utiliserons des valeurs par défaut à 0
+  const allCategoryCounts = {
+    task: parseInt(localStorage.getItem('totalTaskCount') || '0'),
+    knowledge: parseInt(localStorage.getItem('totalKnowledgeCount') || '0'),
+    skill: parseInt(localStorage.getItem('totalSkillCount') || '0'),
+    abilitie: parseInt(localStorage.getItem('totalAbilitieCount') || '0')
+  };
+  
+  // Log pour débogage
+  console.log('Totaux récupérés depuis localStorage:', {
+    task: localStorage.getItem('totalTaskCount'),
+    knowledge: localStorage.getItem('totalKnowledgeCount'),
+    skill: localStorage.getItem('totalSkillCount'),
+    abilitie: localStorage.getItem('totalAbilitieCount')
+  });
+  console.log('Totaux après parsing:', allCategoryCounts);
+  
+  // Stocker ces valeurs pour utilisation ultérieure
+  localStorage.setItem('allCategoryCounts', JSON.stringify(allCategoryCounts));
+  
+  // Récupérer les OPM IDs et leur association avec les éléments
+  const opmIdsData = JSON.parse(localStorage.getItem('opmIdsData') || '{}');
+  console.log('OPM IDs Data:', opmIdsData);
+  
+  const comparisonData = JSON.parse(localStorage.getItem('comparisonData'));
+  const container = document.getElementById('comparison-container');
+  
+  if (!comparisonData) {
+    container.innerHTML = '<div class="empty-message"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Aucune donnée de comparaison trouvée.</div>';
+    return;
+  }
+  
+  // Statistiques globales
+  let totalItems = 0;
+  Object.values(comparisonData).forEach(items => totalItems += items.length);
+  
+  // Fonction pour styliser l'importance
+  function styleImportance(importanceText) {
+    if (importanceText.includes('1') || importanceText.toLowerCase().includes('critique') || importanceText.toLowerCase().includes('must')) {
+      return `<span class="importance-high">${importanceText}</span>`;
+    } else if (importanceText.includes('2') || importanceText.toLowerCase().includes('important')) {
+      return `<span class="importance-medium">${importanceText}</span>`;
+    }
+    return importanceText;
+  }
+  
+  // Pas besoin de l'en-tête avec statistiques car nous utilisons les compteurs en haut
+  let statsHTML = '';
+  
+  // Utiliser les allCategoryCounts déjà déclarés plus haut
+  let globalTotal = 0;
+  Object.values(allCategoryCounts).forEach(count => { globalTotal += count; });
+  
+  // Mettre à jour les compteurs avec JavaScript
+  const updateCounters = () => {
+    // Mettre à jour le compteur total
+    const totalCounterElement = document.querySelector('#total-counter span span');
+    if (totalCounterElement) {
+      totalCounterElement.textContent = `${totalItems}/${globalTotal}`;
+    }
+    
+    // Mettre à jour les compteurs par catégorie
+    ['task', 'knowledge', 'skill', 'abilitie'].forEach(type => {
+      const count = comparisonData[type]?.length || 0;
+      const totalInCategory = allCategoryCounts[type] || 0;
+      let typeName = '';
+      let counterId = '';
+      
+      switch(type) {
+        case 'task': 
+          typeName = 'Tasks'; 
+          counterId = 'tasks-counter';
+          break;
+        case 'knowledge': 
+          typeName = 'Knowledge'; 
+          counterId = 'knowledge-counter';
+          break;
+        case 'skill': 
+          typeName = 'Skills'; 
+          counterId = 'skills-counter';
+          break;
+        case 'abilitie': 
+          typeName = 'Abilities'; 
+          counterId = 'abilities-counter';
+          break;
+      }
+      
+      const counterElement = document.getElementById(counterId);
+      if (counterElement) {
+        const countSpan = counterElement.querySelector('span span');
+        if (countSpan) {
+          countSpan.textContent = `${count}/${totalInCategory}`;
+        }
+        
+        // Toujours afficher le compteur, même s'il est à zéro
+        counterElement.classList.remove('hidden');
+      }
+    });
+    
+    // Créer et mettre à jour les compteurs par OPM ID
+    if (opmIdsData && Object.keys(opmIdsData).length > 0) {
+      const opmContainer = document.getElementById('opm-counters-container');
+      opmContainer.innerHTML = ''; // Effacer le contenu existant
+      
+      // Pour chaque OPM ID, créer une ligne de compteurs
+      Object.keys(opmIdsData).forEach(opmId => {
+        // Créer la div container pour cet OPM ID
+        const opmCounterDiv = document.createElement('div');
+        opmCounterDiv.className = 'flex justify-between items-center py-3 px-4 bg-gray-50 rounded-lg shadow-sm mt-2';
+        opmCounterDiv.style.cssText = 'border-left: 3px solid #3b82f6;';
+        
+        // Créer le titre avec l'OPM ID
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'text-sm font-medium text-gray-700';
+        titleDiv.style.cssText = 'min-width: 180px; white-space: nowrap;';
+        titleDiv.textContent = `OPM ID ${opmId} :`;
+        
+        // Créer le container des compteurs
+        const countersDiv = document.createElement('div');
+        countersDiv.className = 'flex items-center';
+        countersDiv.style.cssText = 'flex-wrap: nowrap; overflow-x: auto;';
+        
+        // Ajouter les compteurs pour chaque catégorie
+        const categories = [
+          { type: 'task', name: 'Tasks', bgColor: 'bg-blue-100', textColor: 'text-blue-800' },
+          { type: 'knowledge', name: 'Knowledge', bgColor: 'bg-purple-100', textColor: 'text-purple-800' },
+          { type: 'skill', name: 'Skills', bgColor: 'bg-green-100', textColor: 'text-green-800' },
+          { type: 'abilitie', name: 'Abilities', bgColor: 'bg-red-100', textColor: 'text-red-800' }
+        ];
+        
+        categories.forEach(category => {
+          const counterBadge = document.createElement('div');
+          counterBadge.className = 'counter-badge';
+          
+          // Récupérer les valeurs pour cet OPM ID et cette catégorie
+          const selected = opmIdsData[opmId][category.type].selected;
+          let total = opmIdsData[opmId][category.type].total;
+          
+          // S'assurer que le total ne dépasse pas le total global pour cette catégorie
+          const globalCategoryTotal = allCategoryCounts[category.type] || 0;
+          if (total > globalCategoryTotal) {
+            total = globalCategoryTotal;
+            // Ajuster aussi le nombre sélectionné si nécessaire
+            if (selected > total) {
+              opmIdsData[opmId][category.type].selected = total;
+            }
+          }
+          
+          counterBadge.style.cssText = 'display: inline-block; margin-right: 12px; white-space: nowrap;';
+          
+          counterBadge.innerHTML = `
+            <span class="px-2 py-1 ${category.bgColor} ${category.textColor} rounded-md font-medium" style="display: inline-block; min-width: 120px; text-align: center;">
+              ${category.name}: <span class="font-semibold">${selected}/${total}</span>
+            </span>
+          `;
+          
+          countersDiv.appendChild(counterBadge);
+        });
+        
+        // Ajouter le compteur total pour cet OPM ID
+        const totalCounterDiv = document.createElement('div');
+        totalCounterDiv.className = 'pl-2 border-l border-gray-300';
+        totalCounterDiv.style.cssText = 'margin-left: 8px; white-space: nowrap;';
+        
+        // Calculer seulement à partir des données des catégories pour cet OPM ID spécifique
+        // Ces valeurs sont déjà filtrées pour ne compter que les lignes avec un ✅
+        let totalSelected = categories.reduce((sum, category) => sum + opmIdsData[opmId][category.type].selected, 0);
+        let totalCount = categories.reduce((sum, category) => sum + opmIdsData[opmId][category.type].total, 0);
+        
+        // S'assurer que le total général ne dépasse pas le total global
+        if (totalCount > globalTotal) {
+          totalCount = globalTotal;
+          // Ajuster aussi le nombre sélectionné si nécessaire
+          if (totalSelected > totalCount) {
+            totalSelected = totalCount;
+          }
+        }
+        
+        totalCounterDiv.innerHTML = `
+          <span class="px-2 py-1 bg-gray-200 text-gray-800 rounded-md font-medium" style="display: inline-block; min-width: 100px; text-align: center;">
+            Total: <span class="font-semibold">${totalSelected}/${totalCount}</span>
+          </span>
+        `;
+        
+        countersDiv.appendChild(totalCounterDiv);
+        
+        // Assembler les éléments
+        opmCounterDiv.appendChild(titleDiv);
+        opmCounterDiv.appendChild(countersDiv);
+        
+        // Ajouter au container principal
+        opmContainer.appendChild(opmCounterDiv);
+      });
+    }
+  };
+  
+  // Appeler la fonction une fois les compteurs créés
+  setTimeout(updateCounters, 100);
+  
+  // Construire un seul tableau pour toutes les catégories
+  let tableHTML = '';
+  let hasContent = false;
+  
+  // Vérifier si nous avons du contenu
+  ['task', 'knowledge', 'skill', 'abilitie'].forEach(type => {
+    if (comparisonData[type] && comparisonData[type].length > 0) {
+      hasContent = true;
+    }
+  });
+  
+  if (!hasContent) {
+    container.innerHTML = '<div class="empty-message"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>Aucun élément sélectionné trouvé.</div>';
+    return;
+  }
+  
+  // Début du tableau - Nous allons maintenant répéter les en-têtes pour chaque catégorie
+  tableHTML = `
+    <table class="comparison-table w-full">
+      <tbody>
+  `;
+  
+  // Fonction pour trier par identifiant
+  function sortByKsatId(items) {
+    return [...items].sort((a, b) => {
+      // Extraire les numéros des URLs ou utiliser l'ID
+      const getNumericId = (item) => {
+        if (item.dcwfUrl && item.dcwfUrl.text) {
+          const match = item.dcwfUrl.text.match(/\d+/);
+          if (match) return parseInt(match[0], 10);
+        }
+        if (item.ncwfUrl && item.ncwfUrl.text) {
+          const match = item.ncwfUrl.text.match(/\d+/);
+          if (match) return parseInt(match[0], 10);
+        }
+        return parseInt(item.id || '0', 10);
+      };
+      
+      return getNumericId(a) - getNumericId(b);
+    });
+  }
+  
+  // Ajouter chaque catégorie au même tableau
+  ['task', 'knowledge', 'skill', 'abilitie'].forEach(type => {
+    if (comparisonData[type] && comparisonData[type].length > 0) {
+      // Trier les éléments par ID
+      comparisonData[type] = sortByKsatId(comparisonData[type]);
+      // Définir le nom et l'icône de la catégorie
+      let typeName = '';
+      let iconSvg = '';
+      
+      switch(type) {
+        case 'task':
+          typeName = 'Tasks';
+          iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="black" style="color: black;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>';
+          break;
+        case 'knowledge':
+          typeName = 'Knowledge';
+          iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="black" style="color: black;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
+          break;
+        case 'skill':
+          typeName = 'Skills';
+          iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="black" style="color: black;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>';
+          break;
+        case 'abilitie':
+          typeName = 'Abilities';
+          iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="black" style="color: black;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>';
+          break;
+      }
+      
+      // Ajouter l'en-tête de la catégorie avec les en-têtes de colonnes
+      tableHTML += `
+        <tr class="category-header-row">
+          <td colspan="3" class="category-header" style="padding: 0.5rem 0;">
+            <div class="table-section-header" style="margin: 0; width: 100%; border-bottom: 1px solid #e5e7eb; color: black !important;">
+              ${iconSvg}<span style="color: black; font-weight: bold;">${typeName}</span>
+              <span class="ml-2 text-sm bg-blue-600 text-white px-2 py-0.5 rounded-full" style="display: inline-block;">${comparisonData[type].length} éléments</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th class="description-column" style="text-align: left; width: 60%;">Description</th>
+          <th class="value-column" style="text-align: center; width: 13.33%;">Importance</th>
+          <th class="value-column" style="text-align: center; width: 13.33%;">Type 1</th>
+          <th class="value-column" style="text-align: center; width: 13.33%;">Type 2</th>
+        </tr>
+      `;
+      
+      // Ajouter les éléments de cette catégorie
+      comparisonData[type].forEach(item => {
+        tableHTML += `
+          <tr>
+            <td class="description-column" style="text-align: left; width: 60%;">
+              <div class="flex flex-col">
+                <p>${item.description}</p>
+                <div class="mt-1 text-sm space-x-2">
+                  ${item.dcwfUrl ? `<a href="${item.dcwfUrl.href}" class="text-blue-600 hover:underline" target="_blank">${item.dcwfUrl.text}</a>` : ''}
+                  ${item.ncwfUrl ? `<a href="${item.ncwfUrl.href}" class="text-blue-600 hover:underline" target="_blank">${item.ncwfUrl.text}</a>` : ''}
+                </div>
+              </div>
+            </td>
+            <td class="value-column" style="text-align: center; width: 13.33%;">${styleImportance(item.importance)}</td>
+            <td class="value-column" style="text-align: center; width: 13.33%;">${item.type1}</td>
+            <td class="value-column" style="text-align: center; width: 13.33%;">${item.type2}</td>
+          </tr>
+        `;
+      });
+      
+      // Ajouter un séparateur visible entre les catégories
+      tableHTML += `
+        <tr class="category-separator">
+          <td colspan="3" style="height: 20px; padding: 0; background-color: #f0f0f0; border-top: 1px solid #d0d0d0; border-bottom: 1px solid #d0d0d0;"></td>
+        </tr>
+      `;
+    }
+  });
+  
+  // Fermer le tableau  
+  tableHTML += `
+      </tbody>
+    </table>
+  `;
+  
+  // Assembler la page complète
+  container.innerHTML = statsHTML + tableHTML;
+});
+</script>
+{% endblock content %}

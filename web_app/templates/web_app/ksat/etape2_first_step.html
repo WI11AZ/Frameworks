@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte des Compétences Cybersécurité</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="/static/js/serverStorage.js"></script>
+    <script src="/static/js/heatmap.js"></script>
+    <style>
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; }
+      #heatmap-svg-element {
+        width: 100%;
+        height: 800px;
+      }
+      #heatmap-tooltip-element {
+        opacity: 0;
+        position: absolute;
+        background-color: rgba(17, 24, 39, 0.9);
+        border: solid 1px #374151;
+        border-radius: 5px;
+        padding: 10px;
+        color: #e5e7eb;
+        pointer-events: none;
+        font-size: 12px;
+        z-index: 10;
+      }
+      .saved-selection {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        background-color: #f9fafb;
+        transition: all 0.2s ease;
+      }
+      .saved-selection:hover {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .selection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .heatmap-cell {
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+      .heatmap-cell:hover {
+        opacity: 0.8;
+        stroke: white;
+        stroke-width: 2px;
+      }
+      
+      /* Force les rectangles OPM ID à ne jamais être jaunes par défaut */
+      .opm-header-rect, rect[y="1201"] {
+        fill: #6b7280 !important;
+        stroke: none;
+      }
+      
+      /* Lorsqu'ils sont sélectionnés, changer la couleur en jaune - style important! */
+      .opm-header-rect.selected, rect.selected, rect[data-selected="true"] {
+        fill: #FFFF00 !important; /* Jaune pour les sélectionnés */
+        stroke: #000000 !important; /* Bordure noire */
+        stroke-width: 1px !important;
+      }
+      
+      /* Force le texte des OPM ID à être blanc */
+      .opm-id-label {
+        fill: white !important;
+      }
+      
+      /* Force le texte des OPM ID sélectionnés à être noir */
+      .opm-id-label.selected, text[data-selected="true"] {
+        fill: black !important;
+      }
+      
+      /* Règle CSS pour les textes adjacent aux rectangles jaunes */
+      svg rect[fill="#FFFF00"] + text,
+      svg rect[style*="fill: #FFFF00"] + text,
+      svg rect[fill="#FFFF00"] ~ text.opm-id-label,
+      text.selected {
+        fill: black !important;
+      }
+      
+      #edit-value-popup {
+        position: absolute;
+        background-color: rgba(17, 24, 39, 0.95);
+        border: solid 1px #4b5563;
+        border-radius: 5px;
+        padding: 15px;
+        color: #e5e7eb;
+        z-index: 20;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        display: none;
+      }
+      #edit-value-popup.active {
+        display: block;
+      }
+      .value-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .value-btn {
+        background-color: #4b5563;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        width: 30px;
+        height: 30px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .value-btn:hover {
+        background-color: #6b7280;
+      }
+      .value-display {
+        background-color: #374151;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 3px;
+        min-width: 40px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .save-changes-btn {
+        margin-top: 10px;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 8px 12px;
+        width: 100%;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .save-changes-btn:hover {
+        background-color: #2563eb;
+      }
+      
+      /* Styles pour le mode sombre */
+      .dark-mode {
+          background-color: #1a202c;
+          color: #e2e8f0;
+      }
+      
+      /* Éléments d'interface générale */
+      .dark-mode .bg-white,
+      .dark-mode .bg-gray-50,
+      .dark-mode .bg-gray-100,
+      .dark-mode .saved-selection,
+      .dark-mode #app-container {
+          background-color: #2d3748 !important;
+          color: #e2e8f0;
+      }
+      
+      .dark-mode #saved-selections-container {
+          background-color: #1f2937 !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.35) !important;
+      }
+      
+      .dark-mode h1, 
+      .dark-mode h2 {
+          color: #4299e1 !important;
+      }
+      
+      /* Textes */
+      .dark-mode .text-gray-900,
+      .dark-mode .text-gray-800,
+      .dark-mode .text-gray-700,
+      .dark-mode .text-gray-600 {
+          color: #e2e8f0 !important;
+      }
+      
+      /* Bordures */
+      .dark-mode .border,
+      .dark-mode .border-gray-200,
+      .dark-mode .border-gray-300,
+      .dark-mode .saved-selection {
+          border-color: #4a5568 !important;
+      }
+      
+      /* Ombres */
+      .dark-mode .shadow {
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Message aucune sauvegarde */
+      .dark-mode #no-saved-selections {
+          background-color: #2d3748 !important;
+      }
+      
+      .dark-mode #no-saved-selections p {
+          color: #cbd5e0 !important;
+      }
+      
+      @keyframes holographic {
+          0% { 
+              opacity: 0.85; 
+              transform: scale(1) perspective(500px) rotateY(-3deg);
+              text-shadow: 0 0 6px #00ffff, 0 0 10px #00ffff, 0 0 14px rgba(183, 0, 255, 0.6);
+              box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), inset 0 0 5px rgba(0, 255, 255, 0.4);
+              filter: brightness(0.9) contrast(1.1);
+          }
+          33% {
+              opacity: 0.95;
+              transform: scale(1.03) perspective(500px) rotateY(-1deg);
+              text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+              box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), inset 0 0 8px rgba(0, 255, 255, 0.5);
+              filter: brightness(1.1) contrast(1.2);
+          }
+          66% { 
+              opacity: 1; 
+              transform: scale(1.05) perspective(500px) rotateY(1deg);
+              text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px rgba(183, 0, 255, 0.8);
+              box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 12px rgba(0, 255, 255, 0.6);
+              filter: brightness(1.2) contrast(1.3);
+          }
+          100% { 
+              opacity: 0.9; 
+              transform: scale(1) perspective(500px) rotateY(3deg);
+              text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+              box-shadow: 0 0 12px rgba(0, 255, 255, 0.7), inset 0 0 7px rgba(0, 255, 255, 0.5);
+              filter: brightness(1) contrast(1.2);
+          }
+      }
+
+      /* Styles pour le conteneur de scrolling de la heatmap */
+      #heatmap-container {
+        position: relative;
+        width: 100%;
+        overflow: auto;
+        max-height: 800px; /* Hauteur maximale avant défilement */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      
+      #heatmap-svg-element {
+        width: auto; /* Ajuster automatiquement à la taille du contenu */
+        height: auto; /* Ajuster automatiquement à la taille du contenu */
+        min-width: 100%; /* Pour s'assurer qu'il remplit au moins tout l'espace disponible */
+        display: block; /* Pour éliminer les espaces blancs sous le SVG */
+      }
+      
+      /* Style pour meilleure lisibilité des OPM IDs */
+      .opm-id-label {
+        font-size: 16px;
+        font-weight: bold;
+        fill: black;
+        dominant-baseline: central;
+        text-anchor: middle;
+      }
+      
+      /* Styles personnalisés pour les barres de défilement */
+      #heatmap-container::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+      
+      #heatmap-container::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      
+      #heatmap-container::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        border: 3px solid rgba(0, 0, 0, 0.2);
+      }
+      
+      #heatmap-container::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        #heatmap-container {
+          max-height: 500px;
+          }
+      }
+    </style>
+
+    <!-- Style inline pour forcer les textes sur fond jaune à être noirs -->
+    <style id="dynamic-opm-styles">
+    </style>
+</head>
+<body>
+    <!-- Ajout de la navbar -->
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="shrink-0 flex items-center">
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA</span>
+                        <span class="text-2xl font-bold text-white">DCWF</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="{% url 'main' %}"
+                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <!-- Dark Mode Toggle Button -->
+                        <button type="button" id="darkModeToggle"
+                                class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mr-3">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Toggle Dark Mode</span>
+                            <svg id="moonIcon" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                            <svg id="sunIcon" class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Profile dropdown -->
+                        <div class="relative ml-3">
+                            {% if user.is_authenticated %}
+                            <div class="flex items-center">
+                                <span class="text-sm text-white mr-3">
+                                    <span class="font-semibold">Matricule:</span> {{ user.matricule }}
+                                </span>
+                                <a href="{% url 'logout' %}" class="text-red-300 hover:text-red-100 text-sm font-medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Déconnexion
+                                </a>
+                            </div>
+                            {% else %}
+                            <a href="{% url 'main' %}" class="text-green-300 hover:text-green-100 text-sm font-medium">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                </svg>
+                                Connexion
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <!-- Mobile menu button -->
+                    <button type="button" id="mobile-menu-button"
+                            class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                            aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu open: "hidden", Menu closed: "block" -->
+                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                        </svg>
+                        <!-- Menu open: "block", Menu closed: "hidden" -->
+                        <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <a href="{% url 'main' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                    Home
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="app-container" class="bg-white text-gray-800 flex flex-col items-center p-4 md:p-8 min-h-screen">
+      <header class="mb-8 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-600">
+          Relation entre les Domaines de Compétences NCWF et les Rôles DCWF
+        </h1>
+        <p id="heatmap-subtitle" class="text-gray-600 mt-2">
+          Visualisation de l'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF
+        </p>
+      </header>
+      
+      <!-- Liste des sauvegardes KSAT -->
+      <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-600">Sélections sauvegardées</h2>
+        
+        <ul id="saved-selections-list" class="divide-y divide-gray-200">
+          <!-- La liste sera remplie dynamiquement par JavaScript -->
+        </ul>
+        
+        <!-- Message si aucune sauvegarde -->
+        <div id="no-saved-selections" class="p-4 bg-gray-100 rounded-lg text-center">
+          <p class="text-gray-600">Aucune sélection sauvegardée.</p>
+        </div>
+      </div>
+      
+      <!-- Bouton pour réinitialiser la vue de la heatmap -->
+      <div class="w-full max-w-7xl flex justify-end mb-4">
+        <button id="reset-view-btn" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+          </svg>
+          Réinitialiser la heatmap
+        </button>
+      </div>
+      
+      <!-- La heatmap/tableau doit toujours être sombre -->
+      <main id="heatmap-main" class="w-full max-w-full bg-gray-800 p-6 rounded-lg shadow-lg text-gray-100">
+        <div id="heatmap-container" class="relative" style="overflow: auto; max-height: 800px;">
+          <div style="min-width: 3000px; min-height: 1600px;">
+            <svg id="heatmap-svg-element" style="width: 100%; height: 100%;"></svg>
+          </div>
+          <div id="heatmap-tooltip-element"></div>
+          <div id="edit-value-popup">
+            <div id="edit-popup-title">Modifier la valeur</div>
+            <div class="value-controls">
+              <button class="value-btn" id="decrease-value">-</button>
+              <div class="value-display" id="current-value">0</div>
+              <button class="value-btn" id="increase-value">+</button>
+            </div>
+            <button class="save-changes-btn" id="save-value-btn">Appliquer</button>
+          </div>
+        </div>
+      </main>
+
+      <footer class="mt-12 text-center text-gray-600 text-sm">
+        <p>
+          Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF.
+        </p>
+        <p>Sources: <a href="https://niccs.cisa.gov/tools/nice-framework/competency-area" class="text-blue-500 hover:underline">NICCS CISA</a> et <a href="https://dl.dod.cyber.mil/wp-content/uploads/dcwf/ElementsMap/story.html" class="text-blue-500 hover:underline">DoD Cyber Workforce Framework</a></p>
+      </footer>
+    </div>
+
+    <script>
+      // --- Constants ---
+      const MAX_RELEVANCE_VALUE = 5;
+
+      // Les 15 domaines de compétence du NCWF (mis à jour selon les spécifications)
+      const competencyAreas = [
+        "Access Controls (NF-COM-001)",
+        "Artificial Intelligence (AI) Security (NF-COM-002)",
+        "Asset Management (NF-COM-003)",
+        "Cloud Security (NF-COM-004)",
+        "Communications Security (NF-COM-005)",
+        "Cryptography (NF-COM-006)",
+        "Cyber Resiliency (NF-COM-007)",
+        "DevSecOps (NF-COM-008)",
+        "Operating Systems (OS) Security (NF-COM-009)",
+        "Operational Technology (OT) Security (NF-COM-010)",
+        "Supply Chain Security (NF-COM-011)",
+        "Cybersecurity Fundamentals (NF-COM-12)",
+        "Cybersecurity Leadership (NF-COM-13)",
+        "Data Security (NF-COM-14)",
+        "Secure Programming (NF-COM-15)"
+      ];
+
+      // Liste des OPM IDs identifiés dans le code
+      const opmIds = [
+        "111", "112", "121", "131", "132", "141", "151", 
+        "211", "212", "221", "312", "321", "331", "332", "333", "334",
+        "411", "421", "422", "441", "443", "451", "461", 
+        "511", "521", "531", "541", 
+        "612", "621", "622", "631", "632", "641", "651", "652", "661", "671",
+        "722", "723", "731", "752", 
+        "801", "802", "803", "804", "805", "901"
+      ];
+
+      // Solution radicale pour empêcher les cases jaunes
+      function removeYellowBoxes() {
+        console.log("Recherche d'éléments jaunes...");
+        
+        // 1. Cibler tous les rectangles du SVG
+        const allRects = document.querySelectorAll('svg rect');
+        console.log(`${allRects.length} rectangles trouvés`);
+        
+        // 2. Trouver ceux qui sont jaunes (FFFF00 ou jaune)
+        allRects.forEach(rect => {
+          const fill = rect.getAttribute('fill');
+          if (fill && (fill.toLowerCase() === '#ffff00' || fill.toLowerCase() === 'yellow')) {
+            console.log(`Rectangle jaune trouvé:`, rect);
+            rect.setAttribute('fill', '#6b7280');
+            rect.style.fill = '#6b7280';
+          }
+        });
+        
+        // 3. Injecter du CSS directement pour tous les rectangles jaunes
+        const styleTag = document.createElement('style');
+        styleTag.textContent = `
+          svg rect[fill="#FFFF00"], 
+          svg rect[fill="#ffff00"], 
+          svg rect[fill="yellow"] {
+            fill: #6b7280 !important;
+          }
+        `;
+        document.head.appendChild(styleTag);
+        
+        // 4. Vérifier tous les styles inline
+        let yellowFound = false;
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+          if (el.style && el.style.fill === '#FFFF00' || el.style.fill === '#ffff00' || el.style.fill === 'yellow') {
+            console.log("Élément avec style inline jaune trouvé:", el);
+            el.style.fill = '#6b7280';
+            yellowFound = true;
+          }
+          
+          if (el.style && el.style.backgroundColor === '#FFFF00' || el.style.backgroundColor === '#ffff00' || el.style.backgroundColor === 'yellow') {
+            console.log("Élément avec background jaune trouvé:", el);
+            el.style.backgroundColor = '#6b7280';
+            yellowFound = true;
+          }
+        });
+        
+        if (yellowFound) {
+          console.log("Des éléments jaunes ont été trouvés et modifiés");
+        }
+      }
+
+      // Fonction pour s'assurer que les rectangles OPM ID ne sont jamais jaunes
+      function enforceStyling() {
+        // Sélectionner tous les rectangles d'en-tête OPM ID
+        const headerRects = document.querySelectorAll('.opm-header-rect, rect[y="1201"]');
+        if (headerRects.length > 0) {
+          headerRects.forEach(rect => {
+            // Forcer la couleur grise
+            rect.setAttribute('fill', '#6b7280');
+            rect.style.fill = '#6b7280';
+          });
+          
+          // Sélectionner tous les labels OPM ID
+          const labels = document.querySelectorAll('.opm-id-label');
+          labels.forEach(label => {
+            // Forcer la couleur blanche
+            label.setAttribute('fill', 'white');
+            label.style.fill = 'white';
+          });
+          
+          console.log('Styles OPM ID forcés appliqués');
+        } else {
+          // Si les éléments n'existent pas encore, réessayer plus tard
+          setTimeout(enforceStyling, 500);
+        }
+        
+        // Appeler la solution radicale
+        removeYellowBoxes();
+      }
+
+      // Données pour les rôles et la heatmap
+      let roleData = [];
+      let heatmapData = [];
+
+      // Fonction pour normaliser un ID à partir d'un titre
+      function normalizeId(title) {
+        return title
+          .replace(/[^a-zA-Z0-9]/g, '_')  // Remplacer les caractères spéciaux par des underscores
+          .replace(/_+/g, '_')            // Remplacer les underscores multiples par un seul
+          .replace(/^_|_$/g, '')          // Supprimer les underscores au début et à la fin
+          .toLowerCase();                 // Tout en minuscules
+      }
+
+      // Données d'intensité de relation entre domaines de compétence et OPM IDs
+      function buildHeatmapDataset() {
+        // Créer un dataset vide
+        const dataset = [];
+        
+        // On peut définir des valeurs prédéfinies pour représenter la force de la relation
+        // entre les domaines de compétence et les rôles professionnels
+        // Ces valeurs sont générées à titre d'exemple et devront être affinées
+        
+        // Pour chaque domaine de compétence
+        for (let i = 0; i < competencyAreas.length; i++) {
+          let row = [];
+          // Pour chaque OPM ID
+          for (let j = 0; j < opmIds.length; j++) {
+            // Générer une valeur aléatoire entre 0 et 5 pour illustrer
+            // Dans une version réelle, cette valeur serait déterminée par une analyse
+            // des exigences du rôle par rapport au domaine de compétence
+            let relationValue;
+            
+            // Justification des valeurs selon les domaines et rôles
+            switch(competencyAreas[i]) {
+              case "Access Controls (NF-COM-001)":
+                // Plus important pour les rôles de sécurité et administration système
+                relationValue = ["411", "421", "422", "441", "511"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Artificial Intelligence (AI) Security (NF-COM-002)":
+                // Plus important pour les rôles d'analyse de données et recherche
+                relationValue = ["801", "802", "803", "804", "805"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3);      // 0-2 pour les autres
+                break;
+                
+              case "Asset Management (NF-COM-003)":
+                // Important pour les rôles de gestion et inventaire
+                relationValue = ["511", "521", "531", "541"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Cloud Security (NF-COM-004)":
+                // Crucial pour les rôles cloud et architectes
+                relationValue = ["652", "651", "441"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Communications Security (NF-COM-005)":
+                // Important pour les rôles réseau et communications
+                relationValue = ["421", "422", "631", "632"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Cryptography (NF-COM-006)":
+                // Critique pour les rôles de sécurité et développement sécurisé
+                relationValue = ["612", "621", "622"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3);      // 0-2 pour les autres
+                break;
+                
+              case "Cyber Resiliency (NF-COM-007)":
+                // Essentiel pour les rôles de réponse aux incidents et continuité
+                relationValue = ["331", "332", "333", "334"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "DevSecOps (NF-COM-008)":
+                // Fondamental pour le développement sécurisé et l'automatisation
+                relationValue = ["612", "621", "622", "641"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 2) + 1;  // 1-2 pour les autres
+                break;
+                
+              case "Operating Systems (OS) Security (NF-COM-009)":
+                // Base pour tous les rôles d'administration et sécurité
+                relationValue = ["411", "412", "441", "451"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Operational Technology (OT) Security (NF-COM-010)":
+                // Important pour les environnements industriels et IoT
+                relationValue = ["651", "652", "671"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
+                break;
+                
+              case "Supply Chain Security (NF-COM-011)":
+                // Critique pour la gestion des risques liés aux fournisseurs
+                relationValue = ["211", "212", "221"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
+                break;
+                
+              case "Cybersecurity Fundamentals (NF-COM-12)":
+                // Base pour tous les professionnels de cybersécurité
+                relationValue = Math.floor(Math.random() * 2) + 3;  // 3-4 pour tous
+                break;
+                
+              case "Cybersecurity Leadership (NF-COM-13)":
+                // Essentiel pour les rôles de direction et gestion
+                relationValue = ["111", "112", "121", "722", "901"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 2) + 1;  // 1-2 pour les autres
+                break;
+                
+              case "Data Security (NF-COM-14)":
+                // Crucial pour la protection des données sensibles
+                relationValue = ["641", "621", "622", "631"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
+                break;
+                
+              case "Secure Programming (NF-COM-15)":
+                // Fondamental pour les développeurs et testeurs de sécurité
+                relationValue = ["612", "621", "622"].includes(opmIds[j]) ? 
+                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
+                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
+                break;
+                
+              default:
+                // Valeur par défaut si aucune règle spécifique
+                relationValue = Math.floor(Math.random() * 5) + 1;
+            }
+            
+            row.push({
+              domain: competencyAreas[i],
+              opmId: opmIds[j],
+              value: relationValue
+            });
+          }
+          dataset.push(row);
+        }
+        return dataset;
+      }
+
+      // Fonction pour dessiner la heatmap
+      function drawHeatmap() {
+        const heatmapData = buildHeatmapDataset();
+        // Augmenter les marges, surtout à droite et en bas pour éviter la coupure
+        const margin = { top: 100, right: 150, bottom: 200, left: 300 };
+        // Augmenter la largeur pour s'assurer que tous les OPM IDs sont visibles
+        const width = Math.max(1800, opmIds.length * 45) - margin.left - margin.right;
+        // Augmenter la hauteur pour plus d'espace
+        const height = 1200 - margin.top - margin.bottom;
+        const cellSize = Math.min(40, width / opmIds.length);
+        const cellHeight = Math.min(40, height / competencyAreas.length);
+        
+        // Nettoyage du SVG existant au cas où
+        d3.select("#heatmap-svg-element").selectAll("*").remove();
+        
+        // Échelles de couleur pour la heatmap
+        const colorScale = d3.scaleSequential()
+          .domain([0, 5])
+          .interpolator(d3.interpolateInferno);  // Utiliser une palette de couleurs adaptée
+          
+        // Préparer l'élément SVG avec taille ajustée
+        const svg = d3.select("#heatmap-svg-element")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+          
+        // Créer les échelles X et Y
+        const xScale = d3.scaleBand()
+          .domain(opmIds)
+          .range([0, width])
+          .padding(0.15); // Augmenter le padding pour plus d'espace entre les colonnes
+
+        const yScale = d3.scaleBand()
+          .domain(competencyAreas)
+          .range([0, height])
+          .padding(0.1); // Augmenter le padding pour plus d'espace entre les lignes
+
+        // Ajouter les axes
+        // Fond jaune pour les labels d'axe X avec taille ajustée
+        svg.append("g")
+          .selectAll("rect")
+          .data(opmIds)
+          .enter()
+          .append("rect")
+          .attr("x", d => xScale(d))
+          .attr("y", height + 1)
+          .attr("width", xScale.bandwidth())
+          .attr("height", 50) // Augmenter la hauteur pour plus de visibilité
+          .attr("fill", "#6b7280") // Gris moyen au lieu de jaune
+          .attr("class", "opm-header-rect") // Ajouter une classe pour cibler facilement
+          .attr("data-opmid", d => d); // Ajouter l'attribut data-opmid pour identifier
+          
+        // Textes des OPM IDs directement sur les rectangles jaunes pour une meilleure visibilité
+        svg.append("g")
+          .selectAll("text")
+          .data(opmIds)
+          .enter()
+          .append("text")
+          .attr("class", "opm-id-label")
+          .attr("x", d => xScale(d) + xScale.bandwidth() / 2)
+          .attr("y", height + 25) // Centré verticalement dans le rectangle jaune
+          .text(d => d)
+          .style("font-size", "16px")
+          .style("font-weight", "bold")
+          .style("fill", "white"); // Texte blanc pour meilleur contraste
+        
+        // Axe Y - Domaines de compétence avec police plus grande
+        svg.append("g")
+          .call(d3.axisLeft(yScale))
+          .selectAll("text")
+          .style("font-size", "14px") // Augmenter la taille de la police
+          .style("font-weight", "bold")
+          .call(wrap, margin.left - 30);  // Wrap le texte avec plus d'espace
+          
+        // Fonction pour wrap le texte long
+        function wrap(text, width) {
+          text.each(function() {
+            const text = d3.select(this);
+            const words = text.text().split(/\s+/).reverse();
+            let word, line = [], lineNumber = 0, lineHeight = 1.1;
+            const y = text.attr("y");
+            const dy = parseFloat(text.attr("dy") || 0);
+            let tspan = text.text(null).append("tspan").attr("x", -15).attr("y", y).attr("dy", dy + "em");
+            
+            while (word = words.pop()) {
+              line.push(word);
+              tspan.text(line.join(" "));
+              if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan").attr("x", -15).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word);
+              }
+            }
+          });
+        }
+         
+        // Créer les cellules de la heatmap
+        for (let i = 0; i < competencyAreas.length; i++) {
+          const domain = competencyAreas[i];
+          for (let j = 0; j < opmIds.length; j++) {
+            const opmId = opmIds[j];
+            const value = heatmapData[i][j].value;
+            
+            svg.append("rect")
+              .attr("x", xScale(opmId))
+              .attr("y", yScale(domain))
+              .attr("width", xScale.bandwidth())
+              .attr("height", yScale.bandwidth())
+              .attr("fill", colorScale(value))
+              .attr("class", "heatmap-cell")
+              .attr("data-domain", domain)
+              .attr("data-opmid", opmId)
+              .attr("data-value", value)
+              .on("mouseover", function(event, d) {
+                // Afficher le tooltip
+                const tooltip = d3.select("#heatmap-tooltip-element");
+                tooltip.style("opacity", 1);
+                tooltip.html(`
+                  <div class="font-bold">${domain}</div>
+                  <div>OPM ID: ${opmId}</div>
+                  <div>Intensité: ${value}/5</div>
+                  <div class="mt-2 text-xs">Cliquez pour modifier la valeur</div>
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+              })
+              .on("mouseout", function() {
+                // Masquer le tooltip
+                d3.select("#heatmap-tooltip-element").style("opacity", 0);
+              })
+              .on("click", function(event) {
+                // Afficher le popup d'édition
+                const cell = d3.select(this);
+                const domain = cell.attr("data-domain");
+                const opmId = cell.attr("data-opmid");
+                const value = cell.attr("data-value");
+                
+                const popup = d3.select("#edit-value-popup");
+                popup.classed("active", true);
+                popup.style("left", (event.pageX - 50) + "px")
+                     .style("top", (event.pageY - 100) + "px");
+                
+                d3.select("#edit-popup-title").html(`
+                  Modifier la valeur<br>
+                  <span class="text-sm font-normal">${domain}<br>OPM ID: ${opmId}</span>
+                `);
+                
+                d3.select("#current-value").text(value);
+                
+                // Stocker les données pour le bouton "Appliquer"
+                popup.attr("data-domain", domain)
+                     .attr("data-opmid", opmId)
+                     .attr("data-cell-index-i", i)
+                     .attr("data-cell-index-j", j);
+              });
+              
+            // Ajouter le texte de valeur dans chaque cellule
+            svg.append("text")
+              .attr("x", xScale(opmId) + xScale.bandwidth() / 2)
+              .attr("y", yScale(domain) + yScale.bandwidth() / 2)
+              .attr("dy", "0.35em")
+              .attr("text-anchor", "middle")
+              .style("font-size", "12px")
+              .style("font-weight", "bold")
+              .style("fill", value > 2.5 ? "white" : "black")
+              .text(value);
+          }
+        }
+        
+        // Titre de la heatmap
+        svg.append("text")
+          .attr("x", width / 2)
+          .attr("y", -40)
+          .attr("text-anchor", "middle")
+          .style("font-size", "20px")
+          .style("font-weight", "bold")
+          .text("Heatmap des 15 Domaines de Compétence NICE par OPM ID");
+          
+        svg.append("text")
+          .attr("x", width / 2)
+          .attr("y", -15)
+          .attr("text-anchor", "middle")
+          .style("font-size", "14px")
+          .text("Intensité de la relation entre les domaines de compétence et les OPM IDs (0-5)");
+          
+        // Légende pour l'échelle de couleur
+        const legendWidth = 300;
+        const legendHeight = 20;
+        
+        const legendScale = d3.scaleLinear()
+          .domain([0, 5])
+          .range([0, legendWidth]);
+          
+        const legendAxis = d3.axisBottom(legendScale)
+          .tickValues([0, 1, 2, 3, 4, 5])
+          .tickFormat(d => d);
+          
+        const legend = svg.append("g")
+          .attr("transform", `translate(${width - legendWidth - 50},${height + 100})`);
+          
+        // Gradient de couleur pour la légende
+        legend.append("defs")
+          .append("linearGradient")
+          .attr("id", "legend-gradient")
+          .attr("x1", "0%").attr("y1", "0%")
+          .attr("x2", "100%").attr("y2", "0%")
+          .selectAll("stop")
+          .data([
+            {offset: "0%", color: colorScale(0)},
+            {offset: "20%", color: colorScale(1)},
+            {offset: "40%", color: colorScale(2)},
+            {offset: "60%", color: colorScale(3)},
+            {offset: "80%", color: colorScale(4)},
+            {offset: "100%", color: colorScale(5)}
+          ])
+          .enter().append("stop")
+          .attr("offset", d => d.offset)
+          .attr("stop-color", d => d.color);
+          
+        legend.append("rect")
+          .attr("width", legendWidth)
+          .attr("height", legendHeight)
+          .style("fill", "url(#legend-gradient)");
+          
+        legend.append("g")
+          .attr("transform", `translate(0,${legendHeight})`)
+          .call(legendAxis);
+          
+        legend.append("text")
+          .attr("x", 0)
+          .attr("y", -10)
+          .style("font-size", "14px")
+          .text("Échelle d'intensité");
+      }
+      
+      // Handler pour le bouton d'augmentation de valeur
+      document.getElementById("increase-value").addEventListener("click", function() {
+        const valueDisplay = document.getElementById("current-value");
+        let currentValue = parseInt(valueDisplay.textContent);
+        if (currentValue < MAX_RELEVANCE_VALUE) {
+          currentValue++;
+          valueDisplay.textContent = currentValue;
+        }
+      });
+      
+      // Handler pour le bouton de diminution de valeur
+      document.getElementById("decrease-value").addEventListener("click", function() {
+        const valueDisplay = document.getElementById("current-value");
+        let currentValue = parseInt(valueDisplay.textContent);
+        if (currentValue > 0) {
+          currentValue--;
+          valueDisplay.textContent = currentValue;
+        }
+      });
+      
+      // Handler pour le bouton de sauvegarde des changements
+      document.getElementById("save-value-btn").addEventListener("click", function() {
+        const popup = document.getElementById("edit-value-popup");
+        const domain = popup.getAttribute("data-domain");
+        const opmId = popup.getAttribute("data-opmid");
+        const i = parseInt(popup.getAttribute("data-cell-index-i"));
+        const j = parseInt(popup.getAttribute("data-cell-index-j"));
+        const newValue = parseInt(document.getElementById("current-value").textContent);
+        
+        // Mettre à jour la valeur dans le dataset
+        heatmapData[i][j].value = newValue;
+        
+        // Mettre à jour la cellule dans le SVG
+        const cell = d3.select(`rect.heatmap-cell[data-domain="${domain}"][data-opmid="${opmId}"]`);
+        cell.attr("data-value", newValue)
+            .attr("fill", d3.scaleSequential().domain([0, 5]).interpolator(d3.interpolateInferno)(newValue));
+        
+        // Mettre à jour le texte de la valeur
+        const cellText = d3.select(`text[x="${parseFloat(cell.attr("x")) + parseFloat(cell.attr("width")) / 2}"][y="${parseFloat(cell.attr("y")) + parseFloat(cell.attr("height")) / 2}"]`);
+        if (cellText.node()) {
+            cellText.text(newValue)
+                .style("fill", newValue > 2.5 ? "white" : "black");
+        }
+        
+        // Fermer le popup
+        popup.classList.remove("active");
+      });
+      
+      // Initialisation de la heatmap et de l'interface
+      document.addEventListener("DOMContentLoaded", function() {
+        // Afficher la heatmap
+        document.getElementById("heatmap-main").classList.remove("hidden");
+        
+        // Dessiner la heatmap
+        console.log("Initialisation de la heatmap avec", window.opmIds ? window.opmIds.length : 0, "OPM IDs");
+        if (typeof drawHeatmap === 'function') {
+          drawHeatmap();
+          // Forcer les styles après le chargement de la heatmap
+          setTimeout(enforceStyling, 500);
+        } else {
+          console.error("La fonction drawHeatmap n'est pas disponible");
+        }
+        
+        // Appliquer le forçage des styles périodiquement au cas où
+        setInterval(enforceStyling, 2000);
+        
+        // Mode sombre
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const htmlElement = document.getElementById('htmlElement');
+        
+        // Vérifier la préférence de l'utilisateur pour le mode sombre
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (storedDarkMode || (!localStorage.getItem('darkMode') && prefersDarkMode)) {
+          enableDarkMode();
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+          if (htmlElement.classList.contains('dark-mode')) {
+            disableDarkMode();
+          } else {
+            enableDarkMode();
+          }
+        });
+        
+        function enableDarkMode() {
+            htmlElement.classList.add('dark-mode');
+              moonIcon.classList.add('hidden');
+              sunIcon.classList.remove('hidden');
+          localStorage.setItem('darkMode', 'true');
+            }
+        
+        function disableDarkMode() {
+            htmlElement.classList.remove('dark-mode');
+              sunIcon.classList.add('hidden');
+          moonIcon.classList.remove('hidden');
+          localStorage.setItem('darkMode', 'false');
+        }
+      });
+    </script>
+    
+    <script>
+      // Fonction pour charger les sauvegardes depuis le localStorage et/ou le serveur
+      function loadSavedSelections() {
+        const savedSelectionsList = document.getElementById('saved-selections-list');
+        const noSavedSelectionsMsg = document.getElementById('no-saved-selections');
+        
+        // Essayer de récupérer les données du localStorage
+        const ksatSelections = JSON.parse(localStorage.getItem('ksatSelections') || '[]');
+        const savedKsat = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+        
+        // Combiner et trier par date (les plus récentes en premier)
+        const allSelections = [...ksatSelections, ...savedKsat].sort((a, b) => {
+          return new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0);
+        });
+        
+        if (allSelections.length === 0) {
+          // Aucune sauvegarde trouvée
+          savedSelectionsList.classList.add('hidden');
+          noSavedSelectionsMsg.classList.remove('hidden');
+          return;
+        }
+        
+        // Des sauvegardes ont été trouvées
+        savedSelectionsList.classList.remove('hidden');
+        noSavedSelectionsMsg.classList.add('hidden');
+        
+        // Vider la liste existante
+        savedSelectionsList.innerHTML = '';
+        
+        // Ajouter chaque sauvegarde à la liste
+        allSelections.forEach(selection => {
+          const li = document.createElement('li');
+          li.className = 'py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-gray-200 last:border-none';
+          
+          // Créer le contenu de l'élément de liste
+          const dateFormatted = new Date(selection.timestamp || selection.date || Date.now()).toLocaleDateString('fr-FR', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          // Infos de la sauvegarde
+          const info = document.createElement('div');
+          info.className = 'mb-2 sm:mb-0';
+          
+          const title = document.createElement('h3');
+          title.className = 'text-lg font-medium text-gray-900';
+          title.textContent = selection.name || selection.title || `Sauvegarde du ${dateFormatted}`;
+          
+          const dateEl = document.createElement('p');
+          dateEl.className = 'text-sm text-gray-500';
+          dateEl.textContent = `Créée le ${dateFormatted}`;
+          
+          // Ajouter les infos
+          info.appendChild(title);
+          info.appendChild(dateEl);
+          
+          // Boutons d'action
+          const actions = document.createElement('div');
+          actions.className = 'flex space-x-2 mt-3 sm:mt-0';
+          
+          // Bouton Visualiser
+          const viewBtn = document.createElement('a');
+          viewBtn.href = `#${selection.id || ''}`;
+          viewBtn.className = 'px-3 py-1.5 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition';
+          viewBtn.textContent = 'Visualiser';
+          viewBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Fonction pour visualiser cette sauvegarde
+            visualizeSelection(selection);
+          });
+          
+          // Bouton Étape 3
+          const step3Btn = document.createElement('a');
+          step3Btn.href = "#";
+          step3Btn.className = 'px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition';
+          step3Btn.textContent = 'Étape 3';
+          step3Btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Appliquer la sélection et passer à l'étape summary_chart
+            applySelectionAndGoToSummary(selection);
+          });
+          
+          // Ajouter les boutons
+          actions.appendChild(viewBtn);
+          actions.appendChild(step3Btn);
+          
+          // Assembler l'élément
+          li.appendChild(info);
+          li.appendChild(actions);
+          
+          // Ajouter à la liste
+          savedSelectionsList.appendChild(li);
+        });
+      }
+      
+      // Fonction pour visualiser une sélection
+      function visualizeSelection(selection) {
+        console.log('Visualisation de la sélection:', selection);
+        
+        // 1. Extraire les OPM IDs de la sélection
+        const roles = selection.roles || selection.ksats || [];
+        const opmIds = [];
+        
+        roles.forEach(role => {
+          const opmId = role.opm_id || role.opmId;
+          if (opmId) {
+            // Extraire uniquement les chiffres si l'OPM ID contient du texte
+            const numericMatch = opmId.toString().match(/\d+/);
+            const cleanId = numericMatch ? numericMatch[0] : opmId;
+            
+            if (!opmIds.includes(cleanId)) {
+              opmIds.push(cleanId);
+            }
+          }
+        });
+        
+        console.log('OPM IDs trouvés dans la sélection:', opmIds);
+        
+        // Afficher les OPM IDs pour débogage
+        // alert("OPM IDs trouvés : " + opmIds.join(", "));
+        
+        // 2. Mise à jour du titre de la page pour indiquer le filtre
+        const subtitle = document.getElementById('heatmap-subtitle');
+        if (subtitle) {
+          subtitle.innerHTML = `
+            <span class="font-medium">Sélection en cours:</span> 
+            ${selection.name || selection.title || 'Sélection personnalisée'} 
+            <span class="font-medium">(${opmIds.length} OPM IDs)</span>
+            <span class="ml-2 text-sm">
+              <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Effacer le filtre
+              </button>
+            </span>
+          `;
+          
+          // Ajouter un gestionnaire d'événements pour effacer le filtre
+          document.getElementById('clear-filter-btn').addEventListener('click', () => {
+            // Restaurer le sous-titre original
+            subtitle.textContent = 'Visualisation de l\'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+            
+            // Réinitialiser la heatmap
+            if (window.heatmapInstance && typeof window.heatmapInstance.resetFilters === 'function') {
+              window.heatmapInstance.resetFilters();
+            } else {
+              // Si la fonction resetFilters n'existe pas, recharger la page
+              location.reload();
+            }
+          });
+        }
+        
+        // 3. Mettre à jour la heatmap pour n'afficher que les OPM IDs sélectionnés
+        if (window.heatmapInstance && typeof window.heatmapInstance.filterByOpmIds === 'function') {
+          // Si la fonction existe déjà, l'utiliser
+          window.heatmapInstance.filterByOpmIds(opmIds);
+        } else {
+          // Sinon, implémenter la fonctionnalité de filtrage sur place
+          
+          // Récupérer toutes les cellules de la heatmap
+          const cells = document.querySelectorAll('.heatmap-cell');
+          
+          // Récupérer tous les rectangles d'en-tête des OPM IDs
+          const headerRects = document.querySelectorAll('.opm-header-rect, rect[y="1201"], svg rect');
+          
+          console.log(`Nombre de rectangles trouvés: ${headerRects.length}`);
+          
+          // Parcourir toutes les cellules et les masquer/afficher selon les OPM IDs
+          cells.forEach(cell => {
+            const cellOpmId = cell.getAttribute('data-opmid');
+            
+            if (cellOpmId) {
+              // Si la cellule a un OPM ID et qu'il n'est pas dans notre liste, la rendre semi-transparente
+              if (!opmIds.includes(cellOpmId)) {
+                cell.style.opacity = '0.2';
+              } else {
+                cell.style.opacity = '1';
+                // Ajouter une mise en évidence pour les cellules correspondantes
+                cell.style.stroke = 'white';
+                cell.style.strokeWidth = '2px';
+              }
+            }
+          });
+          
+          let foundCount = 0;
+          
+          // APPROCHE AGRESSIVE: Colorer tous les rectangles du bas de la page qui correspondent aux OPM IDs
+          const svgElem = document.querySelector('svg');
+          const allRects = svgElem.querySelectorAll('rect');
+          
+          allRects.forEach(rect => {
+            // Vérifier d'abord par attribut data-opmid
+            const rectOpmId = rect.getAttribute('data-opmid');
+            
+            // Vérifier aussi par le texte adjacent (pour les rectangles sans attribut data-opmid)
+            let matchById = rectOpmId && opmIds.includes(rectOpmId);
+            let matchByPosition = false;
+            
+            // Si pas de correspondance par ID, vérifier par position
+            if (!matchById) {
+              const rectY = parseFloat(rect.getAttribute('y'));
+              // Si le rectangle est en bas de la heatmap (où se trouvent les OPM IDs)
+              if (rectY > 1000) {
+                // Trouver des textes d'OPM ID proches de ce rectangle
+                const rectX = parseFloat(rect.getAttribute('x'));
+                const rectWidth = parseFloat(rect.getAttribute('width'));
+                const centerX = rectX + rectWidth/2;
+                
+                const texts = svgElem.querySelectorAll('text.opm-id-label, text');
+                for (const text of texts) {
+                  const textX = parseFloat(text.getAttribute('x'));
+                  const textContent = text.textContent.trim();
+                  
+                  // Si le texte est proche du rectangle et qu'il correspond à un OPM ID sélectionné
+                  if (Math.abs(textX - centerX) < 20 && opmIds.includes(textContent)) {
+                    matchByPosition = true;
+                    console.log(`Rectangle trouvé par position pour OPM ID ${textContent}`);
+                    break;
+                  }
+                }
+              }
+            }
+            
+            // Si c'est un rectangle correspondant à un OPM ID sélectionné
+            if (matchById || matchByPosition) {
+              // FORCER le style jaune directement et avec plusieurs approches
+              rect.setAttribute('fill', '#FFFF00');
+              rect.style.fill = '#FFFF00';
+              rect.setAttribute('data-selected', 'true');
+              rect.classList.add('selected');
+              
+              // Appliquer une bordure noire
+              rect.setAttribute('stroke', '#000000');
+              rect.setAttribute('stroke-width', '1');
+              
+              foundCount++;
+              console.log(`Rectangle modifié pour OPM ID`);
+            } else if (parseFloat(rect.getAttribute('y')) > 1000) {
+              // Tous les autres rectangles du bas restent gris
+              rect.setAttribute('fill', '#6b7280');
+              rect.style.fill = '#6b7280';
+              rect.classList.remove('selected');
+              rect.removeAttribute('data-selected');
+            }
+          });
+          
+          console.log(`Nombre de rectangles modifiés en jaune: ${foundCount}`);
+          // Suppression de l'alerte de débogage
+          // alert(`${foundCount} rectangles OPM ID ont été mis en surbrillance en jaune`);
+          
+          // Si aucun rectangle n'a été trouvé, essayer une autre approche
+          if (foundCount === 0) {
+            // Essayer de cibler les rectangles par les coordonnées Y spécifiques
+            const specificYValues = [1201, 1202, 1203, 1204, 1205];
+            specificYValues.forEach(y => {
+              const rects = svgElem.querySelectorAll(`rect[y="${y}"]`);
+              rects.forEach(rect => {
+                rect.setAttribute('fill', '#FFFF00');
+                rect.style.fill = '#FFFF00';
+                console.log(`Rectangle à y=${y} forcé en jaune`);
+              });
+            });
+          }
+          
+          // Fonction pour réinitialiser le filtre
+          window.heatmapInstance = window.heatmapInstance || {};
+          window.heatmapInstance.filterByOpmIds = function(ids) {
+            cells.forEach(cell => {
+              const cellOpmId = cell.getAttribute('data-opmid');
+              
+              if (cellOpmId) {
+                if (!ids.includes(cellOpmId)) {
+                  cell.style.opacity = '0.2';
+                  cell.style.stroke = 'none';
+                } else {
+                  cell.style.opacity = '1';
+                  cell.style.stroke = 'white';
+                  cell.style.strokeWidth = '2px';
+                }
+              }
+            });
+            
+            // APPROCHE AGRESSIVE pour les rectangles du bas
+            const svgElem = document.querySelector('svg');
+            const allRects = svgElem.querySelectorAll('rect');
+            let foundCount = 0;
+            
+            allRects.forEach(rect => {
+              const rectOpmId = rect.getAttribute('data-opmid');
+              let matchById = rectOpmId && ids.includes(rectOpmId);
+              let matchByPosition = false;
+              
+              // Si pas de correspondance par ID, vérifier par position
+              if (!matchById) {
+                const rectY = parseFloat(rect.getAttribute('y'));
+                if (rectY > 1000) {
+                  const rectX = parseFloat(rect.getAttribute('x'));
+                  const rectWidth = parseFloat(rect.getAttribute('width'));
+                  const centerX = rectX + rectWidth/2;
+                  
+                  const texts = svgElem.querySelectorAll('text.opm-id-label, text');
+                  for (const text of texts) {
+                    const textX = parseFloat(text.getAttribute('x'));
+                    const textContent = text.textContent.trim();
+                    
+                    if (Math.abs(textX - centerX) < 20 && ids.includes(textContent)) {
+                      matchByPosition = true;
+                      break;
+                    }
+                  }
+                }
+              }
+              
+              if (matchById || matchByPosition) {
+                rect.setAttribute('fill', '#FFFF00');
+                rect.style.fill = '#FFFF00';
+                rect.classList.add('selected');
+                rect.setAttribute('data-selected', 'true');
+                rect.setAttribute('stroke', '#000000');
+                rect.setAttribute('stroke-width', '1');
+                foundCount++;
+              } else if (parseFloat(rect.getAttribute('y')) > 1000) {
+                rect.setAttribute('fill', '#6b7280');
+                rect.style.fill = '#6b7280';
+                rect.classList.remove('selected');
+                rect.removeAttribute('data-selected');
+              }
+            });
+            
+            console.log(`Nombre de rectangles mis en jaune: ${foundCount}`);
+          };
+          
+          // Fonction pour réinitialiser le filtre
+          window.heatmapInstance.resetFilters = function() {
+            cells.forEach(cell => {
+              cell.style.opacity = '1';
+              cell.style.stroke = 'none';
+            });
+            
+            // Réinitialiser les couleurs des rectangles d'en-tête
+            const svgElem = document.querySelector('svg');
+            const allRects = svgElem.querySelectorAll('rect');
+            
+            allRects.forEach(rect => {
+              if (parseFloat(rect.getAttribute('y')) > 1000) {
+                rect.setAttribute('fill', '#6b7280');
+                rect.style.fill = '#6b7280';
+                rect.classList.remove('selected');
+                rect.removeAttribute('data-selected');
+                rect.setAttribute('stroke', 'none');
+              }
+            });
+            
+            // Réinitialiser les textes OPM ID en blanc
+            const textsElements = svgElem.querySelectorAll('text');
+            textsElements.forEach(text => {
+              const textContent = text.textContent.trim();
+              if (/^\d{3}$/.test(textContent)) { // Si c'est un OPM ID (3 chiffres)
+                text.style.fill = 'white';
+                text.setAttribute('fill', 'white');
+              }
+            });
+            
+            // Utiliser notre fonction globale de réinitialisation si disponible
+            if (window.resetAllOpmIdHighlights) {
+              window.resetAllOpmIdHighlights();
+            }
+          };
+        }
+        
+        // 4. Faire défiler jusqu'à la heatmap
+        document.getElementById('heatmap-container').scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      // Fonction pour appliquer la sélection et passer à l'étape du summary_chart
+      function applySelectionAndGoToSummary(selection) {
+        console.log('Application de la sélection et passage au summary_chart:', selection);
+        
+        // Préparer les données dans le bon format pour summary_chart
+        // Le summary_chart s'attend à trouver les OPM IDs dans un objet spécifique
+        // On s'assure que les rôles et OPM IDs sont correctement formatés
+        
+        // 1. Vérifier que la sélection contient des rôles ou des KSATs
+        const roles = selection.roles || selection.ksats || [];
+        
+        // 2. Formater les données pour le summary chart
+        const formattedData = {
+          roles: roles.map(role => {
+            // S'assurer que les OPM IDs sont au bon format
+            // Le format attendu est une propriété opmId qui contient un nombre
+            return {
+              ...role,
+              opmId: role.opm_id || role.opmId || (role.id ? role.id.toString() : '')
+            };
+          }),
+          timestamp: new Date().toISOString(),
+          fromEtape2: true,
+          title: selection.name || selection.title || `Sélection du ${new Date().toLocaleString('fr-FR')}`
+        };
+        
+        console.log('Données formatées pour summary chart:', formattedData);
+        
+        // 3. Sauvegarder dans les deux formats utilisés par l'application
+        localStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
+        localStorage.setItem('activateStep3', 'true');
+        
+        // 4. Sauvegarder aussi dans serverStorage si disponible
+        if (typeof serverStorage !== 'undefined' && typeof serverStorage.setItem === 'function') {
+          try {
+            serverStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
+            console.log('Données sauvegardées dans serverStorage');
+          } catch (e) {
+            console.error('Erreur lors de la sauvegarde dans serverStorage:', e);
+          }
+        }
+        
+        // Rediriger vers la page summary_chart_full
+        window.location.href = "{% url 'summary_chart' %}";
+      }
+      
+      // Charger les sauvegardes au chargement de la page
+      document.addEventListener('DOMContentLoaded', function() {
+        loadSavedSelections();
+        
+        // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
+        const resetViewBtn = document.getElementById('reset-view-btn');
+        if (resetViewBtn) {
+          resetViewBtn.addEventListener('click', function() {
+            // Réinitialiser le sous-titre
+            const subtitle = document.getElementById('heatmap-subtitle');
+            if (subtitle) {
+              subtitle.textContent = 'Visualisation de l\'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+            }
+            
+            // Réinitialiser la heatmap
+            if (window.heatmapInstance && typeof window.heatmapInstance.resetFilters === 'function') {
+              window.heatmapInstance.resetFilters();
+            } else {
+              // Si la fonction resetFilters n'existe pas, utiliser la méthode alternative
+              const cells = document.querySelectorAll('.heatmap-cell');
+              cells.forEach(cell => {
+                cell.style.opacity = '1';
+                cell.style.stroke = 'none';
+              });
+              
+              // Réinitialiser les couleurs des rectangles d'en-tête
+              const headerRects = document.querySelectorAll('.opm-header-rect');
+              headerRects.forEach(rect => {
+                rect.setAttribute('fill', '#6b7280'); // Remettre tous en gris clair
+                rect.setAttribute('stroke', 'none'); // Enlever les bordures
+              });
+            }
+            
+            // Utiliser notre nouvelle fonction de réinitialisation
+            if (window.resetAllOpmIdHighlights) {
+              window.resetAllOpmIdHighlights();
+            }
+            
+            // Afficher un message de confirmation temporaire
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in-out';
+            notification.textContent = 'Vue réinitialisée';
+            notification.style.animation = 'fadeInOut 2s forwards';
+            document.body.appendChild(notification);
+            
+            // Supprimer la notification après 2 secondes
+            setTimeout(() => {
+              notification.remove();
+            }, 2000);
+          });
+        }
+      });
+      
+      // Ajouter une animation pour la notification
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateY(20px); }
+          20% { opacity: 1; transform: translateY(0); }
+          80% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-20px); }
+        }
+        .animate-fade-in-out {
+          animation: fadeInOut 2s forwards;
+        }
+      `;
+      document.head.appendChild(style);
+    </script>
+
+    <!-- Ajout d'un script pour cibler directement tous les éléments jaunes après le chargement complet -->
+    <script>
+      window.addEventListener('load', function() {
+        console.log("Page entièrement chargée, recherche d'éléments jaunes...");
+        
+        // Fonction exécutée après le chargement complet de la page
+        function fixAllYellowElements() {
+          // 1. Cibler directement tous les rectangles SVG avec fill="#FFFF00"
+          const yellowRects = document.querySelectorAll('rect[fill="#FFFF00"]:not(.selected), rect[fill="yellow"]:not(.selected)');
+          console.log(`${yellowRects.length} rectangles jaunes non sélectionnés trouvés`);
+          
+          yellowRects.forEach(rect => {
+            if (!rect.classList.contains('selected')) {
+              rect.setAttribute('fill', '#6b7280');
+              console.log("Rectangle jaune non sélectionné modifié");
+            }
+          });
+          
+          // 2. Capturer tous les éléments jaunes par leurs coordonnées potentielles
+          const bottomRects = document.querySelectorAll('svg rect');
+          bottomRects.forEach(rect => {
+            if (rect.classList.contains('selected')) {
+              return; // Ne pas modifier les rectangles sélectionnés
+            }
+            const y = parseFloat(rect.getAttribute('y'));
+            // Si le rectangle est en bas de la heatmap (où se trouvent les OPM IDs)
+            if (y > 1000) {
+              rect.setAttribute('fill', '#6b7280');
+              console.log(`Rectangle en bas modifié (y=${y})`);
+            }
+          });
+          
+          // 3. Injection CSS de haute priorité
+          const emergencyStyle = document.createElement('style');
+          emergencyStyle.innerHTML = `
+            rect[fill="#FFFF00"]:not(.selected), rect[fill="yellow"]:not(.selected), rect[fill="#ffff00"]:not(.selected) { 
+              fill: #6b7280 !important; 
+            }
+            /* Cibler par position potentielle, sauf si sélectionné */
+            svg rect[y="1201"]:not(.selected), svg rect[y^="12"]:not(.selected), svg rect[y$="01"]:not(.selected) {
+              fill: #6b7280 !important;
+            }
+            /* Cibler tout rectangle jaune sauf si sélectionné */
+            svg rect[style*="fill: #FFFF00"]:not(.selected), 
+            svg rect[style*="fill:#FFFF00"]:not(.selected),
+            svg rect[style*="fill: yellow"]:not(.selected),
+            svg rect[style*="fill:yellow"]:not(.selected) {
+              fill: #6b7280 !important;
+            }
+            /* S'assurer que les rectangles sélectionnés restent jaunes */
+            svg rect.selected {
+              fill: #FFFF00 !important;
+            }
+          `;
+          document.head.appendChild(emergencyStyle);
+        }
+        
+        // Exécuter immédiatement et répéter plusieurs fois pour s'assurer que ça fonctionne
+        fixAllYellowElements();
+        setTimeout(fixAllYellowElements, 500);
+        setTimeout(fixAllYellowElements, 1000);
+        setTimeout(fixAllYellowElements, 2000);
+      });
+    </script>
+    
+    <!-- Script qui force les OPM ID sélectionnés en jaune -->
+    <script>
+      // Attendre le chargement complet de la page
+      window.addEventListener('load', function() {
+        // Fonction de coloration forcée des OPM IDs
+        function forceSelectedOpmIdsYellow() {
+          console.log("Tentative de forçage des OPM IDs en jaune...");
+          
+          try {
+            // Récupérer le SVG
+            const svgElement = document.getElementById('heatmap-svg-element');
+            if (!svgElement) {
+              console.error("SVG non trouvé");
+              return;
+            }
+            
+            // Trouver tous les rectangles en bas de la heatmap (où sont les OPM IDs)
+            const rectElements = svgElement.querySelectorAll('rect');
+            const bottomRects = [];
+            
+            // Trouve le Y maximum (pour savoir où se situent les OPM IDs)
+            let maxY = 0;
+            rectElements.forEach(rect => {
+              const y = parseFloat(rect.getAttribute('y') || '0');
+              if (y > maxY) maxY = y;
+            });
+            
+            // Collecte tous les rectangles qui sont près du bas (OPM IDs)
+            const bottomY = maxY - 50; // Les 50 derniers pixels verticaux
+            rectElements.forEach(rect => {
+              const y = parseFloat(rect.getAttribute('y') || '0');
+              if (y >= bottomY) {
+                bottomRects.push(rect);
+              }
+            });
+            
+            console.log(`${bottomRects.length} rectangles trouvés en bas de la heatmap`);
+            
+            // Pour chaque rectangle en bas, obtenir le texte OPM ID correspondant
+            const textsElements = svgElement.querySelectorAll('text');
+            const opmIdToRect = {};
+            
+            bottomRects.forEach(rect => {
+              const rectX = parseFloat(rect.getAttribute('x') || '0');
+              const rectWidth = parseFloat(rect.getAttribute('width') || '0');
+              const rectCenterX = rectX + (rectWidth/2);
+              
+              // Trouver le texte correspondant à ce rectangle
+              textsElements.forEach(text => {
+                const textX = parseFloat(text.getAttribute('x') || '0');
+                const textContent = text.textContent.trim();
+                
+                // Si le texte est proche du centre du rectangle et ressemble à un OPM ID
+                if (Math.abs(textX - rectCenterX) < 15 && /^\d{3}$/.test(textContent)) {
+                  opmIdToRect[textContent] = rect;
+                }
+              });
+            });
+            
+            console.log("Correspondance OPM IDs -> Rectangles:", opmIdToRect);
+            
+            // Fonction pour appliquer la surbrillance jaune sur les rectangles d'OPM ID sélectionnés
+            window.highlightSelectedOpmIds = function(selectedIds) {
+              if (!selectedIds || !selectedIds.length) return;
+              
+              console.log("Tentative de surbrillance pour:", selectedIds);
+              
+              // Pour chaque ID, si on a trouvé le rectangle correspondant, l'afficher en jaune
+              selectedIds.forEach(id => {
+                const rect = opmIdToRect[id];
+                if (rect) {
+                  console.log(`Mise en jaune du rectangle pour OPM ID ${id}`);
+                  rect.style.fill = '#FFFF00';
+                  rect.setAttribute('fill', '#FFFF00');
+                  rect.dataset.selected = 'true';
+                  rect.classList.add('selected');
+                  
+                  // Trouver le texte associé à ce rectangle et le mettre en noir
+                  const rectX = parseFloat(rect.getAttribute('x') || '0');
+                  const rectWidth = parseFloat(rect.getAttribute('width') || '0');
+                  const rectCenterX = rectX + (rectWidth/2);
+                  
+                  textsElements.forEach(text => {
+                    const textX = parseFloat(text.getAttribute('x') || '0');
+                    const textContent = text.textContent.trim();
+                    
+                    // Si ce texte correspond à l'OPM ID et est proche du rectangle
+                    if (Math.abs(textX - rectCenterX) < 15 && textContent === id) {
+                      // Changer la couleur du texte en noir
+                      text.style.fill = 'black';
+                      text.setAttribute('fill', 'black');
+                    }
+                  });
+                }
+              });
+            };
+
+            // Ajouter une fonction pour réinitialiser correctement tous les rectangles et textes
+            window.resetAllOpmIdHighlights = function() {
+              console.log("Réinitialisation de tous les rectangles OPM ID");
+              
+              // Réinitialiser tous les rectangles du bas
+              bottomRects.forEach(rect => {
+                rect.style.fill = '#6b7280';
+                rect.setAttribute('fill', '#6b7280');
+                rect.dataset.selected = 'false';
+                rect.classList.remove('selected');
+              });
+              
+              // Réinitialiser tous les textes associés en blanc
+              textsElements.forEach(text => {
+                const textContent = text.textContent.trim();
+                if (/^\d{3}$/.test(textContent)) { // Si c'est un OPM ID (3 chiffres)
+                  text.style.fill = 'white';
+                  text.setAttribute('fill', 'white');
+                }
+              });
+            };
+          } catch (error) {
+            console.error("Erreur lors du forçage des OPM IDs:", error);
+          }
+        }
+        
+        // Exécuter cette fonction après un court délai pour s'assurer que le SVG est chargé
+        setTimeout(forceSelectedOpmIds, 500);
+        setTimeout(forceSelectedOpmIds, 1000);
+        setTimeout(forceSelectedOpmIds, 2000);
+        
+        function forceSelectedOpmIds() {
+          forceSelectedOpmIdsYellow();
+          
+          // Modifier la fonction visualizeSelection pour utiliser notre nouvelle fonction
+          const originalVisualizeSelection = window.visualizeSelection;
+          if (originalVisualizeSelection) {
+            window.visualizeSelection = function(selection) {
+              // Appeler d'abord la fonction originale
+              originalVisualizeSelection(selection);
+              
+              // Puis forcer notre surbrillance
+              try {
+                const roles = selection.roles || selection.ksats || [];
+                const opmIds = [];
+                
+                roles.forEach(role => {
+                  const opmId = role.opm_id || role.opmId;
+                  if (opmId) {
+                    // Extraire uniquement les chiffres si l'OPM ID contient du texte
+                    const numericMatch = opmId.toString().match(/\d+/);
+                    const cleanId = numericMatch ? numericMatch[0] : opmId;
+                    
+                    if (!opmIds.includes(cleanId)) {
+                      opmIds.push(cleanId);
+                    }
+                  }
+                });
+                
+                // Appliquer notre surbrillance
+                setTimeout(() => window.highlightSelectedOpmIds(opmIds), 100);
+                setTimeout(() => window.highlightSelectedOpmIds(opmIds), 500);
+              } catch (error) {
+                console.error("Erreur lors de la surbrillance:", error);
+              }
+            };
+          }
+        }
+      });
+    </script>
+
+    <script>
+      // Fonction pour forcer les textes OPM ID sur fond jaune à être noirs
+      function forceTextColors() {
+        try {
+          // Créer ou récupérer le style dynamique
+          let styleEl = document.getElementById('dynamic-opm-styles');
+          if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = 'dynamic-opm-styles';
+            document.head.appendChild(styleEl);
+          }
+
+          // Créer une règle CSS pour cibler spécifiquement les textes des OPM ID
+          let css = '';
+          
+          // 1. Essayer de trouver tous les rectangles jaunes
+          const yellowRects = document.querySelectorAll('rect[fill="#FFFF00"], rect[style*="fill:#FFFF00"], rect.selected');
+          console.log(`Trouvé ${yellowRects.length} rectangles jaunes`);
+          
+          // Pour chaque rectangle jaune, trouver le texte associé et le styliser
+          yellowRects.forEach((rect, i) => {
+            const x = parseFloat(rect.getAttribute('x') || '0');
+            const y = parseFloat(rect.getAttribute('y') || '0');
+            const width = parseFloat(rect.getAttribute('width') || '0');
+            const centerX = x + width/2;
+            
+            // Ajouter une classe directement au rectangle pour le cibler plus facilement
+            rect.classList.add('yellow-opm-rect');
+            rect.setAttribute('data-opm-index', i);
+            
+            // Créer une règle pour les textes proches de ce rectangle
+            css += `
+              /* Rectangle jaune à position (${x}, ${y}) */
+              text[x="${centerX}"],
+              text[x="${Math.floor(centerX)}"],
+              text[x="${Math.ceil(centerX)}"] {
+                fill: black !important;
+              }
+            `;
+          });
+          
+          // Règle générique pour tous les textes des OPM ID
+          css += `
+            text.opm-id-label[style*="fill: white"],
+            text[style*="fill: white"] {
+              fill: black !important;
+            }
+          `;
+          
+          // Appliquer le CSS
+          styleEl.textContent = css;
+          
+          // Approche directe: appliquer la couleur noire à tous les textes d'OPM ID
+          const allTexts = document.querySelectorAll('svg text');
+          allTexts.forEach(text => {
+            const content = text.textContent.trim();
+            // Si c'est un OPM ID (3 chiffres)
+            if (/^\d{3}$/.test(content)) {
+              // Vérifier s'il est sur un rectangle jaune
+              const textX = parseFloat(text.getAttribute('x') || '0');
+              const textY = parseFloat(text.getAttribute('y') || '0');
+              
+              // Trouver tous les rectangles jaunes
+              document.querySelectorAll('rect[fill="#FFFF00"], rect.selected, rect[data-selected="true"]').forEach(rect => {
+                const rectX = parseFloat(rect.getAttribute('x') || '0');
+                const rectY = parseFloat(rect.getAttribute('y') || '0');
+                const rectWidth = parseFloat(rect.getAttribute('width') || '0');
+                const rectHeight = parseFloat(rect.getAttribute('height') || '0');
+                
+                // Si le texte est à l'intérieur ou près du rectangle jaune
+                if (Math.abs(textX - (rectX + rectWidth/2)) < 15 && Math.abs(textY - (rectY + rectHeight/2)) < 25) {
+                  console.log(`Texte OPM ID ${content} trouvé près d'un rectangle jaune`);
+                  text.style.fill = 'black';
+                  text.setAttribute('fill', 'black');
+                  text.classList.add('selected');
+                  text.dataset.selected = 'true';
+                }
+              });
+            }
+          });
+          
+        } catch (e) {
+          console.error("Erreur lors du forçage des couleurs de texte:", e);
+        }
+      }
+      
+      // Exécuter cette fonction périodiquement
+      setInterval(forceTextColors, 1000);
+      
+      // L'exécuter immédiatement après le chargement
+      window.addEventListener('load', () => {
+        setTimeout(forceTextColors, 500);
+        setTimeout(forceTextColors, 1000);
+        setTimeout(forceTextColors, 2000);
+      });
+    </script>
+</body>
+</html>
