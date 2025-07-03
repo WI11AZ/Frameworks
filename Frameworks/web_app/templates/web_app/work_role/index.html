@@ -1,0 +1,88 @@
+{% extends "web_app/template/base.html" %}
+
+{% block content %}
+    <main class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <!-- Role Title & Description -->
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h1 class="text-2xl font-bold text-gray-900">{{ work_role.title }}</h1>
+            <p class="text-gray-600 mt-2">{{ work_role.description }}</p>
+        </div>
+
+        <!-- KSATs Tabs -->
+        <div class="mt-6 bg-white p-6 rounded-lg shadow-lg">
+            <!-- Tab Navigation -->
+            <div class="flex border-b" id="tab-buttons">
+                <button data-tab="knowledge" class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
+                    Knowledge
+                </button>
+                <button data-tab="skill" class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
+                    Skills
+                </button>
+                <button data-tab="abilitie" class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
+                    Abilities
+                </button>
+                <button data-tab="task" class="tab-button px-4 py-2 text-gray-600 hover:text-blue-600 border-b-2">
+                    Tasks
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="mt-4 space-y-4" id="tab-contents">
+                {% for category, items in cat_dict.items %}
+                    <div id="{{ category }}" class="tab-content hidden">
+                        {% for item in items %}
+                            <div class="py-2">
+                                <p class="font-medium text-gray-800">{{ item.description }}</p>
+                                <ul class="mt-1 text-sm text-gray-600">
+                                    <li class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full inline-block m-1">
+                                        <a href="{{ item.url }}">DCWF: {{ item.dcwf_id }}</a>
+                                    </li>
+                                    {% if item.ncwf_2017_ksat %}
+                                        <li class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full inline-block m-1">
+                                            <a href="{{ item.ncwf_2017_ksat.url }}">
+                                                NCWF 2017: {{ item.ncwf_2017_ksat.ncwf_id }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <hr class="my-2">
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Tab Switching Logic
+            const tabs = document.querySelectorAll(".tab-button");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function () {
+                    // Remove active state from all tabs
+                    tabs.forEach(btn => btn.classList.remove("border-blue-500", "text-blue-600"));
+                    tab.classList.add("border-blue-500", "text-blue-600");
+
+                    // Hide all tab contents and show the selected one
+                    tabContents.forEach(content => content.classList.add("hidden"));
+                    document.getElementById(tab.getAttribute("data-tab")).classList.remove("hidden");
+                });
+            });
+
+            // Initialize first tab as active
+            tabs[0].click();
+
+            // Expand/Collapse Logic for KSAT items
+            document.querySelectorAll(".toggle-description").forEach(button => {
+                button.addEventListener("click", function () {
+                    const description = this.nextElementSibling;
+                    description.classList.toggle("hidden");
+                    this.querySelector("svg").classList.toggle("rotate-180");
+                });
+            });
+        });
+    </script>
+{% endblock %}

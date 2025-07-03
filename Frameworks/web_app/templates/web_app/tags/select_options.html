@@ -1,0 +1,9 @@
+<select class="{{ select_class }}" {% if select_id %}id="{{ select_id }}"{% endif %} {% if onchange_handler %}onchange="{{ onchange_handler }}"{% endif %}>
+  {% for option in options %}
+    <option value="{{ option.value }}" title="{{ option.title }}" data-description="{{ option.description|default:option.title }}">{{ option.value }}</option>
+  {% endfor %}
+  {% if not options %}
+    <option value="">-- Aucune option disponible --</option>
+  {% endif %}
+</select>
+<div class="info-tooltip hidden bg-gray-800 text-white p-3 rounded text-xs max-w-md w-80 absolute left-0 mt-1 z-20 leading-relaxed overflow-auto max-h-60 shadow-lg"></div>

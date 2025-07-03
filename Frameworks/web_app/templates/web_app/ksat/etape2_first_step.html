@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte des Compétences Cybersécurité</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="/static/js/serverStorage.js"></script>
+    <style>
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; }
+      #heatmap-svg-element {
+        width: 100%;
+        height: 800px;
+      }
+      #heatmap-tooltip-element {
+        opacity: 0;
+        position: absolute;
+        background-color: rgba(17, 24, 39, 0.9);
+        border: solid 1px #374151;
+        border-radius: 5px;
+        padding: 10px;
+        color: #e5e7eb;
+        pointer-events: none;
+        font-size: 12px;
+        z-index: 10;
+      }
+      .saved-selection {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        background-color: #f9fafb;
+        transition: all 0.2s ease;
+      }
+      .saved-selection:hover {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .selection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .heatmap-cell {
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+      .heatmap-cell:hover {
+        opacity: 0.8;
+        stroke: white;
+        stroke-width: 2px;
+      }
+      #edit-value-popup {
+        position: absolute;
+        background-color: rgba(17, 24, 39, 0.95);
+        border: solid 1px #4b5563;
+        border-radius: 5px;
+        padding: 15px;
+        color: #e5e7eb;
+        z-index: 20;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        display: none;
+      }
+      #edit-value-popup.active {
+        display: block;
+      }
+      .value-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .value-btn {
+        background-color: #4b5563;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        width: 30px;
+        height: 30px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .value-btn:hover {
+        background-color: #6b7280;
+      }
+      .value-display {
+        background-color: #374151;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 3px;
+        min-width: 40px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .save-changes-btn {
+        margin-top: 10px;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 8px 12px;
+        width: 100%;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .save-changes-btn:hover {
+        background-color: #2563eb;
+      }
+      
+      /* Styles pour le mode sombre */
+      .dark-mode {
+          background-color: #1a202c;
+          color: #e2e8f0;
+      }
+      
+      /* Éléments d'interface générale */
+      .dark-mode .bg-white,
+      .dark-mode .bg-gray-50,
+      .dark-mode .bg-gray-100,
+      .dark-mode .saved-selection,
+      .dark-mode #app-container {
+          background-color: #2d3748 !important;
+          color: #e2e8f0;
+      }
+      
+      .dark-mode #saved-selections-container {
+          background-color: #1f2937 !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.35) !important;
+      }
+      
+      .dark-mode h1, 
+      .dark-mode h2 {
+          color: #4299e1 !important;
+      }
+      
+      /* Textes */
+      .dark-mode .text-gray-900,
+      .dark-mode .text-gray-800,
+      .dark-mode .text-gray-700,
+      .dark-mode .text-gray-600 {
+          color: #e2e8f0 !important;
+      }
+      
+      /* Bordures */
+      .dark-mode .border,
+      .dark-mode .border-gray-200,
+      .dark-mode .border-gray-300,
+      .dark-mode .saved-selection {
+          border-color: #4a5568 !important;
+      }
+      
+      /* Ombres */
+      .dark-mode .shadow {
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Message aucune sauvegarde */
+      .dark-mode #no-saved-selections {
+          background-color: #2d3748 !important;
+      }
+      
+      .dark-mode #no-saved-selections p {
+          color: #cbd5e0 !important;
+      }
+      
+      @keyframes holographic {
+          0% { 
+              opacity: 0.85; 
+              transform: scale(1) perspective(500px) rotateY(-3deg);
+              text-shadow: 0 0 6px #00ffff, 0 0 10px #00ffff, 0 0 14px rgba(183, 0, 255, 0.6);
+              box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), inset 0 0 5px rgba(0, 255, 255, 0.4);
+              filter: brightness(0.9) contrast(1.1);
+          }
+          33% {
+              opacity: 0.95;
+              transform: scale(1.03) perspective(500px) rotateY(-1deg);
+              text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+              box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), inset 0 0 8px rgba(0, 255, 255, 0.5);
+              filter: brightness(1.1) contrast(1.2);
+          }
+          66% { 
+              opacity: 1; 
+              transform: scale(1.05) perspective(500px) rotateY(1deg);
+              text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px rgba(183, 0, 255, 0.8);
+              box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 12px rgba(0, 255, 255, 0.6);
+              filter: brightness(1.2) contrast(1.3);
+          }
+          100% { 
+              opacity: 0.9; 
+              transform: scale(1) perspective(500px) rotateY(3deg);
+              text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+              box-shadow: 0 0 12px rgba(0, 255, 255, 0.7), inset 0 0 7px rgba(0, 255, 255, 0.5);
+              filter: brightness(1) contrast(1.2);
+          }
+      }
+    </style>
+</head>
+<body>
+    <!-- Ajout de la navbar -->
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="shrink-0 flex items-center">
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA</span>
+                        <span class="text-2xl font-bold text-white">DCWF</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="{% url 'main' %}"
+                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <!-- Dark Mode Toggle Button -->
+                        <button type="button" id="darkModeToggle"
+                                class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mr-3">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Toggle Dark Mode</span>
+                            <svg id="moonIcon" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                            <svg id="sunIcon" class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                      d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Profile dropdown -->
+                        <div class="relative ml-3">
+                            {% if user.is_authenticated %}
+                            <div class="flex items-center">
+                                <span class="text-sm text-white mr-3">
+                                    <span class="font-semibold">Matricule:</span> {{ user.matricule }}
+                                </span>
+                                <a href="{% url 'logout' %}" class="text-red-300 hover:text-red-100 text-sm font-medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Déconnexion
+                                </a>
+                            </div>
+                            {% else %}
+                            <a href="{% url 'main' %}" class="text-green-300 hover:text-green-100 text-sm font-medium">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                </svg>
+                                Connexion
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <!-- Mobile menu button -->
+                    <button type="button" id="mobile-menu-button"
+                            class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                            aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu open: "hidden", Menu closed: "block" -->
+                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                        </svg>
+                        <!-- Menu open: "block", Menu closed: "hidden" -->
+                        <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <a href="{% url 'main' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                    Home
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="app-container" class="bg-white text-gray-800 flex flex-col items-center p-4 md:p-8 min-h-screen">
+      <header class="mb-8 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-600">
+          Relation entre les Domaines de Compétences NCWF et les Rôles DCWF
+        </h1>
+        <p id="heatmap-subtitle" class="text-gray-600 mt-2">
+          Visualisation de l'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF
+        </p>
+        <div class="mt-4">
+          <a href="{% url 'etape_deux' %}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+            </svg>
+            Modifier le mapping des domaines
+          </a>
+        </div>
+      </header>
+      
+      <!-- Sauvegardes KSAT -->
+      <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-600">Sélections KSAT sauvegardées</h2>
+        <div id="ksat-list" class="space-y-4"></div>
+        
+        <!-- Message si aucune sauvegarde -->
+        <div id="no-saved-selections" class="hidden p-4 bg-gray-100 rounded-lg text-center">
+          <p class="text-gray-600">Aucune sélection KSAT sauvegardée.</p>
+          <a href="{% url 'compare' %}" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block">
+            Aller à la page de comparaison
+          </a>
+        </div>
+      </div>
+      
+      <!-- La heatmap/tableau doit toujours être sombre -->
+      <main id="heatmap-main" class="w-full max-w-7xl bg-gray-800 p-6 rounded-lg shadow-lg hidden text-gray-100">
+        <div id="heatmap-container" class="relative">
+          <svg id="heatmap-svg-element"></svg>
+          <div id="heatmap-tooltip-element"></div>
+          <div id="edit-value-popup">
+            <div id="edit-popup-title">Modifier la valeur</div>
+            <div class="value-controls">
+              <button class="value-btn" id="decrease-value">-</button>
+              <div class="value-display" id="current-value">0</div>
+              <button class="value-btn" id="increase-value">+</button>
+            </div>
+            <button class="save-changes-btn" id="save-value-btn">Appliquer</button>
+          </div>
+        </div>
+      </main>
+
+      <footer class="mt-12 text-center text-gray-600 text-sm">
+        <p>
+          Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF.
+        </p>
+        <p>Sources: <a href="https://niccs.cisa.gov/tools/nice-framework/competency-area" class="text-blue-500 hover:underline">NICCS CISA</a> et <a href="https://dl.dod.cyber.mil/wp-content/uploads/dcwf/ElementsMap/story.html" class="text-blue-500 hover:underline">DoD Cyber Workforce Framework</a></p>
+      </footer>
+    </div>
+
+    <script>
+      // --- Constants ---
+      const MAX_RELEVANCE_VALUE = 5;
+
+      // Les 11 domaines de compétence du NCWF v2.0.0 (2024)
+      const competencyAreas = [
+        "Cybersecurity Governance",
+        "Data Security",
+        "Defense",
+        "Identity Management",
+        "Incident Management",
+        "Network Security",
+        "Platform Security",
+        "Risk Management",
+        "Security Engineering",
+        "Software Security",
+        "Threat Analysis"
+      ];
+
+      // Données pour les rôles et la heatmap
+      let roleData = [];
+      let heatmapData = [];
+
+      // Fonction pour normaliser un ID à partir d'un titre
+      function normalizeId(title) {
+        return title
+          .replace(/[^a-zA-Z0-9]/g, '_')  // Remplacer les caractères spéciaux par des underscores
+          .replace(/_+/g, '_')            // Remplacer les underscores multiples par un seul
+          .replace(/^_|_$/g, '')          // Supprimer les underscores au début et à la fin
+          .toLowerCase();                 // Tout en minuscules
+      }
+
+      // Données d'intensité de relation entre domaines de compétence et rôles
+      const buildHeatmapDataset = () => {
+        // Créer un dataset vide basé sur les roleData et competencyAreas
+        const dataset = [];
+        
+        // Données prédéfinies pour les relations entre domaines de compétence et rôles
+        // Basées sur le NCWF 2.0.0 et DCWF, ces valeurs représentent l'importance relative
+        // de chaque domaine de compétence pour les rôles professionnels communs
+        const competencyRoleMapping = {
+          // Cybersecurity Governance: très important pour les rôles de management et leadership
+          "Cybersecurity Governance": {
+            // Rôles de leadership et de gouvernance (valeurs élevées)
+            "executive_cyber_leader": 5,
+            "cyber_policy_and_strategy_planner": 5,
+            "information_systems_security_manager": 5,
+            "authorizing_official": 5,
+            "privacy_compliance_manager": 4,
+            "security_control_assessor": 4,
+            // Rôles techniques avec responsabilités de gouvernance (valeurs moyennes)
+            "security_architect": 3,
+            "system_administrator": 2,
+            "cyber_defense_analyst": 2,
+            // Rôles opérationnels (valeurs plus basses)
+            "cyber_defense_incident_responder": 2,
+            "technical_support_specialist": 1
+          },
+          
+          // Data Security: crucial pour tous les rôles liés à la protection des données
+          "Data Security": {
+            "database_administrator": 5,
+            "data_analyst": 5,
+            "data_scientist": 5,
+            "security_architect": 4,
+            "cyber_defense_analyst": 4,
+            "secure_software_assessor": 4,
+            "information_systems_security_developer": 4,
+            "cyber_defense_forensics_analyst": 3,
+            "system_administrator": 3,
+            "network_operations_specialist": 3,
+            "vulnerability_assessment_analyst": 3
+          },
+          
+          // Defense: essentiel pour les rôles de protection active
+          "Defense": {
+            "cyber_defense_analyst": 5,
+            "cyber_defense_incident_responder": 5,
+            "cyber_defense_infrastructure_support_specialist": 5,
+            "vulnerability_assessment_analyst": 4,
+            "security_architect": 4,
+            "cyber_operations_planner": 4,
+            "network_operations_specialist": 3,
+            "system_administrator": 3,
+            "information_systems_security_manager": 3
+          },
+          
+          // Identity Management: important pour les rôles liés aux accès et authentification
+          "Identity Management": {
+            "system_administrator": 5,
+            "security_architect": 4,
+            "information_systems_security_developer": 4,
+            "cyber_defense_infrastructure_support_specialist": 4,
+            "network_operations_specialist": 3,
+            "cyber_defense_analyst": 3,
+            "database_administrator": 3,
+            "executive_cyber_leader": 2
+          },
+          
+          // Incident Management: crucial pour les rôles de réponse aux incidents
+          "Incident Management": {
+            "cyber_defense_incident_responder": 5,
+            "cyber_defense_analyst": 5,
+            "cyber_defense_forensics_analyst": 5,
+            "cyber_crime_investigator": 4,
+            "information_systems_security_manager": 4,
+            "network_operations_specialist": 3,
+            "system_administrator": 3,
+            "technical_support_specialist": 2
+          },
+          
+          // Network Security: fondamental pour les rôles de réseau
+          "Network Security": {
+            "network_operations_specialist": 5,
+            "cyber_defense_infrastructure_support_specialist": 5,
+            "security_architect": 4,
+            "cyber_defense_analyst": 4,
+            "vulnerability_assessment_analyst": 4,
+            "system_administrator": 3,
+            "information_systems_security_developer": 3,
+            "cyber_defense_incident_responder": 3
+          },
+          
+          // Platform Security: important pour les administrateurs systèmes
+          "Platform Security": {
+            "system_administrator": 5,
+            "cyber_defense_infrastructure_support_specialist": 5,
+            "security_architect": 4,
+            "information_systems_security_developer": 4,
+            "cyber_defense_analyst": 3,
+            "secure_software_assessor": 3,
+            "network_operations_specialist": 3,
+            "executive_cyber_leader": 2
+          },
+          
+          // Risk Management: crucial pour la gestion des risques et conformité
+          "Risk Management": {
+            "executive_cyber_leader": 5,
+            "cyber_policy_and_strategy_planner": 5,
+            "information_systems_security_manager": 5,
+            "authorizing_official": 5,
+            "security_control_assessor": 5,
+            "vulnerability_assessment_analyst": 4,
+            "security_architect": 4,
+            "cyber_defense_analyst": 3,
+            "system_administrator": 2
+          },
+          
+          // Security Engineering: fondamental pour les développeurs de sécurité
+          "Security Engineering": {
+            "security_architect": 5,
+            "information_systems_security_developer": 5,
+            "secure_software_assessor": 5,
+            "software_developer": 4,
+            "systems_developer": 4,
+            "vulnerability_assessment_analyst": 4,
+            "cyber_defense_infrastructure_support_specialist": 3,
+            "system_administrator": 2
+          },
+          
+          // Software Security: essentiel pour le développement sécurisé
+          "Software Security": {
+            "software_developer": 5,
+            "secure_software_assessor": 5,
+            "information_systems_security_developer": 5,
+            "systems_developer": 5,
+            "security_architect": 4,
+            "vulnerability_assessment_analyst": 3,
+            "cyber_defense_analyst": 2,
+            "system_administrator": 2
+          },
+          
+          // Threat Analysis: fondamental pour l'analyse des menaces
+          "Threat Analysis": {
+            "cyber_defense_analyst": 5,
+            "vulnerability_assessment_analyst": 5,
+            "cyber_defense_incident_responder": 4,
+            "cyber_defense_forensics_analyst": 4,
+            "cyber_crime_investigator": 4,
+            "security_architect": 3,
+            "information_systems_security_manager": 3,
+            "executive_cyber_leader": 2
+          }
+        };
+        
+        // Table de correspondance pour normaliser les IDs de rôles
+        // Pour faire correspondre les rôles DCWF aux entrées dans notre mapping
+        const roleIdMapping = {
+          // Rôles communs DCWF avec leurs ID normalisés pour notre mapping
+          "system_admin": "system_administrator",
+          "systems_administrator": "system_administrator",
+          "security_analyst": "cyber_defense_analyst",
+          "incident_response": "cyber_defense_incident_responder",
+          "network_admin": "network_operations_specialist",
+          "network_administrator": "network_operations_specialist",
+          "cybersecurity_manager": "information_systems_security_manager",
+          "security_engineer": "security_architect",
+          "security_assessor": "security_control_assessor",
+          "developer": "software_developer",
+          "security_developer": "information_systems_security_developer",
+          "forensics_analyst": "cyber_defense_forensics_analyst",
+          "executive": "executive_cyber_leader",
+          "cyber_policy": "cyber_policy_and_strategy_planner",
+          // Ajouter d'autres correspondances selon les besoins
+        };
+        
+        competencyAreas.forEach(comp => {
+          roleData.forEach(role => {
+            // Normaliser l'ID du rôle pour la recherche dans le mapping
+            let normalizedRoleId = role.id.toLowerCase();
+            
+            // Vérifier si nous avons une correspondance dans notre table de mapping
+            if (roleIdMapping[normalizedRoleId]) {
+              normalizedRoleId = roleIdMapping[normalizedRoleId];
+            }
+            
+            // Valeur par défaut
+            let value = 0;
+            
+            // Vérifier si nous avons une valeur prédéfinie pour cette combinaison
+            if (competencyRoleMapping[comp] && competencyRoleMapping[comp][normalizedRoleId] !== undefined) {
+              value = competencyRoleMapping[comp][normalizedRoleId];
+            } else {
+              // Pour les rôles non prédéfinis, utiliser une méthode déterministe
+              // Cette méthode assure que la même combinaison aura toujours la même valeur
+              const roleHash = role.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              const compHash = comp.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              value = Math.min(((roleHash + compHash) % (MAX_RELEVANCE_VALUE + 1)), MAX_RELEVANCE_VALUE);
+            }
+            
+            dataset.push({
+              competency: comp,
+              role: role.id,
+              value: value
+            });
+          });
+        });
+        return dataset;
+      };
+
+      // --- Heatmap Chart Rendering ---
+      function renderHeatmapChart() {
+        // Vérifier si nous avons des rôles à afficher
+        if (roleData.length === 0) {
+          console.error("Aucun rôle à afficher");
+          return;
+        }
+
+        // Rendre la section heatmap visible
+        document.getElementById('heatmap-main').classList.remove('hidden');
+        
+        // S'assurer que le heatmap a toujours un fond sombre, même si le reste de l'application est en mode clair
+        document.getElementById('heatmap-main').classList.add('bg-gray-800');
+        document.getElementById('heatmap-main').classList.add('text-gray-100');
+        document.getElementById('heatmap-main').classList.add('shadow-lg');
+        
+        // Calculer les dimensions du graphique
+        const chartContainer = document.getElementById('heatmap-container');
+        const availableWidth = chartContainer ? chartContainer.offsetWidth : 1000;
+        const chartWidth = Math.min(availableWidth, 1200);
+        const chartHeight = 800;
+        const margin = { 
+            top: 50, 
+            right: (availableWidth > 600 ? 80 : 40), 
+            bottom: 150, 
+            left: (availableWidth > 600 ? 200 : 120) 
+        };
+
+        const svgElement = d3.select('#heatmap-svg-element')
+          .attr('width', chartWidth)
+          .attr('height', chartHeight);
+
+        svgElement.html(''); // Nettoyer les rendus précédents
+
+        const g = svgElement.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        const chartAreaWidth = chartWidth - margin.left - margin.right;
+        const chartAreaHeight = chartHeight - margin.top - margin.bottom;
+
+        // Créer les échelles
+        const xScale = d3.scaleBand()
+          .domain(roleData.map(r => r.id))
+          .range([0, chartAreaWidth])
+          .padding(0.05);
+
+        const yScale = d3.scaleBand()
+          .domain(competencyAreas)
+          .range([0, chartAreaHeight])
+          .padding(0.1);
+
+        const colorScale = d3.scaleSequential(d3.interpolateBlues)
+          .domain([0, MAX_RELEVANCE_VALUE]);
+
+        // Ajouter les axes
+        g.append('g')
+          .attr('class', 'x-axis')
+          .attr('transform', `translate(0,${chartAreaHeight})`)
+          .call(d3.axisBottom(xScale).tickSize(0))
+          .selectAll('text')
+            .attr('transform', 'translate(-10,5)rotate(-45)')
+            .style('text-anchor', 'end')
+            .style('fill', '#9ca3af')
+            .style('font-size', '11px')
+            .text(d => {
+              // Trouver le rôle correspondant
+              const role = roleData.find(r => r.id === d);
+              if (role) {
+                // Afficher le titre du rôle (limité à 20 caractères)
+                const truncatedTitle = role.title.length > 20 
+                  ? role.title.substring(0, 17) + '...'
+                  : role.title;
+                return truncatedTitle;
+              }
+              return d;
+            });
+        
+        g.selectAll('.x-axis path.domain').style('stroke', '#4b5563');
+        g.selectAll('.x-axis .tick line').style('stroke', '#4b5563');
+
+        g.append('g')
+          .attr('class', 'y-axis')
+          .call(d3.axisLeft(yScale).tickSize(0))
+          .selectAll('text')
+            .style('fill', '#9ca3af')
+            .style('font-size', '11px')
+            .style('font-weight', 'bold');
+        
+        g.selectAll('.y-axis path.domain').style('stroke', '#4b5563');
+        g.selectAll('.y-axis .tick line').style('stroke', '#4b5563');
+
+        // Configurer l'infobulle
+        const tooltip = d3.select('#heatmap-tooltip-element');
+
+        // Configurez le popup d'édition
+        const editPopup = document.getElementById('edit-value-popup');
+        const popupTitle = document.getElementById('edit-popup-title');
+        const currentValueDisplay = document.getElementById('current-value');
+        const decreaseBtn = document.getElementById('decrease-value');
+        const increaseBtn = document.getElementById('increase-value');
+        const saveBtn = document.getElementById('save-value-btn');
+        
+        let currentEditingCell = null;
+        let currentValue = 0;
+
+        // Fonctions de gestion des événements de souris
+        const mouseover = function(event, d) {
+          tooltip.style('opacity', 1);
+          
+          // Mettre en évidence uniquement la cellule survolée
+          d3.select(this)
+            .style('stroke', '#ffffff')
+            .style('stroke-width', 2)
+            .style('opacity', 0.8);
+          
+          // Mettre en évidence l'en-tête du rôle
+          g.selectAll('.x-axis .tick')
+            .filter((t, i) => roleData[i].id === d.role)
+            .select('text')
+            .style('fill', '#ffffff')
+            .style('font-weight', 'bold');
+        };
+        
+        const mousemove = function(event, d) {
+          // Trouver le rôle correspondant
+          const role = roleData.find(r => r.id === d.role);
+          
+          // Obtenir la position du conteneur SVG
+          const svgRect = document.getElementById('heatmap-svg-element').getBoundingClientRect();
+          
+          // Calculer la position relative au conteneur SVG
+          const x = event.clientX - svgRect.left + 15; // 15px de décalage pour éviter que la souris ne cache l'infobulle
+          const y = event.clientY - svgRect.top - 30;  // 30px de décalage vers le haut
+          
+          tooltip
+            .html(
+              `<div style="border-left: 4px solid #3b82f6; padding-left: 8px;">
+               <strong>Domaine de compétence:</strong> ${d.competency}<br/>
+               <strong>Rôle:</strong> <span style="color: #3b82f6; font-weight: bold;">${role ? role.title : d.role}</span><br/>
+               <strong>Pertinence:</strong> <span style="color: ${d.value > 0 ? colorScale(d.value) : '#666'}; font-weight: bold;">${d.value} / ${MAX_RELEVANCE_VALUE}</span>
+               <div style="margin-top: 5px; font-style: italic; font-size: 10px;">Cliquez pour modifier la valeur</div>
+               </div>`
+            )
+            .style('left', x + 'px')
+            .style('top', y + 'px');
+        };
+        
+        const mouseleave = function(event, d) {
+          tooltip.style('opacity', 0);
+          
+          // Réinitialiser la cellule survolée
+          d3.select(this)
+            .style('stroke', 'none')
+            .style('opacity', 1);
+            
+          // Réinitialiser l'en-tête du rôle
+          g.selectAll('.x-axis .tick')
+            .filter((t, i) => roleData[i].id === d.role)
+            .select('text')
+            .style('fill', '#9ca3af')
+            .style('font-weight', 'normal');
+        };
+        
+        // Fonction pour afficher le popup d'édition
+        const cellClick = function(event, d) {
+          event.stopPropagation(); // Arrêter la propagation
+          
+          // Mémoriser la cellule en cours d'édition
+          currentEditingCell = d;
+          currentValue = d.value;
+          
+          // Mise à jour du popup
+          const role = roleData.find(r => r.id === d.role);
+          popupTitle.textContent = `Modifier: ${d.competency} - ${role ? role.title : d.role}`;
+          currentValueDisplay.textContent = d.value;
+          
+          // Obtenir la position du conteneur SVG
+          const svgRect = document.getElementById('heatmap-svg-element').getBoundingClientRect();
+          const cellRect = this.getBoundingClientRect();
+          
+          // Calculer la position relative au conteneur SVG
+          const x = cellRect.left - svgRect.left + (cellRect.width / 2) - (editPopup.offsetWidth / 2);
+          const y = cellRect.bottom - svgRect.top + 5; // 5px de marge sous la cellule
+          
+          // Positionner le popup centré sous la cellule
+          editPopup.style.left = Math.max(10, Math.min(x, svgRect.width - editPopup.offsetWidth - 10)) + 'px';
+          editPopup.style.top = Math.min(y, svgRect.height - editPopup.offsetHeight - 10) + 'px';
+          
+          // Afficher le popup
+          editPopup.classList.add('active');
+        };
+
+        // Ajouter les cellules de la heatmap
+        g.selectAll('.heatmap-cell')
+          .data(heatmapData)
+          .enter()
+          .append('rect')
+            .attr('class', 'heatmap-cell')
+            .attr('x', d => xScale(d.role))
+            .attr('y', d => yScale(d.competency))
+            .attr('rx', 2)
+            .attr('ry', 2)
+            .attr('width', xScale.bandwidth())
+            .attr('height', yScale.bandwidth())
+            .style('fill', d => d.value === 0 ? '#ffffff' : colorScale(d.value))
+            .style('stroke', 'none')
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseleave', mouseleave)
+            .on('click', cellClick);
+
+        // Ajouter la légende
+        const legendWidth = 300;
+        const legendHeight = 20;
+        const legendItemWidth = legendWidth / (MAX_RELEVANCE_VALUE + 1);
+
+        const legendSvg = g.append('g')
+          .attr('class', 'legend')
+          .attr('transform', `translate(${(chartAreaWidth - legendWidth) / 2}, ${chartAreaHeight + margin.bottom / 2 + 20})`);
+        
+        // Titre de la légende
+        legendSvg.append('text')
+          .attr('x', legendWidth / 2)
+          .attr('y', -10)
+          .attr('text-anchor', 'middle')
+          .style('font-size', '12px')
+          .style('fill', '#e5e7eb')
+          .style('font-weight', 'bold')
+          .text('Niveau de pertinence');
+        
+        legendSvg.append('text')
+          .attr('x', -10)
+          .attr('y', legendHeight / 2 + 4)
+          .attr('text-anchor', 'end')
+          .style('font-size', '10px')
+          .style('fill', '#9ca3af')
+          .text('Non applicable');
+
+        legendSvg.append('text')
+          .attr('x', legendWidth + 10)
+          .attr('y', legendHeight / 2 + 4)
+          .attr('text-anchor', 'start')
+          .style('font-size', '10px')
+          .style('fill', '#9ca3af')
+          .text('Très forte pertinence');
+
+        for (let i = 0; i <= MAX_RELEVANCE_VALUE; i++) {
+          legendSvg.append('rect')
+            .attr('x', i * legendItemWidth)
+            .attr('y', 0)
+            .attr('width', legendItemWidth)
+            .attr('height', legendHeight)
+            .style('fill', i === 0 ? '#ffffff' : colorScale(i));
+          
+          legendSvg.append('text')
+            .attr('x', i * legendItemWidth + legendItemWidth / 2)
+            .attr('y', legendHeight + 15)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '10px')
+            .style('fill', '#9ca3af')
+            .text(i);
+        }
+        
+        // Fermer le popup si on clique ailleurs
+        document.addEventListener('click', function(event) {
+          if (!editPopup.contains(event.target) && event.target.className !== 'heatmap-cell') {
+            editPopup.classList.remove('active');
+          }
+        });
+        
+        // Gérer les boutons d'augmentation/diminution
+        decreaseBtn.addEventListener('click', function() {
+          if (currentValue > 0) {
+            currentValue--;
+            currentValueDisplay.textContent = currentValue;
+          }
+        });
+        
+        increaseBtn.addEventListener('click', function() {
+          if (currentValue < MAX_RELEVANCE_VALUE) {
+            currentValue++;
+            currentValueDisplay.textContent = currentValue;
+          }
+        });
+        
+        // Gérer le bouton de sauvegarde
+        saveBtn.addEventListener('click', function() {
+          if (currentEditingCell) {
+            // Mettre à jour la valeur dans les données
+            currentEditingCell.value = currentValue;
+            
+            // Mettre à jour la couleur de la cellule
+            d3.selectAll('.heatmap-cell')
+              .filter(d => d === currentEditingCell)
+              .style('fill', currentValue === 0 ? '#ffffff' : colorScale(currentValue));
+            
+            // Fermer le popup
+            editPopup.classList.remove('active');
+            
+            // Sauvegarder les modifications dans la sauvegarde courante
+            saveCurrentKsatEdits();
+          }
+        });
+      }
+      
+      // Fonction pour sauvegarder les modifications de la heatmap dans la sauvegarde courante
+      function saveCurrentKsatEdits() {
+        try {
+          const saved = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+          const currentIndex = currentKsatIndex;
+          
+          if (currentIndex === undefined || currentIndex === null || !saved[currentIndex]) {
+            console.warn('Aucune sauvegarde active trouvée, création d\'une nouvelle sauvegarde');
+            // Créer une nouvelle sauvegarde
+            const newSelection = {
+              timestamp: new Date().toISOString(),
+              roles: roleData,
+              competencyMapping: heatmapData
+            };
+            saved.push(newSelection);
+            localStorage.setItem('ksatSavedSelections', JSON.stringify(saved));
+            return;
+          }
+          
+          // Mettre à jour les données de mapping dans la sauvegarde existante
+          saved[currentIndex].competencyMapping = heatmapData;
+          localStorage.setItem('ksatSavedSelections', JSON.stringify(saved));
+          
+          // Notification subtile
+          const notification = document.createElement('div');
+          notification.textContent = 'Modifications sauvegardées';
+          notification.style.position = 'fixed';
+          notification.style.bottom = '20px';
+          notification.style.right = '20px';
+          notification.style.backgroundColor = 'rgba(16, 185, 129, 0.9)';
+          notification.style.color = 'white';
+          notification.style.padding = '10px 20px';
+          notification.style.borderRadius = '5px';
+          notification.style.zIndex = '1000';
+          notification.style.transition = 'opacity 0.5s ease';
+          
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+              document.body.removeChild(notification);
+            }, 500);
+          }, 2000);
+          
+        } catch (error) {
+          console.error('Erreur lors de la sauvegarde des modifications:', error);
+        }
+      }
+
+      // Fonction pour charger les sauvegardes KSAT depuis localStorage
+      function loadSavedKsatSelections() {
+        const ksatList = document.getElementById('ksat-list');
+        const noMsg = document.getElementById('no-saved-selections');
+        let rawKsat = [];
+        
+        try {
+          rawKsat = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+        } catch(e) { 
+          console.error('Erreur lors du chargement des sauvegardes KSAT:', e); 
+        }
+        
+        if (!rawKsat.length) {
+          noMsg.classList.remove('hidden');
+          return;
+        }
+        
+        noMsg.classList.add('hidden');
+        
+        // Rendre les éléments KSAT
+        rawKsat.forEach((item, i) => {
+          const el = document.createElement('div');
+          el.className = 'saved-selection';
+          
+          // Déterminer le nombre de rôles sélectionnés
+          let numRoles = 0;
+          let rolesText = '';
+          
+          if (item.roles && Array.isArray(item.roles)) {
+            numRoles = item.roles.length;
+            // Extraire les premiers rôles pour l'affichage
+            const displayRoles = item.roles.slice(0, 3).map(r => r.title || r.id || "ID inconnu").join(', ');
+            rolesText = numRoles > 3 ? `${displayRoles}, ... (${numRoles} au total)` : displayRoles;
+          }
+          
+          const selectBtnId = `select-ksat-${i}`;
+          const editBtnId = `edit-ksat-${i}`;
+          const step3BtnId = `step3-ksat-${i}`;
+          
+          // Afficher le numéro de poste s'il existe
+          const jobNumber = item.jobNumber ? `<p class="text-sm text-gray-600 mt-1">Numéro de poste: <span class="font-semibold">${item.jobNumber}</span></p>` : '';
+          
+          el.innerHTML = `
+            <div class="selection-header">
+              <div>
+                <span class="text-gray-700 font-semibold">${new Date(item.timestamp).toLocaleString()}</span>
+                ${jobNumber}
+                ${rolesText ? `<p class="text-sm text-gray-600 mt-1">Rôles: ${rolesText}</p>` : ''}
+              </div>
+              <div class="space-x-2">
+                <button id="${editBtnId}" class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition">
+                  <i class="fas fa-edit mr-1"></i> Modifier
+                </button>
+                <button id="${selectBtnId}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                  <i class="fas fa-eye mr-1"></i> Visualiser
+                </button>
+                <button id="${step3BtnId}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition inline-flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                  Étape 3
+                </button>
+              </div>
+            </div>`;
+            
+          ksatList.appendChild(el);
+          
+          // Ajouter les écouteurs d'événement après avoir ajouté l'élément au DOM
+          setTimeout(() => {
+            const selectBtn = document.getElementById(selectBtnId);
+            const editBtn = document.getElementById(editBtnId);
+            const step3Btn = document.getElementById(step3BtnId);
+            
+            if (selectBtn) {
+              selectBtn.addEventListener('click', function() {
+                console.log(`Bouton visualiser cliqué pour l'index ${i}`);
+                selectKsatSelection(i);
+              });
+            }
+            
+            if (editBtn) {
+              editBtn.addEventListener('click', function() {
+                console.log(`Bouton modifier cliqué pour l'index ${i}`);
+                editKsatSelection(i);
+              });
+            }
+            
+            if (step3Btn) {
+              step3Btn.addEventListener('click', function() {
+                console.log(`Bouton étape 3 cliqué pour l'index ${i}`);
+                goToStep3WithSelection(i);
+              });
+            }
+          }, 0);
+        });
+      }
+      
+      // Fonction pour séléctionner une sauvegarde KSAT et afficher la heatmap correspondante
+      function selectKsatSelection(index) {
+        try {
+          const saved = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+          const item = saved[index];
+          
+          if (!item) {
+            console.error('Sélection KSAT invalide ou vide');
+            alert('Sélection KSAT invalide ou vide');
+            return;
+          }
+          
+          console.log('Sélection KSAT choisie:', item);
+          currentKsatIndex = index; // Stocker l'index actuel
+          
+          // Extraire les titres des rôles directement
+          if (item.roles && Array.isArray(item.roles) && item.roles.length > 0) {
+            // Filtrer les rôles pour n'avoir que ceux avec un titre
+            const validRoles = item.roles.filter(role => role && role.title);
+            
+            if (validRoles.length > 0) {
+              // Transformer les rôles en données utilisables pour la heatmap
+              roleData = validRoles.map(role => {
+                // S'assurer que chaque rôle a un OPM ID
+                if (!role.opmId && role.id) {
+                  const opmIdMatch = role.id.match(/\d+/);
+                  if (opmIdMatch) {
+                    role.opmId = opmIdMatch[0];
+                  }
+                }
+                
+                return {
+                  id: role.id || `role_${Math.random().toString(36).substring(2, 9)}`,
+                  title: role.title,
+                  framework: role.framework || 'DCWF',
+                  opmId: role.opmId || '',
+                  category_color: role.category_color || '59, 130, 246' // Bleu par défaut
+                };
+              });
+              
+              console.log('Données de rôle transformées:', roleData);
+              
+              // Vérifier si nous avons des données de mapping sauvegardées
+              if (item.competencyMapping && Array.isArray(item.competencyMapping)) {
+                heatmapData = item.competencyMapping;
+              } else {
+                // Sinon, générer les données de la heatmap
+                heatmapData = buildHeatmapDataset();
+              }
+              
+              // Rendre la heatmap
+              renderHeatmapChart();
+              
+              // Faire défiler jusqu'au heatmap
+              document.getElementById('heatmap-main').classList.remove('hidden');
+              document.getElementById('heatmap-main').scrollIntoView({behavior: 'smooth'});
+              return;
+            }
+          }
+          
+          // Si aucun rôle valide n'a été trouvé, créer des rôles par défaut
+          console.warn('Aucun rôle valide trouvé, utilisation des valeurs par défaut');
+          roleData = [
+            { id: 'system_admin', title: 'System Administration', framework: 'DCWF', category_color: '59, 130, 246' },
+            { id: 'security_analyst', title: 'Security Analyst', framework: 'DCWF', category_color: '250, 204, 21' },
+            { id: 'incident_response', title: 'Incident Response', framework: 'DCWF', category_color: '234, 88, 12' }
+          ];
+          
+          // Générer les données de la heatmap
+          heatmapData = buildHeatmapDataset();
+          
+          // Rendre la heatmap
+          renderHeatmapChart();
+          
+          // Faire défiler jusqu'au heatmap
+          document.getElementById('heatmap-main').classList.remove('hidden');
+          document.getElementById('heatmap-main').scrollIntoView({behavior: 'smooth'});
+          
+        } catch (error) {
+          console.error('Erreur lors de la sélection KSAT:', error);
+          console.error('Stack trace:', error.stack);
+          alert('Erreur: ' + error.message);
+        }
+      }
+
+      // Fonction pour éditer une sauvegarde KSAT spécifique
+      function editKsatSelection(index) {
+        // On utilise la même fonction que pour visualiser, mais on ajoute un message
+        // pour indiquer que l'utilisateur est en mode édition
+        selectKsatSelection(index);
+        
+        // Ajouter un message indiquant qu'on est en mode édition
+        const notification = document.createElement('div');
+        notification.textContent = 'Mode édition activé - Cliquez sur les cases pour modifier les valeurs';
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.left = '50%';
+        notification.style.transform = 'translateX(-50%)';
+        notification.style.backgroundColor = 'rgba(59, 130, 246, 0.9)';
+        notification.style.color = 'white';
+        notification.style.padding = '10px 20px';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '1000';
+        notification.style.fontSize = '14px';
+        notification.style.fontWeight = 'bold';
+        notification.style.textAlign = 'center';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 500);
+        }, 3000);
+      }
+      
+      // Fonction pour passer à l'étape 3 avec une sélection spécifique
+      async function goToStep3WithSelection(index) {
+        try {
+          // Vérifier si un numéro de poste a été saisi
+          const jobNumber = localStorage.getItem('currentJobNumber');
+          if (!jobNumber) {
+            alert('Veuillez saisir un numéro de poste avant de passer à l\'étape 3.');
+            return;
+          }
+          
+          const saved = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+          const item = saved[index];
+          
+          if (!item) {
+            console.error('Sélection KSAT invalide ou vide');
+            alert('Sélection KSAT invalide ou vide');
+            return;
+          }
+          
+          console.log('Passage à l\'étape 3 avec la sélection:', item);
+          
+          // S'assurer que chaque rôle a son OPM ID correctement défini
+          if (item.roles && Array.isArray(item.roles)) {
+            // Vérifier si les rôles ont des OPM IDs
+            const hasOpmIds = item.roles.some(role => role.opmId);
+            
+            if (!hasOpmIds) {
+              console.warn('Aucun OPM ID trouvé dans les rôles, tentative de récupération');
+              
+              // Si nous n'avons pas d'OPM IDs, essayer de les récupérer depuis les données de rôle
+              item.roles.forEach(role => {
+                // Si le rôle n'a pas d'OPM ID mais a un ID, utiliser l'ID comme OPM ID
+                if (!role.opmId && role.id) {
+                  const opmIdMatch = role.id.match(/\d+/);
+                  if (opmIdMatch) {
+                    role.opmId = opmIdMatch[0];
+                    console.log(`OPM ID attribué au rôle ${role.title}: ${role.opmId}`);
+                  }
+                }
+              });
+            }
+            
+            // Ajouter des informations de couleur pour chaque rôle
+            item.roles.forEach(role => {
+              // Si le rôle a un OPM ID mais pas de couleur de catégorie, essayer de récupérer la couleur
+              if (role.opmId && !role.category_color) {
+                // Récupérer la couleur de catégorie à partir des données du DOM
+                const workRoleElement = document.getElementById(`work-role-${role.id}`);
+                if (workRoleElement) {
+                  // Chercher l'élément qui contient l'OPM ID et sa couleur
+                  const opmIdElement = workRoleElement.querySelector('p[style^="color: rgba("]');
+                  if (opmIdElement) {
+                    // Extraire la couleur de l'attribut style
+                    const styleAttr = opmIdElement.getAttribute('style');
+                    const colorMatch = styleAttr.match(/rgba\((.*?),\s*1\)/);
+                    if (colorMatch && colorMatch[1]) {
+                      role.category_color = colorMatch[1];
+                      console.log(`Couleur de catégorie récupérée pour ${role.title}: ${role.category_color}`);
+                    }
+                  }
+                }
+              }
+              
+              // Si toujours pas de couleur, utiliser une couleur par défaut basée sur l'OPM ID
+              if (!role.category_color) {
+                const opmId = parseInt(role.opmId);
+                const colorIndex = opmId % 6;
+                const colors = [
+                  '59, 130, 246',  // Bleu - strategy-architecture
+                  '250, 204, 21',  // Jaune - dev-implementation
+                  '234, 88, 12',   // Orange - delivery-operation
+                  '219, 39, 119',  // Rose - change-transformation
+                  '8, 145, 178',   // Cyan - people-skills
+                  '22, 163, 74'    // Vert - relationships-engagement
+                ];
+                role.category_color = colors[colorIndex];
+              }
+            });
+            
+            // Mettre à jour la sauvegarde avec les OPM IDs et les couleurs
+            saved[index] = item;
+            localStorage.setItem('ksatSavedSelections', JSON.stringify(saved));
+          }
+          
+          // Afficher un indicateur de chargement
+          const loadingIndicator = document.createElement('div');
+          loadingIndicator.id = 'loading-indicator';
+          loadingIndicator.innerHTML = `
+            <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                <div class="flex items-center justify-center mb-4">
+                  <svg class="animate-spin h-8 w-8 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span class="text-lg font-semibold">Sauvegarde en cours...</span>
+                </div>
+                <p class="text-gray-600 text-center">Veuillez patienter pendant que nous préparons les données pour l'étape 3.</p>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(loadingIndicator);
+          
+          // Vérifier la taille approximative des données avant de les stocker
+          const dataSize = JSON.stringify(item).length;
+          console.log(`Taille approximative des données: ${dataSize} caractères`);
+          
+          // Si les données sont très volumineuses, essayer de les optimiser
+          if (dataSize > 2000000) { // Plus de 2Mo (localStorage a généralement une limite de 5-10Mo)
+            console.warn("Données très volumineuses détectées, tentative d'optimisation...");
+            
+            // Créer une version optimisée avec moins de données
+            const optimizedItem = {
+              timestamp: item.timestamp,
+              jobNumber: item.jobNumber,
+              // Garder uniquement les propriétés essentielles des rôles
+              roles: item.roles.map(role => ({
+                id: role.id,
+                title: role.title,
+                opmId: role.opmId,
+                category_color: role.category_color,
+                framework: role.framework
+              })),
+              // Pour les données de mapping, ne garder que les valeurs non nulles
+              competencyMapping: item.competencyMapping ? 
+                item.competencyMapping.filter(mapping => mapping.value > 0) : []
+            };
+            
+            // Utiliser la version optimisée
+            console.log("Utilisation de données optimisées");
+            item = optimizedItem;
+          }
+          
+          // Sauvegarder la sélection actuelle pour l'étape 3
+          try {
+            // Essayer d'abord avec serverStorage
+            await serverStorage.setItem('currentKsatSelection', JSON.stringify(item));
+            console.log('Sélection sauvegardée avec serverStorage');
+            
+            // Activer l'étape 3 dans le localStorage (petite donnée, peut rester en localStorage)
+            localStorage.setItem('activateStep3', 'true');
+            
+            // Rediriger vers l'étape 3 (summary chart)
+            window.location.href = '{% url "summary_chart" %}';
+          } catch (storageError) {
+            console.error('Erreur avec serverStorage:', storageError);
+            
+            // Supprimer l'indicateur de chargement
+            document.body.removeChild(loadingIndicator);
+            
+            // Essayer de déterminer la nature de l'erreur
+            let errorMessage = "Une erreur est survenue lors de la sauvegarde des données.";
+            
+            if (storageError.message && storageError.message.includes("quota")) {
+              errorMessage = "La sélection est trop volumineuse pour être stockée.";
+            } else if (storageError.message && storageError.message.includes("network")) {
+              errorMessage = "Problème de connexion au serveur. Veuillez vérifier votre connexion internet.";
+            } else if (storageError.message && storageError.message.includes("authentication")) {
+              errorMessage = "Vous devez être connecté pour utiliser cette fonctionnalité.";
+            }
+            
+            // Afficher un message d'erreur plus explicite
+            const errorMessageEl = document.createElement('div');
+            errorMessageEl.id = 'error-message';
+            errorMessageEl.innerHTML = `
+              <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                  <div class="flex items-center justify-center mb-4 text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-center mb-2">Erreur de stockage</h3>
+                  <p class="text-gray-700 mb-4">${errorMessage}</p>
+                  <p class="text-gray-700 mb-4">Essayez de réduire le nombre de rôles sélectionnés ou contactez l'administrateur.</p>
+                  <div class="flex flex-col gap-2">
+                    <button id="error-close-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Fermer</button>
+                    <button id="error-try-local-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors">Essayer avec localStorage</button>
+                  </div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(errorMessageEl);
+            
+            // Ajouter un gestionnaire d'événements pour fermer le message d'erreur
+            document.getElementById('error-close-btn').addEventListener('click', function() {
+              document.body.removeChild(errorMessageEl);
+            });
+            
+            // Ajouter un gestionnaire pour essayer avec localStorage (en dernier recours)
+            document.getElementById('error-try-local-btn').addEventListener('click', function() {
+              try {
+                localStorage.setItem('currentKsatSelection', JSON.stringify(item));
+                localStorage.setItem('activateStep3', 'true');
+                document.body.removeChild(errorMessageEl);
+                window.location.href = '{% url "summary_chart" %}';
+              } catch (localStorageError) {
+                alert("Impossible de stocker les données localement. Veuillez réduire le nombre de rôles sélectionnés.");
+              }
+            });
+          }
+          
+        } catch (error) {
+          console.error('Erreur lors du passage à l\'étape 3:', error);
+          console.error('Stack trace:', error.stack);
+          alert('Erreur: ' + error.message);
+        }
+      }
+
+      // Variable pour stocker l'index de la sauvegarde KSAT actuellement affichée
+      let currentKsatIndex = null;
+
+      // Initialiser le chargement des sauvegardes et le graphique après le chargement du DOM
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser serverStorage
+        if (typeof initServerStorage === 'function') {
+          initServerStorage();
+        }
+        
+        loadSavedKsatSelections();
+        
+        // Re-rendre le graphique lors du redimensionnement de la fenêtre
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(renderHeatmapChart, 250);
+        });
+        
+        // Initialisation du mode sombre
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const htmlElement = document.getElementById('htmlElement');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Fonction pour appliquer le mode sombre
+        function applyDarkMode(isDark) {
+          if (isDark) {
+            // Appliquer le mode sombre
+            htmlElement.classList.add('dark-mode');
+            document.body.classList.add('dark-mode');
+            if (moonIcon && sunIcon) {
+              moonIcon.classList.add('hidden');
+              sunIcon.classList.remove('hidden');
+            }
+          } else {
+            // Désactiver le mode sombre
+            htmlElement.classList.remove('dark-mode');
+            document.body.classList.remove('dark-mode');
+            if (moonIcon && sunIcon) {
+              moonIcon.classList.remove('hidden');
+              sunIcon.classList.add('hidden');
+            }
+          }
+        }
+        
+        // Vérifier si un état précédent est enregistré
+        const darkMode = localStorage.getItem('darkMode') === 'true';
+        
+        // Appliquer le mode précédemment enregistré
+        applyDarkMode(darkMode);
+        
+        // Ajouter l'écouteur d'événement au bouton
+        if (darkModeToggle) {
+          darkModeToggle.addEventListener('click', function() {
+            // Déterminer le nouvel état du mode sombre (inversé)
+            const isDarkMode = !document.body.classList.contains('dark-mode');
+            
+            // Appliquer le mode sombre ou clair
+            applyDarkMode(isDarkMode);
+            
+            // Enregistrer l'état
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            console.log('Mode sombre activé:', isDarkMode);
+          });
+        }
+        
+        // Gérer le menu mobile
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+          });
+        }
+      });
+      
+      // Exposer la fonction pour qu'elle soit accessible depuis l'HTML
+      window.selectKsatSelection = selectKsatSelection;
+    </script>
+</body>
+</html>
