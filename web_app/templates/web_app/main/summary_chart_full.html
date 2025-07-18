@@ -1758,7 +1758,8 @@
         const gridContainer = document.getElementById('sfia-grid');
 
         function createSkillRow(skill) {
-            let levelBoxesHtml = '';
+            // Ajouter une cellule "X" avant les niveaux 1 à 7
+            let levelBoxesHtml = `<div class="level-box">X</div>`;
             for (let i = 1; i <= 7; i++) {
                 const isFilled = skill.levels.includes(i) ? 'filled' : '';
                 levelBoxesHtml += `<div class="level-box ${isFilled}">${i}</div>`;
@@ -1774,7 +1775,8 @@
         }
         
         function createLevelHeader() {
-            let levelNumbersHtml = '';
+            // Ajouter une cellule "X" avant les niveaux 1 à 7 dans l'en-tête
+            let levelNumbersHtml = '<div class="level-number">X</div>';
             for (let i = 1; i <= 7; i++) {
                 levelNumbersHtml += `<div class="level-number">${i}</div>`;
             }

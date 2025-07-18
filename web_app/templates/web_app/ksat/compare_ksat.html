@@ -109,6 +109,13 @@
     animation: slideOutRight 0.3s ease-in;
   }
   
+  /* z-index pour les selects globaux pour que les dropdowns s'affichent correctement */
+  #global-pertinence-select,
+  #global-niveau-attendu-select,
+  #global-niveau-tolere-select {
+    position: relative;
+    z-index: 1000;
+  }
   @keyframes slideInRight {
     from {
       transform: translateX(100%);
@@ -130,6 +137,7 @@
       opacity: 0;
     }
   }
+
 </style>
 {% endblock script %}
 
@@ -200,6 +208,42 @@
     </div>
   </div>
 
+  <!-- Conteneur pour les contrôles globaux (déplacé par JS) -->
+  <div id="global-controls-wrapper" style="display: none;">
+    <div id="global-controls-content" class="flex items-center space-x-4 p-2 bg-blue-50 border border-blue-200 rounded-lg ml-4">
+      <!-- P - Pertinence -->
+                        <div class="flex flex-col items-center">
+        <div class="flex items-center space-x-1 mb-1">
+          <span class="text-sm text-blue-700 font-medium">P</span>
+          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Pertinence : Indique l'importance de cette compétence pour le poste" onclick="showLevelInfoModal('pertinence')">?</button>
+                        </div>
+        <select id="global-pertinence-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('primary', this.value); handleGlobalPertinenceChange(this.value);" title="Modifier toutes les valeurs de pertinence">
+          <option value="">--</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        </select>
+                        </div>
+      <!-- A - Niveau attendu -->
+                        <div class="flex flex-col items-center">
+        <div class="flex items-center space-x-1 mb-1">
+          <span class="text-sm text-blue-700 font-medium">A</span>
+          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Niveau normalement attendu" onclick="showLevelInfoModal('niveau-attendu')">?</button>
+                        </div>
+        <select id="global-niveau-attendu-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('secondary', this.value); updateGlobalTolereOptions(this.value);" title="Modifier toutes les valeurs de niveau attendu">
+                            <option value="">--</option>
+                          </select>
+                        </div>
+      <!-- T - Niveau toléré -->
+      <div class="flex flex-col items-center">
+        <div class="flex items-center space-x-1 mb-1">
+          <span class="text-sm text-blue-700 font-medium">T</span>
+          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Niveau toléré au recrutement" onclick="showLevelInfoModal('niveau-tolere')">?</button>
+                        </div>
+        <select id="global-niveau-tolere-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('tertiary', this.value)" title="Modifier toutes les valeurs de niveau toléré">
+                            <option value="">--</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
   <!-- Contenus -->
   <div id="tab-contents">
     {% for key, ksats in ksat_dict.items %}
@@ -210,90 +254,8 @@
             
             <!-- Ligne principale du tableau -->
             <tr class="bg-gray-100">
-              <th class="px-3 py-2 border text-left bg-white"> <!-- Ajout de bg-white pour forcer le fond blanc -->
-                <div class="flex items-center space-x-4">
-                  <span class="font-medium">Description / ID</span>
-                  
-                  <!-- Grille de contrôle global P/A/T intégrée naturellement -->
-                  <div class="flex items-center {% if key == 'task' or key == 'knowledge' or key == 'skill' or key == 'abilitie' %}{% else %}hidden{% endif %}">
-                    <div class="bg-blue-50 border border-blue-200 rounded px-3 py-2">
-                      <div class="text-xs text-blue-700 font-medium mb-2">Contrôles globaux</div>
-                      <div class="grid grid-cols-3 gap-2">
-                        <!-- Rangée du haut : Points d'interrogation avec labels -->
-                        <div class="flex flex-col items-center">
-                          <span class="text-xs text-blue-600 font-medium mb-1">P</span>
-                          <button type="button" 
-                                  id="info-pertinence" 
-                                  class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs shadow-sm"
-                                  title="Pertinence : Indique l'importance de cette compétence pour le poste"
-                                  onclick="showLevelInfoModal('pertinence')">
-                            ?
-                          </button>
-                        </div>
-                        
-                        <div class="flex flex-col items-center">
-                          <span class="text-xs text-blue-600 font-medium mb-1">A</span>
-                          <button type="button" 
-                                  id="info-niveau-attendu" 
-                                  class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs shadow-sm"
-                                  title="Niveau normalement attendu : Le niveau de compétence requis dans des conditions normales"
-                                  onclick="showLevelInfoModal('niveau-attendu')">
-                            ?
-                          </button>
-                        </div>
-                        
-                        <div class="flex flex-col items-center">
-                          <span class="text-xs text-blue-600 font-medium mb-1">T</span>
-                          <button type="button" 
-                                  id="info-niveau-tolere" 
-                                  class="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs shadow-sm"
-                                  title="Niveau toléré au recrutement : Le niveau minimum acceptable lors du recrutement"
-                                  onclick="showLevelInfoModal('niveau-tolere')">
-                            ?
-                          </button>
-                        </div>
-                        
-                        <!-- Rangée du bas : Selects de contrôle global -->
-                        <div class="flex flex-col">
-                          <select id="global-pertinence-select" 
-                                  class="text-xs border border-blue-300 rounded px-1 py-1 w-10 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
-                                  onchange="updateAllSelects('primary', this.value)"
-                                  title="Modifier toutes les valeurs de pertinence">
-                            <option value="">--</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                          </select>
-                        </div>
-                        
-                        <div class="flex flex-col">
-                          <select id="global-niveau-attendu-select" 
-                                  class="text-xs border border-blue-300 rounded px-1 py-1 w-10 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
-                                  onchange="updateAllSelects('secondary', this.value)"
-                                  title="Modifier toutes les valeurs de niveau attendu">
-                            <option value="">--</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                          </select>
-                        </div>
-                        
-                        <div class="flex flex-col">
-                          <select id="global-niveau-tolere-select" 
-                                  class="text-xs border border-blue-300 rounded px-1 py-1 w-10 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
-                                  onchange="updateAllSelects('tertiary', this.value)"
-                                  title="Modifier toutes les valeurs de niveau toléré">
-                            <option value="">--</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <th class="px-3 py-2 border text-left bg-white">
+                <span class="font-medium">Description / ID</span>
               </th>
               {% for role in formatted_roles %}
                 <th class="px-3 py-2 border {% if role.group_id %}{{ role.group_id }} work-role-group{% endif %}" 
@@ -349,11 +311,11 @@
                   <div class="mt-2 flex space-x-2 select-group">
                     <!-- Premier select pour Abilities -->
                     <div class="relative select-container">
-                      {% render_select_options 'Ability' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSkillSelectChange(this); showInfoTooltip(this);' %}
+                      {% render_select_options 'Ability' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleAbilitySelectChange(this); showInfoTooltip(this);' %}
                     </div>
                     <!-- Deuxième select pour Abilities -->
                     <div class="relative select-container">
-                      {% render_select_options 'Ability' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSkillSecondarySelectChange(this); showInfoTooltip(this);' %}
+                      {% render_select_options 'Ability' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleAbilitySecondarySelectChange(this); showInfoTooltip(this);' %}
                     </div>
                     <!-- Troisième select pour Abilities -->
                     <div class="relative select-container">
@@ -443,6 +405,13 @@ function handleSecondarySelectChange(select) {
   
   // Vérifier si nous sommes dans un onglet Task
   const isTaskTab = selectGroup.closest('#task') !== null;
+  
+  // Ne pas modifier le troisième select si c'est un événement déclenché par le contrôle global
+  // Cette vérification permet d'éviter les interférences entre les contrôles A et T
+  const isGlobalEvent = select.hasAttribute('data-global-change');
+  if (isGlobalEvent) {
+    return;
+  }
   
   // Réinitialiser le troisième select
   thirdSelect.innerHTML = '';
@@ -638,6 +607,13 @@ function handleKnowledgeSecondarySelectChange(select) {
   if (tabContent) {
     const tabId = tabContent.id;
     updateSelectionCountersForTab(tabId);
+  }
+  
+  // Ne pas modifier le troisième select si c'est un événement déclenché par le contrôle global
+  // Cette vérification permet d'éviter les interférences entre les contrôles A et T
+  const isGlobalEvent = select.hasAttribute('data-global-change');
+  if (isGlobalEvent) {
+    return;
   }
   
   // Réinitialiser le troisième select
@@ -1635,7 +1611,28 @@ document.addEventListener("DOMContentLoaded", () => {
       b.classList.toggle("text-blue-600", b===btn);
     });
     contents.forEach(c => c.classList.add("hidden"));
-    document.getElementById(btn.dataset.tab).classList.remove("hidden");
+    const activeTabContent = document.getElementById(btn.dataset.tab);
+    activeTabContent.classList.remove("hidden");
+
+    // Déplacer les contrôles globaux dans l'en-tête du tableau de l'onglet actif
+    const controlsContent = document.getElementById('global-controls-content');
+    const headerCell = activeTabContent.querySelector('thead th:first-child');
+    
+    if (controlsContent && headerCell) {
+        // S'assurer que le contenu de la cellule est dans un conteneur flex
+        let flexWrapper = headerCell.querySelector('.header-flex-wrapper');
+        if (!flexWrapper) {
+            flexWrapper = document.createElement('div');
+            flexWrapper.className = 'flex items-center header-flex-wrapper';
+            // Déplacer le contenu existant de la cellule dans le wrapper
+            while (headerCell.firstChild) {
+                flexWrapper.appendChild(headerCell.firstChild);
+            }
+            headerCell.appendChild(flexWrapper);
+        }
+        // Ajouter les contrôles au wrapper
+        flexWrapper.appendChild(controlsContent);
+    }
     
     // Afficher/masquer les boutons d'information selon l'onglet actif
     const isActiveTab = btn.dataset.tab === 'task' || btn.dataset.tab === 'knowledge';
@@ -1651,25 +1648,154 @@ document.addEventListener("DOMContentLoaded", () => {
     currentActiveTab = btn.dataset.tab;
     updateSelectionCounter(btn.dataset.tab);
     
+    // RESTAURATION CRITIQUE DES OPTIONS DES SELECTS POUR LE NOUVEL ONGLET ACTIF
+    console.log(`Restauration des options pour l'onglet ${btn.dataset.tab}`);
+    try {
+      // Vérifier si la fonction existe (ajoutée plus tard dans le code)
+      if (typeof restaurerOptionsSelects === 'function') {
+        restaurerOptionsSelects();
+      } else {
+        // Fallback si la fonction n'existe pas encore
+        console.log("La fonction restaurerOptionsSelects n'existe pas encore, restauration manuelle");
+        const tab = document.getElementById(btn.dataset.tab);
+        if (tab) {
+          const selectGroups = tab.querySelectorAll('.select-group');
+          selectGroups.forEach(group => {
+            const selects = group.querySelectorAll('select');
+            selects.forEach((select, selectIndex) => {
+              if (select.options.length <= 1) {
+                // Restaurer les options selon la position du select
+                if (selectIndex === 0) {  // Premier select (pertinence)
+                  select.innerHTML = '';
+                  select.appendChild(new Option('--', ''));
+                  select.appendChild(new Option('0', '0'));
+                  select.appendChild(new Option('1', '1'));
+                  select.appendChild(new Option('2', '2'));
+                  select.appendChild(new Option('3', '3'));
+                }
+                else if (selectIndex === 1) {  // Deuxième select
+                  select.innerHTML = '';
+                  select.appendChild(new Option('--', ''));
+                  
+                  if (btn.dataset.tab === 'task') {
+                    select.appendChild(new Option('B', 'B'));
+                    select.appendChild(new Option('S', 'S'));
+                    select.appendChild(new Option('M', 'M'));
+                  } 
+                  else if (btn.dataset.tab === 'knowledge') {
+                    select.appendChild(new Option('A', 'A'));
+                    select.appendChild(new Option('B', 'B'));
+                    select.appendChild(new Option('C', 'C'));
+                    select.appendChild(new Option('D', 'D'));
+                  } 
+                  else {  // skill et abilitie
+                    select.appendChild(new Option('1', '1'));
+                    select.appendChild(new Option('2', '2'));
+                    select.appendChild(new Option('3', '3'));
+                  }
+                }
+                else if (selectIndex === 2) {  // Troisième select
+                  select.innerHTML = '';
+                  select.appendChild(new Option('--', ''));
+                  
+                  if (btn.dataset.tab === 'task') {
+                    select.appendChild(new Option('B', 'B'));
+                    select.appendChild(new Option('S', 'S'));
+                  } 
+                  else if (btn.dataset.tab === 'knowledge') {
+                    select.appendChild(new Option('A', 'A'));
+                    select.appendChild(new Option('B', 'B'));
+                    select.appendChild(new Option('C', 'C'));
+                  } 
+                  else {  // skill et abilitie
+                    select.appendChild(new Option('1', '1'));
+                    select.appendChild(new Option('2', '2'));
+                  }
+                }
+              }
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors de la restauration des options:", error);
+    }
+    
     // Observer les selects dans le nouvel onglet actif et mettre à jour l'état des selects globaux
     setTimeout(() => {
       observeSelectChanges();
+      // Mettre à jour les options des contrôles globaux en fonction de la catégorie active
+      updateGlobalSelectOptions(btn.dataset.tab);
+      
+      // Mettre à jour les dépendances des contrôles globaux
+      const globalPertinenceSelect = document.getElementById('global-pertinence-select');
+      const globalAttenduSelect = document.getElementById('global-niveau-attendu-select');
+      if (globalPertinenceSelect) {
+          handleGlobalPertinenceChange(globalPertinenceSelect.value);
+      }
+      if (globalAttenduSelect) {
+          updateGlobalTolereOptions(globalAttenduSelect.value);
+      }
     }, 100);
   }
 
   tabs.forEach(btn => btn.addEventListener("click", () => activate(btn)));
-  if (tabs.length) activate(tabs[0]);
+  if (tabs.length) {
+    activate(tabs[0]);
+    // S'assurer que les contrôles globaux sont correctement initialisés
+    setTimeout(() => {
+      updateGlobalSelectOptions(tabs[0].dataset.tab);
+    }, 200);
+  }
+  
+  // Initialiser immédiatement les contrôles globaux avec force
+  setTimeout(() => {
+    // Forcer l'initialisation manuelle des contrôles globaux  
+    const globalSecondary = document.getElementById('global-niveau-attendu-select');
+    const globalTertiary = document.getElementById('global-niveau-tolere-select');
+    
+    if (globalSecondary && globalTertiary) {
+      console.log('Force initialisation des contrôles globaux...');
+      
+      // Par défaut, commencer avec les options de Task (premier onglet)
+      globalSecondary.innerHTML = '<option value="">--</option>' +
+                                  '<option value="B" title="Basic">B</option>' +
+                                  '<option value="S" title="Senior">S</option>' +
+                                  '<option value="M" title="Master">M</option>';
+      
+      globalTertiary.innerHTML = '<option value="">--</option>' +
+                                '<option value="B" title="Basic">B</option>' +
+                                '<option value="S" title="Senior">S</option>';
+      
+      console.log('Options par défaut ajoutées aux contrôles globaux');
+      
+      // Ensuite appeler la fonction normale
+      const firstActiveTab = document.querySelector('.tab-button.text-blue-600') || tabs[0];
+      if (firstActiveTab) {
+        setTimeout(() => {
+          updateGlobalSelectOptions(firstActiveTab.dataset.tab);
+          console.log('Contrôles globaux mis à jour pour:', firstActiveTab.dataset.tab);
+        }, 100);
+      }
+    } else {
+      console.error('Contrôles globaux non trouvés lors de l\'initialisation!');
+    }
+  }, 100);
   
   // Initialiser les selects au chargement
   document.querySelectorAll('.primary-select').forEach(select => {
     if (select.classList.contains('knowledge-select')) {
       handleKnowledgeSelectChange(select);
+    } else if (select.closest('#skill')) {
+      handleSkillSelectChange(select);
+    } else if (select.closest('#abilitie')) {
+      handleAbilitySelectChange(select);
     } else {
       handleSelectChange(select);
     }
   });
   
-  // Initialiser la dépendance entre les selects pour Task et Knowledge
+  // Initialiser la dépendance entre les selects pour toutes les catégories
   document.querySelectorAll('.select-group').forEach(group => {
     const secondarySelects = group.querySelectorAll('.secondary-select');
     if (secondarySelects.length >= 1) {
@@ -1678,8 +1804,17 @@ document.addEventListener("DOMContentLoaded", () => {
       // Si c'est un groupe de selects de Knowledge
       if (group.querySelector('.knowledge-select')) {
         handleKnowledgeSecondarySelectChange(secondSelect);
-      } else {
-        // Sinon c'est un groupe de selects de Task ou autre
+      } 
+      // Si c'est un groupe de selects de Skills
+      else if (group.closest('#skill')) {
+        handleSkillSecondarySelectChange(secondSelect);
+      }
+      // Si c'est un groupe de selects d'Abilities
+      else if (group.closest('#abilitie')) {
+        handleAbilitySecondarySelectChange(secondSelect);
+      }
+      // Sinon c'est un groupe de selects de Task
+      else {
         handleSecondarySelectChange(secondSelect);
       }
     }
@@ -1688,13 +1823,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialiser l'observation des selects et l'état des selects globaux
   setTimeout(() => {
     observeSelectChanges();
+    // Initialiser les options des contrôles globaux pour l'onglet actif au chargement
+    if (currentActiveTab) {
+      updateGlobalSelectOptions(currentActiveTab);
+    }
   }, 200);
   
   // Les données des modals sont déjà chargées au début du script
   console.log('Configuration des modals terminée');
   
   // Ajouter un écouteur d'événement pour tous les selects dans tous les onglets
-  document.querySelectorAll('#skill select, #abilitie select').forEach(select => {
+  document.querySelectorAll('#skill select, #abilitie select, #task select, #knowledge select').forEach(select => {
     select.addEventListener('change', function() {
       // Récupérer l'identifiant de l'onglet parent
       const tabContent = this.closest('.tab-content');
@@ -1854,6 +1993,13 @@ function handleSkillSelectChange(primarySelect) {
   const select2 = secondarySelects[0];
   const select3 = secondarySelects[1];
   
+  // Mise à jour du compteur après changement de select
+  const tabContent = primarySelect.closest('.tab-content');
+  if (tabContent) {
+    const tabId = tabContent.id;
+    updateSelectionCountersForTab(tabId);
+  }
+  
   // Gérer le select 2
   if (primarySelect.value === '0') {
     // Si le premier select est 0, désactiver le select 2
@@ -1883,18 +2029,73 @@ function handleSkillSelectChange(primarySelect) {
   }
 }
 
-// Fonction pour gérer le changement du deuxième select pour les Skills et Abilities
+// Fonction pour gérer le changement du premier select pour les Abilities
+function handleAbilitySelectChange(primarySelect) {
+  const selectGroup = primarySelect.closest('.select-group');
+  const secondarySelects = Array.from(selectGroup.querySelectorAll('.secondary-select'));
+  const select2 = secondarySelects[0];
+  const select3 = secondarySelects[1];
+  
+  // Mise à jour du compteur après changement de select
+  const tabContent = primarySelect.closest('.tab-content');
+  if (tabContent) {
+    const tabId = tabContent.id;
+    updateSelectionCountersForTab(tabId);
+  }
+  
+  // Gérer le select 2
+  if (primarySelect.value === '0') {
+    // Si le premier select est 0, désactiver le select 2
+    select2.disabled = true;
+    select2.classList.add('opacity-50', 'cursor-not-allowed');
+    select2.selectedIndex = 0;
+    
+    // Désactiver aussi le select 3
+    select3.disabled = true;
+    select3.classList.add('opacity-50', 'cursor-not-allowed');
+    select3.selectedIndex = 0;
+  } else {
+    // Sinon, activer le select 2
+    select2.disabled = false;
+    select2.classList.remove('opacity-50', 'cursor-not-allowed');
+    
+    // Vérifier si le premier select est 2, seul cas où le select 3 peut être activé
+    if (primarySelect.value === '2') {
+      // Le select 3 pourra être activé en fonction du select 2
+      handleAbilitySecondarySelectChange(select2);
+    } else {
+      // Pour les valeurs 1 et 3 du premier select, désactiver toujours le select 3
+      select3.disabled = true;
+      select3.classList.add('opacity-50', 'cursor-not-allowed');
+      select3.selectedIndex = 0;
+    }
+  }
+}
+
+// Fonction pour gérer le changement du deuxième select pour les Skills
 function handleSkillSecondarySelectChange(secondarySelect) {
   const selectGroup = secondarySelect.closest('.select-group');
   const thirdSelect = selectGroup.querySelectorAll('.secondary-select')[1];
   const primarySelect = selectGroup.querySelector('.primary-select');
   
-  // Vérifier si nous sommes dans l'onglet Skills ou Abilities
-  const isSkillTab = selectGroup.closest('#skill') !== null;
-  const isAbilitieTab = selectGroup.closest('#abilitie') !== null;
+  // Mise à jour du compteur après changement de select
+  const tabContent = secondarySelect.closest('.tab-content');
+  if (tabContent) {
+    const tabId = tabContent.id;
+    updateSelectionCountersForTab(tabId);
+  }
   
-  // Si nous ne sommes ni dans Skills ni dans Abilities, sortir de la fonction
-  if (!isSkillTab && !isAbilitieTab) return;
+  // Vérifier si nous sommes dans l'onglet Skills
+  const isSkillTab = selectGroup.closest('#skill') !== null;
+  
+  // Si nous ne sommes pas dans Skills, sortir de la fonction
+  if (!isSkillTab) return;
+  
+  // Ne pas modifier le troisième select si c'est un événement déclenché par le contrôle global
+  const isGlobalEvent = secondarySelect.hasAttribute('data-global-change');
+  if (isGlobalEvent) {
+    return;
+  }
   
   // Réinitialiser le troisième select
   thirdSelect.innerHTML = '';
@@ -1908,23 +2109,20 @@ function handleSkillSecondarySelectChange(secondarySelect) {
     return;
   }
   
-  // Pour Skills et Abilities: récupérer dynamiquement les options 1 et 2 depuis les selects existants
+  // Pour Skills: récupérer dynamiquement les options 1 et 2 depuis les selects existants
   const allSelects = document.querySelectorAll('select');
   let options = [];
   
-  // Déterminer dans quel onglet nous sommes
-  const currentTab = isSkillTab ? '#skill' : '#abilitie';
-  
-  // Collecter les options des selects dans l'onglet actuel
+  // Collecter les options des selects dans l'onglet Skills
   allSelects.forEach(selectEl => {
-    if (selectEl.closest(currentTab)) {
+    if (selectEl.closest('#skill')) {
       Array.from(selectEl.options).forEach(opt => {
-        // Ajouter uniquement les options avec les valeurs 1, 2 (pas l'option 3) et éviter les doublons
+        // Ajouter uniquement les options avec les valeurs 1, 2 et éviter les doublons
         if (['1', '2'].includes(opt.value) && 
             !options.some(so => so.value === opt.value)) {
           options.push({
             value: opt.value,
-            text: opt.text || opt.value, // Utiliser la valeur si le texte est vide
+            text: opt.text || opt.value,
             title: opt.title || ''
           });
         }
@@ -1935,12 +2133,11 @@ function handleSkillSecondarySelectChange(secondarySelect) {
   // Trier les options par valeur
   options.sort((a, b) => parseInt(a.value) - parseInt(b.value));
   
-  // Si aucune option n'a été trouvée dans le DOM, utiliser des valeurs par défaut (en dernier recours)
+  // Si aucune option n'a été trouvée dans le DOM, utiliser des valeurs par défaut
   if (options.length === 0) {
     options = [
       { value: '1', text: '1', title: "Must be familiar with this competency" },
       { value: '2', text: '2', title: "Must be capable of independently handling some complex tasks" }
-      // Nous supprimons l'option 3 comme demandé
     ];
   }
   
@@ -1948,7 +2145,7 @@ function handleSkillSecondarySelectChange(secondarySelect) {
   thirdSelect.disabled = false;
   thirdSelect.classList.remove('opacity-50', 'cursor-not-allowed');
   
-  // Pour Skills et Abilities: Ajouter les options 1, 2, 3 au select n3
+  // Ajouter les options appropriées
   options.forEach(option => {
     const newOpt = document.createElement('option');
     newOpt.value = option.value;
@@ -1956,8 +2153,106 @@ function handleSkillSecondarySelectChange(secondarySelect) {
     newOpt.title = option.title;
     thirdSelect.appendChild(newOpt);
     
-    // Si le deuxième select est 2, désactiver l'option 2 et 3
-    if (secondarySelect.value === '2' && (option.value === '2' || option.value === '3')) {
+    // Si le deuxième select est 2, désactiver l'option 2
+    if (secondarySelect.value === '2' && option.value === '2') {
+      newOpt.disabled = true;
+    }
+    // Si le deuxième select est 1, désactiver tout le select n3
+    else if (secondarySelect.value === '1') {
+      thirdSelect.disabled = true;
+      thirdSelect.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  });
+  
+  // Forçage de la sélection à 1 si le select n2 est 2
+  if (secondarySelect.value === '2') {
+    thirdSelect.value = '1';
+  }
+}
+
+// Fonction pour gérer le changement du deuxième select pour les Abilities
+function handleAbilitySecondarySelectChange(secondarySelect) {
+  const selectGroup = secondarySelect.closest('.select-group');
+  const thirdSelect = selectGroup.querySelectorAll('.secondary-select')[1];
+  const primarySelect = selectGroup.querySelector('.primary-select');
+  
+  // Mise à jour du compteur après changement de select
+  const tabContent = secondarySelect.closest('.tab-content');
+  if (tabContent) {
+    const tabId = tabContent.id;
+    updateSelectionCountersForTab(tabId);
+  }
+  
+  // Vérifier si nous sommes dans l'onglet Abilities
+  const isAbilitieTab = selectGroup.closest('#abilitie') !== null;
+  
+  // Si nous ne sommes pas dans Abilities, sortir de la fonction
+  if (!isAbilitieTab) return;
+  
+  // Ne pas modifier le troisième select si c'est un événement déclenché par le contrôle global
+  const isGlobalEvent = secondarySelect.hasAttribute('data-global-change');
+  if (isGlobalEvent) {
+    return;
+  }
+  
+  // Réinitialiser le troisième select
+  thirdSelect.innerHTML = '';
+  thirdSelect.selectedIndex = 0;
+  
+  // Vérifier d'abord si le premier select a l'option 2 sélectionnée
+  // C'est la seule valeur du premier select qui permet d'activer le troisième select
+  if (primarySelect.value !== '2') {
+    thirdSelect.disabled = true;
+    thirdSelect.classList.add('opacity-50', 'cursor-not-allowed');
+    return;
+  }
+  
+  // Pour Abilities: récupérer dynamiquement les options 1 et 2 depuis les selects existants
+  const allSelects = document.querySelectorAll('select');
+  let options = [];
+  
+  // Collecter les options des selects dans l'onglet Abilities
+  allSelects.forEach(selectEl => {
+    if (selectEl.closest('#abilitie')) {
+      Array.from(selectEl.options).forEach(opt => {
+        // Ajouter uniquement les options avec les valeurs 1, 2 et éviter les doublons
+        if (['1', '2'].includes(opt.value) && 
+            !options.some(so => so.value === opt.value)) {
+          options.push({
+            value: opt.value,
+            text: opt.text || opt.value,
+            title: opt.title || ''
+          });
+        }
+      });
+    }
+  });
+  
+  // Trier les options par valeur
+  options.sort((a, b) => parseInt(a.value) - parseInt(b.value));
+  
+  // Si aucune option n'a été trouvée dans le DOM, utiliser des valeurs par défaut
+  if (options.length === 0) {
+    options = [
+      { value: '1', text: '1', title: "Must be familiar with this competency" },
+      { value: '2', text: '2', title: "Must be capable of independently handling some complex tasks" }
+    ];
+  }
+  
+  // Gérer les options et l'état du troisième select en fonction de la valeur du deuxième select
+  thirdSelect.disabled = false;
+  thirdSelect.classList.remove('opacity-50', 'cursor-not-allowed');
+  
+  // Ajouter les options appropriées
+  options.forEach(option => {
+    const newOpt = document.createElement('option');
+    newOpt.value = option.value;
+    newOpt.text = option.text;
+    newOpt.title = option.title;
+    thirdSelect.appendChild(newOpt);
+    
+    // Si le deuxième select est 2, désactiver l'option 2
+    if (secondarySelect.value === '2' && option.value === '2') {
       newOpt.disabled = true;
     }
     // Si le deuxième select est 1, désactiver tout le select n3
@@ -2332,8 +2627,16 @@ function saveCurrentSelection() {
       skill: selectionCounters['skill'],
       abilitie: selectionCounters['abilitie']
     },
-    currentUrl: currentUrl  // Ajouter l'URL actuelle
+    currentUrl: currentUrl,  // Ajouter l'URL actuelle
+    globalControls: {
+      pertinence: document.getElementById('global-pertinence-select')?.value || '',
+      attendu: document.getElementById('global-niveau-attendu-select')?.value || '',
+      tolere: document.getElementById('global-niveau-tolere-select')?.value || ''
+    }
   };
+
+  // Enregistrer dans sessionStorage pour la persistance au F5
+  sessionStorage.setItem('ksatLastSavedState', JSON.stringify(saveData));
 
   // Utiliser l'API du serveur pour sauvegarder les données au lieu du localStorage
   fetch('/api/ksat-selections/save/', {
@@ -2431,10 +2734,10 @@ document.addEventListener('DOMContentLoaded', function() {
     saveButton.addEventListener('click', saveCurrentSelection);
   }
   
-  // Charger la sélection sauvegardée si nécessaire
-  loadSavedSelectionIfNeeded();
+  // Lancer la restauration au chargement
+  restoreStateOnLoad();
   
-  // Charger les sauvegardes depuis le serveur
+  // Charger les sauvegardes depuis le serveur pour la liste des sauvegardes
   loadSavedSelectionsFromServer();
 });
 
@@ -2494,85 +2797,6 @@ function loadSavedSelectionsFromServer() {
     })
     .catch(error => {
       console.error('Erreur lors du chargement des sauvegardes depuis le serveur:', error);
-    });
-}
-
-// Fonction pour charger une sélection sauvegardée si nécessaire
-function loadSavedSelectionIfNeeded() {
-  // Vérifier s'il y a une sélection à charger
-  serverStorage.getItem('currentOpeningSelection').then(savedSelectionData => {
-    if (!savedSelectionData) {
-      console.log('Aucune sélection à charger (currentOpeningSelection est vide)');
-      return;
-    }
-    
-    // Continuer avec le code de chargement existant
-    try {
-      const selectionData = JSON.parse(savedSelectionData);
-      console.log('Chargement de la sélection sauvegardée:', selectionData);
-      
-      // Restaurer les valeurs des select
-      if (selectionData.selectValues) {
-        Object.entries(selectionData.selectValues).forEach(([id, value]) => {
-          const select = document.getElementById(id);
-          if (select) select.value = value;
-        });
-      }
-      
-      // Restaurer l'onglet actif
-      if (selectionData.activeTab) {
-        const tabId = selectionData.activeTab;
-        const tabButton = document.querySelector(`[data-tab="${tabId}"]`);
-        if (tabButton) tabButton.click();
-      }
-      
-      // Restaurer les compteurs
-      if (selectionData.counters) {
-        selectionCounters = selectionData.counters;
-        updateCounters();
-      }
-      
-      console.log('Sélection restaurée avec succès');
-    } catch (error) {
-      console.error('Erreur lors du chargement de la sélection:', error);
-    }
-  }).catch(error => {
-    console.error('Erreur lors de la récupération de la sélection:', error);
-    // Fallback à localStorage
-    const savedSelectionData = localStorage.getItem('currentOpeningSelection');
-    if (!savedSelectionData) {
-      console.log('Aucune sélection à charger (localStorage est vide)');
-      return;
-    }
-    try {
-      const selectionData = JSON.parse(savedSelectionData);
-      console.log('Chargement de la sélection locale:', selectionData);
-      
-      // Restaurer les valeurs des select
-      if (selectionData.selectValues) {
-        Object.entries(selectionData.selectValues).forEach(([id, value]) => {
-          const select = document.getElementById(id);
-          if (select) select.value = value;
-        });
-      }
-      
-      // Restaurer l'onglet actif
-      if (selectionData.activeTab) {
-        const tabId = selectionData.activeTab;
-        const tabButton = document.querySelector(`[data-tab="${tabId}"]`);
-        if (tabButton) tabButton.click();
-      }
-      
-      // Restaurer les compteurs
-      if (selectionData.counters) {
-        selectionCounters = selectionData.counters;
-        updateCounters();
-      }
-      
-      console.log('Sélection locale restaurée avec succès');
-    } catch (error) {
-      console.error('Erreur lors du chargement de la sélection locale:', error);
-    }
   });
 }
 
@@ -2610,154 +2834,74 @@ function showTooltip(type) {
 }
 
 function updateAllSelects(selectType, value) {
-  if (!value) return; // Ne rien faire si aucune valeur sélectionnée
-  
-  // Vérifier si le select global est désactivé
-  const globalSelects = {
-    'primary': document.getElementById('global-pertinence-select'),
-    'secondary': document.getElementById('global-niveau-attendu-select'),
-    'tertiary': document.getElementById('global-niveau-tolere-select')
-  };
-  
-  if (globalSelects[selectType] && globalSelects[selectType].disabled) {
-    showNotification(`Action bloquée : ce contrôle est désactivé selon les conditions actuelles`, 'warning');
-    // Remettre la valeur à vide
-    globalSelects[selectType].value = '';
-    return;
-  }
-  
-  // Obtenir l'onglet actuel
+  try {
   const activeTab = document.querySelector('.tab-content:not(.hidden)');
   if (!activeTab) return;
   
   const tabId = activeTab.id;
-  let targetSelects = [];
-  let handlerFunction = null;
-  
-  // Déterminer les selects et fonctions selon la catégorie et le type
-  switch(tabId) {
-    case 'skill':
-      switch(selectType) {
-        case 'primary':
-          targetSelects = activeTab.querySelectorAll('.primary-select');
-          handlerFunction = 'handleSkillSelectChange';
-          break;
-        case 'secondary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:first-of-type');
-          handlerFunction = 'handleSkillSecondarySelectChange';
-          break;
-        case 'tertiary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:last-of-type');
-          handlerFunction = null; // Pas de handler spécifique pour le 3ème
-          break;
+    const allSelectGroups = activeTab.querySelectorAll('.select-group');
+    let updatedCount = 0;
+
+    allSelectGroups.forEach(group => {
+          const selects = group.querySelectorAll('select');
+      let targetSelect = null;
+
+      if (selectType === 'primary' && selects.length > 0) {
+        targetSelect = selects[0];
+      } else if (selectType === 'secondary' && selects.length > 1) {
+        targetSelect = selects[1];
+      } else if (selectType === 'tertiary' && selects.length > 2) {
+        targetSelect = selects[2];
       }
-      break;
       
-    case 'abilitie':
-      switch(selectType) {
-        case 'primary':
-          targetSelects = activeTab.querySelectorAll('.primary-select');
-          handlerFunction = 'handleSkillSelectChange'; // Utilise la même logique que skills
-          break;
-        case 'secondary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:first-of-type');
-          handlerFunction = 'handleSkillSecondarySelectChange';
-          break;
-        case 'tertiary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:last-of-type');
-          handlerFunction = null;
-          break;
-      }
-      break;
-      
-    case 'task':
-      switch(selectType) {
-        case 'primary':
-          targetSelects = activeTab.querySelectorAll('.primary-select');
-          handlerFunction = 'handleSelectChange';
-          break;
-        case 'secondary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:first-of-type');
-          handlerFunction = 'handleSecondarySelectChange';
-          break;
-        case 'tertiary':
-          targetSelects = activeTab.querySelectorAll('.secondary-select:last-of-type');
-          handlerFunction = null;
-          break;
-      }
-      break;
-      
-    case 'knowledge':
-      switch(selectType) {
-        case 'primary':
-          targetSelects = activeTab.querySelectorAll('.knowledge-select');
-          handlerFunction = 'handleKnowledgeSelectChange';
-          break;
-        case 'secondary':
-          targetSelects = activeTab.querySelectorAll('select[id*="knowledge-second-select"]');
-          handlerFunction = 'handleKnowledgeSecondarySelectChange';
-          break;
-        case 'tertiary':
-          targetSelects = activeTab.querySelectorAll('select[id*="knowledge-third-select"]');
-          handlerFunction = null;
-          break;
-      }
-      break;
-      
-    default:
-      console.warn('Catégorie non reconnue:', tabId);
-      return;
-  }
-  
-  console.log(`Mise à jour de ${targetSelects.length} selects de type ${selectType} dans ${tabId} avec la valeur ${value}`);
-  
-  // Mettre à jour chaque select
-  targetSelects.forEach(select => {
-    const oldValue = select.value;
-    select.value = value;
-    
-    // Déclencher la fonction handler appropriée si elle existe
-    if (handlerFunction && window[handlerFunction] && typeof window[handlerFunction] === 'function') {
-      try {
-        window[handlerFunction](select);
-      } catch (error) {
-        console.warn(`Erreur lors de l'appel à ${handlerFunction}:`, error);
-        // Fallback: déclencher l'événement change
-        if (oldValue !== value) {
-          select.dispatchEvent(new Event('change', { bubbles: true }));
+      if (!targetSelect) return;
+
+      // Si la valeur est vide ("--"), on réinitialise le select s'il n'est pas désactivé
+      if (value === "") {
+        if (!targetSelect.disabled) {
+          targetSelect.value = "";
+          const changeEvent = new Event('change', { bubbles: true });
+          targetSelect.dispatchEvent(changeEvent);
+          updatedCount++;
         }
+        return; // Passe à la ligne suivante
       }
+
+      // Si la valeur n'est pas vide, on applique les validations
+      if (targetSelect.disabled) {
+        return; // Ne pas modifier les selects désactivés
+      }
+
+      const optionExists = Array.from(targetSelect.options).some(opt => opt.value === value && !opt.disabled);
+      if (!optionExists) {
+        return; // Ne pas modifier si l'option n'est pas valide/disponible
+      }
+      
+      targetSelect.value = value;
+          const changeEvent = new Event('change', { bubbles: true });
+      targetSelect.dispatchEvent(changeEvent);
+      updatedCount++;
+    });
+
+    const tabNames = { 'skill': 'Skills', 'abilitie': 'Abilities', 'task': 'Tasks', 'knowledge': 'Knowledge' };
+    const typeNames = { 'primary': 'Pertinence', 'secondary': 'Niveau attendu', 'tertiary': 'Niveau toléré' };
+    
+    if (value === "") {
+        showNotification(`${updatedCount} sélection(s) pour '${typeNames[selectType]}' réinitialisée(s)`, 'info');
     } else {
-      // Si pas de handler spécifique, déclencher l'événement change
-      if (oldValue !== value) {
-        select.dispatchEvent(new Event('change', { bubbles: true }));
-      }
+        showNotification(`${updatedCount} ligne(s) pour '${typeNames[selectType]}' mise(s) à jour`, 'success');
     }
-  });
-  
-  // Mettre à jour les compteurs
-  if (typeof updateCounters === 'function') {
-    updateCounters();
+
+    setTimeout(() => {
+        const globalPertinenceSelect = document.getElementById('global-pertinence-select');
+        const globalAttenduSelect = document.getElementById('global-niveau-attendu-select');
+        if (globalPertinenceSelect) handleGlobalPertinenceChange(globalPertinenceSelect.value);
+        if (globalAttenduSelect) updateGlobalTolereOptions(globalAttenduSelect.value);
+    }, 100);
+
+  } catch(error) {
+    console.error("Erreur dans updateAllSelects:", error);
   }
-  
-  // Afficher un message de confirmation
-  const tabNames = {
-    'skill': 'Skills',
-    'abilitie': 'Abilities', 
-    'task': 'Tasks',
-    'knowledge': 'Knowledge'
-  };
-  
-  const typeNames = {
-    'primary': 'Pertinence',
-    'secondary': 'Niveau attendu', 
-    'tertiary': 'Niveau toléré'
-  };
-  
-  showNotification(`${targetSelects.length} ${typeNames[selectType]} mises à jour dans ${tabNames[tabId]}`, 'success');
-  
-  // Mettre à jour l'état des selects globaux après modification
-  setTimeout(updateGlobalSelectsState, 100);
 }
 
 function showNotification(message, type = 'info') {
@@ -2799,6 +2943,7 @@ function showNotification(message, type = 'info') {
 
 // Fonction pour mettre à jour l'état des selects de contrôle global
 function updateGlobalSelectsState() {
+  try {
   const activeTab = document.querySelector('.tab-content:not(.hidden)');
   if (!activeTab) return;
   
@@ -2809,86 +2954,33 @@ function updateGlobalSelectsState() {
   
   if (!globalPrimary || !globalSecondary || !globalTertiary) return;
   
-  // Analyser l'état des selects dans l'onglet actuel
-  const selectGroups = activeTab.querySelectorAll('.select-group');
-  let shouldDisableSecondary = false;
-  let shouldDisableTertiary = false;
-  
-  // Vérifier s'il y a des selects qui conditionnent l'état
-  let hasPrimaryZero = false;
-  let hasNonTwoPrimary = false;
-  
-  selectGroups.forEach(group => {
-    const primary = group.querySelector('.primary-select, .knowledge-select');
-    const secondaries = group.querySelectorAll('.secondary-select');
+    // Activer tous les selects par défaut
+    globalPrimary.disabled = false;
+    globalSecondary.disabled = false;
+    globalTertiary.disabled = false;
     
-    if (primary) {
-      const primaryValue = primary.value;
-      
-      // Vérifier les conditions selon la catégorie
-      if (primaryValue === '0') {
-        hasPrimaryZero = true;
-      }
-      
-      if (primaryValue !== '2' && primaryValue !== '') {
-        hasNonTwoPrimary = true;
+    globalPrimary.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
+    globalSecondary.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
+    globalTertiary.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
+    
+    // Désactiver les selects selon les conditions spécifiques
+    if (tabId === 'knowledge' || tabId === 'task' || tabId === 'skill' || tabId === 'abilitie') {
+      // Si aucune sélection n'est active, désactiver tous les selects
+      if (selectionCounters[tabId].selected === 0) {
+        globalSecondary.disabled = true;
+        globalTertiary.disabled = true;
+        globalSecondary.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
+        globalTertiary.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
       }
     }
-  });
-  
-  // Appliquer les règles selon la catégorie
-  switch(tabId) {
-    case 'task':
-    case 'knowledge':
-      // Pour Task et Knowledge : si primary = 0, désactiver secondary et tertiary
-      if (hasPrimaryZero) {
-        shouldDisableSecondary = true;
-        shouldDisableTertiary = true;
-      }
-      // Si primary ≠ 2, désactiver tertiary
-      else if (hasNonTwoPrimary) {
-        shouldDisableTertiary = true;
-      }
-      break;
-      
-    case 'skill':
-    case 'abilitie':
-      // Pour Skills et Abilities : si primary = 0, désactiver secondary et tertiary
-      if (hasPrimaryZero) {
-        shouldDisableSecondary = true;
-        shouldDisableTertiary = true;
-      }
-      // Si primary ≠ 2, désactiver tertiary
-      else if (hasNonTwoPrimary) {
-        shouldDisableTertiary = true;
-      }
-      break;
+  } catch(e) {
+    console.error("Erreur updateGlobalSelectsState:", e);
   }
-  
-  // Appliquer les états aux selects globaux
-  globalSecondary.disabled = shouldDisableSecondary;
-  globalTertiary.disabled = shouldDisableTertiary;
-  
-  // Appliquer les styles visuels
-  if (shouldDisableSecondary) {
-    globalSecondary.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-    globalSecondary.value = '';
-  } else {
-    globalSecondary.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-  }
-  
-  if (shouldDisableTertiary) {
-    globalTertiary.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-    globalTertiary.value = '';
-  } else {
-    globalTertiary.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-  }
-  
-  console.log(`État des selects globaux - Secondary: ${shouldDisableSecondary ? 'désactivé' : 'activé'}, Tertiary: ${shouldDisableTertiary ? 'désactivé' : 'activé'}`);
 }
 
 // Fonction modifiée pour observer les changements et mettre à jour l'état des selects globaux
 function observeSelectChanges() {
+  try {
   const activeTab = document.querySelector('.tab-content:not(.hidden)');
   if (!activeTab) return;
   
@@ -2903,6 +2995,9 @@ function observeSelectChanges() {
   
   // Mettre à jour l'état initial
   updateGlobalSelectsState();
+  } catch(e) {
+    console.error("Erreur observeSelectChanges:", e);
+  }
 }
 
 // Ce script s'exécute immédiatement
@@ -2996,7 +3091,1070 @@ window.addEventListener('load', function() {
       loadingOverlay.classList.add('hidden');
     }
   }, 20000);
+  
+
+  
+  // RESTAURATION URGENTE DES SELECTS DANS TOUTES LES CATÉGORIES
+  console.log("RESTAURATION URGENTE DES SELECTS DANS TOUTES LES CATÉGORIES");
+  
+  // Restaurer les options pour chaque catégorie
+  function restaurerOptionsSelects() {
+    console.log("Début de la restauration des options pour tous les selects");
+    
+    // Parcourir toutes les catégories
+    ['task', 'knowledge', 'skill', 'abilitie'].forEach(tabId => {
+      console.log(`Restauration des options pour la catégorie ${tabId}`);
+      const tab = document.getElementById(tabId);
+      if (!tab) return;
+      
+      // Trouver tous les groupes de selects dans cette catégorie
+      const selectGroups = tab.querySelectorAll('.select-group');
+      console.log(`Nombre de groupes de selects trouvés dans ${tabId}: ${selectGroups.length}`);
+      
+      selectGroups.forEach((group, groupIndex) => {
+        // Trouver tous les selects dans ce groupe
+        const selects = group.querySelectorAll('select');
+        console.log(`Groupe ${groupIndex}: ${selects.length} selects trouvés`);
+        
+        // Pour chaque select, vérifier et restaurer les options si nécessaire
+        selects.forEach((select, selectIndex) => {
+          // Si le select n'a pas d'options ou seulement l'option vide
+          if (select.options.length <= 1) {
+            console.log(`Restauration des options pour le select ${selectIndex} du groupe ${groupIndex} dans ${tabId}`);
+            
+            // Déterminer quelles options ajouter selon la catégorie et la position du select
+            if (selectIndex === 0) {  // Premier select (pertinence)
+              select.innerHTML = '';
+              select.appendChild(new Option('--', ''));
+              select.appendChild(new Option('0', '0'));
+              select.appendChild(new Option('1', '1'));
+              select.appendChild(new Option('2', '2'));
+              select.appendChild(new Option('3', '3'));
+            } 
+            else if (selectIndex === 1) {  // Deuxième select (niveau attendu)
+              select.innerHTML = '';
+              select.appendChild(new Option('--', ''));
+              
+              if (tabId === 'task') {
+                select.appendChild(new Option('B', 'B'));
+                select.appendChild(new Option('S', 'S'));
+                select.appendChild(new Option('M', 'M'));
+              } 
+              else if (tabId === 'knowledge') {
+                select.appendChild(new Option('A', 'A'));
+                select.appendChild(new Option('B', 'B'));
+                select.appendChild(new Option('C', 'C'));
+                select.appendChild(new Option('D', 'D'));
+              } 
+              else {  // skill et abilitie
+                select.appendChild(new Option('1', '1'));
+                select.appendChild(new Option('2', '2'));
+                select.appendChild(new Option('3', '3'));
+              }
+            } 
+            else if (selectIndex === 2) {  // Troisième select (niveau toléré)
+              select.innerHTML = '';
+              select.appendChild(new Option('--', ''));
+              
+              if (tabId === 'task') {
+                select.appendChild(new Option('B', 'B'));
+                select.appendChild(new Option('S', 'S'));
+              } 
+              else if (tabId === 'knowledge') {
+                select.appendChild(new Option('A', 'A'));
+                select.appendChild(new Option('B', 'B'));
+                select.appendChild(new Option('C', 'C'));
+              } 
+              else {  // skill et abilitie
+                select.appendChild(new Option('1', '1'));
+                select.appendChild(new Option('2', '2'));
+              }
+            }
+            
+            console.log(`Options restaurées pour le select ${selectIndex}: ${select.options.length} options`);
+          }
+        });
+      });
+    });
+    
+         console.log("Restauration des options terminée");
+   }
+   
+   // Exécuter la restauration immédiatement
+   restaurerOptionsSelects();
+   
+   // Puis à nouveau après un court délai pour s'assurer que tout est bien chargé
+   setTimeout(() => {
+     restaurerOptionsSelects();
+     
+     // Mise à jour des contrôles globaux après restauration
+     const activeTab = document.querySelector('.tab-button.text-blue-600');
+     if (activeTab) {
+       const tabId = activeTab.getAttribute('data-tab');
+       console.log("Mise à jour des contrôles globaux après restauration pour:", tabId);
+       updateGlobalSelectOptions(tabId);
+     }
+   }, 1000);
+  
+  // Attendre que tout soit chargé
+  setTimeout(() => {
+    // Remplacer le gestionnaire d'événements du select tertiaire
+    const tertiaryGlobalSelect = document.getElementById('global-niveau-tolere-select');
+    if (tertiaryGlobalSelect) {
+      tertiaryGlobalSelect.onchange = function(e) {
+        const value = this.value;
+        if (value) {
+          // Restaurer les options avant de mettre à jour
+          restaurerOptionsSelects();
+          // Puis forcer la mise à jour
+          setTimeout(() => {
+            forceUpdateAllTertiarySelects(value);
+          }, 100);
+          e.stopPropagation(); // Empêcher la propagation pour éviter que l'ancien gestionnaire s'exécute
+        }
+      };
+      console.log("Nouveau gestionnaire d'événements installé pour le contrôle tertiaire");
+    }
+  }, 1500);
 });
+
+// Fonction pour forcer la mise à jour de tous les selects tertiaires
+function forceUpdateAllTertiarySelects(value) {
+  console.log("FORÇAGE de mise à jour des selects tertiaires avec la valeur:", value);
+  
+  // Obtenir l'onglet actif
+  const activeTab = document.querySelector('.tab-content:not(.hidden)');
+  if (!activeTab) return;
+  
+  const tabId = activeTab.id;
+  console.log("Onglet actif:", tabId);
+  
+  // S'assurer que les options sont correctes pour la valeur sélectionnée
+  let optionsValides = [];
+  if (tabId === 'task') {
+    optionsValides = ['B', 'S'];
+  } else if (tabId === 'knowledge') {
+    optionsValides = ['A', 'B', 'C'];
+  } else { // skill et abilitie
+    optionsValides = ['1', '2'];
+  }
+  
+  // Vérifier si la valeur est valide pour cette catégorie
+  if (!optionsValides.includes(value)) {
+    console.warn(`La valeur ${value} n'est pas valide pour la catégorie ${tabId}. Options valides: ${optionsValides.join(', ')}`);
+    showNotification(`La valeur ${value} n'est pas compatible avec la catégorie ${tabId}`, 'warning');
+    return;
+  }
+  
+  // Trouver tous les groupes de selects
+  const selectGroups = activeTab.querySelectorAll('.select-group');
+  console.log(`Nombre de groupes trouvés: ${selectGroups.length}`);
+  
+  // Compter les succès
+  let successCount = 0;
+  
+  // Pour chaque groupe
+  selectGroups.forEach((group, index) => {
+    // Trouver tous les selects dans ce groupe
+    const selects = group.querySelectorAll('select');
+    
+    // S'il y a au moins 3 selects (ou au moins 2 pour être sûr)
+    if (selects.length >= 2) {
+      // Prendre le dernier select
+      const lastSelectIndex = selects.length - 1;
+      const tertiarySelect = selects[lastSelectIndex];
+      
+      if (tertiarySelect) {
+        console.log(`Groupe ${index}: Modification du select tertiaire (index ${lastSelectIndex})`, tertiarySelect);
+        
+        // Sauvegarder l'état actuel
+        const wasDisabled = tertiarySelect.disabled;
+        const oldValue = tertiarySelect.value;
+        
+        try {
+          // Activer le select s'il est désactivé
+          if (wasDisabled) {
+            tertiarySelect.disabled = false;
+          }
+          
+          // S'assurer que le select a les bonnes options
+          if (tertiarySelect.options.length <= 1) {
+            console.log("Le select n'a pas d'options, ajout des options");
+            tertiarySelect.innerHTML = '';
+            tertiarySelect.appendChild(new Option('--', ''));
+            
+            // Ajouter les options selon la catégorie
+            if (tabId === 'task') {
+              tertiarySelect.appendChild(new Option('B', 'B'));
+              tertiarySelect.appendChild(new Option('S', 'S'));
+            } else if (tabId === 'knowledge') {
+              tertiarySelect.appendChild(new Option('A', 'A'));
+              tertiarySelect.appendChild(new Option('B', 'B'));
+              tertiarySelect.appendChild(new Option('C', 'C'));
+            } else { // skill et abilitie
+              tertiarySelect.appendChild(new Option('1', '1'));
+              tertiarySelect.appendChild(new Option('2', '2'));
+            }
+          }
+          
+          // Vérifier si la valeur existe dans les options
+          const valueExists = Array.from(tertiarySelect.options).some(opt => opt.value === value);
+          
+          if (valueExists) {
+            // Appliquer la valeur
+            tertiarySelect.value = value;
+            
+            // Créer et dispatcher un événement change
+            const changeEvent = new Event('change', { bubbles: true });
+            tertiarySelect.dispatchEvent(changeEvent);
+            
+            // Incrémenter le compteur de succès
+            successCount++;
+            
+            // Restaurer l'état désactivé si nécessaire après un court délai
+            if (wasDisabled) {
+              setTimeout(() => {
+                tertiarySelect.disabled = true;
+              }, 100);
+            }
+            
+            console.log(`Succès! Valeur modifiée de ${oldValue} à ${value}`);
+          } else {
+            console.error(`La valeur ${value} n'existe pas dans ce select. Options disponibles:`, 
+                         Array.from(tertiarySelect.options).map(o => o.value));
+            
+                         // Ajouter l'option manquante
+             if (optionsValides.includes(value)) {
+               console.log(`Ajout de l'option manquante ${value}`);
+               tertiarySelect.appendChild(new Option(value, value));
+               tertiarySelect.value = value;
+               successCount++;
+             }
+          }
+        } catch (err) {
+          console.error("Erreur lors de la modification:", err);
+        }
+      }
+    }
+  });
+  
+  // Afficher une notification avec le nombre de selects modifiés
+  showNotification(`${successCount} contrôles de niveau toléré (T) mis à jour avec succès`, 'success');
+}
+
+// Fonction pour mettre à jour les options des contrôles globaux en fonction de la catégorie active
+function updateGlobalSelectOptions(tabId) {
+  try {
+    console.log("Mise à jour des contrôles globaux pour l'onglet:", tabId);
+    const activeTab = document.getElementById(tabId);
+    if (!activeTab) return;
+    
+    const globalSecondary = document.getElementById('global-niveau-attendu-select');
+    const globalTertiary = document.getElementById('global-niveau-tolere-select');
+    
+    if (!globalSecondary || !globalTertiary) {
+      console.error("Contrôles globaux non trouvés");
+      return;
+    }
+    
+    // Sauvegarde des valeurs actuelles
+    const secondaryValue = globalSecondary.value;
+    const tertiaryValue = globalTertiary.value;
+    
+    console.log(`Valeurs actuelles avant mise à jour: A=${secondaryValue}, T=${tertiaryValue}`);
+    
+    // Réinitialiser les options
+    globalSecondary.innerHTML = '<option value="">--</option>';
+    globalTertiary.innerHTML = '<option value="">--</option>';
+    
+    // Ajouter les options selon la catégorie active
+    if (tabId === 'task') {
+      console.log("Configuration des options pour Task");
+      // Options pour Task (B, S, M)
+      globalSecondary.innerHTML += '<option value="B" title="Basic">B</option>';
+      globalSecondary.innerHTML += '<option value="S" title="Senior">S</option>';
+      globalSecondary.innerHTML += '<option value="M" title="Master">M</option>';
+      
+      // Pour le contrôle T (niveau toléré), on ne met que B et S (pas M car logiquement on ne tolère pas un niveau supérieur)
+      globalTertiary.innerHTML += '<option value="B" title="Basic">B</option>';
+      globalTertiary.innerHTML += '<option value="S" title="Senior">S</option>';
+    } 
+    else if (tabId === 'knowledge') {
+      console.log("Configuration des options pour Knowledge");
+      // Options pour Knowledge (A, B, C, D)
+      globalSecondary.innerHTML += '<option value="A" title="Level A">A</option>';
+      globalSecondary.innerHTML += '<option value="B" title="Level B">B</option>';
+      globalSecondary.innerHTML += '<option value="C" title="Level C">C</option>';
+      globalSecondary.innerHTML += '<option value="D" title="Level D">D</option>';
+      
+      // Pour le contrôle T (niveau toléré), on ne met que A, B, C (pas D car logiquement on ne tolère pas un niveau supérieur)
+      globalTertiary.innerHTML += '<option value="A" title="Level A">A</option>';
+      globalTertiary.innerHTML += '<option value="B" title="Level B">B</option>';
+      globalTertiary.innerHTML += '<option value="C" title="Level C">C</option>';
+    }
+    else {
+      console.log(`Configuration des options pour ${tabId} (Skill/Ability)`);
+      // Options pour Skill et Ability (1, 2, 3)
+      globalSecondary.innerHTML += '<option value="1" title="Level 1">1</option>';
+      globalSecondary.innerHTML += '<option value="2" title="Level 2">2</option>';
+      globalSecondary.innerHTML += '<option value="3" title="Level 3">3</option>';
+      
+      // Pour le contrôle T (niveau toléré), on ne met que 1, 2 (pas 3 car logiquement on ne tolère pas un niveau supérieur)
+      globalTertiary.innerHTML += '<option value="1" title="Level 1">1</option>';
+      globalTertiary.innerHTML += '<option value="2" title="Level 2">2</option>';
+    }
+    
+    // Forcer un rafraîchissement visuel des selects
+    globalSecondary.style.display = 'none';
+    globalTertiary.style.display = 'none';
+    
+    // Petit délai pour permettre le re-rendu
+    setTimeout(() => {
+      globalSecondary.style.display = '';
+      globalTertiary.style.display = '';
+      
+      console.log(`Options mises à jour pour ${tabId}:`);
+      console.log(`- Global A (niveau attendu): ${globalSecondary.options.length} options`);
+      console.log(`- Global T (niveau toléré): ${globalTertiary.options.length} options`);
+      
+      // Restaurer les valeurs si elles sont compatibles avec la nouvelle catégorie
+      if (secondaryValue) {
+        const secondaryOption = Array.from(globalSecondary.options).find(opt => opt.value === secondaryValue);
+        if (secondaryOption) {
+          globalSecondary.value = secondaryValue;
+          console.log(`Valeur A restaurée: ${secondaryValue}`);
+        } else {
+          console.log(`Valeur A ${secondaryValue} non compatible avec ${tabId}, réinitialisée`);
+        }
+      }
+      
+      if (tertiaryValue) {
+        const tertiaryOption = Array.from(globalTertiary.options).find(opt => opt.value === tertiaryValue);
+        if (tertiaryOption) {
+          globalTertiary.value = tertiaryValue;
+          console.log(`Valeur T restaurée: ${tertiaryValue}`);
+        } else {
+          console.log(`Valeur T ${tertiaryValue} non compatible avec ${tabId}, réinitialisée`);
+        }
+      }
+    }, 50);
+    
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour des contrôles globaux:", error);
+  }
+}
+
+// Fonction pour montrer un infobulle sur les options des selects
+function showInfoTooltip(select) {
+  // Cette fonction existe uniquement pour compatibilité avec les attributs onclick existants
+  // Elle n'a pas besoin d'implémentation
+}
+
+// Fonction pour restaurer l'état des contrôles globaux au chargement
+function restoreGlobalControlsState() {
+  const container = document.getElementById('global-controls-container');
+  if (container) {
+    const isHidden = localStorage.getItem('globalControlsHidden') === 'true';
+    if (isHidden) {
+      container.classList.add('hidden');
+      const toggleButton = container.querySelector('button[onclick="toggleGlobalControls()"]');
+      if (toggleButton) {
+        toggleButton.textContent = '◀';
+        toggleButton.title = 'Afficher les contrôles';
+      }
+    }
+  }
+}
+
+// Fonction pour forcer l'apparition des options dans les selects tertiaires
+function ensureTertiarySelectOptions() {
+  console.log("Forçage de l'apparition des options dans les selects tertiaires");
+  
+  // Obtenir l'onglet actif
+  const activeTab = document.querySelector('.tab-content:not(.hidden)');
+  if (!activeTab) return;
+  
+  const tabId = activeTab.id;
+  console.log("Onglet actif:", tabId);
+  
+  // Trouver tous les groupes de selects
+  const selectGroups = activeTab.querySelectorAll('.select-group');
+  console.log(`Nombre de groupes trouvés: ${selectGroups.length}`);
+  
+  // Pour chaque groupe
+  selectGroups.forEach((group, index) => {
+    // Trouver tous les selects dans ce groupe
+    const selects = group.querySelectorAll('select');
+    
+    // S'il y a au moins 2 selects
+    if (selects.length >= 2) {
+      // Récupérer les références aux selects
+      const primarySelect = selects[0];  // Premier select (pertinence)
+      const secondarySelect = selects.length >= 2 ? selects[1] : null;  // Deuxième select (niveau attendu)
+      const tertiarySelect = selects.length >= 3 ? selects[2] : null;  // Troisième select (niveau toléré)
+      
+      if (!tertiarySelect) {
+        console.log(`Groupe ${index}: Pas de select tertiaire trouvé`);
+        return;
+      }
+      
+      console.log(`Groupe ${index}: Analyse du select tertiaire`, tertiarySelect);
+      
+      // Si le select tertiaire n'a pas d'options ou est désactivé
+      if (tertiarySelect.options.length <= 1 || tertiarySelect.disabled) {
+        console.log(`Groupe ${index}: Le select tertiaire n'a pas d'options ou est désactivé`);
+        
+        // Activer temporairement
+        tertiarySelect.disabled = false;
+        
+        // Ajouter des options selon le type d'onglet
+        if (tabId === 'task') {
+          // Pour Task, ajouter les options B, S, M
+          addOptionsToSelect(tertiarySelect, [
+            { value: 'B', text: 'B', title: 'Basic' },
+            { value: 'S', text: 'S', title: 'Senior' },
+            { value: 'M', text: 'M', title: 'Master' }
+          ]);
+        } else if (tabId === 'knowledge') {
+          // Pour Knowledge, ajouter les options A, B, C, D
+          addOptionsToSelect(tertiarySelect, [
+            { value: 'A', text: 'A', title: 'Level A' },
+            { value: 'B', text: 'B', title: 'Level B' },
+            { value: 'C', text: 'C', title: 'Level C' },
+            { value: 'D', text: 'D', title: 'Level D' }
+          ]);
+        } else {
+          // Pour Skill et Ability, ajouter les options 1, 2, 3
+          addOptionsToSelect(tertiarySelect, [
+            { value: '1', text: '1', title: 'Level 1' },
+            { value: '2', text: '2', title: 'Level 2' },
+            { value: '3', text: '3', title: 'Level 3' }
+          ]);
+        }
+        
+
+        
+        // Si le select secondaire a une valeur, ajuster les options du tertiaire
+        if (secondarySelect && secondarySelect.value) {
+          console.log(`Ajustement des options selon la valeur du select secondaire: ${secondarySelect.value}`);
+          
+          if (tabId === 'task') {
+            // Logique spécifique pour Task
+            if (secondarySelect.value === 'B') {
+              // Si B est sélectionné, désactiver le tertiaire
+              tertiarySelect.disabled = true;
+            } else if (secondarySelect.value === 'S') {
+              // Si S est sélectionné, n'autoriser que B
+              clearSelectExcept(tertiarySelect, ['B']);
+            } else if (secondarySelect.value === 'M') {
+              // Si M est sélectionné, autoriser B et S
+              clearSelectExcept(tertiarySelect, ['B', 'S']);
+            }
+          } else if (tabId === 'knowledge') {
+            // Logique spécifique pour Knowledge
+            if (secondarySelect.value === 'A') {
+              // Si A est sélectionné, désactiver le tertiaire
+              tertiarySelect.disabled = true;
+            } else if (secondarySelect.value === 'B') {
+              // Si B est sélectionné, n'autoriser que A
+              clearSelectExcept(tertiarySelect, ['A']);
+            } else if (secondarySelect.value === 'C') {
+              // Si C est sélectionné, autoriser A et B
+              clearSelectExcept(tertiarySelect, ['A', 'B']);
+            } else if (secondarySelect.value === 'D') {
+              // Si D est sélectionné, autoriser A, B et C
+              clearSelectExcept(tertiarySelect, ['A', 'B', 'C']);
+            }
+          } else {
+            // Logique pour Skill et Ability
+            if (secondarySelect.value === '1') {
+              // Si 1 est sélectionné, désactiver le tertiaire
+              tertiarySelect.disabled = true;
+            } else if (secondarySelect.value === '2') {
+              // Si 2 est sélectionné, n'autoriser que 1
+              clearSelectExcept(tertiarySelect, ['1']);
+            } else if (secondarySelect.value === '3') {
+              // Si 3 est sélectionné, autoriser 1 et 2
+              clearSelectExcept(tertiarySelect, ['1', '2']);
+            }
+          }
+        }
+        
+
+      }
+    }
+  });
+  
+  console.log("Fin du forçage de l'apparition des options dans les selects tertiaires");
+}
+
+// Fonction utilitaire pour ajouter des options à un select
+function addOptionsToSelect(select, options) {
+  // Vider le select sauf la première option vide si elle existe
+  if (select.options.length > 0 && select.options[0].value === '') {
+    while (select.options.length > 1) {
+      select.remove(1);
+    }
+  } else {
+    select.innerHTML = '';
+    
+    // Ajouter une option vide au début
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.text = '--';
+    select.appendChild(emptyOption);
+  }
+  
+  // Ajouter les nouvelles options
+  options.forEach(option => {
+    const opt = document.createElement('option');
+    opt.value = option.value;
+    opt.text = option.text || option.value;
+    if (option.title) opt.title = option.title;
+    select.appendChild(opt);
+  });
+  
+  console.log(`Options ajoutées au select. Nombre d'options: ${select.options.length}`);
+}
+
+// Fonction utilitaire pour ne conserver que certaines options
+function clearSelectExcept(select, valuesToKeep) {
+  // Convertir les options actuelles en tableau
+  const options = Array.from(select.options);
+  
+  // Vider le select
+  select.innerHTML = '';
+  
+  // Ajouter d'abord l'option vide si elle existait
+  const emptyOption = options.find(opt => opt.value === '');
+  if (emptyOption) {
+    select.appendChild(emptyOption);
+  }
+  
+  // Réajouter uniquement les options à conserver
+  options.forEach(option => {
+    if (valuesToKeep.includes(option.value)) {
+      select.appendChild(option);
+    }
+  });
+  
+  console.log(`Select filtré. Options conservées: ${valuesToKeep.join(', ')}. Nombre d'options: ${select.options.length}`);
+}
+
+// Appeler cette fonction lorsqu'on change d'onglet ou lorsqu'on utilise le contrôle global T
+document.addEventListener('DOMContentLoaded', function() {
+  // Attendre que tout soit chargé
+  setTimeout(() => {
+    console.log("Initialisation des selects dans tous les onglets");
+    
+    // Trouver tous les onglets et s'assurer que les selects sont correctement configurés dans chacun
+    ['task', 'knowledge', 'skill', 'abilitie'].forEach(tabId => {
+      const tabContent = document.getElementById(tabId);
+      if (tabContent) {
+        console.log(`Configuration des selects dans l'onglet ${tabId}`);
+        
+        // Pour chaque groupe de selects dans cet onglet
+        const selectGroups = tabContent.querySelectorAll('.select-group');
+        selectGroups.forEach((group, groupIndex) => {
+          const selects = group.querySelectorAll('select');
+          
+          // S'il y a moins de 3 selects, vérifier pourquoi et recréer si nécessaire
+          if (selects.length < 3) {
+            console.warn(`Groupe ${groupIndex} dans ${tabId}: seulement ${selects.length} selects trouvés, vérification...`);
+          }
+          
+          // Pour chaque select, s'assurer qu'il a des options
+          selects.forEach((select, selectIndex) => {
+            // Si le select n'a pas d'options ou seulement l'option vide
+            if (select.options.length <= 1) {
+              console.warn(`Select ${selectIndex} dans groupe ${groupIndex} de ${tabId} n'a pas d'options, ajout...`);
+              
+              // Ajouter les options appropriées selon le type d'onglet et la position du select
+              if (selectIndex === 0) {  // Premier select (pertinence) - même pour tous les onglets
+                addOptionsToSelect(select, [
+                  { value: '0', text: '0', title: "Non pertinent" },
+                  { value: '1', text: '1', title: "Critique (Must have)" },
+                  { value: '2', text: '2', title: "Important (Rapidement acquis)" },
+                  { value: '3', text: '3', title: "Secondaire (Complémentaire)" }
+                ]);
+              } else if (selectIndex === 1) {  // Deuxième select (niveau attendu)
+                if (tabId === 'task') {
+                  addOptionsToSelect(select, [
+                    { value: 'B', text: 'B', title: "Basic" },
+                    { value: 'S', text: 'S', title: "Senior" },
+                    { value: 'M', text: 'M', title: "Master" }
+                  ]);
+                } else if (tabId === 'knowledge') {
+                  addOptionsToSelect(select, [
+                    { value: 'A', text: 'A', title: "Level A" },
+                    { value: 'B', text: 'B', title: "Level B" },
+                    { value: 'C', text: 'C', title: "Level C" },
+                    { value: 'D', text: 'D', title: "Level D" }
+                  ]);
+                } else {  // skill et abilitie
+                  addOptionsToSelect(select, [
+                    { value: '1', text: '1', title: "Level 1" },
+                    { value: '2', text: '2', title: "Level 2" },
+                    { value: '3', text: '3', title: "Level 3" }
+                  ]);
+                }
+              } else if (selectIndex === 2) {  // Troisième select (niveau toléré)
+                if (tabId === 'task') {
+                  addOptionsToSelect(select, [
+                    { value: 'B', text: 'B', title: "Basic" },
+                    { value: 'S', text: 'S', title: "Senior" }
+                    // M n'est pas inclus car logiquement on ne tolère pas un niveau supérieur à celui attendu
+                  ]);
+                } else if (tabId === 'knowledge') {
+                  addOptionsToSelect(select, [
+                    { value: 'A', text: 'A', title: "Level A" },
+                    { value: 'B', text: 'B', title: "Level B" },
+                    { value: 'C', text: 'C', title: "Level C" }
+                    // D n'est pas inclus car logiquement on ne tolère pas un niveau supérieur à celui attendu
+                  ]);
+                } else {  // skill et abilitie
+                  addOptionsToSelect(select, [
+                    { value: '1', text: '1', title: "Level 1" },
+                    { value: '2', text: '2', title: "Level 2" }
+                    // 3 n'est pas inclus car logiquement on ne tolère pas un niveau supérieur à celui attendu
+                  ]);
+                }
+              }
+            }
+          });
+        });
+      }
+    });
+    
+    // Trouver le select de contrôle tertiaire
+    const tertiaryGlobalSelect = document.getElementById('global-niveau-tolere-select');
+    if (tertiaryGlobalSelect) {
+      tertiaryGlobalSelect.onchange = function(e) {
+        const value = this.value;
+        if (value) {
+          // D'abord s'assurer que les options existent
+          ensureTertiarySelectOptions();
+          // Puis forcer la mise à jour
+          setTimeout(() => {
+            forceUpdateAllTertiarySelects(value);
+          }, 100);
+          e.stopPropagation();
+        }
+      };
+      console.log("Nouveau gestionnaire d'événements installé pour le contrôle tertiaire");
+    }
+    
+    // Trouver tous les boutons d'onglet
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+      // Ajouter un gestionnaire d'événements pour le clic
+      const originalClickHandler = button.onclick;
+      button.onclick = function(e) {
+        // Appeler le gestionnaire d'origine
+        if (originalClickHandler) {
+          originalClickHandler.call(this, e);
+        }
+        
+        // Attendre que l'onglet soit changé
+        setTimeout(() => {
+          // Forcer l'apparition des options
+          ensureTertiarySelectOptions();
+        }, 200);
+      };
+    });
+  }, 1000); // Attendre 1 seconde pour être sûr que tout est chargé
+});
+
+// Gère la logique de dépendance pour les contrôles globaux
+function handleGlobalPertinenceChange(value) {
+    const globalAttenduSelect = document.getElementById('global-niveau-attendu-select');
+    const globalTolereSelect = document.getElementById('global-niveau-tolere-select');
+
+    if (!globalAttenduSelect || !globalTolereSelect) return;
+
+    // Règle 1: Si P=0, tout désactiver
+    if (value === '0') {
+        globalAttenduSelect.disabled = true;
+        globalTolereSelect.disabled = true;
+        globalAttenduSelect.value = '';
+        globalTolereSelect.value = '';
+        globalAttenduSelect.classList.add('opacity-50', 'bg-gray-200');
+        globalTolereSelect.classList.add('opacity-50', 'bg-gray-200');
+        return;
+    }
+
+    // Si P > 0, on active toujours A
+    globalAttenduSelect.disabled = false;
+    globalAttenduSelect.classList.remove('opacity-50', 'bg-gray-200');
+
+    // Règle 2: T n'est activé que si P = 2
+    const isTolereEnabled = value === '2';
+    globalTolereSelect.disabled = !isTolereEnabled;
+
+    if (isTolereEnabled) {
+        globalTolereSelect.classList.remove('opacity-50', 'bg-gray-200');
+    } else {
+        globalTolereSelect.value = '';
+        globalTolereSelect.classList.add('opacity-50', 'bg-gray-200');
+    }
+}
+
+function updateGlobalTolereOptions(selectedValue) {
+    const globalTolereSelect = document.getElementById('global-niveau-tolere-select');
+    if (!globalTolereSelect) return;
+
+    const activeTab = document.querySelector('.tab-content:not(.hidden)');
+    if (!activeTab) return;
+    const tabId = activeTab.id;
+
+    const hierarchies = {
+        task: ['B', 'S', 'M'],
+        knowledge: ['A', 'B', 'C', 'D'],
+        skill: ['1', '2', '3'],
+        abilitie: ['1', '2', '3']
+    };
+
+    const hierarchy = hierarchies[tabId];
+    if (!hierarchy) return;
+
+    const selectedIndex = hierarchy.indexOf(selectedValue);
+
+    if (selectedValue === '' || selectedIndex === -1) {
+        Array.from(globalTolereSelect.options).forEach(opt => { opt.disabled = false; });
+        return;
+    }
+
+    Array.from(globalTolereSelect.options).forEach(opt => {
+        if (opt.value === '') {
+            opt.disabled = false;
+            return;
+        }
+        const optionIndex = hierarchy.indexOf(opt.value);
+        opt.disabled = optionIndex !== -1 && optionIndex > selectedIndex;
+    });
+
+    const currentTolereValue = globalTolereSelect.value;
+    const currentTolereIndexInHierarchy = hierarchy.indexOf(currentTolereValue);
+    if (currentTolereValue !== '' && (currentTolereIndexInHierarchy === -1 || currentTolereIndexInHierarchy > selectedIndex)) {
+        globalTolereSelect.value = '';
+    }
+}
+
+// ...
+// Dans le DOMContentLoaded principal, restaurer au tout début :
+document.addEventListener("DOMContentLoaded", () => {
+  restoreGlobalControlsFromLocalStorage();
+  // ...
+  // (le reste du code d'initialisation existant)
+
+  // Ajouter l'appel à saveGlobalControlsToLocalStorage sur chaque select global :
+  document.getElementById('global-pertinence-select')?.addEventListener('change', saveGlobalControlsToLocalStorage);
+  document.getElementById('global-niveau-attendu-select')?.addEventListener('change', saveGlobalControlsToLocalStorage);
+  document.getElementById('global-niveau-tolere-select')?.addEventListener('change', saveGlobalControlsToLocalStorage);
+});
+
+// --- NOUVELLE FONCTION DE RESTAURATION AU CHARGEMENT ---
+function restoreStateOnLoad() {
+    serverStorage.getItem('currentOpeningSelection').then(explicitLoadDataJSON => {
+        const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
+        let dataToRestoreJSON = null;
+
+        if (explicitLoadDataJSON) {
+            console.log("Chargement d'une sélection explicite...");
+            dataToRestoreJSON = explicitLoadDataJSON;
+            serverStorage.removeItem('currentOpeningSelection'); // Utiliser une seule fois
+            sessionStorage.setItem('ksatLastSavedState', explicitLoadDataJSON); // Devient le nouvel état de session
+        } else if (sessionStateJSON) {
+            console.log("Restauration de l'état de la session (F5)...");
+            dataToRestoreJSON = sessionStateJSON;
+        }
+
+        if (dataToRestoreJSON) {
+            performRestoration(JSON.parse(dataToRestoreJSON));
+        } else {
+            console.log("Aucun état à restaurer.");
+        }
+    }).catch(error => {
+        console.error("Erreur lors de la récupération de la sélection à charger:", error);
+        const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
+        if (sessionStateJSON) {
+            console.log("Restauration de l'état de session (F5) en fallback...");
+            performRestoration(JSON.parse(sessionStateJSON));
+        }
+    });
+}
+
+function performRestoration(data) {
+    try {
+        console.log("Restauration en cours avec les données:", data);
+
+        // ÉTAPE 1: Restaurer l'onglet actif et les valeurs des selects
+        // Activer l'onglet sans déclencher tous les effets de bord de .click()
+        if (data.activeTab) {
+            const tabButton = document.querySelector(`[data-tab="${data.activeTab}"]`);
+            if (tabButton) {
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove("border-blue-500", "text-blue-600"));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add("hidden"));
+                tabButton.classList.add("border-blue-500", "text-blue-600");
+                const tabContent = document.getElementById(data.activeTab);
+                if (tabContent) tabContent.classList.remove("hidden");
+                currentActiveTab = data.activeTab;
+                updateGlobalSelectOptions(data.activeTab);
+            }
+        }
+        
+        // Restaurer les valeurs des contrôles globaux
+        if (data.globalControls) {
+            const p = document.getElementById('global-pertinence-select');
+            const a = document.getElementById('global-niveau-attendu-select');
+            const t = document.getElementById('global-niveau-tolere-select');
+            if (p) p.value = data.globalControls.pertinence || '';
+            if (a) a.value = data.globalControls.attendu || '';
+            if (t) t.value = data.globalControls.tolere || '';
+        }
+
+        // Restaurer les valeurs de tous les selects ligne par ligne
+        if (data.selectValues) {
+            Object.entries(data.selectValues).forEach(([key, value]) => {
+                const parts = key.split('_');
+                if (parts.length !== 3) return;
+
+                const [tabId, rowIndex, selectIndex] = parts;
+
+                const tab = document.getElementById(tabId);
+                if (!tab) return;
+
+                const rows = tab.querySelectorAll('tbody tr');
+                if (rows.length <= rowIndex) return;
+                const row = rows[rowIndex];
+
+                const selects = row.querySelectorAll('.select-group select');
+                if (selects.length <= selectIndex) return;
+                
+                const select = selects[selectIndex];
+                if (select) {
+                    select.value = value;
+                }
+            });
+        }
+
+        // ÉTAPE 2: Appliquer l'état visuel (ex: disabled) basé sur les valeurs restaurées
+        document.querySelectorAll('.tab-content').forEach(tabContent => {
+            const tabId = tabContent.id;
+            tabContent.querySelectorAll('tbody tr').forEach(row => {
+                updateRowVisualState(row, tabId);
+            });
+        });
+        
+        // Appliquer aussi la logique pour les contrôles globaux
+        const globalPertinenceSelect = document.getElementById('global-pertinence-select');
+        if (globalPertinenceSelect) {
+            handleGlobalPertinenceChange(globalPertinenceSelect.value);
+        }
+
+        // ÉTAPE 3: Mettre à jour les compteurs
+        initializeSelectionCounters();
+
+        // ÉTAPE 4: Attacher les listeners de sauvegarde de session
+        document.querySelectorAll('#global-pertinence-select, #global-niveau-attendu-select, #global-niveau-tolere-select').forEach(el => {
+            el.addEventListener('change', saveStateToSession);
+        });
+        document.getElementById('tab-contents').addEventListener('change', (event) => {
+            if (event.target.tagName === 'SELECT') {
+                saveStateToSession();
+            }
+        });
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => setTimeout(saveStateToSession, 50));
+        });
+
+        console.log("Restauration de l'état terminée.");
+    } catch (e) {
+        console.error("Erreur lors de la restauration de l'état.", e);
+    }
+}
+
+function updateRowVisualState(row, tabId) {
+    const primarySelect = row.querySelector('.primary-select');
+    const secondarySelects = Array.from(row.querySelectorAll('.secondary-select'));
+    const select2 = secondarySelects[0];
+    const select3 = secondarySelects[1];
+
+    if (!primarySelect || !select2 || !select3) return;
+
+    // Règle 1: Basé sur la Pertinence (P)
+    const isP0 = primarySelect.value === '0';
+    select2.disabled = isP0;
+    
+    // Par défaut, T est désactivé et sera activé par la suite si les conditions sont remplies
+    select3.disabled = true;
+
+    if (isP0) return; // Si P=0, on s'arrête ici, A et T sont désactivés.
+
+    // Règle 2: T (select3) ne peut être activé que si P (primarySelect) est '2'
+    if (primarySelect.value === '2') {
+        select3.disabled = false;
+    }
+
+    // Règle 3: Désactivation supplémentaire de T (select3) basée sur A (select2), seulement si T n'est pas déjà désactivé.
+    if (!select3.disabled) {
+        const valueA = select2.value;
+        if ((tabId === 'task' && valueA === 'B') ||
+            ((tabId === 'skill' || tabId === 'abilitie') && valueA === '1') ||
+            (tabId === 'knowledge' && valueA === 'A')) {
+            select3.disabled = true;
+        }
+    }
+}
+
+// ...
+// Dans DOMContentLoaded, remplacer l'appel à loadSavedSelectionIfNeeded
+// par la nouvelle fonction.
+document.addEventListener("DOMContentLoaded", function() {
+  // ...
+  restoreStateOnLoad();
+  // ...
+});
+// ...
+
+// -- LOGIQUE DE PERSISTANCE DES CONTROLES GLOBAUX AU F5 --
+
+function saveGlobalControlsState() {
+    const data = {
+        pertinence: document.getElementById('global-pertinence-select')?.value || '',
+        attendu: document.getElementById('global-niveau-attendu-select')?.value || '',
+        tolere: document.getElementById('global-niveau-tolere-select')?.value || ''
+    };
+    localStorage.setItem('ksatGlobalControlsState', JSON.stringify(data));
+}
+
+function restoreGlobalControlsState() {
+    try {
+        const dataJSON = localStorage.getItem('ksatGlobalControlsState');
+        if (!dataJSON) return;
+        
+        const data = JSON.parse(dataJSON);
+        const p = document.getElementById('global-pertinence-select');
+        const a = document.getElementById('global-niveau-attendu-select');
+        const t = document.getElementById('global-niveau-tolere-select');
+
+        if (p) p.value = data.pertinence || '';
+        if (a) a.value = data.attendu || '';
+        if (t) t.value = data.tolere || '';
+
+        // Appliquer la logique de dépendance après restauration
+        if (p) {
+            handleGlobalPertinenceChange(p.value);
+        }
+        if (a) {
+            updateGlobalTolereOptions(a.value);
+        }
+    } catch (e) {
+        console.error("Erreur de restauration des contrôles globaux:", e);
+    }
+}
+
+
+// ... (dans DOMContentLoaded)
+document.addEventListener('DOMContentLoaded', function() {
+    // Restaurer l'état des contrôles globaux en premier
+    restoreGlobalControlsState();
+
+    // Lancer la restauration de la sauvegarde principale (si elle existe)
+    restoreStateOnLoad();
+
+    // Attacher les listeners pour la sauvegarde automatique des contrôles globaux
+    document.getElementById('global-pertinence-select')?.addEventListener('change', saveGlobalControlsState);
+    document.getElementById('global-niveau-attendu-select')?.addEventListener('change', saveGlobalControlsState);
+    document.getElementById('global-niveau-tolere-select')?.addEventListener('change', saveGlobalControlsState);
+
+    // ... (reste du code)
+});
+// ... (fin du script)
+
+// --- Logique de persistance de session (F5) ---
+
+function saveStateToSession() {
+    if (document.getElementById('loading-overlay')?.classList.contains('hidden') === false) {
+        return; // Ne pas sauvegarder pendant le chargement initial
+    }
+    const state = {
+        activeTab: currentActiveTab,
+        globalControls: {
+            pertinence: document.getElementById('global-pertinence-select')?.value || '',
+            attendu: document.getElementById('global-niveau-attendu-select')?.value || '',
+            tolere: document.getElementById('global-niveau-tolere-select')?.value || ''
+        },
+        selectValues: {}
+    };
+
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        const tabId = tab.id;
+        tab.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+            row.querySelectorAll('.select-group select').forEach((select, selectIndex) => {
+                const key = `${tabId}_${rowIndex}_${selectIndex}`;
+                state.selectValues[key] = select.value;
+            });
+        });
+    });
+
+    sessionStorage.setItem('ksatFullPageState', JSON.stringify(state));
+    console.log("État de la page (avec index) sauvegardé pour la session.");
+}
+
+// ... (dans performRestoration)
+// ÉTAPE 4: Mettre à jour les compteurs et attacher les listeners de sauvegarde de session
+initializeSelectionCounters();
+
+// Attacher les listeners après que la restauration soit terminée pour éviter de sauvegarder pendant le processus
+document.querySelectorAll('#global-pertinence-select, #global-niveau-attendu-select, #global-niveau-tolere-select').forEach(el => {
+    el.addEventListener('change', saveStateToSession);
+});
+document.getElementById('tab-contents').addEventListener('change', (event) => {
+    if (event.target.tagName === 'SELECT') {
+        saveStateToSession();
+    }
+});
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => setTimeout(saveStateToSession, 50));
+});
+
+console.log("Restauration de l'état terminée.");
+
+
+// ... (dans restoreStateOnLoad)
+// Remplacer l'ancienne logique par une qui utilise le nouvel état de session
+function restoreStateOnLoad() {
+    serverStorage.getItem('currentOpeningSelection').then(explicitLoadDataJSON => {
+        let dataToRestoreJSON = null;
+
+        if (explicitLoadDataJSON) {
+            console.log("Chargement d'une sélection explicite...");
+            dataToRestoreJSON = explicitLoadDataJSON;
+            serverStorage.removeItem('currentOpeningSelection'); 
+            sessionStorage.setItem('ksatFullPageState', explicitLoadDataJSON); 
+        } else {
+            dataToRestoreJSON = sessionStorage.getItem('ksatFullPageState');
+            if (dataToRestoreJSON) {
+                console.log("Restauration de l'état de la session (F5)...");
+            }
+        }
+
+        if (dataToRestoreJSON) {
+            performRestoration(JSON.parse(dataToRestoreJSON));
+        } else {
+            console.log("Aucun état à restaurer.");
+        }
+    }).catch(error => {
+        console.error("Erreur lors de la récupération de la sélection à charger:", error);
+        const sessionStateJSON = sessionStorage.getItem('ksatFullPageState');
+        if (sessionStateJSON) {
+             console.log("Restauration de l'état de session (F5) en fallback...");
+            performRestoration(JSON.parse(sessionStateJSON));
+        }
+    });
+}
+
 </script>
 <!-- Les données modales sont maintenant chargées directement dans la variable JavaScript -->
 

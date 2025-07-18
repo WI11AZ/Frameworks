@@ -1198,235 +1198,18 @@
             subtitle.textContent = 'Visualisation de l\'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
             
             // Réinitialiser la heatmap
-            if (window.heatmapInstance && typeof window.heatmapInstance.resetFilters === 'function') {
-              window.heatmapInstance.resetFilters();
+            if (window.drawHeatmapWithOpmIds) {
+              window.drawHeatmapWithOpmIds(); // Affiche tout
             } else {
-              // Si la fonction resetFilters n'existe pas, recharger la page
               location.reload();
             }
           });
         }
         
         // 3. Mettre à jour la heatmap pour n'afficher que les OPM IDs sélectionnés
-        if (window.heatmapInstance && typeof window.heatmapInstance.filterByOpmIds === 'function') {
-          // Si la fonction existe déjà, l'utiliser
-          window.heatmapInstance.filterByOpmIds(opmIds);
-        } else {
-          // Sinon, implémenter la fonctionnalité de filtrage sur place
-          
-          // Récupérer toutes les cellules de la heatmap
-          const cells = document.querySelectorAll('.heatmap-cell');
-          
-          // Récupérer tous les rectangles d'en-tête des OPM IDs
-          const headerRects = document.querySelectorAll('.opm-header-rect, rect[y="1201"], svg rect');
-          
-          console.log(`Nombre de rectangles trouvés: ${headerRects.length}`);
-          
-          // Parcourir toutes les cellules et les masquer/afficher selon les OPM IDs
-          cells.forEach(cell => {
-            const cellOpmId = cell.getAttribute('data-opmid');
-            
-            if (cellOpmId) {
-              // Si la cellule a un OPM ID et qu'il n'est pas dans notre liste, la rendre semi-transparente
-              if (!opmIds.includes(cellOpmId)) {
-                cell.style.opacity = '0.2';
-              } else {
-                cell.style.opacity = '1';
-                // Ajouter une mise en évidence pour les cellules correspondantes
-                cell.style.stroke = 'white';
-                cell.style.strokeWidth = '2px';
-              }
-            }
-          });
-          
-          let foundCount = 0;
-          
-          // APPROCHE AGRESSIVE: Colorer tous les rectangles du bas de la page qui correspondent aux OPM IDs
-          const svgElem = document.querySelector('svg');
-          const allRects = svgElem.querySelectorAll('rect');
-          
-          allRects.forEach(rect => {
-            // Vérifier d'abord par attribut data-opmid
-            const rectOpmId = rect.getAttribute('data-opmid');
-            
-            // Vérifier aussi par le texte adjacent (pour les rectangles sans attribut data-opmid)
-            let matchById = rectOpmId && opmIds.includes(rectOpmId);
-            let matchByPosition = false;
-            
-            // Si pas de correspondance par ID, vérifier par position
-            if (!matchById) {
-              const rectY = parseFloat(rect.getAttribute('y'));
-              // Si le rectangle est en bas de la heatmap (où se trouvent les OPM IDs)
-              if (rectY > 1000) {
-                // Trouver des textes d'OPM ID proches de ce rectangle
-                const rectX = parseFloat(rect.getAttribute('x'));
-                const rectWidth = parseFloat(rect.getAttribute('width'));
-                const centerX = rectX + rectWidth/2;
-                
-                const texts = svgElem.querySelectorAll('text.opm-id-label, text');
-                for (const text of texts) {
-                  const textX = parseFloat(text.getAttribute('x'));
-                  const textContent = text.textContent.trim();
-                  
-                  // Si le texte est proche du rectangle et qu'il correspond à un OPM ID sélectionné
-                  if (Math.abs(textX - centerX) < 20 && opmIds.includes(textContent)) {
-                    matchByPosition = true;
-                    console.log(`Rectangle trouvé par position pour OPM ID ${textContent}`);
-                    break;
-                  }
-                }
-              }
-            }
-            
-            // Si c'est un rectangle correspondant à un OPM ID sélectionné
-            if (matchById || matchByPosition) {
-              // FORCER le style jaune directement et avec plusieurs approches
-              rect.setAttribute('fill', '#FFFF00');
-              rect.style.fill = '#FFFF00';
-              rect.setAttribute('data-selected', 'true');
-              rect.classList.add('selected');
-              
-              // Appliquer une bordure noire
-              rect.setAttribute('stroke', '#000000');
-              rect.setAttribute('stroke-width', '1');
-              
-              foundCount++;
-              console.log(`Rectangle modifié pour OPM ID`);
-            } else if (parseFloat(rect.getAttribute('y')) > 1000) {
-              // Tous les autres rectangles du bas restent gris
-              rect.setAttribute('fill', '#6b7280');
-              rect.style.fill = '#6b7280';
-              rect.classList.remove('selected');
-              rect.removeAttribute('data-selected');
-            }
-          });
-          
-          console.log(`Nombre de rectangles modifiés en jaune: ${foundCount}`);
-          // Suppression de l'alerte de débogage
-          // alert(`${foundCount} rectangles OPM ID ont été mis en surbrillance en jaune`);
-          
-          // Si aucun rectangle n'a été trouvé, essayer une autre approche
-          if (foundCount === 0) {
-            // Essayer de cibler les rectangles par les coordonnées Y spécifiques
-            const specificYValues = [1201, 1202, 1203, 1204, 1205];
-            specificYValues.forEach(y => {
-              const rects = svgElem.querySelectorAll(`rect[y="${y}"]`);
-              rects.forEach(rect => {
-                rect.setAttribute('fill', '#FFFF00');
-                rect.style.fill = '#FFFF00';
-                console.log(`Rectangle à y=${y} forcé en jaune`);
-              });
-            });
-          }
-          
-          // Fonction pour réinitialiser le filtre
-          window.heatmapInstance = window.heatmapInstance || {};
-          window.heatmapInstance.filterByOpmIds = function(ids) {
-            cells.forEach(cell => {
-              const cellOpmId = cell.getAttribute('data-opmid');
-              
-              if (cellOpmId) {
-                if (!ids.includes(cellOpmId)) {
-                  cell.style.opacity = '0.2';
-                  cell.style.stroke = 'none';
-                } else {
-                  cell.style.opacity = '1';
-                  cell.style.stroke = 'white';
-                  cell.style.strokeWidth = '2px';
-                }
-              }
-            });
-            
-            // APPROCHE AGRESSIVE pour les rectangles du bas
-            const svgElem = document.querySelector('svg');
-            const allRects = svgElem.querySelectorAll('rect');
-            let foundCount = 0;
-            
-            allRects.forEach(rect => {
-              const rectOpmId = rect.getAttribute('data-opmid');
-              let matchById = rectOpmId && ids.includes(rectOpmId);
-              let matchByPosition = false;
-              
-              // Si pas de correspondance par ID, vérifier par position
-              if (!matchById) {
-                const rectY = parseFloat(rect.getAttribute('y'));
-                if (rectY > 1000) {
-                  const rectX = parseFloat(rect.getAttribute('x'));
-                  const rectWidth = parseFloat(rect.getAttribute('width'));
-                  const centerX = rectX + rectWidth/2;
-                  
-                  const texts = svgElem.querySelectorAll('text.opm-id-label, text');
-                  for (const text of texts) {
-                    const textX = parseFloat(text.getAttribute('x'));
-                    const textContent = text.textContent.trim();
-                    
-                    if (Math.abs(textX - centerX) < 20 && ids.includes(textContent)) {
-                      matchByPosition = true;
-                      break;
-                    }
-                  }
-                }
-              }
-              
-              if (matchById || matchByPosition) {
-                rect.setAttribute('fill', '#FFFF00');
-                rect.style.fill = '#FFFF00';
-                rect.classList.add('selected');
-                rect.setAttribute('data-selected', 'true');
-                rect.setAttribute('stroke', '#000000');
-                rect.setAttribute('stroke-width', '1');
-                foundCount++;
-              } else if (parseFloat(rect.getAttribute('y')) > 1000) {
-                rect.setAttribute('fill', '#6b7280');
-                rect.style.fill = '#6b7280';
-                rect.classList.remove('selected');
-                rect.removeAttribute('data-selected');
-              }
-            });
-            
-            console.log(`Nombre de rectangles mis en jaune: ${foundCount}`);
-          };
-          
-          // Fonction pour réinitialiser le filtre
-          window.heatmapInstance.resetFilters = function() {
-            cells.forEach(cell => {
-              cell.style.opacity = '1';
-              cell.style.stroke = 'none';
-            });
-            
-            // Réinitialiser les couleurs des rectangles d'en-tête
-            const svgElem = document.querySelector('svg');
-            const allRects = svgElem.querySelectorAll('rect');
-            
-            allRects.forEach(rect => {
-              if (parseFloat(rect.getAttribute('y')) > 1000) {
-                rect.setAttribute('fill', '#6b7280');
-                rect.style.fill = '#6b7280';
-                rect.classList.remove('selected');
-                rect.removeAttribute('data-selected');
-                rect.setAttribute('stroke', 'none');
-              }
-            });
-            
-            // Réinitialiser les textes OPM ID en blanc
-            const textsElements = svgElem.querySelectorAll('text');
-            textsElements.forEach(text => {
-              const textContent = text.textContent.trim();
-              if (/^\d{3}$/.test(textContent)) { // Si c'est un OPM ID (3 chiffres)
-                text.style.fill = 'white';
-                text.setAttribute('fill', 'white');
-              }
-            });
-            
-            // Utiliser notre fonction globale de réinitialisation si disponible
-            if (window.resetAllOpmIdHighlights) {
-              window.resetAllOpmIdHighlights();
-            }
-          };
+        if (window.drawHeatmapWithOpmIds) {
+          window.drawHeatmapWithOpmIds(opmIds);
         }
-        
-        // 4. Faire défiler jusqu'à la heatmap
-        document.getElementById('heatmap-container').scrollIntoView({ behavior: 'smooth' });
       }
       
       // Fonction pour appliquer la sélection et passer à l'étape du summary_chart
@@ -1490,8 +1273,8 @@
             }
             
             // Réinitialiser la heatmap
-            if (window.heatmapInstance && typeof window.heatmapInstance.resetFilters === 'function') {
-              window.heatmapInstance.resetFilters();
+            if (window.drawHeatmapWithOpmIds) {
+              window.drawHeatmapWithOpmIds(); // Affiche tout
             } else {
               // Si la fonction resetFilters n'existe pas, utiliser la méthode alternative
               const cells = document.querySelectorAll('.heatmap-cell');

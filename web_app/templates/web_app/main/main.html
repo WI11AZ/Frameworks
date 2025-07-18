@@ -44,15 +44,15 @@
         <div class="flex space-x-2">
           <a href="javascript:void(0)" id="etape1-link" 
              class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated %}bg-blue-500 text-white hover:bg-blue-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition">
-            Étape 1
+            Etape 1 <br> T-K-S-(A)
           </a>
           <button id="etape2-button" data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
              class="flex-1 py-3 px-4 text-center rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed transition">
-            Étape 2
+            Etape 2 <br> Competency Areas
           </button>
           <button id="etape3-button" onclick="window.open('{% url 'summary_chart' %}', '_blank');"
              class="flex-1 py-3 px-4 text-center rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed transition" disabled>
-            Étape 3
+            Etape 3 <br> SFIA 9
           </button>
         </div>
         {% if not user.is_authenticated %}

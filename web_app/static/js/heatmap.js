@@ -305,16 +305,18 @@ const mappings = {
 };
 
 // Fonction pour dessiner la heatmap
-function drawHeatmap() {
-  console.log("Dessin de la heatmap avec", filteredOpmIds.length, "OPM IDs et", competencyAreas.length, "domaines de compétence");
+function drawHeatmap(opmIdList) {
+  // Si une liste d'OPM IDs est fournie, on l'utilise, sinon on prend tous les OPM IDs filtrés
+  const opmIdsToUse = Array.isArray(opmIdList) && opmIdList.length > 0 ? opmIdList : filteredOpmIds;
+  console.log("Dessin de la heatmap avec", opmIdsToUse.length, "OPM IDs et", competencyAreas.length, "domaines de compétence");
   
   // Générer les données pour la heatmap
-  heatmapData = buildHeatmapDataset();
+  heatmapData = buildHeatmapDataset(opmIdsToUse);
   console.log("Dataset généré avec", heatmapData.length, "lignes");
   
   // Calculer la largeur nécessaire en fonction du nombre d'OPM IDs
   const cellMinWidth = 40; // Largeur minimale pour chaque cellule en pixels
-  const requiredWidth = filteredOpmIds.length * cellMinWidth;
+  const requiredWidth = opmIdsToUse.length * cellMinWidth;
   
   // Augmenter les marges pour éviter la coupure
   const margin = { top: 120, right: 150, bottom: 300, left: 350 };
@@ -323,8 +325,8 @@ function drawHeatmap() {
   const width = Math.max(2800, requiredWidth) - margin.left - margin.right;
   const height = 1400 - margin.top - margin.bottom;
   
-  // Nettoyage du SVG existant
-  d3.select("#heatmap-svg-element").selectAll("*").remove();
+  // Nettoyage du SVG existant (reset complet du SVG)
+  d3.select("#heatmap-svg-element").html("");
   
   // Échelles de couleur
   const colorScale = d3.scaleLinear()
@@ -387,7 +389,7 @@ function drawHeatmap() {
   
   // Échelles
   const xScale = d3.scaleBand()
-    .domain(filteredOpmIds)
+    .domain(opmIdsToUse)
     .range([0, width])
     .padding(0.12);
     
@@ -399,7 +401,7 @@ function drawHeatmap() {
   // Fond gris moyen pour les OPM IDs
   svg.append("g")
     .selectAll("rect")
-    .data(filteredOpmIds)
+    .data(opmIdsToUse)
     .enter()
     .append("rect")
     .attr("x", d => xScale(d))
@@ -487,7 +489,7 @@ function drawHeatmap() {
   // Textes des OPM IDs - Afficher uniquement le numéro
   svg.append("g")
     .selectAll("text")
-    .data(filteredOpmIds)
+    .data(opmIdsToUse)
     .enter()
     .append("text")
     .attr("class", "opm-id-label")
@@ -587,8 +589,8 @@ function drawHeatmap() {
   // Créer les cellules de la heatmap
   for (let i = 0; i < competencyAreas.length; i++) {
     const domain = competencyAreas[i];
-    for (let j = 0; j < filteredOpmIds.length; j++) {
-      const opmId = filteredOpmIds[j];
+    for (let j = 0; j < opmIdsToUse.length; j++) {
+      const opmId = opmIdsToUse[j];
       const value = heatmapData[i][j].value;
       
       console.log(`Cellule [${i},${j}]: domaine=${domain}, opmId=${opmId}, valeur=${value}`);
@@ -890,7 +892,8 @@ function applyNewValue() {
 }
 
 // Données d'intensité de relation entre domaines de compétence et OPM IDs
-function buildHeatmapDataset() {
+function buildHeatmapDataset(opmIdsToUse) {
+  const opmIds = Array.isArray(opmIdsToUse) && opmIdsToUse.length > 0 ? opmIdsToUse : filteredOpmIds;
   console.log("Construction du dataset de la heatmap avec des valeurs précises");
   
   // Créer un dataset vide
@@ -928,8 +931,8 @@ function buildHeatmapDataset() {
     }
     
     // Pour chaque OPM ID filtré
-    for (let j = 0; j < filteredOpmIds.length; j++) {
-      const opmId = filteredOpmIds[j];
+    for (let j = 0; j < opmIds.length; j++) {
+      const opmId = opmIds[j];
       let value = 0;
       
       // Attribuer une valeur basée sur la relation du mapping
@@ -957,3 +960,8 @@ function buildHeatmapDataset() {
   console.log(`Dataset généré avec ${dataset.length} lignes et ${dataset[0]?.length || 0} colonnes`);
   return dataset;
 } 
+
+// Fonction utilitaire pour redessiner la heatmap avec une liste filtrée d'OPM IDs
+window.drawHeatmapWithOpmIds = function(opmIdList) {
+  drawHeatmap(opmIdList);
+}; 

@@ -609,19 +609,33 @@ document.addEventListener('DOMContentLoaded', function() {
     if (opmIdsData && Object.keys(opmIdsData).length > 0) {
       const opmContainer = document.getElementById('opm-counters-container');
       opmContainer.innerHTML = ''; // Effacer le contenu existant
+
+      // Regrouper les données par nom de base OPM ID
+      const groupedOpmData = {};
+      Object.keys(opmIdsData).forEach(opmIdString => {
+        const baseName = opmIdString.replace(/\s*\((DCWF|NCWF 2017|NCWF 2024)\)$/, '').trim();
+        if (!groupedOpmData[baseName]) {
+          // Utiliser les données du premier OPM ID rencontré pour ce groupe
+          groupedOpmData[baseName] = opmIdsData[opmIdString];
+        }
+        // Pour cette implémentation, nous ne fusionnons pas les compteurs,
+        // nous affichons simplement la première version rencontrée, conformément à la demande de "supprimer l'une des deux".
+      });
       
-      // Pour chaque OPM ID, créer une ligne de compteurs
-      Object.keys(opmIdsData).forEach(opmId => {
+      // Pour chaque OPM ID groupé, créer une ligne de compteurs
+      Object.keys(groupedOpmData).forEach(baseName => {
+        const opmData = groupedOpmData[baseName];
+
         // Créer la div container pour cet OPM ID
         const opmCounterDiv = document.createElement('div');
         opmCounterDiv.className = 'flex justify-between items-center py-3 px-4 bg-gray-50 rounded-lg shadow-sm mt-2';
         opmCounterDiv.style.cssText = 'border-left: 3px solid #3b82f6;';
         
-        // Créer le titre avec l'OPM ID
+        // Créer le titre avec le nom de base de l'OPM ID
         const titleDiv = document.createElement('div');
         titleDiv.className = 'text-sm font-medium text-gray-700';
         titleDiv.style.cssText = 'min-width: 180px; white-space: nowrap;';
-        titleDiv.textContent = `OPM ID ${opmId} :`;
+        titleDiv.textContent = `OPM ID ${baseName} :`;
         
         // Créer le container des compteurs
         const countersDiv = document.createElement('div');
@@ -640,17 +654,15 @@ document.addEventListener('DOMContentLoaded', function() {
           const counterBadge = document.createElement('div');
           counterBadge.className = 'counter-badge';
           
-          // Récupérer les valeurs pour cet OPM ID et cette catégorie
-          const selected = opmIdsData[opmId][category.type].selected;
-          let total = opmIdsData[opmId][category.type].total;
+          // Récupérer les valeurs pour cet OPM ID et cette catégorie à partir des données groupées
+          const selected = opmData[category.type].selected;
+          let total = opmData[category.type].total;
           
-          // S'assurer que le total ne dépasse pas le total global pour cette catégorie
           const globalCategoryTotal = allCategoryCounts[category.type] || 0;
           if (total > globalCategoryTotal) {
             total = globalCategoryTotal;
-            // Ajuster aussi le nombre sélectionné si nécessaire
             if (selected > total) {
-              opmIdsData[opmId][category.type].selected = total;
+              opmData[category.type].selected = total;
             }
           }
           
@@ -670,15 +682,11 @@ document.addEventListener('DOMContentLoaded', function() {
         totalCounterDiv.className = 'pl-2 border-l border-gray-300';
         totalCounterDiv.style.cssText = 'margin-left: 8px; white-space: nowrap;';
         
-        // Calculer seulement à partir des données des catégories pour cet OPM ID spécifique
-        // Ces valeurs sont déjà filtrées pour ne compter que les lignes avec un ✅
-        let totalSelected = categories.reduce((sum, category) => sum + opmIdsData[opmId][category.type].selected, 0);
-        let totalCount = categories.reduce((sum, category) => sum + opmIdsData[opmId][category.type].total, 0);
+        let totalSelected = categories.reduce((sum, category) => sum + opmData[category.type].selected, 0);
+        let totalCount = categories.reduce((sum, category) => sum + opmData[category.type].total, 0);
         
-        // S'assurer que le total général ne dépasse pas le total global
         if (totalCount > globalTotal) {
           totalCount = globalTotal;
-          // Ajuster aussi le nombre sélectionné si nécessaire
           if (totalSelected > totalCount) {
             totalSelected = totalCount;
           }
