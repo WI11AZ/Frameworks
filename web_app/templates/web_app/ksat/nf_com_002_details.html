@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sécurité de l'IA (NF-COM-002)</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark background */
+            color: #e5e7eb; /* Light text */
+        }
+        .card {
+            background-color: #1f2937; /* Slightly lighter card background */
+            border: 1px solid #374151;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        .card-id {
+            color: #60a5fa; /* Blue accent for ID */
+        }
+        .section-title-icon {
+            width: 32px;
+            height: 32px;
+            stroke-width: 1.5;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+        <!-- Header Section -->
+        <header class="text-center mb-12 relative">
+            <div class="absolute top-20 right-0">
+                <button onclick="window.close()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Fermer
+                </button>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+                Domaine de Compétence : Sécurité de l'IA
+            </h1>
+            <p class="text-lg font-semibold text-blue-400 mb-6">
+                Référence : NF-COM-002
+            </p>
+            <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-300">
+                Cette compétence décrit la capacité d'un apprenant à comprendre les systèmes d'Intelligence Artificielle (IA) et à les utiliser de manière sécurisée afin de maximiser les bénéfices de l'IA tout en minimisant les risques potentiels.
+            </p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+            <!-- Knowledge Section -->
+            <section id="knowledge">
+                <div class="flex items-center gap-4 mb-8">
+                     <!-- Icon for Knowledge -->
+                    <svg class="section-title-icon text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                    <h2 class="text-3xl font-bold text-white">Connaissances (Knowledge)</h2>
+                </div>
+                <div class="space-y-4">
+                    <!-- Knowledge Cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills">
+                <div class="flex items-center gap-4 mb-8">
+                    <!-- Icon for Skills -->
+                    <svg class="section-title-icon text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 22.5l-.648-1.938a3.375 3.375 0 00-2.684-2.684L11.25 18l1.938-.648a3.375 3.375 0 002.684-2.684L16.25 13.5l.648 1.938a3.375 3.375 0 002.684 2.684L21.75 18l-1.938.648a3.375 3.375 0 00-2.684 2.684z" />
+                    </svg>
+                    <h2 class="text-3xl font-bold text-white">Compétences (Skills)</h2>
+                </div>
+                <div class="space-y-4">
+                    <!-- Skills Cards will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Bouton de retour flottant -->
+    <a href="javascript:window.close();" class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+
+    <script>
+        // Data for the page
+        const knowledgeData = [
+            { id: 'K0658', desc: 'Knowledge of cognitive biases' },
+            { id: 'K0660', desc: 'Knowledge of appropriate use policies and procedures' },
+            { id: 'K0678', desc: 'Knowledge of privacy laws and regulations' },
+            { id: 'K0681', desc: 'Knowledge of privacy principles and practices' },
+            { id: 'K0683', desc: 'Knowledge of cybersecurity vulnerabilities' },
+            { id: 'K0688', desc: 'Knowledge of common application vulnerabilities' },
+            { id: 'K0694', desc: 'Knowledge of computer algorithm capabilities and applications' },
+            { id: 'K0711', desc: 'Knowledge of evaluation and validation principles and practices' },
+            { id: 'K0728', desc: 'Knowledge of Confidentiality, Integrity and Availability (CIA) principles and practices' },
+            { id: 'K0735', desc: 'Knowledge of risk management models and frameworks' },
+            { id: 'K0752', desc: 'Knowledge of system vulnerabilities' },
+            { id: 'K0814', desc: 'Knowledge of secure coding tools and techniques' },
+            { id: 'K0818', desc: 'Knowledge of new and emerging cybersecurity risks' },
+            { id: 'K0822', desc: 'Knowledge of risk tolerance principles and practices' },
+            { id: 'K0835', desc: 'Knowledge of risk assessment principles and practices' },
+            { id: 'K0904', desc: 'Knowledge of machine learning principles and practices' },
+            { id: 'K0957', desc: 'Knowledge of root cause analysis tools and techniques' },
+            { id: 'K0970', desc: 'Knowledge of auditing policies and procedures' },
+            { id: 'K1071', desc: 'Knowledge of continuous monitoring processes' },
+            { id: 'K1117', desc: 'Knowledge of code analysis' },
+            { id: 'AI-K001', desc: 'Knowledge of adversarial machine learning (ML)' },
+            { id: 'AI-K002', desc: 'Knowledge of AI model types' },
+            { id: 'AI-K003', desc: 'Knowledge of AI system architectures' },
+            { id: 'AI-K004', desc: 'Knowledge of AI system attack surfaces' },
+            { id: 'AI-K005', desc: 'Knowledge of AI system capabilities and limitations' },
+            { id: 'AI-K006', desc: 'Knowledge of AI system development processes' },
+            { id: 'AI-K007', desc: 'Knowledge of AI system life cycle management' },
+            { id: 'AI-K008', desc: 'Knowledge of AI system security and safety' },
+            { id: 'AI-K009', desc: 'Knowledge of AI system vulnerabilities' },
+            { id: 'AI-K010', desc: 'Knowledge of AI terminology' },
+            { id: 'AI-K011', desc: 'Knowledge of artificial intelligence (AI) principles and practices' },
+            { id: 'AI-K012', desc: 'Knowledge of data labeling principles and practices' },
+            { id: 'AI-K013', desc: 'Knowledge of data privacy principles and practices' },
+            { id: 'AI-K014', desc: 'Knowledge of data protection principles and practices' },
+            { id: 'AI-K015', desc: 'Knowledge of data quality principles and practices' },
+            { id: 'AI-K016', desc: 'Knowledge of deepfake detection tools and techniques' },
+            { id: 'AI-K017', desc: 'Knowledge of ethical hacking principles and practices' },
+            { id: 'AI-K018', desc: 'Knowledge of explainable AI (XAI) principles and practices' },
+            { id: 'AI-K019', desc: 'Knowledge of F-score metrics for classification tasks' },
+            { id: 'AI-K020', desc: 'Knowledge of fairness principles and practices' },
+            { id: 'AI-K021', desc: 'Knowledge of generative AI principles and practices' },
+            { id: 'AI-K022', desc: 'Knowledge of large language model (LLM) principles and practices' },
+            { id: 'AI-K023', desc: 'Knowledge of natural language processing (NLP) principles and practices' },
+            { id: 'AI-K024', desc: 'Knowledge of NIST AI Risk Management Framework' },
+            { id: 'AI-K025', desc: 'Knowledge of recall and precision metrics for classification tasks' },
+            { id: 'AI-K026', desc: 'Knowledge of residual risk principles and practices' },
+            { id: 'AI-K027', desc: 'Knowledge of responsible design principles and practices' },
+            { id: 'AI-K028', desc: 'Knowledge of responsible use principles and practices' },
+            { id: 'AI-K029', desc: 'Knowledge of risk monitoring principles and processes' },
+            { id: 'AI-K030', desc: 'Knowledge of simulation testing tools and techniques' },
+            { id: 'AI-K031', desc: 'Knowledge of statistical principles and practices' },
+            { id: 'AI-K032', desc: 'Knowledge of system accountability principles and practices' },
+            { id: 'AI-K033', desc: 'Knowledge of system design principles and practices' },
+            { id: 'AI-K034', desc: 'Knowledge of system safety considerations' },
+            { id: 'AI-K035', desc: 'Knowledge of test, evaluation, verification, and validation (TEVV) processes' },
+            { id: 'AI-K036', desc: 'Knowledge of the AI system life cycle' },
+            { id: 'AI-K037', desc: 'Knowledge of training, validation, and test data sets' },
+            { id: 'AI-K038', desc: 'Knowledge of trustworthiness characteristics' },
+            { id: 'AI-K039', desc: 'Knowledge of uncertainty measurement principles and practices' }
+        ];
+
+        const skillsData = [
+            { id: 'AI-S001', desc: 'Skill in developing appropriate system use cases' },
+            { id: 'AI-S002', desc: 'Skill in developing prompts for generative AI systems' },
+            { id: 'AI-S003', desc: 'Skill in dividing data into training, validation, and test data sets' },
+            { id: 'AI-S004', desc: 'Skill in evaluating machine learning models' },
+            { id: 'AI-S005', desc: 'Skill in evaluating the performance of algorithms' },
+            { id: 'AI-S006', desc: 'Skill in identifying possible mistakes or hallucinations in AI-generated outputs' }
+        ];
+
+        // Function to create and inject cards into the DOM
+        function createCard(item) {
+            return `
+                <div class="card rounded-lg p-4">
+                    <p class="card-id font-mono text-sm font-medium mb-1">${item.id}</p>
+                    <p class="text-gray-300">${item.desc}</p>
+                </div>
+            `;
+        }
+
+        // Get the container elements
+        const knowledgeContainer = document.querySelector('#knowledge .space-y-4');
+        const skillsContainer = document.querySelector('#skills .space-y-4');
+
+        // Populate the containers with data
+        knowledgeContainer.innerHTML = knowledgeData.map(createCard).join('');
+        skillsContainer.innerHTML = skillsData.map(createCard).join('');
+
+    </script>
+</body>
+</html>

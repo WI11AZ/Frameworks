@@ -314,25 +314,51 @@ function drawHeatmap(opmIdList) {
   heatmapData = buildHeatmapDataset(opmIdsToUse);
   console.log("Dataset généré avec", heatmapData.length, "lignes");
   
-  // Calculer la largeur nécessaire en fonction du nombre d'OPM IDs
-  const cellMinWidth = 40; // Largeur minimale pour chaque cellule en pixels
-  const requiredWidth = opmIdsToUse.length * cellMinWidth;
+  // Obtenir la taille du conteneur
+  const container = document.getElementById('heatmap-container');
+  const containerRect = container.getBoundingClientRect();
+  const containerWidth = containerRect.width;
   
-  // Augmenter les marges pour éviter la coupure
-  const margin = { top: 120, right: 150, bottom: 300, left: 350 };
+  // Ajuster la hauteur pour s'assurer que la heatmap s'affiche correctement
+  // Hauteur fixe pour s'assurer que tout est visible
+  const containerHeight = window.innerHeight * 0.7; // 70% de la hauteur de la fenêtre
+  container.style.height = `${containerHeight}px`;
   
-  // Dimensions ajustées
-  const width = Math.max(2800, requiredWidth) - margin.left - margin.right;
-  const height = 1400 - margin.top - margin.bottom;
+  // Marges réduites pour maximiser l'espace
+  const margin = { top: 40, right: 20, bottom: 40, left: 260 };
   
-  // Nettoyage du SVG existant (reset complet du SVG)
+  // Dimensions ajustées en fonction de l'espace disponible
+  const width = containerWidth - margin.left - margin.right;
+  const height = containerHeight - margin.top - margin.bottom;
+  
+  // Nettoyage du SVG existant
   d3.select("#heatmap-svg-element").html("");
   
-  // Échelles de couleur
+  // Préparer les échelles de couleur
   const colorScale = d3.scaleLinear()
     .domain([0, 1, 2, 3, 4, 5])
     .range(["#ffffff", "#e6eeff", "#99bbff", "#4d88ff", "#0044cc", "#002266"]);
-    
+  
+  // Calculer un facteur de zoom global pour que tout rentre à l'écran
+  const nbColumns = opmIdsToUse.length;
+  const nbRows = competencyAreas.length;
+  
+  // Déterminer le facteur de zoom optimal en fonction du nombre d'éléments
+  // et de l'espace disponible
+  const widthPerColumn = width / nbColumns;
+  const heightPerRow = height / nbRows;
+  
+  // Échelles - Remplacer les définitions précédentes
+  const xScale = d3.scaleBand()
+    .domain(opmIdsToUse)
+    .range([0, width])
+    .padding(0.02); // Padding très réduit pour maximiser l'espace
+  
+  const yScale = d3.scaleBand()
+    .domain(competencyAreas)
+    .range([0, height])
+    .padding(0.02); // Padding très réduit
+  
   // Préparation du SVG
   const svg = d3.select("#heatmap-svg-element")
     .attr("width", width + margin.left + margin.right)
@@ -345,6 +371,7 @@ function drawHeatmap(opmIdList) {
   
   // Fonction pour créer le tooltip après tout le reste
   function createTooltip() {
+    // Code du tooltip existant
     // Supprimer l'ancien tooltip s'il existe
     svg.selectAll(".tooltip-group").remove();
     
@@ -359,10 +386,10 @@ function drawHeatmap(opmIdList) {
       .attr("class", "tooltip-bg")
       .attr("rx", 5)
       .attr("ry", 5)
-      .attr("fill", "white")
-      .attr("stroke", "#ccc")
+      .attr("fill", "rgba(23, 32, 51, 0.95)")
+      .attr("stroke", "rgba(255, 255, 255, 0.2)")
       .attr("stroke-width", 1)
-      .attr("width", 250)
+      .attr("width", 280)
       .attr("height", 60);
       
     // Texte du tooltip
@@ -371,219 +398,23 @@ function drawHeatmap(opmIdList) {
       .attr("x", 10)
       .attr("y", 20)
       .style("font-weight", "bold")
-      .style("font-size", "12px");
+      .style("font-size", "12px")
+      .style("fill", "white");
       
     tooltipGroup.append("text")
       .attr("class", "tooltip-category")
       .attr("x", 10)
       .attr("y", 40)
       .style("font-size", "11px")
-      .style("font-style", "italic");
+      .style("font-style", "italic")
+      .style("fill", "rgba(255, 255, 255, 0.8)");
       
     tooltipGroup.append("text")
       .attr("class", "tooltip-desc")
       .attr("x", 10)
       .attr("y", 60)
-      .style("font-size", "12px");
-  }
-  
-  // Échelles
-  const xScale = d3.scaleBand()
-    .domain(opmIdsToUse)
-    .range([0, width])
-    .padding(0.12);
-    
-  const yScale = d3.scaleBand()
-    .domain(competencyAreas)
-    .range([0, height])
-    .padding(0.1);
-    
-  // Fond gris moyen pour les OPM IDs
-  svg.append("g")
-    .selectAll("rect")
-    .data(opmIdsToUse)
-    .enter()
-    .append("rect")
-    .attr("x", d => xScale(d))
-    .attr("y", height + 1)
-    .attr("width", xScale.bandwidth())
-    .attr("height", 50)
-    .attr("fill", "#6b7280")
-    .attr("class", "opm-header-rect")
-    .attr("data-opmid", d => d)
-    .style("cursor", "pointer")
-    .on("mouseover", function(event, d) {
-      // Obtenir la position de la case
-      const x = xScale(d);
-      const y = height + 1;
-      const width = xScale.bandwidth();
-      
-      // Obtenir la catégorie OPM basée sur les nouvelles classifications fournies
-      const categoryText = `Catégorie: ${getOpmCategory(d)}`;
-      const desc = opmIdTitles[d];
-      
-      // Préparer le contenu du tooltip
-      const title = `OPM ID: ${d}`;
-      
-      // Créer le tooltip s'il n'existe pas
-      createTooltip();
-      
-      // Mettre à jour le texte du tooltip
-      tooltipGroup.select(".tooltip-title").text(title);
-      
-      // Ajouter un élément pour la catégorie
-      tooltipGroup.select(".tooltip-category").remove(); // Supprimer l'ancien s'il existe
-      tooltipGroup.append("text")
-        .attr("class", "tooltip-category")
-        .attr("x", 10)
-        .attr("y", 40)
-        .style("font-size", "11px")
-        .style("font-style", "italic")
-        .text(categoryText);
-      
-      // Gérer le texte long avec du wrapping
-      const words = desc.split(/\s+/);
-      let line = '';
-      let lineNumber = 0;
-      const lineHeight = 15;
-      const tooltipDesc = tooltipGroup.select(".tooltip-desc").text('');
-      
-      for (let i = 0; i < words.length; i++) {
-        const testLine = line + words[i] + ' ';
-        if (testLine.length * 6 > 180) { // Approximation simple de la largeur du texte
-          tooltipDesc.append("tspan")
-            .attr("x", 10)
-            .attr("y", 60 + (lineNumber * lineHeight)) // Décalé pour laisser de la place à la catégorie
-            .text(line);
-          line = words[i] + ' ';
-          lineNumber++;
-        } else {
-          line = testLine;
-        }
-      }
-      
-      tooltipDesc.append("tspan")
-        .attr("x", 10)
-        .attr("y", 60 + (lineNumber * lineHeight)) // Décalé pour laisser de la place à la catégorie
-        .text(line);
-      
-      // Ajuster la hauteur du fond en fonction du nombre de lignes
-      const tooltipHeight = 50 + ((lineNumber + 1) * lineHeight); // Augmenté pour la ligne de catégorie
-      tooltipGroup.select(".tooltip-bg")
-        .attr("height", tooltipHeight);
-      
-      // Positionner le tooltip sous la case
-      tooltipGroup.attr("transform", `translate(${x + width/2 - 100}, ${y + 50})`);
-      
-      // Afficher le tooltip
-      tooltipGroup.style("opacity", 1);
-      
-      // Déplacer le tooltip à la fin du SVG pour qu'il soit au-dessus de tout
-      tooltipGroup.raise();
-    })
-    .on("mouseout", function() {
-      // Masquer le tooltip
-      if (tooltipGroup) tooltipGroup.style("opacity", 0);
-    });
-    
-  // Textes des OPM IDs - Afficher uniquement le numéro
-  svg.append("g")
-    .selectAll("text")
-    .data(opmIdsToUse)
-    .enter()
-    .append("text")
-    .attr("class", "opm-id-label")
-    .attr("x", d => xScale(d) + xScale.bandwidth() / 2)
-    .attr("y", height + 25)
-    .attr("text-anchor", "middle")
-    .style("font-size", "14px")
-    .style("font-weight", "bold")
-    .style("fill", "white")
-    .style("pointer-events", "none")
-    .text(d => d);
-  
-  // Axe Y - Domaines de compétence
-  svg.append("g")
-    .call(d3.axisLeft(yScale))
-    .selectAll("text")
-    .style("font-size", "14px")
-    .style("font-weight", "bold")
-    .call(wrap, margin.left - 30);
-    
-  // Fonction pour wrap le texte long
-  function wrap(text, width) {
-    text.each(function() {
-      const text = d3.select(this);
-      const words = text.text().split(/\s+/).reverse();
-      let word, line = [], lineNumber = 0, lineHeight = 1.1;
-      const y = text.attr("y");
-      const dy = parseFloat(text.attr("dy") || 0);
-      let tspan = text.text(null).append("tspan").attr("x", -15).attr("y", y).attr("dy", dy + "em");
-      
-      while (word = words.pop()) {
-        line.push(word);
-        tspan.text(line.join(" "));
-        if (tspan.node().getComputedTextLength() > width) {
-          line.pop();
-          tspan.text(line.join(" "));
-          line = [word];
-          tspan = text.append("tspan").attr("x", -15).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word);
-        }
-      }
-    });
-  }
-   
-  // Fonction pour obtenir la justification du niveau de pertinence
-  function getRelationJustification(domain, opmId, value) {
-    // Base des justifications pour chaque niveau de valeur
-    if (value === 0) {
-      return "Aucune relation significative identifiée entre ce domaine de compétence et ce rôle professionnel selon le NICE Framework et le DCWF.";
-    } else if (value === 1) {
-      return "Relation minimale: Ce rôle a une compréhension basique ou une implication périphérique dans ce domaine de compétence, selon les définitions du NICE Framework.";
-    } else if (value === 2) {
-      return "Relation faible: Ce rôle nécessite une connaissance fonctionnelle de base de ce domaine, sans en faire un aspect central des responsabilités quotidiennes.";
-    } else if (value === 3) {
-      return "Relation modérée: Ce rôle implique une utilisation régulière des compétences de ce domaine, qui constituent une partie importante mais non principale des fonctions.";
-    } else if (value === 4) {
-      return "Relation forte: Ce domaine représente une compétence essentielle pour ce rôle, avec une application fréquente et approfondie dans les tâches quotidiennes.";
-    } else if (value === 5) {
-      return "Relation critique: Ce domaine est fondamental pour ce rôle professionnel, qui exige une maîtrise complète et une expertise avancée dans ce domaine de compétence.";
-    }
-    
-    // Identifier quel mapping utiliser basé sur le domaine de compétence
-    let mappingKey = "";
-    if (domain.includes("Access Controls")) mappingKey = "access_controls";
-    else if (domain.includes("Artificial Intelligence")) mappingKey = "ai_security";
-    else if (domain.includes("Asset Management")) mappingKey = "asset_management";
-    else if (domain.includes("Cloud Security")) mappingKey = "cloud_security";
-    else if (domain.includes("Communications Security")) mappingKey = "communications_security";
-    else if (domain.includes("Cryptography")) mappingKey = "cryptography";
-    else if (domain.includes("Cyber Resiliency")) mappingKey = "cyber_resiliency";
-    else if (domain.includes("DevSecOps")) mappingKey = "devsecops";
-    else if (domain.includes("Operating Systems")) mappingKey = "os_security";
-    else if (domain.includes("Operational Technology")) mappingKey = "ot_security";
-    else if (domain.includes("Supply Chain")) mappingKey = "supply_chain_security";
-    else if (domain.includes("Fundamentals")) mappingKey = "cybersecurity_fundamentals";
-    else if (domain.includes("Leadership")) mappingKey = "cybersecurity_leadership";
-    else if (domain.includes("Data Security")) mappingKey = "data_security";
-    else if (domain.includes("Secure Programming")) mappingKey = "secure_programming";
-    else mappingKey = "cybersecurity_fundamentals"; // Valeur par défaut
-    
-    console.log(`Domaine: ${domain} => Mapping: ${mappingKey}`);
-    
-    const mapping = mappings[mappingKey];
-    if (!mapping) {
-      console.error(`Aucun mapping trouvé pour la clé: ${mappingKey}`);
-    }
-    
-    // Vérifier s'il existe une justification spécifique
-    const specificKey = `${mappingKey}_${opmId}`;
-    if (specificJustifications[specificKey]) {
-      return specificJustifications[specificKey];
-    }
-    
-    // Si aucune justification spécifique n'est trouvée, retourner la justification générale
-    return getGeneralJustification(domain, opmId, value, mappingKey);
+      .style("font-size", "12px")
+      .style("fill", "white");
   }
   
   // Créer les cellules de la heatmap
@@ -593,24 +424,19 @@ function drawHeatmap(opmIdList) {
       const opmId = opmIdsToUse[j];
       const value = heatmapData[i][j].value;
       
-      console.log(`Cellule [${i},${j}]: domaine=${domain}, opmId=${opmId}, valeur=${value}`);
-      
-      // Obtenir la justification pour cette relation
-      const justification = getRelationJustification(domain, opmId, value);
-      
       // Créer la cellule
       svg.append("rect")
         .attr("class", "heatmap-cell")
         .attr("data-domain", domain)
         .attr("data-opmid", opmId)
         .attr("data-value", value)
-        .attr("data-justification", justification)
         .attr("x", xScale(opmId))
         .attr("y", yScale(domain))
         .attr("width", xScale.bandwidth())
         .attr("height", yScale.bandwidth())
         .attr("fill", colorScale(value))
-        .style("cursor", "default") // Curseur normal (flèche) au survol des cellules
+        .style("stroke", "rgba(0,0,0,0.1)")
+        .style("stroke-width", "0.5px")
         .on("mouseover", function(event) {
           // Obtenir la position de la cellule
           const rect = d3.select(this);
@@ -619,68 +445,26 @@ function drawHeatmap(opmIdList) {
           const value = parseInt(rect.attr("data-value"));
           const x = parseFloat(rect.attr("x"));
           const y = parseFloat(rect.attr("y"));
-          const width = parseFloat(rect.attr("width"));
-          const height = parseFloat(rect.attr("height"));
-          
-          // Obtenir la justification pour cette relation
-          const justification = rect.attr("data-justification");
           
           // Préparer le contenu du tooltip
           const title = `${domain} - OPM ID: ${opmId} - Niveau: ${value}/5`;
           
-          // Créer le tooltip s'il n'existe pas
+          // Créer le tooltip
           createTooltip();
           
           // Mettre à jour le texte du tooltip
           tooltipGroup.select(".tooltip-title").text(title);
+          tooltipGroup.select(".tooltip-desc").text(`Importance: ${value}/5`);
           
-          // Gérer le texte long avec du wrapping
-          const words = justification.split(/\s+/);
-          let line = '';
-          let lineNumber = 0;
-          const lineHeight = 15;
-          const tooltipDesc = tooltipGroup.select(".tooltip-desc").text('');
-          
-          for (let i = 0; i < words.length; i++) {
-            const testLine = line + words[i] + ' ';
-            if (testLine.length * 6 > 230) { // Approximation simple de la largeur du texte
-              tooltipDesc.append("tspan")
-                .attr("x", 10)
-                .attr("y", 40 + (lineNumber * lineHeight))
-                .text(line);
-              line = words[i] + ' ';
-              lineNumber++;
-            } else {
-              line = testLine;
-            }
-          }
-          
-          tooltipDesc.append("tspan")
-            .attr("x", 10)
-            .attr("y", 40 + (lineNumber * lineHeight))
-            .text(line);
-          
-          // Ajuster la hauteur du fond en fonction du nombre de lignes
-          const tooltipHeight = 30 + ((lineNumber + 1) * lineHeight);
-          tooltipGroup.select(".tooltip-bg")
-            .attr("height", tooltipHeight)
-            .attr("width", 250); // Élargir pour les justifications
-          
-          // Positionner le tooltip au-dessus de la cellule pour éviter qu'il soit caché
-          tooltipGroup.attr("transform", `translate(${x + width/2 - 125}, ${y - tooltipHeight - 10})`);
-          
-          // Afficher le tooltip
+          // Positionner et afficher le tooltip
+          tooltipGroup.attr("transform", `translate(${x + xScale.bandwidth()/2 - 140}, ${y - 70})`);
           tooltipGroup.style("opacity", 1);
-          
-          // Déplacer le tooltip à la fin du SVG pour qu'il soit au-dessus de tout
-          tooltipGroup.raise();
         })
         .on("mouseout", function() {
-          // Masquer le tooltip
           if (tooltipGroup) tooltipGroup.style("opacity", 0);
         })
         .on("click", function(event) {
-          // Afficher le popup d'édition
+          // Code existant pour le clic
           const cell = d3.select(this);
           const domain = cell.attr("data-domain");
           const opmId = cell.attr("data-opmid");
@@ -704,54 +488,72 @@ function drawHeatmap(opmIdList) {
                .attr("data-cell-index-i", i)
                .attr("data-cell-index-j", j);
         });
-        
+      
       // Ajouter le texte de valeur dans chaque cellule
-      svg.append("text")
-        .attr("x", xScale(opmId) + xScale.bandwidth() / 2)
-        .attr("y", yScale(domain) + yScale.bandwidth() / 2)
-        .attr("dy", "0.35em")
-        .attr("text-anchor", "middle")
-        .style("font-size", "12px")
-        .style("font-weight", "bold")
-        .style("fill", value > 2.5 ? "white" : "black")
-        .style("cursor", "default") // Conserver le curseur par défaut
-        .style("pointer-events", "none") // Ignorer les événements de souris sur le texte
-        .text(value);
+      if (xScale.bandwidth() > 10 && yScale.bandwidth() > 10) { // N'afficher le texte que si les cellules sont assez grandes
+        svg.append("text")
+          .attr("x", xScale(opmId) + xScale.bandwidth() / 2)
+          .attr("y", yScale(domain) + yScale.bandwidth() / 2)
+          .attr("dy", "0.3em")
+          .attr("text-anchor", "middle")
+          .style("font-size", `${Math.max(4, Math.min(8, xScale.bandwidth() * 0.4))}px`)
+          .style("font-weight", "bold")
+          .style("fill", value > 2.5 ? "white" : "black")
+          .style("pointer-events", "none")
+          .text(value);
+      }
     }
   }
   
-  // Titre de la heatmap
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", -40)
-    .attr("text-anchor", "middle")
-    .style("font-size", "20px")
-    .style("font-weight", "bold")
-    .text("Heatmap des 15 Domaines de Compétence NICE par OPM ID");
+  // Axes Y - Texte plus compact pour les domaines de compétence
+  const axisY = svg.append("g")
+    .call(d3.axisLeft(yScale));
+  
+  axisY.selectAll("text")
+    .style("font-size", "9px")
+    .style("font-weight", "normal")
+    .attr("transform", "translate(-5,0)")
+    .each(function(d) {
+      const text = d3.select(this);
+      // Tronquer les textes longs
+      let textContent = d;
+      if (textContent.length > 25) {
+        textContent = textContent.substring(0, 22) + "...";
+      }
+      text.text(textContent);
+      // Supprimer les codes (NF-COM-XXX) pour gagner de la place
+      text.text(text.text().replace(/\(NF-COM-\d+\)/g, ""));
+    });
+  
+  // OPM IDs en bas - Plus petits et verticaux
+  const bottomAxis = svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale));
+  
+  bottomAxis.selectAll("text")
+    .style("text-anchor", "end")
+    .style("font-size", "8px")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-90)");
     
+  // Titre de la heatmap - plus petit et compact
   svg.append("text")
     .attr("x", width / 2)
-    .attr("y", -15)
+    .attr("y", -20)
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
-    .text("Intensité de la relation entre les domaines de compétence et les OPM IDs (0-5)");
-    
-  // Légende
-  const legendWidth = 300;
-  const legendHeight = 20;
+    .style("font-weight", "bold")
+    .style("fill", "white")
+    .text("Domaines de Compétence NICE par OPM ID");
   
-  const legendScale = d3.scaleLinear()
-    .domain([0, 5])
-    .range([0, legendWidth]);
-    
-  const legendAxis = d3.axisBottom(legendScale)
-    .tickValues([0, 1, 2, 3, 4, 5])
-    .tickFormat(d => d);
-    
+  // Mini-légende simplifiée
+  const legendWidth = 150;
+  const legendHeight = 10;
+  
   const legend = svg.append("g")
-    .attr("transform", `translate(${width - legendWidth - 50},${height + 100})`);
+    .attr("transform", `translate(${width - legendWidth - 20},${height + 20})`);
     
-  // Gradient pour la légende
   legend.append("defs")
     .append("linearGradient")
     .attr("id", "legend-gradient")
@@ -777,13 +579,11 @@ function drawHeatmap(opmIdList) {
     
   legend.append("g")
     .attr("transform", `translate(0,${legendHeight})`)
-    .call(legendAxis);
-    
-  legend.append("text")
-    .attr("x", 0)
-    .attr("y", -10)
-    .style("font-size", "14px")
-    .text("Échelle d'intensité");
+    .call(d3.axisBottom(d3.scaleLinear().domain([0, 5]).range([0, legendWidth]))
+      .tickValues([0, 1, 2, 3, 4, 5])
+      .tickFormat(d => d))
+    .selectAll("text")
+    .style("font-size", "8px");
 }
 
 // Lorsque le document est chargé
@@ -965,3 +765,13 @@ function buildHeatmapDataset(opmIdsToUse) {
 window.drawHeatmapWithOpmIds = function(opmIdList) {
   drawHeatmap(opmIdList);
 }; 
+
+// Redimensionner la heatmap lors du redimensionnement de la fenêtre
+window.addEventListener('resize', function() {
+  // Attendre un peu pour éviter trop d'appels pendant le redimensionnement
+  if (this.resizeTimer) clearTimeout(this.resizeTimer);
+  this.resizeTimer = setTimeout(function() {
+    console.log("Redimensionnement de la fenêtre détecté, reconstruction de la heatmap");
+    drawHeatmap();
+  }, 250);
+}); 

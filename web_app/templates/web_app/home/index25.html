@@ -1,0 +1,347 @@
+{% extends "web_app/template/base.html" %}
+
+{% block content %}
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        
+        <!-- Titre de la page Modèles 2025 -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-lg shadow-md mb-6">
+            <h1 class="text-white text-2xl font-bold">Modèles DCWF 2025</h1>
+            <p class="text-blue-100 mt-2">Nouveaux rôles et catégories pour l'année 2025</p>
+        </div>
+
+    {% for category_data in categories %}
+        <div class="category-container rounded-lg mt-6 relative"
+             style="background-color: rgba({{ category_data.category.color }}, 0.75);" 
+             id="category-{{ category_data.category.title|slugify }}">
+            <!-- Titre + description TOUJOURS visibles -->
+            <div class="category-content">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-white text-lg font-bold p-2 w-max rounded"
+                     style="background-color: rgba({{ category_data.category.color }}, 1);">
+                    {{ category_data.category.title }}
+                    </div>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" 
+                               class="category-toggle mr-2 h-5 w-5 text-blue-600" 
+                               data-category="category-{{ category_data.category.title|slugify }}">
+                        <span class="text-white font-medium">Dérouler</span>
+                    </label>
+                </div>
+                <div class="text-white p-2">
+                    {{ category_data.category.description }}
+                </div>
+            </div>
+
+            <!-- Rôles organisés en lignes -->
+            {% for line in category_data.work_lines %}
+                <div class="work-role-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+                    {% for work_role in line %}
+                        {% if work_role == None %}
+                            <div class="col-span-1"></div>  {# Espace vide, transparent #}
+
+                        {% else %}
+                            <!-- Conteneur relatif pour positionner le detail-box -->
+                            <div class="bg-white rounded-lg shadow-md grid grid-rows-2 work-role relative"
+                                 id="work-role-{{ work_role.id }}">
+
+                                <!-- ZONE 1 : DCWF Code + Titre + Case à cocher -->
+                                <div class="px-5 pt-5 flex flex-col items-center justify-center omp-id-zone" 
+                                     onclick="toggleDetail('{{ work_role.id }}')" 
+                                     title="Cliquer pour voir la définition">
+                                    <p class="font-semibold flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+                                       style="color: rgba({{ category_data.category.color }},1);">
+                                        {% if work_role.dcwf_code in highlight_ids %}
+                                            <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                        {% endif %}
+                                        {{ work_role.dcwf_code }}
+                                        <span class="ml-1 text-xs opacity-60">ℹ️</span>
+                                    </p>
+                                    <p class="font-bold text-base text-center cursor-pointer hover:opacity-80 transition-opacity">{{ work_role.title }}</p>
+                                    <input type="checkbox" name="dcwf_2025_{{ work_role.id }}"
+                                           class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2"
+                                           onclick="event.stopPropagation();">
+                                </div>
+
+                                <!-- ZONE 2 : NCWF ID + Titre (si disponible) -->
+                                <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                    {% if work_role.ncwf_id %}
+                                        <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_id }}</p>
+                                        <p class="font-normal text-sm text-gray-600">{{ work_role.title }}</p>
+                                    {% else %}
+                                        <div class="h-8"></div> <!-- Espace vide pour maintenir la hauteur -->
+                                    {% endif %}
+                                </div>
+
+                                <!-- Données cachées pour le détail -->
+                                <p class="hidden description">{{ work_role.definition }}</p>
+                                <p class="hidden dcwf-code">{{ work_role.dcwf_code }}</p>
+                                <p class="hidden ncwf-id">{{ work_role.ncwf_id }}</p>
+
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <!-- Detail Box (réutilisé du code original) -->
+    <div id="detail-box" class="detail-box hidden fixed top-1/2 right-4 transform -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-80 z-50">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="detail-title" class="text-lg font-bold text-gray-800"></h3>
+            <button onclick="closeDetail()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="detail-content" class="text-gray-600 text-sm">
+            <!-- Le contenu sera injecté dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Bouton de comparaison (optionnel) -->
+    <div class="fixed bottom-6 right-6">
+        <button id="compare-btn" onclick="goToCompare()" 
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hidden">
+            <span id="compare-count">0</span> Comparer
+        </button>
+    </div>
+
+    </main>
+
+    <script>
+        // Fonction simplifiée et robuste pour afficher les détails
+        function toggleDetail(workRoleId) {
+            console.log('toggleDetail appelée avec workRoleId:', workRoleId);
+            
+            // Récupérer les éléments à chaque appel (plus sûr)
+            const detailBox = document.getElementById('detail-box');
+            const detailTitle = document.getElementById('detail-title');
+            const detailContent = document.getElementById('detail-content');
+            
+            if (!detailBox || !detailTitle || !detailContent) {
+                console.error('Éléments du detail box non trouvés:', {
+                    detailBox: !!detailBox,
+                    detailTitle: !!detailTitle,
+                    detailContent: !!detailContent
+                });
+                return;
+            }
+            
+            const workRoleElement = document.getElementById(`work-role-${workRoleId}`);
+            if (!workRoleElement) {
+                console.error('Work role element non trouvé pour l\'ID:', workRoleId);
+                return;
+            }
+            
+            try {
+                // Récupérer les informations du work role
+                const titleElement = workRoleElement.querySelector('.font-bold');
+                const descriptionElement = workRoleElement.querySelector('.description');
+                const dcwfCodeElement = workRoleElement.querySelector('.dcwf-code');
+                const ncwfIdElement = workRoleElement.querySelector('.ncwf-id');
+                
+                if (!titleElement || !descriptionElement || !dcwfCodeElement) {
+                    console.error('Données manquantes dans le work role');
+                    return;
+                }
+                
+                const title = titleElement.textContent.trim();
+                const description = descriptionElement.textContent.trim();
+                const dcwfCode = dcwfCodeElement.textContent.trim();
+                const ncwfId = ncwfIdElement ? ncwfIdElement.textContent.trim() : '';
+                
+                // Remplir le detail box de manière sécurisée
+                detailTitle.textContent = title;
+                detailContent.innerHTML = `
+                    <div class="mb-4 p-3 bg-blue-50 rounded-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-lg font-bold text-blue-700">${dcwfCode}</span>
+                            ${ncwfId ? `<span class="text-sm text-gray-600 bg-gray-200 px-2 py-1 rounded">${ncwfId}</span>` : ''}
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">${title}</h4>
+                    </div>
+                    <div class="text-gray-700 leading-relaxed">
+                        <h5 class="font-semibold mb-2 text-gray-800">📋 Définition :</h5>
+                        <p class="text-justify">${description}</p>
+                    </div>
+                `;
+                
+                // Afficher le detail box
+                detailBox.classList.remove('hidden');
+                console.log('Detail box affiché avec succès');
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'affichage des détails:', error);
+            }
+        }
+
+        function closeDetail() {
+            const detailBox = document.getElementById('detail-box');
+            if (detailBox) {
+                detailBox.classList.add('hidden');
+            }
+        }
+
+        // Gestion des catégories déroulantes
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Gestion des toggles de catégories (comme dans l'index.html original)
+            document.querySelectorAll('.category-toggle').forEach(function(toggle) {
+                toggle.addEventListener('change', function(event) {
+                    const categoryId = this.getAttribute('data-category');
+                    const categoryContainer = document.getElementById(categoryId);
+                    
+                    if (categoryContainer) {
+                        if (this.checked) {
+                            categoryContainer.classList.add('expanded');
+                        } else {
+                            categoryContainer.classList.remove('expanded');
+                        }
+                    }
+                    
+                    // Empêcher la propagation du clic
+                    event.stopPropagation();
+                });
+            });
+
+            // Empêcher les checkboxes de déclencher la fonction toggleDetail mais afficher la fenêtre si nécessaire
+            document.querySelectorAll('.work-role input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('click', function(event) {
+                    // Afficher la fenêtre de détails si elle n'est pas encore visible
+                    const detailBox = document.getElementById('detail-box');
+                    if (detailBox && detailBox.classList.contains('hidden')) {
+                        const workRoleElement = this.closest('.work-role');
+                        if (workRoleElement) {
+                            const workRoleId = workRoleElement.id.replace('work-role-', '');
+                            toggleDetail(workRoleId);
+                        }
+                    }
+                    
+                    event.stopPropagation();
+                    updateCompareButton();
+                });
+            });
+
+            // Initialiser le bouton de comparaison
+            updateCompareButton();
+        });
+
+        function updateCompareButton() {
+            const compareBtn = document.getElementById('compare-btn');
+            const compareCount = document.getElementById('compare-count');
+            const checkedBoxes = document.querySelectorAll('.work-role input[type="checkbox"]:checked');
+            
+            if (checkedBoxes.length > 0) {
+                compareBtn.classList.remove('hidden');
+                compareCount.textContent = checkedBoxes.length;
+            } else {
+                compareBtn.classList.add('hidden');
+            }
+        }
+
+        function goToCompare() {
+            // Récupérer les work roles sélectionnés
+            const checkedBoxes = document.querySelectorAll('.work-role input[type="checkbox"]:checked');
+            const selectedWorkRoles = [];
+            
+            checkedBoxes.forEach(checkbox => {
+                const workRoleElement = checkbox.closest('.work-role');
+                if (workRoleElement) {
+                    const dcwfCode = workRoleElement.querySelector('.dcwf-code').textContent;
+                    const title = workRoleElement.querySelector('.font-bold').textContent;
+                    selectedWorkRoles.push({
+                        dcwf_code: dcwfCode,
+                        title: title
+                    });
+                }
+            });
+
+            if (selectedWorkRoles.length > 0) {
+                console.log('Work roles sélectionnés pour comparaison:', selectedWorkRoles);
+                // Ici vous pouvez rediriger vers une page de comparaison ou traiter les données
+                alert(`${selectedWorkRoles.length} work role(s) sélectionné(s) pour comparaison`);
+            }
+        }
+
+        // Fermer le detail box en cliquant à l'extérieur
+        document.addEventListener('click', function(event) {
+            const detailBox = document.getElementById('detail-box');
+            if (!detailBox.contains(event.target) && !event.target.closest('.work-role')) {
+                closeDetail();
+            }
+        });
+    </script>
+
+<style>
+        .category-container {
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .work-role {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 150px;
+        }
+
+        .work-role:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .detail-box {
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .grid-rows-2 {
+            grid-template-rows: 1fr 1fr;
+        }
+
+        /* Masquer les work roles par défaut */
+        .category-container .work-role-container {
+            display: none;
+        }
+        
+        /* Afficher les work roles quand la catégorie est expanded */
+        .category-container.expanded .work-role-container {
+            display: grid;
+        }
+
+        /* Style pour la zone OMP ID cliquable */
+        .omp-id-zone {
+            position: relative;
+        }
+
+        .omp-id-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05));
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .omp-id-zone:hover::before {
+            opacity: 1;
+        }
+
+        .omp-id-zone:hover {
+            transform: translateY(-1px);
+            transition: transform 0.2s ease;
+        }
+</style>
+
+{% endblock %}

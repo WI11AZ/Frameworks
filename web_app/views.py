@@ -16,6 +16,11 @@ from django.views.decorators.http import require_http_methods
 import json
 
 
+def attributs_part_deux(request):
+    """Vue pour la page AttributsPartDeux"""
+    return render(request, 'web_app/main/AttributsPartDeux.html')
+
+
 
 def get_nist_id(role):
     role_2024 = role.ncwf_2024_work_role
@@ -584,6 +589,18 @@ def etape2_first_step(request):
 
 def summary_chart_view(request):
     return render(request, 'web_app/main/summary_chart_full.html')
+    
+def nf_com_007_details(request):
+    """
+    Vue pour afficher les détails sur NF-COM-007 (Cyber Resiliency).
+    """
+    return render(request, 'web_app/ksat/nf_com_007_details.html')
+    
+def nf_com_002_details(request):
+    """
+    Vue pour afficher les détails sur NF-COM-002 (Artificial Intelligence Security).
+    """
+    return render(request, 'web_app/ksat/nf_com_002_details.html')
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -687,3 +704,84 @@ def delete_ksat_selection(request, key):
             
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+
+def get_ncwf_prefix(work_role):
+    """Extraire le préfixe du code NCWF (ex: OG-WRL, PR-CDA, etc.)"""
+    if work_role.ncwf_id:
+        # Extraire les 2 premières parties du code NCWF (ex: OG-WRL de OG-WRL-001)
+        parts = work_role.ncwf_id.split('-')
+        if len(parts) >= 2:
+            return f"{parts[0]}-{parts[1]}"
+    return "ZZ-ZZZ"  # Pour les work roles sans code NCWF, les mettre à la fin
+
+
+def get_sorted_2025_roles(work_roles):
+    """Organiser les work roles par famille de codes NCWF et les trier"""
+    groups = defaultdict(list)
+    
+    for work_role in work_roles:
+        prefix = get_ncwf_prefix(work_role)
+        groups[prefix].append(work_role)
+    
+    # Trier chaque groupe par code NCWF complet
+    for prefix in groups:
+        groups[prefix].sort(key=lambda wr: wr.ncwf_id or "ZZ-ZZZ-999")
+    
+    # Organiser en lignes, en créant une nouvelle ligne pour chaque famille
+    work_lines = []
+    
+    # Trier les préfixes pour un ordre cohérent
+    sorted_prefixes = sorted(groups.keys())
+    
+    for prefix in sorted_prefixes:
+        roles_in_group = groups[prefix]
+        current_line = []
+        
+        for work_role in roles_in_group:
+            current_line.append(work_role)
+            
+            # Si la ligne atteint 5 éléments, la finaliser et commencer une nouvelle
+            if len(current_line) == 5:
+                work_lines.append(current_line)
+                current_line = []
+        
+        # Si on a des work roles restants dans cette famille, finaliser la ligne
+        if current_line:
+            # Compléter avec des None si nécessaire
+            while len(current_line) < 5:
+                current_line.append(None)
+            work_lines.append(current_line)
+    
+    return work_lines
+
+
+def models_2025(request):
+    """Vue pour la page des modèles 2025"""
+    from .models import Dcwf2025Category, Dcwf2025WorkRole
+    
+    template = loader.get_template("web_app/home/index25.html")
+    
+    # Récupérer toutes les catégories avec leurs work roles
+    categories = []
+    for category in Dcwf2025Category.objects.all().order_by('title'):
+        work_roles = list(category.work_roles.all())
+        
+        # Organiser les work roles par famille de codes NCWF (comme dans l'original)
+        work_lines = get_sorted_2025_roles(work_roles)
+        
+        if work_lines:  # Seulement ajouter les catégories qui ont des work roles
+            categories.append({
+                'category': category,
+                'work_lines': work_lines
+            })
+    
+    # Liste vide pour les IDs à surligner (pas nécessaire pour 2025)
+    highlight_ids = []
+    
+    context = {
+        "categories": categories,
+        "highlight_ids": highlight_ids,
+    }
+    
+    return HttpResponse(template.render(context, request))

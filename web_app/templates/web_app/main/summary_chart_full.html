@@ -315,6 +315,7 @@
                             <a href="#" class="rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white flex items-center">
                                 Tableau des compétences
                             </a>
+                            <a href="{% url 'attributs_part_deux' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
                         </div>
                     </div>
                 </div>
@@ -342,6 +343,7 @@
                 <a href="#" class="block rounded-md px-3 py-2 text-base font-medium bg-gray-900 text-white flex items-center">
                     Tableau des compétences
                 </a>
+                <a href="{% url 'attributs_part_deux' %}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
             </div>
         </div>
     </nav>
@@ -1302,13 +1304,14 @@
                                 // Créer le cercle de niveau
                                 const circle = document.createElement('div');
                                 circle.className = 'w-5 h-5 rounded-full flex items-center justify-center';
-                                circle.style.backgroundColor = `rgba(${color}, 0.15)`;
-                                circle.style.border = `1px solid rgba(${color}, 0.5)`;
+                                circle.style.backgroundColor = `rgba(${color}, 0.25)`;
+                                circle.style.border = `1px solid rgba(${color}, 0.7)`;
                                 
                                 // Ajouter le numéro dans le cercle
                                 const levelNumber = document.createElement('span');
                                 levelNumber.className = 'text-xs font-medium';
-                                levelNumber.style.color = `rgba(${color}, 1)`;
+                                levelNumber.style.color = '#ffffff';
+                                levelNumber.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.8)';
                                 levelNumber.textContent = i;
                                 circle.appendChild(levelNumber);
                                 
@@ -2374,7 +2377,7 @@
                 },
                 {
                     opmId: '421',
-                    color: '23, 190, 207', // Turquoise (couleur des Data/AI)
+                    color: '2, 125, 184', // Bleu (couleur des IT Cyberspace)
                     isPresent: has421,
                     competences: [
                         { code: 'DBAD', levels: [2, 3, 4, 5], description: 'Gestion des bases de données pour assurer la sécurité et la conformité.' },
@@ -2456,7 +2459,7 @@
                 },
                 {
                     opmId: '712',
-                    color: '94, 151, 49', // Vert (couleur des Cybersecurity)
+                    color: '153, 86, 206', // Mauve (couleur des Cyberspace Enablers)
                     isPresent: has712,
                     competences: [
                         { code: 'ETDL', levels: [3, 4, 5], description: 'Formation et développement des équipes pour assurer la qualité et la cohérence des services.' },
@@ -2572,7 +2575,7 @@
                         const opmIdText = row.querySelector('td:nth-child(2) span'); // Ajusté pour la nouvelle structure avec case à cocher
                         if (opmIdText && opmIdText.textContent === config.opmId) {
                             // Accéder aux cercles de niveau dans la cellule des niveaux
-                            const levelCircles = row.querySelectorAll('td:last-child .flex-row > div');
+                            const levelCircles = row.querySelectorAll('td:nth-child(4) .flex.flex-row > div > div');
                             
                             // Déterminer les niveaux à mettre en surbrillance basés sur l'OPM ID
                             const levelsToHighlight = getLevelsForOpmId(config.opmId);
@@ -2580,12 +2583,13 @@
                             levelsToHighlight.forEach(level => {
                                 const levelIndex = level - 1; // Convertir niveau à index 0-based
                                 if (levelIndex >= 0 && levelIndex < levelCircles.length) {
-                                    const levelCircle = levelCircles[levelIndex];
-                                    const circle = levelCircle.querySelector('div');
+                                    const circle = levelCircles[levelIndex];
                                     if (circle) {
                                         circle.style.backgroundColor = `rgba(${config.color}, 0.8)`;
                                         circle.style.transform = 'scale(1.2)';
                                         circle.style.boxShadow = `0 0 5px rgba(${config.color.split(',')[0]}, ${config.color.split(',')[1]}, ${config.color.split(',')[2]}, 0.7)`;
+                                        circle.style.borderColor = `rgba(${config.color}, 1)`;
+                                        circle.style.borderWidth = '2px';
                                         circle.style.transition = 'all 0.3s ease';
                                     }
                                 }
@@ -2743,16 +2747,25 @@
             });
 
             // Réinitialiser tous les cercles de niveaux dans le tableau des OPM IDs
-            document.querySelectorAll('#opm-ids-list table tr td:last-child .flex-row > div div').forEach(circle => {
+            document.querySelectorAll('#opm-ids-list table tr td:nth-child(4) .flex.flex-row > div > div').forEach(circle => {
                 // Récupérer la couleur de base pour cet OPM ID
                 const row = circle.closest('tr');
                 const opmIdText = row ? row.querySelector('td:nth-child(2) span') : null;
                 const opmId = opmIdText ? opmIdText.textContent : null;
                 const color = opmId ? getOpmIdColor(opmId) : '59, 130, 246';
                 
-                circle.style.backgroundColor = `rgba(${color}, 0.15)`;
+                circle.style.backgroundColor = `rgba(${color}, 0.25)`;
                 circle.style.transform = 'scale(1)';
                 circle.style.boxShadow = 'none';
+                circle.style.borderColor = `rgba(${color}, 0.7)`;
+                circle.style.borderWidth = '1px';
+                
+                // Réinitialiser le texte
+                const textElement = circle.querySelector('span');
+                if (textElement) {
+                    textElement.style.color = '#ffffff';
+                    textElement.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.8)';
+                }
             });
         }
         
@@ -2765,15 +2778,23 @@
             opmRows.forEach(row => {
                 const opmIdText = row.querySelector('td:nth-child(2) span');
                 if (opmIdText && opmIdText.textContent === opmId) {
-                    const levelCircles = row.querySelectorAll('td:last-child .flex-row > div');
-                    levelCircles.forEach(levelCircle => {
-                        const circle = levelCircle.querySelector('div');
+                    const levelCircles = row.querySelectorAll('td:nth-child(4) .flex.flex-row > div > div');
+                    levelCircles.forEach(circle => {
                         if (circle) {
                             // Récupérer la couleur de base pour cet OPM ID
                             const color = getOpmIdColor(opmId);
-                            circle.style.backgroundColor = `rgba(${color}, 0.15)`;
+                            circle.style.backgroundColor = `rgba(${color}, 0.25)`;
                             circle.style.transform = 'scale(1)';
                             circle.style.boxShadow = 'none';
+                            circle.style.borderColor = `rgba(${color}, 0.7)`;
+                            circle.style.borderWidth = '1px';
+                            
+                            // Réinitialiser le texte
+                            const textElement = circle.querySelector('span');
+                            if (textElement) {
+                                textElement.style.color = '#ffffff';
+                                textElement.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.8)';
+                            }
                         }
                     });
                 }
@@ -3166,7 +3187,7 @@
                     const opmIdText = row.querySelector('td:nth-child(2) span'); // Ajusté pour la nouvelle structure avec case à cocher
                     if (opmIdText && opmIdText.textContent === opmId) {
                         // Accéder aux cercles de niveau dans la cellule des niveaux
-                        const levelCircles = row.querySelectorAll('td:last-child .flex-row > div');
+                        const levelCircles = row.querySelectorAll('td:nth-child(4) .flex.flex-row > div > div');
                         
                         // Déterminer les niveaux à mettre en surbrillance basés sur l'OPM ID
                         const levelsToHighlight = getLevelsForOpmId(opmId);
@@ -3174,12 +3195,13 @@
                         levelsToHighlight.forEach(level => {
                             const levelIndex = level - 1; // Convertir niveau à index 0-based
                             if (levelIndex >= 0 && levelIndex < levelCircles.length) {
-                                const levelCircle = levelCircles[levelIndex];
-                                const circle = levelCircle.querySelector('div');
+                                const circle = levelCircles[levelIndex];
                                 if (circle) {
                                     circle.style.backgroundColor = `rgba(${config.color}, 0.8)`;
                                     circle.style.transform = 'scale(1.2)';
                                     circle.style.boxShadow = `0 0 5px rgba(${config.color.split(',')[0]}, ${config.color.split(',')[1]}, ${config.color.split(',')[2]}, 0.7)`;
+                                    circle.style.borderColor = `rgba(${config.color}, 1)`;
+                                    circle.style.borderWidth = '2px';
                                     circle.style.transition = 'all 0.3s ease';
                                 }
                             }

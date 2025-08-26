@@ -49,6 +49,17 @@
                        class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'main' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
                         Home
                     </a>
+                    {% if request.resolver_match.url_name == 'models_2025' %}
+                        <a href="{% url 'home' %}"
+                           class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center">
+                            Old Modèles
+                        </a>
+                    {% else %}
+                        <a href="{% url 'models_2025' %}"
+                           class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'models_2025' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                            Modèles 2025
+                        </a>
+                    {% endif %}
                     {% if user.is_authenticated %}
                     <a href="{% url 'saved_ksat_selections' %}"
                        class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'saved_ksat_selections' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
@@ -126,6 +137,17 @@
                class="block rounded-md px-3 py-2 text-base font-medium {% if request.resolver_match.url_name == 'main' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
                 Home
             </a>
+            {% if request.resolver_match.url_name == 'models_2025' %}
+                <a href="{% url 'home' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center">
+                    Old Modèles
+                </a>
+            {% else %}
+                <a href="{% url 'models_2025' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium {% if request.resolver_match.url_name == 'models_2025' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                    Modèles 2025
+                </a>
+            {% endif %}
             {% if user.is_authenticated %}
             <a href="{% url 'saved_ksat_selections' %}"
                class="block rounded-md px-3 py-2 text-base font-medium {% if request.resolver_match.url_name == 'saved_ksat_selections' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">

@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="/static/js/serverStorage.js"></script>
-    <script src="/static/js/heatmap.js"></script>
     <style>
       body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; }
       #heatmap-svg-element {
@@ -44,12 +43,14 @@
       }
       .heatmap-cell {
         cursor: pointer;
-        transition: opacity 0.2s ease;
+        transition: opacity 0.15s ease;
+        stroke: rgba(255, 255, 255, 0.05);
+        stroke-width: 0.5;
       }
       .heatmap-cell:hover {
-        opacity: 0.8;
+        opacity: 0.9;
         stroke: white;
-        stroke-width: 2px;
+        stroke-width: 1px;
       }
       
       /* Force les rectangles OPM ID à ne jamais être jaunes par défaut */
@@ -196,6 +197,43 @@
           color: #cbd5e0 !important;
       }
       
+      /* Styles spécifiques à la heatmap pour le mode sombre */
+      .dark-mode .heatmap-table th {
+          background-color: rgba(0, 0, 0, 0.5);
+      }
+      
+      .dark-mode .heatmap-table td.domain-name {
+          background-color: rgba(0, 0, 0, 0.3);
+      }
+      
+      .dark-mode .opm-id {
+          background-color: rgba(0, 0, 0, 0.6);
+      }
+      
+      /* Styles pour la légende en mode sombre */
+      .dark-mode .legend-container {
+          background-color: #2d3748 !important;
+          color: #e2e8f0;
+      }
+      
+      .dark-mode .legend-container h3 {
+          color: #4299e1 !important;
+      }
+      
+      .dark-mode .legend-detail {
+          color: #cbd5e0 !important;
+      }
+      
+      /* Style pour les carrés de couleur de la légende */
+      .legend-color-square {
+          width: 1.5rem;
+          height: 1.5rem;
+          display: inline-block;
+          border-radius: 0.25rem;
+          margin-right: 0.5rem;
+          border: 1px solid rgba(0,0,0,0.1);
+      }
+      
       @keyframes holographic {
           0% { 
               opacity: 0.85; 
@@ -227,57 +265,353 @@
           }
       }
 
-      /* Styles pour le conteneur de scrolling de la heatmap */
+      /* Styles pour le conteneur de la heatmap */
       #heatmap-container {
         position: relative;
         width: 100%;
-        overflow: auto;
-        max-height: 800px; /* Hauteur maximale avant défilement */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
       }
       
-      #heatmap-svg-element {
-        width: auto; /* Ajuster automatiquement à la taille du contenu */
-        height: auto; /* Ajuster automatiquement à la taille du contenu */
-        min-width: 100%; /* Pour s'assurer qu'il remplit au moins tout l'espace disponible */
-        display: block; /* Pour éliminer les espaces blancs sous le SVG */
+      /* Style pour la table de heatmap */
+      .heatmap-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      
+      .heatmap-table th, .heatmap-table td {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        padding: 5px 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      .heatmap-table th {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: white;
+        font-weight: bold;
+      }
+      
+      /* Styles pour le pied de tableau (OPM IDs) */
+      .heatmap-table tfoot th {
+        background-color: rgba(0, 0, 0, 0.25);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 3px 2px; /* Réduire le padding */
+        border-top: 2px solid rgba(255, 255, 255, 0.2);
+        height: 60px; /* Réduire encore la hauteur */
+        vertical-align: bottom;
+      }
+      
+      /* Style pour l'OPM ID spécifique */
+      .opm-id {
+        font-weight: bold;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 3px;
+        padding: 4px 2px; /* Réduire le padding horizontal */
+        display: flex;
+        flex-direction: column; /* Empiler les éléments verticalement */
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        margin: 0 auto; /* Centrage horizontal */
+        letter-spacing: 0px; /* Pas besoin de letter-spacing pour des chiffres empilés */
+        height: 100%;
+        position: relative;
+        top: 0;
+      }
+      
+      /* Style pour chaque chiffre de l'OPM ID */
+      .opm-digit {
+        display: block;
+        font-size: 12px;
+        line-height: 1.2;
+        text-align: center;
+      }
+      
+      /* Style pour mettre en évidence les OPM IDs sélectionnés */
+      .opm-id.selected {
+        background-color: #FFFF00;
+        color: black;
+        font-weight: bold;
+        box-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+      }
+      
+      .heatmap-table th.rotate-header {
+        height: 120px;
+        white-space: nowrap;
+      }
+      
+      .heatmap-table th.rotate-header > div {
+        transform: rotate(-60deg);
+        width: 30px;
+      }
+      
+      /* Modifier le style CSS pour les cellules de domaine */
+      .heatmap-table td.domain-name {
+        text-align: center;
+        font-weight: bold;
+        background-color: rgba(0, 0, 0, 0.15);
+        width: 110px;
+        min-width: 110px;
+        max-width: 110px;
+        font-size: 13px;
+        padding: 5px 2px;
+      }
+      
+      /* Styles pour les niveaux d'importance */
+      .heatmap-cell-0 { background-color: #ffffff; color: black; }
+      .heatmap-cell-1 { background-color: #e6eeff; color: black; }
+      .heatmap-cell-2 { background-color: #99bbff; color: black; }
+      .heatmap-cell-3 { background-color: #4d88ff; color: white; }
+      .heatmap-cell-4 { background-color: #0044cc; color: white; }
+      .heatmap-cell-5 { background-color: #002266; color: white; }
+      
+      .heatmap-cell {
+        cursor: pointer;
+      }
+      
+      .heatmap-cell:hover {
+        opacity: 0.8;
       }
       
       /* Style pour meilleure lisibilité des OPM IDs */
       .opm-id-label {
-        font-size: 16px;
+        font-size: 12px;
         font-weight: bold;
-        fill: black;
+        fill: white;
         dominant-baseline: central;
         text-anchor: middle;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
       
-      /* Styles personnalisés pour les barres de défilement */
-      #heatmap-container::-webkit-scrollbar {
-        width: 12px;
-        height: 12px;
+      /* Style pour la heatmap */
+      .heatmap-cell {
+        cursor: pointer;
+        transition: opacity 0.15s ease;
+        stroke: rgba(255, 255, 255, 0.05);
+        stroke-width: 0.5;
       }
       
-      #heatmap-container::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.2);
+      .heatmap-cell:hover {
+        opacity: 0.9;
+        stroke: white;
+        stroke-width: 1px;
       }
       
-      #heatmap-container::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.3);
+      /* Style pour le conteneur fixe de la heatmap */
+      .heatmap-fixed-container {
+        min-height: auto; /* Supprimer la hauteur minimale fixe */
+        padding-bottom: 10px;
+      }
+      
+      /* Améliorer le tooltip */
+      #heatmap-tooltip-element {
+        opacity: 0;
+        position: absolute;
+        background-color: rgba(23, 32, 51, 0.95);
+        border: solid 1px rgba(255, 255, 255, 0.2);
         border-radius: 6px;
-        border: 3px solid rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        color: #e5e7eb;
+        pointer-events: none;
+        font-size: 13px;
+        z-index: 10;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(2px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        transform: translateY(10px);
       }
       
-      #heatmap-container::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(255, 255, 255, 0.5);
+      #heatmap-tooltip-element.active {
+        opacity: 1;
+        transform: translateY(0);
       }
       
       /* Responsive adjustments */
       @media (max-width: 768px) {
         #heatmap-container {
-          max-height: 500px;
+          max-height: none;
           }
+      }
+      
+      /* Conteneur interne pour la heatmap */
+      .heatmap-inner-container {
+        min-width: 100%;
+        min-height: 100%;
+        position: relative;
+      }
+      
+      /* Style pour le tooltip des domaines - VERSION TRÈS VISIBLE */
+      .domain-tooltip {
+        position: fixed; /* Fixed au lieu de absolute */
+        top: 50%; /* Centre vertical */
+        left: 50%; /* Centre horizontal */
+        transform: translate(-50%, -50%); /* Centrage parfait */
+        width: 600px;
+        max-width: 80vw;
+        max-height: 80vh;
+        overflow-y: auto;
+        background-color: #000000;
+        color: white;
+        border: 5px solid #ff0000;
+        border-radius: 10px;
+        padding: 20px;
+        font-size: 16px;
+        z-index: 999999; /* Z-index extrêmement élevé */
+        box-shadow: 0 0 50px rgba(255, 0, 0, 0.7);
+        pointer-events: auto;
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+      }
+      
+      .domain-tooltip.active {
+        opacity: 1;
+        visibility: visible;
+        display: block;
+      }
+      
+      .domain-tooltip::before {
+        content: '';
+        position: absolute;
+        left: -10px;
+        top: 20px;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid rgba(77, 136, 255, 0.6);
+      }
+      
+      .domain-tooltip h4 {
+        margin: 0 0 10px 0;
+        color: #4d88ff;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: 1px solid rgba(77, 136, 255, 0.3);
+        padding-bottom: 8px;
+      }
+      
+      .domain-tooltip p {
+        margin: 0;
+        line-height: 1.5;
+      }
+      
+      /* Styles spécifiques pour le mode filtré */
+      .filtered-view {
+        border: 2px solid #4d88ff !important;
+        box-shadow: 0 0 10px rgba(77, 136, 255, 0.3) !important;
+        transition: all 0.3s ease;
+      }
+      
+      .filtered-mode .heatmap-table {
+        border-collapse: separate;
+        border-spacing: 2px;
+      }
+      
+      .filtered-mode .heatmap-table td.domain-name {
+        background-color: rgba(0, 0, 0, 0.2);
+        font-size: 12px;
+        padding: 4px;
+      }
+      
+      /* Style amélioré pour les OPM IDs en mode filtré */
+      .filtered-view .opm-id {
+        background-color: rgba(20, 40, 80, 0.7);
+        min-height: 30px;
+        width: auto !important;
+        padding: 4px 10px !important;
+      }
+      
+      .filtered-view .heatmap-cell {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      
+      /* Styles pour la colonne de synthèse */
+      .synthesis-header {
+        background-color: #2c3e50 !important;
+        border-left: 2px solid rgba(77, 136, 255, 0.5) !important;
+        min-width: 100px !important;
+      }
+      
+      .synthesis-footer {
+        background-color: #2c3e50 !important;
+        border-left: 2px solid rgba(77, 136, 255, 0.5) !important;
+        padding: 8px !important;
+        min-width: 100px !important;
+      }
+      
+      .synthesis-cell {
+        border-left: 2px solid rgba(77, 136, 255, 0.5) !important;
+        padding: 6px 8px !important;
+        min-width: 100px !important;
+        background-color: rgba(20, 40, 60, 0.8) !important;
+      }
+      
+      .synthesis-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .synthesis-percent {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 3px;
+        color: white;
+      }
+      
+      .progress-container {
+        width: 100%;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #3498db, #2980b9);
+        border-radius: 3px;
+      }
+      
+      /* Style pour le pourcentage global */
+      .global-synthesis {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 0;
+      }
+      
+      .global-percent {
+        font-size: 18px;
+        font-weight: bold;
+        color: #3498db;
+        margin-bottom: 2px;
+      }
+      
+      .global-label {
+        font-size: 12px;
+        opacity: 0.9;
+        text-align: center;
+        line-height: 1.2;
+        color: white;
       }
     </style>
 
@@ -388,7 +722,7 @@
           Relation entre les Domaines de Compétences NCWF et les Rôles DCWF
         </h1>
         <p id="heatmap-subtitle" class="text-gray-600 mt-2">
-          Visualisation de l'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF
+          Visualisation de l'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF
         </p>
       </header>
       
@@ -416,13 +750,71 @@
         </button>
       </div>
       
+      <!-- Légende des niveaux de corrélation -->
+      <div class="w-full max-w-7xl mb-4 p-4 bg-gray-50 rounded-lg shadow-sm legend-container">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Légende des niveaux de corrélation</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #ffffff;"></span>
+            <span class="text-sm"><strong>0:</strong> Aucune corrélation</span>
+          </div>
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #e6eeff;"></span>
+            <span class="text-sm"><strong>1:</strong> Corrélation minimale</span>
+          </div>
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #99bbff;"></span>
+            <span class="text-sm"><strong>2:</strong> Corrélation faible</span>
+          </div>
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #4d88ff; border-color: rgba(255,255,255,0.2);"></span>
+            <span class="text-sm"><strong>3:</strong> Corrélation modérée</span>
+          </div>
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #0044cc; border-color: rgba(255,255,255,0.2);"></span>
+            <span class="text-sm"><strong>4:</strong> Corrélation forte</span>
+          </div>
+          <div class="flex items-center">
+            <span class="legend-color-square" style="background-color: #002266; border-color: rgba(255,255,255,0.2);"></span>
+            <span class="text-sm"><strong>5:</strong> Corrélation critique</span>
+          </div>
+        </div>
+        <div class="mt-3 text-sm text-gray-600 legend-detail">
+          <p><strong>0:</strong> Aucune corrélation</p>
+          <p><strong>1:</strong> Corrélation minimale (compréhension basique, implication périphérique)</p>
+          <p><strong>2:</strong> Corrélation faible (connaissance fonctionnelle, sans être un aspect central dans les responsabilités quotidiennes)</p>
+          <p><strong>3:</strong> Corrélation modérée (utilisation régulière, constitue une partie importante, mais non principale des fonctions)</p>
+          <p><strong>4:</strong> Corrélation forte (application fréquente et approfondie, compétence essentielle pour le WRL considéré)</p>
+          <p><strong>5:</strong> Corrélation critique (domaine fondamental, exige une maîtrise complète et une expertise avancée)</p>
+        </div>
+      </div>
+      
       <!-- La heatmap/tableau doit toujours être sombre -->
       <main id="heatmap-main" class="w-full max-w-full bg-gray-800 p-6 rounded-lg shadow-lg text-gray-100">
-        <div id="heatmap-container" class="relative" style="overflow: auto; max-height: 800px;">
-          <div style="min-width: 3000px; min-height: 1600px;">
-            <svg id="heatmap-svg-element" style="width: 100%; height: 100%;"></svg>
-          </div>
+        <div id="heatmap-container" class="relative heatmap-fixed-container">
+          <table class="heatmap-table border-collapse w-full">
+            <thead>
+              <tr>
+                <th class="p-2 border border-gray-700 bg-gray-900 text-white">Domaines / OPM IDs</th>
+                <!-- Les en-têtes temporaires (qui seront vides) -->
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Le contenu de la heatmap sera généré par JavaScript -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <th class="p-2 border border-gray-700 bg-gray-900 text-white">OPM IDs</th>
+                <!-- Les OPM IDs seront générés par JavaScript -->
+              </tr>
+            </tfoot>
+          </table>
+          
           <div id="heatmap-tooltip-element"></div>
+          <div id="domain-tooltip" class="domain-tooltip">
+            <h4 id="domain-tooltip-title"></h4>
+            <p id="domain-tooltip-content"></p>
+          </div>
           <div id="edit-value-popup">
             <div id="edit-popup-title">Modifier la valeur</div>
             <div class="value-controls">
@@ -435,6 +827,16 @@
         </div>
       </main>
 
+      <!-- Boutons Simpli For P2 et P2 -->
+      <div class="w-full max-w-7xl flex justify-center mt-6 gap-4">
+        <button id="simpli-for-p2-btn" class="px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
+          Simpli For P2
+        </button>
+        <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
+          P2
+        </button>
+      </div>
+
       <footer class="mt-12 text-center text-gray-600 text-sm">
         <p>
           Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF.
@@ -446,8 +848,38 @@
     <script>
       // --- Constants ---
       const MAX_RELEVANCE_VALUE = 5;
+      
+      // Définitions complètes des domaines de compétence
+      const domainDefinitions = {
+        "NF-COM-001": "Access Controls: Describes a learner's capabilities to define, manage, and monitor the roles and secure access privileges of who is authorized to access protected data and resources and understand the impact of different types of access controls.",
+        "NF-COM-002": "Artificial Intelligence (AI) Security: Describes a learner's capabilities to secure Artificial Intelligence (AI) against cyberattacks, to ensure it is adequately contained where it is used, and to mitigate the threat AI presents where it or its users have malicious intent.",
+        "NF-COM-003": "Asset Management: Describes a learner's capabilities to conduct and maintain an accurate inventory of all digital assets, to include identifying, developing, operating, maintaining, upgrading, and disposing of assets.",
+        "NF-COM-004": "Cloud Security: Describes a learner's capabilities to protect cloud data, applications, and infrastructure from internal and external threats.",
+        "NF-COM-005": "Communications Security: Describes a learner's capabilities to secure the transmissions, broadcasting, switching, control, and operation of communications and related network infrastructures.",
+        "NF-COM-006": "Cryptography: Describes a learner's capabilities to transform data using cryptographic processes to ensure it can only be read by the person who is authorized to access it.",
+        "NF-COM-007": "Cyber Resiliency: Describes a learner's capability related to architecting, designing, developing, implementing, and maintaining the trustworthiness of systems that use or are enabled by cyber resources in order to anticipate, withstand, recover from, and adapt to adverse conditions, stresses, attacks, or compromises.",
+        "NF-COM-008": "DevSecOps: Describes a learner's capabilities to integrate security as a shared responsibility throughout the development, security, and operations (DevSecOps) life cycle of technologies.",
+        "NF-COM-009": "Operating Systems (OS) Security: Describes a learner's capabilities to install, administer, troubleshoot, backup, and conduct recovery of Operating Systems (OS), including in simulated environments.",
+        "NF-COM-010": "Operational Technology (OT) Security: Describes a learner's capabilities to improve and maintain the security of Operational Technology (OT) systems while addressing their unique performance, reliability, and safety requirements.",
+        "NF-COM-011": "Supply Chain Security: Describes a learner's capabilities to analyze and control digital and physical risks presented by technology products or services purchased from parties outside your organization.",
+        "NF-COM-012": "Cybersecurity Fundamentals: Describes a learner's capabilities to understand and apply core cybersecurity principles including the CIA triad (confidentiality, integrity, availability), identify common threat vectors and attack surfaces, comprehend fundamental risk management concepts, and demonstrate knowledge of essential cybersecurity terminology, frameworks, and best practices that form the foundation for all cybersecurity disciplines.",
+        "NF-COM-013": "Cybersecurity Leadership: Describes a learner's capabilities to lead cybersecurity initiatives and teams through strategic planning, effective communication of security concepts to diverse stakeholders, development of security culture within organizations, risk prioritization and resource allocation, incident response coordination, and the ability to align cybersecurity objectives with business goals while fostering collaboration across organizational boundaries.",
+        "NF-COM-014": "Data Security: Describes a learner's capabilities to protect digital information throughout its entire lifecycle from creation to destruction, implement data classification schemes and access controls, apply appropriate encryption and data masking techniques, ensure compliance with data protection regulations, and maintain data integrity and availability while preventing unauthorized access, corruption, or theft of sensitive information.",
+        "NF-COM-015": "Secure Programming: Describes a learner's capabilities to develop computer software using secure coding practices that prevent the introduction of security vulnerabilities, identify and remediate common programming flaws, implement security controls within application architecture, conduct code security reviews, and integrate security considerations throughout the software development lifecycle to protect against both known and emerging threats."
+      };
 
-      // Les 15 domaines de compétence du NCWF (mis à jour selon les spécifications)
+      // Liste des OPM IDs à afficher
+      const opmIds = [
+        "111", "112", "121", "131", "132", "141", "151", 
+        "211", "212", "221", "312", "321", "331", "332", "333", "334",
+        "411", "421", "422", "441", "443", "451", "461", 
+        "511", "521", "531", "541", 
+        "612", "621", "622", "631", "632", "641", "651", "652", "661", "671",
+        "722", "723", "731", "752", 
+        "801", "802", "803", "804", "805", "901"
+      ];
+
+      // Les 15 domaines de compétence du NCWF v2.0.0. de 2024
       const competencyAreas = [
         "Access Controls (NF-COM-001)",
         "Artificial Intelligence (AI) Security (NF-COM-002)",
@@ -460,598 +892,282 @@
         "Operating Systems (OS) Security (NF-COM-009)",
         "Operational Technology (OT) Security (NF-COM-010)",
         "Supply Chain Security (NF-COM-011)",
-        "Cybersecurity Fundamentals (NF-COM-12)",
-        "Cybersecurity Leadership (NF-COM-13)",
-        "Data Security (NF-COM-14)",
-        "Secure Programming (NF-COM-15)"
+        "Cybersecurity Fundamentals (NF-COM-012)",
+        "Cybersecurity Leadership (NF-COM-013)",
+        "Data Security (NF-COM-014)",
+        "Secure Programming (NF-COM-015)"
       ];
-
-      // Liste des OPM IDs identifiés dans le code
-      const opmIds = [
-        "111", "112", "121", "131", "132", "141", "151", 
-        "211", "212", "221", "312", "321", "331", "332", "333", "334",
-        "411", "421", "422", "441", "443", "451", "461", 
-        "511", "521", "531", "541", 
-        "612", "621", "622", "631", "632", "641", "651", "652", "661", "671",
-        "722", "723", "731", "752", 
-        "801", "802", "803", "804", "805", "901"
-      ];
-
-      // Solution radicale pour empêcher les cases jaunes
-      function removeYellowBoxes() {
-        console.log("Recherche d'éléments jaunes...");
-        
-        // 1. Cibler tous les rectangles du SVG
-        const allRects = document.querySelectorAll('svg rect');
-        console.log(`${allRects.length} rectangles trouvés`);
-        
-        // 2. Trouver ceux qui sont jaunes (FFFF00 ou jaune)
-        allRects.forEach(rect => {
-          const fill = rect.getAttribute('fill');
-          if (fill && (fill.toLowerCase() === '#ffff00' || fill.toLowerCase() === 'yellow')) {
-            console.log(`Rectangle jaune trouvé:`, rect);
-            rect.setAttribute('fill', '#6b7280');
-            rect.style.fill = '#6b7280';
-          }
-        });
-        
-        // 3. Injecter du CSS directement pour tous les rectangles jaunes
-        const styleTag = document.createElement('style');
-        styleTag.textContent = `
-          svg rect[fill="#FFFF00"], 
-          svg rect[fill="#ffff00"], 
-          svg rect[fill="yellow"] {
-            fill: #6b7280 !important;
-          }
-        `;
-        document.head.appendChild(styleTag);
-        
-        // 4. Vérifier tous les styles inline
-        let yellowFound = false;
-        const allElements = document.querySelectorAll('*');
-        allElements.forEach(el => {
-          if (el.style && el.style.fill === '#FFFF00' || el.style.fill === '#ffff00' || el.style.fill === 'yellow') {
-            console.log("Élément avec style inline jaune trouvé:", el);
-            el.style.fill = '#6b7280';
-            yellowFound = true;
-          }
-          
-          if (el.style && el.style.backgroundColor === '#FFFF00' || el.style.backgroundColor === '#ffff00' || el.style.backgroundColor === 'yellow') {
-            console.log("Élément avec background jaune trouvé:", el);
-            el.style.backgroundColor = '#6b7280';
-            yellowFound = true;
-          }
-        });
-        
-        if (yellowFound) {
-          console.log("Des éléments jaunes ont été trouvés et modifiés");
-        }
-      }
-
-      // Fonction pour s'assurer que les rectangles OPM ID ne sont jamais jaunes
-      function enforceStyling() {
-        // Sélectionner tous les rectangles d'en-tête OPM ID
-        const headerRects = document.querySelectorAll('.opm-header-rect, rect[y="1201"]');
-        if (headerRects.length > 0) {
-          headerRects.forEach(rect => {
-            // Forcer la couleur grise
-            rect.setAttribute('fill', '#6b7280');
-            rect.style.fill = '#6b7280';
-          });
-          
-          // Sélectionner tous les labels OPM ID
-          const labels = document.querySelectorAll('.opm-id-label');
-          labels.forEach(label => {
-            // Forcer la couleur blanche
-            label.setAttribute('fill', 'white');
-            label.style.fill = 'white';
-          });
-          
-          console.log('Styles OPM ID forcés appliqués');
-        } else {
-          // Si les éléments n'existent pas encore, réessayer plus tard
-          setTimeout(enforceStyling, 500);
-        }
-        
-        // Appeler la solution radicale
-        removeYellowBoxes();
-      }
-
-      // Données pour les rôles et la heatmap
-      let roleData = [];
+      
+      // Données de la heatmap
       let heatmapData = [];
-
-      // Fonction pour normaliser un ID à partir d'un titre
-      function normalizeId(title) {
-        return title
-          .replace(/[^a-zA-Z0-9]/g, '_')  // Remplacer les caractères spéciaux par des underscores
-          .replace(/_+/g, '_')            // Remplacer les underscores multiples par un seul
-          .replace(/^_|_$/g, '')          // Supprimer les underscores au début et à la fin
-          .toLowerCase();                 // Tout en minuscules
-      }
-
-      // Données d'intensité de relation entre domaines de compétence et OPM IDs
-      function buildHeatmapDataset() {
-        // Créer un dataset vide
-        const dataset = [];
+      
+      // Variable pour stocker les domaines sélectionnés
+      let selectedDomains = [];
+      
+      // Données des mappings entre domaines de compétence et OPM IDs
+      const mappings = {
+        // Access Controls (NF-COM-001): Contrôle d'accès et gestion des identités
+        access_controls: {
+          critical: ["611", "612", "631", "632", "652", "722"], // Authorizing Official, Security Control Assessor, Security Developers, Security Architects
+          high: ["421", "451", "511", "521", "541", "651"],     // Database Admin, System Admin, Cyber Defense, Vulnerability Assessment
+          medium: ["411", "441", "461", "621", "622", "641"],   // Tech Support, Network Ops, Systems Security, Software Dev
+          low: ["211", "221", "331", "531", "671", "712"],      // Forensics, Investigation, Planning, Incident Response
+          minimal: ["111", "131", "151", "751", "801", "803"]   // Management, Leadership roles
+        },
         
-        // On peut définir des valeurs prédéfinies pour représenter la force de la relation
-        // entre les domaines de compétence et les rôles professionnels
-        // Ces valeurs sont générées à titre d'exemple et devront être affinées
+        // Artificial Intelligence Security (NF-COM-002): Sécurité de l'IA
+        ai_security: {
+          critical: ["623", "672", "673", "733", "902", "903"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Leadership
+          high: ["422", "423", "424", "653", "661", "753"],     // Data Analyst, Data Scientist, Data Steward, Research
+          medium: ["421", "461", "541", "611", "631", "641"],   // Database, Security, Development
+          low: ["451", "511", "521", "612", "622", "652"],      // Admin, Defense, Security Architecture
+          minimal: ["711", "712", "731", "732", "751", "801"]   // Training, Legal, Management
+        },
         
-        // Pour chaque domaine de compétence
-        for (let i = 0; i < competencyAreas.length; i++) {
-          let row = [];
-          // Pour chaque OPM ID
-          for (let j = 0; j < opmIds.length; j++) {
-            // Générer une valeur aléatoire entre 0 et 5 pour illustrer
-            // Dans une version réelle, cette valeur serait déterminée par une analyse
-            // des exigences du rôle par rapport au domaine de compétence
-            let relationValue;
-            
-            // Justification des valeurs selon les domaines et rôles
-            switch(competencyAreas[i]) {
-              case "Access Controls (NF-COM-001)":
-                // Plus important pour les rôles de sécurité et administration système
-                relationValue = ["411", "421", "422", "441", "511"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Artificial Intelligence (AI) Security (NF-COM-002)":
-                // Plus important pour les rôles d'analyse de données et recherche
-                relationValue = ["801", "802", "803", "804", "805"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3);      // 0-2 pour les autres
-                break;
-                
-              case "Asset Management (NF-COM-003)":
-                // Important pour les rôles de gestion et inventaire
-                relationValue = ["511", "521", "531", "541"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Cloud Security (NF-COM-004)":
-                // Crucial pour les rôles cloud et architectes
-                relationValue = ["652", "651", "441"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Communications Security (NF-COM-005)":
-                // Important pour les rôles réseau et communications
-                relationValue = ["421", "422", "631", "632"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Cryptography (NF-COM-006)":
-                // Critique pour les rôles de sécurité et développement sécurisé
-                relationValue = ["612", "621", "622"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3);      // 0-2 pour les autres
-                break;
-                
-              case "Cyber Resiliency (NF-COM-007)":
-                // Essentiel pour les rôles de réponse aux incidents et continuité
-                relationValue = ["331", "332", "333", "334"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "DevSecOps (NF-COM-008)":
-                // Fondamental pour le développement sécurisé et l'automatisation
-                relationValue = ["612", "621", "622", "641"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 2) + 1;  // 1-2 pour les autres
-                break;
-                
-              case "Operating Systems (OS) Security (NF-COM-009)":
-                // Base pour tous les rôles d'administration et sécurité
-                relationValue = ["411", "412", "441", "451"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Operational Technology (OT) Security (NF-COM-010)":
-                // Important pour les environnements industriels et IoT
-                relationValue = ["651", "652", "671"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
-                break;
-                
-              case "Supply Chain Security (NF-COM-011)":
-                // Critique pour la gestion des risques liés aux fournisseurs
-                relationValue = ["211", "212", "221"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
-                break;
-                
-              case "Cybersecurity Fundamentals (NF-COM-12)":
-                // Base pour tous les professionnels de cybersécurité
-                relationValue = Math.floor(Math.random() * 2) + 3;  // 3-4 pour tous
-                break;
-                
-              case "Cybersecurity Leadership (NF-COM-13)":
-                // Essentiel pour les rôles de direction et gestion
-                relationValue = ["111", "112", "121", "722", "901"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 2) + 1;  // 1-2 pour les autres
-                break;
-                
-              case "Data Security (NF-COM-14)":
-                // Crucial pour la protection des données sensibles
-                relationValue = ["641", "621", "622", "631"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 3) + 1;  // 1-3 pour les autres
-                break;
-                
-              case "Secure Programming (NF-COM-15)":
-                // Fondamental pour les développeurs et testeurs de sécurité
-                relationValue = ["612", "621", "622"].includes(opmIds[j]) ? 
-                  Math.floor(Math.random() * 2) + 4 : // 4-5 pour les rôles liés
-                  Math.floor(Math.random() * 2);      // 0-1 pour les autres
-                break;
-                
-              default:
-                // Valeur par défaut si aucune règle spécifique
-                relationValue = Math.floor(Math.random() * 5) + 1;
-            }
-            
-            row.push({
-              domain: competencyAreas[i],
-              opmId: opmIds[j],
-              value: relationValue
-            });
-          }
-          dataset.push(row);
+        // Asset Management (NF-COM-003): Gestion des actifs
+        asset_management: {
+          critical: ["411", "421", "451", "511", "521", "803"], // Admin, Operations, Management
+          high: ["441", "461", "541", "611", "612", "651"],     // Network Ops, Security, Architecture
+          medium: ["431", "531", "631", "641", "652", "722"],   // Knowledge Management, Security
+          low: ["621", "622", "632", "671", "712", "732"],      // Development, Testing
+          minimal: ["111", "151", "331", "751", "801", "901"]   // Intelligence, Leadership
+        },
+        
+        // Cloud Security (NF-COM-004): Sécurité du cloud
+        cloud_security: {
+          critical: ["421", "451", "611", "628", "631", "652"], // Admin, Cloud Architect, Security
+          high: ["441", "511", "521", "612", "622", "651"],     // Network, Defense, Architecture
+          medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
+          low: ["531", "671", "722", "732", "752", "802"],      // Incident Response, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Communications Security (NF-COM-005): Sécurité des communications
+        communications_security: {
+          critical: ["441", "511", "521", "631", "632", "723"], // Network, Defense, COMSEC
+          high: ["421", "451", "531", "611", "612", "652"],     // Admin, Security
+          medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
+          low: ["422", "622", "651", "671", "722", "732"],      // Data, Testing, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Cryptography (NF-COM-006): Cryptographie
+        cryptography: {
+          critical: ["511", "521", "611", "612", "631", "723"], // Security, Defense, COMSEC
+          high: ["421", "441", "451", "521", "622", "652"],     // Admin, Network, Security
+          medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
+          low: ["422", "531", "651", "671", "722", "732"],      // Data, Incident Response, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Cyber Resiliency (NF-COM-007): Résilience cyber
+        cyber_resiliency: {
+          critical: ["511", "521", "531", "611", "612", "722"], // Security, Defense, Incident Response
+          high: ["421", "441", "451", "461", "541", "651"],     // Admin, Network, Vulnerability Assessment
+          medium: ["411", "431", "631", "641", "652", "732"],   // Support, Security Development
+          low: ["422", "621", "622", "671", "751", "752"],      // Data, Development, Workforce
+          minimal: ["711", "712", "731", "801", "803", "901"]   // Training, Legal, Leadership
+        },
+        
+        // DevSecOps (NF-COM-008): DevSecOps
+        devsecops: {
+          critical: ["621", "622", "623", "627", "628", "673"], // Development, DevSecOps, Testing
+          high: ["451", "461", "511", "611", "631", "652"],     // Admin, Security, Architecture
+          medium: ["421", "441", "521", "541", "612", "641"],   // Database, Network, Defense
+          low: ["411", "431", "531", "671", "722", "732"],      // Support, Incident Response, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Operating Systems Security (NF-COM-009): Sécurité des systèmes d'exploitation
+        os_security: {
+          critical: ["411", "421", "451", "511", "521", "631"], // Admin, Security
+          high: ["441", "461", "541", "611", "612", "652"],     // Network, Security Assessment
+          medium: ["431", "531", "621", "622", "641", "722"],   // Knowledge, Incident Response, Development
+          low: ["422", "632", "651", "671", "732", "752"],      // Data, Architecture, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Operational Technology Security (NF-COM-010): Sécurité des technologies opérationnelles
+        ot_security: {
+          critical: ["462", "511", "521", "531", "611", "631"], // Control Systems, Security, Defense
+          high: ["421", "441", "451", "461", "541", "652"],     // Admin, Network, Vulnerability
+          medium: ["411", "431", "621", "622", "641", "722"],   // Support, Development, Management
+          low: ["422", "532", "651", "671", "732", "752"],      // Data, Architecture, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Supply Chain Security (NF-COM-011): Sécurité de la chaîne d'approvisionnement
+        supply_chain_security: {
+          critical: ["211", "212", "221", "611", "612", "803"], // Forensics, Investigation, Security Assessment
+          high: ["421", "451", "511", "521", "541", "722"],     // Admin, Security, Defense
+          medium: ["441", "461", "631", "641", "651", "652"],   // Network, Security Development, Architecture
+          low: ["411", "431", "621", "622", "671", "732"],      // Support, Development, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Cybersecurity Fundamentals (NF-COM-012): Fondamentaux de la cybersécurité
+        cybersecurity_fundamentals: {
+          critical: ["411", "421", "451", "511", "521", "611"], // Admin, Security, Defense
+          high: ["441", "461", "531", "541", "612", "631"],     // Network, Incident Response, Security Dev
+          medium: ["431", "621", "622", "641", "651", "652"],   // Knowledge, Development, Architecture
+          low: ["422", "632", "671", "722", "732", "752"],      // Data, Testing, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Cybersecurity Leadership (NF-COM-013): Leadership en cybersécurité
+        cybersecurity_leadership: {
+          critical: ["751", "752", "801", "802", "803", "901"], // Workforce, Policy, Management, Leadership
+          high: ["611", "612", "722", "731", "732", "902"],     // Security, Legal, AI Leadership
+          medium: ["511", "521", "531", "541", "651", "652"],   // Security, Defense, Architecture
+          low: ["421", "441", "451", "461", "631", "641"],      // Admin, Network, Security Development
+          minimal: ["411", "422", "431", "621", "622", "671"]   // Support, Data, Development
+        },
+        
+        // Data Security (NF-COM-014): Sécurité des données
+        data_security: {
+          critical: ["421", "422", "423", "511", "611", "631"], // Database, Data Analysis, Security
+          high: ["424", "451", "521", "541", "612", "652"],     // Data Steward, Admin, Defense
+          medium: ["411", "441", "461", "621", "622", "641"],   // Support, Network, Development
+          low: ["431", "531", "651", "671", "722", "732"],      // Knowledge, Incident Response, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+        },
+        
+        // Secure Programming (NF-COM-015): Programmation sécurisée
+        secure_programming: {
+          critical: ["621", "622", "623", "627", "628", "631"], // Development, DevSecOps, Security Dev
+          high: ["461", "511", "541", "611", "612", "652"],     // Security Analysis, Security Assessment
+          medium: ["421", "441", "451", "521", "641", "673"],   // Admin, Network, Testing
+          low: ["411", "431", "531", "651", "671", "722"],      // Support, Incident Response, Management
+          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
         }
-        return dataset;
-      }
+      };
 
-      // Fonction pour dessiner la heatmap
-      function drawHeatmap() {
-        const heatmapData = buildHeatmapDataset();
-        // Augmenter les marges, surtout à droite et en bas pour éviter la coupure
-        const margin = { top: 100, right: 150, bottom: 200, left: 300 };
-        // Augmenter la largeur pour s'assurer que tous les OPM IDs sont visibles
-        const width = Math.max(1800, opmIds.length * 45) - margin.left - margin.right;
-        // Augmenter la hauteur pour plus d'espace
-        const height = 1200 - margin.top - margin.bottom;
-        const cellSize = Math.min(40, width / opmIds.length);
-        const cellHeight = Math.min(40, height / competencyAreas.length);
+      // Fonction pour générer les données de la heatmap avec des valeurs fixes
+      function generateHeatmapData() {
+        const data = [];
         
-        // Nettoyage du SVG existant au cas où
-        d3.select("#heatmap-svg-element").selectAll("*").remove();
-        
-        // Échelles de couleur pour la heatmap
-        const colorScale = d3.scaleSequential()
-          .domain([0, 5])
-          .interpolator(d3.interpolateInferno);  // Utiliser une palette de couleurs adaptée
-          
-        // Préparer l'élément SVG avec taille ajustée
-        const svg = d3.select("#heatmap-svg-element")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-          .attr("transform", `translate(${margin.left},${margin.top})`);
-          
-        // Créer les échelles X et Y
-        const xScale = d3.scaleBand()
-          .domain(opmIds)
-          .range([0, width])
-          .padding(0.15); // Augmenter le padding pour plus d'espace entre les colonnes
-
-        const yScale = d3.scaleBand()
-          .domain(competencyAreas)
-          .range([0, height])
-          .padding(0.1); // Augmenter le padding pour plus d'espace entre les lignes
-
-        // Ajouter les axes
-        // Fond jaune pour les labels d'axe X avec taille ajustée
-        svg.append("g")
-          .selectAll("rect")
-          .data(opmIds)
-          .enter()
-          .append("rect")
-          .attr("x", d => xScale(d))
-          .attr("y", height + 1)
-          .attr("width", xScale.bandwidth())
-          .attr("height", 50) // Augmenter la hauteur pour plus de visibilité
-          .attr("fill", "#6b7280") // Gris moyen au lieu de jaune
-          .attr("class", "opm-header-rect") // Ajouter une classe pour cibler facilement
-          .attr("data-opmid", d => d); // Ajouter l'attribut data-opmid pour identifier
-          
-        // Textes des OPM IDs directement sur les rectangles jaunes pour une meilleure visibilité
-        svg.append("g")
-          .selectAll("text")
-          .data(opmIds)
-          .enter()
-          .append("text")
-          .attr("class", "opm-id-label")
-          .attr("x", d => xScale(d) + xScale.bandwidth() / 2)
-          .attr("y", height + 25) // Centré verticalement dans le rectangle jaune
-          .text(d => d)
-          .style("font-size", "16px")
-          .style("font-weight", "bold")
-          .style("fill", "white"); // Texte blanc pour meilleur contraste
-        
-        // Axe Y - Domaines de compétence avec police plus grande
-        svg.append("g")
-          .call(d3.axisLeft(yScale))
-          .selectAll("text")
-          .style("font-size", "14px") // Augmenter la taille de la police
-          .style("font-weight", "bold")
-          .call(wrap, margin.left - 30);  // Wrap le texte avec plus d'espace
-          
-        // Fonction pour wrap le texte long
-        function wrap(text, width) {
-          text.each(function() {
-            const text = d3.select(this);
-            const words = text.text().split(/\s+/).reverse();
-            let word, line = [], lineNumber = 0, lineHeight = 1.1;
-            const y = text.attr("y");
-            const dy = parseFloat(text.attr("dy") || 0);
-            let tspan = text.text(null).append("tspan").attr("x", -15).attr("y", y).attr("dy", dy + "em");
-            
-            while (word = words.pop()) {
-              line.push(word);
-              tspan.text(line.join(" "));
-              if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan").attr("x", -15).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word);
-              }
-            }
-          });
-        }
-         
-        // Créer les cellules de la heatmap
         for (let i = 0; i < competencyAreas.length; i++) {
+          const row = [];
           const domain = competencyAreas[i];
+          
+          // Identifier le mapping à utiliser basé sur le domaine de compétence
+          let mappingKey = "";
+          if (domain.includes("Access Controls")) mappingKey = "access_controls";
+          else if (domain.includes("Artificial Intelligence")) mappingKey = "ai_security";
+          else if (domain.includes("Asset Management")) mappingKey = "asset_management";
+          else if (domain.includes("Cloud Security")) mappingKey = "cloud_security";
+          else if (domain.includes("Communications Security")) mappingKey = "communications_security";
+          else if (domain.includes("Cryptography")) mappingKey = "cryptography";
+          else if (domain.includes("Cyber Resiliency")) mappingKey = "cyber_resiliency";
+          else if (domain.includes("DevSecOps")) mappingKey = "devsecops";
+          else if (domain.includes("Operating Systems")) mappingKey = "os_security";
+          else if (domain.includes("Operational Technology")) mappingKey = "ot_security";
+          else if (domain.includes("Supply Chain")) mappingKey = "supply_chain_security";
+          else if (domain.includes("Fundamentals")) mappingKey = "cybersecurity_fundamentals";
+          else if (domain.includes("Leadership")) mappingKey = "cybersecurity_leadership";
+          else if (domain.includes("Data Security")) mappingKey = "data_security";
+          else if (domain.includes("Secure Programming")) mappingKey = "secure_programming";
+          else mappingKey = "cybersecurity_fundamentals"; // Valeur par défaut
+          
+          const mapping = mappings[mappingKey];
+          
           for (let j = 0; j < opmIds.length; j++) {
             const opmId = opmIds[j];
-            const value = heatmapData[i][j].value;
+            let value = 0;
             
-            svg.append("rect")
-              .attr("x", xScale(opmId))
-              .attr("y", yScale(domain))
-              .attr("width", xScale.bandwidth())
-              .attr("height", yScale.bandwidth())
-              .attr("fill", colorScale(value))
-              .attr("class", "heatmap-cell")
-              .attr("data-domain", domain)
-              .attr("data-opmid", opmId)
-              .attr("data-value", value)
-              .on("mouseover", function(event, d) {
-                // Afficher le tooltip
-                const tooltip = d3.select("#heatmap-tooltip-element");
-                tooltip.style("opacity", 1);
-                tooltip.html(`
-                  <div class="font-bold">${domain}</div>
-                  <div>OPM ID: ${opmId}</div>
-                  <div>Intensité: ${value}/5</div>
-                  <div class="mt-2 text-xs">Cliquez pour modifier la valeur</div>
-                `)
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - 28) + "px");
-              })
-              .on("mouseout", function() {
-                // Masquer le tooltip
-                d3.select("#heatmap-tooltip-element").style("opacity", 0);
-              })
-              .on("click", function(event) {
-                // Afficher le popup d'édition
-                const cell = d3.select(this);
-                const domain = cell.attr("data-domain");
-                const opmId = cell.attr("data-opmid");
-                const value = cell.attr("data-value");
-                
-                const popup = d3.select("#edit-value-popup");
-                popup.classed("active", true);
-                popup.style("left", (event.pageX - 50) + "px")
-                     .style("top", (event.pageY - 100) + "px");
-                
-                d3.select("#edit-popup-title").html(`
-                  Modifier la valeur<br>
-                  <span class="text-sm font-normal">${domain}<br>OPM ID: ${opmId}</span>
-                `);
-                
-                d3.select("#current-value").text(value);
-                
-                // Stocker les données pour le bouton "Appliquer"
-                popup.attr("data-domain", domain)
-                     .attr("data-opmid", opmId)
-                     .attr("data-cell-index-i", i)
-                     .attr("data-cell-index-j", j);
-              });
-              
-            // Ajouter le texte de valeur dans chaque cellule
-            svg.append("text")
-              .attr("x", xScale(opmId) + xScale.bandwidth() / 2)
-              .attr("y", yScale(domain) + yScale.bandwidth() / 2)
-              .attr("dy", "0.35em")
-              .attr("text-anchor", "middle")
-              .style("font-size", "12px")
-              .style("font-weight", "bold")
-              .style("fill", value > 2.5 ? "white" : "black")
-              .text(value);
+            // Attribuer une valeur fixe basée sur la relation du mapping
+            if (mapping && mapping.critical && mapping.critical.includes(opmId)) {
+              value = 5; // Relation critique/essentielle
+            } else if (mapping && mapping.high && mapping.high.includes(opmId)) {
+              value = 4; // Relation forte
+            } else if (mapping && mapping.medium && mapping.medium.includes(opmId)) {
+              value = 3; // Relation modérée
+            } else if (mapping && mapping.low && mapping.low.includes(opmId)) {
+              value = 2; // Relation faible
+            } else if (mapping && mapping.minimal && mapping.minimal.includes(opmId)) {
+              value = 1; // Relation minimale
+            }
+            
+            row.push(value);
           }
+          data.push(row);
         }
         
-        // Titre de la heatmap
-        svg.append("text")
-          .attr("x", width / 2)
-          .attr("y", -40)
-          .attr("text-anchor", "middle")
-          .style("font-size", "20px")
-          .style("font-weight", "bold")
-          .text("Heatmap des 15 Domaines de Compétence NICE par OPM ID");
-          
-        svg.append("text")
-          .attr("x", width / 2)
-          .attr("y", -15)
-          .attr("text-anchor", "middle")
-          .style("font-size", "14px")
-          .text("Intensité de la relation entre les domaines de compétence et les OPM IDs (0-5)");
-          
-        // Légende pour l'échelle de couleur
-        const legendWidth = 300;
-        const legendHeight = 20;
-        
-        const legendScale = d3.scaleLinear()
-          .domain([0, 5])
-          .range([0, legendWidth]);
-          
-        const legendAxis = d3.axisBottom(legendScale)
-          .tickValues([0, 1, 2, 3, 4, 5])
-          .tickFormat(d => d);
-          
-        const legend = svg.append("g")
-          .attr("transform", `translate(${width - legendWidth - 50},${height + 100})`);
-          
-        // Gradient de couleur pour la légende
-        legend.append("defs")
-          .append("linearGradient")
-          .attr("id", "legend-gradient")
-          .attr("x1", "0%").attr("y1", "0%")
-          .attr("x2", "100%").attr("y2", "0%")
-          .selectAll("stop")
-          .data([
-            {offset: "0%", color: colorScale(0)},
-            {offset: "20%", color: colorScale(1)},
-            {offset: "40%", color: colorScale(2)},
-            {offset: "60%", color: colorScale(3)},
-            {offset: "80%", color: colorScale(4)},
-            {offset: "100%", color: colorScale(5)}
-          ])
-          .enter().append("stop")
-          .attr("offset", d => d.offset)
-          .attr("stop-color", d => d.color);
-          
-        legend.append("rect")
-          .attr("width", legendWidth)
-          .attr("height", legendHeight)
-          .style("fill", "url(#legend-gradient)");
-          
-        legend.append("g")
-          .attr("transform", `translate(0,${legendHeight})`)
-          .call(legendAxis);
-          
-        legend.append("text")
-          .attr("x", 0)
-          .attr("y", -10)
-          .style("font-size", "14px")
-          .text("Échelle d'intensité");
+        return data;
+      }
+
+      // Fonction pour initialiser la heatmap
+      function initializeHeatmap() {
+        heatmapData = generateHeatmapData();
+        renderHeatmapTable();
+        // Supprimer l'appel redondant à loadSavedSelections()
       }
       
-      // Handler pour le bouton d'augmentation de valeur
-      document.getElementById("increase-value").addEventListener("click", function() {
-        const valueDisplay = document.getElementById("current-value");
-        let currentValue = parseInt(valueDisplay.textContent);
-        if (currentValue < MAX_RELEVANCE_VALUE) {
-          currentValue++;
-          valueDisplay.textContent = currentValue;
-        }
-      });
-      
-      // Handler pour le bouton de diminution de valeur
-      document.getElementById("decrease-value").addEventListener("click", function() {
-        const valueDisplay = document.getElementById("current-value");
-        let currentValue = parseInt(valueDisplay.textContent);
-        if (currentValue > 0) {
-          currentValue--;
-          valueDisplay.textContent = currentValue;
-        }
-      });
-      
-      // Handler pour le bouton de sauvegarde des changements
-      document.getElementById("save-value-btn").addEventListener("click", function() {
-        const popup = document.getElementById("edit-value-popup");
-        const domain = popup.getAttribute("data-domain");
-        const opmId = popup.getAttribute("data-opmid");
-        const i = parseInt(popup.getAttribute("data-cell-index-i"));
-        const j = parseInt(popup.getAttribute("data-cell-index-j"));
-        const newValue = parseInt(document.getElementById("current-value").textContent);
+      // Fonction pour ajuster la taille des cellules selon l'écran et le mode (filtré ou non)
+      function adjustHeatmapSize() {
+        const table = document.querySelector('.heatmap-table');
+        const container = document.getElementById('heatmap-container');
         
-        // Mettre à jour la valeur dans le dataset
-        heatmapData[i][j].value = newValue;
+        // Obtenir la largeur disponible
+        const containerWidth = container.clientWidth;
         
-        // Mettre à jour la cellule dans le SVG
-        const cell = d3.select(`rect.heatmap-cell[data-domain="${domain}"][data-opmid="${opmId}"]`);
-        cell.attr("data-value", newValue)
-            .attr("fill", d3.scaleSequential().domain([0, 5]).interpolator(d3.interpolateInferno)(newValue));
+        // Compter le nombre réel de colonnes affichées
+        const headerCells = table.querySelectorAll('thead tr th');
+        const numColumns = headerCells.length; // Inclut la colonne des domaines
         
-        // Mettre à jour le texte de la valeur
-        const cellText = d3.select(`text[x="${parseFloat(cell.attr("x")) + parseFloat(cell.attr("width")) / 2}"][y="${parseFloat(cell.attr("y")) + parseFloat(cell.attr("height")) / 2}"]`);
-        if (cellText.node()) {
-            cellText.text(newValue)
-                .style("fill", newValue > 2.5 ? "white" : "black");
-        }
+        // Déterminer si nous sommes en mode filtré (moins de colonnes que le total)
+        const isFiltered = numColumns < opmIds.length + 1;
         
-        // Fermer le popup
-        popup.classList.remove("active");
-      });
-      
-      // Initialisation de la heatmap et de l'interface
-      document.addEventListener("DOMContentLoaded", function() {
-        // Afficher la heatmap
-        document.getElementById("heatmap-main").classList.remove("hidden");
+        // Ajuster la largeur des cellules en fonction du mode
+        let cellWidth;
+        let domainWidth;
         
-        // Dessiner la heatmap
-        console.log("Initialisation de la heatmap avec", window.opmIds ? window.opmIds.length : 0, "OPM IDs");
-        if (typeof drawHeatmap === 'function') {
-          drawHeatmap();
-          // Forcer les styles après le chargement de la heatmap
-          setTimeout(enforceStyling, 500);
+        if (isFiltered) {
+          // En mode filtré: donner plus d'espace aux colonnes des OPM IDs
+          // Réserver moins d'espace pour la colonne des domaines
+          domainWidth = Math.min(120, containerWidth * 0.25); // Max 25% de la largeur ou 120px
+          const remainingWidth = containerWidth - domainWidth;
+          cellWidth = Math.max(40, Math.floor(remainingWidth / (numColumns - 1)));
         } else {
-          console.error("La fonction drawHeatmap n'est pas disponible");
+          // En mode normal: équilibrer davantage
+          domainWidth = 200; // Largeur par défaut des domaines
+          cellWidth = Math.max(25, Math.floor((containerWidth - domainWidth) / (numColumns - 1)) - 2);
         }
         
-        // Appliquer le forçage des styles périodiquement au cas où
-        setInterval(enforceStyling, 2000);
-        
-        // Mode sombre
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const moonIcon = document.getElementById('moonIcon');
-        const sunIcon = document.getElementById('sunIcon');
-        const htmlElement = document.getElementById('htmlElement');
-        
-        // Vérifier la préférence de l'utilisateur pour le mode sombre
-        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const storedDarkMode = localStorage.getItem('darkMode') === 'true';
-        
-        if (storedDarkMode || (!localStorage.getItem('darkMode') && prefersDarkMode)) {
-          enableDarkMode();
-        }
-        
-        darkModeToggle.addEventListener('click', () => {
-          if (htmlElement.classList.contains('dark-mode')) {
-            disableDarkMode();
+        // Appliquer le style aux cellules (sauf la colonne de domaines)
+        const cells = table.querySelectorAll('td:not(.domain-name), th:not(:first-child)');
+        cells.forEach(cell => {
+          cell.style.width = `${cellWidth}px`;
+          cell.style.maxWidth = `${cellWidth}px`;
+          cell.style.minWidth = `${cellWidth}px`;
+          
+          // En mode filtré: rendre les cellules plus lisibles
+          if (isFiltered) {
+            cell.style.fontSize = '14px';
+            cell.style.fontWeight = 'bold';
+            cell.style.padding = '8px 2px';
           } else {
-            enableDarkMode();
+            cell.style.fontSize = '12px';
+            cell.style.fontWeight = '';
+            cell.style.padding = '5px 2px';
           }
         });
         
-        function enableDarkMode() {
-            htmlElement.classList.add('dark-mode');
-              moonIcon.classList.add('hidden');
-              sunIcon.classList.remove('hidden');
-          localStorage.setItem('darkMode', 'true');
-            }
-        
-        function disableDarkMode() {
-            htmlElement.classList.remove('dark-mode');
-              sunIcon.classList.add('hidden');
-          moonIcon.classList.remove('hidden');
-          localStorage.setItem('darkMode', 'false');
-        }
-      });
-    </script>
-    
-    <script>
+        // Ajuster la largeur de la colonne des domaines
+        const domainCells = table.querySelectorAll('td.domain-name, thead th:first-child, tfoot th:first-child');
+        domainCells.forEach(cell => {
+          cell.style.width = `${domainWidth}px`;
+          cell.style.minWidth = `${domainWidth}px`;
+          cell.style.maxWidth = `${domainWidth}px`;
+          
+          // En mode filtré: ajuster la taille du texte pour la première colonne
+          if (isFiltered) {
+            cell.style.fontSize = '12px';
+            cell.style.padding = '5px 5px';
+          }
+        });
+      }
+      
       // Fonction pour charger les sauvegardes depuis le localStorage et/ou le serveur
       function loadSavedSelections() {
         const savedSelectionsList = document.getElementById('saved-selections-list');
@@ -1149,13 +1265,13 @@
         });
       }
       
-      // Fonction pour visualiser une sélection
+      // Fonction pour visualiser une sélection - cette fonction est utilisée par les événements des boutons de visualisation
       function visualizeSelection(selection) {
         console.log('Visualisation de la sélection:', selection);
         
-        // 1. Extraire les OPM IDs de la sélection
+        // Extraire les OPM IDs de la sélection
         const roles = selection.roles || selection.ksats || [];
-        const opmIds = [];
+        const selectedOpmIds = [];
         
         roles.forEach(role => {
           const opmId = role.opm_id || role.opmId;
@@ -1164,24 +1280,21 @@
             const numericMatch = opmId.toString().match(/\d+/);
             const cleanId = numericMatch ? numericMatch[0] : opmId;
             
-            if (!opmIds.includes(cleanId)) {
-              opmIds.push(cleanId);
+            if (!selectedOpmIds.includes(cleanId)) {
+              selectedOpmIds.push(cleanId);
             }
           }
         });
         
-        console.log('OPM IDs trouvés dans la sélection:', opmIds);
+        console.log('OPM IDs trouvés dans la sélection:', selectedOpmIds);
         
-        // Afficher les OPM IDs pour débogage
-        // alert("OPM IDs trouvés : " + opmIds.join(", "));
-        
-        // 2. Mise à jour du titre de la page pour indiquer le filtre
+        // Mise à jour du titre de la page pour indiquer le filtre
         const subtitle = document.getElementById('heatmap-subtitle');
         if (subtitle) {
           subtitle.innerHTML = `
             <span class="font-medium">Sélection en cours:</span> 
             ${selection.name || selection.title || 'Sélection personnalisée'} 
-            <span class="font-medium">(${opmIds.length} OPM IDs)</span>
+            <span class="font-medium">(${selectedOpmIds.length} OPM IDs)</span>
             <span class="ml-2 text-sm">
               <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1195,21 +1308,32 @@
           // Ajouter un gestionnaire d'événements pour effacer le filtre
           document.getElementById('clear-filter-btn').addEventListener('click', () => {
             // Restaurer le sous-titre original
-            subtitle.textContent = 'Visualisation de l\'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+            subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
             
-            // Réinitialiser la heatmap
-            if (window.drawHeatmapWithOpmIds) {
-              window.drawHeatmapWithOpmIds(); // Affiche tout
-            } else {
-              location.reload();
-            }
+            // Réinitialiser la heatmap avec tous les OPM IDs
+            renderHeatmapTable(null, true); // true = réinitialisation complète
+            resetAllOpmIdHighlights();
+            adjustHeatmapSize(); // Réajuster après reset
           });
         }
         
-        // 3. Mettre à jour la heatmap pour n'afficher que les OPM IDs sélectionnés
-        if (window.drawHeatmapWithOpmIds) {
-          window.drawHeatmapWithOpmIds(opmIds);
+        // Filtrer la vue pour n'afficher que les OPM IDs sélectionnés
+        renderHeatmapTable(selectedOpmIds);
+        
+        // Mettre en évidence les OPM IDs
+        if (window.highlightSelectedOpmIds) {
+          window.highlightSelectedOpmIds(selectedOpmIds);
         }
+        
+        // Ajuster la taille après la modification
+        adjustHeatmapSize();
+        
+        // Ajouter une classe spéciale au conteneur pour le mode filtré
+        const heatmapContainer = document.getElementById('heatmap-container');
+        heatmapContainer.classList.add('filtered-view');
+        
+        // Appliquer des styles spécifiques pour la vue filtrée
+        document.getElementById('heatmap-main').classList.add('filtered-mode');
       }
       
       // Fonction pour appliquer la sélection et passer à l'étape du summary_chart
@@ -1220,10 +1344,10 @@
         // Le summary_chart s'attend à trouver les OPM IDs dans un objet spécifique
         // On s'assure que les rôles et OPM IDs sont correctement formatés
         
-        // 1. Vérifier que la sélection contient des rôles ou des KSATs
+        // Vérifier que la sélection contient des rôles ou des KSATs
         const roles = selection.roles || selection.ksats || [];
         
-        // 2. Formater les données pour le summary chart
+        // Formater les données pour le summary chart
         const formattedData = {
           roles: roles.map(role => {
             // S'assurer que les OPM IDs sont au bon format
@@ -1240,11 +1364,11 @@
         
         console.log('Données formatées pour summary chart:', formattedData);
         
-        // 3. Sauvegarder dans les deux formats utilisés par l'application
+        // Sauvegarder dans les deux formats utilisés par l'application
         localStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
         localStorage.setItem('activateStep3', 'true');
         
-        // 4. Sauvegarder aussi dans serverStorage si disponible
+        // Sauvegarder aussi dans serverStorage si disponible
         if (typeof serverStorage !== 'undefined' && typeof serverStorage.setItem === 'function') {
           try {
             serverStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
@@ -1258,402 +1382,758 @@
         window.location.href = "{% url 'summary_chart' %}";
       }
       
-      // Charger les sauvegardes au chargement de la page
-      document.addEventListener('DOMContentLoaded', function() {
-        loadSavedSelections();
+      // Fonction pour rendre la heatmap comme une table HTML
+      function renderHeatmapTable(filteredOpmIds = null, resetView = false) {
+        const table = document.querySelector('.heatmap-table');
+        const headerRow = table.querySelector('thead tr');
+        const footerRow = table.querySelector('tfoot tr');
+        const tbody = table.querySelector('tbody');
         
-        // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
-        const resetViewBtn = document.getElementById('reset-view-btn');
-        if (resetViewBtn) {
-          resetViewBtn.addEventListener('click', function() {
-            // Réinitialiser le sous-titre
-            const subtitle = document.getElementById('heatmap-subtitle');
-            if (subtitle) {
-              subtitle.textContent = 'Visualisation de l\'importance des 11 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
-            }
-            
-            // Réinitialiser la heatmap
-            if (window.drawHeatmapWithOpmIds) {
-              window.drawHeatmapWithOpmIds(); // Affiche tout
-            } else {
-              // Si la fonction resetFilters n'existe pas, utiliser la méthode alternative
-              const cells = document.querySelectorAll('.heatmap-cell');
-              cells.forEach(cell => {
-                cell.style.opacity = '1';
-                cell.style.stroke = 'none';
-              });
-              
-              // Réinitialiser les couleurs des rectangles d'en-tête
-              const headerRects = document.querySelectorAll('.opm-header-rect');
-              headerRects.forEach(rect => {
-                rect.setAttribute('fill', '#6b7280'); // Remettre tous en gris clair
-                rect.setAttribute('stroke', 'none'); // Enlever les bordures
-              });
-            }
-            
-            // Utiliser notre nouvelle fonction de réinitialisation
-            if (window.resetAllOpmIdHighlights) {
-              window.resetAllOpmIdHighlights();
-            }
-            
-            // Afficher un message de confirmation temporaire
-            const notification = document.createElement('div');
-            notification.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in-out';
-            notification.textContent = 'Vue réinitialisée';
-            notification.style.animation = 'fadeInOut 2s forwards';
-            document.body.appendChild(notification);
-            
-            // Supprimer la notification après 2 secondes
-            setTimeout(() => {
-              notification.remove();
-            }, 2000);
+        // Vider les contenus existants
+        while (headerRow.children.length > 1) {
+          headerRow.removeChild(headerRow.lastChild);
+        }
+        while (footerRow.children.length > 1) {
+          footerRow.removeChild(footerRow.lastChild);
+        }
+        tbody.innerHTML = '';
+        
+        // Déterminer quels OPM IDs afficher et s'assurer qu'ils existent dans les données
+        let opmIdsToDisplay;
+        if (resetView || !filteredOpmIds) {
+          opmIdsToDisplay = opmIds;
+        } else {
+          // Filtrer pour ne garder que les OPM IDs qui existent vraiment dans les données
+          opmIdsToDisplay = filteredOpmIds.filter(id => opmIds.includes(id));
+        }
+        
+                  // Ajouter des en-têtes vides en haut (juste pour maintenir la structure)
+          opmIdsToDisplay.forEach(() => {
+            const th = document.createElement('th');
+            th.className = 'p-1 border border-gray-700 bg-gray-900';
+            th.innerHTML = '&nbsp;'; // Espace insécable
+            headerRow.appendChild(th);
           });
+          
+          // Ajouter une colonne de synthèse en mode filtré
+          const isFiltered = filteredOpmIds && filteredOpmIds.length > 0 && !resetView;
+          if (isFiltered) {
+            const synthesisTh = document.createElement('th');
+            synthesisTh.className = 'p-1 border border-gray-700 bg-gray-900 text-white font-bold synthesis-header';
+            synthesisTh.textContent = 'Synthèse';
+            headerRow.appendChild(synthesisTh);
+          }
+          
+          // Ajouter les OPM IDs en bas du tableau
+          opmIdsToDisplay.forEach(id => {
+          const th = document.createElement('th');
+          th.className = 'p-1 border border-gray-700 bg-gray-900 text-white font-bold';
+          
+          // Créer un conteneur div pour centrer l'OPM ID
+          const container = document.createElement('div');
+          container.style.display = 'flex';
+          container.style.justifyContent = 'center';
+          container.style.height = '100%';
+          
+          // Créer un span pour l'OPM ID avec sa propre classe
+          const span = document.createElement('span');
+          span.className = 'opm-id';
+          span.dataset.opmId = id;
+          
+          // Déterminer si nous sommes en mode filtré (pour l'affichage des OPM IDs)
+          const headerCells = table.querySelectorAll('thead tr th');
+          const isFiltered = headerCells.length < opmIds.length + 1;
+          
+          if (isFiltered) {
+            // En mode filtré, afficher l'OPM ID horizontalement pour plus de lisibilité
+            span.textContent = id;
+            span.style.fontSize = '14px';
+            span.style.padding = '4px 8px';
+            span.style.lineHeight = '20px';
+            span.style.fontWeight = 'bold';
+          } else {
+            // En mode normal, diviser l'ID en chiffres individuels et les empiler verticalement
+          const digits = id.split('');
+          digits.forEach(digit => {
+            const digitSpan = document.createElement('span');
+            digitSpan.className = 'opm-digit';
+            digitSpan.textContent = digit;
+            span.appendChild(digitSpan);
+          });
+          }
+          
+          // Ajouter le span dans le conteneur div
+          container.appendChild(span);
+          
+          // Ajouter le conteneur dans la cellule th
+          th.appendChild(container);
+          footerRow.appendChild(th);
+        });
+        
+        // Ajouter une cellule de synthèse dans le pied de tableau en mode filtré
+        if (isFiltered) {
+          const synthesisFooter = document.createElement('th');
+          synthesisFooter.className = 'p-1 border border-gray-700 bg-gray-900 text-white font-bold synthesis-footer';
+          
+          // Calculer la moyenne d'importance globale
+          let totalScore = 0;
+          let totalPossible = 0;
+          
+          competencyAreas.forEach((domain, i) => {
+            opmIdsToDisplay.forEach(id => {
+              const originalIndex = opmIds.indexOf(id);
+              // originalIndex est garanti d'être ≥ 0 car opmIdsToDisplay a été filtré
+              totalScore += (heatmapData[i][originalIndex] || 0);
+              totalPossible += 5; // La valeur maximale est 5
+            });
+          });
+          
+          const globalPercentage = totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
+          
+          // Créer un indicateur visuel pour la synthèse globale
+          synthesisFooter.innerHTML = `
+            <div class="global-synthesis">
+              <div class="global-percent">${globalPercentage}%</div>
+              <div class="global-label">Affinité<br>globale</div>
+            </div>
+          `;
+          
+          synthesisFooter.title = `Affinité globale: ${globalPercentage}% - Score total: ${totalScore}/${totalPossible}`;
+          footerRow.appendChild(synthesisFooter);
+        }
+        
+        // Créer les lignes pour chaque domaine de compétence
+        competencyAreas.forEach((domain, i) => {
+          const tr = document.createElement('tr');
+          
+          // Ajouter la cellule du nom de domaine
+          const tdDomain = document.createElement('td');
+          tdDomain.className = 'domain-name';
+          // Extraire le numéro du domaine depuis la chaîne (NF-COM-XXX)
+          let domainCode = "";
+          
+          // Test de deux formats différents: avec ou sans parenthèses
+          const domainMatchWithParens = domain.match(/\((NF-COM-\d+)\)/);
+          const domainMatchDirect = domain.match(/(NF-COM-\d+)/);
+          
+          if (domainMatchWithParens && domainMatchWithParens[1]) {
+              // Format avec parenthèses: "Access Controls (NF-COM-001)"
+              domainCode = domainMatchWithParens[1];
+              tdDomain.textContent = domainCode;
+              tdDomain.title = domain;
+          } 
+          else if (domainMatchDirect && domainMatchDirect[1]) {
+              // Format direct: "NF-COM-001"
+              domainCode = domainMatchDirect[1];
+              tdDomain.textContent = domainCode;
+              tdDomain.title = domain;
+          }
+          else {
+              // Fallback si le format ne correspond pas
+              tdDomain.textContent = domain.replace(/\(NF-COM-\d+\)/g, '').trim();
+              tdDomain.title = domain;
+          }
+          
+          // Afficher le code de domaine dans la console pour le débogage
+          console.log("Code de domaine extrait:", domainCode, "à partir de:", domain);
+          
+          // Modifier le style pour indiquer que c'est cliquable
+          tdDomain.style.cursor = 'pointer';
+          tdDomain.style.position = 'relative';
+          tdDomain.dataset.selected = "false";
+          tdDomain.dataset.domainCode = domainCode;
+          tdDomain.dataset.domainIndex = i;
+          
+          // Ajouter un indicateur visuel pour montrer que c'est cliquable
+          if (domainCode === "NF-COM-007" || domainCode === "NF-COM-002") {
+            const infoIcon = document.createElement('span');
+            infoIcon.innerHTML = '&nbsp;↗️';
+            infoIcon.style.marginLeft = '3px';
+            infoIcon.style.fontSize = '14px';
+            infoIcon.style.color = '#3b82f6';
+            infoIcon.title = "Cliquez pour plus d'informations";
+            infoIcon.style.cursor = 'pointer';
+            
+            // Ajouter un événement de clic spécifique à l'icône
+            infoIcon.addEventListener('click', function(e) {
+              e.stopPropagation(); // Empêcher la propagation au parent
+              if (domainCode === "NF-COM-007") {
+                window.open("{% url 'nf_com_007_details' %}", "_blank", "width=1000,height=800");
+              } else if (domainCode === "NF-COM-002") {
+                window.open("{% url 'nf_com_002_details' %}", "_blank", "width=1000,height=800");
+              }
+            });
+            
+            tdDomain.appendChild(infoIcon);
+          }
+          
+          // Ajouter un événement de clic pour sélectionner/désélectionner le domaine
+          tdDomain.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Basculer l'état de sélection
+            const isCurrentlySelected = tdDomain.dataset.selected === "true";
+            if (isCurrentlySelected) {
+              // Désélectionner
+              tdDomain.dataset.selected = "false";
+              tdDomain.style.backgroundColor = "";
+              tdDomain.style.color = "";
+              tdDomain.style.fontWeight = "";
+              
+              // Retirer de la liste des domaines sélectionnés
+              const index = selectedDomains.indexOf(domainCode);
+              if (index !== -1) {
+                selectedDomains.splice(index, 1);
+              }
+            } else {
+              // Sélectionner
+              tdDomain.dataset.selected = "true";
+              tdDomain.style.backgroundColor = "#4d88ff";
+              tdDomain.style.color = "white";
+              tdDomain.style.fontWeight = "bold";
+              
+              // Ajouter à la liste des domaines sélectionnés
+              if (!selectedDomains.includes(domainCode)) {
+                selectedDomains.push(domainCode);
+              }
+            }
+            
+            // Mettre à jour l'état du bouton
+            checkDomainSelection();
+          });
+          
+          // Ajouter les événements pour le tooltip personnalisé avec débogage
+          tdDomain.addEventListener('mouseenter', function(e) {
+            console.log("Survol détecté sur:", domainCode);
+            console.log("Définition disponible:", domainDefinitions[domainCode]);
+            
+            if (domainCode) {
+              showDomainTooltip(domainCode, this);
+            }
+          });
+          
+          tdDomain.addEventListener('mouseleave', function() {
+            // Ne pas cacher immédiatement pour permettre au curseur d'entrer dans le tooltip
+            setTimeout(function() {
+              // Vérifier si le curseur n'est pas sur le tooltip avant de le cacher
+              const tooltip = document.getElementById('domain-tooltip');
+              const isHovered = tooltip.matches(':hover');
+              if (!isHovered) {
+                hideDomainTooltip();
+              }
+            }, 300);
+          });
+          tr.appendChild(tdDomain);
+          
+                      // Utiliser les OPM IDs déjà filtrés et validés
+            // (opmIdsToDisplay est déjà défini et filtré en début de fonction)
+            
+            // Pour calculer la synthèse
+            let totalValue = 0;
+            let maxPossibleValue = 0;
+            let values = [];
+            
+            opmIdsToDisplay.forEach((id, j) => {
+              // Trouver l'index de cet OPM ID dans le tableau complet
+              const originalIndex = opmIds.indexOf(id);
+              // Maintenant originalIndex est garanti d'être ≥ 0 car on a filtré au préalable
+              
+              const value = heatmapData[i][originalIndex] || 0;
+              values.push(value);
+              totalValue += value;
+              maxPossibleValue += 5; // La valeur maximale est 5
+              
+              const td = document.createElement('td');
+              td.className = `heatmap-cell heatmap-cell-${value}`;
+              td.textContent = value;
+              td.dataset.domain = domain;
+              td.dataset.opmId = id;
+              td.dataset.value = value;
+              td.dataset.row = i;
+              td.dataset.col = j;
+              
+              // Ajouter les événements
+              td.addEventListener('click', handleCellClick);
+              
+              tr.appendChild(td);
+            });
+            
+            // Ajouter une cellule de synthèse en mode filtré
+            if (isFiltered) {
+              const synthesisCell = document.createElement('td');
+              
+              // Calculer le pourcentage d'importance de ce domaine
+              const percentage = maxPossibleValue > 0 ? Math.round((totalValue / maxPossibleValue) * 100) : 0;
+              
+              // Calculer la couleur de la cellule basée sur le pourcentage
+              let barColor;
+              if (percentage >= 80) barColor = "#2ecc71"; // vert
+              else if (percentage >= 60) barColor = "#3498db"; // bleu
+              else if (percentage >= 40) barColor = "#f39c12"; // orange
+              else if (percentage >= 20) barColor = "#e67e22"; // orange foncé
+              else barColor = "#e74c3c"; // rouge
+              
+              synthesisCell.className = 'synthesis-cell';
+              
+              // Créer le contenu de la cellule avec une barre de progression
+              synthesisCell.innerHTML = `
+                <div class="synthesis-content">
+                  <span class="synthesis-percent">${percentage}%</span>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: ${percentage}%; background: ${barColor};"></div>
+                  </div>
+                </div>
+              `;
+              
+              // Ajouter un tooltip avec des informations supplémentaires
+              const avgValue = values.length > 0 ? (totalValue / values.length).toFixed(1) : "0";
+              synthesisCell.title = `Niveau moyen: ${avgValue}/5 - Affinité du domaine: ${percentage}%`;
+              
+              tr.appendChild(synthesisCell);
+            }
+            
+            tbody.appendChild(tr);
+        });
+      }
+      
+      // Fonction pour gérer le clic sur une cellule
+      function handleCellClick(event) {
+        const cell = event.currentTarget;
+        const domain = cell.dataset.domain;
+        const opmId = cell.dataset.opmId;
+        const value = cell.dataset.value;
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        
+        const popup = document.getElementById('edit-value-popup');
+        popup.classList.add('active');
+        
+        // Positionner le popup près de la cellule
+        const rect = cell.getBoundingClientRect();
+        popup.style.left = (rect.left + window.scrollX) + 'px';
+        popup.style.top = (rect.top + window.scrollY - popup.offsetHeight) + 'px';
+        
+        document.getElementById('edit-popup-title').innerHTML = `
+          Modifier la valeur<br>
+          <span class="text-sm font-normal">${domain}<br>OPM ID: ${opmId}</span>
+        `;
+        
+        document.getElementById('current-value').textContent = value;
+        
+        // Stocker les données pour le bouton "Appliquer"
+        popup.dataset.row = row;
+        popup.dataset.col = col;
+      }
+      
+      // Handler pour le bouton d'augmentation de valeur
+      document.getElementById('increase-value').addEventListener('click', function() {
+        const valueDisplay = document.getElementById('current-value');
+        let currentValue = parseInt(valueDisplay.textContent);
+        if (currentValue < MAX_RELEVANCE_VALUE) {
+          currentValue++;
+          valueDisplay.textContent = currentValue;
         }
       });
       
-      // Ajouter une animation pour la notification
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes fadeInOut {
-          0% { opacity: 0; transform: translateY(20px); }
-          20% { opacity: 1; transform: translateY(0); }
-          80% { opacity: 1; transform: translateY(0); }
-          100% { opacity: 0; transform: translateY(-20px); }
-        }
-        .animate-fade-in-out {
-          animation: fadeInOut 2s forwards;
-        }
-      `;
-      document.head.appendChild(style);
-    </script>
-
-    <!-- Ajout d'un script pour cibler directement tous les éléments jaunes après le chargement complet -->
-    <script>
-      window.addEventListener('load', function() {
-        console.log("Page entièrement chargée, recherche d'éléments jaunes...");
-        
-        // Fonction exécutée après le chargement complet de la page
-        function fixAllYellowElements() {
-          // 1. Cibler directement tous les rectangles SVG avec fill="#FFFF00"
-          const yellowRects = document.querySelectorAll('rect[fill="#FFFF00"]:not(.selected), rect[fill="yellow"]:not(.selected)');
-          console.log(`${yellowRects.length} rectangles jaunes non sélectionnés trouvés`);
-          
-          yellowRects.forEach(rect => {
-            if (!rect.classList.contains('selected')) {
-              rect.setAttribute('fill', '#6b7280');
-              console.log("Rectangle jaune non sélectionné modifié");
-            }
-          });
-          
-          // 2. Capturer tous les éléments jaunes par leurs coordonnées potentielles
-          const bottomRects = document.querySelectorAll('svg rect');
-          bottomRects.forEach(rect => {
-            if (rect.classList.contains('selected')) {
-              return; // Ne pas modifier les rectangles sélectionnés
-            }
-            const y = parseFloat(rect.getAttribute('y'));
-            // Si le rectangle est en bas de la heatmap (où se trouvent les OPM IDs)
-            if (y > 1000) {
-              rect.setAttribute('fill', '#6b7280');
-              console.log(`Rectangle en bas modifié (y=${y})`);
-            }
-          });
-          
-          // 3. Injection CSS de haute priorité
-          const emergencyStyle = document.createElement('style');
-          emergencyStyle.innerHTML = `
-            rect[fill="#FFFF00"]:not(.selected), rect[fill="yellow"]:not(.selected), rect[fill="#ffff00"]:not(.selected) { 
-              fill: #6b7280 !important; 
-            }
-            /* Cibler par position potentielle, sauf si sélectionné */
-            svg rect[y="1201"]:not(.selected), svg rect[y^="12"]:not(.selected), svg rect[y$="01"]:not(.selected) {
-              fill: #6b7280 !important;
-            }
-            /* Cibler tout rectangle jaune sauf si sélectionné */
-            svg rect[style*="fill: #FFFF00"]:not(.selected), 
-            svg rect[style*="fill:#FFFF00"]:not(.selected),
-            svg rect[style*="fill: yellow"]:not(.selected),
-            svg rect[style*="fill:yellow"]:not(.selected) {
-              fill: #6b7280 !important;
-            }
-            /* S'assurer que les rectangles sélectionnés restent jaunes */
-            svg rect.selected {
-              fill: #FFFF00 !important;
-            }
-          `;
-          document.head.appendChild(emergencyStyle);
-        }
-        
-        // Exécuter immédiatement et répéter plusieurs fois pour s'assurer que ça fonctionne
-        fixAllYellowElements();
-        setTimeout(fixAllYellowElements, 500);
-        setTimeout(fixAllYellowElements, 1000);
-        setTimeout(fixAllYellowElements, 2000);
-      });
-    </script>
-    
-    <!-- Script qui force les OPM ID sélectionnés en jaune -->
-    <script>
-      // Attendre le chargement complet de la page
-      window.addEventListener('load', function() {
-        // Fonction de coloration forcée des OPM IDs
-        function forceSelectedOpmIdsYellow() {
-          console.log("Tentative de forçage des OPM IDs en jaune...");
-          
-          try {
-            // Récupérer le SVG
-            const svgElement = document.getElementById('heatmap-svg-element');
-            if (!svgElement) {
-              console.error("SVG non trouvé");
-              return;
-            }
-            
-            // Trouver tous les rectangles en bas de la heatmap (où sont les OPM IDs)
-            const rectElements = svgElement.querySelectorAll('rect');
-            const bottomRects = [];
-            
-            // Trouve le Y maximum (pour savoir où se situent les OPM IDs)
-            let maxY = 0;
-            rectElements.forEach(rect => {
-              const y = parseFloat(rect.getAttribute('y') || '0');
-              if (y > maxY) maxY = y;
-            });
-            
-            // Collecte tous les rectangles qui sont près du bas (OPM IDs)
-            const bottomY = maxY - 50; // Les 50 derniers pixels verticaux
-            rectElements.forEach(rect => {
-              const y = parseFloat(rect.getAttribute('y') || '0');
-              if (y >= bottomY) {
-                bottomRects.push(rect);
-              }
-            });
-            
-            console.log(`${bottomRects.length} rectangles trouvés en bas de la heatmap`);
-            
-            // Pour chaque rectangle en bas, obtenir le texte OPM ID correspondant
-            const textsElements = svgElement.querySelectorAll('text');
-            const opmIdToRect = {};
-            
-            bottomRects.forEach(rect => {
-              const rectX = parseFloat(rect.getAttribute('x') || '0');
-              const rectWidth = parseFloat(rect.getAttribute('width') || '0');
-              const rectCenterX = rectX + (rectWidth/2);
-              
-              // Trouver le texte correspondant à ce rectangle
-              textsElements.forEach(text => {
-                const textX = parseFloat(text.getAttribute('x') || '0');
-                const textContent = text.textContent.trim();
-                
-                // Si le texte est proche du centre du rectangle et ressemble à un OPM ID
-                if (Math.abs(textX - rectCenterX) < 15 && /^\d{3}$/.test(textContent)) {
-                  opmIdToRect[textContent] = rect;
-                }
-              });
-            });
-            
-            console.log("Correspondance OPM IDs -> Rectangles:", opmIdToRect);
-            
-            // Fonction pour appliquer la surbrillance jaune sur les rectangles d'OPM ID sélectionnés
-            window.highlightSelectedOpmIds = function(selectedIds) {
-              if (!selectedIds || !selectedIds.length) return;
-              
-              console.log("Tentative de surbrillance pour:", selectedIds);
-              
-              // Pour chaque ID, si on a trouvé le rectangle correspondant, l'afficher en jaune
-              selectedIds.forEach(id => {
-                const rect = opmIdToRect[id];
-                if (rect) {
-                  console.log(`Mise en jaune du rectangle pour OPM ID ${id}`);
-                  rect.style.fill = '#FFFF00';
-                  rect.setAttribute('fill', '#FFFF00');
-                  rect.dataset.selected = 'true';
-                  rect.classList.add('selected');
-                  
-                  // Trouver le texte associé à ce rectangle et le mettre en noir
-                  const rectX = parseFloat(rect.getAttribute('x') || '0');
-                  const rectWidth = parseFloat(rect.getAttribute('width') || '0');
-                  const rectCenterX = rectX + (rectWidth/2);
-                  
-                  textsElements.forEach(text => {
-                    const textX = parseFloat(text.getAttribute('x') || '0');
-                    const textContent = text.textContent.trim();
-                    
-                    // Si ce texte correspond à l'OPM ID et est proche du rectangle
-                    if (Math.abs(textX - rectCenterX) < 15 && textContent === id) {
-                      // Changer la couleur du texte en noir
-                      text.style.fill = 'black';
-                      text.setAttribute('fill', 'black');
-                    }
-                  });
-                }
-              });
-            };
-
-            // Ajouter une fonction pour réinitialiser correctement tous les rectangles et textes
-            window.resetAllOpmIdHighlights = function() {
-              console.log("Réinitialisation de tous les rectangles OPM ID");
-              
-              // Réinitialiser tous les rectangles du bas
-              bottomRects.forEach(rect => {
-                rect.style.fill = '#6b7280';
-                rect.setAttribute('fill', '#6b7280');
-                rect.dataset.selected = 'false';
-                rect.classList.remove('selected');
-              });
-              
-              // Réinitialiser tous les textes associés en blanc
-              textsElements.forEach(text => {
-                const textContent = text.textContent.trim();
-                if (/^\d{3}$/.test(textContent)) { // Si c'est un OPM ID (3 chiffres)
-                  text.style.fill = 'white';
-                  text.setAttribute('fill', 'white');
-                }
-              });
-            };
-          } catch (error) {
-            console.error("Erreur lors du forçage des OPM IDs:", error);
-          }
-        }
-        
-        // Exécuter cette fonction après un court délai pour s'assurer que le SVG est chargé
-        setTimeout(forceSelectedOpmIds, 500);
-        setTimeout(forceSelectedOpmIds, 1000);
-        setTimeout(forceSelectedOpmIds, 2000);
-        
-        function forceSelectedOpmIds() {
-          forceSelectedOpmIdsYellow();
-          
-          // Modifier la fonction visualizeSelection pour utiliser notre nouvelle fonction
-          const originalVisualizeSelection = window.visualizeSelection;
-          if (originalVisualizeSelection) {
-            window.visualizeSelection = function(selection) {
-              // Appeler d'abord la fonction originale
-              originalVisualizeSelection(selection);
-              
-              // Puis forcer notre surbrillance
-              try {
-                const roles = selection.roles || selection.ksats || [];
-                const opmIds = [];
-                
-                roles.forEach(role => {
-                  const opmId = role.opm_id || role.opmId;
-                  if (opmId) {
-                    // Extraire uniquement les chiffres si l'OPM ID contient du texte
-                    const numericMatch = opmId.toString().match(/\d+/);
-                    const cleanId = numericMatch ? numericMatch[0] : opmId;
-                    
-                    if (!opmIds.includes(cleanId)) {
-                      opmIds.push(cleanId);
-                    }
-                  }
-                });
-                
-                // Appliquer notre surbrillance
-                setTimeout(() => window.highlightSelectedOpmIds(opmIds), 100);
-                setTimeout(() => window.highlightSelectedOpmIds(opmIds), 500);
-              } catch (error) {
-                console.error("Erreur lors de la surbrillance:", error);
-              }
-            };
-          }
+      // Handler pour le bouton de diminution de valeur
+      document.getElementById('decrease-value').addEventListener('click', function() {
+        const valueDisplay = document.getElementById('current-value');
+        let currentValue = parseInt(valueDisplay.textContent);
+        if (currentValue > 0) {
+          currentValue--;
+          valueDisplay.textContent = currentValue;
         }
       });
-    </script>
-
-    <script>
-      // Fonction pour forcer les textes OPM ID sur fond jaune à être noirs
-      function forceTextColors() {
-        try {
-          // Créer ou récupérer le style dynamique
-          let styleEl = document.getElementById('dynamic-opm-styles');
-          if (!styleEl) {
-            styleEl = document.createElement('style');
-            styleEl.id = 'dynamic-opm-styles';
-            document.head.appendChild(styleEl);
+      
+      // Handler pour le bouton de sauvegarde des changements
+      document.getElementById('save-value-btn').addEventListener('click', function() {
+        const popup = document.getElementById('edit-value-popup');
+        const row = parseInt(popup.dataset.row);
+        const col = parseInt(popup.dataset.col);
+        const newValue = parseInt(document.getElementById('current-value').textContent);
+        
+        // Mettre à jour la valeur dans les données
+        heatmapData[row][col] = newValue;
+        
+        // Mettre à jour la cellule dans le tableau
+        const table = document.querySelector('.heatmap-table');
+        const cell = table.querySelector(`tbody tr:nth-child(${row + 1}) td:nth-child(${col + 2})`);
+        
+        // Mettre à jour la classe et le texte
+        cell.className = `heatmap-cell heatmap-cell-${newValue}`;
+        cell.textContent = newValue;
+        cell.dataset.value = newValue;
+        
+        // Fermer le popup
+        popup.classList.remove('active');
+      });
+      
+      // Fonction pour afficher le tooltip de domaine manuellement
+      function showDomainTooltip(domainCode, element) {
+        console.log("Affichage du tooltip pour:", domainCode);
+        
+        // Supprimer tout ancien tooltip s'il existe
+        const oldTooltips = document.querySelectorAll('.domain-popup-tooltip');
+        oldTooltips.forEach(t => t.remove());
+        
+        // Récupérer la définition
+        const definition = domainDefinitions[domainCode] || 
+                          "Définition complète pour " + domainCode + " non disponible.";
+        
+        // Extraire le titre et le contenu
+        const colonIndex = definition.indexOf(':');
+        const title = colonIndex !== -1 ? definition.substring(0, colonIndex).trim() : domainCode;
+        const content = colonIndex !== -1 ? definition.substring(colonIndex + 1).trim() : definition;
+        
+        // Créer un tooltip qui disparaît au survol
+        const tooltip = document.createElement('div');
+        tooltip.className = 'domain-popup-tooltip';
+        tooltip.id = 'current-domain-tooltip';
+        
+        // Style du tooltip
+        tooltip.style.position = 'absolute';
+        tooltip.style.zIndex = '10000';
+        tooltip.style.backgroundColor = '#111';
+        tooltip.style.color = 'white';
+        tooltip.style.padding = '15px';
+        tooltip.style.borderRadius = '8px';
+        tooltip.style.maxWidth = '500px';
+        tooltip.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+        tooltip.style.border = '2px solid #0055ff';
+        
+        // Contenu du tooltip
+        tooltip.innerHTML = `
+          <div style="color: #0055ff; font-weight: bold; font-size: 18px; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 5px;">
+            ${title}
+          </div>
+          <div style="font-size: 14px; line-height: 1.5;">
+            ${content}
+          </div>
+        `;
+        
+        // Positionner le tooltip près de l'élément
+        const rect = element.getBoundingClientRect();
+        tooltip.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+        tooltip.style.left = (rect.left + window.scrollX - 20) + 'px';
+        
+        // Ajouter le tooltip au document
+        document.body.appendChild(tooltip);
+        
+        // Gérer la disparition du tooltip quand la souris quitte l'élément
+        element.addEventListener('mouseleave', function() {
+          // Petite temporisation pour éviter que le tooltip disparaisse si la souris
+          // passe rapidement sur un élément à l'intérieur du tooltip
+          setTimeout(() => {
+            // Vérifier si la souris est sur le tooltip
+            const isMouseOverTooltip = isMouseOverElement(tooltip);
+            if (!isMouseOverTooltip) {
+              tooltip.remove();
+            }
+          }, 100);
+        });
+        
+        // Faire disparaître le tooltip lorsque la souris le quitte aussi
+        tooltip.addEventListener('mouseleave', function() {
+          tooltip.remove();
+        });
+      }
+      
+      // Fonction utilitaire pour vérifier si la souris est sur un élément
+      function isMouseOverElement(element) {
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+        const rect = element.getBoundingClientRect();
+        
+        return (
+          mouseX >= rect.left &&
+          mouseX <= rect.right &&
+          mouseY >= rect.top &&
+          mouseY <= rect.bottom
+        );
+      }
+      
+      // Fonction pour cacher le tooltip
+      function hideDomainTooltip() {
+        const tooltip = document.getElementById('domain-tooltip');
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
+        tooltip.classList.remove('active');
+        
+        // Réactiver le défilement
+        document.body.style.overflow = '';
+        
+        // Masquer après un délai
+        setTimeout(() => { 
+          tooltip.style.display = 'none';
+          console.log("Tooltip masqué");
+        }, 200);
+      }
+      
+      // Fonction pour vérifier si au moins un domaine est sélectionné
+      function checkDomainSelection() {
+        const simpliButton = document.getElementById('simpli-for-p2-btn');
+        const p2Button = document.getElementById('p2-btn');
+        
+        if (selectedDomains.length > 0) {
+          // Activer les boutons si au moins un domaine est sélectionné
+          if (simpliButton) {
+            simpliButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            simpliButton.disabled = false;
           }
-
-          // Créer une règle CSS pour cibler spécifiquement les textes des OPM ID
-          let css = '';
           
-          // 1. Essayer de trouver tous les rectangles jaunes
-          const yellowRects = document.querySelectorAll('rect[fill="#FFFF00"], rect[style*="fill:#FFFF00"], rect.selected');
-          console.log(`Trouvé ${yellowRects.length} rectangles jaunes`);
+          if (p2Button) {
+            p2Button.classList.remove('opacity-50', 'cursor-not-allowed');
+            p2Button.disabled = false;
+          }
+        } else {
+          // Désactiver les boutons si aucun domaine n'est sélectionné
+          if (simpliButton) {
+            simpliButton.classList.add('opacity-50', 'cursor-not-allowed');
+            simpliButton.disabled = true;
+          }
           
-          // Pour chaque rectangle jaune, trouver le texte associé et le styliser
-          yellowRects.forEach((rect, i) => {
-            const x = parseFloat(rect.getAttribute('x') || '0');
-            const y = parseFloat(rect.getAttribute('y') || '0');
-            const width = parseFloat(rect.getAttribute('width') || '0');
-            const centerX = x + width/2;
-            
-            // Ajouter une classe directement au rectangle pour le cibler plus facilement
-            rect.classList.add('yellow-opm-rect');
-            rect.setAttribute('data-opm-index', i);
-            
-            // Créer une règle pour les textes proches de ce rectangle
-            css += `
-              /* Rectangle jaune à position (${x}, ${y}) */
-              text[x="${centerX}"],
-              text[x="${Math.floor(centerX)}"],
-              text[x="${Math.ceil(centerX)}"] {
-                fill: black !important;
-              }
-            `;
-          });
-          
-          // Règle générique pour tous les textes des OPM ID
-          css += `
-            text.opm-id-label[style*="fill: white"],
-            text[style*="fill: white"] {
-              fill: black !important;
-            }
-          `;
-          
-          // Appliquer le CSS
-          styleEl.textContent = css;
-          
-          // Approche directe: appliquer la couleur noire à tous les textes d'OPM ID
-          const allTexts = document.querySelectorAll('svg text');
-          allTexts.forEach(text => {
-            const content = text.textContent.trim();
-            // Si c'est un OPM ID (3 chiffres)
-            if (/^\d{3}$/.test(content)) {
-              // Vérifier s'il est sur un rectangle jaune
-              const textX = parseFloat(text.getAttribute('x') || '0');
-              const textY = parseFloat(text.getAttribute('y') || '0');
-              
-              // Trouver tous les rectangles jaunes
-              document.querySelectorAll('rect[fill="#FFFF00"], rect.selected, rect[data-selected="true"]').forEach(rect => {
-                const rectX = parseFloat(rect.getAttribute('x') || '0');
-                const rectY = parseFloat(rect.getAttribute('y') || '0');
-                const rectWidth = parseFloat(rect.getAttribute('width') || '0');
-                const rectHeight = parseFloat(rect.getAttribute('height') || '0');
-                
-                // Si le texte est à l'intérieur ou près du rectangle jaune
-                if (Math.abs(textX - (rectX + rectWidth/2)) < 15 && Math.abs(textY - (rectY + rectHeight/2)) < 25) {
-                  console.log(`Texte OPM ID ${content} trouvé près d'un rectangle jaune`);
-                  text.style.fill = 'black';
-                  text.setAttribute('fill', 'black');
-                  text.classList.add('selected');
-                  text.dataset.selected = 'true';
-                }
-              });
-            }
-          });
-          
-        } catch (e) {
-          console.error("Erreur lors du forçage des couleurs de texte:", e);
+          if (p2Button) {
+            p2Button.classList.add('opacity-50', 'cursor-not-allowed');
+            p2Button.disabled = true;
+          }
         }
       }
       
-      // Exécuter cette fonction périodiquement
-      setInterval(forceTextColors, 1000);
+      // Fonction pour filtrer la heatmap avec seulement les domaines sélectionnés
+      function filterHeatmapByDomains() {
+        if (selectedDomains.length === 0) return;
+        
+        // Récupérer toutes les lignes de la heatmap
+        const rows = document.querySelectorAll('.heatmap-table tbody tr');
+        
+        // Parcourir chaque ligne
+        rows.forEach(row => {
+          const domainCell = row.querySelector('.domain-name');
+          if (domainCell) {
+            const domainCode = domainCell.dataset.domainCode;
+            
+            // Cacher les lignes non sélectionnées
+            if (!selectedDomains.includes(domainCode)) {
+              row.style.display = 'none';
+            } else {
+              row.style.display = '';
+            }
+          }
+        });
+        
+        // Mettre à jour le titre de la heatmap
+        const subtitle = document.getElementById('heatmap-subtitle');
+        if (subtitle) {
+          subtitle.innerHTML = `
+            <span class="font-medium">Affichage filtré:</span> 
+            ${selectedDomains.length} domaine(s) sélectionné(s)
+            <button id="reset-domain-filter-btn" class="ml-2 text-sm text-red-500 hover:text-red-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Réinitialiser le filtre
+            </button>
+          `;
+          
+          // Ajouter un événement sur le bouton de réinitialisation
+          document.getElementById('reset-domain-filter-btn').addEventListener('click', resetDomainFilter);
+        }
+      }
       
-      // L'exécuter immédiatement après le chargement
-      window.addEventListener('load', () => {
-        setTimeout(forceTextColors, 500);
-        setTimeout(forceTextColors, 1000);
-        setTimeout(forceTextColors, 2000);
+      // Fonction pour réinitialiser le filtre de domaines
+      function resetDomainFilter() {
+        // Réafficher toutes les lignes
+        const rows = document.querySelectorAll('.heatmap-table tbody tr');
+        rows.forEach(row => {
+          row.style.display = '';
+        });
+        
+        // Désélectionner tous les domaines
+        const domainCells = document.querySelectorAll('.domain-name');
+        domainCells.forEach(cell => {
+          cell.dataset.selected = "false";
+          cell.style.backgroundColor = "";
+          cell.style.color = "";
+          cell.style.fontWeight = "";
+        });
+        
+        // Vider la liste des domaines sélectionnés
+        selectedDomains = [];
+        
+        // Mettre à jour l'état du bouton
+        checkDomainSelection();
+        
+        // Restaurer le sous-titre original
+        const subtitle = document.getElementById('heatmap-subtitle');
+        if (subtitle) {
+          subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+        }
+      }
+      
+      // Initialisation de la heatmap au chargement de la page
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser la heatmap
+        initializeHeatmap();
+        
+        // Charger explicitement les sélections sauvegardées
+        loadSavedSelections();
+        
+        // Ajuster la taille de la heatmap
+        adjustHeatmapSize();
+        
+        // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
+        document.getElementById('reset-view-btn').addEventListener('click', function() {
+          // Réinitialiser la sélection sans régénérer les données
+          renderHeatmapTable();
+          resetAllOpmIdHighlights();
+          adjustHeatmapSize(); // Réajuster après reset
+          hideDomainTooltip(); // Cacher le tooltip s'il est visible
+          
+          // Réinitialiser également le filtre de domaines
+          resetDomainFilter();
+        });
+        
+        // Gestionnaire d'événement pour le bouton Simpli For P2
+        document.getElementById('simpli-for-p2-btn').addEventListener('click', function() {
+          filterHeatmapByDomains();
+        });
+
+        // Gestionnaire d'événement pour le bouton P2
+        document.getElementById('p2-btn').addEventListener('click', function() {
+          if (selectedDomains.length > 0) {
+            // Sauvegarder les domaines sélectionnés dans le localStorage
+            localStorage.setItem('selectedNFDomains', JSON.stringify(selectedDomains));
+            
+            // Rediriger vers AttributsPartDeux.html
+            window.location.href = "{% url 'attributs_part_deux' %}";
+          }
+        });
+        
+        // Vérifier l'état initial des boutons
+        checkDomainSelection();
+        
+        // Rendre la section des sélections sauvegardées visible
+        document.getElementById('saved-selections-container').style.display = 'block';
+        
+        // Gérer le redimensionnement de la fenêtre
+        window.addEventListener('resize', function() {
+          adjustHeatmapSize();
+        });
+      });
+      
+      // Fonction pour mettre en évidence un OPM ID sélectionné
+      function highlightSelectedOpmId(opmId, selected = true) {
+        // Trouver le span avec l'OPM ID correspondant
+        const opmIdElements = document.querySelectorAll(`.opm-id[data-opm-id="${opmId}"]`);
+        
+        opmIdElements.forEach(element => {
+          if (selected) {
+            element.classList.add('selected');
+          } else {
+            element.classList.remove('selected');
+          }
+        });
+      }
+      
+      // Fonction pour réinitialiser tous les OPM IDs
+      function resetAllOpmIdHighlights() {
+        document.querySelectorAll('.opm-id').forEach(element => {
+          element.classList.remove('selected');
+        });
+      }
+      
+      // Exposer ces fonctions globalement pour une utilisation externe
+      window.highlightSelectedOpmIds = function(selectedIds) {
+        if (!selectedIds || !selectedIds.length) return;
+        
+        // D'abord réinitialiser tous
+        resetAllOpmIdHighlights();
+        
+        // Puis mettre en évidence les sélectionnés
+        selectedIds.forEach(id => {
+          highlightSelectedOpmId(id, true);
+        });
+      };
+      
+      window.resetAllOpmIdHighlights = resetAllOpmIdHighlights;
+    </script>
+    
+    <!-- Script de visualisation pour les sélections existantes -->
+    <script>
+      // Attendre le chargement complet de la page
+      window.addEventListener('load', function() {
+        // Modifier la fonction visualizeSelection pour utiliser notre nouvelle fonction
+        const originalVisualizeSelection = window.visualizeSelection;
+        if (originalVisualizeSelection) {
+          window.visualizeSelection = function(selection) {
+            console.log('Visualisation de la sélection:', selection);
+            
+            // Extraire les OPM IDs de la sélection
+            const roles = selection.roles || selection.ksats || [];
+            const selectedOpmIds = [];
+            
+            roles.forEach(role => {
+              const opmId = role.opm_id || role.opmId;
+              if (opmId) {
+                // Extraire uniquement les chiffres si l'OPM ID contient du texte
+                const numericMatch = opmId.toString().match(/\d+/);
+                const cleanId = numericMatch ? numericMatch[0] : opmId;
+                
+                if (!selectedOpmIds.includes(cleanId)) {
+                  selectedOpmIds.push(cleanId);
+                }
+              }
+            });
+            
+            console.log('OPM IDs trouvés dans la sélection:', selectedOpmIds);
+            
+            // Mise à jour du titre de la page pour indiquer le filtre
+            const subtitle = document.getElementById('heatmap-subtitle');
+            if (subtitle) {
+              subtitle.innerHTML = `
+                <span class="font-medium">Sélection en cours:</span> 
+                ${selection.name || selection.title || 'Sélection personnalisée'} 
+                <span class="font-medium">(${selectedOpmIds.length} OPM IDs)</span>
+                <span class="ml-2 text-sm">
+                  <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Effacer le filtre
+                  </button>
+                </span>
+              `;
+              
+              // Ajouter un gestionnaire d'événements pour effacer le filtre
+              document.getElementById('clear-filter-btn').addEventListener('click', () => {
+                // Restaurer le sous-titre original
+                subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+                
+                // Réinitialiser la heatmap avec tous les OPM IDs
+                renderHeatmapTable(null, true); // true = réinitialisation complète
+                resetAllOpmIdHighlights();
+                
+                // Retirer les classes de mode filtré
+                const heatmapContainer = document.getElementById('heatmap-container');
+                heatmapContainer.classList.remove('filtered-view');
+                document.getElementById('heatmap-main').classList.remove('filtered-mode');
+                
+                adjustHeatmapSize(); // Réajuster après reset
+              });
+            }
+            
+            // Filtrer la vue pour n'afficher que les OPM IDs sélectionnés
+            renderHeatmapTable(selectedOpmIds);
+            
+            // Mettre en évidence les OPM IDs
+            if (window.highlightSelectedOpmIds) {
+              window.highlightSelectedOpmIds(selectedOpmIds);
+            }
+            
+            // Ajuster la taille après la modification
+            adjustHeatmapSize();
+          };
+        }
       });
     </script>
 </body>

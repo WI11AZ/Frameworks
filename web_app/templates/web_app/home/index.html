@@ -767,6 +767,16 @@
                         zone2Checkbox.checked = this.checked;
                     }
                     
+                    // Afficher la fenêtre de détails si elle n'est pas encore visible
+                    const detailBox = document.getElementById('detail-box');
+                    if (detailBox && detailBox.classList.contains('hidden')) {
+                        const workRoleElement = this.closest('.work-role');
+                        if (workRoleElement) {
+                            const workRoleId = workRoleElement.id.replace('work-role-', '');
+                            toggleDetail(workRoleId);
+                        }
+                    }
+                    
                     // Empêcher la propagation du clic pour éviter de déclencher
                     // l'événement onclick du conteneur parent workRole
                     event.stopPropagation();
@@ -783,6 +793,16 @@
                     const currentMode = document.getElementById('modeSelector').value;
                     if (currentMode === 'mode2') {
                         zone1Checkbox.checked = this.checked;
+                    }
+                    
+                    // Afficher la fenêtre de détails si elle n'est pas encore visible
+                    const detailBox = document.getElementById('detail-box');
+                    if (detailBox && detailBox.classList.contains('hidden')) {
+                        const workRoleElement = this.closest('.work-role');
+                        if (workRoleElement) {
+                            const workRoleId = workRoleElement.id.replace('work-role-', '');
+                            toggleDetail(workRoleId);
+                        }
                     }
                     
                     // Empêcher la propagation du clic
@@ -806,6 +826,17 @@
                     if (opm632Zone1Checkbox) opm632Zone1Checkbox.checked = this.checked;
                     if (opm632Zone2Checkbox) opm632Zone2Checkbox.checked = this.checked;
                 }
+                
+                // Afficher la fenêtre de détails si elle n'est pas encore visible
+                const detailBox = document.getElementById('detail-box');
+                if (detailBox && detailBox.classList.contains('hidden')) {
+                    const workRoleElement = this.closest('.work-role');
+                    if (workRoleElement) {
+                        const workRoleId = workRoleElement.id.replace('work-role-', '');
+                        toggleDetail(workRoleId);
+                    }
+                }
+                
                 event.stopPropagation();
             });
             
@@ -817,6 +848,17 @@
                         if (opm632Zone1Checkbox) opm632Zone1Checkbox.checked = this.checked;
                         if (opm632Zone2Checkbox) opm632Zone2Checkbox.checked = this.checked;
                     }
+                    
+                    // Afficher la fenêtre de détails si elle n'est pas encore visible
+                    const detailBox = document.getElementById('detail-box');
+                    if (detailBox && detailBox.classList.contains('hidden')) {
+                        const workRoleElement = this.closest('.work-role');
+                        if (workRoleElement) {
+                            const workRoleId = workRoleElement.id.replace('work-role-', '');
+                            toggleDetail(workRoleId);
+                        }
+                    }
+                    
                     event.stopPropagation();
                 });
             }
@@ -829,6 +871,17 @@
                     if (opm631Zone1Checkbox) opm631Zone1Checkbox.checked = this.checked;
                     if (opm631Zone2Checkbox) opm631Zone2Checkbox.checked = this.checked;
                 }
+                
+                // Afficher la fenêtre de détails si elle n'est pas encore visible
+                const detailBox = document.getElementById('detail-box');
+                if (detailBox && detailBox.classList.contains('hidden')) {
+                    const workRoleElement = this.closest('.work-role');
+                    if (workRoleElement) {
+                        const workRoleId = workRoleElement.id.replace('work-role-', '');
+                        toggleDetail(workRoleId);
+                    }
+                }
+                
                 event.stopPropagation();
             });
             
@@ -840,14 +893,35 @@
                         if (opm631Zone1Checkbox) opm631Zone1Checkbox.checked = this.checked;
                         if (opm631Zone2Checkbox) opm631Zone2Checkbox.checked = this.checked;
                     }
+                    
+                    // Afficher la fenêtre de détails si elle n'est pas encore visible
+                    const detailBox = document.getElementById('detail-box');
+                    if (detailBox && detailBox.classList.contains('hidden')) {
+                        const workRoleElement = this.closest('.work-role');
+                        if (workRoleElement) {
+                            const workRoleId = workRoleElement.id.replace('work-role-', '');
+                            toggleDetail(workRoleId);
+                        }
+                    }
+                    
                     event.stopPropagation();
                 });
             }
         }
         
-        // Empêcher les checkboxes de déclencher la fonction toggleDetail
+        // Empêcher les checkboxes de déclencher la fonction toggleDetail mais afficher la fenêtre si nécessaire
         document.querySelectorAll('.work-role input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('click', function(event) {
+                // Afficher la fenêtre de détails si elle n'est pas encore visible
+                const detailBox = document.getElementById('detail-box');
+                if (detailBox && detailBox.classList.contains('hidden')) {
+                    const workRoleElement = this.closest('.work-role');
+                    if (workRoleElement) {
+                        const workRoleId = workRoleElement.id.replace('work-role-', '');
+                        toggleDetail(workRoleId);
+                    }
+                }
+                
                 event.stopPropagation();
             });
         });

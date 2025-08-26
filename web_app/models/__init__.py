@@ -11,3 +11,5 @@ from .ncwf_2024_work_role import Ncwf2024WorkRole
 from .select_options import SelectCategory, KsatType, SelectOption
 from .modal_info import ModalInfoCategory, ModalInfo, ModalInfoOption
 from .user_saved_data import UserSavedData
+from .dcwf_2025_category import Dcwf2025Category
+from .dcwf_2025_work_role import Dcwf2025WorkRole

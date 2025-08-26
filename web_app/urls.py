@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (
     home, work_role, compare, get_modal_info_json_view, get_select_options_json_view, ksat_compare_details, etape_deux, 
     saved_ksat_selections, resume_step2, summary_chart_view, etape2_first_step, 
-    save_ksat_selection, list_ksat_selections, delete_ksat_selection
+    save_ksat_selection, list_ksat_selections, delete_ksat_selection, attributs_part_deux,
+    nf_com_007_details, nf_com_002_details, models_2025
 )
 from .views_auth import main_view, login_view, signup_view, logout_view
 from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
@@ -16,6 +17,7 @@ urlpatterns = [
     
     # Routes existantes
     path('home/', home, name='home'),
+    path('models-2025/', models_2025, name='models_2025'),
     path('work_role/<int:id>/', work_role, name='work_role'),
     path('compare/', compare, name='compare'),
     path('compare/details/', ksat_compare_details, name='ksat_compare_details'),
@@ -26,6 +28,7 @@ urlpatterns = [
     path('ksat/saved_ksat_selections', saved_ksat_selections, name='saved_ksat_selections'),
     path('ksat/resume_step2/<int:index>/', resume_step2, name='resume_step2'),
     path('summary_chart/', summary_chart_view, name='summary_chart'),
+    path('attributs-part-deux/', attributs_part_deux, name='attributs_part_deux'),
     
     # API pour les données sauvegardées utilisateur
     path('api/saved-data/', list_saved_data, name='list_saved_data'),
@@ -37,4 +40,8 @@ urlpatterns = [
     path('api/ksat-selections/', list_ksat_selections, name='list_ksat_selections'),
     path('api/ksat-selections/save/', save_ksat_selection, name='save_ksat_selection'),
     path('api/ksat-selections/delete/<str:key>/', delete_ksat_selection, name='delete_ksat_selection'),
+    
+    # Nouvelles routes
+    path('ksat/nf-com-007-details/', nf_com_007_details, name='nf_com_007_details'),
+    path('ksat/nf-com-002-details/', nf_com_002_details, name='nf_com_002_details'),
 ]

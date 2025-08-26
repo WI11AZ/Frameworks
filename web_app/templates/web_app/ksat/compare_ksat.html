@@ -1576,7 +1576,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Initialiser les compteurs de sélection
       setTimeout(() => {
         initializeSelectionCounters();
-      }, 100); // Petit délai pour s'assurer que tous les éléments sont prêts
+      }, 500); // Délai plus long pour s'assurer que tous les éléments sont prêts
     })
     .catch(error => {
       console.error('Impossible d\'initialiser les données modales:', error);
@@ -1646,6 +1646,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Mettre à jour l'onglet actif et le compteur
     currentActiveTab = btn.dataset.tab;
+    
+    // S'assurer que les compteurs sont à jour pour cet onglet
+    updateSelectionCountersForTab(btn.dataset.tab);
     updateSelectionCounter(btn.dataset.tab);
     
     // RESTAURATION CRITIQUE DES OPTIONS DES SELECTS POUR LE NOUVEL ONGLET ACTIF
@@ -1885,12 +1888,14 @@ function updateSelectionCountersForTab(tabId) {
   
   // Récupérer toutes les lignes dans ce tableau
   const rows = tabContent.querySelectorAll('tbody tr');
-  selectionCounters[tabId].total = rows.length;
   
-  // Parcourir chaque ligne pour vérifier si elle est sélectionnée (select n1 != 0)
+  // Ne compter que les lignes qui ont des selects (lignes avec des données)
+  let validRows = 0;
   rows.forEach(row => {
     const selectGroup = row.querySelector('.select-group');
     if (selectGroup) {
+      validRows++;
+      
       // Adapter la recherche en fonction du type d'onglet
       let firstSelect = null;
       
@@ -1914,9 +1919,13 @@ function updateSelectionCountersForTab(tabId) {
     }
   });
   
+  // Mettre à jour le total avec seulement les lignes valides
+  selectionCounters[tabId].total = validRows;
+  
+  console.log(`Compteur mis à jour pour ${tabId}: ${selectionCounters[tabId].selected}/${selectionCounters[tabId].total} (lignes valides: ${validRows})`);
+  
   // Si c'est l'onglet actif, mettre à jour le compteur affiché
   if (tabId === currentActiveTab) {
-    console.log(`Mise à jour du compteur pour ${tabId}: ${selectionCounters[tabId].selected}/${selectionCounters[tabId].total}`);
     updateSelectionCounter(tabId);
   }
 }
@@ -1945,6 +1954,29 @@ function updateSelectionCounter(tabId) {
     }
     tabNameElement.textContent = `${categoryName} :`;
   }
+  
+  // Mettre à jour le compteur global
+  updateGlobalCounter();
+}
+
+// Fonction pour mettre à jour le compteur global
+function updateGlobalCounter() {
+  let globalSelected = 0;
+  let globalTotal = 0;
+  
+  // Calculer les totaux globaux
+  Object.keys(selectionCounters).forEach(tabId => {
+    globalSelected += selectionCounters[tabId].selected || 0;
+    globalTotal += selectionCounters[tabId].total || 0;
+  });
+  
+  // Mettre à jour l'affichage du compteur global
+  const globalCounterElement = document.getElementById('global-counter');
+  if (globalCounterElement) {
+    globalCounterElement.textContent = `${globalSelected}/${globalTotal}`;
+  }
+  
+  console.log(`Compteur global mis à jour: ${globalSelected}/${globalTotal}`);
 }
 
 // Fonction pour gérer le changement du premier select pour les Tasks et Knowledge

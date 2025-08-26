@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-résilience (NF-COM-007)</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark background */
+            color: #e5e7eb; /* Light text */
+        }
+        .card {
+            background-color: #1f2937; /* Slightly lighter card background */
+            border: 1px solid #374151;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        .card-id {
+            color: #60a5fa; /* Blue accent for ID */
+        }
+        .section-title-icon {
+            width: 32px;
+            height: 32px;
+            stroke-width: 1.5;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+        <!-- Header Section -->
+        <header class="text-center mb-12 relative">
+            <div class="absolute top-20 right-0">
+                <button onclick="window.close()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Fermer
+                </button>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+                Domaine de Compétence : Cyber-résilience
+            </h1>
+            <p class="text-lg font-semibold text-blue-400 mb-6">
+                Référence : NF-COM-007
+            </p>
+            <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-300">
+                Cette compétence décrit la capacité à architecturer, concevoir, développer, mettre en œuvre et maintenir la fiabilité des systèmes cyber afin d'anticiper, de résister, de se remettre et de s'adapter aux conditions défavorables, stress, attaques ou compromissions.
+            </p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+            <!-- Knowledge Section -->
+            <section id="knowledge">
+                <div class="flex items-center gap-4 mb-8">
+                     <!-- Icon for Knowledge -->
+                    <svg class="section-title-icon text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                    <h2 class="text-3xl font-bold text-white">Connaissances (Knowledge)</h2>
+                </div>
+                <div class="space-y-4">
+                    <!-- Knowledge Cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills">
+                <div class="flex items-center gap-4 mb-8">
+                    <!-- Icon for Skills -->
+                    <svg class="section-title-icon text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 22.5l-.648-1.938a3.375 3.375 0 00-2.684-2.684L11.25 18l1.938-.648a3.375 3.375 0 002.684-2.684L16.25 13.5l.648 1.938a3.375 3.375 0 002.684 2.684L21.75 18l-1.938.648a3.375 3.375 0 00-2.684 2.684z" />
+                    </svg>
+                    <h2 class="text-3xl font-bold text-white">Compétences (Skills)</h2>
+                </div>
+                <div class="space-y-4">
+                    <!-- Skills Cards will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Bouton de retour flottant -->
+    <a href="javascript:window.close();" class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+    </a>
+
+    <script>
+        // Data for the page
+        const knowledgeData = [
+            { id: 'K0092', desc: 'Knowledge of technology integration processes' },
+            { id: 'K0644', desc: 'Knowledge of cybersecurity operation policies and procedures' },
+            { id: 'K0651', desc: 'Knowledge of trustworthiness principles' },
+            { id: 'K0653', desc: 'Knowledge of cybersecurity practices in the acquisition process' },
+            { id: 'K0677', desc: 'Knowledge of cybersecurity policies and procedures' },
+            { id: 'K0680', desc: 'Knowledge of cybersecurity principles and practices' },
+            { id: 'K0689', desc: 'Knowledge of network infrastructure principles and practices' },
+            { id: 'K0701', desc: 'Knowledge of data backup and recovery policies and procedures' },
+            { id: 'K0702', desc: 'Knowledge of data warehousing principles and practices' },
+            { id: 'K0709', desc: 'Knowledge of business continuity and disaster recovery (BCDR) policies and procedures' },
+            { id: 'K0710', desc: 'Knowledge of enterprise cybersecurity architecture principles and practices' },
+            { id: 'K0715', desc: 'Knowledge of resiliency and redundancy principles and practices' },
+            { id: 'K0721', desc: 'Knowledge of risk management principles and practices' },
+            { id: 'K0724', desc: 'Knowledge of incident response principles and practices' },
+            { id: 'K0731', desc: 'Knowledge of systems security engineering (SSE) principles and practices' },
+            { id: 'K0733', desc: 'Knowledge of information technology (IT) architecture models and frameworks' },
+            { id: 'K0745', desc: "Knowledge of the organization's enterprise cybersecurity architecture" },
+            { id: 'K0759', desc: 'Knowledge of threat modeling principles and practices' },
+            { id: 'K0760', desc: 'Knowledge of zero trust architecture principles and practices' },
+            { id: 'K0761', desc: 'Knowledge of the systems development life cycle (SDLC)' },
+            { id: 'K0762', desc: 'Knowledge of secure software development principles and practices' },
+            { id: 'K0763', desc: 'Knowledge of software assurance principles and practices' },
+            { id: 'K0764', desc: 'Knowledge of supply chain risk management (SCRM) policies and procedures' },
+            { id: 'K0765', desc: 'Knowledge of supply chain risk management (SCRM) principles and practices' },
+            { id: 'K0766', desc: "Knowledge of the organization's supply chain" },
+            { id: 'K0767', desc: "Knowledge of the organization's mission-essential functions" },
+            { id: 'K0768', desc: "Knowledge of the organization's critical assets" },
+            { id: 'K0769', desc: 'Knowledge of cyber-attack stages' },
+            { id: 'K0770', desc: 'Knowledge of adversarial tactics, techniques, and procedures (TTPs)' },
+            { id: 'K0771', desc: 'Knowledge of cyber-attack kill chain models' },
+            { id: 'K0772', desc: 'Knowledge of threat intelligence principles and practices' },
+            { id: 'K0773', desc: 'Knowledge of defense-in-depth principles and practices' },
+            { id: 'K0774', desc: 'Knowledge of defense-in-breadth principles and practices' },
+            { id: 'K0775', desc: 'Knowledge of fault-tolerant system design principles and practices' },
+            { id: 'K0776', desc: 'Knowledge of deception technology principles and practices' },
+            { id: 'K0777', desc: 'Knowledge of cyber-informed engineering (CIE) principles and practices' },
+            { id: 'K0778', desc: 'Knowledge of operational technology (OT) security principles and practices' },
+            { id: 'K0779', desc: 'Knowledge of industrial control systems (ICS) security principles and practices' },
+            { id: 'K0780', desc: 'Knowledge of Internet of Things (IoT) security principles and practices' },
+            { id: 'K0781', desc: 'Knowledge of embedded systems security principles and practices' },
+            { id: 'K0782', desc: 'Knowledge of cloud security principles and practices' },
+            { id: 'K0783', desc: 'Knowledge of virtualization security principles and practices' },
+            { id: 'K0784', desc: 'Knowledge of containerization security principles and practices' },
+            { id: 'K0785', desc: 'Knowledge of microservices security principles and practices' },
+            { id: 'K0786', desc: 'Knowledge of artificial intelligence (AI) and machine learning (ML) security principles and practices' },
+            { id: 'K0787', desc: 'Knowledge of cryptography and encryption principles and practices' },
+            { id: 'K0788', desc: 'Knowledge of identity and access management (IAM) principles and practices' },
+            { id: 'K0789', desc: 'Knowledge of network security principles and practices' },
+            { id: 'K0790', desc: 'Knowledge of data security principles and practices' },
+            { id: 'K0791', desc: 'Knowledge of application security principles and practices' },
+            { id: 'K0792', desc: 'Knowledge of endpoint security principles and practices' },
+            { id: 'K0793', desc: 'Knowledge of physical security principles and practices' },
+            { id: 'K0794', desc: 'Knowledge of security operations center (SOC) principles and practices' },
+            { id: 'K0795', desc: 'Knowledge of security information and event management (SIEM) principles and practices' },
+            { id: 'K0796', desc: 'Knowledge of security orchestration, automation, and response (SOAR) principles and practices' },
+            { id: 'K0797', desc: 'Knowledge of intrusion detection and prevention systems (IDPS) principles and practices' },
+            { id: 'K0798', desc: 'Knowledge of firewall principles and practices' },
+            { id: 'K0799', desc: 'Knowledge of vulnerability management principles and practices' },
+            { id: 'K0800', desc: 'Knowledge of penetration testing principles and practices' },
+            { id: 'K0801', desc: 'Knowledge of digital forensics principles and practices' },
+            { id: 'K0802', desc: 'Knowledge of malware analysis principles and practices' },
+            { id: 'K0803', desc: 'Knowledge of reverse engineering principles and practices' },
+            { id: 'K0804', desc: 'Knowledge of threat hunting principles and practices' },
+            { id: 'K0805', desc: 'Knowledge of cyber adversary attribution principles and practices' },
+            { id: 'K0806', desc: 'Knowledge of cyber law and ethics' },
+            { id: 'K0807', desc: 'Knowledge of cybersecurity standards and frameworks' },
+            { id: 'K0808', desc: 'Knowledge of cybersecurity metrics and measures' },
+            { id: 'K0809', desc: 'Knowledge of cybersecurity training and awareness principles and practices' },
+            { id: 'K0810', desc: 'Knowledge of organizational theory' },
+            { id: 'K0811', desc: 'Knowledge of organizational change management' },
+            { id: 'K0812', desc: 'Knowledge of organizational communication' },
+            { id: 'K0813', desc: 'Knowledge of organizational culture' },
+            { id: 'K0814', desc: 'Knowledge of organizational behavior' },
+            { id: 'K0815', desc: 'Knowledge of organizational leadership' },
+            { id: 'K0816', desc: 'Knowledge of organizational decision-making' },
+            { id: 'K0817', desc: 'Knowledge of organizational learning' },
+            { id: 'K0818', desc: 'Knowledge of organizational performance management' },
+            { id: 'K0819', desc: 'Knowledge of organizational project management' },
+            { id: 'K0820', desc: 'Knowledge of organizational risk management' },
+            { id: 'K0821', desc: 'Knowledge of organizational strategic planning' },
+            { id: 'K0822', desc: 'Knowledge of organizational systems thinking' },
+            { id: 'K0823', desc: 'Knowledge of organizational team building' },
+            { id: 'K0824', desc: 'Knowledge of organizational training and development' },
+            { id: 'K0825', desc: "Knowledge of the organization's governance structure" },
+            { id: 'K0826', desc: "Knowledge of the organization's goals and objectives" },
+            { id: 'K0827', desc: "Knowledge of the organization's business processes" },
+            { id: 'K0828', desc: "Knowledge of the organization's information systems" },
+            { id: 'K0829', desc: "Knowledge of the organization's information technology (IT) infrastructure" },
+            { id: 'K0830', desc: "Knowledge of the organization's cybersecurity posture" },
+            { id: 'K0831', desc: "Knowledge of the organization's threat landscape" },
+            { id: 'K0832', desc: "Knowledge of the organization's risk appetite" },
+            { id: 'K0833', desc: "Knowledge of the organization's risk tolerance" },
+            { id: 'K0834', desc: "Knowledge of the organization's risk management framework" },
+            { id: 'K0835', desc: "Knowledge of the organization's incident response plan" },
+            { id: 'K0836', desc: "Knowledge of the organization's disaster recovery plan" },
+            { id: 'K0837', desc: "Knowledge of the organization's business continuity plan" },
+            { id: 'K0838', desc: "Knowledge of the organization's communication plan" },
+            { id: 'K0839', desc: "Knowledge of the organization's training and awareness program" },
+            { id: 'K0840', desc: "Knowledge of the organization's cybersecurity policies and procedures" },
+            { id: 'K0841', desc: "Knowledge of the organization's cybersecurity roles and responsibilities" },
+            { id: 'K0842', desc: "Knowledge of the organization's cybersecurity budget" },
+            { id: 'K0843', desc: "Knowledge of the organization's cybersecurity contracts and agreements" },
+            { id: 'K0844', desc: "Knowledge of the organization's cybersecurity metrics and measures" },
+            { id: 'K0845', desc: "Knowledge of the organization's cybersecurity audit and assessment program" },
+            { id: 'K0846', desc: "Knowledge of the organization's cybersecurity compliance requirements" },
+            { id: 'K0847', desc: "Knowledge of the organization's cybersecurity partnerships" },
+            { id: 'K0848', desc: "Knowledge of the organization's cybersecurity research and development program" },
+            { id: 'K0849', desc: "Knowledge of the organization's cybersecurity workforce development program" },
+            { id: 'K0850', desc: "Knowledge of the organization's cybersecurity vision and strategy" },
+        ];
+
+        const skillsData = [
+            { id: 'S0794', desc: 'Skill in communicating with stakeholders' },
+            { id: 'S0819', desc: 'Skill in building and maintaining internal and external stakeholder relationships' },
+            { id: 'S0821', desc: 'Skill in collaborating with internal and external stakeholders' },
+            { id: 'S0834', desc: 'Skill in developing technical reports' },
+            { id: 'S0839', desc: 'Skill in identifying exploited system weaknesses' },
+            { id: 'S0853', desc: 'Skill in performing cybersecurity architecture analysis' },
+            { id: 'S0880', desc: 'Skill in performing security architecture analysis' },
+            { id: 'S0917', desc: 'Skill in forecasting likely impacts on mission or business functions resulting from adversity' },
+            { id: 'S0918', desc: 'Skill in conducting ongoing monitoring of system properties and behaviors' },
+            { id: 'S0919', desc: 'Skill in evaluating threats, events, and courses of action in the context of mission or business functions' },
+            { id: 'S0920', desc: 'Skill in establishing segmentation of system assets based on criticality and trustworthiness' },
+            { id: 'S0921', desc: 'Skill in performing telemetry analysis' },
+            { id: 'S0922', desc: 'Skill in making decisions under conditions of uncertainty' },
+            { id: 'S0923', desc: 'Skill in communicating at varying levels of technical detail with stakeholders of various backgrounds' },
+            { id: 'S0924', desc: 'Skill in crisis management' },
+            { id: 'S0925', desc: 'Skill in developing and analyzing attack paths' },
+            { id: 'S0926', desc: 'Skill in designing and maintaining threat catalogs' },
+            { id: 'S0927', desc: 'Skill in defining contingency plans' },
+            { id: 'S0928', desc: 'Skill in defining loss scenarios' },
+            { id: 'S0929', desc: 'Skill in designing air-gapped data vault solutions' },
+            { id: 'S0930', desc: 'Skill in defining impact tolerance statements' },
+            { id: 'S0931', desc: 'Skill in conducting technical business impact analysis' },
+            { id: 'S0932', desc: 'Skill in protecting critical assets' },
+            { id: 'S0933', desc: 'Skill in designing enhanced controls for critical assets' },
+            { id: 'S0934', desc: 'Skill in performing Fault Tree Analysis (FTA)' },
+        ];
+
+        // Function to create and inject cards into the DOM
+        function createCard(item) {
+            return `
+                <div class="card rounded-lg p-4">
+                    <p class="card-id font-mono text-sm font-medium mb-1">${item.id}</p>
+                    <p class="text-gray-300">${item.desc}</p>
+                </div>
+            `;
+        }
+
+        // Get the container elements
+        const knowledgeContainer = document.querySelector('#knowledge .space-y-4');
+        const skillsContainer = document.querySelector('#skills .space-y-4');
+
+        // Populate the containers with data
+        knowledgeContainer.innerHTML = knowledgeData.map(createCard).join('');
+        skillsContainer.innerHTML = skillsData.map(createCard).join('');
+
+    </script>
+</body>
+</html>
