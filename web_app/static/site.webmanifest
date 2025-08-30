@@ -1,10 +1,8 @@
 {
-    "name": "DCWF Framework",
-    "short_name": "DCWF",
-    "description": "Defense Cyber Workforce Framework",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#1f2937",
-    "icons": []
+  "name": "DCWF Frameworks",
+  "short_name": "DCWF",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6"
 }

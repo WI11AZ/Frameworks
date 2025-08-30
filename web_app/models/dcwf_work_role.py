@@ -34,3 +34,20 @@ class DcwfWorkRole(models.Model):
 
     def ncwf_2017_work_role(self):
         return self.opm.ncwf_2017_work_roles.first()
+
+    def dcwf_2025_work_role(self):
+        """Retourne le work role DCWF 2025 associé via l'OPM ID"""
+        if self.opm and self.opm.id:
+            from web_app.models.dcwf_2025_work_role import Dcwf2025WorkRole
+            return Dcwf2025WorkRole.objects.filter(dcwf_code=str(self.opm.id)).first()
+        return None
+
+    def ncwf_2025_work_role(self):
+        """Retourne le work role NCWF 2025 associé via l'OPM ID"""
+        if self.opm and self.opm.id:
+            from web_app.models.dcwf_2025_work_role import Dcwf2025WorkRole
+            # Chercher via le code DCWF qui correspond à l'OPM ID
+            dcwf_2025 = Dcwf2025WorkRole.objects.filter(dcwf_code=str(self.opm.id)).first()
+            if dcwf_2025 and dcwf_2025.ncwf_id:
+                return dcwf_2025
+        return None

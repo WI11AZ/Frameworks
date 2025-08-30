@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Rôles de Travail - NICE Framework v2.0.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .role-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        #toTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+        }
+        
+        @keyframes holographic {
+            0% { 
+                opacity: 0.85; 
+                transform: scale(1) perspective(500px) rotateY(-3deg);
+                text-shadow: 0 0 6px #00ffff, 0 0 10px #00ffff, 0 0 14px rgba(183, 0, 255, 0.6);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), inset 0 0 5px rgba(0, 255, 255, 0.4);
+                filter: brightness(0.9) contrast(1.1);
+            }
+            33% {
+                opacity: 0.95;
+                transform: scale(1.03) perspective(500px) rotateY(-1deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), inset 0 0 8px rgba(0, 255, 255, 0.5);
+                filter: brightness(1.1) contrast(1.2);
+            }
+            66% { 
+                opacity: 1; 
+                transform: scale(1.05) perspective(500px) rotateY(1deg);
+                text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px rgba(183, 0, 255, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 12px rgba(0, 255, 255, 0.6);
+                filter: brightness(1.2) contrast(1.3);
+            }
+            100% { 
+                opacity: 0.9; 
+                transform: scale(1) perspective(500px) rotateY(3deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 12px rgba(0, 255, 255, 0.7), inset 0 0 7px rgba(0, 255, 255, 0.5);
+                filter: brightness(1) contrast(1.2);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <!-- Logo -->
+                    <div class="shrink-0 flex items-center">
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA v0.0.1</span>
+                        <span class="text-2xl font-bold text-white">NICE Framework</span>
+                    </div>
+                </div>
+                
+                <!-- Right side elements -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button type="button" id="darkModeToggle"
+                            class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span class="sr-only">Toggle Dark Mode</span>
+                        <svg id="moonIcon" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                        </svg>
+                        <svg id="sunIcon" class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Référentiel NICE Framework v2.0.0</h1>
+            <p class="text-lg text-gray-600 mt-2">Explorez les rôles de travail, leurs catégories et leurs définitions.</p>
+        </header>
+
+        <!-- Search Input -->
+        <div class="mb-8 max-w-2xl mx-auto">
+            <input type="text" id="searchInput" onkeyup="filterRoles()" placeholder="Rechercher un rôle, une catégorie ou un mot-clé..." class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+        </div>
+
+        <!-- Roles Container -->
+        <div id="rolesContainer" class="space-y-12">
+            <!-- Les catégories et les cartes de rôles seront injectées ici par JavaScript -->
+        </div>
+        
+        <div id="noResults" class="text-center py-12 text-gray-500 text-xl" style="display: none;">
+            Aucun rôle trouvé pour votre recherche.
+        </div>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="toTopBtn" class="p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+        <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-4 h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path></svg>
+    </button>
+
+    <script>
+        // Data extracted from the CSV file
+        const rolesData = [
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Communications Security (COMSEC) Management', definition: 'Responsible for managing the Communications Security (COMSEC) resources of an organization.', id: 'OG-WRL-001', opm: '723' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Cybersecurity Policy and Planning', definition: 'Responsible for developing and maintaining cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.', id: 'OG-WRL-002', opm: '752' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Cybersecurity Workforce Management', definition: "Responsible for developing cybersecurity workforce plans, assessments, strategies, and guidance, including cybersecurity-related staff training, education, and hiring processes. Makes adjustments in response to or in anticipation of changes to cybersecurity-related policy, technology, and staffing needs and requirements. Authors mandated workforce planning strategies to maintain compliance with legislation, regulation, and policy.", id: 'OG-WRL-003', opm: '751' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Cybersecurity Curriculum Development', definition: 'Responsible for developing, planning, coordinating, and evaluating cybersecurity awareness, training, or education content, methods, and techniques based on instructional needs and requirements.', id: 'OG-WRL-004', opm: '711' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Cybersecurity Instruction', definition: 'Responsible for developing and conducting cybersecurity awareness, training, or education.', id: 'OG-WRL-005', opm: '712' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Cybersecurity Legal Advice', definition: 'Responsible for providing cybersecurity legal advice and recommendations, including monitoring related legislation and regulations.', id: 'OG-WRL-006', opm: '731' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Executive Cybersecurity Leadership', definition: "Responsible for establishing vision and direction for an organization's cybersecurity operations and resources and their impact on digital and physical spaces. Possesses authority to make and execute decisions that impact an organization broadly, including policy approval and stakeholder engagement.", id: 'OG-WRL-007', opm: '901' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Privacy Compliance', definition: "Responsible for developing and overseeing an organization’s privacy compliance program and staff, including establishing and managing privacy-related governance, policy, and incident response needs.", id: 'OG-WRL-008', opm: '732' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Product Support Management', definition: 'Responsible for planning, estimating costs, budgeting, developing, implementing, and managing product support strategies in order to field and maintain the readiness and operational capability of systems and components.', id: 'OG-WRL-009', opm: '803' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Program Management', definition: 'Responsible for leading, coordinating, and the overall success of a defined program. Includes communicating about the program and ensuring alignment with agency or organizational priorities.', id: 'OG-WRL-010', opm: '801' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Secure Project Management', definition: "Responsible for overseeing and directly managing technology projects. Ensures cybersecurity is built into projects to protect the organization’s critical infrastructure and assets, reduce risk, and meet organizational goals. Tracks and communicates project status and demonstrates project value to the organization.", id: 'OG-WRL-011', opm: '802' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Security Control Assessment', definition: 'Responsible for conducting independent comprehensive assessments of management, operational, and technical security controls and control enhancements employed within or inherited by a system to determine their overall effectiveness.', id: 'OG-WRL-012', opm: '612' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Systems Authorization', definition: 'Responsible for operating an information system at an acceptable level of risk to organizational operations, organizational assets, individuals, other organizations, and the nation.', id: 'OG-WRL-013', opm: '611' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Systems Security Management', definition: 'Responsible for managing the cybersecurity of a program, organization, system, or enclave.', id: 'OG-WRL-014', opm: '722' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Technology Portfolio Management', definition: 'Responsible for managing a portfolio of technology investments that align with the overall needs of mission and enterprise priorities.', id: 'OG-WRL-015', opm: '804' },
+            { category: 'OVERSIGHT and GOVERNANCE (OG)', title: 'Technology Program Auditing', definition: 'Responsible for conducting evaluations of technology programs or their individual components to determine compliance with published standards.', id: 'OG-WRL-016', opm: '805' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Cybersecurity Architecture', definition: 'Responsible for ensuring that security requirements are adequately addressed in all aspects of enterprise architecture, including reference models, segment and solution architectures, and the resulting systems that protect and support organizational mission and business processes.', id: 'DD-WRL-001', opm: '652' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Enterprise Architecture', definition: 'Responsible for developing and maintaining business, systems, and information processes to support enterprise mission needs. Develops technology rules and requirements that describe baseline and target architectures.', id: 'DD-WRL-002', opm: '651' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Secure Software Development', definition: 'Responsible for developing, creating, modifying, and maintaining computer applications, software, or specialized utility programs.', id: 'DD-WRL-003', opm: '621' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Secure Systems Development', definition: 'Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.', id: 'DD-WRL-004', opm: '631 and 632' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Software Security Assessment', definition: 'Responsible for analyzing the security of new or existing computer applications, software, or specialized utility programs and delivering actionable results.', id: 'DD-WRL-005', opm: '622' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Systems Requirements Planning', definition: 'Responsible for consulting with internal and external customers to evaluate and translate functional requirements and integrating security policies into technical solutions.', id: 'DD-WRL-006', opm: '641' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Systems Testing and Evaluation', definition: 'Responsible for planning, preparing, and executing system tests; evaluating test results against specifications and requirements; and reporting test results and findings.', id: 'DD-WRL-007', opm: '671' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Technology Research and Development', definition: 'Responsible for conducting software and systems engineering and software systems research to develop new capabilities with fully integrated cybersecurity. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems.', id: 'DD-WRL-008', opm: '661' },
+            { category: 'DESIGN and DEVELOPMENT (DD)', title: 'Operational Technology (OT) Cybersecurity Engineering', definition: 'Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.', id: 'DD-WRL-009', opm: 'TBD' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Data Analysis', definition: 'Responsible for analyzing data from multiple disparate sources to provide cybersecurity and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets used for modeling, data mining, and research purposes.', id: 'IO-WRL-001', opm: '422' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Database Administration', definition: 'Responsible for administering databases and data management systems that allow for the secure storage, query, protection, and utilization of data.', id: 'IO-WRL-002', opm: '421' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Knowledge Management', definition: 'Responsible for managing and administering processes and tools to identify, document, and access an organization’s intellectual capital.', id: 'IO-WRL-003', opm: '431' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Network Operations', definition: 'Responsible for planning, implementing, and operating network services and systems, including hardware and virtual environments.', id: 'IO-WRL-004', opm: '441' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Systems Administration', definition: 'Responsible for setting up and maintaining a system or specific components of a system in adherence with organizational security policies and procedures. Includes hardware and software installation, configuration, and updates; user account management; backup and recovery management; and security control implementation.', id: 'IO-WRL-005', opm: '451' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Systems Security Analysis', definition: 'Responsible for developing and analyzing the integration, testing, operations, and maintenance of systems security. Prepares, performs, and manages the security aspects of implementing and operating a system.', id: 'IO-WRL-006', opm: '461' },
+            { category: 'IMPLEMENTATION and OPERATION (IO)', title: 'Technical Support', definition: 'Responsible for providing technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational policies and processes.', id: 'IO-WRL-007', opm: '411' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Defensive Cybersecurity', definition: 'Responsible for analyzing data collected from various cybersecurity defense tools to mitigate risks.', id: 'PD-WRL-001', opm: '511' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Digital Forensics', definition: 'Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation.', id: 'PD-WRL-002', opm: '212' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Incident Response', definition: 'Responsible for investigating, analyzing, and responding to network cybersecurity incidents.', id: 'PD-WRL-003', opm: '531' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Infrastructure Support', definition: 'Responsible for testing, implementing, deploying, maintaining, and administering infrastructure hardware and software for cybersecurity.', id: 'PD-WRL-004', opm: '521' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Insider Threat Analysis', definition: 'Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.', id: 'PD-WRL-005', opm: 'TBD' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Threat Analysis', definition: 'Responsible for collecting, processing, analyzing, and disseminating cybersecurity threat assessments. Develops cybersecurity indicators to maintain awareness of the status of the highly dynamic operating environment.', id: 'PD-WRL-006', opm: '141' },
+            { category: 'PROTECTION and DEFENSE (PD)', title: 'Vulnerability Analysis', definition: 'Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy. Measure effectiveness of defense-in-depth architecture against known vulnerabilities.', id: 'PD-WRL-007', opm: '541' },
+            { category: 'INVESTIGATION (IN)', title: 'Cybercrime Investigation', definition: 'Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes and appropriately balances the benefits of prosecution versus intelligence gathering.', id: 'IN-WRL-001', opm: '221' },
+            { category: 'INVESTIGATION (IN)', title: 'Digital Evidence Analysis', definition: 'Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.', id: 'IN-WRL-002', opm: '211' }
+        ];
+
+        const rolesContainer = document.getElementById('rolesContainer');
+        const searchInput = document.getElementById('searchInput');
+        const noResultsDiv = document.getElementById('noResults');
+        const toTopBtn = document.getElementById('toTopBtn');
+
+        // Group roles by category
+        const groupedRoles = rolesData.reduce((acc, role) => {
+            (acc[role.category] = acc[role.category] || []).push(role);
+            return acc;
+        }, {});
+
+        function renderRoles(filteredData = groupedRoles) {
+            rolesContainer.innerHTML = '';
+            let hasResults = false;
+
+            for (const category in filteredData) {
+                const roles = filteredData[category];
+                if (roles.length > 0) {
+                    hasResults = true;
+                    const categorySection = document.createElement('section');
+                    categorySection.className = 'category-section';
+                    
+                    const categoryHeader = document.createElement('h2');
+                    categoryHeader.className = 'text-3xl font-bold text-gray-800 mb-6 border-l-4 border-blue-600 pl-4';
+                    categoryHeader.textContent = category;
+                    categorySection.appendChild(categoryHeader);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+                    
+                    roles.forEach(role => {
+                        const roleCard = document.createElement('div');
+                        roleCard.className = 'p-6 bg-white rounded-lg border border-gray-200 shadow-md role-card';
+                        
+                        let definitionHtml = '';
+                        if (role.definition) {
+                            definitionHtml = `<p class="mt-2 text-gray-600 text-sm">${role.definition}</p>`;
+                        }
+
+                        roleCard.innerHTML = `
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${role.title}</h3>
+                                ${definitionHtml}
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
+                                <span><strong>ID:</strong> ${role.id}</span>
+                                <span><strong>Code OPM:</strong> ${role.opm}</span>
+                            </div>
+                        `;
+                        grid.appendChild(roleCard);
+                    });
+
+                    categorySection.appendChild(grid);
+                    rolesContainer.appendChild(categorySection);
+                }
+            }
+            
+            noResultsDiv.style.display = hasResults ? 'none' : 'block';
+        }
+
+        function filterRoles() {
+            const filter = searchInput.value.toLowerCase();
+            const filtered = Object.keys(groupedRoles).reduce((acc, category) => {
+                const filteredRoles = groupedRoles[category].filter(role => 
+                    role.title.toLowerCase().includes(filter) ||
+                    role.category.toLowerCase().includes(filter) ||
+                    (role.definition && role.definition.toLowerCase().includes(filter)) ||
+                    role.id.toLowerCase().includes(filter) ||
+                    String(role.opm).toLowerCase().includes(filter)
+                );
+                if (filteredRoles.length > 0) {
+                    acc[category] = filteredRoles;
+                }
+                return acc;
+            }, {});
+            renderRoles(filtered);
+        }
+
+        // Back to Top button logic
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                toTopBtn.style.display = "block";
+            } else {
+                toTopBtn.style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+
+        // Initial render
+        renderRoles();
+        
+        // Dark Mode Toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const moonIcon = document.getElementById('moonIcon');
+        const sunIcon = document.getElementById('sunIcon');
+        
+        // Check for saved dark mode preference or default to light mode
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            } else {
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>

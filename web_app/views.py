@@ -757,26 +757,35 @@ def get_sorted_2025_roles(work_roles):
 
 
 def models_2025(request):
-    """Vue pour la page des modèles 2025"""
-    from .models import Dcwf2025Category, Dcwf2025WorkRole
+    """Vue pour la page des modèles 2025 avec DCWF ET NICE Framework séparés"""
+    from .models import Dcwf2025Category, Dcwf2025WorkRole, NiceFrameworkWorkRole
     
     template = loader.get_template("web_app/home/index25.html")
     
-    # Récupérer toutes les catégories avec leurs work roles
     categories = []
+    
+    # 1. Récupérer les catégories DCWF 2025 existantes
     for category in Dcwf2025Category.objects.all().order_by('title'):
         work_roles = list(category.work_roles.all())
         
-        # Organiser les work roles par famille de codes NCWF (comme dans l'original)
+        # Organiser les work roles DCWF par famille de codes NCWF
         work_lines = get_sorted_2025_roles(work_roles)
         
-        if work_lines:  # Seulement ajouter les catégories qui ont des work roles
+        if work_lines:
+            # Ajouter l'OPM ID correspondant à la catégorie
+            opm_id = get_category_opm_id(category.title)
+            
             categories.append({
                 'category': category,
-                'work_lines': work_lines
+                'work_lines': work_lines,
+                'type': 'dcwf_2025',
+                'opm_id': opm_id
             })
     
-    # Liste vide pour les IDs à surligner (pas nécessaire pour 2025)
+    # 2. Les work roles NICE Framework sont déjà intégrés dans les catégories DCWF existantes
+    # Pas besoin de créer des catégories séparées
+    
+    # Liste vide pour les IDs à surligner
     highlight_ids = []
     
     context = {
@@ -785,3 +794,28 @@ def models_2025(request):
     }
     
     return HttpResponse(template.render(context, request))
+
+
+def get_category_opm_id(category_title):
+    """Retourner l'OPM ID correspondant à chaque catégorie"""
+    opm_map = {
+        'Cybersecurity': '900',  # OPM ID pour Cybersecurity
+        'Design & Development': '600',  # OPM ID pour Design & Development
+        'Implementation & Operation': '400',  # OPM ID pour Implementation & Operation
+        'Protection & Defense': '500',  # OPM ID pour Protection & Defense
+        'Investigation': '200',  # OPM ID pour Investigation
+        'Oversight & Governance': '700',  # OPM ID pour Oversight & Governance
+    }
+    return opm_map.get(category_title, '000')  # 000 par défaut si pas trouvé
+
+
+def get_nice_category_color(category_name):
+    """Retourner une couleur pour chaque catégorie NICE Framework"""
+    color_map = {
+        'OVERSIGHT and GOVERNANCE (OG)': '59, 130, 246',  # Bleu
+        'DESIGN and DEVELOPMENT (DD)': '220, 38, 127',   # Rose
+        'IMPLEMENTATION and OPERATION (IO)': '6, 182, 212',  # Cyan
+        'PROTECTION and DEFENSE (PD)': '236, 72, 153',   # Rose foncé
+        'INVESTIGATION (IN)': '139, 92, 246',           # Violet
+    }
+    return color_map.get(category_name, '156, 163, 175')  # Gris par défaut

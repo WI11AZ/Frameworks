@@ -13,3 +13,4 @@ from .modal_info import ModalInfoCategory, ModalInfo, ModalInfoOption
 from .user_saved_data import UserSavedData
 from .dcwf_2025_category import Dcwf2025Category
 from .dcwf_2025_work_role import Dcwf2025WorkRole
+from .nice_framework_work_role import NiceFrameworkWorkRole
