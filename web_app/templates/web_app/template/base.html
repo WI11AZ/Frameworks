@@ -62,7 +62,7 @@
         }
 
         .category-container.expanded {
-            max-height: 2000px; /* ou une grande valeur pour que l'élément s'étende */
+            max-height: 5000px; /* Augmenté pour accommoder les 5 zones */
             padding: 24px;
             background-color: rgba(255, 255, 255, 0.2);
             overflow: visible; /* Affiche tout le contenu quand la case est cochée */
@@ -274,6 +274,14 @@
             background-color: #2d3748 !important;
             color: #e2e8f0 !important;
             border-color: #4a5568 !important;
+        }
+
+        /* --- CORRECTIF ACCORDÉON --- */
+        .accordion-collapse.show {
+            height: auto !important;
+        }
+        .accordion-body {
+            overflow: visible !important;
         }
 
     </style>
