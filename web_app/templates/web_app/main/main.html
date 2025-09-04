@@ -20,6 +20,53 @@
       <p id="jobNumberDisplay" class="mt-2 text-sm text-blue-600 hidden">Poste actuel: <span class="font-semibold"></span></p>
     </div>
 
+    <!-- Informations utilisateur connecté -->
+    {% if user.is_authenticated %}
+    <div class="mb-6 bg-white p-4 rounded-lg shadow-lg border-l-4 {% if user.is_super_user %}border-purple-500{% elif user.is_beta_tester %}border-orange-500{% else %}border-blue-500{% endif %}">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800">{{ user.last_name }}</h3>
+          <p class="text-sm text-gray-600">Matricule: {{ user.matricule }}</p>
+          <div class="flex items-center mt-2">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+              {% if user.is_super_user %}bg-purple-100 text-purple-800{% elif user.is_beta_tester %}bg-orange-100 text-orange-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+              {% if user.is_super_user %}
+                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                Super User
+              {% elif user.is_beta_tester %}
+                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                </svg>
+                Bêta testeur
+              {% else %}
+                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+                User Normal
+              {% endif %}
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="{% url 'account_options' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            Options
+          </a>
+          <a href="{% url 'logout' %}" class="text-red-600 hover:text-red-800 text-sm font-medium">
+            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            Déconnexion
+          </a>
+        </div>
+      </div>
+    </div>
+    {% else %}
     <!-- Boutons principaux -->
     <div class="flex flex-col space-y-4">
       <button id="login-btn" class="flex justify-center items-center py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium rounded-lg shadow-lg transform transition hover:scale-105">
@@ -34,6 +81,8 @@
         </svg>
         Inscription
       </button>
+    </div>
+    {% endif %}
       
       <!-- Séparateur -->
       <div class="my-4 border-t border-gray-300"></div>
@@ -41,27 +90,101 @@
       <!-- Boutons d'étapes -->
       <div class="flex flex-col space-y-2">
         <h3 class="text-lg font-medium text-gray-700 mb-2">Processus</h3>
+        
+        <!-- Accès spécial pour Super Users -->
+        {% if user.is_authenticated and user.is_super_user %}
+        <div class="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-purple-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-sm font-medium text-purple-800">Accès Super User : Toutes les étapes disponibles</span>
+          </div>
+        </div>
+        {% endif %}
+        
+        <!-- Accès spécial pour Bêta testeurs -->
+        {% if user.is_authenticated and user.is_beta_tester %}
+        <div class="mb-3 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 text-orange-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-sm font-medium text-orange-800">Accès Bêta testeur : Fonctionnalités avancées</span>
+          </div>
+        </div>
+        {% endif %}
+        
         <div class="flex space-x-2">
           <a href="javascript:void(0)" id="etape1-link" 
              class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated %}bg-blue-500 text-white hover:bg-blue-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition">
             Etape 1 <br> T-K-S-(A)
           </a>
           <button id="etape2-button" data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
-             class="flex-1 py-3 px-4 text-center rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed transition">
+             class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated and user.is_super_user %}bg-green-500 text-white hover:bg-green-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition">
             Etape 2 <br> Competency Areas
           </button>
           <button id="etape3-button" onclick="window.open('{% url 'summary_chart' %}', '_blank');"
-             class="flex-1 py-3 px-4 text-center rounded-lg bg-gray-300 text-gray-500 cursor-not-allowed transition" disabled>
+             class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated and user.is_super_user %}bg-purple-500 text-white hover:bg-purple-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition" {% if not user.is_authenticated or not user.is_super_user %}disabled{% endif %}>
             Etape 3 <br> SFIA 9
           </button>
         </div>
         {% if not user.is_authenticated %}
         <p class="text-sm text-gray-500 mt-2">Connectez-vous pour accéder aux étapes du processus.</p>
+        {% elif user.is_super_user %}
+        <p class="text-sm text-purple-600 mt-2">Super User : Accès complet à toutes les étapes du processus.</p>
+        <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
+        {% elif user.is_beta_tester %}
+        <p class="text-sm text-orange-600 mt-2">Bêta testeur : Accès étendu aux fonctionnalités.</p>
+        <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% else %}
         <p class="text-sm text-blue-500 mt-2">Étape 1 disponible, poursuivez le processus.</p>
         <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% endif %}
       </div>
+      
+      <!-- Séparateur -->
+      <div class="my-4 border-t border-gray-300"></div>
+      
+      <!-- Section Téléchargement -->
+      {% if user.is_authenticated %}
+      <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+        <h3 class="text-lg font-medium text-gray-700 mb-3 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Téléchargements
+        </h3>
+        
+        <!-- Fichier Markdown -->
+        <a href="{% url 'download_file' 'NCWF-DCWF_2025_Workroles+++.md' %}" 
+           class="w-full flex justify-center items-center py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-sm transition mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          NCWF-DCWF 2025 Workroles
+          <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
+            .md
+          </span>
+        </a>
+        
+        <!-- Fichier FreeMind -->
+        <a href="{% url 'download_file' 'DCWF-NCWF_2025_Workroles+++.mm' %}" 
+           class="w-full flex justify-center items-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-sm transition mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          DCWF-NCWF 2025 Workroles
+          <span class="ml-2 px-2 py-1 bg-green-100 text-green-600 text-xs font-semibold rounded-full">
+            .mm
+          </span>
+        </a>
+        
+        <p class="text-sm text-gray-500 mt-2 text-center">
+          Documentation NCWF-DCWF 2025 disponible en Markdown et FreeMind
+        </p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -363,6 +486,17 @@
       return;
     }
     
+    // Vérifier si l'utilisateur est un Super User (accès direct à toutes les étapes)
+    const isSuperUser = djangoContext.isAuthenticated && 
+                       (document.querySelector('.bg-purple-50') !== null || 
+                        etape2Button.classList.contains('bg-green-500'));
+    
+    if (isSuperUser) {
+      console.log('Super User detected, activating Etape 2 directly');
+      activateEtape2Button(etape2Button);
+      return;
+    }
+    
     // Récupérer les activations depuis localStorage
     try {
       // Vérifier uniquement l'activation spécifique à l'utilisateur
@@ -404,20 +538,43 @@
   function activateStep3Button() {
     const step3Button = document.getElementById('etape3-button');
     if (step3Button && djangoContext.isAuthenticated) {
-      step3Button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-      step3Button.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
-      step3Button.disabled = false;
+      // Vérifier si l'utilisateur est un Super User
+      const isSuperUser = document.querySelector('.bg-purple-50') !== null || 
+                          step3Button.classList.contains('bg-purple-500');
       
-      // Ajouter la vérification du numéro de poste
-      step3Button.addEventListener('click', function(e) {
-        const jobNumber = localStorage.getItem('currentJobNumber');
-        if (!jobNumber) {
-          e.preventDefault();
-          showJobNumberRequiredMessage();
-          return;
-        }
-        window.open('{% url 'summary_chart' %}', '_blank');
-      });
+      if (isSuperUser) {
+        console.log('Super User detected, activating Etape 3 directly');
+        step3Button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+        step3Button.classList.add('bg-purple-500', 'text-white', 'hover:bg-purple-600');
+        step3Button.disabled = false;
+        
+        // Ajouter la vérification du numéro de poste
+        step3Button.addEventListener('click', function(e) {
+          const jobNumber = localStorage.getItem('currentJobNumber');
+          if (!jobNumber) {
+            e.preventDefault();
+            showJobNumberRequiredMessage();
+            return;
+          }
+          window.open('{% url 'summary_chart' %}', '_blank');
+        });
+      } else {
+        // Logique existante pour les autres utilisateurs
+        step3Button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+        step3Button.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+        step3Button.disabled = false;
+        
+        // Ajouter la vérification du numéro de poste
+        step3Button.addEventListener('click', function(e) {
+          const jobNumber = localStorage.getItem('currentJobNumber');
+          if (!jobNumber) {
+            e.preventDefault();
+            showJobNumberRequiredMessage();
+            return;
+          }
+          window.open('{% url 'summary_chart' %}', '_blank');
+        });
+      }
     }
   }
   
@@ -448,6 +605,22 @@
   }
   
   document.addEventListener('DOMContentLoaded', function() {
+    // Activer automatiquement les étapes pour les Super Users
+    if (djangoContext.isAuthenticated) {
+      const isSuperUser = document.querySelector('.bg-purple-50') !== null;
+      if (isSuperUser) {
+        console.log('Super User detected, activating all steps automatically');
+        // Activer l'étape 2
+        const etape2Button = document.getElementById('etape2-button');
+        if (etape2Button) {
+          activateEtape2Button(etape2Button);
+        }
+        // Activer l'étape 3
+        activateStep3Button();
+      }
+    }
+    
+    // Logique existante pour l'activation de l'étape 3
     if (localStorage.getItem('activateStep3') === 'true' && djangoContext.isAuthenticated) {
       activateStep3Button();
     }

@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .models.user import User
+from .models.user_saved_data import UserSavedData
 
 
 def main_view(request):
@@ -64,12 +67,19 @@ def signup_view(request):
         # Créer l'utilisateur
         try:
             username = f"user_{matricule}"  # Générer un nom d'utilisateur unique
-            User.objects.create(
+            
+            # Créer l'utilisateur avec le rôle détecté automatiquement
+            user = User.objects.create(
                 username=username,
                 last_name=last_name,
                 matricule=matricule,
                 password=make_password(password)  # Chiffrer le mot de passe
             )
+            
+            # Détecter et assigner le rôle automatiquement
+            detected_role = user.detect_role_from_matricule()
+            user.role = detected_role
+            user.save()
             
             # Connecter automatiquement l'utilisateur après l'inscription
             user = authenticate(username=username, password=password)
@@ -88,3 +98,77 @@ def logout_view(request):
     """Vue pour déconnecter l'utilisateur."""
     logout(request)
     return redirect('main')
+
+
+@login_required
+def account_options_view(request):
+    """Vue pour afficher les options du compte."""
+    user = request.user
+    
+    # Récupérer les statistiques
+    ksat_saves = UserSavedData.objects.filter(user=user, key__startswith='ksat_').count()
+    general_saves = UserSavedData.objects.filter(user=user).exclude(key__startswith='ksat_').count()
+    
+    # Récupérer le numéro de poste actuel (depuis localStorage côté client)
+    current_job_number = request.session.get('current_job_number', 'Non défini')
+    
+    context = {
+        'user': user,
+        'ksat_saves': ksat_saves,
+        'general_saves': general_saves,
+        'current_job_number': current_job_number,
+    }
+    
+    return render(request, 'web_app/auth/account_options.html', context)
+
+
+@login_required
+def change_password_view(request):
+    """Vue pour changer le mot de passe."""
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        # Vérifier l'ancien mot de passe
+        if not request.user.check_password(current_password):
+            return JsonResponse({'success': False, 'message': 'Mot de passe actuel incorrect.'})
+        
+        # Vérifier que les nouveaux mots de passe correspondent
+        if new_password != confirm_password:
+            return JsonResponse({'success': False, 'message': 'Les nouveaux mots de passe ne correspondent pas.'})
+        
+        # Changer le mot de passe
+        request.user.set_password(new_password)
+        request.user.save()
+        
+        # Reconnecter l'utilisateur
+        user = authenticate(username=request.user.username, password=new_password)
+        if user is not None:
+            login(request, user)
+        
+        return JsonResponse({'success': True, 'message': 'Mot de passe changé avec succès.'})
+    
+    return JsonResponse({'success': False, 'message': 'Méthode non autorisée.'})
+
+
+@login_required
+def delete_account_view(request):
+    """Vue pour supprimer le compte."""
+    if request.method == 'POST':
+        confirm_password = request.POST.get('confirm_password')
+        
+        # Vérifier le mot de passe
+        if not request.user.check_password(confirm_password):
+            return JsonResponse({'success': False, 'message': 'Mot de passe incorrect.'})
+        
+        # Supprimer l'utilisateur
+        user_matricule = request.user.matricule
+        request.user.delete()
+        
+        return JsonResponse({
+            'success': True, 
+            'message': f'Compte supprimé avec succès. Le matricule {user_matricule} reste disponible pour une nouvelle inscription.'
+        })
+    
+    return JsonResponse({'success': False, 'message': 'Méthode non autorisée.'})

@@ -267,12 +267,19 @@
                   
 
                   <div>
-                    <div class="text-xs text-center mb-1 font-normal">{% if role.opm_id %}{{ role.opm_id }}{% else %}&nbsp;{% endif %}</div>
+                    <div class="text-xs text-center mb-1 font-normal">
+                      {% if role.opm_id %}{{ role.opm_id }}{% else %}&nbsp;{% endif %}
+                    </div>
                     <div class="text-center">
                       {{ role.title }}
                     </div>
                     <div class="text-center">
                       <span class="text-xs text-gray-600">({{ role.framework }})</span>
+                      {% if role.model_type == 'ncwf_2017' or role.model_type == 'ncwf_2024' %}
+                        {% if role.nist_id %}
+                          <br><span class="text-xs text-blue-600">{{ role.nist_id }}</span>
+                        {% endif %}
+                      {% endif %}
                     </div>
                   </div>
                 </th>

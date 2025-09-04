@@ -56,6 +56,10 @@ class Command(BaseCommand):
             {'ncwf_id': 'PD-WRL-006', 'title': 'Threat Analysis', 'definition': 'Responsible for collecting, processing, analyzing, and disseminating cybersecurity threat assessments. Develops cybersecurity indicators to maintain awareness of the status of the highly dynamic operating environment.', 'opm_code': '141', 'category': 'Cyber Effects'},
             {'ncwf_id': 'PD-WRL-007', 'title': 'Vulnerability Analysis', 'definition': 'Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy. Measure effectiveness of defense-in-depth architecture against known vulnerabilities.', 'opm_code': '541', 'category': 'Cybersecurity'},
             
+            # CYBER EFFECTS (CE)
+            {'ncwf_id': 'CE-WRL-001', 'title': 'Mission Assessment Specialist', 'definition': 'Develops assessment plans and measures of performance/effectiveness. Conducts strategic and operational effectiveness assessments as required for cyber events. Determines whether systems performed as expected and provides input to the determination of operational effectiveness.', 'opm_code': '112', 'category': 'Cyber Effects'},
+            {'ncwf_id': 'CE-WRL-002', 'title': 'Partner Integration Planner', 'definition': 'Works to advance cooperation across organizational or national borders between cyber operations partners. Aids the integration of partner cyber teams by providing guidance, ressources, and collaboration to develop best practices and facilitate organizational support for achieving objectives in integrated cyber actions.', 'opm_code': '333', 'category': 'Cyber Effects'},
+            
             # INVESTIGATION (IN)
             {'ncwf_id': 'IN-WRL-001', 'title': 'Cybercrime Investigation', 'definition': 'Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes and appropriately balances the benefits of prosecution versus intelligence gathering.', 'opm_code': '221', 'category': 'Cyber Enablers'},
             {'ncwf_id': 'IN-WRL-002', 'title': 'Digital Evidence Analysis', 'definition': 'Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.', 'opm_code': '211', 'category': 'Cyber Enablers'},
@@ -73,6 +77,7 @@ class Command(BaseCommand):
                 existing_role.title = role_data['title']
                 existing_role.definition = role_data['definition']
                 existing_role.ncwf_definition = role_data['definition']
+                existing_role.ncwf_title = role_data['title']  # Ajouter cette ligne
                 existing_role.save()
                 updated_count += 1
                 self.stdout.write(f'  Mis à jour: {role_data["ncwf_id"]} - {role_data["title"]}')
@@ -88,6 +93,7 @@ class Command(BaseCommand):
                         title=role_data['title'],
                         definition=role_data['definition'],
                         ncwf_definition=role_data['definition'],
+                        ncwf_title=role_data['title'],  # Ajouter cette ligne
                         category=category
                     )
                     created_count += 1

@@ -1,3 +1,4 @@
+
 import sqlite3
 
 from django.core.management.base import BaseCommand
@@ -31,16 +32,27 @@ class Command(BaseCommand):
             )
             work_roles = [dict(row) for row in cursor.fetchall()]
             self.insert_work_roles(work_roles)
+            # Read work role opm relations - Debug the table structure first
+            cursor.execute("PRAGMA table_info(work_roles_opms);")
+            table_info = cursor.fetchall()
+            print(f"DEBUG: work_roles_opms table structure: {table_info}")
+            
+            cursor.execute("SELECT * FROM work_roles_opms LIMIT 5;")
+            sample_data = cursor.fetchall()
+            print(f"DEBUG: Sample work_roles_opms data: {sample_data}")
+            
             # Read work role opm relations
             cursor.execute(
                 "SELECT wr.nist_id_2017, wo.opm_id FROM work_roles_opms wo join work_roles wr on wo.work_role_id = wr.id;",
             )
             work_role_opm_relations = [dict(row) for row in cursor.fetchall()]
+            print(f"DEBUG: Found {len(work_role_opm_relations)} NCWF 2017 OPM relations")
             self.insert_work_role_opm_relations_for_ncwf_2017(work_role_opm_relations)
             cursor.execute(
                 "SELECT wr.nist_id_2024, wo.opm_id FROM work_roles_opms wo join work_roles wr on wo.work_role_id = wr.id;",
             )
             work_role_opm_relations = [dict(row) for row in cursor.fetchall()]
+            print(f"DEBUG: Found {len(work_role_opm_relations)} NCWF 2024 OPM relations")
             self.insert_work_role_opm_relations_for_ncwf_2024(work_role_opm_relations)
             # Read ksat data
             cursor.execute(

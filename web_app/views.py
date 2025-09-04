@@ -20,6 +20,44 @@ def attributs_part_deux(request):
     """Vue pour la page AttributsPartDeux"""
     return render(request, 'web_app/main/AttributsPartDeux.html')
 
+def download_file(request, filename):
+    """Vue pour télécharger les fichiers .md et .mm"""
+    import os
+    from django.http import FileResponse, Http404
+    from django.conf import settings
+    from django.contrib.auth.decorators import login_required
+    
+    # Vérifier que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
+    
+    # Définir le répertoire où se trouvent les fichiers
+    files_dir = os.path.join(settings.BASE_DIR, 'static', 'downloads')
+    
+    # Vérifier que le fichier existe
+    file_path = os.path.join(files_dir, filename)
+    if not os.path.exists(file_path):
+        # Essayer avec un chemin absolu alternatif
+        alt_file_path = os.path.join(os.getcwd(), 'static', 'downloads', filename)
+        if os.path.exists(alt_file_path):
+            file_path = alt_file_path
+        else:
+            raise Http404(f"Fichier non trouvé: {file_path}")
+    
+    # Définir le type MIME selon l'extension
+    if filename.endswith('.md'):
+        content_type = 'text/markdown'
+    elif filename.endswith('.mm'):
+        content_type = 'application/x-freemind'
+    else:
+        content_type = 'application/octet-stream'
+    
+    # Retourner le fichier en tant que réponse de téléchargement
+    response = FileResponse(open(file_path, 'rb'), content_type=content_type)
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
+
 
 
 def get_nist_id(role):
@@ -160,6 +198,31 @@ def home(request):
         612, 805, 731, 732, 751, 711, 712, 311, 431, 611,]
 
     # 4. Contexte final
+    # Définir l'ordre souhaité des catégories
+    category_order = [
+        "IT (Cyberspace)",
+        "Cybersecurity",
+        "Cyberspace Enablers",
+        "Cyberspace Effects",
+        "Intelligence (Cyberspace)",
+        "Data/AI",
+        "Software Engineering"
+    ]
+    
+    # Récupérer les catégories dans l'ordre souhaité
+    ordered_categories = []
+    for title in category_order:
+        try:
+            category = DcwfCategory.objects.get(title=title)
+            ordered_categories.append(category)
+        except DcwfCategory.DoesNotExist:
+            pass
+    
+    # Ajouter les catégories qui ne sont pas dans la liste
+    existing_titles = [cat.title for cat in ordered_categories]
+    remaining_categories = DcwfCategory.objects.exclude(title__in=existing_titles)
+    ordered_categories.extend(remaining_categories)
+    
     context = {
         "it_work_lines": it_work_lines,
         "cyber_security_lines": sorted_cyber_security_lines,
@@ -168,7 +231,7 @@ def home(request):
         "enabler_work_lines": enabler_work_lines,
         "software_engineering_work_lines": software_engineering_work_lines,
         "data_work_lines": data_work_lines,
-        "categories": DcwfCategory.objects.all(),
+        "categories": ordered_categories,
         "highlight_ids": highlight_ids,
     }
 
@@ -233,7 +296,7 @@ def compare(request):
         dcwf_formatted_roles.append({
             'model_obj': role,
             'title': role.title,
-            'framework': 'DCWF',
+            'framework': 'DCWF 2017',
             'id': role.id,
             'model_type': 'dcwf',
             'parent_dcwf_id': role.id,  # Pour faciliter le regroupement
@@ -289,6 +352,7 @@ def compare(request):
             'model_type': 'ncwf_2017',
             'parent_dcwf_id': parent_dcwf_id,  # Peut être None si pas de parent DCWF
             'opm_id': role.opms.first().id if role.opms.exists() else None,
+            'nist_id': role.nist_id,  # Code civil pour NCWF
             'category_color': category_color
         })
     
@@ -318,6 +382,7 @@ def compare(request):
             'model_type': 'ncwf_2024',
             'parent_dcwf_id': parent_dcwf_id,  # Peut être None si pas de parent DCWF
             'opm_id': role.opms.first().id if role.opms.exists() else None,
+            'nist_id': role.nist_id,  # Code civil pour NCWF
             'category_color': category_color
         })
         
@@ -378,11 +443,55 @@ def compare(request):
             processed_roles.add(('ncwf_2024', role['id']))
 
     # 3. Récupère les KSATs
+    # Si seulement NCWF 2017 est sélectionné, simuler la sélection de DCWF correspondant
+    if not dcwf_work_roles.exists() and ncwf_2017_work_roles.exists():
+        # Récupérer les work roles DCWF correspondants aux work roles NCWF 2017 sélectionnés
+        dcwf_corresponding_roles = []
+        print(f"DEBUG: ncwf_2017_work_roles count: {ncwf_2017_work_roles.count()}")
+        
+        # Approche alternative : chercher les work roles DCWF qui ont les mêmes OPM IDs
+        for ncwf_role in ncwf_2017_work_roles:
+            print(f"DEBUG: Processing NCWF role {ncwf_role.id} - {ncwf_role.title}")
+            
+            # Chercher les OPMs de ce work role NCWF 2017
+            opms = ncwf_role.opms.all()
+            print(f"DEBUG: Found {opms.count()} OPMs for NCWF role {ncwf_role.id}")
+            
+            for opm in opms:
+                print(f"DEBUG: Checking OPM {opm.id}")
+                # Chercher le work role DCWF qui a cet OPM
+                try:
+                    dcwf_role = DcwfWorkRole.objects.get(opm=opm)
+                    print(f"DEBUG: Found DCWF work role {dcwf_role.id} for OPM {opm.id}")
+                    dcwf_corresponding_roles.append(dcwf_role)
+                    # Créer le mapping dans l'autre sens
+                    dcwf_to_ncwf_2017[dcwf_role.id] = ncwf_role.id
+                    break  # Un seul work role DCWF par OPM
+                except DcwfWorkRole.DoesNotExist:
+                    print(f"DEBUG: No DCWF work role found for OPM {opm.id}")
+        
+        print(f"DEBUG: Found {len(dcwf_corresponding_roles)} DCWF corresponding roles")
+        print(f"DEBUG: dcwf_to_ncwf_2017 mapping: {dcwf_to_ncwf_2017}")
+        
+        if dcwf_corresponding_roles:
+            # Simuler la sélection de DCWF en ajoutant ces work roles à dcwf_work_roles
+            dcwf_work_roles = list(dcwf_work_roles) + dcwf_corresponding_roles
+            print(f"DEBUG: Added {len(dcwf_corresponding_roles)} DCWF roles to simulation")
+    
+    # Maintenant récupérer les KSATs avec la logique normale
     ksats_dcwf = DcwfKsat.objects.filter(dcwf_work_role_relations__dcwf_work_role__in=dcwf_work_roles).distinct()
-    # Prenez les ksats ncwf_2017 qui sont les mêmes que ceux dcwf
-    ncwf_2017_ksats_in_dcwf = ksats_dcwf.values_list('ncwf_2017_ksat', flat=True)
-    # Exclure les ksats ncwf_2017 qui sont déjà dans dcwf
-    ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).exclude(id__in=ncwf_2017_ksats_in_dcwf).distinct()
+    
+    # Logique pour les KSATs NCWF 2017
+    if dcwf_work_roles:
+        # Si DCWF est sélectionné (ou simulé), exclure les KSATs NCWF 2017 qui sont déjà dans DCWF
+        ncwf_2017_ksats_in_dcwf = ksats_dcwf.values_list('ncwf_2017_ksat', flat=True)
+        ksats_ncwf_2017 = Ncwf2017Ksat.objects.filter(ncwf_2017_work_roles__in=ncwf_2017_work_roles).exclude(id__in=ncwf_2017_ksats_in_dcwf).distinct()
+        print(f"DEBUG: Final NCWF 2017 KSATs count: {ksats_ncwf_2017.count()}")
+    else:
+        # Si aucun DCWF n'est sélectionné, retourner une liste vide
+        ksats_ncwf_2017 = Ncwf2017Ksat.objects.none()
+        print("DEBUG: No DCWF roles found")
+    
     tks_ncwf_2024 = Ncwf2024Tks.objects.filter(ncwf_2024_work_roles__in=ncwf_2024_work_roles).distinct()
 
 

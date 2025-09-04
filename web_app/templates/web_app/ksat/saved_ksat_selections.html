@@ -387,7 +387,7 @@
         const roleIdsMap = new Map();
         
         // Initialiser les Maps pour chaque type de framework
-        roleIdsMap.set('DCWF', new Set());
+        roleIdsMap.set('DCWF 2017', new Set());
         roleIdsMap.set('NCWF 2017', new Set());
         roleIdsMap.set('NCWF 2024', new Set());
         
@@ -407,7 +407,7 @@
         const searchParams = new URLSearchParams();
         
         // Ajouter les IDs DCWF
-        for (const id of roleIdsMap.get('DCWF')) {
+        for (const id of roleIdsMap.get('DCWF 2017')) {
           searchParams.append('dcwf_ids', id);
         }
         

@@ -3,9 +3,9 @@ from .views import (
     home, work_role, compare, get_modal_info_json_view, get_select_options_json_view, ksat_compare_details, etape_deux, 
     saved_ksat_selections, resume_step2, summary_chart_view, etape2_first_step, 
     save_ksat_selection, list_ksat_selections, delete_ksat_selection, attributs_part_deux,
-    nf_com_007_details, nf_com_002_details, models_2025
+    nf_com_007_details, nf_com_002_details, models_2025, download_file
 )
-from .views_auth import main_view, login_view, signup_view, logout_view
+from .views_auth import main_view, login_view, signup_view, logout_view, account_options_view, change_password_view, delete_account_view
 from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
 
 urlpatterns = [
@@ -14,6 +14,11 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('signup/', signup_view, name='signup'),
     path('logout/', logout_view, name='logout'),
+    
+    # Options du compte
+    path('account/options/', account_options_view, name='account_options'),
+    path('account/change-password/', change_password_view, name='change_password'),
+    path('account/delete/', delete_account_view, name='delete_account'),
     
     # Routes existantes
     path('home/', home, name='home'),
@@ -29,6 +34,7 @@ urlpatterns = [
     path('ksat/resume_step2/<int:index>/', resume_step2, name='resume_step2'),
     path('summary_chart/', summary_chart_view, name='summary_chart'),
     path('attributs-part-deux/', attributs_part_deux, name='attributs_part_deux'),
+    path('download/<str:filename>/', download_file, name='download_file'),
     
     # API pour les données sauvegardées utilisateur
     path('api/saved-data/', list_saved_data, name='list_saved_data'),
