@@ -2,71 +2,158 @@
 {% load static %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-  <div class="max-w-md w-full">
-    <!-- Logo ou titre du site -->
+<style>
+    /* Fixed navbar styles for main page */
+    .fixed-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        width: 100%;
+    }
+    
+    /* Adjust header position to be below fixed navbar */
+    .fixed-header {
+        position: fixed;
+        top: 64px; /* Height of the navbar (h-16 = 64px) */
+        left: 0;
+        right: 0;
+        z-index: 999;
+        width: 100%;
+    }
+    
+    /* Ensure content doesn't get hidden behind navbar and header */
+    .main-content {
+        margin-top: 128px; /* Height of navbar (64px) + header (64px) */
+    }
+    
+    /* Force white background for image containers in dark mode */
+    .image-container-white {
+        background-color: white !important;
+    }
+    
+    /* Ensure white background stays white in dark mode with higher specificity */
+    .dark-mode .image-container-white,
+    body.dark-mode .image-container-white {
+        background-color: white !important;
+    }
+    
+    /* Override any Tailwind bg-white classes on these containers */
+    .image-container-white.bg-white {
+        background-color: white !important;
+    }
+    
+    .dark-mode .image-container-white.bg-white {
+        background-color: white !important;
+    }
+    
+    /* Styles pour améliorer la visibilité du texte en mode sombre dans la section CyberRoles */
+    .dark-mode .welcome-text-dark {
+        color: #1e40af !important; /* Bleu foncé pour "Welcome to:" */
+    }
+    
+    .dark-mode .atlas-title-dark {
+        color: #2563eb !important; /* Bleu plus clair pour "CyberRoles - ATLAS" */
+    }
+    
+    .dark-mode .beta-tag-dark {
+        background-color: #dc2626 !important; /* Rouge foncé pour le tag bêta */
+        color: white !important;
+    }
+    
+    .dark-mode .description-text-dark {
+        color: #374151 !important; /* Gris foncé pour le texte descriptif */
+    }
+    
+    /* Styles pour améliorer la visibilité du texte dans les cartes d'étapes en mode sombre */
+    .dark-mode .etape-text-light {
+        color: #1f2937 !important; /* Gris très foncé pour les textes légers */
+    }
+    
+    .dark-mode .etape-text-light-blue {
+        color: #1e3a8a !important; /* Bleu très foncé pour l'étape 1 */
+    }
+    
+    .dark-mode .etape-text-light-green {
+        color: #166534 !important; /* Vert très foncé pour l'étape 2 */
+    }
+    
+    .dark-mode .etape-text-light-purple {
+        color: #7c2d12 !important; /* Violet très foncé pour l'étape 3 */
+    }
+</style>
+{% if not user.is_authenticated %}
+<!-- Beta Warning Modal -->
+<div id="beta-modal" class="beta-modal">
+    <div class="beta-modal-content">
+        <div class="beta-content-wrapper">
+            <div class="beta-icon">⚠️</div>
+            <h1 class="beta-title">Beta Version Notice</h1>
+            <h2 class="beta-subtitle">Under Development</h2>
+            <div class="beta-message">
+                <p>This is a <strong>Beta version</strong> of the application that is currently under development.</p>
+                <p>The application may be <strong>unstable</strong> and features may change over time as we continue to improve and develop the system.</p>
+                <p>New versions will be deployed regularly with updates and improvements.</p>
+                <p><strong>Performance Notice:</strong> Slower loading times and longer processing delays are normal for this beta version as we optimize the system.</p>
+                <p><strong>Note:</strong> The mobile version is not optimized at the moment. We recommend using a laptop or desktop computer for the best experience.</p>
+            </div>
+            <div class="beta-contact">
+                <p class="beta-contact-text">
+                    For any questions or feedback, please contact:<br>
+                    <span class="beta-contact-email">william.snoeck@mil.be</span>
+                </p>
+            </div>
+        </div>
+        <div class="beta-checkbox-container">
+            <label class="beta-checkbox-label">
+                <input type="checkbox" id="beta-read-checkbox" class="beta-checkbox">
+                <span class="beta-checkbox-text">I have read and understood the above information</span>
+            </label>
+        </div>
+        <button id="beta-accept-btn" class="beta-button" disabled>I Understand</button>
+    </div>
+</div>
+{% endif %}
+
+<div class="main-content min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <div class="max-w-4xl w-full">
+    <!-- Image représentative du projet -->
     <div class="text-center mb-12">
-      <h1 class="text-5xl font-extrabold text-blue-600 mb-4">DCWF</h1>
-      <p class="text-xl text-gray-600">Plateforme de gestion des compétences cybersécurité</p>
-    </div>
-
-    <!-- Champ pour le numéro de poste -->
-    <div class="mb-6 bg-white p-4 rounded-lg shadow-lg">
-      <label for="jobNumber" class="block text-sm font-medium text-gray-700 mb-2">Numéro de poste:</label>
-      <div class="flex space-x-2">
-        <input type="text" id="jobNumber" class="flex-1 appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Entrez le numéro de poste">
-        <button id="saveJobNumber" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm">Valider</button>
+      <div class="flex justify-center">
+        <div class="bg-white image-container-white p-4 rounded-lg shadow-lg" style="background-color: white !important;">
+          <img src="{% static 'photos_haute_qualite/RealBG.png' %}" 
+               alt="Représentation du projet Cyber Align" 
+               class="max-w-full h-auto rounded-lg"
+               style="max-height: 600px; width: auto;">
+        </div>
       </div>
-      <p id="jobNumberDisplay" class="mt-2 text-sm text-blue-600 hidden">Poste actuel: <span class="font-semibold"></span></p>
     </div>
 
-    <!-- Informations utilisateur connecté -->
     {% if user.is_authenticated %}
-    <div class="mb-6 bg-white p-4 rounded-lg shadow-lg border-l-4 {% if user.is_super_user %}border-purple-500{% elif user.is_beta_tester %}border-orange-500{% else %}border-blue-500{% endif %}">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-800">{{ user.last_name }}</h3>
-          <p class="text-sm text-gray-600">Matricule: {{ user.matricule }}</p>
-          <div class="flex items-center mt-2">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-              {% if user.is_super_user %}bg-purple-100 text-purple-800{% elif user.is_beta_tester %}bg-orange-100 text-orange-800{% else %}bg-blue-100 text-blue-800{% endif %}">
-              {% if user.is_super_user %}
-                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                Super User
-              {% elif user.is_beta_tester %}
-                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
-                </svg>
-                Bêta testeur
-              {% else %}
-                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                </svg>
-                User Normal
-              {% endif %}
-            </span>
-          </div>
+    <!-- Images des étapes -->
+    <div class="text-center mb-8">
+      <div class="flex justify-center items-center space-x-6">
+        <div class="flex-shrink-0 bg-white image-container-white p-2 rounded-lg shadow-md" style="background-color: white !important;">
+          <img src="{% static 'photos_haute_qualite/E1.png' %}" 
+               alt="Étape 1" 
+               class="h-20 w-auto">
         </div>
-        <div class="flex items-center space-x-4">
-          <a href="{% url 'account_options' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-            Options
-          </a>
-          <a href="{% url 'logout' %}" class="text-red-600 hover:text-red-800 text-sm font-medium">
-            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-            </svg>
-            Déconnexion
-          </a>
+        <div class="flex-shrink-0 bg-white image-container-white p-2 rounded-lg shadow-md" style="background-color: white !important;">
+          <img src="{% static 'photos_haute_qualite/E2.png' %}" 
+               alt="Étape 2" 
+               class="h-20 w-auto">
+        </div>
+        <div class="flex-shrink-0 bg-white image-container-white p-2 rounded-lg shadow-md" style="background-color: white !important;">
+          <img src="{% static 'photos_haute_qualite/E3.png' %}" 
+               alt="Étape 3" 
+               class="h-20 w-auto">
         </div>
       </div>
     </div>
-    {% else %}
+    {% endif %}
+    
+    {% if not user.is_authenticated %}
     <!-- Boutons principaux -->
     <div class="flex flex-col space-y-4">
       <button id="login-btn" class="flex justify-center items-center py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium rounded-lg shadow-lg transform transition hover:scale-105">
@@ -87,14 +174,45 @@
       <!-- Séparateur -->
       <div class="my-4 border-t border-gray-300"></div>
       
-      <!-- Boutons d'étapes -->
-      <div class="flex flex-col space-y-2">
-        <h3 class="text-lg font-medium text-gray-700 mb-2">Processus</h3>
+      <!-- Section CyberAlign Project -->
+      <div class="mb-8">
+        <!-- Titre principal -->
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">The CyberAlign Project</h2>
+          <p class="text-base text-gray-600">includes THREE distinct but complementary applications</p>
+        </div>
+        
+        <!-- Description détaillée de CyberRoles - ATLAS -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+          <div class="text-center mb-4">
+            <h3 class="text-xl font-bold text-blue-800 mb-1 welcome-text-dark">Welcome to:</h3>
+            <h4 class="text-2xl font-bold text-blue-600 mb-1 atlas-title-dark">CyberRoles - ATLAS</h4>
+            <span class="inline-block bg-red-100 text-red-600 text-sm font-semibold px-2 py-1 rounded-full beta-tag-dark">(bêta v0.1.2)</span>
+          </div>
+          
+          <div class="space-y-3 text-gray-700 description-text-dark">
+            <p class="text-base leading-relaxed">
+              <strong>CyberRoles – ATLAS</strong> is designed to support organizations in systematically mapping their specific requirements—covering knowledge, technical skills, and behavioral competencies—associated with each position within the organizational structure.
+            </p>
+            
+            <p class="text-base leading-relaxed">
+              This mapping process facilitates alignment with established canonical workforce reference frameworks to ensure both role adequacy and effective task execution.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section Framework des Trois Étapes -->
+      <div class="mb-8">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Framework de Définition des Rôles et Compétences</h2>
+          <p class="text-base text-gray-600">Processus en trois étapes pour définir les rôles professionnels et les compétences</p>
+        </div>
         
         <!-- Accès spécial pour Super Users -->
         {% if user.is_authenticated and user.is_super_user %}
-        <div class="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-          <div class="flex items-center">
+        <div class="mb-6 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+          <div class="flex items-center justify-center">
             <svg class="w-5 h-5 text-purple-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
@@ -105,8 +223,8 @@
         
         <!-- Accès spécial pour Bêta testeurs -->
         {% if user.is_authenticated and user.is_beta_tester %}
-        <div class="mb-3 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-          <div class="flex items-center">
+        <div class="mb-6 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+          <div class="flex items-center justify-center">
             <svg class="w-5 h-5 text-orange-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
             </svg>
@@ -115,45 +233,137 @@
         </div>
         {% endif %}
         
-        <div class="flex space-x-2">
-          <a href="javascript:void(0)" id="etape1-link" 
-             class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated %}bg-blue-500 text-white hover:bg-blue-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition">
-            Etape 1 <br> T-K-S-(A)
-          </a>
-          <button id="etape2-button" data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
-             class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated and user.is_super_user %}bg-green-500 text-white hover:bg-green-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition">
-            Etape 2 <br> Competency Areas
-          </button>
-          <button id="etape3-button" onclick="window.open('{% url 'summary_chart' %}', '_blank');"
-             class="flex-1 py-3 px-4 text-center rounded-lg {% if user.is_authenticated and user.is_super_user %}bg-purple-500 text-white hover:bg-purple-600{% else %}bg-gray-300 text-gray-500 cursor-not-allowed{% endif %} transition" {% if not user.is_authenticated or not user.is_super_user %}disabled{% endif %}>
-            Etape 3 <br> SFIA 9
-          </button>
-        </div>
         {% if not user.is_authenticated %}
-        <p class="text-sm text-gray-500 mt-2">Connectez-vous pour accéder aux étapes du processus.</p>
+        <p class="text-sm text-gray-500 mb-6 text-center">Connectez-vous pour accéder aux étapes du processus.</p>
         {% elif user.is_super_user %}
-        <p class="text-sm text-purple-600 mt-2">Super User : Accès complet à toutes les étapes du processus.</p>
-        <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
+        <p class="text-sm text-purple-600 mb-6 text-center">Super User : Accès complet à toutes les étapes du processus.</p>
+        <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% elif user.is_beta_tester %}
-        <p class="text-sm text-orange-600 mt-2">Bêta testeur : Accès étendu aux fonctionnalités.</p>
-        <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
+        <p class="text-sm text-orange-600 mb-6 text-center">Bêta testeur : Accès étendu aux fonctionnalités.</p>
+        <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% else %}
-        <p class="text-sm text-blue-500 mt-2">Étape 1 disponible, poursuivez le processus.</p>
-        <p id="jobNumberRequired" class="text-sm text-red-500 mt-1 hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
+        <p class="text-sm text-blue-500 mb-6 text-center">Étape 1 disponible, poursuivez le processus.</p>
+        <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% endif %}
+        
+        <!-- Grille des trois étapes cliquables -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Étape 1 - Bleu -->
+          <div id="etape1-panel" class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed{% endif %}" 
+               onclick="{% if user.is_authenticated %}handleEtape1Click(){% endif %}">
+            <div class="text-center mb-4">
+              <div class="bg-blue-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
+                Etape 1<br>
+                <span class="text-sm font-normal">T-K-S-(A)</span>
+              </div>
+            </div>
+            <div class="space-y-2 text-gray-700">
+              <p class="font-bold text-blue-800">STEP 1</p>
+              <p><strong class="text-blue-600">DCWF / NCWF</strong></p>
+              <p class="font-bold text-blue-600">Work Roles</p>
+              <p class="etape-text-light-blue">OPM-ID / WRL-ID</p>
+              <p class="etape-text-light-blue">T-K-S-(A)</p>
+            </div>
+          </div>
+          
+          <!-- Étape 2 - Vert -->
+          <div id="etape2-panel" class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
+               onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape2Click(){% endif %}" 
+               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}">
+            <div class="text-center mb-4">
+              <div class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
+                Etape 2<br>
+                <span class="text-sm font-normal">Competency Areas</span>
+              </div>
+            </div>
+            <div class="space-y-2 text-gray-700">
+              <p class="font-bold text-green-800">STEP 2</p>
+              <p><strong class="text-green-600">NICE</strong></p>
+              <p class="font-bold text-green-600">Competency Areas</p>
+              <p class="etape-text-light-green">NF-COM-xxx</p>
+              <p class="etape-text-light-green">Additional ad hoc K-S</p>
+            </div>
+          </div>
+          
+          <!-- Étape 3 - Violet -->
+          <div id="etape3-panel" class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
+               onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape3Click(){% endif %}">
+            <div class="text-center mb-4">
+              <div class="bg-purple-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
+                Etape 3<br>
+                <span class="text-sm font-normal">SFIA 9</span>
+              </div>
+            </div>
+            <div class="space-y-2 text-gray-700">
+              <p class="font-bold text-purple-800">STEP 3</p>
+              <p><strong class="text-purple-600">SFIA 9</strong></p>
+              <p class="font-bold text-purple-600">SFIA Skills</p>
+              <p class="etape-text-light-purple">Competency Levels</p>
+              <p class="etape-text-light-purple">Bodies of Knowledge</p>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Citation -->
+        <div class="text-center mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <p class="text-gray-600 mb-2">Quote :</p>
+          <p class="italic text-gray-700 text-lg">
+            "KSATs and competency domains are the ingredients, and the Job Description is the recipe."
+          </p>
+        </div>
       </div>
       
-      <!-- Séparateur -->
-      <div class="my-4 border-t border-gray-300"></div>
-      
-      <!-- Section Téléchargement -->
+      <!-- Section Outils d'Analyse -->
       {% if user.is_authenticated %}
       <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+        <h3 class="text-lg font-medium text-gray-700 mb-3 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          Exploration Tool: Become familiar with the Work Roles
+        </h3>
+        
+        <!-- Programme DCWF Finder -->
+        <button onclick="openDCWFFinder()"
+           class="w-full flex justify-center items-center py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg shadow-sm transition mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          DCWF (2025) / NCWF (v2.0.0) Work Role Finder Tool
+          <span class="ml-2 px-2 py-1 bg-purple-100 text-purple-600 text-xs font-semibold rounded-full">
+            🔍
+          </span>
+        </button>
+        
+        <!-- Visualisateur NCWF -->
+        <button onclick="openNCWFVisualizer()"
+           class="w-full flex justify-center items-center py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-sm transition mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          NCWF Visualisateur de Rôles avec DCWF
+          <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
+            📊
+          </span>
+        </button>
+        
+        <p class="text-sm text-gray-500 mt-2 text-center">
+          <strong>NEW:</strong> Explore, Discover, and Identify the DCWF / NCWF Work Roles<br>
+          <strong>ENHANCED:</strong> Visualisateur NCWF avec OPM-ID DCWF et pourcentages des rampes
+        </p>
+      </div>
+      {% endif %}
+      
+      <!-- Section Downloads -->
+      {% if user.is_authenticated %}
+      <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 mt-6">
         <h3 class="text-lg font-medium text-gray-700 mb-3 flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          Téléchargements
+          Downloads
         </h3>
         
         <!-- Fichier Markdown -->
@@ -180,11 +390,14 @@
           </span>
         </a>
         
+        
         <p class="text-sm text-gray-500 mt-2 text-center">
-          Documentation NCWF-DCWF 2025 disponible en Markdown et FreeMind
+          For informational purposes : NCWF-DCWF 2025 in "Markdown" & "FreeMind" formats
         </p>
+        
       </div>
       {% endif %}
+      
     </div>
   </div>
 </div>
@@ -206,6 +419,19 @@
       <form method="post" action="{% url 'login' %}" class="space-y-6">
         {% csrf_token %}
         
+        <!-- Message d'avertissement pour les problèmes de connexion -->
+        <div class="p-3 bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-md text-sm mb-4">
+          <div class="flex items-start">
+            <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <div>
+              <p class="font-medium">Attention:</p>
+              <p>If your connection doesn't work, please re-register. This is due to a new version update on the servers. This issue will be fixed later.</p>
+            </div>
+          </div>
+        </div>
+        
         {% if login_error %}
         <div class="p-3 bg-red-100 text-red-700 rounded-md text-sm mb-4">
           {{ login_error }}
@@ -224,11 +450,18 @@
 
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-          <div class="mt-1">
+          <div class="mt-1 relative">
             <input id="password" name="password" type="password" required 
-                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                   class="appearance-none block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm 
                           placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                    placeholder="Entrez votre mot de passe">
+            <button type="button" onclick="togglePasswordVisibility('password', 'password-eye')" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center" id="password-eye">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -288,21 +521,35 @@
 
         <div>
           <label for="signup-password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-          <div class="mt-1">
+          <div class="mt-1 relative">
             <input id="signup-password" name="password" type="password" required 
-                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                   class="appearance-none block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm 
                           placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                    placeholder="Créez votre mot de passe">
+            <button type="button" onclick="togglePasswordVisibility('signup-password', 'signup-password-eye')" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center" id="signup-password-eye">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
           </div>
         </div>
 
         <div>
           <label for="signup-password-confirm" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
-          <div class="mt-1">
+          <div class="mt-1 relative">
             <input id="signup-password-confirm" name="password_confirm" type="password" required 
-                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                   class="appearance-none block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm 
                           placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                    placeholder="Confirmez votre mot de passe">
+            <button type="button" onclick="togglePasswordVisibility('signup-password-confirm', 'signup-password-confirm-eye')" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center" id="signup-password-confirm-eye">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -633,40 +880,156 @@
     }
   });
   
-  // Gestion du numéro de poste
-  document.addEventListener('DOMContentLoaded', function() {
-    const jobNumberInput = document.getElementById('jobNumber');
-    const saveJobNumberBtn = document.getElementById('saveJobNumber');
-    const jobNumberDisplay = document.getElementById('jobNumberDisplay');
-    const jobNumberDisplayText = jobNumberDisplay.querySelector('span');
+  // Fonction pour ouvrir le DCWF Finder dans une fenêtre popup détachée
+  function openDCWFFinder() {
+    const popup = window.open(
+      '{% url "dcwf_finder" %}',
+      'DCWFFinder',
+      'width=1200,height=800,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,left=100,top=100'
+    );
     
-    // Charger le numéro de poste existant si disponible
-    const currentJobNumber = localStorage.getItem('currentJobNumber');
-    if (currentJobNumber) {
-      jobNumberDisplayText.textContent = currentJobNumber;
-      jobNumberDisplay.classList.remove('hidden');
-      jobNumberInput.value = currentJobNumber;
+    // S'assurer que la fenêtre popup est au premier plan
+    if (popup) {
+      popup.focus();
+    } else {
+      alert('Veuillez autoriser les fenêtres popup pour ce site pour utiliser le DCWF Finder.');
     }
+  }
+  
+  // Fonction pour ouvrir le Visualisateur NCWF dans une fenêtre popup détachée
+  function openNCWFVisualizer() {
+    const popup = window.open(
+      '{% static "ncwf-visualizer/index.html" %}',
+      'NCWFVisualizer',
+      'width=1400,height=900,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,left=50,top=50'
+    );
     
-    // Sauvegarder le numéro de poste
-    saveJobNumberBtn.addEventListener('click', function() {
-      const jobNumber = jobNumberInput.value.trim();
-      if (jobNumber) {
-        localStorage.setItem('currentJobNumber', jobNumber);
-        jobNumberDisplayText.textContent = jobNumber;
-        jobNumberDisplay.classList.remove('hidden');
-        alert(`Numéro de poste ${jobNumber} enregistré avec succès.`);
-      } else {
-        alert('Veuillez entrer un numéro de poste valide.');
-      }
-    });
+    // S'assurer que la fenêtre popup est au premier plan
+    if (popup) {
+      popup.focus();
+    } else {
+      alert('Veuillez autoriser les fenêtres popup pour ce site pour utiliser le Visualisateur NCWF.');
+    }
+  }
+  
+  // Fonction pour basculer la visibilité du mot de passe
+  function togglePasswordVisibility(inputId, eyeButtonId) {
+    const input = document.getElementById(inputId);
+    const eyeButton = document.getElementById(eyeButtonId);
+    const svg = eyeButton.querySelector('svg');
     
-    // Permettre de valider avec la touche Entrée
-    jobNumberInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        saveJobNumberBtn.click();
-      }
+    if (input.type === 'password') {
+      // Afficher le mot de passe
+      input.type = 'text';
+      svg.innerHTML = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+      `;
+    } else {
+      // Masquer le mot de passe
+      input.type = 'password';
+      svg.innerHTML = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      `;
+    }
+  }
+  
+  // Fonctions pour gérer les clics sur les panneaux d'étapes
+  function handleEtape1Click() {
+    // Vérifier si un numéro de poste a été entré
+    const jobNumber = localStorage.getItem('currentJobNumber');
+    if (!jobNumber) {
+      showJobNumberRequiredMessage();
+    } else {
+      window.location.href = djangoContext.homeUrl;
+    }
+  }
+  
+  function handleEtape2Click() {
+    // Vérifier si un numéro de poste a été entré
+    const jobNumber = localStorage.getItem('currentJobNumber');
+    if (!jobNumber) {
+      showJobNumberRequiredMessage();
+      return;
+    }
+    window.open('/ksat/etape2_first_step', '_blank');
+  }
+  
+  function handleEtape3Click() {
+    // Vérifier si un numéro de poste a été entré
+    const jobNumber = localStorage.getItem('currentJobNumber');
+    if (!jobNumber) {
+      showJobNumberRequiredMessage();
+      return;
+    }
+    window.open('{% url 'summary_chart' %}', '_blank');
+  }
+  
+</script>
+
+<!-- Beta Modal JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Make navbar fixed for main page
+        const navbar = document.querySelector('nav');
+        if (navbar) {
+            navbar.classList.add('fixed-navbar');
+        }
+        
+        // Make header fixed below navbar for main page
+        const header = document.querySelector('header');
+        if (header) {
+            header.classList.add('fixed-header');
+        }
+        const betaModal = document.getElementById('beta-modal');
+        const betaAcceptBtn = document.getElementById('beta-accept-btn');
+        const betaCheckbox = document.getElementById('beta-read-checkbox');
+        
+        // Check if user has already accepted the beta notice
+        const betaAccepted = localStorage.getItem('beta-notice-accepted');
+        
+        if (!betaAccepted) {
+            // Show the beta modal
+            betaModal.classList.remove('hidden');
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Handle checkbox change to enable/disable button
+        betaCheckbox.addEventListener('change', function() {
+            betaAcceptBtn.disabled = !this.checked;
+        });
+        
+        // Handle accept button click
+        betaAcceptBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                // Hide the modal
+                betaModal.classList.add('hidden');
+                
+                // Restore body scroll
+                document.body.style.overflow = '';
+                
+                // Mark as accepted in localStorage
+                localStorage.setItem('beta-notice-accepted', 'true');
+            }
+        });
+        
+        // Prevent closing modal by clicking outside or pressing escape
+        betaModal.addEventListener('click', function(e) {
+            if (e.target === betaModal) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+        
+        // Prevent closing with escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !betaModal.classList.contains('hidden')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
     });
-  });
 </script>
 {% endblock %}

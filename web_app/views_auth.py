@@ -26,6 +26,13 @@ def login_view(request):
         try:
             # Vérifier si l'utilisateur existe avec ce matricule
             user = User.objects.get(matricule=matricule)
+            
+            # Corriger automatiquement les utilisateurs sans rôle
+            if not user.role or user.role == '':
+                from .helpers.user_roles import get_role_from_matricule
+                user.role = get_role_from_matricule(user.matricule)
+                user.save()
+            
             # Authentifier l'utilisateur
             user = authenticate(username=user.username, password=password)
             if user is not None:

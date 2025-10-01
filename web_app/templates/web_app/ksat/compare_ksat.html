@@ -186,17 +186,7 @@
         Retour au menu
       </a>
       
-      <!-- Compteur actif -->
-      <div id="selection-counter" class="text-sm px-2 py-1">
-        <span id="current-tab-name" class="text-gray-500 mr-1">Catégorie :</span>
-        <span id="current-tab-counter" class="font-medium">0/0</span>
-      </div>
       
-      <!-- Compteur global -->
-      <div id="global-selection-counter" class="text-sm px-2 py-1">
-        <span class="text-gray-500 mr-1">Total :</span>
-        <span id="global-counter" class="font-medium">0/0</span>
-      </div>
       
       <button id="compare-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
         Comparer
@@ -205,6 +195,30 @@
       <button id="save-selection-button" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
         Sauvegarder
       </button>
+      
+      <button id="etape2-button" 
+              onclick="checkAndGoToEtape2()"
+              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled>
+        <div class="flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+          <span>Étape 2</span>
+        </div>
+      </button>
+      
+      <!-- Tooltip pour expliquer pourquoi le bouton est désactivé -->
+      <div id="etape2-tooltip" class="absolute bottom-full right-0 mb-2 hidden bg-gray-800 text-white text-sm rounded-lg px-3 py-2 whitespace-nowrap z-50">
+        <div class="flex items-center space-x-2">
+          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Sauvegardez d'abord votre sélection</span>
+        </div>
+        <!-- Flèche du tooltip -->
+        <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+      </div>
     </div>
   </div>
 
@@ -265,7 +279,42 @@
                     data-group-id="{{ role.group_id }}"
                     data-category-color="{{ role.category_color }}">
                   
+                  <!-- Compteur T/K/S/A pour ce work role -->
+                  <div class="mb-3">
+                    <div class="grid grid-cols-4 gap-1 text-xs">
+                      <!-- En-tête -->
+                      <div class="bg-blue-600 text-white text-center py-1 font-bold">Total</div>
+                      <div class="bg-blue-600 text-white text-center py-1 font-bold" id="total-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-green-600 text-white text-center py-1">✓</div>
+                      <div class="bg-red-600 text-white text-center py-1">✗</div>
+                      
+                      <!-- T (Tasks) - ligne de données -->
+                      <div class="bg-gray-200 text-gray-700 text-center py-1">T</div>
+                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="task-total-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="task-selected-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="task-unselected-{{ key }}-{{ role.id }}">0</div>
+                      
+                      <!-- K -->
+                      <div class="bg-gray-200 text-gray-700 text-center py-1">K</div>
+                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="knowledge-total-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="knowledge-selected-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="knowledge-unselected-{{ key }}-{{ role.id }}">0</div>
+                      
+                      <!-- S -->
+                      <div class="bg-gray-200 text-gray-700 text-center py-1">S</div>
+                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="skill-total-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="skill-selected-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="skill-unselected-{{ key }}-{{ role.id }}">0</div>
+                      
+                      <!-- A -->
+                      <div class="bg-gray-200 text-gray-700 text-center py-1">A</div>
+                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="ability-total-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="ability-selected-{{ key }}-{{ role.id }}">0</div>
+                      <div class="bg-white text-gray-700 text-center py-1" id="ability-unselected-{{ key }}-{{ role.id }}">0</div>
+                    </div>
+                  </div>
 
+                  <!-- Informations du work role -->
                   <div>
                     <div class="text-xs text-center mb-1 font-normal">
                       {% if role.opm_id %}{{ role.opm_id }}{% else %}&nbsp;{% endif %}
@@ -275,7 +324,7 @@
                     </div>
                     <div class="text-center">
                       <span class="text-xs text-gray-600">({{ role.framework }})</span>
-                      {% if role.model_type == 'ncwf_2017' or role.model_type == 'ncwf_2024' %}
+                      {% if role.model_type == 'ncwf_2017' or role.model_type == 'ncwf_2024' or role.model_type == 'ncwf_2025' %}
                         {% if role.nist_id %}
                           <br><span class="text-xs text-blue-600">{{ role.nist_id }}</span>
                         {% endif %}
@@ -294,7 +343,15 @@
                   <div class="mt-1 text-sm text-gray-600 space-x-2">
                       {% dcwf_url ksat %}
                       {% ncwf_2017_url ksat %}
-                      <div class="mt-2 text-xs text-gray-500">ID: {{ ksat.id }}</div>
+                      {% ncwf_2025_url ksat %}
+                      <div class="mt-2 text-xs text-gray-500">
+                        ID: {{ ksat.id }}
+                        {% if ksat.core_or_additional %}
+                          <span class="ml-2 px-1 py-0.5 text-xs rounded {% if ksat.core_or_additional == 'C' %}bg-blue-100 text-blue-800{% else %}bg-green-100 text-green-800{% endif %}">
+                            {{ ksat.core_or_additional }}
+                          </span>
+                        {% endif %}
+                      </div>
                   {% if key == 'skill' %}
                   <!-- DÉBUT DES SELECTS POUR SKILLS -->
                   <div class="mt-2 flex space-x-2 select-group">
@@ -1852,6 +1909,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`Select changé dans l'onglet ${tabId}`); 
         // Mettre à jour le compteur pour cet onglet
         updateSelectionCountersForTab(tabId);
+        // Mettre à jour les compteurs individuels pour chaque work role
+        updateIndividualRoleCounters();
       }
     });
   });
@@ -1862,8 +1921,11 @@ function initializeSelectionCounters() {
   const tabIds = ['task', 'knowledge', 'skill', 'abilitie'];
   
   console.log('Initialisation des compteurs pour tous les onglets');
+  
+  // Réinitialiser tous les compteurs à 0
+  selectionCounters = {};
   tabIds.forEach(tabId => {
-    updateSelectionCountersForTab(tabId);
+    selectionCounters[tabId] = { total: 0, selected: 0, unselected: 0 };
   });
   
   // Mettre à jour le compteur pour l'onglet actif
@@ -1877,6 +1939,9 @@ function initializeSelectionCounters() {
       updateSelectionCounter(currentActiveTab);
     }
   }
+  
+  // Initialiser le compteur T/K/S/A (commence à 0)
+  updateTKSACounter();
   
   // Débug pour vérifier les compteurs
   console.log('Compteurs initialisés:', selectionCounters);
@@ -1983,7 +2048,183 @@ function updateGlobalCounter() {
     globalCounterElement.textContent = `${globalSelected}/${globalTotal}`;
   }
   
+  // Mettre à jour le compteur T/K/S/A
+  updateTKSACounter();
+  
   console.log(`Compteur global mis à jour: ${globalSelected}/${globalTotal}`);
+}
+
+// Fonction pour mettre à jour le compteur T/K/S/A global
+function updateTKSACounter() {
+  const taskCount = document.getElementById('task-count');
+  const knowledgeCount = document.getElementById('knowledge-count');
+  const skillCount = document.getElementById('skill-count');
+  const abilityCount = document.getElementById('ability-count');
+  
+  if (taskCount) {
+    const taskTab = document.getElementById('task');
+    const taskSelected = taskTab ? selectionCounters['task']?.selected || 0 : 0;
+    const taskTotal = taskTab ? selectionCounters['task']?.total || 0 : 0;
+    taskCount.textContent = `${taskSelected}/${taskTotal}`;
+  }
+  
+  if (knowledgeCount) {
+    const knowledgeTab = document.getElementById('knowledge');
+    const knowledgeSelected = knowledgeTab ? selectionCounters['knowledge']?.selected || 0 : 0;
+    const knowledgeTotal = knowledgeTab ? selectionCounters['knowledge']?.total || 0 : 0;
+    knowledgeCount.textContent = `${knowledgeSelected}/${knowledgeTotal}`;
+  }
+  
+  if (skillCount) {
+    const skillTab = document.getElementById('skill');
+    const skillSelected = skillTab ? selectionCounters['skill']?.selected || 0 : 0;
+    const skillTotal = skillTab ? selectionCounters['skill']?.total || 0 : 0;
+    skillCount.textContent = `${skillSelected}/${skillTotal}`;
+  }
+  
+  if (abilityCount) {
+    const abilityTab = document.getElementById('abilitie');
+    const abilitySelected = abilityTab ? selectionCounters['abilitie']?.selected || 0 : 0;
+    const abilityTotal = abilityTab ? selectionCounters['abilitie']?.total || 0 : 0;
+    abilityCount.textContent = `${abilitySelected}/${abilityTotal}`;
+  }
+  
+  // Mettre à jour les compteurs individuels pour chaque work role
+  updateIndividualRoleCounters();
+}
+
+// Fonction pour mettre à jour les compteurs individuels de chaque work role
+function updateIndividualRoleCounters() {
+  // Récupérer tous les onglets (catégories)
+  const categories = ['task', 'knowledge', 'skill', 'abilitie'];
+  
+  categories.forEach(category => {
+    // Récupérer tous les work roles depuis les headers de cette catégorie
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    const roleHeaders = tabContent.querySelectorAll('thead th[data-role-id]');
+    
+    roleHeaders.forEach(header => {
+      const roleId = header.getAttribute('data-role-id');
+      const framework = header.getAttribute('data-framework');
+      
+      // Calculer les totaux et sélections pour chaque catégorie
+      const taskStats = calculateKSATStatsForRole(roleId, 'task');
+      const knowledgeStats = calculateKSATStatsForRole(roleId, 'knowledge');
+      const skillStats = calculateKSATStatsForRole(roleId, 'skill');
+      const abilityStats = calculateKSATStatsForRole(roleId, 'abilitie');
+      
+      // Mettre à jour l'en-tête avec le total de tous les KSATs (T + K + S + A) pour cette catégorie
+      const totalElement = document.getElementById(`total-${category}-${roleId}`);
+      const totalAll = taskStats.total + knowledgeStats.total + skillStats.total + abilityStats.total;
+      if (totalElement) totalElement.textContent = totalAll;
+      
+      // Mettre à jour les compteurs ✓ et ✗ dans l'en-tête (totaux de tous les KSAT sélectionnés/non sélectionnés)
+      const headerSelectedElement = document.getElementById(`header-selected-${roleId}`);
+      const headerUnselectedElement = document.getElementById(`header-unselected-${roleId}`);
+      const totalSelected = taskStats.selected + knowledgeStats.selected + skillStats.selected + abilityStats.selected;
+      const totalUnselected = taskStats.unselected + knowledgeStats.unselected + skillStats.unselected + abilityStats.unselected;
+      
+      if (headerSelectedElement) headerSelectedElement.textContent = totalSelected;
+      if (headerUnselectedElement) headerUnselectedElement.textContent = totalUnselected;
+      
+      // Mettre à jour les éléments T avec les vrais compteurs
+      const taskTotalElement = document.getElementById(`task-total-${category}-${roleId}`);
+      const taskSelectedElement = document.getElementById(`task-selected-${category}-${roleId}`);
+      const taskUnselectedElement = document.getElementById(`task-unselected-${category}-${roleId}`);
+      
+      if (taskTotalElement) taskTotalElement.textContent = taskStats.total;
+      if (taskSelectedElement) taskSelectedElement.textContent = taskStats.selected;
+      if (taskUnselectedElement) taskUnselectedElement.textContent = taskStats.unselected;
+      
+      // Mettre à jour les éléments K
+      const knowledgeTotalElement = document.getElementById(`knowledge-total-${category}-${roleId}`);
+      const knowledgeSelectedElement = document.getElementById(`knowledge-selected-${category}-${roleId}`);
+      const knowledgeUnselectedElement = document.getElementById(`knowledge-unselected-${category}-${roleId}`);
+      
+      if (knowledgeTotalElement) knowledgeTotalElement.textContent = knowledgeStats.total;
+      if (knowledgeSelectedElement) knowledgeSelectedElement.textContent = knowledgeStats.selected;
+      if (knowledgeUnselectedElement) knowledgeUnselectedElement.textContent = knowledgeStats.unselected;
+      
+      // Mettre à jour les éléments S
+      const skillTotalElement = document.getElementById(`skill-total-${category}-${roleId}`);
+      const skillSelectedElement = document.getElementById(`skill-selected-${category}-${roleId}`);
+      const skillUnselectedElement = document.getElementById(`skill-unselected-${category}-${roleId}`);
+      
+      if (skillTotalElement) skillTotalElement.textContent = skillStats.total;
+      if (skillSelectedElement) skillSelectedElement.textContent = skillStats.selected;
+      if (skillUnselectedElement) skillUnselectedElement.textContent = skillStats.unselected;
+      
+      // Mettre à jour les éléments A
+      const abilityTotalElement = document.getElementById(`ability-total-${category}-${roleId}`);
+      const abilitySelectedElement = document.getElementById(`ability-selected-${category}-${roleId}`);
+      const abilityUnselectedElement = document.getElementById(`ability-unselected-${category}-${roleId}`);
+      
+      if (abilityTotalElement) abilityTotalElement.textContent = abilityStats.total;
+      if (abilitySelectedElement) abilitySelectedElement.textContent = abilityStats.selected;
+      if (abilityUnselectedElement) abilityUnselectedElement.textContent = abilityStats.unselected;
+    });
+  });
+}
+
+// Fonction pour calculer les statistiques KSAT pour un work role spécifique
+function calculateKSATStatsForRole(roleId, tabId) {
+  const tabContent = document.getElementById(tabId);
+  if (!tabContent) return { total: 0, selected: 0, unselected: 0 };
+  
+  let total = 0;
+  let selected = 0;
+  let unselected = 0;
+  
+  const rows = tabContent.querySelectorAll('tbody tr');
+  
+  // Trouver la colonne correspondant à ce work role
+  const roleHeader = document.querySelector(`th[data-role-id="${roleId}"]`);
+  if (!roleHeader) return { total: 0, selected: 0, unselected: 0 };
+  
+  const headerIndex = Array.from(roleHeader.parentNode.children).indexOf(roleHeader);
+  
+  rows.forEach((row, index) => {
+    const roleCell = row.children[headerIndex];
+    
+    if (roleCell) {
+      // Compter toutes les lignes comme total (nombre total de KSATs par catégorie)
+      total++;
+      
+      // Vérifier d'abord si le premier select de cette ligne ≠ "0"
+      const descriptionCell = row.querySelector('td:first-child');
+      let hasSelection = false;
+      
+      if (descriptionCell) {
+        // Chercher le premier select (celui avec la classe primary-select)
+        const firstSelect = descriptionCell.querySelector('.primary-select');
+        if (firstSelect && firstSelect.value && firstSelect.value !== '0') {
+          hasSelection = true;
+        }
+      }
+      
+      // Seulement si le KSAT est sélectionné (premier select ≠ "0"), compter les emojis
+      if (hasSelection) {
+        const cellContent = roleCell.textContent || roleCell.innerHTML;
+        
+        if (cellContent.includes('✅')) {
+          selected++; // +1 dans la colonne ✓
+        }
+        if (cellContent.includes('❌')) {
+          unselected++; // +1 dans la colonne ✗
+        }
+      }
+    }
+  });
+  
+  return { total, selected, unselected };
+}
+
+// Fonction pour compter les sélections pour un work role spécifique (ancienne version)
+function countSelectionsForRole(roleId, tabId) {
+  const stats = calculateKSATStatsForRole(roleId, tabId);
+  return stats.selected;
 }
 
 // Fonction pour gérer le changement du premier select pour les Tasks et Knowledge
@@ -2554,16 +2795,26 @@ function saveCurrentSelection() {
   // Collecter des informations sur les work roles pour le titre
   const roles = [];
   document.querySelectorAll('thead tr:first-of-type th:not(:first-child)').forEach(th => {
-    const titleDiv = th.querySelector('div div:nth-child(2)');
-    const frameworkDiv = th.querySelector('div div:nth-child(3) span');
-    const opmIdDiv = th.querySelector('div div:first-child');
+    // L'OPM ID est dans le premier div avec les classes text-xs text-center mb-1 font-normal
+    const opmIdDiv = th.querySelector('div div.text-xs.text-center.mb-1.font-normal');
+    // Le titre est dans le div suivant
+    const titleDiv = th.querySelector('div div.text-center');
+    // Le framework est dans le span à l'intérieur du div suivant
+    const frameworkSpan = th.querySelector('div div.text-center span');
     
-    if (titleDiv && frameworkDiv) {
-      roles.push({
-        title: titleDiv.textContent.trim(),
-        framework: frameworkDiv.textContent.replace(/[\(\)]/g, '').trim(),
-        opmId: opmIdDiv ? opmIdDiv.textContent.trim() : ''
-      });
+    if (opmIdDiv && titleDiv && frameworkSpan) {
+      const opmId = opmIdDiv.textContent.trim();
+      const title = titleDiv.textContent.trim();
+      const framework = frameworkSpan.textContent.replace(/[\(\)]/g, '').trim();
+      
+      // Ne pas ajouter les rôles sans OPM ID
+      if (opmId && opmId !== '&nbsp;') {
+        roles.push({
+          title: title,
+          framework: framework,
+          opmId: opmId
+        });
+      }
     }
   });
   
@@ -4194,6 +4445,103 @@ function restoreStateOnLoad() {
     });
 }
 
+// Fonctionnalités pour le bouton Étape 2
+function checkSavedSelections() {
+    // Vérifier dans localStorage s'il y a des sélections
+    const savedSelections = localStorage.getItem('ksatSavedSelections');
+    const hasSelections = savedSelections && JSON.parse(savedSelections).length > 0;
+    
+    // Vérifier aussi côté serveur via AJAX
+    fetch('/check-saved-selections/', {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const button = document.getElementById('etape2-button');
+        const tooltip = document.getElementById('etape2-tooltip');
+        
+        if (data.has_saved_selections || hasSelections) {
+            // L'utilisateur a des sauvegardes, activer le bouton
+            button.disabled = false;
+            button.classList.remove('opacity-50', 'cursor-not-allowed');
+            tooltip.classList.add('hidden');
+        } else {
+            // Pas de sauvegardes, garder le bouton désactivé
+            button.disabled = true;
+            button.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+    })
+    .catch(error => {
+        console.log('Erreur lors de la vérification des sauvegardes:', error);
+        // En cas d'erreur, utiliser la vérification localStorage
+        const button = document.getElementById('etape2-button');
+        const tooltip = document.getElementById('etape2-tooltip');
+        
+        if (hasSelections) {
+            button.disabled = false;
+            button.classList.remove('opacity-50', 'cursor-not-allowed');
+            tooltip.classList.add('hidden');
+        }
+    });
+}
+
+// Fonction pour aller à l'étape 2
+function checkAndGoToEtape2() {
+    const button = document.getElementById('etape2-button');
+    
+    if (button.disabled) {
+        // Afficher le tooltip temporairement
+        const tooltip = document.getElementById('etape2-tooltip');
+        tooltip.classList.remove('hidden');
+        
+        setTimeout(() => {
+            tooltip.classList.add('hidden');
+        }, 3000);
+        
+        return;
+    }
+    
+    // Rediriger vers l'étape 2
+    window.location.href = "{% url 'etape2_first_step' %}";
+}
+
+// Vérifier les sauvegardes au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    checkSavedSelections();
+    
+    // Gestion du hover sur le bouton pour afficher/masquer le tooltip
+    const button = document.getElementById('etape2-button');
+    const tooltip = document.getElementById('etape2-tooltip');
+    
+    if (button && tooltip) {
+        button.addEventListener('mouseenter', function() {
+            if (button.disabled) {
+                tooltip.classList.remove('hidden');
+            }
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            tooltip.classList.add('hidden');
+        });
+    }
+});
+
+// Réactiver le bouton après une sauvegarde réussie
+// Intercepter la fonction saveCurrentSelection existante
+const originalSaveCurrentSelection = saveCurrentSelection;
+saveCurrentSelection = function() {
+    originalSaveCurrentSelection();
+    
+    // Réactiver le bouton Étape 2 après une sauvegarde réussie
+    setTimeout(() => {
+        checkSavedSelections();
+    }, 1000);
+};
+
 </script>
 <!-- Les données modales sont maintenant chargées directement dans la variable JavaScript -->
 
@@ -4209,3 +4557,4 @@ function restoreStateOnLoad() {
 }
 </style>
 {% endblock %}
+

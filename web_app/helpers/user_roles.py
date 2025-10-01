@@ -6,11 +6,15 @@ Helper pour gérer les rôles utilisateur basés sur les matricules
 SUPER_USER_MATRICULES = [
     '2351882',
     '8742647',
+    '9307037',
 ]
 
 BETA_TESTER_MATRICULES = [
     '8640426',
     '0101010',
+    '9390449',
+    '0101683',
+    '1505113',
 ]
 
 def get_role_from_matricule(matricule):

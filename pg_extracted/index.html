@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCWF - Visualisateur de Rôles Cybersécurité</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Visualisateur de Rôles NCWF</h1>
+            <p class="app-subtitle">Explorez les rôles du cadre national de cybersécurité et leurs relations</p>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="form-control search-input" 
+                        placeholder="Rechercher par OPM ID (751), WRL ID (DD-WRL-001) ou nom de rôle..."
+                        autocomplete="off"
+                    >
+                    <button id="clearSearch" class="clear-search-btn" type="button" aria-label="Effacer la recherche">
+                        ✕
+                    </button>
+                </div>
+                <div id="searchSuggestions" class="search-suggestions hidden"></div>
+            </div>
+            <div class="search-instructions">
+                <h3>Comment rechercher :</h3>
+                <ul>
+                    <li><strong>Par OPM ID :</strong> 751, 752, 723, 652</li>
+                    <li><strong>Par WRL ID :</strong> DD-WRL-001, OG-WRL-003</li>
+                    <li><strong>Par nom :</strong> Cybersecurity, Architecture, Management</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state hidden">
+            <div class="loading-spinner"></div>
+            <p>Chargement...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="error-state hidden">
+            <h3>Aucun résultat trouvé</h3>
+            <p>Veuillez vérifier votre recherche et réessayer.</p>
+        </div>
+
+        <!-- Role Display -->
+        <section id="roleDisplay" class="role-display hidden">
+            <!-- Role Card -->
+            <div class="role-card card">
+                <div class="role-card-header">
+                    <div class="role-category-badge" id="roleCategoryBadge"></div>
+                    <div class="role-ids">
+                        <span class="role-omp-id" id="roleOmpId"></span>
+                        <span class="role-wrl-id" id="roleWrlId"></span>
+                    </div>
+                </div>
+                <div class="role-card-body">
+                    <h2 id="roleName" class="role-name"></h2>
+                    <p id="roleCategoryDescription" class="role-category-description"></p>
+                    <div id="dcwfInfo" class="dcwf-info hidden">
+                        <h3>Informations DCWF</h3>
+                        <div class="dcwf-details">
+                            <p><strong>OPM ID DCWF:</strong> <span id="dcwfOpmId"></span></p>
+                            <p><strong>Titre DCWF:</strong> <span id="dcwfTitle"></span></p>
+                            <p><strong>Description DCWF:</strong> <span id="dcwfDescription"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relationship Panels -->
+            <div class="relationship-panels">
+                <!-- TKS Related Roles -->
+                <div class="relationship-panel">
+                    <div class="panel-header">
+                        <h3>Rôles liés par TKS</h3>
+                        <p class="panel-description">Rôles avec des connaissances, compétences et aptitudes similaires</p>
+                    </div>
+                    <div id="tksRelatedList" class="relationship-list"></div>
+                </div>
+
+                <!-- On Ramps -->
+                <div class="relationship-panel">
+                    <div class="panel-header">
+                        <h3>Rampes d'accès</h3>
+                        <p class="panel-description">Étapes communes VERS ce rôle</p>
+                    </div>
+                    <div id="onRampsList" class="relationship-list"></div>
+                </div>
+
+                <!-- Off Ramps -->
+                <div class="relationship-panel">
+                    <div class="panel-header">
+                        <h3>Rampes de sortie</h3>
+                        <p class="panel-description">Étapes communes À PARTIR DE ce rôle</p>
+                    </div>
+                    <div id="offRampsList" class="relationship-list"></div>
+                </div>
+
+                <!-- Secondary Work Roles -->
+                <div class="relationship-panel">
+                    <div class="panel-header">
+                        <h3>Rôles secondaires</h3>
+                        <p class="panel-description">Pairages potentiels basés sur les données fédérales OPM</p>
+                    </div>
+                    <div id="secondaryRolesList" class="relationship-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state">
+            <h2>Commencez votre exploration</h2>
+            <p>Utilisez la barre de recherche ci-dessus pour trouver un rôle de travail NCWF et découvrir ses relations.</p>
+            <div class="example-searches">
+                <h4>Exemples de recherche :</h4>
+                <button class="btn btn--outline example-btn" data-search="751">OPM ID: 751</button>
+                <button class="btn btn--outline example-btn" data-search="DD-WRL-001">WRL ID: DD-WRL-001</button>
+                <button class="btn btn--outline example-btn" data-search="Cybersecurity">Nom: Cybersecurity</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

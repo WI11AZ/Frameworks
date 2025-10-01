@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ DCWF Work Roles Finder - Identifiez vos rôles cyber</title>
+    <link rel="stylesheet" href="/static/dcwf-finder/style.css?v=1.1">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="logo-title">🛡️ DCWF Work Roles Finder</h1>
+                    <p class="logo-subtitle">Identifiez facilement vos rôles de travail dans le domaine cyber</p>
+                </div>
+                <div class="stats-counter">
+                    <span id="total-roles-counter">79</span> Work Roles disponibles
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Menu -->
+    <section class="main-menu" id="main-menu">
+        <div class="container">
+            <div class="menu-grid">
+                <!-- Questionnaire Guidé -->
+                <div class="menu-card menu-card--questionnaire" data-mode="questionnaire">
+                    <div class="menu-icon">🔍</div>
+                    <h3 class="menu-title">QUESTIONNAIRE GUIDÉ</h3>
+                    <p class="menu-subtitle">Questions étape par étape pour identifier vos work roles</p>
+                    <div class="menu-description">Arbre de décision intelligent avec 4 étapes personnalisées</div>
+                </div>
+
+                <!-- Catalogue Complet -->
+                <div class="menu-card menu-card--catalog" data-mode="catalog">
+                    <div class="menu-icon">📋</div>
+                    <h3 class="menu-title">CATALOGUE COMPLET</h3>
+                    <p class="menu-subtitle">Explorer par communautés DCWF et catégories NCWF</p>
+                    <div class="menu-description">Tous les 79 work roles organisés par onglets - AUCUNE catégorie vide</div>
+                </div>
+
+                <!-- Recherche Rapide -->
+                <div class="menu-card menu-card--search" data-mode="search">
+                    <div class="menu-icon">⚡</div>
+                    <h3 class="menu-title">RECHERCHE RAPIDE</h3>
+                    <p class="menu-subtitle">Recherche par mots-clés et filtres avancés</p>
+                    <div class="menu-description">Recherche textuelle avec auto-suggestions dans les 79 work roles</div>
+                </div>
+
+                <!-- Recommandations -->
+                <div class="menu-card menu-card--recommendations" data-mode="recommendations">
+                    <div class="menu-icon">💡</div>
+                    <h3 class="menu-title">RECOMMANDATIONS</h3>
+                    <p class="menu-subtitle">Analyse intelligente de compatibilité</p>
+                    <div class="menu-description">Matching par description libre avec scores de compatibilité</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Content -->
+    <main class="app-content" id="app-content" style="display: none;">
+        <div class="container">
+            <!-- Back to Menu -->
+            <button class="back-to-menu" id="back-to-menu">
+                🏠 Menu Principal
+            </button>
+
+            <!-- Mode Content Container -->
+            <div class="mode-container">
+                <!-- Questionnaire Mode -->
+                <div class="mode-section" id="questionnaire-mode">
+                    <div class="section-header">
+                        <h2>🎯 Questionnaire Guidé</h2>
+                        <p>Arbre de décision en 4 étapes pour identifier les work roles adaptés à votre profil</p>
+                    </div>
+                    
+                    <div class="questionnaire-container">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-text">
+                                Étape <span id="current-question">1</span> sur <span id="total-questions">4</span>
+                            </div>
+                        </div>
+                        
+                        <div class="question-card">
+                            <h3 id="question-text">Chargement...</h3>
+                            <div id="question-options" class="question-options"></div>
+                            <div class="question-actions">
+                                <button class="btn btn--secondary" id="prev-btn" disabled>Précédent</button>
+                                <button class="btn btn--primary" id="next-btn" disabled>Suivant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catalog Mode -->
+                <div class="mode-section" id="catalog-mode">
+                    <div class="section-header">
+                        <h2>📋 Catalogue Complet</h2>
+                        <p>Explorez tous les 79 work roles organisés par communautés et catégories - AUCUNE catégorie vide</p>
+                    </div>
+                    
+                    <div class="catalog-tabs">
+                        <button class="catalog-tab active" data-view="communities">Communautés DCWF (8)</button>
+                        <button class="catalog-tab" data-view="categories">Catégories NCWF (6)</button>
+                    </div>
+                    
+                    <div class="catalog-content">
+                        <div class="catalog-view active" id="communities-view">
+                            <div id="communities-list" class="catalog-list"></div>
+                        </div>
+                        <div class="catalog-view" id="categories-view">
+                            <div id="categories-list" class="catalog-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Mode -->
+                <div class="mode-section" id="search-mode">
+                    <div class="section-header">
+                        <h2>🔍 Recherche Rapide</h2>
+                        <p>Recherchez parmi les 79 work roles par mots-clés, titres, communautés ou catégories</p>
+                    </div>
+                    
+                    <div class="search-container">
+                        <div class="search-main">
+                            <div class="search-input-container">
+                                <input type="text" id="search-input" placeholder="Tapez vos mots-clés (ex: cyber, management, développement...)" class="form-control search-input">
+                                <button class="btn btn--primary search-btn" id="search-btn">Rechercher</button>
+                            </div>
+                        </div>
+                        
+                        <div class="search-filters">
+                            <div class="filter-group">
+                                <label class="form-label">Communauté DCWF</label>
+                                <select id="community-filter" class="form-control">
+                                    <option value="">Toutes les communautés</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label">Catégorie NCWF</label>
+                                <select id="category-filter" class="form-control">
+                                    <option value="">Toutes les catégories</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="form-label">Trier par</label>
+                                <select id="sort-select" class="form-control">
+                                    <option value="relevance">Pertinence</option>
+                                    <option value="title">Titre (A-Z)</option>
+                                    <option value="community">Communauté</option>
+                                    <option value="category">Catégorie</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations Mode -->
+                <div class="mode-section" id="recommendations-mode">
+                    <div class="section-header">
+                        <h2>💡 Recommandations Intelligentes</h2>
+                        <p>Décrivez votre poste pour obtenir un matching intelligent parmi les 79 work roles</p>
+                    </div>
+                    
+                    <div class="recommendations-container">
+                        <div class="job-input-section">
+                            <label for="job-description" class="form-label">Description de votre poste ou profil recherché</label>
+                            <textarea id="job-description" class="form-control job-textarea" rows="6" placeholder="Décrivez vos responsabilités, compétences, domaine d'activité, environnement de travail...&#10;&#10;Exemple: Je gère une équipe de développeurs, supervise les projets informatiques, assure la liaison avec les clients et veille à la sécurité des systèmes..."></textarea>
+                            <button class="btn btn--primary analyze-btn" id="analyze-btn">
+                                <span class="btn-icon">🎯</span>
+                                Analyser et obtenir des recommandations
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="results-section" style="display: none;">
+                <div class="results-header">
+                    <h3>Résultats trouvés</h3>
+                    <div class="results-counter">
+                        <span id="results-count">0</span> work role(s)
+                    </div>
+                    <button class="btn btn--outline btn--sm" id="export-btn">Exporter CSV</button>
+                </div>
+                <div class="results-grid" id="results-grid"></div>
+                <div class="empty-results" id="empty-results" style="display: none;">
+                    <div class="empty-icon">🔍</div>
+                    <h4>Aucun résultat trouvé</h4>
+                    <p>Essayez de modifier vos critères de recherche ou vos filtres.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Work Role Details Modal -->
+    <div class="modal hidden" id="work-role-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Détails du Work Role</h3>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Chargement des 79 work roles DCWF...</p>
+        </div>
+    </div>
+
+    <script src="/static/dcwf-finder/app.js?v=1.1"></script>
+</body>
+</html>

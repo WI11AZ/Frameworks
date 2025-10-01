@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NICE Framework Competency Areas (NF-COM) Explorer</title>
+    <link rel="stylesheet" href="style_1.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1 class="header__title">NICE Framework Competency Areas (NF-COM) Explorer</h1>
+            <p class="header__subtitle">Interactive Guide to Cybersecurity Workforce Development</p>
+            <p class="header__description">Explore the 11+04 Competency Areas that define cybersecurity capabilities and guide workforce development initiatives.</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <button class="nav__menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="#home" class="nav__link nav__link--active">Competency Areas</a></li>
+                <li><a href="#careers" class="nav__link">Career Pathways</a></li>
+                <li><a href="#about" class="nav__link">About the Competency Areas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <!-- Competencies Section -->
+        <section id="home" class="section section--active">
+            <!-- Filters and Controls -->
+            <div class="controls">
+                <div class="container">
+                    <div class="controls__row">
+                        <div class="search-container">
+                            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search competencies by name or keyword...">
+                        </div>
+                        <div class="controls__filters">
+                            <select id="categoryFilter" class="form-control">
+                                <option value="">All Categories</option>
+                            </select>
+                            <select id="sortSelect" class="form-control">
+                                <option value="id">Sort by ID</option>
+                                <option value="name">Sort by Name</option>
+                                <option value="category">Sort by Category</option>
+                            </select>
+                            <button id="clearFilters" class="btn btn--outline btn--sm">Clear Filters</button>
+                        </div>
+                    </div>
+                    <div class="controls__row controls__row--secondary">
+                        <div class="view-toggle">
+                            <button id="gridView" class="btn btn--sm btn--primary">Grid View</button>
+                            <button id="listView" class="btn btn--sm btn--outline">List View</button>
+                        </div>
+                        <div class="progress-filter">
+                            <select id="progressFilter" class="form-control">
+                                <option value="">All Progress Levels</option>
+                                <option value="learning">Learning</option>
+                                <option value="familiar">Familiar</option>
+                                <option value="expert">Expert</option>
+                                <option value="unset">Not Set</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competencies Grid -->
+            <div class="container">
+                <div id="competenciesContainer" class="competencies-grid">
+                    <!-- Competency cards will be dynamically inserted here -->
+                </div>
+                <div id="noResults" class="no-results hidden">
+                    <h3>No competencies found</h3>
+                    <p>Try adjusting your search or filter criteria.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Career Pathways Section -->
+        <section id="careers" class="section">
+            <div class="container">
+                <div class="careers-content">
+                    <h2>Career Pathways</h2>
+                    <p>The NICE Framework competencies map to various cybersecurity career paths. Use this guide to understand how different competencies align with career goals and progression.</p>
+                    
+                    <div class="pathway-categories">
+                        <!-- Entry Level Paths -->
+                        <div class="card career-pathway">
+                            <div class="card__header">
+                                <h3>Entry Level Paths</h3>
+                                <p>Foundational competencies for cybersecurity career beginners</p>
+                            </div>
+                            <div class="card__body">
+                                <div class="competency-list">
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-012</span>
+                                        <span class="competency-name">Cybersecurity Fundamentals</span>
+                                        <span class="competency-category category--foundational">Foundational</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Technical Specialist Paths -->
+                        <div class="card career-pathway">
+                            <div class="card__header">
+                                <h3>Technical Specialist Paths</h3>
+                                <p>Technical competencies for hands-on cybersecurity professionals</p>
+                            </div>
+                            <div class="card__body">
+                                <div class="competency-list">
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-001</span>
+                                        <span class="competency-name">Access Controls</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-003</span>
+                                        <span class="competency-name">Asset Management</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-004</span>
+                                        <span class="competency-name">Cloud Security</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-005</span>
+                                        <span class="competency-name">Communications Security</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-006</span>
+                                        <span class="competency-name">Cryptography</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-008</span>
+                                        <span class="competency-name">DevSecOps</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-009</span>
+                                        <span class="competency-name">Operating Systems Security</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-015</span>
+                                        <span class="competency-name">Secure Programming</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Leadership & Management Paths -->
+                        <div class="card career-pathway">
+                            <div class="card__header">
+                                <h3>Leadership & Management Paths</h3>
+                                <p>Competencies for cybersecurity leaders and managers</p>
+                            </div>
+                            <div class="card__body">
+                                <div class="competency-list">
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-013</span>
+                                        <span class="competency-name">Cybersecurity Leadership</span>
+                                        <span class="competency-category category--management">Management</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-014</span>
+                                        <span class="competency-name">Data Security</span>
+                                        <span class="competency-category category--technical">Technical</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Specialized Domain Paths -->
+                        <div class="card career-pathway">
+                            <div class="card__header">
+                                <h3>Specialized Domain Paths</h3>
+                                <p>Specialized competencies for specific cybersecurity domains</p>
+                            </div>
+                            <div class="card__body">
+                                <div class="competency-list">
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-002</span>
+                                        <span class="competency-name">Artificial Intelligence Security</span>
+                                        <span class="competency-category category--emerging-technology">Emerging Technology</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-007</span>
+                                        <span class="competency-name">Cyber Resiliency</span>
+                                        <span class="competency-category category--strategic">Strategic</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-010</span>
+                                        <span class="competency-name">Operational Technology Security</span>
+                                        <span class="competency-category category--specialized">Specialized</span>
+                                    </div>
+                                    <div class="competency-item">
+                                        <span class="competency-id">NF-COM-011</span>
+                                        <span class="competency-name">Supply Chain Security</span>
+                                        <span class="competency-category category--strategic">Strategic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About the Competency Areas Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content">
+                    <h2>About the Competency Areas</h2>
+                    <p class="intro-text">The NICE Framework Competency Areas represent a revolutionary approach to cybersecurity workforce development, focusing on learner capabilities rather than just job functions.</p>
+                    
+                    <div class="about-sections">
+                        <!-- What are Competency Areas -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>What are Competency Areas?</h3>
+                                </div>
+                                <div class="card__body">
+                                    <p><strong>Definition:</strong> Clusters of related Knowledge and Skill statements that correlate with one's capability to perform Tasks in a particular domain.</p>
+                                    <ul>
+                                        <li><strong>Focus on learner capabilities:</strong> What they know and can do</li>
+                                        <li><strong>vs Work Roles:</strong> What work needs to be done</li>
+                                        <li><strong>Building block approach:</strong> Using TKS (Task, Knowledge, Skill) statements</li>
+                                        <li><strong>Domain-specific:</strong> Organized around cybersecurity specializations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Purpose and Benefits -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Purpose and Benefits</h3>
+                                </div>
+                                <div class="card__body">
+                                    <ul>
+                                        <li><strong>Bridge skills-based hiring gaps:</strong> Focus on what candidates can actually do</li>
+                                        <li><strong>Enable competency-based assessment:</strong> Measure capabilities, not just experience</li>
+                                        <li><strong>Support emerging technology domains:</strong> Address new cybersecurity challenges</li>
+                                        <li><strong>Complement traditional Work Roles:</strong> Provide additional workforce flexibility</li>
+                                        <li><strong>Facilitate workforce mobility:</strong> Enable career transitions and development</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Matrix Approach -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Matrix Approach</h3>
+                                </div>
+                                <div class="card__body">
+                                    <p>Instead of a simple linear alignment, the NCWF structures Competency Areas (groups of related knowledge and skills) and Work Roles (cybersecurity job functions defined by tasks and KSATs) within a matrix:</p>
+                                    <ul>
+                                        <li><strong>A Competency Area may apply to multiple Work Roles:</strong> For example, the "Cyber Resiliency" competency may be relevant for OT engineering, threat analysis, or incident response.</li>
+                                        <li><strong>A Work Role may require multiple Competency Areas:</strong> A network architect role could require competencies in network engineering, access management, and risk management, each defined by a distinct NF-COM.</li>
+                                    </ul>
+                                    <p>The Knowledge (K) and Skills (S) statements from Competency Areas are "activated", supplemented, and sometimes shared across several Work Roles, reflecting frequent intersections and overlaps in practice.</p>
+                                    <p>This enables a modular and evolving approach, especially for hybrid profiles, personalized training, or adapting to new technological challenges.</p>
+                                    
+                                    <h4>Benefits of the Matrix Structure</h4>
+                                    <ul>
+                                        <li>Personalization of skills development and career paths.</li>
+                                        <li>Adaptability to the evolution of professions and the emergence of new cybersecurity domains.</li>
+                                        <li>Clarity for employers, who can assess needs across multiple dimensions, and for professionals, who can precisely position themselves within the ecosystem.</li>
+                                    </ul>
+                                    
+                                    <p>This matrix-based integration is thus a pillar of the robustness and agility of NCWF v2.0.0, facilitating dynamic skills management and the formation of effective teams to address the diversity of cyber threats.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Relationship to Work Roles -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Relationship to Work Roles</h3>
+                                </div>
+                                <div class="card__body">
+                                    <ul>
+                                        <li><strong>Complementary:</strong> Work together or separately with existing Work Roles</li>
+                                        <li><strong>Additive:</strong> Can overlay onto one or more Work Roles for enhanced capabilities</li>
+                                        <li><strong>Cross-functional:</strong> May span multiple Work Roles in different categories</li>
+                                        <li><strong>Emerging:</strong> Represent domains not yet established as traditional Work Roles</li>
+                                        <li><strong>Non-duplicative:</strong> Do not replace or duplicate existing Work Roles</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NCWF and DCWF Integration -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>NCWF and DCWF Integration</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="matrix-info">
+                                        <div class="framework-info">
+                                            <h4>NCWF (National Cybersecurity Workforce Framework)</h4>
+                                            <p>Civilian cybersecurity workforce development</p>
+                                        </div>
+                                        <div class="framework-info">
+                                            <h4>DCWF (DoD Cyber Workforce Framework)</h4>
+                                            <p>Military/defense cybersecurity workforce development</p>
+                                        </div>
+                                    </div>
+                                    <p><strong>Matrix Relationship:</strong> Competency Areas provide horizontal capabilities across vertical Work Roles in both frameworks.</p>
+                                    <p><strong>Flexibility:</strong> Organizations can use either framework or both depending on their specific context and needs.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Building Blocks Structure -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Building Blocks Structure (TKS)</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="building-blocks">
+                                        <div class="block-item">
+                                            <h4>Task Statements (T-statements)</h4>
+                                            <p>Describe specific work activities directed toward achievement of organizational objectives</p>
+                                        </div>
+                                        <div class="block-item">
+                                            <h4>Knowledge Statements (K-statements)</h4>
+                                            <p>Body of information that must be applied to successfully perform functions</p>
+                                        </div>
+                                        <div class="block-item">
+                                            <h4>Skill Statements (S-statements)</h4>
+                                            <p>Observable competencies required to perform learned activities</p>
+                                        </div>
+                                    </div>
+                                    <p><strong>Assessment:</strong> Typically conducted at the Competency Area level rather than individual Task level (unlike Work Roles).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Current Status -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Current Status & Availability</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="status-grid">
+                                        <div class="status-item status--success">
+                                            <h4>11 Official Competency Areas</h4>
+                                            <p>NF-COM-001 to NF-COM-011 - Officially published by NIST</p>
+                                        </div>
+                                        <div class="status-item status--warning">
+                                            <h4>4 Proposed Areas</h4>
+                                            <p>NF-COM-012 to NF-COM-015 - Not officially published</p>
+                                        </div>
+                                        <div class="status-item status--info">
+                                            <h4>TKS Statements Available</h4>
+                                            <p>Only AI Security (NF-COM-002) and Cyber Resiliency (NF-COM-007) have complete K-,S-statements</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Practical Applications -->
+                        <div class="about-section">
+                            <div class="card">
+                                <div class="card__header">
+                                    <h3>Practical Applications</h3>
+                                </div>
+                                <div class="card__body">
+                                    <div class="applications-grid">
+                                        <div class="application-item">
+                                            <h4>Hiring & Recruitment</h4>
+                                            <p>Create skills-based job descriptions that focus on capabilities</p>
+                                        </div>
+                                        <div class="application-item">
+                                            <h4>Training & Education</h4>
+                                            <p>Develop competency-based curriculum and learning pathways</p>
+                                        </div>
+                                        <div class="application-item">
+                                            <h4>Career Development</h4>
+                                            <p>Identify skill gaps and create progression paths for professionals</p>
+                                        </div>
+                                        <div class="application-item">
+                                            <h4>Assessment & Certification</h4>
+                                            <p>Evaluate capabilities and align with certification programs</p>
+                                        </div>
+                                        <div class="application-item">
+                                            <h4>Organizational Planning</h4>
+                                            <p>Map workforce capabilities and identify areas for improvement</p>
+                                        </div>
+                                        <div class="application-item">
+                                            <h4>Workforce Development</h4>
+                                            <p>Create targeted development programs based on competency gaps</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Competency Detail Modal -->
+    <div id="competencyModal" class="modal hidden" aria-hidden="true" role="dialog">
+        <div class="modal__backdrop" id="modalBackdrop"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 id="modalTitle" class="modal__title"></h2>
+                <button id="modalClose" class="modal__close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal__body" id="modalBody">
+                <!-- Modal content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app_3.js"></script>
+</body>
+</html>

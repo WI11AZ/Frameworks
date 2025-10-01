@@ -1,12 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadre de Compétences SFIA (Complet)</title>
+    <title>Cyber Align - Étape 3</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Ajouter le script serverStorage.js -->
-    <script src="/static/js/serverStorage.js"></script>
+    <script src="{% static 'js/serverStorage.js' %}"></script>
     <style>
         /* --- STYLES GÉNÉRAUX --- */
         body {
@@ -44,14 +44,39 @@
         /* --- GRILLE & CONTENEURS --- */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            padding: 15px;
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Amélioration responsive */
+        @media (max-width: 1400px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                gap: 15px;
+            }
+            .category-container {
+                min-width: auto;
+            }
         }
         .category-container {
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 15px;
+            overflow: visible;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            min-width: 300px;
+            margin-bottom: 20px;
             height: fit-content;
         }
         .category-container:hover {
@@ -68,6 +93,7 @@
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-radius: 15px 15px 0 0;
         }
         .level-header {
             display: flex;
@@ -86,9 +112,11 @@
         .skill-row {
             display: flex;
             align-items: center;
-            padding: 4px 10px;
+            padding: 8px 12px;
             border-bottom: 1px solid #eee;
             font-size: 11px;
+            border-radius: 8px;
+            margin: 2px 8px;
         }
         .skill-row:last-child { border-bottom: none; }
         .skill-name { flex: 3; padding-right: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -102,7 +130,7 @@
             justify-content: center;
             margin: 0 1px;
             font-size: 11px;
-            border-radius: 3px;
+            border-radius: 6px;
             transition: all 0.2s ease;
         }
         .level-box:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -306,16 +334,16 @@
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center">
-                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA</span>
-                        <span class="text-2xl font-bold text-white">DCWF</span>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                        <span class="text-2xl font-bold text-white">Cyber Align</span>
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="{% url 'main' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                            <a href="/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
                             <a href="#" class="rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white flex items-center">
                                 Tableau des compétences
                             </a>
-                            <a href="{% url 'attributs_part_deux' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
+                            <a href="/ksat/etape2_first_step" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
                         </div>
                     </div>
                 </div>
@@ -339,11 +367,11 @@
         </div>
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                <a href="{% url 'main' %}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                <a href="/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
                 <a href="#" class="block rounded-md px-3 py-2 text-base font-medium bg-gray-900 text-white flex items-center">
                     Tableau des compétences
                 </a>
-                <a href="{% url 'attributs_part_deux' %}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
+                <a href="/ksat/etape2_first_step" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">PARTIE 2</a>
             </div>
         </div>
     </nav>
@@ -3680,7 +3708,6 @@
             });
         });
     </script>
-
 
 </body>
 </html>

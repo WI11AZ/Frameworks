@@ -1,0 +1,605 @@
+{
+  "work_roles": [
+    {
+      "ncwf_id": "OG-WRL-001",
+      "name": "Communications Security (COMSEC) Management",
+      "omp": [
+        "723"
+      ],
+      "category": "OG",
+      "dcwf_info": {
+        "opm_id": "723",
+        "title": "COMSEC Manager",
+        "description": "Manages the Communications Security (COMSEC) resources of an organization (CNSSI No. 4009).",
+        "nist_id": " OV-MG-002",
+        "category": "Cybersecurity"
+      }
+    },
+    {
+      "ncwf_id": "OG-WRL-002",
+      "name": "Cybersecurity Policy and Planning",
+      "omp": [
+        "752"
+      ],
+      "category": "OG",
+      "dcwf_info": {
+        "opm_id": "752",
+        "title": "Cyber Policy and Strategy Planner",
+        "description": "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives.",
+        "nist_id": " OV-PL-002",
+        "category": "Cyberspace Enablers"
+      }
+    },
+    {
+      "ncwf_id": "OG-WRL-003",
+      "name": "Cybersecurity Workforce Management",
+      "omp": [
+        "751"
+      ],
+      "category": "OG",
+      "dcwf_info": {
+        "opm_id": "751",
+        "title": "Cyber Workforce Developer and Manager",
+        "description": "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements.",
+        "nist_id": " OV-PL-001",
+        "category": "Cyberspace Enablers"
+      }
+    },
+    {
+      "ncwf_id": "DD-WRL-001",
+      "name": "Cybersecurity Architecture",
+      "omp": [
+        "652"
+      ],
+      "category": "DD",
+      "dcwf_info": {
+        "opm_id": "652",
+        "title": "Security Architect",
+        "description": "Designs enterprise and systems security throughout the development lifecycle; translates technology and environmental conditions (e.g., law and regulation) into security designs and processes.",
+        "nist_id": " SP-ARC-002",
+        "category": "Cybersecurity"
+      }
+    }
+  ],
+  "opm_to_dcwf_mapping": {
+    "421": {
+      "opm_id": "421",
+      "title": "Database Administrator",
+      "description": "Administers databases and/or data management systems that allow for the storage, query, and utilization of data.",
+      "nist_id": " OM-DA-001",
+      "category": "IT (Cyberspace)"
+    },
+    "651": {
+      "opm_id": "651",
+      "title": "Enterprise Architect",
+      "description": "Develops and maintains business, systems, and information processes to support enterprise mission needs; develops information technology (IT) rules and requirements that describe baseline and target architectures.",
+      "nist_id": " SP-ARC-001",
+      "category": "IT (Cyberspace)"
+    },
+    "431": {
+      "opm_id": "431",
+      "title": "Knowledge Manager",
+      "description": "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content.",
+      "nist_id": " OM-KM-001",
+      "category": "IT (Cyberspace)"
+    },
+    "441": {
+      "opm_id": "441",
+      "title": "Network Operations Specialist",
+      "description": "Plans, implements, and operates network services/systems, to include hardware and virtual environments.",
+      "nist_id": " OM-NET-001",
+      "category": "IT (Cyberspace)"
+    },
+    "661": {
+      "opm_id": "661",
+      "title": "Research & Development Specialist",
+      "description": "Conducts software and systems engineering and software systems research in order to develop new capabilities, ensuring cybersecurity is fully integrated. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems.",
+      "nist_id": " SP-RD-001",
+      "category": "IT (Cyberspace)"
+    },
+    "451": {
+      "opm_id": "451",
+      "title": "System Administrator",
+      "description": "Installs, configures, troubleshoots, and maintains hardware, software, and administers system accounts.",
+      "nist_id": " OM-SA-001",
+      "category": "IT (Cyberspace)"
+    },
+    "671": {
+      "opm_id": "671",
+      "title": "System Testing and Evaluation Specialist",
+      "description": "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements as well as analyze/report test results.",
+      "nist_id": " SP-TE-001",
+      "category": "IT (Cyberspace)"
+    },
+    "632": {
+      "opm_id": "632",
+      "title": "Systems Developer",
+      "description": "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle.",
+      "nist_id": " SP-SYS-002",
+      "category": "IT (Cyberspace)"
+    },
+    "641": {
+      "opm_id": "641",
+      "title": "Systems Requirements Planner",
+      "description": "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions.",
+      "nist_id": " SP-RP-001",
+      "category": "IT (Cyberspace)"
+    },
+    "411": {
+      "opm_id": "411",
+      "title": "Technical Support Specialist",
+      "description": "Provides technical support to customers who need assistance utilizing client level hardware and software in accordance with established or approved organizational process components. (i.e., Master Incident Management Plan, when applicable).",
+      "nist_id": " OM-TS-001",
+      "category": "IT (Cyberspace)"
+    },
+    "611": {
+      "opm_id": "611",
+      "title": "Authorizing Official/Designated Representative",
+      "description": "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations (including mission, functions, image, or reputation), organizational assets, individuals, other organizations, and the Nation (CNSSI 4009).",
+      "nist_id": " SP-RM-001",
+      "category": "Cybersecurity"
+    },
+    "723": {
+      "opm_id": "723",
+      "title": "COMSEC Manager",
+      "description": "Manages the Communications Security (COMSEC) resources of an organization (CNSSI No. 4009).",
+      "nist_id": " OV-MG-002",
+      "category": "Cybersecurity"
+    },
+    "462": {
+      "opm_id": "462",
+      "title": "Control Systems Security Specialist",
+      "description": "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems, including security monitoring and maintenance along with stakeholder coordination to ensure the system and its interconnections are secure in support of mission operations.",
+      "nist_id": null,
+      "category": "Cybersecurity"
+    },
+    "511": {
+      "opm_id": "511",
+      "title": "Cyber Defense Analyst",
+      "description": "Uses data collected from a variety of cyber defense tools (e.g., IDS alerts, firewalls, network traffic logs.) to analyze events that occur within their environments for the purposes of mitigating threats.",
+      "nist_id": " PR-DA-001",
+      "category": "Cybersecurity"
+    },
+    "212": {
+      "opm_id": "212",
+      "title": "Cyber Defense Forensic Analyst",
+      "description": "Analyzes digital evidence and investigates computer security incidents to derive useful information in support of system/network vulnerability mitigation.",
+      "nist_id": " IN-FO-002",
+      "category": "Cybersecurity"
+    },
+    "531": {
+      "opm_id": "531",
+      "title": "Cyber Defense Incident Responder",
+      "description": "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave.",
+      "nist_id": " PR-IR-001",
+      "category": "Cybersecurity"
+    },
+    "521": {
+      "opm_id": "521",
+      "title": "Cyber Defense Infrastructure Support Specialist",
+      "description": "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software.",
+      "nist_id": " PR-INF-001",
+      "category": "Cybersecurity"
+    },
+    "631": {
+      "opm_id": "631",
+      "title": "Information Systems Security Developer",
+      "description": "Designs, develops, tests, and evaluates information system security throughout the systems development lifecycle.",
+      "nist_id": " SP-SYS-001",
+      "category": "Cybersecurity"
+    },
+    "722": {
+      "opm_id": "722",
+      "title": "Information Systems Security Manager",
+      "description": "Responsible for the cybersecurity of a program, organization, system, or enclave.",
+      "nist_id": " OV-MG-001",
+      "category": "Cybersecurity"
+    },
+    "622": {
+      "opm_id": "622",
+      "title": "Secure Software Assessor",
+      "description": "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results.",
+      "nist_id": " SP-DEV-002",
+      "category": "Cybersecurity"
+    },
+    "652": {
+      "opm_id": "652",
+      "title": "Security Architect",
+      "description": "Designs enterprise and systems security throughout the development lifecycle; translates technology and environmental conditions (e.g., law and regulation) into security designs and processes.",
+      "nist_id": " SP-ARC-002",
+      "category": "Cybersecurity"
+    },
+    "612": {
+      "opm_id": "612",
+      "title": "Security Control Assessor",
+      "description": "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system to determine the overall effectiveness of the controls (as defined in NIST 800-37).",
+      "nist_id": " SP-RM-002",
+      "category": "Cybersecurity"
+    },
+    "541": {
+      "opm_id": "541",
+      "title": "Vulnerability Assessment Specialist",
+      "description": "Performs assessments of systems and networks within the NE or enclave and identifies where those systems/networks deviate from acceptable configurations, enclave policy, or local policy. Measures effectiveness of defense-in-depth architecture against known vulnerabilities.",
+      "nist_id": " PR-VA-001",
+      "category": "Cybersecurity"
+    },
+    "332": {
+      "opm_id": "332",
+      "title": "Cyber Operations Planner",
+      "description": "Develops detailed plans for the conduct or support of the applicable range of cyber operations through collaboration with other planners, operators and/or analysts.   Participates in targeting selection, validation, synchronization, and enables integration during the execution of cyber actions.",
+      "nist_id": " CO-PL-002",
+      "category": "Cyberspace Effects"
+    },
+    "341": {
+      "opm_id": "341",
+      "title": "Cyberspace Capability Developer",
+      "description": "Provides software and hardware capabilities that produce cyberspace effects in and throughout cyberspace operations through vulnerability analysis, and software research and development.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "322": {
+      "opm_id": "322",
+      "title": "Cyberspace Operator",
+      "description": "Cyberspace Operators use a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance, and executing on-net operations in support of offensive cyberspace operations when directed.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "122": {
+      "opm_id": "122",
+      "title": "Digital Network Exploitation Analyst",
+      "description": "The DNEA analyzes intercepted intelligence information for metadata and content. They use this data to reconstruct and document target networks to judge the intelligence value and maintain target continuity. DNEAs understand and analyze target implementation of communication technologies and digital network systems. They discover methods and suggest strategies to exploit specific target networks, computer systems, or specific hardware and/or software.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "121": {
+      "opm_id": "121",
+      "title": "Exploitation Analyst",
+      "description": "Collaborates to identify access and collection gaps that can be satisfied through cyber collection and/or preparation activities. Leverages all authorized resources and analytic techniques to penetrate targeted networks.",
+      "nist_id": " AN-XA-001",
+      "category": "Cyberspace Effects"
+    },
+    "463": {
+      "opm_id": "463",
+      "title": "Host Analyst",
+      "description": "A Host Analyst (HA) will have knowledge of various system configurations encountered. This work role also performs analysis using built-in tools and capabilities. A Host Analyst will have knowledge of system services and the security and configuration of them, as well as knowledge of file systems, permissions, and operation system configurations. The Host Analyst conducts analysis using built-in tools and capabilities.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "131": {
+      "opm_id": "131",
+      "title": "Joint Targeting Analyst",
+      "description": "Conducts target development at the system, component and entity levels. Builds and maintains Electronic Target Folders (ETFs), to include input from JIPOE, Target Systems Analysis, GMI and other IC sources. Senior analysts run collaborative target working groups across Geographic Combatant Commands (GCCs) and IC members, presenting candidate targets for IC vetting and commander’s approval for inclusion on the target list. Assess damage resulting from the application of lethal and non-lethal military force, writes Battle Damage Assessment reports, and coordinates federated support as required. ",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "443": {
+      "opm_id": "443",
+      "title": "Network Analyst",
+      "description": "The Network Analyst will understand network traffic signatures and discover anomalies through network traffic and packet capture (PCAP) analysis. The Network Analyst will identify, assess, and mitigate intrusions into networks that are vital to cyberspace operations security. Network Analysts also use GUI or command-line based tools and assist in developing network mapping and signatures. Network Analysts will develop advanced network detection rules and alerts, queries and dashboards to gain a holistic view of the network.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "442": {
+      "opm_id": "442",
+      "title": "Network Technician",
+      "description": "The Network Technician provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT).  The Network Technician supports CPT elements by understanding of network technologies, defining mission scope, and identifying terrain.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "133": {
+      "opm_id": "133",
+      "title": "Target Analyst Reporter",
+      "description": "The Target Analyst Reporter (TAR) provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles in response to customer requirements and IAW missions of SIGINT, cybersecurity, and cyberspace operations. They prioritize, assess, evaluate, and report information obtained from SIGINT collection, cyber surveillance, and reconnaissance operations sources. The TAR enhances reporting with collateral information as required, maintains awareness of internal and external customer requirements, and collaborates with other collectors and analysts to refine collection and reporting requirements. The TAR shares target-related information and provides feedback to customers as appropriate. The TAR develops working aids and provides database updates on target activity to enhance and build target knowledge and improve collection. The TAR performs quality control and product-release functions.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "132": {
+      "opm_id": "132",
+      "title": "Target Digital Network Analyst",
+      "description": "The TDNA conducts advanced analysis of collection and open-source data to ensure target continuity, profile targets and their activities, and develop techniques to gain more target cyberspace operations related information. They possess knowledge of target cyberspace technologies and apply skills and knowledge of cyberspace networks and the applications on them to determine how targets communicate, move, operate, and live within the cyberspace domain. TDNAs apply analytical techniques to review relevant content carried in target cyberspace communications. The TDNA uses data from networks of all forms for target development. TDNAs are technology savvy and can be flexible enough to rapidly shift from one target to another.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "111": {
+      "opm_id": "111",
+      "title": "All-Source Analyst",
+      "description": "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations.",
+      "nist_id": " AN-ASA-001",
+      "category": "Intelligence (Cyberspace)"
+    },
+    "311": {
+      "opm_id": "311",
+      "title": "All-Source Collection Manager",
+      "description": "Identifies collection authorities and environment; incorporates priority information requirements into collection management; develops concepts to meet leadership’s intent. Determines capabilities of available collection assets, identifies new collection capabilities; and constructs and disseminates collection plans. Monitors execution of tasked collection to ensure effective execution of the collection plan.",
+      "nist_id": " CO-CL-001",
+      "category": "Intelligence (Cyberspace)"
+    },
+    "312": {
+      "opm_id": "312",
+      "title": "All-Source Collection Requirements Manager",
+      "description": "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods to improve collection. Develops, processes, validates, and coordinates submission of collection requirements. Evaluates performance of collection assets and collection operations.",
+      "nist_id": " CO-CL-002",
+      "category": "Intelligence (Cyberspace)"
+    },
+    "331": {
+      "opm_id": "331",
+      "title": "Cyber Intelligence Planner",
+      "description": "Develops detailed intelligence plans to satisfy cyber operations requirements.  Collaborates with cyber operations planners to identify, validate, and levy requirements for collection and analysis.  Participates in targeting selection, validation, synchronization, and execution of cyber actions.  Synchronizes intelligence activities to support organization objectives in cyberspace.",
+      "nist_id": " CO-PL-001",
+      "category": "Intelligence (Cyberspace)"
+    },
+    "151": {
+      "opm_id": "151",
+      "title": "Multi-Disciplined Language Analyst",
+      "description": "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information derived from language, voice and/or graphic material. Creates, and maintains language specific databases and working aids to support cyber action execution and ensure critical knowledge sharing. Provides subject matter expertise in foreign language-intensive or interdisciplinary projects.",
+      "nist_id": " AN-LA-001",
+      "category": "Intelligence (Cyberspace)"
+    },
+    "804": {
+      "opm_id": "804",
+      "title": "IT Investment/Portfolio Manager",
+      "description": "Manages a portfolio of IT capabilities that align with the overall needs of mission and business enterprise priorities.",
+      "nist_id": " OV-PM-004",
+      "category": "Cyberspace Enablers"
+    },
+    "805": {
+      "opm_id": "805",
+      "title": "IT Program Auditor",
+      "description": "Conducts evaluations of an IT program or its individual components, to determine compliance with published standards.",
+      "nist_id": " OV-PM-005",
+      "category": "Cyberspace Enablers"
+    },
+    "802": {
+      "opm_id": "802",
+      "title": "IT Project Manager",
+      "description": "Work that involves directly managing information technology projects to provide a unique service or product.",
+      "nist_id": " OV-PM-002",
+      "category": "Cyberspace Enablers"
+    },
+    "803": {
+      "opm_id": "803",
+      "title": "Product Support Manager",
+      "description": "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components.",
+      "nist_id": " OV-PM-003",
+      "category": "Cyberspace Enablers"
+    },
+    "801": {
+      "opm_id": "801",
+      "title": "Program Manager",
+      "description": "Leads, coordinates, communicates, integrates and is accountable for the overall success of the program, ensuring alignment with critical agency priorities.",
+      "nist_id": " OV-PM-001",
+      "category": "Cyberspace Enablers"
+    },
+    "752": {
+      "opm_id": "752",
+      "title": "Cyber Policy and Strategy Planner",
+      "description": "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives.",
+      "nist_id": " OV-PL-002",
+      "category": "Cyberspace Enablers"
+    },
+    "751": {
+      "opm_id": "751",
+      "title": "Cyber Workforce Developer and Manager",
+      "description": "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements.",
+      "nist_id": " OV-PL-001",
+      "category": "Cyberspace Enablers"
+    },
+    "901": {
+      "opm_id": "901",
+      "title": "Executive Cyber Leader",
+      "description": "Executes decision-making authorities and establishes vision and direction for an organization’s cyber and cyber-related policies, resources, and/or operations, while maintaining responsibility for risk-related decisions affecting mission success.",
+      "nist_id": " OV-EX-001",
+      "category": "Cyberspace Enablers"
+    },
+    "732": {
+      "opm_id": "732",
+      "title": "Privacy Compliance Manager",
+      "description": "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance needs of privacy and security executives and their teams.",
+      "nist_id": " OV-LG-002",
+      "category": "Cyberspace Enablers"
+    },
+    "221": {
+      "opm_id": "221",
+      "title": "Cyber Crime Investigator",
+      "description": "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques.",
+      "nist_id": " IN-CI-001",
+      "category": "Cyberspace Enablers"
+    },
+    "731": {
+      "opm_id": "731",
+      "title": "Cyber Legal Advisor",
+      "description": "Provides legal advice and recommendations on relevant topics related to cyber law.",
+      "nist_id": " OV-LG-001",
+      "category": "Cyberspace Enablers"
+    },
+    "211": {
+      "opm_id": "211",
+      "title": "Forensics Analyst",
+      "description": "Conducts deep-dive investigations on computer-based crimes establishing documentary or physical evidence, to include digital media and logs associated with cyber intrusion incidents.",
+      "nist_id": " IN-FO-001",
+      "category": "Cyberspace Enablers"
+    },
+    "711": {
+      "opm_id": "711",
+      "title": "Cyber Instructional Curriculum Developer",
+      "description": "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs.",
+      "nist_id": " OV-ED-001",
+      "category": "Cyberspace Enablers"
+    },
+    "712": {
+      "opm_id": "712",
+      "title": "Cyber Instructor",
+      "description": "Develops and conducts training or education of personnel within cyber domain.",
+      "nist_id": " OV-ED-002",
+      "category": "Cyberspace Enablers"
+    },
+    "627": {
+      "opm_id": "627",
+      "title": "DevSecOps Specialist",
+      "description": "Selects/Deploys/Maintains the set of Continuous Integration/Continuous Deployment (CI/CD) tools and processes used by the development team and/or maintains the deployed software product and ensures observability and security across the lifecycle.",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "625": {
+      "opm_id": "625",
+      "title": "Product Designer User Interface (UI)",
+      "description": "Manages the user interface design portion of the design process of a product.",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "806": {
+      "opm_id": "806",
+      "title": "Product Manager",
+      "description": "Manages the development of products including the resource management, product strategy (physical or digital), functional requirements, and releases. Coordinate work done by functions (like software engineers, data scientists, and product designers).",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "626": {
+      "opm_id": "626",
+      "title": "Service Designer User Experience (UX)",
+      "description": "Manages the user experience of a product focused on human factors by making products intuitive and maximizing usability, accessibility, and simplicity.",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "621": {
+      "opm_id": "621",
+      "title": "Software Developer",
+      "description": "Executes software planning, requirements, risk management, design, development, architecture, modeling, estimation, configuration management, quality, security, and tests using software development methodologies, architectural structures, viewpoints, styles, design decisions, and frameworks across all lifecycle phases.",
+      "nist_id": " SP-DEV-001",
+      "category": "Software Engineering"
+    },
+    "673": {
+      "opm_id": "673",
+      "title": "Software Test & Evaluation Specialist",
+      "description": "Plans, prepares, and performs testing, evaluation, verification, and validation of software to evaluate results against specifications, requirements, and operational need.",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "628": {
+      "opm_id": "628",
+      "title": "Software/Cloud Architect",
+      "description": "Manages and identifies program high-level technical specifications, which may include application design, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "nist_id": null,
+      "category": "Software Engineering"
+    },
+    "461": {
+      "opm_id": "461",
+      "title": "Systems Security Analyst",
+      "description": "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance.",
+      "nist_id": " OM-AN-001",
+      "category": "Software Engineering"
+    },
+    "753": {
+      "opm_id": "753",
+      "title": "AI Adoption Specialist",
+      "description": "Facilitates AI adoption by supporting the users of AI-enabled solutions.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "902": {
+      "opm_id": "902",
+      "title": "AI Innovation Leader",
+      "description": "Builds the organization’s AI vision and plan and leads policy and doctrine formation including how AI solutions can or will be used.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "733": {
+      "opm_id": "733",
+      "title": "AI Risk & Ethics Specialist",
+      "description": "Educates those involved in the development of AI and conducts assessments on the technical and societal risks across the lifecycle of AI solutions from acquisition or design to deployment and use.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "672": {
+      "opm_id": "672",
+      "title": "AI Test & Evaluation Specialist",
+      "description": "Performs testing, evaluation, verification, and validation on AI solutions to ensure they are developed to be and remain robust, resilient, responsible, secure, and trustworthy; and communicates results and concerns to leadership.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "623": {
+      "opm_id": "623",
+      "title": "AI/ML Specialist",
+      "description": "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "422": {
+      "opm_id": "422",
+      "title": "Data Analyst",
+      "description": "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights.",
+      "nist_id": " OM-DA-002",
+      "category": "Data/AI"
+    },
+    "653": {
+      "opm_id": "653",
+      "title": "Data Architect",
+      "description": "Designs a system’s data models, data flow, interfaces, and infrastructure to meet the information requirements of a business or mission.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "903": {
+      "opm_id": "903",
+      "title": "Data Officer",
+      "description": "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "624": {
+      "opm_id": "624",
+      "title": "Data Operations Specialist",
+      "description": "Builds, manages, and operationalizes data pipelines.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "423": {
+      "opm_id": "423",
+      "title": "Data Scientist",
+      "description": "Uncovers and explains actionable insights from data by combining scientific method, math and statistics, specialized programming, advanced analytics, AI, and storytelling.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "424": {
+      "opm_id": "424",
+      "title": "Data Steward",
+      "description": "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal.",
+      "nist_id": null,
+      "category": "Data/AI"
+    },
+    "551": {
+      "opm_id": "551",
+      "title": "Red Team Specialist",
+      "description": "Leverages tools, systems, and utilities necessary to enhance the security posture of an organization.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "141": {
+      "opm_id": "141",
+      "title": "Threat Analyst",
+      "description": "Collects, processes, analyzes, and disseminates cybersecurity threat assessments.",
+      "nist_id": null,
+      "category": "Intelligence (Cyberspace)"
+    },
+    "333": {
+      "opm_id": "333",
+      "title": "Cyber Operations Planner",
+      "description": "Develops detailed intelligence plans to satisfy cyber operations requirements.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    },
+    "112": {
+      "opm_id": "112",
+      "title": "All-Source Analyst",
+      "description": "Analyzes information from multiple sources to provide intelligence insights.",
+      "nist_id": null,
+      "category": "Cyberspace Effects"
+    }
+  },
+  "categories": {
+    "OG": "OVERSIGHT AND GOVERNANCE",
+    "DD": "DESIGN AND DEVELOPMENT",
+    "IO": "INVESTIGATE AND OPERATE",
+    "PD": "PROTECT AND DEFEND",
+    "IN": "INVESTIGATE"
+  }
+}

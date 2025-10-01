@@ -3,7 +3,8 @@ from .views import (
     home, work_role, compare, get_modal_info_json_view, get_select_options_json_view, ksat_compare_details, etape_deux, 
     saved_ksat_selections, resume_step2, summary_chart_view, etape2_first_step, 
     save_ksat_selection, list_ksat_selections, delete_ksat_selection, attributs_part_deux,
-    nf_com_007_details, nf_com_002_details, models_2025, download_file
+    nf_com_007_details, nf_com_002_details, models_2025, download_file, dcwf_finder_view,
+    dcwf_finder_css, dcwf_finder_js, dcwf_finder_data, check_saved_selections
 )
 from .views_auth import main_view, login_view, signup_view, logout_view, account_options_view, change_password_view, delete_account_view
 from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
@@ -47,7 +48,18 @@ urlpatterns = [
     path('api/ksat-selections/save/', save_ksat_selection, name='save_ksat_selection'),
     path('api/ksat-selections/delete/<str:key>/', delete_ksat_selection, name='delete_ksat_selection'),
     
+    # API pour vérifier les sauvegardes
+    path('check-saved-selections/', check_saved_selections, name='check_saved_selections'),
+    
     # Nouvelles routes
     path('ksat/nf-com-007-details/', nf_com_007_details, name='nf_com_007_details'),
     path('ksat/nf-com-002-details/', nf_com_002_details, name='nf_com_002_details'),
+    
+    # DCWF Finder
+    path('dcwf-finder/', dcwf_finder_view, name='dcwf_finder'),
+    
+    # DCWF Finder - Fichiers statiques
+    path('dcwf-finder/css/', dcwf_finder_css, name='dcwf_finder_css'),
+    path('dcwf-finder/js/', dcwf_finder_js, name='dcwf_finder_js'),
+    path('dcwf-finder/data/', dcwf_finder_data, name='dcwf_finder_data'),
 ]

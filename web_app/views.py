@@ -1,24 +1,94 @@
 from django.template import loader
 from collections import defaultdict
 from django.shortcuts import render, get_list_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from .models import (
     DcwfCategory,
     DcwfWorkRole,
     Ncwf2017WorkRole,
     Ncwf2024WorkRole,
+    Ncwf2025WorkRole,
     DcwfKsat,
-    DcwfWorkRoleKsatRelation, Ncwf2017Ksat, Ncwf2024Tks
+    DcwfWorkRoleKsatRelation, Ncwf2017Ksat, Ncwf2024Tks, Ncwf2025Ksat,
+    AIWorkRole
 )
 from .models.user_saved_data import UserSavedData
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
 import json
+import os
 
 
 def attributs_part_deux(request):
     """Vue pour la page AttributsPartDeux"""
     return render(request, 'web_app/main/AttributsPartDeux.html')
+
+def dcwf_finder_view(request):
+    """Vue pour servir le programme DCWF Finder"""
+    from django.contrib.auth.decorators import login_required
+    
+    # Vérifier que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
+    
+    # Servir le fichier index.html du dcwf-finder
+    dcwf_finder_path = os.path.join(settings.BASE_DIR, 'web_app', 'static', 'dcwf-finder', 'index.html')
+    
+    if not os.path.exists(dcwf_finder_path):
+        raise Http404("Programme DCWF Finder non trouvé")
+    
+    with open(dcwf_finder_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Remplacer les chemins statiques par des URLs Django
+    content = content.replace('/static/dcwf-finder/style.css', '/dcwf-finder/css/')
+    content = content.replace('/static/dcwf-finder/app.js', '/dcwf-finder/js/')
+    content = content.replace('/static/dcwf-finder/dcwf_complete_79_roles.json', '/dcwf-finder/data/')
+    
+    return HttpResponse(content, content_type='text/html; charset=utf-8')
+
+def dcwf_finder_css(request):
+    """Vue pour servir le CSS du DCWF Finder"""
+    css_path = os.path.join(settings.BASE_DIR, 'web_app', 'static', 'dcwf-finder', 'style.css')
+    
+    if not os.path.exists(css_path):
+        raise Http404("Fichier CSS non trouvé")
+    
+    with open(css_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    return HttpResponse(content, content_type='text/css; charset=utf-8')
+
+def dcwf_finder_js(request):
+    """Vue pour servir le JavaScript du DCWF Finder"""
+    js_path = os.path.join(settings.BASE_DIR, 'web_app', 'static', 'dcwf-finder', 'app.js')
+    
+    if not os.path.exists(js_path):
+        raise Http404("Fichier JavaScript non trouvé")
+    
+    with open(js_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    return HttpResponse(content, content_type='application/javascript; charset=utf-8')
+
+def dcwf_finder_data(request):
+    """Vue pour servir les données JSON du DCWF Finder"""
+    # Vérifier que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
+    
+    data_path = os.path.join(settings.BASE_DIR, 'web_app', 'static', 'dcwf-finder', 'dcwf_complete_79_roles.json')
+    
+    if not os.path.exists(data_path):
+        raise Http404("Fichier de données non trouvé")
+    
+    with open(data_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    return HttpResponse(content, content_type='application/json; charset=utf-8')
 
 def download_file(request, filename):
     """Vue pour télécharger les fichiers .md et .mm"""
@@ -180,6 +250,7 @@ def home(request):
     enabler_work_roles = DcwfCategory.objects.get(title="Cyberspace Enablers").dcwf_work_roles.all()
     software_engineering_work_roles = DcwfCategory.objects.get(title="Software Engineering").dcwf_work_roles.all()
     data_work_roles = DcwfCategory.objects.get(title="Data/AI").dcwf_work_roles.all()
+    ai_work_roles = AIWorkRole.objects.all()
 
     # 2. Tes tris existants
     sorted_cyber_security_lines = get_sorted_cyber_roles(cyber_security_work_roles)
@@ -206,7 +277,10 @@ def home(request):
         "Cyberspace Effects",
         "Intelligence (Cyberspace)",
         "Data/AI",
-        "Software Engineering"
+        "Software Engineering",
+        "Emerging AI work roles with Real Impact (SANS)",
+        "Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)",
+        "Without Community"
     ]
     
     # Récupérer les catégories dans l'ordre souhaité
@@ -223,6 +297,9 @@ def home(request):
     remaining_categories = DcwfCategory.objects.exclude(title__in=existing_titles)
     ordered_categories.extend(remaining_categories)
     
+    # Récupérer la catégorie CEMA spécifiquement
+    cema_category = DcwfCategory.objects.get(title="Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)")
+    
     context = {
         "it_work_lines": it_work_lines,
         "cyber_security_lines": sorted_cyber_security_lines,
@@ -231,6 +308,8 @@ def home(request):
         "enabler_work_lines": enabler_work_lines,
         "software_engineering_work_lines": software_engineering_work_lines,
         "data_work_lines": data_work_lines,
+        "ai_work_roles": ai_work_roles,
+        "cema_category": cema_category,
         "categories": ordered_categories,
         "highlight_ids": highlight_ids,
     }
@@ -265,22 +344,32 @@ def work_role(request, work_role_id):
 def compare(request):
     # 1. Récupère les ids passés en GET
     dcwf_ids = request.GET.getlist('dcwf_ids')
+    dcwf_2025_ids = request.GET.getlist('dcwf_2025_ids')
     ncwf_2017_ids = request.GET.getlist('ncwf_2017_ids')
     ncwf_2024_ids = request.GET.getlist('ncwf_2024_ids')
+    ncwf_2025_ids = request.GET.getlist('ncwf_2025_ids')
     try:
         dcwf_ids = [int(i) for i in dcwf_ids]
     except ValueError:
         dcwf_ids = []
+    
+    try:
+        dcwf_2025_ids = [int(i) for i in dcwf_2025_ids]
+    except ValueError:
+        dcwf_2025_ids = []
 
     # Peut-être que fais un try/except ici aussi, mais je pense pas que c'est nécessaire ?
     ncwf_2017_ids = [int(i) for i in ncwf_2017_ids]
     ncwf_2024_ids = [int(i) for i in ncwf_2024_ids]
+    ncwf_2025_ids = [int(i) for i in ncwf_2025_ids]
 
     # 2. Récupère les Work Roles avec leurs titres spécifiques
     # Initialiser les listes de rôles formatés et la liste finale
     dcwf_formatted_roles = []
+    dcwf_2025_formatted_roles = []
     ncwf_2017_formatted_roles = []
     ncwf_2024_formatted_roles = []
+    ncwf_2025_formatted_roles = []
     
     # Créer des dictionnaires pour les mappings entre frameworks
     dcwf_to_ncwf_2017 = {}
@@ -325,6 +414,25 @@ def compare(request):
             # Si c'est un attribut et qu'il n'est pas None
             elif role.ncwf_2024_work_role and hasattr(role.ncwf_2024_work_role, 'id'):
                 dcwf_to_ncwf_2024[role.id] = role.ncwf_2024_work_role.id
+    
+    # Récupérer tous les rôles DCWF 2025
+    from web_app.models import Dcwf2025WorkRole
+    dcwf_2025_work_roles = Dcwf2025WorkRole.objects.filter(id__in=dcwf_2025_ids)
+    for role in dcwf_2025_work_roles:
+        # Récupérer la couleur de la catégorie
+        category_color = role.category.color if hasattr(role, 'category') and role.category else '168, 85, 247'  # Violet par défaut
+        
+        # Ajouter le rôle DCWF 2025 formaté
+        dcwf_2025_formatted_roles.append({
+            'model_obj': role,
+            'title': role.title,
+            'framework': 'DCWF 2025',
+            'id': role.id,
+            'model_type': 'dcwf_2025',
+            'parent_dcwf_id': role.id,  # Pour faciliter le regroupement
+            'opm_id': role.dcwf_code,  # Code DCWF comme OPM ID
+            'category_color': category_color
+        })
     
     # Récupérer tous les rôles NCWF 2017
     ncwf_2017_work_roles = Ncwf2017WorkRole.objects.filter(id__in=ncwf_2017_ids)
@@ -385,6 +493,43 @@ def compare(request):
             'nist_id': role.nist_id,  # Code civil pour NCWF
             'category_color': category_color
         })
+    
+    # Récupérer tous les rôles NCWF 2025 directement par ID (comme les autres frameworks)
+    ncwf_2025_work_roles = Ncwf2025WorkRole.objects.filter(id__in=ncwf_2025_ids)
+    print(f"DEBUG: ncwf_2025_ids from GET: {ncwf_2025_ids}")
+    print(f"DEBUG: ncwf_2025_work_roles found: {ncwf_2025_work_roles.count()}")
+    
+    for role in ncwf_2025_work_roles:
+        # Trouver le DCWF 2025 parent via le champ ncwf_id
+        parent_dcwf_2025_id = None
+        parent_opm_id = None
+        
+        # Chercher dans les work roles DCWF 2025
+        for dcwf_2025_role in dcwf_2025_work_roles:
+            if dcwf_2025_role.ncwf_id == role.ncwf_id:
+                parent_dcwf_2025_id = dcwf_2025_role.id
+                parent_opm_id = dcwf_2025_role.dcwf_code  # Le dcwf_code est l'OPM ID
+                break
+        
+        # Utiliser la couleur du parent DCWF 2025 si disponible
+        category_color = '168, 85, 247'  # Violet par défaut pour 2025
+        if parent_dcwf_2025_id:
+            for dcwf_2025_role in dcwf_2025_formatted_roles:
+                if dcwf_2025_role['id'] == parent_dcwf_2025_id:
+                    category_color = dcwf_2025_role.get('category_color', category_color)
+                    break
+        
+        ncwf_2025_formatted_roles.append({
+            'model_obj': role,
+            'title': role.name,
+            'framework': 'NCWF 2025',
+            'id': role.id,
+            'model_type': 'ncwf_2025',
+            'parent_dcwf_2025_id': parent_dcwf_2025_id,
+            'opm_id': parent_opm_id,  # Utiliser l'OPM ID du parent DCWF 2025
+            'nist_id': role.ncwf_id,  # Code NCWF pour 2025
+            'category_color': category_color
+        })
         
     # Organiser tous les rôles par work_role d'origine
     # 1. D'abord, regrouper par DCWF parent
@@ -392,9 +537,12 @@ def compare(request):
     processed_roles = set()  # Pour suivre les rôles déjà traités
     group_counter = 0  # Compteur pour générer des ID de groupe uniques
     
-    # Traiter d'abord les rôles avec un parent DCWF
+    # Traiter d'abord les rôles DCWF 2017
+    print(f"DEBUG: dcwf_formatted_roles count: {len(dcwf_formatted_roles)}")
+    print(f"DEBUG: dcwf_ids: {dcwf_ids}")
     for dcwf_role in dcwf_formatted_roles:
         dcwf_id = dcwf_role['id']
+        print(f"DEBUG: Processing DCWF role {dcwf_id}: {dcwf_role['title']}")
         if ('dcwf', dcwf_id) not in processed_roles and dcwf_id in dcwf_ids:
             # Créer un nouvel ID de groupe pour ce work_role compatible avec les classes CSS
             current_group_id = f"group-{group_counter % 10}"  # Modulo 10 pour limiter à 10 couleurs
@@ -421,6 +569,35 @@ def compare(request):
                         formatted_roles.append(role)
                         processed_roles.add(('ncwf_2024', role['id']))
                         break
+            
+            # Ajouter le rôle NCWF 2025 correspondant s'il existe
+            # MAIS seulement s'il n'est pas sélectionné directement (pour éviter la duplication)
+            for role in ncwf_2025_formatted_roles:
+                if role['parent_dcwf_id'] == dcwf_id:
+                    # Vérifier si ce rôle NCWF 2025 est sélectionné directement
+                    if role['id'] not in ncwf_2025_ids:
+                        role['group_id'] = current_group_id  # Ajouter le même ID de groupe
+                        formatted_roles.append(role)
+                        processed_roles.add(('ncwf_2025', role['id']))
+                        print(f"DEBUG: Added NCWF 2025 role: {role['title']}")
+                        break
+    
+    # Traiter les rôles DCWF 2025
+    print(f"DEBUG: dcwf_2025_formatted_roles count: {len(dcwf_2025_formatted_roles)}")
+    print(f"DEBUG: dcwf_2025_ids: {dcwf_2025_ids}")
+    for dcwf_2025_role in dcwf_2025_formatted_roles:
+        dcwf_2025_id = dcwf_2025_role['id']
+        print(f"DEBUG: Processing DCWF 2025 role {dcwf_2025_id}: {dcwf_2025_role['title']}")
+        if ('dcwf_2025', dcwf_2025_id) not in processed_roles and dcwf_2025_id in dcwf_2025_ids:
+            # Créer un nouvel ID de groupe pour ce work_role
+            current_group_id = f"group-{group_counter % 10}"
+            group_counter += 1
+            
+            # Ajouter le rôle DCWF 2025
+            dcwf_2025_role['group_id'] = current_group_id
+            formatted_roles.append(dcwf_2025_role)
+            processed_roles.add(('dcwf_2025', dcwf_2025_id))
+            print(f"DEBUG: Added DCWF 2025 role: {dcwf_2025_role['title']}")
     
     # Ajouter les rôles NCWF 2017 sans parent DCWF
     for role in ncwf_2017_formatted_roles:
@@ -441,6 +618,18 @@ def compare(request):
             role['group_id'] = current_group_id
             formatted_roles.append(role)
             processed_roles.add(('ncwf_2024', role['id']))
+    
+    # Ajouter les rôles NCWF 2025 sans parent DCWF (comme les autres frameworks)
+    for role in ncwf_2025_formatted_roles:
+        if ('ncwf_2025', role['id']) not in processed_roles and role['id'] in ncwf_2025_ids:
+            # Créer un nouvel ID de groupe pour ce rôle
+            current_group_id = f"group-{group_counter}"
+            group_counter += 1
+            role['group_id'] = current_group_id
+            formatted_roles.append(role)
+            processed_roles.add(('ncwf_2025', role['id']))
+            print(f"DEBUG: Added standalone NCWF 2025 role: {role['title']}")
+    
 
     # 3. Récupère les KSATs
     # Si seulement NCWF 2017 est sélectionné, simuler la sélection de DCWF correspondant
@@ -481,6 +670,11 @@ def compare(request):
     # Maintenant récupérer les KSATs avec la logique normale
     ksats_dcwf = DcwfKsat.objects.filter(dcwf_work_role_relations__dcwf_work_role__in=dcwf_work_roles).distinct()
     
+    # Récupérer les KSATs pour les work roles DCWF 2025
+    from web_app.models import Dcwf2025Ksat
+    ksats_dcwf_2025 = Dcwf2025Ksat.objects.filter(work_role_relations__work_role__in=dcwf_2025_work_roles).distinct()
+    print(f"DEBUG: ksats_dcwf_2025 count: {ksats_dcwf_2025.count()}")
+    
     # Logique pour les KSATs NCWF 2017
     if dcwf_work_roles:
         # Si DCWF est sélectionné (ou simulé), exclure les KSATs NCWF 2017 qui sont déjà dans DCWF
@@ -493,13 +687,18 @@ def compare(request):
         print("DEBUG: No DCWF roles found")
     
     tks_ncwf_2024 = Ncwf2024Tks.objects.filter(ncwf_2024_work_roles__in=ncwf_2024_work_roles).distinct()
-
+    
+    # Récupérer les KSATs NCWF 2025
+    print(f"DEBUG: ncwf_2025_work_roles count: {len(ncwf_2025_work_roles)}")
+    ksats_ncwf_2025 = Ncwf2025Ksat.objects.filter(work_role_relations__work_role__in=ncwf_2025_work_roles).distinct()
+    print(f"DEBUG: ksats_ncwf_2025 count: {ksats_ncwf_2025.count()}")
 
     # Combiner les KSATs pour la comparaison
-    ksats = list(ksats_dcwf) + list(ksats_ncwf_2017) + list(tks_ncwf_2024)
+    ksats = list(ksats_dcwf) + list(ksats_dcwf_2025) + list(ksats_ncwf_2017) + list(tks_ncwf_2024) + list(ksats_ncwf_2025)
+    print(f"DEBUG: Total ksats count: {len(ksats)}")
     
     # Les rôles originaux sont toujours nécessaires pour certaines fonctionnalités existantes
-    work_roles = list(dcwf_work_roles) + list(ncwf_2017_work_roles) + list(ncwf_2024_work_roles)
+    work_roles = list(dcwf_work_roles) + list(dcwf_2025_work_roles) + list(ncwf_2017_work_roles) + list(ncwf_2024_work_roles) + list(ncwf_2025_work_roles)
 
     # --- Correction ici : on utilise les clés singulières et on force l'affichage des abilités ---
     ksat_dict = { 'task': [],'knowledge': [], 'skill': [], 'abilitie': []}
@@ -563,6 +762,40 @@ def compare(request):
         if len(opm_groups[opm_id]['roles']) == 0:
             role['show_opm_id'] = True
             
+        opm_groups[opm_id]['roles'].append(role)
+        opm_groups[opm_id]['colspan'] += 1
+    
+    # Trier les rôles par OPM ID pour regrouper DCWF et NCWF ensemble
+    def get_opm_id_for_sorting(role):
+        opm_id = role.get('opm_id')
+        if opm_id:
+            # Extraire la partie numérique de l'OPM ID pour le tri
+            import re
+            numeric_part = re.search(r'\d+', str(opm_id))
+            return int(numeric_part.group()) if numeric_part else 999999
+        return 999999  # Mettre les rôles sans OPM ID à la fin
+    
+    # Trier les rôles par OPM ID, puis par framework (DCWF avant NCWF)
+    formatted_roles.sort(key=lambda role: (
+        get_opm_id_for_sorting(role),
+        0 if role.get('framework', '').startswith('DCWF') else 1  # DCWF avant NCWF
+    ))
+    
+    # Recalculer les groupes OPM après le tri
+    opm_groups = {}
+    for idx, role in enumerate(formatted_roles):
+        opm_id = role.get('opm_id')
+        if not opm_id:
+            continue
+            
+        if opm_id not in opm_groups:
+            opm_groups[opm_id] = {
+                'roles': [],
+                'start_index': idx,
+                'bgcolor': role.get('group_id', ''),
+                'colspan': 0
+            }
+        
         opm_groups[opm_id]['roles'].append(role)
         opm_groups[opm_id]['colspan'] += 1
     
@@ -918,13 +1151,12 @@ def get_category_opm_id(category_title):
     return opm_map.get(category_title, '000')  # 000 par défaut si pas trouvé
 
 
-def get_nice_category_color(category_name):
-    """Retourner une couleur pour chaque catégorie NICE Framework"""
-    color_map = {
-        'OVERSIGHT and GOVERNANCE (OG)': '59, 130, 246',  # Bleu
-        'DESIGN and DEVELOPMENT (DD)': '220, 38, 127',   # Rose
-        'IMPLEMENTATION and OPERATION (IO)': '6, 182, 212',  # Cyan
-        'PROTECTION and DEFENSE (PD)': '236, 72, 153',   # Rose foncé
-        'INVESTIGATION (IN)': '139, 92, 246',           # Violet
-    }
-    return color_map.get(category_name, '156, 163, 175')  # Gris par défaut
+def check_saved_selections(request):
+    """Vérifier si l'utilisateur a des sélections sauvegardées"""
+    if not request.user.is_authenticated:
+        return JsonResponse({'has_saved_selections': False})
+    
+    # Vérifier s'il y a des sauvegardes pour cet utilisateur
+    saved_data = UserSavedData.objects.filter(user=request.user).exists()
+    
+    return JsonResponse({'has_saved_selections': saved_data})

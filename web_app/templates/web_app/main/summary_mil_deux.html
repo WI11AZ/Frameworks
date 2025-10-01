@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATO Cyber Command - Competency Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* --- STYLES GÉNÉRAUX --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            line-height: 1.2;
+            background-color: #f8fafc;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- MODE SOMBRE --- */
+        body.dark-mode {
+            background-color: #1a202c;
+            color: #f1f5f9;
+        }
+        .dark-mode .mx-auto { background-color: #1a202c; }
+        .dark-mode .category-container { background-color: #2d3748; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+        .dark-mode .category-header { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+        .dark-mode .skill-name { color: #e2e8f0; }
+        .dark-mode .skill-code { color: #a0aec0; }
+        .dark-mode .skill-row { border-color: #4a5568; background-color: #2d3748; }
+        .dark-mode .skill-row:nth-child(odd) { background-color: #283141; }
+        .dark-mode .skill-row:hover { background-color: #374151; }
+        .dark-mode .level-box { background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
+        
+        /* --- GRILLE & CONTENEURS --- */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 20px;
+        }
+        .category-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: fit-content;
+        }
+        .category-container:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* --- EN-TÊTES --- */
+        .category-header {
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .level-header {
+            display: flex;
+            padding: 8px 10px;
+            font-weight: bold;
+            border-bottom-width: 1px;
+        }
+        .subcategory-header {
+            padding: 8px 10px;
+            font-weight: 600;
+            border-bottom-width: 1px;
+            font-size: 12px;
+        }
+
+        /* --- LIGNES DE COMPÉTENCES --- */
+        .skill-row {
+            display: flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 11px;
+        }
+        .skill-row:last-child { border-bottom: none; }
+        .skill-name { flex: 3; padding-right: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .skill-code { flex: 1; font-weight: bold; color: #666; }
+        .level-boxes { display: flex; justify-content: flex-end; }
+        .level-number, .level-box {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1px;
+            font-size: 11px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+        .level-box:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .level-box.filled { color: white; border: none; }
+
+        /* --- THÈMES DE COULEURS PAR CATÉGORIE --- */
+        :root {
+            --cat-ops-main: #c53030; --cat-ops-dark: #9b2c2c; --cat-ops-text: #742a2a; --cat-ops-light-bg: rgba(254, 215, 215, 0.6);
+            --cat-integ-main: #2b6cb0; --cat-integ-dark: #2c5282; --cat-integ-text: #1a365d; --cat-integ-light-bg: rgba(190, 227, 248, 0.4);
+            --cat-spec-main: #805ad5; --cat-spec-dark: #6b46c1; --cat-spec-text: #44337a; --cat-spec-light-bg: rgba(233, 213, 255, 0.6);
+            --cat-legal-main: #b7791f; --cat-legal-dark: #975a16; --cat-legal-text: #78350f; --cat-legal-light-bg: rgba(254, 235, 200, 0.6);
+            --cat-lead-main: #4a5568; --cat-lead-dark: #2d3748; --cat-lead-text: #1a202c; --cat-lead-light-bg: rgba(226, 232, 240, 0.6);
+        }
+        .category-container { --cat-main: #666; --cat-dark: #555; --cat-text: #444; --cat-light-bg: #f0f0f0; }
+        .cyberspace-operations { --cat-main: var(--cat-ops-main); --cat-dark: var(--cat-ops-dark); --cat-text: var(--cat-ops-text); --cat-light-bg: var(--cat-ops-light-bg); }
+        .multi-domain-integration { --cat-main: var(--cat-integ-main); --cat-dark: var(--cat-integ-dark); --cat-text: var(--cat-integ-text); --cat-light-bg: var(--cat-integ-light-bg); }
+        .specialized-capabilities { --cat-main: var(--cat-spec-main); --cat-dark: var(--cat-spec-dark); --cat-text: var(--cat-spec-text); --cat-light-bg: var(--cat-spec-light-bg); }
+        .legal-compliance { --cat-main: var(--cat-legal-main); --cat-dark: var(--cat-legal-dark); --cat-text: var(--cat-legal-text); --cat-light-bg: var(--cat-legal-light-bg); }
+        .strategic-leadership { --cat-main: var(--cat-lead-main); --cat-dark: var(--cat-lead-dark); --cat-text: var(--cat-lead-text); --cat-light-bg: var(--cat-lead-light-bg); }
+
+        .category-header { background: linear-gradient(135deg, var(--cat-main), var(--cat-dark)); box-shadow: 0 2px 4px color-mix(in srgb, var(--cat-dark) 30%, transparent); }
+        .level-header { background: color-mix(in srgb, var(--cat-main) 8%, transparent); border-color: color-mix(in srgb, var(--cat-dark) 15%, transparent); }
+        .level-number { background-color: color-mix(in srgb, var(--cat-main) 15%, transparent); color: var(--cat-text); }
+        .subcategory-header { background: color-mix(in srgb, var(--cat-main) 20%, transparent); border-color: color-mix(in srgb, var(--cat-dark) 25%, transparent); color: var(--cat-text); }
+        .skill-row { border-color: color-mix(in srgb, var(--cat-dark) 15%, transparent); }
+        .skill-row:nth-child(even) { background-color: var(--cat-light-bg); }
+        .skill-row:hover { background-color: color-mix(in srgb, var(--cat-light-bg) 80%, var(--cat-main) 10%); }
+        .level-box { background-color: color-mix(in srgb, var(--cat-main) 5%, transparent); border: 1px solid color-mix(in srgb, var(--cat-main) 15%, transparent); }
+        .level-box.filled { background: linear-gradient(135deg, var(--cat-main), var(--cat-dark)); box-shadow: 0 2px 4px color-mix(in srgb, var(--cat-dark) 30%, transparent); }
+
+        .dark-mode .level-box.filled { background: linear-gradient(135deg, color-mix(in srgb, var(--cat-main) 50%, #000), color-mix(in srgb, var(--cat-dark) 50%, #000)); }
+        .dark-mode .category-header { background: linear-gradient(135deg, color-mix(in srgb, var(--cat-main) 60%, #000), color-mix(in srgb, var(--cat-dark) 60%, #000)); }
+        .dark-mode .level-header { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
+        .dark-mode .subcategory-header { background: rgba(255, 255, 255, 0.05); color: var(--cat-main); border-color: rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-slate-50 p-6">
+    <div id="cyber-command-grid" class="categories-grid"></div>
+
+    <script>
+    // --- DATA STRUCTURE FOR THE MILITARY CYBER COMMAND FRAMEWORK ---
+    const cyberCommandData = [
+        {
+            name: "Military Cyberspace Operations",
+            cssClass: "cyberspace-operations",
+            subcategories: [
+                {
+                    name: "Offensive Cyber Operations",
+                    skills: [
+                        { name: "Military Cyber Targeting", code: "MCYT" },
+                        { name: "Cyber Electronic Warfare", code: "CEWF" },
+                        { name: "Cross-Domain Attack Coordination", code: "CDAC" },
+                        { name: "Strategic Cyber Effects Assessment", code: "SCEA" },
+                    ]
+                },
+                {
+                    name: "Defensive Cyber Operations",
+                    skills: [
+                        { name: "Military Network Defense", code: "MFND" },
+                        { name: "Critical Infrastructure Protection", code: "CIPX" },
+                        { name: "Cyber Threat Intelligence Fusion", code: "CTIF" },
+                        { name: "Mission Assurance Operations", code: "MAOP" },
+                    ]
+                },
+                {
+                    name: "Information Operations Support",
+                    skills: [
+                        { name: "Cyber-Enabled Information Operations", code: "CEIO" },
+                        { name: "Virtual Layer Operations", code: "VLOP" },
+                        { name: "Psychological Operations Integration", code: "PSYT" }, // Corrected from PSYI to avoid conflict
+                        { name: "Information Environment Assessment", code: "IEAS" },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Multi-Domain Cyber Integration",
+            cssClass: "multi-domain-integration",
+            subcategories: [
+                {
+                    name: "Air Domain Cyber Support",
+                    skills: [
+                        { name: "Air Defense Cyber Integration", code: "ADCI" },
+                        { name: "Aviation Cybersecurity", code: "AVCS" },
+                        { name: "Air-Launched Cyber Operations", code: "ALCO" },
+                        { name: "Aerospace Ground Equipment Security", code: "AGES" },
+                    ]
+                },
+                {
+                    name: "Land Domain Cyber Support",
+                    skills: [
+                        { name: "Tactical Network Operations", code: "TNOP" },
+                        { name: "Ground Vehicle Cybersecurity", code: "GVCS" },
+                        { name: "Forward Operating Base Security", code: "FOBS" },
+                        { name: "Battlefield Cyber Effects", code: "BFCE" },
+                    ]
+                },
+                {
+                    name: "Naval Domain Cyber Support",
+                    skills: [
+                        { name: "Maritime Cyber Operations", code: "MCOP" },
+                        { name: "Naval Combat System Security", code: "NCSS" },
+                        { name: "Port and Harbor Cybersecurity", code: "PHCS" },
+                        { name: "Undersea Cable Protection", code: "UCPR" },
+                    ]
+                },
+                 {
+                    name: "Space Domain Cyber Support",
+                    skills: [
+                        { name: "Satellite Cybersecurity", code: "SACS" },
+                        { name: "Space Situational Awareness", code: "SSAX" },
+                        { name: "Space-Based Cyber Operations", code: "SBCO" },
+                        { name: "Ground Station Security", code: "GSSX" },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Specialized Military Cyber Capabilities",
+            cssClass: "specialized-capabilities",
+            subcategories: [
+                {
+                    name: "Physical Layer Operations",
+                    skills: [
+                        { name: "Signal Intelligence Cyber Integration", code: "SICI" },
+                        { name: "Hardware Exploitation Operations", code: "HEOP" },
+                        { name: "Infrastructure Targeting", code: "INTG" },
+                        { name: "Electromagnetic Warfare Integration", code: "EMWI" },
+                    ]
+                },
+                {
+                    name: "Advanced Persistent Operations",
+                    skills: [
+                        { name: "Long-Term Access Maintenance", code: "LTAM" },
+                        { name: "Covert Channel Management", code: "CCMG" },
+                        { name: "Attribution Avoidance", code: "ATAV" },
+                        { name: "Deep Target Penetration", code: "DTPN" },
+                    ]
+                },
+                {
+                    name: "Emerging Technology Integration",
+                    skills: [
+                        { name: "Artificial Intelligence Cyber Operations", code: "AICO" },
+                        { name: "Quantum-Resistant Operations", code: "QROP" },
+                        { name: "Autonomous System Security", code: "ASYS" },
+                        { name: "Biotechnology Cybersecurity", code: "BTCS" },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Legal and Compliance Operations",
+            cssClass: "legal-compliance",
+            subcategories: [
+                {
+                    name: "Military Cyber Law",
+                    skills: [
+                        { name: "International Humanitarian Law Compliance", code: "IHLC" },
+                        { name: "Rules of Engagement Development", code: "ROED" },
+                        { name: "Targeting Legal Assessment", code: "TLAG" },
+                        { name: "Cyber Warfare Law Integration", code: "CWLI" },
+                    ]
+                },
+                {
+                    name: "Operational Security and Ethics",
+                    skills: [
+                        { name: "Military Cyber Ethics", code: "MCET" },
+                        { name: "Operational Security Planning", code: "OSPL" },
+                        { name: "Classification and Compartmentalization", code: "CACM" },
+                        { name: "Collateral Damage Assessment", code: "CDAS" },
+                    ]
+                },
+                {
+                    name: "Procurement and Acquisition",
+                    skills: [
+                        { name: "Military Cyber Procurement", code: "MCPR" },
+                        { name: "Vendor Security Assessment", code: "VSAS" },
+                        { name: "Technology Transfer Control", code: "TTCX" },
+                        { name: "Supply Chain Risk Management", code: "SCRM" },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Strategic Cyber Leadership",
+            cssClass: "strategic-leadership",
+            subcategories: [
+                {
+                    name: "Cyber Command and Control",
+                    skills: [
+                        { name: "Strategic Cyber Planning", code: "SCPL" },
+                        { name: "Cyber Mission Command", code: "CMCM" },
+                        { name: "Inter-Agency Coordination", code: "IACX" },
+                        { name: "Crisis Decision Making", code: "CRDM" },
+                    ]
+                },
+                {
+                    name: "Force Development",
+                    skills: [
+                        { name: "Cyber Force Structure Planning", code: "CFSP" },
+                        { name: "Capability Development", code: "CADV" },
+                        { name: "Training and Education Management", code: "TEMG" },
+                        { name: "Doctrine Development", code: "DOCD" },
+                    ]
+                },
+                {
+                    name: "Strategic Partnership Management",
+                    skills: [
+                        { name: "Alliance Cyber Coordination", code: "ACCX" },
+                        { name: "Public-Private Partnership", code: "PPPM" },
+                        { name: "International Cyber Diplomacy", code: "ICDP" },
+                        { name: "Academic Research Collaboration", code: "ARCL" },
+                    ]
+                }
+            ]
+        }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- DYNAMIC GRID GENERATOR ---
+        const gridContainer = document.getElementById('cyber-command-grid');
+
+        function createSkillRow(skill) {
+            let levelBoxesHtml = '';
+            for (let i = 1; i <= 7; i++) {
+                const isFilled = 'filled'; // Mark all levels as potentially available
+                levelBoxesHtml += `<div class="level-box ${isFilled}" title="Level ${i}">${i}</div>`;
+            }
+
+            return `
+                <div class="skill-row" title="${skill.name} (${skill.code})">
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="skill-code">${skill.code}</div>
+                    <div class="level-boxes">${levelBoxesHtml}</div>
+                </div>
+            `;
+        }
+        
+        function createLevelHeader() {
+            let levelNumbersHtml = '';
+            for (let i = 1; i <= 7; i++) {
+                levelNumbersHtml += `<div class="level-number">${i}</div>`;
+            }
+            return `
+                <div class="level-header">
+                    <div class="flex-grow font-normal text-xs pl-1">SKILL / CODE</div>
+                    ${levelNumbersHtml}
+                </div>
+            `;
+        }
+
+        cyberCommandData.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = `category-container ${category.cssClass}`;
+
+            let subcategoriesHtml = '';
+            category.subcategories.forEach(subcategory => {
+                const skillsHtml = subcategory.skills.map(createSkillRow).join('');
+                subcategoriesHtml += `
+                    <div class="subcategory">
+                        <div class="subcategory-header">${subcategory.name}</div>
+                        ${skillsHtml}
+                    </div>
+                `;
+            });
+
+            categoryDiv.innerHTML = `
+                <div class="category-header">${category.name}</div>
+                ${createLevelHeader()}
+                ${subcategoriesHtml}
+            `;
+            gridContainer.appendChild(categoryDiv);
+        });
+    });
+    </script>
+</body>
+</html>

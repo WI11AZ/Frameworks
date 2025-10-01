@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadre de Compétences Cyber Militaire</title>
+    <!-- Chosen Palette: Command & Control (Derived from previous analysis) -->
+    <!-- Application Structure Plan: Reverting to the user's preferred multi-column grid layout. Each column represents a major competency domain. The structure is static but allows deep interaction within each skill row via clickable level boxes. This design is excellent for a comprehensive overview and detailed profile creation simultaneously. A header provides global controls and feedback (selection count). -->
+    <!-- Visualization & Content Choices: Primary Interaction: Clickable level boxes within each skill row. Goal: Define/Select. Justification: This is the core user task - building a competency profile. Feedback: A persistent counter in the header. Goal: Inform. Justification: Gives immediate feedback on the profile complexity. Completion: A modal confirmation to finalize the selection. Goal: Control. Justification: Prevents accidental finalization and summarizes the action. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            line-height: 1.2;
+            background-color: #f8fafc;
+            color: #1f2937;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark-mode {
+            background-color: #1a202c;
+            color: #f1f5f9;
+        }
+        .dark-mode .bg-white { background-color: #1f2937; }
+        .dark-mode .category-container { background-color: #2d3748; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+        .dark-mode .skill-row { border-color: #4a5568; }
+        .dark-mode .skill-row:nth-child(odd) { background-color: #283141; }
+        .dark-mode .skill-row:hover { background-color: #374151; }
+        .dark-mode .level-box { background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
+        .dark-mode .text-gray-900 { color: #f1f5f9; }
+        .dark-mode .text-gray-600 { color: #9ca3af; }
+        .dark-mode .border-gray-200 { border-color: #374151; }
+        .dark-mode .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2); }
+        #darkModeToggle { transition: all 0.2s ease-in-out; }
+        #darkModeToggle:hover { transform: scale(1.05); }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+        }
+        .category-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: fit-content;
+        }
+        .category-header {
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .level-header { display: flex; padding: 8px 10px; font-weight: bold; border-bottom-width: 1px; }
+        .subcategory-header { padding: 8px 10px; font-weight: 600; border-bottom-width: 1px; font-size: 12px; }
+        .skill-row { display: flex; align-items: center; padding: 4px 10px; border-bottom: 1px solid #eee; font-size: 11px; }
+        .skill-row:last-child { border-bottom: none; }
+        .skill-name { flex: 3; padding-right: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .skill-code { flex: 1; font-weight: bold; color: #666; }
+        .level-boxes { display: flex; justify-content: flex-end; }
+        .level-number, .level-box { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin: 0 1px; font-size: 11px; border-radius: 3px; transition: all 0.2s ease; }
+        .level-box.filled { cursor: pointer; color: white; border: none; }
+        .level-box.filled:hover { transform: translateY(-1px) scale(1.1); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .level-box.filled.selected {
+            transform: translateY(-1px) scale(1.15);
+            outline: 2px solid #60a5fa; /* A bright blue for selection */
+            outline-offset: 1px;
+            box-shadow: 0 3px 8px rgba(96, 165, 250, 0.4);
+        }
+        :root {
+            --cat-csgc-main: #3b82f6; --cat-csgc-dark: #2563eb; --cat-csgc-text: #1e40af; --cat-csgc-light-bg: rgba(219, 234, 254, 0.6);
+            --cat-ocd-main: #22c55e; --cat-ocd-dark: #16a34a; --cat-ocd-text: #14532d; --cat-ocd-light-bg: rgba(220, 252, 231, 0.6);
+            --cat-oco-main: #ef4444; --cat-oco-dark: #dc2626; --cat-oco-text: #991b1b; --cat-oco-light-bg: rgba(254, 226, 226, 0.6);
+            --cat-rrc-main: #f97316; --cat-rrc-dark: #ea580c; --cat-rrc-text: #9a3412; --cat-rrc-light-bg: rgba(255, 237, 213, 0.6);
+            --cat-issc-main: #8b5cf6; --cat-issc-dark: #7c3aed; --cat-issc-text: #5b21b6; --cat-issc-light-bg: rgba(233, 213, 255, 0.6);
+            --cat-dfa-main: #14b8a6; --cat-dfa-dark: #0d9488; --cat-dfa-text: #134e4a; --cat-dfa-light-bg: rgba(204, 251, 241, 0.6);
+        }
+        .category-container { --cat-main: #666; --cat-dark: #555; --cat-text: #444; --cat-light-bg: #f0f0f0; }
+        .csgc { --cat-main: var(--cat-csgc-main); --cat-dark: var(--cat-csgc-dark); --cat-text: var(--cat-csgc-text); --cat-light-bg: var(--cat-csgc-light-bg); }
+        .ocd { --cat-main: var(--cat-ocd-main); --cat-dark: var(--cat-ocd-dark); --cat-text: var(--cat-ocd-text); --cat-light-bg: var(--cat-ocd-light-bg); }
+        .oco { --cat-main: var(--cat-oco-main); --cat-dark: var(--cat-oco-dark); --cat-text: var(--cat-oco-text); --cat-light-bg: var(--cat-oco-light-bg); }
+        .rrc { --cat-main: var(--cat-rrc-main); --cat-dark: var(--cat-rrc-dark); --cat-text: var(--cat-rrc-text); --cat-light-bg: var(--cat-rrc-light-bg); }
+        .issc { --cat-main: var(--cat-issc-main); --cat-dark: var(--cat-issc-dark); --cat-text: var(--cat-issc-text); --cat-light-bg: var(--cat-issc-light-bg); }
+        .dfa { --cat-main: var(--cat-dfa-main); --cat-dark: var(--cat-dfa-dark); --cat-text: var(--cat-dfa-text); --cat-light-bg: var(--cat-dfa-light-bg); }
+
+        .category-header { background: linear-gradient(135deg, var(--cat-main), var(--cat-dark)); }
+        .level-header { background: color-mix(in srgb, var(--cat-main) 8%, transparent); border-color: color-mix(in srgb, var(--cat-dark) 15%, transparent); }
+        .level-number { background-color: color-mix(in srgb, var(--cat-main) 15%, transparent); color: var(--cat-text); }
+        .subcategory-header { background: color-mix(in srgb, var(--cat-main) 20%, transparent); border-color: color-mix(in srgb, var(--cat-dark) 25%, transparent); color: var(--cat-text); }
+        .skill-row { border-color: color-mix(in srgb, var(--cat-dark) 15%, transparent); }
+        .skill-row:nth-child(even) { background-color: var(--cat-light-bg); }
+        .skill-row:hover { background-color: color-mix(in srgb, var(--cat-light-bg) 80%, var(--cat-main) 10%); }
+        .level-box { background-color: color-mix(in srgb, var(--cat-main) 5%, transparent); border: 1px solid color-mix(in srgb, var(--cat-main) 15%, transparent); }
+        .level-box.filled { background: linear-gradient(135deg, var(--cat-main), var(--cat-dark)); }
+
+        #modal-backdrop { transition: opacity 0.3s ease-in-out; }
+        #modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="p-6">
+    <header class="bg-white shadow-sm mb-6 border-b border-gray-200 rounded-lg">
+        <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center flex-wrap gap-4">
+            <h1 class="text-xl font-bold tracking-tight text-gray-900">Cadre de Compétences Cyber Militaire</h1>
+            <div class="flex items-center space-x-4">
+                <div class="text-sm font-medium text-gray-600">
+                    Compétences sélectionnées : <span id="selected-count" class="font-bold text-blue-600 text-base bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded-full">0</span>
+                </div>
+                 <button type="button" id="darkModeToggle" class="relative rounded-full bg-gray-200 dark:bg-gray-700 p-1.5 text-gray-500 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none">
+                    🌙/☀️
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mx-auto max-w-full px-4">
+        <div id="competency-grid" class="categories-grid"></div>
+
+        <div class="flex justify-center my-8">
+            <button id="complete-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+                Terminer la Définition du Poste
+            </button>
+        </div>
+    </div>
+
+    <div id="confirmation-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black opacity-50"></div>
+        <div id="modal-content" class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 m-4 max-w-sm w-full z-10 scale-95 opacity-0">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Confirmer le Profil</h3>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Vous avez sélectionné <strong id="modal-skill-count" class="text-blue-600 dark:text-blue-400">0</strong> compétence(s). Voulez-vous enregistrer ce profil de poste ?</p>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="modal-cancel" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 transition">Annuler</button>
+                <button id="modal-confirm" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Confirmer et Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const militaryFrameworkData = [
+        {
+            name: "Commandement, Stratégie & Gouvernance",
+            cssClass: "csgc",
+            subcategories: [
+                { name: "Planification Stratégique et Doctrinale", skills: [
+                    { name: "Planification Stratégique des Opérations Cyber", code: "PSOC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Développement de la Doctrine Cyber Militaire", code: "DDCM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse Géopolitique et des Menaces Stratégiques", code: "AGMS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Alignement sur les Objectifs de l'Alliance", code: "AOAL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion du Risque Opérationnel", code: "GRIO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Cadre Légal et Éthique des Opérations", skills: [
+                    { name: "Maîtrise du Droit des Conflits Armés (DCA) appliqué au Cyber", code: "DCAC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Élaboration et Application des Règles d'Engagement", code: "ROEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse de Proportionnalité et de Distinction", code: "APDI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Supervision Éthique de l'IA en contexte militaire", code: "SEIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion de la Conformité et des Accords Internationaux", code: "GCAI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Opérations Cyber Défensives",
+            cssClass: "ocd",
+            subcategories: [
+                { name: "Sécurisation des Infrastructures et des Systèmes", skills: [
+                    { name: "Architecture de Sécurité \"Zero Trust\"", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Durcissement des Systèmes d'Armes et Industriels (OT/SCADA)", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Cryptographie et Gestion des Clés", code: "CRGC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Sécurité des Infrastructures Physiques et Logiques", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Développement Sécurisé d'Applications (DevSecOps)", code: "DVSA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Détection et Réponse aux Incidents", skills: [
+                    { name: "Détection de Menaces par IA/ML", code: "DMIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse Forensique Multi-couches", code: "AFML", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion de Crise et Réponse aux Incidents Majeurs", code: "GCRI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Chasse aux Menaces (\"Threat Hunting\") Active", code: "CTHA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse Comportementale des Entités et Utilisateurs", code: "ACEU", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Opérations Cyber Défensives",
+            cssClass: "ocd",
+            subcategories: [
+                { name: "Sécurisation des Infrastructures et des Systèmes", skills: [
+                    { name: "Architecture de Sécurité \"Zero Trust\"", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Durcissement des Systèmes d'Armes et Industriels (OT/SCADA)", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Cryptographie et Gestion des Clés", code: "CGC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Sécurité des Infrastructures Physiques et Logiques", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Développement Sécurisé d'Applications (DevSecOps)", code: "DSA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Détection et Réponse aux Incidents", skills: [
+                    { name: "Détection de Menaces par IA/ML", code: "DMIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse Forensique Multi-couches", code: "AFM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion de Crise et Réponse aux Incidents Majeurs", code: "GCRI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Chasse aux Menaces (\"Threat Hunting\") Active", code: "CTA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Analyse Comportementale des Entités et Utilisateurs", code: "UEBA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Opérations Cyber Offensives",
+            cssClass: "oco",
+            subcategories: [
+                 { name: "Développement et Analyse de Cibles", skills: [
+                    { name: "Analyse des Systèmes Cibles", code: "ASC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Recherche de Vulnérabilités et Développement d'Exploits", code: "RVDE", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Ingénierie des charges utiles (Malware)", code: "ICPM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Estimation des Effets et Dommages Collatéraux", code: "EEDC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Cartographie des Réseaux Adversaires", code: "CRA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Conduite des Opérations d'Effets", skills: [
+                    { name: "Développement et Maintien d'Accès", code: "DAMA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Conduite d'Opérations d'Effets", code: "COEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Opérations d'Influence (Virtuel/Social)", code: "OIVS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Dissimulation et Maintien de l'Anonymat", code: "DIMA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Désengagement et Nettoyage Post-Opération", code: "DNPO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Renseignement & Reconnaissance Cyber",
+            cssClass: "rrc",
+            subcategories: [
+                { name: "Collecte et Exploitation", skills: [
+                    { name: "Interception et Analyse de Signaux (SIGINT)", code: "IASC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Renseignement en Sources Ouvertes (OSINT/SOCMINT)", code: "RSOS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Exploitation des Données et \"Data Mining\"", code: "EDDM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Reconnaissance Active et Passive", code: "REAP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Ingénierie Sociale pour la Collecte", code: "ISCO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Analyse et Production de Renseignement", skills: [
+                    { name: "Analyse de la Menace Cyber (Threat Intelligence)", code: "AMCY", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Attribution des Attaques", code: "ATAS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Modélisation de l'Adversaire (TTPs)", code: "MDAD", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Fusion de Renseignement Multi-sources", code: "FRMS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Production de Renseignement Actionnable", code: "PDRA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Ingénierie & Soutien des Systèmes",
+            cssClass: "issc",
+            subcategories: [
+                { name: "Développement d'Outils et Plateformes", skills: [
+                    { name: "Développement d'Outils sur Mesure", code: "DEOM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion de l'Infrastructure de C2", code: "GIC2", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Ingénierie des \"Cyber Ranges\"", code: "ICRE", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Intégration de l'IA dans les outils", code: "IIAO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Administration des Systèmes Opérationnels", skills: [
+                    { name: "Gestion des Infrastructures Classifiées", code: "GICL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Administration des plateformes Big Data", code: "APBD", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Maintien en Condition Opérationnelle des Outils", code: "MCOO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        },
+        {
+            name: "Développement de la Force & Alliances",
+            cssClass: "dfa",
+            subcategories: [
+                { name: "Formation et Entraînement", skills: [
+                    { name: "Conception de Cursus de Formation Cyber", code: "CCFC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Qualification et Certification des Opérateurs", code: "QCOC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Organisation d'Exercices (NAT/OTAN)", code: "OEEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Évaluation et Gestion des Compétences", code: "EVGC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]},
+                { name: "Coopération et Intégration", skills: [
+                    { name: "Intégration des Effets Cyber (Multi-Domaines)", code: "IECM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Coopération et Partage avec les Alliés", code: "CPIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Partenariats (Privé/Recherche)", code: "PSPR", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Gestion des Talents et Planification Carrière", code: "GTPC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                ]}
+            ]
+        }
+    ];
+
+    let selectedSkills = {};
+    const gridContainer = document.getElementById('competency-grid');
+    const selectedCountSpan = document.getElementById('selected-count');
+    const modalSkillCountSpan = document.getElementById('modal-skill-count');
+
+    function createSkillRow(skill) {
+        let levelBoxesHtml = '';
+        for (let i = 1; i <= 7; i++) {
+            const isFilled = skill.levels.includes(i) ? 'filled' : '';
+            levelBoxesHtml += `<div class="level-box ${isFilled}" data-skill-code="${skill.code}" data-level="${i}">${i}</div>`;
+        }
+        return `
+            <div class="skill-row" data-skill-row-code="${skill.code}">
+                <div class="skill-name" title="${skill.name}">${skill.name}</div>
+                <div class="skill-code">${skill.code}</div>
+                <div class="level-boxes">${levelBoxesHtml}</div>
+            </div>`;
+    }
+
+    function createLevelHeader() {
+        let levelNumbersHtml = '';
+        for (let i = 1; i <= 7; i++) { levelNumbersHtml += `<div class="level-number">${i}</div>`; }
+        return `<div class="level-header"><div class="flex-grow"></div>${levelNumbersHtml}</div>`;
+    }
+
+    function renderGrid() {
+        militaryFrameworkData.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = `category-container ${category.cssClass}`;
+            let subcategoriesHtml = '';
+            category.subcategories.forEach(subcategory => {
+                const skillsHtml = subcategory.skills.map(createSkillRow).join('');
+                subcategoriesHtml += `
+                    <div class="subcategory">
+                        <div class="subcategory-header">${subcategory.name}</div>
+                        ${skillsHtml}
+                    </div>`;
+            });
+            categoryDiv.innerHTML = `
+                <div class="category-header">${category.name}</div>
+                ${createLevelHeader()}
+                ${subcategoriesHtml}`;
+            gridContainer.appendChild(categoryDiv);
+        });
+    }
+
+    function updateSelectedCount() {
+        const count = Object.keys(selectedSkills).length;
+        selectedCountSpan.textContent = count;
+        modalSkillCountSpan.textContent = count;
+    }
+
+    function handleSkillClick(event) {
+        const target = event.target;
+        if (!target.classList.contains('level-box') || !target.classList.contains('filled')) return;
+        
+        const skillCode = target.dataset.skillCode;
+        const level = parseInt(target.dataset.level, 10);
+        const skillRow = target.closest('.skill-row');
+        if (!skillRow) return;
+
+        const isCurrentlySelected = selectedSkills[skillCode] === level;
+
+        if (selectedSkills[skillCode]) {
+            const prevSelectedBox = skillRow.querySelector(`.level-box[data-level='${selectedSkills[skillCode]}']`);
+            if (prevSelectedBox) prevSelectedBox.classList.remove('selected');
+        }
+
+        if (isCurrentlySelected) {
+            delete selectedSkills[skillCode];
+        } else {
+            selectedSkills[skillCode] = level;
+            target.classList.add('selected');
+        }
+        updateSelectedCount();
+    }
+    
+    // Dark Mode
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const updateDarkMode = () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    };
+    darkModeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', !isDark);
+        updateDarkMode();
+    });
+
+    // Modal
+    const completeButton = document.getElementById('complete-button');
+    const modal = document.getElementById('confirmation-modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    const content = document.getElementById('modal-content');
+    const confirmBtn = document.getElementById('modal-confirm');
+    const cancelBtn = document.getElementById('modal-cancel');
+    const openModal = () => {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            backdrop.classList.remove('opacity-0');
+            content.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+    };
+    const closeModal = () => {
+        backdrop.classList.add('opacity-0');
+        content.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    };
+    
+    completeButton.addEventListener('click', openModal);
+    backdrop.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+    confirmBtn.addEventListener('click', () => {
+        console.log('Profil de poste confirmé et enregistré:', selectedSkills);
+        closeModal();
+        const notif = document.createElement('div');
+        notif.className = 'fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-xl animate-pulse';
+        notif.textContent = 'Profil enregistré avec succès !';
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 3000);
+    });
+
+    // Initialisation
+    renderGrid();
+    updateDarkMode();
+    gridContainer.addEventListener('click', handleSkillClick);
+});
+</script>
+</body>
+</html>
+

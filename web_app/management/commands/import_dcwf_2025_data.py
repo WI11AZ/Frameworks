@@ -46,7 +46,7 @@ class Command(BaseCommand):
             {
                 'title': 'Cyber Enablers',
                 'short': 'EN',
-                'description': 'Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.',
+                'description': 'Personnel who perform work roles to govern, support or facilitate the functions of the other workforce elements (communities). This includes:​\n\nStrategic / Executive Leadership​\n\nHuman Capital / Talent Management​\n\nLegal / Law Enforcement​\n\nAcquisition / Lifecycle Management​\n\nTraining / Education',
                 'roles': [
                     {'dcwf_code': '751', 'ncwf_id': 'OG-WRL-003', 'title': 'Cyber Workforce Developer and Manager', 'definition': 'Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements.'},
                     {'dcwf_code': '752', 'ncwf_id': 'OG-WRL-002', 'title': 'Cyber Policy and Strategy Planner', 'definition': 'Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives.'},

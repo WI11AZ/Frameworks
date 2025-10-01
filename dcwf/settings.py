@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-63+s%a^vtne=0rbb$l@k9_vw61lf*0!tk%y6gu(hqw%q6llz%i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["willaz.pythonanywhere.com", "127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -117,10 +118,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_URL = "/static/"
+
+# Configuration pour PythonAnywhere
+if 'PYTHONANYWHERE_DOMAIN' in os.environ or 'pythonanywhere.com' in os.environ.get('HTTP_HOST', ''):
+    # Configuration spécifique pour PythonAnywhere
+    STATIC_ROOT = '/home/WILLAZ/Frameworks-master/staticfiles'
+    STATICFILES_DIRS = [
+        BASE_DIR / "web_app" / "static",
+        BASE_DIR / "static",  # Ajouter aussi le dossier static racine
+    ]
+else:
+    # Configuration pour le développement local
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STATICFILES_DIRS = [
+        BASE_DIR / "web_app" / "static",
+        BASE_DIR / "static",
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

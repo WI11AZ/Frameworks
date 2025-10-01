@@ -1,11 +1,41 @@
 {% extends "web_app/template/base.html" %}
+{% load static %}
 
 {% block content %}
+<style>
+    /* Cacher le numéro de poste sur la page d'accueil */
+    #header-job-number {
+        display: none !important;
+    }
+    
+    /* Cacher la barre blanche (header) sur la page d'accueil */
+    header.bg-white {
+        display: none !important;
+    }
+    
+    /* Ajuster la marge du main pour compenser la disparition du header */
+    main {
+        margin-top: 2rem !important; /* Seulement pour la navigation */
+    }
+</style>
     <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+
+    <!-- Image simple en haut -->
+    <div class="mb-6 text-center">
+        <img src="{% static 'photos_haute_qualite/bg1.png' %}" alt="Image de fond" class="mx-auto max-w-full h-auto rounded-lg shadow-md">
+    </div>
 
     <!-- Sélecteur de modèles -->
     <div class="bg-white rounded-lg shadow-lg p-6 mb-8 border border-gray-200">
-        <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">Sélectionner les modèles à afficher</h3>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center underline">Sélection des versions des DCWF/NCWF Frameworks</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">Sélectionner le(s) modèle(s) à afficher</h3>
+        
+        <!-- Default Cluster -->
+        <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-3 mb-6">
+            <p class="text-center text-yellow-800 font-medium">
+                <span class="font-bold">Default Cluster:</span> DCWF 2025 + NCWF 2025
+            </p>
+        </div>
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Section DCWF -->
@@ -52,7 +82,10 @@
                                    class="model-toggle mr-3 h-5 w-5 text-orange-700 bg-white border-2 border-orange-300 rounded" 
                                    data-model="ncwf-2025"
                                    checked>
-                            <span class="text-white font-semibold text-sm">NCWF 2025</span>
+                            <div class="flex flex-col">
+                                <span class="text-white font-semibold text-sm">NCWF 2025</span>
+                                <span class="text-red-200 text-xs font-medium">V2.0.0</span>
+                            </div>
                         </label>
                     </div>
                     
@@ -62,7 +95,10 @@
                             <input type="checkbox" 
                                    class="model-toggle mr-3 h-5 w-5 text-red-700 bg-white border-2 border-red-300 rounded" 
                                    data-model="ncwf-2024">
-                            <span class="text-white font-semibold text-sm">NCWF 2024</span>
+                            <div class="flex flex-col">
+                                <span class="text-white font-semibold text-sm">NCWF 2024</span>
+                                <span class="text-red-200 text-xs font-medium">V1.0.0</span>
+                            </div>
                         </label>
                     </div>
                     
@@ -112,6 +148,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in cyber_security_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -134,24 +171,24 @@
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
-                                        {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                    <!-- ZONE 1 - DCWF 2025 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.dcwf_2025_work_role %}
+                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
                                                    class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 2 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                    <!-- ZONE 2 - NCWF 2025 -->
+                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        {% if work_role.ncwf_2025_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                         {% endif %}
                                     </div>
 
@@ -166,8 +203,16 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 4 - NCWF 2017 -->
+                                    <!-- ZONE 4 - DCWF 2017 -->
                                     <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                                    </div>
+
+                                    <!-- ZONE 5 - NCWF 2017 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
                                         {% if work_role.ncwf_2017_work_role %}
                                             <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
                                             <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
@@ -175,14 +220,6 @@
                                                    class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
                                             <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
                                         {% endif %}
-                                    </div>
-
-                                    <!-- ZONE 5 - DCWF (le plus ancien) -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
                                     </div>
 
                                     <!-- Données cachées -->
@@ -196,6 +233,7 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% elif category.title == "IT (Cyberspace)" %}
@@ -222,6 +260,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in it_work_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -243,24 +282,24 @@
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
-                                        {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                    <!-- ZONE 1 - DCWF 2025 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.dcwf_2025_work_role %}
+                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
                                                    class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 2 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                    <!-- ZONE 2 - NCWF 2025 -->
+                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        {% if work_role.ncwf_2025_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                         {% endif %}
                                     </div>
 
@@ -275,8 +314,16 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 4 - NCWF 2017 -->
+                                    <!-- ZONE 4 - DCWF 2017 -->
                                     <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                                    </div>
+
+                                    <!-- ZONE 5 - NCWF 2017 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
                                         {% if work_role.ncwf_2017_work_role %}
                                             <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
                                             <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
@@ -284,14 +331,6 @@
                                                    class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
                                             <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
                                         {% endif %}
-                                    </div>
-
-                                    <!-- ZONE 5 - DCWF (le plus ancien) -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
                                     </div>
 
                                     <!-- Données cachées -->
@@ -304,6 +343,7 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% elif category.title == "Cyberspace Effects" %}
@@ -330,6 +370,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in cyber_effects_work_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -351,24 +392,24 @@
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
-                                        {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                    <!-- ZONE 1 - DCWF 2025 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.dcwf_2025_work_role %}
+                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
                                                    class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 2 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                    <!-- ZONE 2 - NCWF 2025 -->
+                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        {% if work_role.ncwf_2025_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                         {% endif %}
                                     </div>
 
@@ -383,8 +424,16 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 4 - NCWF 2017 -->
+                                    <!-- ZONE 4 - DCWF 2017 -->
                                     <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                                    </div>
+
+                                    <!-- ZONE 5 - NCWF 2017 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
                                         {% if work_role.ncwf_2017_work_role %}
                                             <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
                                             <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
@@ -392,14 +441,6 @@
                                                    class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
                                             <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
                                         {% endif %}
-                                    </div>
-
-                                    <!-- ZONE 5 - DCWF (le plus ancien) -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
                                     </div>
 
                                     <!-- Données cachées -->
@@ -413,6 +454,7 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% elif category.title == "Intelligence (Cyberspace)" %}
@@ -439,6 +481,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                     {% for work_role in intel_work_roles %}
                         <div class="bg-white rounded-lg shadow-md grid grid-rows-6 work-role relative"
@@ -459,10 +502,10 @@
                             <div class="px-5 py-1 flex flex-col items-center justify-center">
                                 {% if work_role.ncwf_2025_work_role %}
                                     <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                    <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
+                                    <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
                                     <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                    <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                           class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                    <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                 {% endif %}
                             </div>
 
@@ -471,8 +514,8 @@
                                 {% if work_role.dcwf_2025_work_role %}
                                     <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
                                     <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                    <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                           class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
+                                    <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                 {% endif %}
                             </div>
 
@@ -515,6 +558,7 @@
                         </div>
                     {% endfor %}
                 </div>
+                </div>
             </div>
 
         {% elif category.title == "Cyberspace Enablers" %}
@@ -541,6 +585,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in enabler_work_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -566,10 +611,10 @@
                             <div class="px-5 py-1 flex flex-col items-center justify-center">
                                 {% if work_role.ncwf_2025_work_role %}
                                     <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                    <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
+                                    <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
                                     <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                           class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                 {% endif %}
                             </div>
 
@@ -578,8 +623,8 @@
                                 {% if work_role.dcwf_2025_work_role %}
                                     <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
                                     <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                           class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                 {% endif %}
                             </div>
 
@@ -621,9 +666,10 @@
 
                         </div>
                             {% endif %}
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% elif category.title == "Software Engineering" %}
@@ -650,6 +696,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in software_engineering_work_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -671,24 +718,24 @@
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
-                                        {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                    <!-- ZONE 1 - DCWF 2025 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.dcwf_2025_work_role %}
+                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
                                                    class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 2 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                    <!-- ZONE 2 - NCWF 2025 -->
+                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        {% if work_role.ncwf_2025_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                         {% endif %}
                                     </div>
 
@@ -703,8 +750,16 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 4 - NCWF 2017 -->
+                                    <!-- ZONE 4 - DCWF 2017 -->
                                     <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                                    </div>
+
+                                    <!-- ZONE 5 - NCWF 2017 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
                                         {% if work_role.ncwf_2017_work_role %}
                                             <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
                                             <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
@@ -712,14 +767,6 @@
                                                    class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
                                             <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
                                         {% endif %}
-                                    </div>
-
-                                    <!-- ZONE 5 - DCWF (le plus ancien) -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
                                     </div>
 
                                     <!-- Données cachées -->
@@ -733,6 +780,7 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% elif category.title == "Data/AI" %}
@@ -759,6 +807,7 @@
                 </div>
 
                 <!-- Rôles triés par ID prefix -->
+                <div class="work-role-container">
                 {% for line in data_work_lines %}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                         {% for work_role in line %}
@@ -780,24 +829,24 @@
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
-                                        {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.ncwf_title }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                    <!-- ZONE 1 - DCWF 2025 -->
+                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        {% if work_role.dcwf_2025_work_role %}
+                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
                                                    class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 2 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-indigo-600 self-center mt-2">
-                                            <p class="text-indigo-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                    <!-- ZONE 2 - NCWF 2025 -->
+                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        {% if work_role.ncwf_2025_work_role %}
+                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
+                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
                                         {% endif %}
                                     </div>
 
@@ -812,8 +861,16 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- ZONE 4 - NCWF 2017 -->
+                                    <!-- ZONE 4 - DCWF 2017 -->
                                     <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
+                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
+                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
+                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                                    </div>
+
+                                    <!-- ZONE 5 - NCWF 2017 -->
+                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
                                         {% if work_role.ncwf_2017_work_role %}
                                             <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
                                             <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
@@ -821,14 +878,6 @@
                                                    class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
                                             <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
                                         {% endif %}
-                                    </div>
-
-                                    <!-- ZONE 5 - DCWF (le plus ancien) -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
                                     </div>
 
                                     <!-- Données cachées -->
@@ -842,10 +891,219 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+                </div>
             </div>
 
         {% endif %}
     {% endfor %}
+
+    <!-- Catégorie Without Community pour les work roles NCWF 2025 sans correspondance DCWF -->
+    <div class="category-container rounded-lg mt-6 relative"
+         style="background-color: rgba(128, 128, 128, 0.75);" 
+         id="category-without-community">
+        <!-- Titre + description TOUJOURS visibles -->
+        <div class="category-content">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-white text-lg font-bold p-2 w-max rounded"
+                     style="background-color: rgba(128, 128, 128, 1);">
+                    Without Community
+                </div>
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" 
+                           class="category-toggle mr-2 h-5 w-5 text-blue-600" 
+                           data-category="category-without-community">
+                    <span class="text-white font-medium">Dérouler</span>
+                </label>
+            </div>
+            <div class="text-white p-2">
+                Not (yet) attributed to any DCWF Workforce Element​
+            </div>
+        </div>
+
+        <!-- Work roles sans correspondance DCWF -->
+        <div class="work-role-container">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
+            <!-- PD-WRL-005 -->
+            <div class="bg-white rounded-lg shadow-md grid grid-rows-6 work-role relative"
+                 id="work-role-pd-wrl-005">
+                
+                <!-- ZONE 0 - NCWF ID -->
+                <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                    <p class="font-semibold text-center text-gray-600">
+                        PD-WRL-005
+                    </p>
+                </div>
+
+                <!-- ZONE 1 - DCWF 2025 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 2 - NCWF 2025 -->
+                <div class="px-5 py-1 flex flex-col items-center justify-center">
+                    <p class="text-gray-500 text-sm font-medium text-center">PD-WRL-005</p>
+                    <p class="font-bold text-sm text-gray-600 text-center">Insider Threat Analysis</p>
+                    <input type="checkbox" name="ncwf_2025_pd_wrl_005"
+                           class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                    <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                </div>
+
+                <!-- ZONE 3 - NCWF 2024 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 4 - DCWF 2017 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 5 - NCWF 2017 (vide) -->
+                <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                </div>
+
+                <!-- Données cachées -->
+                <p class="hidden description">Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.</p>
+            </div>
+
+            <!-- DD-WRL-009 -->
+            <div class="bg-white rounded-lg shadow-md grid grid-rows-6 work-role relative"
+                 id="work-role-dd-wrl-009">
+                
+                <!-- ZONE 0 - NCWF ID -->
+                <div class="px-5 pt-5 flex flex-col items-center justify-center">
+                    <p class="font-semibold text-center text-gray-600">
+                        DD-WRL-009
+                    </p>
+                </div>
+
+                <!-- ZONE 1 - DCWF 2025 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 2 - NCWF 2025 -->
+                <div class="px-5 py-1 flex flex-col items-center justify-center">
+                    <p class="text-gray-500 text-sm font-medium text-center">DD-WRL-009</p>
+                    <p class="font-bold text-sm text-gray-600 text-center">Operational Technology (OT) Cybersecurity Engineering</p>
+                    <input type="checkbox" name="ncwf_2025_dd_wrl_009"
+                           class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
+                    <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                </div>
+
+                <!-- ZONE 3 - NCWF 2024 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 4 - DCWF 2017 (vide) -->
+                <div class="text-center px-5 py-1 flex flex-col justify-center">
+                </div>
+
+                <!-- ZONE 5 - NCWF 2017 (vide) -->
+                <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                </div>
+
+                <!-- Données cachées -->
+                <p class="hidden description">Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Ligne de séparation pour les catégories non-officielles -->
+    <div class="mt-8 mb-6">
+        <div class="border-t-2 border-gray-400 border-dashed"></div>
+        <div class="text-center mt-2">
+            <span class="text-gray-600 text-sm font-medium bg-white px-4 py-1 rounded-full border border-gray-300">
+                ⚠️ Catégories non-officielles
+            </span>
+        </div>
+    </div>
+
+    <!-- Catégorie Emerging AI work roles with Real Impact (SANS) -->
+    <div class="category-container rounded-lg mt-6 relative"
+         style="background-color: rgba(88, 28, 135, 0.75);" 
+         id="category-emerging-ai-work-roles">
+        <!-- Titre + description TOUJOURS visibles -->
+        <div class="category-content">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-white text-lg font-bold p-2 w-max rounded"
+                     style="background-color: rgba(88, 28, 135, 1);">
+                    Emerging AI work roles with Real Impact (SANS)
+                </div>
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" 
+                           class="category-toggle mr-2 h-5 w-5 text-blue-600" 
+                           data-category="category-emerging-ai-work-roles">
+                    <span class="text-white font-medium">Dérouler</span>
+                </label>
+            </div>
+            <div class="text-white p-2">
+                Two years of industry tracking reveal these EMERGING AI cybersecurity roles.<br>
+                We observed NEW AI cybersecurity roles maturing through SANS Summit presentations, expert discussions, course development, and community insights.<br>
+                The focus: defending the nation's new AI technological capabilities.
+            </div>
+            
+            <!-- Work Roles AI -->
+            <div class="work-role-container">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for ai_work_role in ai_work_roles %}
+                    <div class="work-role bg-white bg-opacity-10 rounded-lg p-4 border border-white border-opacity-20 relative" 
+                         id="work-role-{{ ai_work_role.id }}" onclick="toggleDetail('{{ ai_work_role.id }}')">
+                        <div class="flex items-center cursor-pointer">
+                            <span class="text-gray-800 font-medium">{{ ai_work_role.title }}</span>
+                        </div>
+                        
+                        <!-- Données cachées pour la fenêtre latérale -->
+                        <p class="hidden description">{{ ai_work_role.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catégorie Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021) -->
+    <div class="category-container rounded-lg mt-6 relative"
+         style="background-color: rgba(139, 69, 19, 0.75);" 
+         id="category-cyberspace-operations-electromagnetic-warfare">
+        <!-- Titre + description TOUJOURS visibles -->
+        <div class="category-content p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-white text-lg font-bold p-2 w-max rounded"
+                     style="background-color: rgba(139, 69, 19, 1);">
+                    Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)
+                </div>
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" 
+                           class="category-toggle mr-2 h-5 w-5 text-blue-600" 
+                           data-category="category-cyberspace-operations-electromagnetic-warfare">
+                    <span class="text-white font-medium">Dérouler</span>
+                </label>
+            </div>
+            <div class="text-white p-2">
+                The Cyberspace Electromagnetic Activities workroles CEMA are responsible for synchronizing and integrating cyberspace operations and EW with the operations process and through other integrating processes.
+            </div>
+            
+            <!-- Work Roles CEMA -->
+            <div class="work-role-container">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for work_role in cema_category.dcwf_work_roles.all %}
+                    <div class="work-role bg-white bg-opacity-10 rounded-lg p-4 border border-white border-opacity-20 relative" 
+                         id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+                        <div class="flex items-center cursor-pointer">
+                            <span class="text-gray-800 font-medium">{{ work_role.title }}</span>
+                        </div>
+                        
+                        <!-- Données cachées pour la fenêtre latérale -->
+                        <p class="hidden description">{{ work_role.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Publication info en bas -->
+            <div class="text-white text-sm mt-4 p-2 text-center">
+                Publication available @ Army Publishing Directorate site (https://armypubs.army.mil), and @ Central Army Registry site (https://atiam.train.army.mil/catalog/dashboard)
+            </div>
+        </div>
+    </div>
 
     <!-- Div caché pour afficher plus de détails (commun à toutes les catégories) -->
     <div id="detail-box"
@@ -867,6 +1125,11 @@
                 if (categoryContainer) {
                     if (this.checked) {
                         categoryContainer.classList.add('expanded');
+                        // Ajuster les hauteurs des work roles quand la catégorie s'expand
+                        setTimeout(() => {
+                            adjustWorkRoleHeights();
+                            adjustLongTitleWorkRoles();
+                        }, 100);
                     } else {
                         categoryContainer.classList.remove('expanded');
                     }
@@ -914,19 +1177,42 @@
         // updateCompareButton(); // Supprimé car plus de bouton de comparaison
         
         // Gestion des sélecteurs de modèles (zone de sélection uniquement)
+        let isUpdatingCheckboxes = false; // Flag pour éviter les boucles infinies
+        
         document.querySelectorAll('.model-toggle').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
+                if (isUpdatingCheckboxes) return; // Éviter les boucles infinies
+                
                 const modelType = this.getAttribute('data-model');
                 const isChecked = this.checked;
                 
-                // Empêcher la désélection complète (minimum 1 modèle)
-                // Si on essaie de décocher et qu'il n'y aura plus aucune case cochée
-                if (!isChecked) {
-                    const otherCheckedBoxes = document.querySelectorAll('.model-toggle:checked:not([data-model="' + modelType + '"])');
-                    if (otherCheckedBoxes.length === 0) {
-                        this.checked = true; // Remettre la case cochée
-                        alert('Au moins un modèle doit être sélectionné pour éviter la confusion !');
-                        return;
+                // Co-sélection automatique entre DCWF 2017 et NCWF 2017
+                if (modelType === 'dcwf-2017' || modelType === 'ncwf-2017') {
+                    const otherModelType = modelType === 'dcwf-2017' ? 'ncwf-2017' : 'dcwf-2017';
+                    const otherCheckbox = document.querySelector(`input[data-model="${otherModelType}"]`);
+                    
+                    if (otherCheckbox) {
+                        isUpdatingCheckboxes = true;
+                        otherCheckbox.checked = isChecked;
+                        isUpdatingCheckboxes = false;
+                        
+                        // Synchroniser aussi l'affichage des zones
+                        toggleModelVisibility(otherModelType, isChecked);
+                    }
+                }
+                
+                // Co-sélection automatique entre DCWF 2025 et NCWF 2025
+                if (modelType === 'dcwf-2025' || modelType === 'ncwf-2025') {
+                    const otherModelType = modelType === 'dcwf-2025' ? 'ncwf-2025' : 'dcwf-2025';
+                    const otherCheckbox = document.querySelector(`input[data-model="${otherModelType}"]`);
+                    
+                    if (otherCheckbox) {
+                        isUpdatingCheckboxes = true;
+                        otherCheckbox.checked = isChecked;
+                        isUpdatingCheckboxes = false;
+                        
+                        // Synchroniser aussi l'affichage des zones
+                        toggleModelVisibility(otherModelType, isChecked);
                     }
                 }
                 
@@ -938,17 +1224,60 @@
             });
         });
         
-        // Initialiser les modèles par défaut (DCWF 2025 et NCWF 2025)
+        // Initialiser les modèles par défaut (DCWF 2025 et NCWF 2025) EN PREMIER
         initializeDefaultModelSelectors();
         
-        // Ajuster la taille initiale
-        adjustWorkRoleHeights();
-        adjustLongTitleWorkRoles();
+        // Ajuster la taille initiale après l'initialisation complète des modèles
+        setTimeout(() => {
+            adjustWorkRoleHeights();
+            adjustLongTitleWorkRoles();
+        }, 200);
         
         // Ajouter des event listeners sur TOUS les checkboxes des work roles pour l'adaptation en temps réel
         const allWorkRoleCheckboxes = document.querySelectorAll('.work-role input[type="checkbox"]');
         allWorkRoleCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
+                // Ignorer les décochages automatiques lors du masquage des modèles
+                if (this.hasAttribute('data-auto-uncheck')) {
+                    return;
+                }
+                
+                // Co-sélection automatique des cases dans les work roles
+                const checkboxName = this.name;
+                const isChecked = this.checked;
+                
+                // Co-sélection DCWF 2025 ↔ NCWF 2025
+                if (checkboxName.startsWith('dcwf_2025_')) {
+                    const ncwf25Checkbox = this.closest('.work-role').querySelector('input[name^="ncwf_2025_"]');
+                    if (ncwf25Checkbox) {
+                        ncwf25Checkbox.checked = isChecked;
+                    }
+                } else if (checkboxName.startsWith('ncwf_2025_')) {
+                    const dcwf25Checkbox = this.closest('.work-role').querySelector('input[name^="dcwf_2025_"]');
+                    if (dcwf25Checkbox) {
+                        dcwf25Checkbox.checked = isChecked;
+                    }
+                }
+                
+                // Gestion spéciale pour les work roles "Without Community" (pas de co-sélection DCWF)
+                if (checkboxName.startsWith('ncwf_2025_pd_wrl_005') || checkboxName.startsWith('ncwf_2025_dd_wrl_009')) {
+                    // Ces work roles n'ont pas de correspondance DCWF, donc pas de co-sélection
+                    // Ils restent uniquement NCWF 2025
+                }
+                
+                // Co-sélection DCWF 2017 ↔ NCWF 2017
+                if (checkboxName.startsWith('dcwf_') && !checkboxName.startsWith('dcwf_2025_')) {
+                    const ncwf17Checkbox = this.closest('.work-role').querySelector('input[name^="ncwf_2017_"]');
+                    if (ncwf17Checkbox) {
+                        ncwf17Checkbox.checked = isChecked;
+                    }
+                } else if (checkboxName.startsWith('ncwf_2017_')) {
+                    const dcwf17Checkbox = this.closest('.work-role').querySelector('input[name^="dcwf_"]:not([name^="dcwf_2025_"])');
+                    if (dcwf17Checkbox) {
+                        dcwf17Checkbox.checked = isChecked;
+                    }
+                }
+                
                 // Ajuster les hauteurs en temps réel quand l'utilisateur coche/décoche
                 setTimeout(() => {
                     adjustWorkRoleHeights();
@@ -961,6 +1290,26 @@
 
     // Fonction pour masquer/afficher les zones selon le modèle sélectionné
     function toggleModelVisibility(modelType, isVisible) {
+        // Gestion spéciale pour la catégorie "Without Community"
+        if (modelType === 'ncwf-2025') {
+            const withoutCommunityCategory = document.getElementById('category-without-community');
+            if (withoutCommunityCategory) {
+                if (isVisible) {
+                    withoutCommunityCategory.style.display = 'block';
+                    // S'assurer que les work roles sont masqués par défaut (pas expanded)
+                    withoutCommunityCategory.classList.remove('expanded');
+                } else {
+                    withoutCommunityCategory.style.display = 'none';
+                }
+            }
+        } else if (modelType === 'dcwf-2025') {
+            // Masquer la catégorie "Without Community" quand DCWF 2025 est décoché
+            const withoutCommunityCategory = document.getElementById('category-without-community');
+            if (withoutCommunityCategory) {
+                withoutCommunityCategory.style.display = 'none';
+            }
+        }
+        
         const workRoles = document.querySelectorAll('.work-role');
         
         workRoles.forEach(workRole => {
@@ -1000,6 +1349,14 @@
                     targetZone.style.display = 'flex';
                 } else {
                     targetZone.style.display = 'none';
+                    // Décocher automatiquement les cases du modèle caché
+                    const checkbox = targetZone.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        // Marquer temporairement pour éviter la co-sélection automatique
+                        checkbox.setAttribute('data-auto-uncheck', 'true');
+                        checkbox.checked = false;
+                        checkbox.removeAttribute('data-auto-uncheck');
+                    }
                 }
             }
         });
@@ -1012,9 +1369,13 @@
 
     // Fonction pour afficher/masquer la fenêtre de détails (renommée pour éviter le conflit)
     function toggleDetailHome(workRoleId) {
-        // Utiliser la fonction de base.html qui gère l'affichage
-        toggleDetail(workRoleId);
+        // Utiliser la fonction simple de base.html pour les work roles AI
+        const detailBox = document.getElementById(`detail-box-${workRoleId}`);
+        if (detailBox) {
+            detailBox.classList.toggle('hidden');  // Toggle visibility (hidden/visible)
+        }
     }
+
     
     // Fonction pour ajuster la hauteur des work roles selon le contenu réel
     function adjustWorkRoleHeights() {
@@ -1034,16 +1395,16 @@
             if (opmZone) visibleZones.push(opmZone);
             
             // Vérifier chaque zone de modèle (1 à 5) en utilisant les checkboxes pour identifier les zones
-            // Zone 1 - NCWF 2025
-            const ncwf25Checkbox = workRole.querySelector('input[name^="ncwf_2025_"]');
-            if (ncwf25Checkbox && window.getComputedStyle(ncwf25Checkbox.closest('div')).display !== 'none') {
-                visibleZones.push(ncwf25Checkbox.closest('div'));
-            }
-            
-            // Zone 2 - DCWF 2025
+            // Zone 1 - DCWF 2025
             const dcwf25Checkbox = workRole.querySelector('input[name^="dcwf_2025_"]');
             if (dcwf25Checkbox && window.getComputedStyle(dcwf25Checkbox.closest('div')).display !== 'none') {
                 visibleZones.push(dcwf25Checkbox.closest('div'));
+            }
+            
+            // Zone 2 - NCWF 2025
+            const ncwf25Checkbox = workRole.querySelector('input[name^="ncwf_2025_"]');
+            if (ncwf25Checkbox && window.getComputedStyle(ncwf25Checkbox.closest('div')).display !== 'none') {
+                visibleZones.push(ncwf25Checkbox.closest('div'));
             }
             
             // Zone 3 - NCWF 2024
@@ -1052,17 +1413,17 @@
                 visibleZones.push(ncwf24Checkbox.closest('div'));
             }
             
-            // Zone 4 - NCWF 2017
-            const ncwf17Checkbox = workRole.querySelector('input[name^="ncwf_2017_"]');
-            if (ncwf17Checkbox && window.getComputedStyle(ncwf17Checkbox.closest('div')).display !== 'none') {
-                visibleZones.push(ncwf17Checkbox.closest('div'));
-            }
-            
-            // Zone 5 - DCWF 2017 (utiliser l'ID du work role)
+            // Zone 4 - DCWF 2017 (utiliser l'ID du work role)
             const workRoleId = workRole.id.replace("work-role-", "");
             const dcwf17Checkbox = workRole.querySelector(`input[name="dcwf_${workRoleId}"]`);
             if (dcwf17Checkbox && window.getComputedStyle(dcwf17Checkbox.closest('div')).display !== 'none') {
                 visibleZones.push(dcwf17Checkbox.closest('div'));
+            }
+            
+            // Zone 5 - NCWF 2017
+            const ncwf17Checkbox = workRole.querySelector('input[name^="ncwf_2017_"]');
+            if (ncwf17Checkbox && window.getComputedStyle(ncwf17Checkbox.closest('div')).display !== 'none') {
+                visibleZones.push(ncwf17Checkbox.closest('div'));
             }
             
             // Calculer la hauteur réelle du contenu
@@ -1103,7 +1464,7 @@
         const workRoles = document.querySelectorAll('.work-role');
         
         workRoles.forEach(workRole => {
-            // Vérifier si la zone DCWF 2017 est visible
+            // Vérifier si la zone DCWF 2017 est visible (maintenant en zone 4)
             const workRoleId = workRole.id.replace("work-role-", "");
             const dcwf17Checkbox = workRole.querySelector(`input[name="dcwf_${workRoleId}"]`);
             
@@ -1131,22 +1492,45 @@
 
     // Fonction pour initialiser les modèles par défaut (DCWF 2025 et NCWF 2025 uniquement)
     function initializeDefaultModelSelectors() {
-        // D'abord, masquer toutes les zones
+        // D'abord, s'assurer que toutes les catégories sont non-expanded par défaut
+        document.querySelectorAll('.category-container').forEach(category => {
+            category.classList.remove('expanded');
+        });
+        
+        // Masquer toutes les zones
         hideAllModelZones();
+        
+        // Masquer la catégorie "Without Community" par défaut
+        const withoutCommunityCategory = document.getElementById('category-without-community');
+        if (withoutCommunityCategory) {
+            withoutCommunityCategory.style.display = 'none';
+            // S'assurer que la classe expanded n'est pas présente au démarrage
+            withoutCommunityCategory.classList.remove('expanded');
+        }
         
         // Cocher DCWF 2025 par défaut
         const dcwf25Checkboxes = document.querySelectorAll('input[data-model="dcwf-2025"]');
         dcwf25Checkboxes.forEach(checkbox => {
             checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change'));
+            // Ne pas déclencher l'événement change pour éviter les conflits
         });
         
         // Cocher NCWF 2025 par défaut
         const ncwf25Checkboxes = document.querySelectorAll('input[data-model="ncwf-2025"]');
         ncwf25Checkboxes.forEach(checkbox => {
             checkbox.checked = true;
-            checkbox.dispatchEvent(new Event('change'));
+            // Ne pas déclencher l'événement change pour éviter les conflits
         });
+        
+        // Maintenant appliquer la visibilité des zones pour les modèles cochés
+        toggleModelVisibility('dcwf-2025', true);
+        toggleModelVisibility('ncwf-2025', true);
+        
+        // Ajuster les hauteurs des work roles après la configuration des zones
+        setTimeout(() => {
+            adjustWorkRoleHeights();
+            adjustLongTitleWorkRoles();
+        }, 50);
         
         // DCWF 2017 reste décoché par défaut
     }
@@ -1204,6 +1588,7 @@
         const checkedCheckboxes = document.querySelectorAll('.model-toggle:checked');
         return checkedCheckboxes.length;
     }
+    
 </script>
 
 <style>
@@ -1231,7 +1616,7 @@
     }
     
     .work-role > div:last-child {
-        padding-bottom: 1rem !important; /* Zone DCWF 2017 - plus d'espace en bas */
+        padding-bottom: 1rem !important; /* Zone NCWF 2017 - plus d'espace en bas */
         padding-top: 0.25rem !important;
         margin-bottom: 0.5rem !important; /* Marge supplémentaire en bas */
     }
@@ -1248,8 +1633,8 @@
         margin: 0.2rem 0 !important; /* Marge minimale pour les checkboxes */
     }
     
-    /* Spécifiquement pour les zones DCWF 2017 qui ont des titres plus longs */
-    .work-role > div:last-child > p {
+    /* Spécifiquement pour les zones DCWF 2017 qui ont des titres plus longs (maintenant en zone 4) */
+    .work-role > div:nth-child(5) > p {
         font-size: 0.875rem !important; /* Taille de police légèrement réduite */
         line-height: 1.1 !important;
         max-height: none !important; /* Pas de limite de hauteur */
@@ -1274,11 +1659,11 @@
     }
     
     .work-role input[name^="dcwf_2025_"] {
-        border-color: #6366f1; /* Indigo pour DCWF 2025 */
+        border-color: #9333ea; /* Mauve pour DCWF 2025 */
     }
     
     .work-role input[name^="ncwf_2025_"] {
-        border-color: #8b5cf6; /* Violet pour NCWF 2025 */
+        border-color: #ea580c; /* Orange pour NCWF 2025 */
     }
     
     /* Masquer les work roles par défaut */
@@ -1315,6 +1700,38 @@
             opacity: 1;
             transform: translateY(-50%) translateX(0);
         }
-</style>
+        
+        /* Garder les cartes blanches opaques pour la lisibilité */
+        .bg-white {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Navigation fixe en haut */
+        nav.bg-gray-800 {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000 !important;
+            width: 100%;
+        }
+        
+        /* Header fixe en dessous de la navigation */
+        header.bg-white {
+            position: fixed !important;
+            top: 4rem; /* En dessous de la navigation */
+            left: 0;
+            right: 0;
+            z-index: 999 !important;
+            width: 100%;
+        }
+        
+        /* Ajuster le contenu principal pour compenser la navigation et le header fixes */
+        main {
+            margin-top: 4rem; /* Espace très minimal pour la navigation + header fixes */
+        }
+    </style>
 
 {% endblock %}

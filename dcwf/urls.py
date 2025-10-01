@@ -17,9 +17,16 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", include("web_app.urls")),
     path("admin/", admin.site.urls),
-
 ]
+
+# Servir les fichiers statiques
+if settings.DEBUG or 'pythonanywhere.com' in os.environ.get('HTTP_HOST', ''):
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if hasattr(settings, 'MEDIA_URL') and hasattr(settings, 'MEDIA_ROOT'):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

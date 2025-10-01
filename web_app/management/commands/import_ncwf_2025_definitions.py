@@ -83,3 +83,4 @@ class Command(BaseCommand):
                 self.stdout.write(f'  Aucun work role trouvé pour NCWF ID: {ncwf_data["ncwf_id"]}')
         
         self.stdout.write(self.style.SUCCESS(f'Import terminé! {updated_count} work roles mis à jour avec les définitions NCWF 2025.'))
+ 

@@ -33,14 +33,23 @@
     }
 </style>
 
-<nav class="bg-gray-800">
+<nav class="bg-gray-800 sticky top-0 z-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center space-x-4">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA v0.0.1</span>
-                    <span class="text-2xl font-bold text-white">DCWF</span>
+                    <!-- Info Button -->
+                    <button type="button" id="info-button" 
+                            class="mr-3 px-3 py-1.5 text-sm font-medium text-white hover:text-blue-100 bg-blue-600 hover:bg-blue-700 rounded-lg border border-blue-500 transition-all duration-200 flex items-center shadow-md"
+                            title="Version Information">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Info
+                    </button>
+                    <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                    <span class="text-2xl font-bold text-white">Cyber Align</span>
                 </div>
                 
                 <!-- Navigation Links -->
@@ -162,3 +171,136 @@
         {% endif %}
     </div>
 </nav>
+
+<!-- Info Modal -->
+<div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-[9999]">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-xl mx-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out relative z-[10000]">
+        <div class="p-3">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-bold text-gray-800">Beta v0.1.2 - What's New</h2>
+                <button class="info-modal-close text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-2 text-gray-700">
+                <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400">
+                    <h3 class="font-semibold text-blue-800 mb-1 text-sm">🆕 New Features</h3>
+                    <ul class="space-y-1 text-xs">
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">•</span>
+                            <span><strong>Added KSAT for 2025 models</strong> - New knowledge, skills, abilities, and tasks for the latest frameworks</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">•</span>
+                            <span><strong>2025 KSAT comparison available</strong> - Compare KSAT data across different 2025 models</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">•</span>
+                            <span><strong>NICE Framework Competency Areas Explorer</strong> - New interactive tool in Step 2 to explore competency areas</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-green-50 p-2 rounded-lg border-l-4 border-green-400">
+                    <h3 class="font-semibold text-green-800 mb-1 text-sm">🔧 Improvements</h3>
+                    <ul class="space-y-1 text-xs">
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">•</span>
+                            <span><strong>Fixed color codes for 2025 models</strong> - Corrected color coding system for better visual consistency</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">•</span>
+                            <span><strong>Updated titles and texts</strong> - Improved clarity and accuracy of interface elements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">•</span>
+                            <span><strong>Removed "Under Development" message</strong> - Cleaner interface once connected</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-orange-50 p-2 rounded-lg border-l-4 border-orange-400">
+                    <h3 class="font-semibold text-orange-800 mb-1 text-sm">🐛 Bug Fixes</h3>
+                    <ul class="space-y-1 text-xs">
+                        <li class="flex items-start">
+                            <span class="text-orange-600 mr-2">•</span>
+                            <span><strong>Fixed OPM ID display in heatmap</strong> - Corrected display issues in the heatmap visualization</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-orange-600 mr-2">•</span>
+                            <span><strong>Fixed saved data display in Step 3</strong> - Resolved issues with saved OPM ID data not showing correctly</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-2 rounded-lg border-l-4 border-gray-400">
+                    <h3 class="font-semibold text-gray-800 mb-1 text-sm">📋 Technical Notes</h3>
+                    <p class="text-xs text-gray-600">
+                        This beta version includes significant improvements to the data models and user interface. 
+                        The new KSAT data for 2025 models provides more comprehensive coverage of cybersecurity competencies.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-3 flex justify-end">
+                <button class="info-modal-close bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const infoButton = document.getElementById('info-button');
+    const infoModal = document.getElementById('info-modal');
+    const closeButtons = document.querySelectorAll('.info-modal-close');
+    
+    // Open modal
+    infoButton.addEventListener('click', function() {
+        infoModal.classList.remove('hidden');
+        infoModal.classList.add('flex');
+        
+        // Trigger animation
+        setTimeout(() => {
+            const modalContent = infoModal.querySelector('div > div');
+            modalContent.classList.add('scale-100', 'opacity-100');
+            modalContent.classList.remove('scale-95', 'opacity-0');
+        }, 10);
+    });
+    
+    // Close modal
+    function closeInfoModal() {
+        const modalContent = infoModal.querySelector('div > div');
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            infoModal.classList.add('hidden');
+            infoModal.classList.remove('flex');
+        }, 300);
+    }
+    
+    closeButtons.forEach(button => {
+        button.addEventListener('click', closeInfoModal);
+    });
+    
+    // Close when clicking outside
+    infoModal.addEventListener('click', function(e) {
+        if (e.target === infoModal) {
+            closeInfoModal();
+        }
+    });
+    
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !infoModal.classList.contains('hidden')) {
+            closeInfoModal();
+        }
+    });
+});
+</script>

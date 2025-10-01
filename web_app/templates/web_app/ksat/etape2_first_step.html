@@ -1,12 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr" id="htmlElement">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte des Compétences Cybersécurité</title>
+    <title>Cyber Align - Étape 2</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="/static/js/serverStorage.js"></script>
+    <script src="{% static 'js/serverStorage.js' %}"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
       body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; }
       #heatmap-svg-element {
@@ -294,6 +295,19 @@
         text-overflow: ellipsis;
       }
       
+      /* Style spécifique pour les cellules de domaine avec flèche */
+      .heatmap-table td.domain-name {
+        text-align: left;
+        padding-left: 8px;
+        min-width: 120px;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+      }
+      
+
+      
       .heatmap-table th {
         background-color: rgba(0, 0, 0, 0.3);
         color: white;
@@ -305,10 +319,10 @@
         background-color: rgba(0, 0, 0, 0.25);
         color: white;
         font-weight: bold;
-        font-size: 14px;
-        padding: 3px 2px; /* Réduire le padding */
+        font-size: 10px;
+        padding: 2px 1px; /* Padding très réduit */
         border-top: 2px solid rgba(255, 255, 255, 0.2);
-        height: 60px; /* Réduire encore la hauteur */
+        height: 40px; /* Hauteur réduite */
         vertical-align: bottom;
       }
       
@@ -316,13 +330,13 @@
       .opm-id {
         font-weight: bold;
         background-color: rgba(0, 0, 0, 0.4);
-        border-radius: 3px;
-        padding: 4px 2px; /* Réduire le padding horizontal */
+        border-radius: 2px;
+        padding: 2px 1px; /* Padding très réduit */
         display: flex;
         flex-direction: column; /* Empiler les éléments verticalement */
         align-items: center;
         justify-content: center;
-        width: 24px;
+        width: 18px; /* Largeur réduite */
         margin: 0 auto; /* Centrage horizontal */
         letter-spacing: 0px; /* Pas besoin de letter-spacing pour des chiffres empilés */
         height: 100%;
@@ -380,9 +394,27 @@
         cursor: pointer;
       }
       
-      .heatmap-cell:hover {
-        opacity: 0.8;
-      }
+        .heatmap-cell:hover {
+          opacity: 0.8;
+        }
+        
+        /* Effet de surlignage jaune et lisible */
+        .row-highlight td {
+          box-shadow: inset 0 0 0 2px rgba(255, 193, 7, 0.7) !important;
+        }
+        
+        .column-highlight {
+          box-shadow: inset 0 0 0 2px rgba(255, 193, 7, 0.7) !important;
+        }
+        
+        .header-highlight {
+          box-shadow: inset 0 0 0 2px rgba(255, 193, 7, 0.8) !important;
+        }
+        
+        .heatmap-cell:hover {
+          box-shadow: inset 0 0 0 3px rgba(255, 193, 7, 0.9) !important;
+          opacity: 1 !important;
+        }
       
       /* Style pour meilleure lisibilité des OPM IDs */
       .opm-id-label {
@@ -414,6 +446,71 @@
         padding-bottom: 10px;
       }
       
+      /* Responsive design pour la heatmap */
+      .heatmap-table {
+        width: 100%;
+        table-layout: fixed;
+        font-size: 10px; /* Réduire la taille de police */
+      }
+      
+      .heatmap-table th, .heatmap-table td {
+        padding: 2px 1px; /* Réduire le padding */
+        font-size: 10px; /* Réduire la taille de police */
+        min-width: 20px; /* Largeur minimale réduite */
+        max-width: 25px; /* Largeur maximale réduite */
+      }
+      
+      /* Style pour les OPM IDs en bas */
+      .opm-id {
+        font-size: 8px !important; /* Très petite police pour les OPM IDs */
+        padding: 2px 1px !important;
+        line-height: 1 !important;
+      }
+      
+      .opm-digit {
+        font-size: 8px !important;
+        line-height: 1 !important;
+      }
+      
+      /* Style pour les domaines */
+      .domain-name {
+        font-size: 10px !important;
+        padding: 3px 2px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+      }
+      
+      /* Conteneur avec scroll horizontal si nécessaire */
+      #heatmap-container {
+        overflow-x: auto;
+        max-width: 100%;
+        white-space: nowrap;
+      }
+      
+      /* Responsive pour les petits écrans */
+      @media (max-width: 1200px) {
+        .heatmap-table {
+          font-size: 8px;
+        }
+        .heatmap-table th, .heatmap-table td {
+          padding: 1px;
+          font-size: 8px;
+          min-width: 18px;
+          max-width: 22px;
+        }
+        .opm-id {
+          font-size: 7px !important;
+        }
+        .opm-digit {
+          font-size: 7px !important;
+        }
+        .domain-name {
+          font-size: 8px !important;
+          min-width: 70px !important;
+          max-width: 70px !important;
+        }
+      }
+      
       /* Améliorer le tooltip */
       #heatmap-tooltip-element {
         opacity: 0;
@@ -442,6 +539,27 @@
         #heatmap-container {
           max-height: none;
           }
+      }
+      
+      /* Pour les écrans très larges */
+      @media (min-width: 1400px) {
+        .heatmap-table th, .heatmap-table td {
+          min-width: 22px;
+          max-width: 28px;
+          font-size: 11px;
+        }
+        .opm-id {
+          width: 20px;
+          font-size: 9px !important;
+        }
+        .opm-digit {
+          font-size: 9px !important;
+        }
+        .domain-name {
+          font-size: 11px !important;
+          min-width: 90px !important;
+          max-width: 90px !important;
+        }
       }
       
       /* Conteneur interne pour la heatmap */
@@ -621,13 +739,13 @@
 </head>
 <body>
     <!-- Ajout de la navbar -->
-    <nav class="bg-gray-800">
+    <nav class="bg-gray-800 fixed top-0 left-0 right-0 z-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center">
-                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">BETA</span>
-                        <span class="text-2xl font-bold text-white">DCWF</span>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                        <span class="text-2xl font-bold text-white">Cyber Align</span>
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
@@ -716,15 +834,115 @@
         </div>
     </nav>
     
-    <div id="app-container" class="bg-white text-gray-800 flex flex-col items-center p-4 md:p-8 min-h-screen">
-      <header class="mb-8 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-blue-600">
-          Relation entre les Domaines de Compétences NCWF et les Rôles DCWF
+    <!-- Section image et contenu -->
+    <div class="mb-4 bg-white pt-24">
+      
+      <!-- Titre principal au-dessus du premier rectangle - plus large et sans contour -->
+      <div class="text-center mb-8 relative z-20 px-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-600 transform -translate-y-4 mx-auto w-full">
+          Competency Areas vs. Work Roles: a matrix-based & modular integration
         </h1>
-        <p id="heatmap-subtitle" class="text-gray-600 mt-2">
-          Visualisation de l'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF
+        <p class="text-gray-600 mt-2 transform -translate-y-2 mx-auto max-w-6xl">
+          The K-, S-statements of each of the 11+04 Competency Areas can be superimposed ad hoc onto the K-,S-,A-,T-statements of the different DCWF / NCWF work roles.
         </p>
-      </header>
+      </div>
+      
+      <div class="max-w-6xl mx-auto">
+        <!-- Zone du haut avec image et texte -->
+        <div class="flex mb-6 border-2 border-gray-800 rounded-lg overflow-hidden">
+          <!-- Image réduite -->
+          <div class="w-1/3">
+            <img src="{% static 'photos_haute_qualite/CAB2.png' %}" alt="Image CAB" class="w-full h-full object-cover">
+          </div>
+          
+          <!-- Zone de texte à droite -->
+          <div class="flex-1 bg-gray-700 p-6">
+            <h3 class="text-white text-lg font-semibold mb-4 text-center">Matrix Integration Overview</h3>
+            <p class="text-white text-sm leading-relaxed mb-4">
+              Since NCWF v2.0.0 (2025), the integration between Competency Areas (NF-COM-xxx) and Work Roles (DCWF: OPM-ID / NCWF: WRL-ID) is fundamentally characterized by a matrix structure, providing complete flexibility and customization according to business and organizational needs.
+            </p>
+            
+            <hr class="border-white mb-4">
+            
+            <div class="bg-red-100 border-2 border-red-300 p-4 rounded-lg text-center">
+              <p class="text-red-800 text-sm">
+                <span class="font-bold text-red-900">Important note:</span><br>
+                <span class="text-red-700">All specific K- and S-statements related to the different NF-COM-xxx have not yet been published.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Zone du bas - Explorer App -->
+        <div class="bg-gray-700 rounded-lg p-6">
+          <div class="text-center">
+            <h2 class="text-white text-2xl font-bold mb-2">NICE Framework Competency Areas Explorer</h2>
+            <h3 class="text-gray-300 text-lg mb-4">Interactive Guide to Cybersecurity Workforce Development</h3>
+            <p class="text-white text-sm leading-relaxed mb-6">
+              Explore the 11+04 Competency Areas that define learner centric capabilities (additional Knowledge & Skills) and guide workforce development initiatives.
+            </p>
+            
+            <button class="bg-white text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200 flex items-center gap-2 mx-auto" onclick="window.open('/static/etape2plus/index_1.html', '_blank')">
+              <span>Learn more about the Competency Areas</span>
+              <span>+</span>
+            </button>
+          </div>
+        </div>
+          
+          <!-- Contenu détaillé (masqué par défaut) -->
+          <div id="detailedContent" class="hidden mt-4 text-white text-sm leading-relaxed">
+            <h3 class="font-bold text-lg mb-3">Matrix Approach</h3>
+            
+            <p class="mb-4">
+              Instead of a simple linear alignment, the NCWF structures Competency Areas (groups of related knowledge and skills) and Work Roles (cybersecurity job functions defined by tasks and KSATs) within a matrix:
+            </p>
+            
+            <ul class="mb-4 space-y-2">
+              <li class="flex items-start">
+                <span class="text-blue-300 mr-2">•</span>
+                <span><strong>A Competency Area may apply to multiple Work Roles:</strong> For example, the "Cyber Resiliency" competency may be relevant for OT engineering, threat analysis, or incident response.</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-300 mr-2">•</span>
+                <span><strong>A Work Role may require multiple Competency Areas:</strong> A network architect role could require competencies in network engineering, access management, and risk management, each defined by a distinct NF-COM.</span>
+              </li>
+            </ul>
+            
+            <p class="mb-4">
+              The Knowledge (K) and Skills (S) statements from Competency Areas are "activated", supplemented, and sometimes shared across several Work Roles, reflecting frequent intersections and overlaps in practice.
+            </p>
+            
+            <p class="mb-4">
+              This enables a modular and evolving approach, especially for hybrid profiles, personalized training, or adapting to new technological challenges.
+            </p>
+            
+            <h4 class="font-bold text-base mb-2">Benefits of the Matrix Structure</h4>
+            <ul class="mb-4 space-y-1">
+              <li class="flex items-start">
+                <span class="text-blue-300 mr-2">•</span>
+                <span>Personalization of skills development and career paths.</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-300 mr-2">•</span>
+                <span>Adaptability to the evolution of professions and the emergence of new cybersecurity domains.</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-blue-300 mr-2">•</span>
+                <span>Clarity for employers, who can assess needs across multiple dimensions, and for professionals, who can precisely position themselves within the ecosystem.</span>
+              </li>
+            </ul>
+            
+            <p class="text-blue-200 italic">
+              This matrix-based integration is thus a pillar of the robustness and agility of NCWF v2.0.0, facilitating dynamic skills management and the formation of effective teams to address the diversity of cyber threats.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+     <div id="app-container" class="bg-white text-gray-800 flex flex-col items-center p-4 md:p-8 min-h-screen">
+       <header class="mb-8 text-center">
+       </header>
       
       <!-- Liste des sauvegardes KSAT -->
       <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
@@ -740,52 +958,26 @@
         </div>
       </div>
       
-      <!-- Bouton pour réinitialiser la vue de la heatmap -->
-      <div class="w-full max-w-7xl flex justify-end mb-4">
-        <button id="reset-view-btn" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
-          </svg>
-          Réinitialiser la heatmap
-        </button>
-      </div>
-      
-      <!-- Légende des niveaux de corrélation -->
-      <div class="w-full max-w-7xl mb-4 p-4 bg-gray-50 rounded-lg shadow-sm legend-container">
-        <h3 class="text-lg font-semibold mb-3 text-gray-800">Légende des niveaux de corrélation</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #ffffff;"></span>
-            <span class="text-sm"><strong>0:</strong> Aucune corrélation</span>
-          </div>
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #e6eeff;"></span>
-            <span class="text-sm"><strong>1:</strong> Corrélation minimale</span>
-          </div>
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #99bbff;"></span>
-            <span class="text-sm"><strong>2:</strong> Corrélation faible</span>
-          </div>
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #4d88ff; border-color: rgba(255,255,255,0.2);"></span>
-            <span class="text-sm"><strong>3:</strong> Corrélation modérée</span>
-          </div>
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #0044cc; border-color: rgba(255,255,255,0.2);"></span>
-            <span class="text-sm"><strong>4:</strong> Corrélation forte</span>
-          </div>
-          <div class="flex items-center">
-            <span class="legend-color-square" style="background-color: #002266; border-color: rgba(255,255,255,0.2);"></span>
-            <span class="text-sm"><strong>5:</strong> Corrélation critique</span>
-          </div>
+      <!-- Section texte et bouton -->
+      <div class="w-full max-w-7xl mb-6">
+        <!-- Texte explicatif -->
+        <div class="text-center mb-4">
+          <p class="text-gray-800 text-lg mb-4">
+            Within the matrix approach, all combinations of Competency Areas (NF-COM-xxx) and Work Roles (OPM-ID) are theoretically possible. However, their relevance may vary.
+          </p>
+          <p class="text-red-600 font-semibold text-lg">
+            The AI-generated heat map provided below indicates, on a scale of 1 to 5, the correlations considered most relevant between NF-COM-xxx and OPM-ID. This information is provided for reference only. Users retain full discretion in selecting Competency Areas (NF-COM-xxx) to combine with Work Roles according to their needs.
+          </p>
         </div>
-        <div class="mt-3 text-sm text-gray-600 legend-detail">
-          <p><strong>0:</strong> Aucune corrélation</p>
-          <p><strong>1:</strong> Corrélation minimale (compréhension basique, implication périphérique)</p>
-          <p><strong>2:</strong> Corrélation faible (connaissance fonctionnelle, sans être un aspect central dans les responsabilités quotidiennes)</p>
-          <p><strong>3:</strong> Corrélation modérée (utilisation régulière, constitue une partie importante, mais non principale des fonctions)</p>
-          <p><strong>4:</strong> Corrélation forte (application fréquente et approfondie, compétence essentielle pour le WRL considéré)</p>
-          <p><strong>5:</strong> Corrélation critique (domaine fondamental, exige une maîtrise complète et une expertise avancée)</p>
+        
+        <!-- Bouton centré -->
+        <div class="text-center">
+          <button id="reset-view-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 mx-auto shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+            </svg>
+            Réinitialiser la heatmap
+          </button>
         </div>
       </div>
       
@@ -825,27 +1017,119 @@
             <button class="save-changes-btn" id="save-value-btn">Appliquer</button>
           </div>
         </div>
-      </main>
+       </main>
 
-      <!-- Boutons Simpli For P2 et P2 -->
-      <div class="w-full max-w-7xl flex justify-center mt-6 gap-4">
-        <button id="simpli-for-p2-btn" class="px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
-          Simpli For P2
-        </button>
-        <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
-          P2
-        </button>
-      </div>
+       <!-- Boutons Simpli For P2 et P2 -->
+       <div class="w-full max-w-7xl flex justify-center mt-6 gap-4">
+         <button id="simpli-for-p2-btn" class="px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
+           Simpli For P2
+         </button>
+         <button id="back-to-all-btn" class="px-6 py-3 bg-orange-500 text-white text-lg font-bold rounded-lg hover:bg-orange-600 transition-all opacity-50 cursor-not-allowed disabled" disabled style="display: none;">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2 transform transition-transform duration-300 hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+           </svg>
+           Afficher tous les domaines
+         </button>
+         <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
+           P2
+         </button>
+       </div>
+
+       <!-- Légende des niveaux de corrélation -->
+       <div class="w-full max-w-7xl mt-6 mb-4 p-4 bg-gray-50 rounded-lg shadow-sm legend-container">
+         <h3 class="text-lg font-semibold mb-3 text-gray-800">Légende des niveaux de corrélation</h3>
+         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #ffffff;"></span>
+             <span class="text-sm"><strong>0:</strong> Aucune corrélation</span>
+           </div>
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #e6eeff;"></span>
+             <span class="text-sm"><strong>1:</strong> Corrélation minimale</span>
+           </div>
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #99bbff;"></span>
+             <span class="text-sm"><strong>2:</strong> Corrélation faible</span>
+           </div>
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #4d88ff; border-color: rgba(255,255,255,0.2);"></span>
+             <span class="text-sm"><strong>3:</strong> Corrélation modérée</span>
+           </div>
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #0044cc; border-color: rgba(255,255,255,0.2);"></span>
+             <span class="text-sm"><strong>4:</strong> Corrélation forte</span>
+           </div>
+           <div class="flex items-center">
+             <span class="legend-color-square" style="background-color: #002266; border-color: rgba(255,255,255,0.2);"></span>
+             <span class="text-sm"><strong>5:</strong> Corrélation critique</span>
+           </div>
+         </div>
+         <div class="mt-3 text-sm text-gray-600 legend-detail">
+           <p><strong>0:</strong> Aucune corrélation</p>
+           <p><strong>1:</strong> Corrélation minimale (compréhension basique, implication périphérique)</p>
+           <p><strong>2:</strong> Corrélation faible (connaissance fonctionnelle, sans être un aspect central dans les responsabilités quotidiennes)</p>
+           <p><strong>3:</strong> Corrélation modérée (utilisation régulière, constitue une partie importante, mais non principale des fonctions)</p>
+           <p><strong>4:</strong> Corrélation forte (application fréquente et approfondie, compétence essentielle pour le WRL considéré)</p>
+           <p><strong>5:</strong> Corrélation critique (domaine fondamental, exige une maîtrise complète et une expertise avancée)</p>
+         </div>
+         
+         <!-- Section des domaines spéciaux -->
+         <div class="mt-4 pt-3 border-t border-gray-300">
+           <h4 class="text-md font-semibold mb-2 text-gray-700">Available NF-COM-xxx Knowledge & Skills Statements (For Info):</h4>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+             <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
+               <h5 class="font-semibold text-blue-800 mb-1">NF-COM-002: Artificial Intelligence (AI) Security</h5>
+               <p class="text-sm text-blue-700 mb-2">Sécurité de l'Intelligence Artificielle</p>
+               <button onclick="window.open('{% url 'nf_com_002_details' %}', '_blank', 'width=1000,height=800')" 
+                       class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors">
+                 Voir les détails ↗
+               </button>
+             </div>
+             <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+               <h5 class="font-semibold text-green-800 mb-1">NF-COM-007: Cyber Resiliency</h5>
+               <p class="text-sm text-green-700 mb-2">Résilience cyber</p>
+               <button onclick="window.open('{% url 'nf_com_007_details' %}', '_blank', 'width=1000,height=800')" 
+                       class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">
+                 Voir les détails ↗
+               </button>
+             </div>
+           </div>
+         </div>
+       </div>
+
 
       <footer class="mt-12 text-center text-gray-600 text-sm">
         <p>
-          Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF.
+          Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF (2017, 2024, 2025).
         </p>
         <p>Sources: <a href="https://niccs.cisa.gov/tools/nice-framework/competency-area" class="text-blue-500 hover:underline">NICCS CISA</a> et <a href="https://dl.dod.cyber.mil/wp-content/uploads/dcwf/ElementsMap/story.html" class="text-blue-500 hover:underline">DoD Cyber Workforce Framework</a></p>
       </footer>
     </div>
 
     <script>
+      // Gestion du bouton "Click for more"
+      document.addEventListener('DOMContentLoaded', function() {
+        const moreInfoBtn = document.getElementById('moreInfoBtn');
+        const detailedContent = document.getElementById('detailedContent');
+        const plusIcon = document.getElementById('plusIcon');
+        
+        if (moreInfoBtn && detailedContent && plusIcon) {
+          moreInfoBtn.addEventListener('click', function() {
+            if (detailedContent.classList.contains('hidden')) {
+              // Afficher le contenu détaillé
+              detailedContent.classList.remove('hidden');
+              plusIcon.textContent = '−';
+              moreInfoBtn.innerHTML = '<span>Click for less</span><span id="plusIcon">−</span>';
+            } else {
+              // Masquer le contenu détaillé
+              detailedContent.classList.add('hidden');
+              plusIcon.textContent = '+';
+              moreInfoBtn.innerHTML = '<span>Click for more</span><span id="plusIcon">+</span>';
+            }
+          });
+        }
+      });
+
       // --- Constants ---
       const MAX_RELEVANCE_VALUE = 5;
       
@@ -868,15 +1152,26 @@
         "NF-COM-015": "Secure Programming: Describes a learner's capabilities to develop computer software using secure coding practices that prevent the introduction of security vulnerabilities, identify and remediate common programming flaws, implement security controls within application architecture, conduct code security reviews, and integrate security considerations throughout the software development lifecycle to protect against both known and emerging threats."
       };
 
-      // Liste des OPM IDs à afficher
+      // Liste de TOUS les OPM IDs réels (DCWF 2017, 2024, 2025)
       const opmIds = [
-        "111", "112", "121", "131", "132", "141", "151", 
-        "211", "212", "221", "312", "321", "331", "332", "333", "334",
-        "411", "421", "422", "441", "443", "451", "461", 
-        "511", "521", "531", "541", 
-        "612", "621", "622", "631", "632", "641", "651", "652", "661", "671",
-        "722", "723", "731", "752", 
-        "801", "802", "803", "804", "805", "901"
+        // IT (Cyberspace) - 100s
+        "111", "112", "121", "122", "131", "132", "133", "141", "151",
+        // Cybersecurity - 200s  
+        "211", "212", "221",
+        // Cyberspace Effects - 300s
+        "311", "312", "322", "331", "332", "333", "341",
+        // Cyberspace Enablers - 400s
+        "411", "421", "422", "423", "424", "431", "441", "442", "443", "451", "461", "462", "463",
+        // Intelligence - 500s
+        "511", "521", "531", "541", "551",
+        // Data/AI - 600s
+        "611", "612", "621", "622", "623", "624", "625", "626", "627", "628", "631", "632", "641", "651", "652", "653", "661", "671", "672", "673",
+        // Software Engineering - 700s
+        "711", "712", "722", "723", "731", "732", "733", "751", "752", "753",
+        // Management - 800s
+        "801", "802", "803", "804", "805", "806",
+        // Leadership - 900s
+        "901", "902", "903"
       ];
 
       // Les 15 domaines de compétence du NCWF v2.0.0. de 2024
@@ -904,7 +1199,7 @@
       // Variable pour stocker les domaines sélectionnés
       let selectedDomains = [];
       
-      // Données des mappings entre domaines de compétence et OPM IDs
+      // Données des mappings entre domaines de compétence et OPM IDs 2025
       const mappings = {
         // Access Controls (NF-COM-001): Contrôle d'accès et gestion des identités
         access_controls: {
@@ -917,8 +1212,8 @@
         
         // Artificial Intelligence Security (NF-COM-002): Sécurité de l'IA
         ai_security: {
-          critical: ["623", "672", "673", "733", "902", "903"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Leadership
-          high: ["422", "423", "424", "653", "661", "753"],     // Data Analyst, Data Scientist, Data Steward, Research
+          critical: ["623", "624", "672", "673", "733", "902", "903"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Leadership
+          high: ["422", "423", "424", "653", "661", "753", "754"],     // Data Analyst, Data Scientist, Data Steward, Research
           medium: ["421", "461", "541", "611", "631", "641"],   // Database, Security, Development
           low: ["451", "511", "521", "612", "622", "652"],      // Admin, Defense, Security Architecture
           minimal: ["711", "712", "731", "732", "751", "801"]   // Training, Legal, Management
@@ -971,9 +1266,9 @@
         
         // DevSecOps (NF-COM-008): DevSecOps
         devsecops: {
-          critical: ["621", "622", "623", "627", "628", "673"], // Development, DevSecOps, Testing
-          high: ["451", "461", "511", "611", "631", "652"],     // Admin, Security, Architecture
-          medium: ["421", "441", "521", "541", "612", "641"],   // Database, Network, Defense
+          critical: ["621", "622", "623", "624", "627", "628", "629", "673"], // Development, DevSecOps, Testing
+          high: ["451", "461", "462", "511", "611", "631", "652"],     // Admin, Security, Architecture
+          medium: ["421", "441", "442", "521", "541", "612", "641"],   // Database, Network, Defense
           low: ["411", "431", "531", "671", "722", "732"],      // Support, Incident Response, Management
           minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
         },
@@ -1016,29 +1311,29 @@
         
         // Cybersecurity Leadership (NF-COM-013): Leadership en cybersécurité
         cybersecurity_leadership: {
-          critical: ["751", "752", "801", "802", "803", "901"], // Workforce, Policy, Management, Leadership
-          high: ["611", "612", "722", "731", "732", "902"],     // Security, Legal, AI Leadership
-          medium: ["511", "521", "531", "541", "651", "652"],   // Security, Defense, Architecture
-          low: ["421", "441", "451", "461", "631", "641"],      // Admin, Network, Security Development
-          minimal: ["411", "422", "431", "621", "622", "671"]   // Support, Data, Development
+          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
+          high: ["611", "612", "722", "723", "724", "731", "732", "733", "741", "742", "902", "903"],     // Security, Legal, AI Leadership
+          medium: ["511", "512", "521", "522", "531", "532", "541", "542", "551", "552", "561", "562", "651", "652"],   // Security, Defense, Architecture
+          low: ["421", "422", "441", "442", "451", "461", "462", "631", "641", "642"],      // Admin, Network, Security Development
+          minimal: ["411", "412", "431", "621", "622", "623", "624", "625", "626", "627", "628", "629", "671", "672", "673"]   // Support, Data, Development
         },
         
         // Data Security (NF-COM-014): Sécurité des données
         data_security: {
-          critical: ["421", "422", "423", "511", "611", "631"], // Database, Data Analysis, Security
-          high: ["424", "451", "521", "541", "612", "652"],     // Data Steward, Admin, Defense
-          medium: ["411", "441", "461", "621", "622", "641"],   // Support, Network, Development
-          low: ["431", "531", "651", "671", "722", "732"],      // Knowledge, Incident Response, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          critical: ["421", "422", "423", "424", "511", "512", "611", "631"], // Database, Data Analysis, Security
+          high: ["451", "461", "462", "521", "522", "541", "542", "612", "652"],     // Data Steward, Admin, Defense
+          medium: ["411", "412", "441", "442", "461", "621", "622", "623", "624", "641", "642"],   // Support, Network, Development
+          low: ["431", "531", "532", "551", "552", "651", "671", "672", "722", "732", "733"],      // Knowledge, Incident Response, Management
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "801", "901"]   // Training, Legal, Leadership
         },
         
         // Secure Programming (NF-COM-015): Programmation sécurisée
         secure_programming: {
-          critical: ["621", "622", "623", "627", "628", "631"], // Development, DevSecOps, Security Dev
-          high: ["461", "511", "541", "611", "612", "652"],     // Security Analysis, Security Assessment
-          medium: ["421", "441", "451", "521", "641", "673"],   // Admin, Network, Testing
-          low: ["411", "431", "531", "651", "671", "722"],      // Support, Incident Response, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          critical: ["621", "622", "623", "624", "625", "626", "627", "628", "629", "631"], // Development, DevSecOps, Security Dev
+          high: ["461", "462", "511", "512", "541", "542", "611", "612", "652"],     // Security Analysis, Security Assessment
+          medium: ["421", "422", "441", "442", "451", "521", "522", "641", "642", "673"],   // Admin, Network, Testing
+          low: ["411", "412", "431", "531", "532", "551", "552", "651", "671", "672", "722", "723", "724"],      // Support, Incident Response, Management
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
         }
       };
 
@@ -1124,14 +1419,13 @@
         
         if (isFiltered) {
           // En mode filtré: donner plus d'espace aux colonnes des OPM IDs
-          // Réserver moins d'espace pour la colonne des domaines
           domainWidth = Math.min(120, containerWidth * 0.25); // Max 25% de la largeur ou 120px
           const remainingWidth = containerWidth - domainWidth;
           cellWidth = Math.max(40, Math.floor(remainingWidth / (numColumns - 1)));
         } else {
-          // En mode normal: équilibrer davantage
-          domainWidth = 200; // Largeur par défaut des domaines
-          cellWidth = Math.max(25, Math.floor((containerWidth - domainWidth) / (numColumns - 1)) - 2);
+          // En mode normal: cellules très compactes pour tout voir
+          domainWidth = 80; // Largeur réduite des domaines
+          cellWidth = Math.max(15, Math.floor((containerWidth - domainWidth) / (numColumns - 1)) - 1);
         }
         
         // Appliquer le style aux cellules (sauf la colonne de domaines)
@@ -1147,9 +1441,9 @@
             cell.style.fontWeight = 'bold';
             cell.style.padding = '8px 2px';
           } else {
-            cell.style.fontSize = '12px';
+            cell.style.fontSize = '10px';
             cell.style.fontWeight = '';
-            cell.style.padding = '5px 2px';
+            cell.style.padding = '2px 1px';
           }
         });
         
@@ -1164,6 +1458,9 @@
           if (isFiltered) {
             cell.style.fontSize = '12px';
             cell.style.padding = '5px 5px';
+          } else {
+            cell.style.fontSize = '10px';
+            cell.style.padding = '3px 2px';
           }
         });
       }
@@ -1268,20 +1565,33 @@
       // Fonction pour visualiser une sélection - cette fonction est utilisée par les événements des boutons de visualisation
       function visualizeSelection(selection) {
         console.log('Visualisation de la sélection:', selection);
+        console.log('Structure de la sélection:', JSON.stringify(selection, null, 2));
         
-        // Extraire les OPM IDs de la sélection
+        // Extraire les OPM IDs 2025 de la sélection
         const roles = selection.roles || selection.ksats || [];
+        console.log('Roles trouvés:', roles);
+        
         const selectedOpmIds = [];
         
-        roles.forEach(role => {
-          const opmId = role.opm_id || role.opmId;
+        roles.forEach((role, index) => {
+          console.log(`Role ${index}:`, role);
+          const opmId = role.opm_id || role.opmId || role.dcwf_code || role.ncwf_id;
+          console.log(`OPM ID extrait pour role ${index}:`, opmId);
+          
           if (opmId) {
             // Extraire uniquement les chiffres si l'OPM ID contient du texte
             const numericMatch = opmId.toString().match(/\d+/);
             const cleanId = numericMatch ? numericMatch[0] : opmId;
+            console.log(`OPM ID nettoyé pour role ${index}:`, cleanId);
             
-            if (!selectedOpmIds.includes(cleanId)) {
-              selectedOpmIds.push(cleanId);
+            // Vérifier si cet OPM ID existe dans la liste des OPM IDs valides
+            if (opmIds.includes(cleanId)) {
+              if (!selectedOpmIds.includes(cleanId)) {
+                selectedOpmIds.push(cleanId);
+                console.log(`OPM ID ${cleanId} ajouté à la liste des sélectionnés`);
+              }
+            } else {
+              console.warn(`OPM ID ${cleanId} n'est pas dans la liste des OPM IDs valides`);
             }
           }
         });
@@ -1294,7 +1604,7 @@
           subtitle.innerHTML = `
             <span class="font-medium">Sélection en cours:</span> 
             ${selection.name || selection.title || 'Sélection personnalisée'} 
-            <span class="font-medium">(${selectedOpmIds.length} OPM IDs)</span>
+            <span class="font-medium">(${selectedOpmIds.length} OPM IDs 2025)</span>
             <span class="ml-2 text-sm">
               <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1308,7 +1618,7 @@
           // Ajouter un gestionnaire d'événements pour effacer le filtre
           document.getElementById('clear-filter-btn').addEventListener('click', () => {
             // Restaurer le sous-titre original
-            subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+            subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align';
             
             // Réinitialiser la heatmap avec tous les OPM IDs
             renderHeatmapTable(null, true); // true = réinitialisation complète
@@ -1350,11 +1660,11 @@
         // Formater les données pour le summary chart
         const formattedData = {
           roles: roles.map(role => {
-            // S'assurer que les OPM IDs sont au bon format
+            // S'assurer que les OPM IDs 2025 sont au bon format
             // Le format attendu est une propriété opmId qui contient un nombre
             return {
               ...role,
-              opmId: role.opm_id || role.opmId || (role.id ? role.id.toString() : '')
+              opmId: role.opm_id || role.opmId || role.dcwf_code || role.ncwf_id || (role.id ? role.id.toString() : '')
             };
           }),
           timestamp: new Date().toISOString(),
@@ -1475,20 +1785,47 @@
           const synthesisFooter = document.createElement('th');
           synthesisFooter.className = 'p-1 border border-gray-700 bg-gray-900 text-white font-bold synthesis-footer';
           
-          // Calculer la moyenne d'importance globale
+          // Calculer la moyenne d'importance globale (seulement pour les domaines visibles)
           let totalScore = 0;
           let totalPossible = 0;
           
+          // Si on est en mode filtré, calculer seulement pour les domaines sélectionnés
+          if (isFiltered && selectedDomains.length > 0) {
+            console.log("DEBUG: Mode filtré détecté");
+            console.log("DEBUG: selectedDomains:", selectedDomains);
+            console.log("DEBUG: opmIdsToDisplay:", opmIdsToDisplay);
+            
+            selectedDomains.forEach(domainCode => {
+              const domainIndex = competencyAreas.findIndex(domain => 
+                domain.includes(domainCode) || domain === domainCode
+              );
+              console.log(`DEBUG: Recherche de ${domainCode} -> index: ${domainIndex}`);
+              
+              if (domainIndex !== -1) {
+                opmIdsToDisplay.forEach(id => {
+                  const originalIndex = opmIds.indexOf(id);
+                  const value = heatmapData[domainIndex][originalIndex] || 0;
+                  totalScore += value;
+                  totalPossible += 5; // La valeur maximale est 5
+                  console.log(`DEBUG: ${domainCode} - OPM ${id} -> valeur: ${value}`);
+                });
+              }
+            });
+            
+            console.log(`DEBUG: Total score: ${totalScore}, Total possible: ${totalPossible}`);
+          } else {
+            // Mode normal : calculer pour tous les domaines
           competencyAreas.forEach((domain, i) => {
             opmIdsToDisplay.forEach(id => {
               const originalIndex = opmIds.indexOf(id);
-              // originalIndex est garanti d'être ≥ 0 car opmIdsToDisplay a été filtré
               totalScore += (heatmapData[i][originalIndex] || 0);
               totalPossible += 5; // La valeur maximale est 5
             });
           });
+          }
           
           const globalPercentage = totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
+          console.log(`DEBUG: Calcul final - Score: ${totalScore}, Possible: ${totalPossible}, Pourcentage: ${globalPercentage}%`);
           
           // Créer un indicateur visuel pour la synthèse globale
           synthesisFooter.innerHTML = `
@@ -1543,29 +1880,9 @@
           tdDomain.dataset.selected = "false";
           tdDomain.dataset.domainCode = domainCode;
           tdDomain.dataset.domainIndex = i;
+          tdDomain.className = 'domain-name'; // Ajouter la classe CSS pour le style
           
-          // Ajouter un indicateur visuel pour montrer que c'est cliquable
-          if (domainCode === "NF-COM-007" || domainCode === "NF-COM-002") {
-            const infoIcon = document.createElement('span');
-            infoIcon.innerHTML = '&nbsp;↗️';
-            infoIcon.style.marginLeft = '3px';
-            infoIcon.style.fontSize = '14px';
-            infoIcon.style.color = '#3b82f6';
-            infoIcon.title = "Cliquez pour plus d'informations";
-            infoIcon.style.cursor = 'pointer';
-            
-            // Ajouter un événement de clic spécifique à l'icône
-            infoIcon.addEventListener('click', function(e) {
-              e.stopPropagation(); // Empêcher la propagation au parent
-              if (domainCode === "NF-COM-007") {
-                window.open("{% url 'nf_com_007_details' %}", "_blank", "width=1000,height=800");
-              } else if (domainCode === "NF-COM-002") {
-                window.open("{% url 'nf_com_002_details' %}", "_blank", "width=1000,height=800");
-              }
-            });
-            
-            tdDomain.appendChild(infoIcon);
-          }
+
           
           // Ajouter un événement de clic pour sélectionner/désélectionner le domaine
           tdDomain.addEventListener('click', function(e) {
@@ -1897,11 +2214,79 @@
             p2Button.disabled = true;
           }
         }
+        
+        // Ajouter les événements de surlignage après la génération du tableau
+        setupHeatmapHighlighting();
+      }
+      
+      // Fonction pour configurer le surlignage des lignes et colonnes
+      function setupHeatmapHighlighting() {
+        const heatmapTable = document.querySelector('.heatmap-table');
+        if (!heatmapTable) return;
+        
+        const cells = heatmapTable.querySelectorAll('td.heatmap-cell');
+        
+        cells.forEach(cell => {
+          cell.addEventListener('mouseenter', function() {
+            const row = this.parentElement;
+            const cellIndex = Array.from(row.children).indexOf(this);
+            
+            // Surligner la ligne
+            row.classList.add('row-highlight');
+            
+            // Surligner la colonne - inclure les en-têtes OPM ID dans le tfoot
+            const allRows = heatmapTable.querySelectorAll('tr');
+            allRows.forEach(r => {
+              const cellInColumn = r.children[cellIndex];
+              if (cellInColumn) {
+                if (cellInColumn.classList.contains('heatmap-cell')) {
+                  cellInColumn.classList.add('column-highlight');
+                } else if (cellInColumn.tagName === 'TH') {
+                  // Cibler spécifiquement les TH dans le tfoot (OPM IDs)
+                  if (r.closest('tfoot')) {
+                    cellInColumn.classList.add('header-highlight');
+                  }
+                }
+              }
+            });
+          });
+          
+          cell.addEventListener('mouseleave', function() {
+            const row = this.parentElement;
+            const cellIndex = Array.from(row.children).indexOf(this);
+            
+            // Retirer le surlignage de la ligne
+            row.classList.remove('row-highlight');
+            
+            // Retirer le surlignage de la colonne
+            const allRows = heatmapTable.querySelectorAll('tr');
+            allRows.forEach(r => {
+              const cellInColumn = r.children[cellIndex];
+              if (cellInColumn) {
+                if (cellInColumn.classList.contains('heatmap-cell')) {
+                  cellInColumn.classList.remove('column-highlight');
+                } else if (cellInColumn.tagName === 'TH') {
+                  // Cibler spécifiquement les TH dans le tfoot (OPM IDs)
+                  if (r.closest('tfoot')) {
+                    cellInColumn.classList.remove('header-highlight');
+                  }
+                }
+              }
+            });
+          });
+        });
       }
       
       // Fonction pour filtrer la heatmap avec seulement les domaines sélectionnés
       function filterHeatmapByDomains() {
-        if (selectedDomains.length === 0) return;
+        console.log("DEBUG: filterHeatmapByDomains appelée");
+        console.log("DEBUG: selectedDomains:", selectedDomains);
+        console.log("DEBUG: selectedDomains.length:", selectedDomains.length);
+        
+        if (selectedDomains.length === 0) {
+          console.log("DEBUG: Aucun domaine sélectionné, sortie");
+          return;
+        }
         
         // Récupérer toutes les lignes de la heatmap
         const rows = document.querySelectorAll('.heatmap-table tbody tr');
@@ -1921,22 +2306,171 @@
           }
         });
         
+        // Recalculer l'affinité globale pour les domaines sélectionnés
+        recalculateGlobalAffinity();
+        
+        // Afficher le bouton retour en arrière
+        const backButton = document.getElementById('back-to-all-btn');
+        if (backButton) {
+          backButton.style.display = 'inline-flex';
+          backButton.disabled = false;
+          backButton.classList.remove('opacity-50', 'cursor-not-allowed');
+          backButton.classList.add('opacity-100', 'cursor-pointer');
+        }
+        
         // Mettre à jour le titre de la heatmap
         const subtitle = document.getElementById('heatmap-subtitle');
         if (subtitle) {
           subtitle.innerHTML = `
             <span class="font-medium">Affichage filtré:</span> 
             ${selectedDomains.length} domaine(s) sélectionné(s)
-            <button id="reset-domain-filter-btn" class="ml-2 text-sm text-red-500 hover:text-red-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              Réinitialiser le filtre
-            </button>
           `;
+        }
+      }
+      
+      // Fonction pour recalculer l'affinité globale
+      function recalculateGlobalAffinity() {
+        console.log("DEBUG: Recalcul de l'affinité globale");
+        console.log("DEBUG: selectedDomains:", selectedDomains);
+        
+        let totalScore = 0;
+        let totalPossible = 0;
+        
+        // Récupérer les OPM IDs affichés depuis la table
+        const opmIdCells = document.querySelectorAll('tfoot th:not(:first-child)');
+        const currentOpmIds = Array.from(opmIdCells).map(cell => {
+          const opmIdElement = cell.querySelector('.opm-id');
+          return opmIdElement ? opmIdElement.textContent.trim() : null;
+        }).filter(id => id !== null);
+        
+        console.log("DEBUG: OPM IDs trouvés dans la table:", currentOpmIds);
+        
+        // Calculer seulement pour les domaines sélectionnés
+        selectedDomains.forEach(domainCode => {
+          const domainIndex = competencyAreas.findIndex(domain => 
+            domain.includes(domainCode) || domain === domainCode
+          );
+          console.log(`DEBUG: Recherche de ${domainCode} -> index: ${domainIndex}`);
           
-          // Ajouter un événement sur le bouton de réinitialisation
-          document.getElementById('reset-domain-filter-btn').addEventListener('click', resetDomainFilter);
+          if (domainIndex !== -1) {
+            currentOpmIds.forEach(id => {
+              const originalIndex = opmIds.indexOf(id);
+              const value = heatmapData[domainIndex][originalIndex] || 0;
+              totalScore += value;
+              totalPossible += 5; // La valeur maximale est 5
+              console.log(`DEBUG: ${domainCode} - OPM ${id} -> valeur: ${value}`);
+            });
+          }
+        });
+        
+        const globalPercentage = totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
+        console.log(`DEBUG: Calcul final - Score: ${totalScore}, Possible: ${totalPossible}, Pourcentage: ${globalPercentage}%`);
+        
+        // Mettre à jour l'affichage de l'affinité globale
+        updateGlobalAffinityDisplay(globalPercentage, totalScore, totalPossible);
+      }
+      
+      // Fonction pour afficher tous les domaines (garder la sauvegarde)
+      function showAllDomains() {
+        console.log("DEBUG: Affichage de tous les domaines");
+        
+        // Réafficher toutes les lignes
+        const rows = document.querySelectorAll('.heatmap-table tbody tr');
+        rows.forEach(row => {
+          row.style.display = '';
+        });
+        
+        // Recalculer l'affinité globale pour tous les domaines
+        recalculateGlobalAffinityForAll();
+        
+        // Cacher le bouton retour en arrière
+        const backButton = document.getElementById('back-to-all-btn');
+        if (backButton) {
+          backButton.style.display = 'none';
+          backButton.disabled = true;
+          backButton.classList.add('opacity-50', 'cursor-not-allowed');
+          backButton.classList.remove('opacity-100', 'cursor-pointer');
+        }
+        
+        // Mettre à jour le sous-titre
+        const subtitle = document.getElementById('heatmap-subtitle');
+        if (subtitle) {
+          subtitle.innerHTML = `
+            <span class="font-medium">Affichage complet:</span> 
+            Tous les domaines de compétence
+          `;
+        }
+      }
+      
+      // Fonction pour recalculer l'affinité globale pour tous les domaines
+      function recalculateGlobalAffinityForAll() {
+        console.log("DEBUG: Recalcul de l'affinité globale pour tous les domaines");
+        
+        let totalScore = 0;
+        let totalPossible = 0;
+        
+        // Récupérer les OPM IDs affichés depuis la table
+        const opmIdCells = document.querySelectorAll('tfoot th:not(:first-child)');
+        const currentOpmIds = Array.from(opmIdCells).map(cell => {
+          const opmIdElement = cell.querySelector('.opm-id');
+          return opmIdElement ? opmIdElement.textContent.trim() : null;
+        }).filter(id => id !== null);
+        
+        console.log("DEBUG: OPM IDs trouvés dans la table:", currentOpmIds);
+        
+        // Calculer pour tous les domaines
+        competencyAreas.forEach((domain, i) => {
+          currentOpmIds.forEach(id => {
+            const originalIndex = opmIds.indexOf(id);
+            const value = heatmapData[i][originalIndex] || 0;
+            totalScore += value;
+            totalPossible += 5; // La valeur maximale est 5
+          });
+        });
+        
+        const globalPercentage = totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
+        console.log(`DEBUG: Calcul final pour tous - Score: ${totalScore}, Possible: ${totalPossible}, Pourcentage: ${globalPercentage}%`);
+        
+        // Mettre à jour l'affichage de l'affinité globale
+        updateGlobalAffinityDisplay(globalPercentage, totalScore, totalPossible);
+      }
+      
+      // Fonction pour mettre à jour l'affichage de l'affinité globale
+      function updateGlobalAffinityDisplay(percentage, score, possible) {
+        console.log("DEBUG: Mise à jour de l'affichage d'affinité globale...");
+        
+        // Essayer plusieurs sélecteurs pour trouver l'élément
+        let synthesisFooter = document.querySelector('.synthesis-footer');
+        if (!synthesisFooter) {
+          synthesisFooter = document.querySelector('tfoot th:last-child');
+        }
+        if (!synthesisFooter) {
+          synthesisFooter = document.querySelector('.global-synthesis');
+        }
+        if (!synthesisFooter) {
+          synthesisFooter = document.querySelector('.global-percent');
+        }
+        
+        console.log("DEBUG: Élément trouvé:", synthesisFooter);
+        
+        if (synthesisFooter) {
+          // Si c'est l'élément avec le pourcentage, mettre à jour directement
+          if (synthesisFooter.classList.contains('global-percent')) {
+            synthesisFooter.textContent = `${percentage}%`;
+            console.log("DEBUG: Pourcentage mis à jour directement");
+          } else {
+            // Sinon, mettre à jour le contenu complet
+            synthesisFooter.innerHTML = `
+              <div class="global-synthesis">
+                <div class="global-percent">${percentage}%</div>
+                <div class="global-label">Affinité<br>globale</div>
+              </div>
+            `;
+            synthesisFooter.title = `Affinité globale: ${percentage}% - Score total: ${score}/${possible}`;
+            console.log("DEBUG: Contenu complet mis à jour");
+          }
+        } else {
+          console.log("DEBUG: ERREUR - Aucun élément d'affinité globale trouvé !");
         }
       }
       
@@ -1966,20 +2500,37 @@
         // Restaurer le sous-titre original
         const subtitle = document.getElementById('heatmap-subtitle');
         if (subtitle) {
-          subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+          subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align (2017, 2024, 2025)';
         }
+        
+        // Recalculer l'affinité globale pour tous les domaines
+        recalculateGlobalAffinityForAll();
       }
       
       // Initialisation de la heatmap au chargement de la page
       document.addEventListener('DOMContentLoaded', function() {
+        console.log("DEBUG: Page chargée, initialisation en cours...");
+        
+        try {
         // Initialiser la heatmap
+          console.log("DEBUG: Initialisation de la heatmap...");
         initializeHeatmap();
+          console.log("DEBUG: Heatmap initialisée");
         
         // Charger explicitement les sélections sauvegardées
+          console.log("DEBUG: Chargement des sauvegardes...");
         loadSavedSelections();
+          console.log("DEBUG: Sauvegardes chargées");
         
         // Ajuster la taille de la heatmap
+          console.log("DEBUG: Ajustement de la taille...");
         adjustHeatmapSize();
+          console.log("DEBUG: Taille ajustée");
+          
+          console.log("DEBUG: Initialisation terminée avec succès");
+        } catch (error) {
+          console.error("DEBUG: Erreur lors de l'initialisation:", error);
+        }
         
         // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
         document.getElementById('reset-view-btn').addEventListener('click', function() {
@@ -1996,6 +2547,11 @@
         // Gestionnaire d'événement pour le bouton Simpli For P2
         document.getElementById('simpli-for-p2-btn').addEventListener('click', function() {
           filterHeatmapByDomains();
+        });
+        
+        // Gestionnaire d'événement pour le bouton retour en arrière
+        document.getElementById('back-to-all-btn').addEventListener('click', function() {
+          showAllDomains();
         });
 
         // Gestionnaire d'événement pour le bouton P2
@@ -2068,16 +2624,19 @@
           window.visualizeSelection = function(selection) {
             console.log('Visualisation de la sélection:', selection);
             
-            // Extraire les OPM IDs de la sélection
+            // Extraire les OPM IDs 2025 de la sélection
             const roles = selection.roles || selection.ksats || [];
             const selectedOpmIds = [];
             
             roles.forEach(role => {
-              const opmId = role.opm_id || role.opmId;
+              console.log('Role:', role);
+              const opmId = role.opm_id || role.opmId || role.dcwf_code || role.ncwf_id;
+              console.log('OPM ID extrait:', opmId);
               if (opmId) {
                 // Extraire uniquement les chiffres si l'OPM ID contient du texte
                 const numericMatch = opmId.toString().match(/\d+/);
                 const cleanId = numericMatch ? numericMatch[0] : opmId;
+                console.log('Clean ID:', cleanId);
                 
                 if (!selectedOpmIds.includes(cleanId)) {
                   selectedOpmIds.push(cleanId);
@@ -2093,7 +2652,7 @@
               subtitle.innerHTML = `
                 <span class="font-medium">Sélection en cours:</span> 
                 ${selection.name || selection.title || 'Sélection personnalisée'} 
-                <span class="font-medium">(${selectedOpmIds.length} OPM IDs)</span>
+              <span class="font-medium">(${selectedOpmIds.length} OPM IDs 2025)</span>
                 <span class="ml-2 text-sm">
                   <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -2107,7 +2666,7 @@
               // Ajouter un gestionnaire d'événements pour effacer le filtre
               document.getElementById('clear-filter-btn').addEventListener('click', () => {
                 // Restaurer le sous-titre original
-                subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels DCWF';
+                subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align';
                 
                 // Réinitialiser la heatmap avec tous les OPM IDs
                 renderHeatmapTable(null, true); // true = réinitialisation complète

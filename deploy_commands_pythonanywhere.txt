@@ -1,0 +1,23 @@
+# Commandes à exécuter sur PythonAnywhere pour déployer le NCWF Visualisateur
+# Copiez et collez ces commandes dans le terminal PythonAnywhere
+
+# 1. Aller dans le répertoire du projet
+cd /home/WILLAZ/Frameworks-master
+
+# 2. Créer le dossier de destination
+mkdir -p staticfiles/ncwf-visualizer
+
+# 3. Copier les fichiers du NCWF Visualisateur
+cp -r web_app/static/ncwf-visualizer/* staticfiles/ncwf-visualizer/
+
+# 4. Vérifier les permissions
+chmod -R 755 staticfiles/ncwf-visualizer
+
+# 5. Vérifier que les fichiers sont bien copiés
+ls -la staticfiles/ncwf-visualizer/
+
+# 6. Redémarrer l'application web
+# Allez dans l'onglet 'Web' de PythonAnywhere et cliquez sur 'Reload'
+
+# URL d'accès après déploiement:
+# https://willaz.pythonanywhere.com/static/ncwf-visualizer/index.html

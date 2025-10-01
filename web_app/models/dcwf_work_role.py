@@ -46,8 +46,10 @@ class DcwfWorkRole(models.Model):
         """Retourne le work role NCWF 2025 associé via l'OPM ID"""
         if self.opm and self.opm.id:
             from web_app.models.dcwf_2025_work_role import Dcwf2025WorkRole
+            from web_app.models.ncwf_2025_ksat import Ncwf2025WorkRole
             # Chercher via le code DCWF qui correspond à l'OPM ID
             dcwf_2025 = Dcwf2025WorkRole.objects.filter(dcwf_code=str(self.opm.id)).first()
             if dcwf_2025 and dcwf_2025.ncwf_id:
-                return dcwf_2025
+                # Retourner le vrai objet Ncwf2025WorkRole
+                return Ncwf2025WorkRole.objects.filter(ncwf_id=dcwf_2025.ncwf_id).first()
         return None

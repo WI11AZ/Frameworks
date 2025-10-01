@@ -6,13 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{% static 'favicon/favicon-96x96.png' %}" sizes="96x96"/>
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}"/>
-    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}"/>
-    <meta name="apple-mobile-web-app-title" content="Anxiety Breaker"/>
-    <link rel="manifest" href="/site.webmanifest"/>
-    <title>{% block title %}DCWF{% endblock %}</title>
+    <!-- Favicon pour différents navigateurs et appareils -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}"/>
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'android-chrome-192x192.png' %}"/>
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'android-chrome-512x512.png' %}"/>
+    <link rel="manifest" href="{% static 'site.webmanifest' %}"/>
+    <meta name="apple-mobile-web-app-title" content="Cyber Align"/>
+    <title>{% block title %}Cyber Align{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Indicateur d'authentification pour serverStorage -->
     <div id="user-authenticated" data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}" style="display:none;"></div>
@@ -287,6 +290,384 @@
 
     </style>
 
+    <!-- Beta Warning Modal Styles -->
+    <style>
+        .beta-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .beta-modal.hidden {
+            display: none;
+        }
+
+        .beta-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            animation: betaModalSlideIn 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes betaModalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .beta-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #f59e0b;
+        }
+
+        .beta-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .beta-subtitle {
+            font-size: 20px;
+            color: #f59e0b;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .beta-message {
+            font-size: 16px;
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .beta-contact {
+            background: #f3f4f6;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .beta-contact-text {
+            font-size: 14px;
+            color: #374151;
+            margin: 0;
+        }
+
+        .beta-contact-email {
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .beta-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 150px;
+        }
+
+        .beta-button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .beta-button:active {
+            transform: translateY(0);
+        }
+
+        .beta-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .beta-button:disabled:hover {
+            background: #9ca3af;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .beta-checkbox-container {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .beta-checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .beta-checkbox {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #3b82f6;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .beta-checkbox-text {
+            user-select: none;
+        }
+
+        /* Dark mode support */
+        .dark-mode .beta-modal-content {
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
+        .dark-mode .beta-title {
+            color: #f9fafb;
+        }
+
+        .dark-mode .beta-message {
+            color: #d1d5db;
+        }
+
+        .dark-mode .beta-contact {
+            background: #374151;
+            border-left-color: #60a5fa;
+        }
+
+        .dark-mode .beta-contact-text {
+            color: #e5e7eb;
+        }
+
+        .dark-mode .beta-contact-email {
+            color: #60a5fa;
+        }
+
+        .dark-mode .beta-checkbox-label {
+            color: #d1d5db;
+        }
+
+        /* Styles pour le wrapper de contenu */
+        .beta-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Responsive styles for mobile devices */
+        @media (max-width: 768px) {
+            .beta-modal {
+                padding: 10px;
+                align-items: flex-start;
+                padding-top: 5vh;
+            }
+
+            .beta-modal-content {
+                padding: 20px;
+                max-height: 85vh;
+                margin: 0;
+                border-radius: 8px;
+            }
+
+            .beta-icon {
+                font-size: 36px;
+                margin-bottom: 15px;
+            }
+
+            .beta-title {
+                font-size: 24px;
+                margin-bottom: 12px;
+            }
+
+            .beta-subtitle {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .beta-message {
+                font-size: 14px;
+                margin-bottom: 20px;
+                line-height: 1.5;
+            }
+
+            .beta-message p {
+                margin-bottom: 12px;
+            }
+
+            .beta-contact {
+                padding: 12px;
+                margin-bottom: 20px;
+            }
+
+            .beta-contact-text {
+                font-size: 13px;
+            }
+
+            .beta-checkbox-container {
+                margin: 15px 0;
+                order: 2;
+            }
+
+            .beta-checkbox-label {
+                font-size: 13px;
+                gap: 8px;
+            }
+
+            .beta-checkbox {
+                width: 16px;
+                height: 16px;
+            }
+
+            .beta-button {
+                padding: 12px 24px;
+                font-size: 14px;
+                min-width: 120px;
+                order: 3;
+                margin-top: 10px;
+            }
+
+            /* Force le bouton à rester en bas sur mobile */
+            .beta-modal-content {
+                justify-content: space-between;
+            }
+
+            .beta-content-wrapper {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        /* Styles pour très petits écrans */
+        @media (max-width: 480px) {
+            .beta-modal {
+                padding: 5px;
+                padding-top: 2vh;
+            }
+
+            .beta-modal-content {
+                padding: 15px;
+                max-height: 90vh;
+            }
+
+            .beta-title {
+                font-size: 20px;
+            }
+
+            .beta-subtitle {
+                font-size: 16px;
+            }
+
+            .beta-message {
+                font-size: 13px;
+            }
+
+            .beta-button {
+                padding: 10px 20px;
+                font-size: 13px;
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+
+        /* Améliorations pour les écrans tactiles */
+        @media (hover: none) and (pointer: coarse) {
+            .beta-button {
+                min-height: 44px; /* Taille minimale recommandée pour les écrans tactiles */
+                padding: 12px 24px;
+            }
+
+            .beta-checkbox {
+                min-width: 20px;
+                min-height: 20px;
+            }
+        }
+
+        /* Styles pour les écrans en mode paysage mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .beta-modal {
+                padding-top: 2vh;
+                padding-bottom: 2vh;
+            }
+
+            .beta-modal-content {
+                max-height: 95vh;
+                padding: 15px;
+            }
+
+            .beta-icon {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            .beta-title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            .beta-subtitle {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .beta-message {
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+
+            .beta-message p {
+                margin-bottom: 8px;
+            }
+
+            .beta-contact {
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+
+            .beta-checkbox-container {
+                margin: 10px 0;
+            }
+
+            .beta-button {
+                margin-top: 8px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+
 
 </head>
 
@@ -301,11 +682,78 @@
     {% include "web_app/template/menu.html" %}
 
     <header class="bg-white shadow">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-            <!-- Affichage du numéro de poste -->
-            <div id="header-job-number" class="text-md font-medium text-gray-700 hidden">
-                Numéro de poste: <span id="header-job-number-value" class="font-bold text-blue-600"></span>
+        <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Cyber Align Dashboard</h1>
+                
+                <!-- Informations utilisateur et numéro de poste -->
+                <div class="flex items-start space-x-6 max-w-2xl">
+                    <!-- Section Numéro de poste -->
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="header-job-number-input" 
+                                   class="px-3 py-1 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                   placeholder="Numéro de poste">
+                            <button id="header-save-job-number" 
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
+                                Valider
+                            </button>
+                        </div>
+                        
+                        <!-- Affichage du numéro de poste -->
+                        <div id="header-job-number" class="text-sm font-medium text-gray-700 hidden">
+                            Numéro de poste: <span id="header-job-number-value" class="font-bold text-blue-600"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Informations utilisateur -->
+                    {% if user.is_authenticated %}
+                    <div class="flex flex-col space-y-2">
+                        <div class="text-left">
+                            <h3 class="text-lg font-semibold text-gray-800">{{ user.last_name }}</h3>
+                            <p class="text-sm text-gray-600">Matricule: {{ user.matricule }}</p>
+                            <div class="flex items-center mt-1">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                  {% if user.is_super_user %}bg-purple-100 text-purple-800{% elif user.is_beta_tester %}bg-orange-100 text-orange-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                                  {% if user.is_super_user %}
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Super User
+                                  {% elif user.is_beta_tester %}
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Bêta testeur
+                                  {% else %}
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    User Normal
+                                  {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Boutons d'action -->
+                        <div class="flex items-center space-x-4">
+                          <a href="{% url 'account_options' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Options
+                          </a>
+                          <a href="{% url 'logout' %}" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Déconnexion
+                          </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>
@@ -320,6 +768,56 @@
 </div>
 
 <script>
+    // Synchronisation du numéro de poste dans le header
+    document.addEventListener('DOMContentLoaded', function() {
+        const headerJobNumber = document.getElementById('header-job-number');
+        const headerJobNumberValue = document.getElementById('header-job-number-value');
+        const headerJobNumberInput = document.getElementById('header-job-number-input');
+        const headerSaveJobNumber = document.getElementById('header-save-job-number');
+        
+        // Charger le numéro de poste depuis localStorage
+        const currentJobNumber = localStorage.getItem('currentJobNumber');
+        if (currentJobNumber) {
+            headerJobNumberValue.textContent = currentJobNumber;
+            headerJobNumber.classList.remove('hidden');
+            headerJobNumberInput.value = currentJobNumber;
+        }
+        
+        // Sauvegarder le numéro de poste
+        headerSaveJobNumber.addEventListener('click', function() {
+            const jobNumber = headerJobNumberInput.value.trim();
+            if (jobNumber) {
+                localStorage.setItem('currentJobNumber', jobNumber);
+                headerJobNumberValue.textContent = jobNumber;
+                headerJobNumber.classList.remove('hidden');
+                alert(`Numéro de poste ${jobNumber} enregistré avec succès.`);
+            } else {
+                alert('Veuillez entrer un numéro de poste valide.');
+            }
+        });
+        
+        // Permettre de valider avec la touche Entrée
+        headerJobNumberInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                headerSaveJobNumber.click();
+            }
+        });
+        
+        // Écouter les changements de numéro de poste
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'currentJobNumber') {
+                if (event.newValue) {
+                    headerJobNumberValue.textContent = event.newValue;
+                    headerJobNumber.classList.remove('hidden');
+                    headerJobNumberInput.value = event.newValue;
+                } else {
+                    headerJobNumber.classList.add('hidden');
+                    headerJobNumberInput.value = '';
+                }
+            }
+        });
+    });
+
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
@@ -925,6 +1423,7 @@
         }
     });
 </script>
+
 
 </body>
 
