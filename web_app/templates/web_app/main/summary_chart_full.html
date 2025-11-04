@@ -1250,6 +1250,9 @@
                                             }
                                         }, 100);
                                     }
+                                    
+                                    // Mettre à jour l'échelle du haut
+                                    updateTopScale();
                                 } else {
                                     console.error('La fonction updateOpmHighlights n\'est pas disponible');
                                 }
@@ -1397,6 +1400,8 @@
                                 updateCheckboxes('.opm-checkbox', this.checked);
                                 // Mettre à jour la case générale
                                 selectAllGeneralCheckbox.checked = this.checked && selectAllFiltersCheckbox.checked;
+                                // Mettre à jour l'échelle du haut
+                                updateTopScale();
                             });
                             
                             // Gestionnaire pour la case "Tout sélectionner" des filtres
@@ -2609,7 +2614,7 @@
                             const levelsToHighlight = getLevelsForOpmId(config.opmId);
                             
                             levelsToHighlight.forEach(level => {
-                                const levelIndex = level - 1; // Convertir niveau à index 0-based
+                                const levelIndex = level; // Utiliser directement le niveau sans conversion
                                 if (levelIndex >= 0 && levelIndex < levelCircles.length) {
                                     const circle = levelCircles[levelIndex];
                                     if (circle) {
@@ -2645,7 +2650,7 @@
                             
                             // Parcourir chaque niveau spécifié dans la configuration
                             competenceConfig.levels.forEach(level => {
-                                const levelIndex = parseInt(level) - 1; // Convertir niveau à index 0-based
+                                const levelIndex = parseInt(level); // Utiliser directement le niveau sans conversion
                                 if (levelIndex >= 0 && levelIndex < levelBoxes.length) {
                                     const levelBox = levelBoxes[levelIndex];
                                     
@@ -2795,6 +2800,9 @@
                     textElement.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.8)';
                 }
             });
+            
+            // Mettre à jour l'échelle du haut
+            updateTopScale();
         }
         
         // Fonction pour réinitialiser les surbrillances pour un OPM ID spécifique
@@ -2901,6 +2909,9 @@
                     }
                 }
             });
+            
+            // Mettre à jour l'échelle du haut
+            updateTopScale();
         }
         
         // Fonction auxiliaire pour obtenir les niveaux à mettre en surbrillance pour un OPM ID
@@ -3059,6 +3070,47 @@
             };
             
             return opmIdColors[opmId] || '59, 130, 246'; // Couleur par défaut si non trouvée
+        }
+        
+        // Fonction pour synchroniser l'échelle du haut avec les niveaux sélectionnés
+        function updateTopScale() {
+            // Récupérer tous les OPM IDs actifs (avec cases cochées)
+            const activeOpmIds = [];
+            document.querySelectorAll('.opm-checkbox:checked').forEach(checkbox => {
+                activeOpmIds.push(checkbox.dataset.opmId);
+            });
+            
+            // Calculer les niveaux à mettre en surbrillance dans l'échelle du haut
+            const levelsToHighlight = new Set();
+            activeOpmIds.forEach(opmId => {
+                const levels = getLevelsForOpmId(opmId);
+                levels.forEach(level => levelsToHighlight.add(level));
+            });
+            
+            // Mettre à jour l'échelle du haut (ligne "Total")
+            const totalRow = document.querySelector('#opm-ids-list table tr:last-child');
+            if (totalRow) {
+                const levelCircles = totalRow.querySelectorAll('td:nth-child(4) .flex.flex-row > div > div');
+                levelCircles.forEach((circle, index) => {
+                    const level = index + 1; // Les cercles sont indexés à partir de 0, mais les niveaux commencent à 1
+                    if (levelsToHighlight.has(level)) {
+                        // Mettre en surbrillance le cercle
+                        circle.style.backgroundColor = 'rgba(59, 130, 246, 0.8)';
+                        circle.style.transform = 'scale(1.2)';
+                        circle.style.boxShadow = '0 0 5px rgba(59, 130, 246, 0.7)';
+                        circle.style.borderColor = 'rgba(59, 130, 246, 1)';
+                        circle.style.borderWidth = '2px';
+                        circle.style.transition = 'all 0.3s ease';
+                    } else {
+                        // Réinitialiser le cercle
+                        circle.style.backgroundColor = 'rgba(59, 130, 246, 0.25)';
+                        circle.style.transform = 'scale(1)';
+                        circle.style.boxShadow = 'none';
+                        circle.style.borderColor = 'rgba(59, 130, 246, 0.7)';
+                        circle.style.borderWidth = '1px';
+                    }
+                });
+            }
         }
         
         // Ajouter une animation de clignotement
@@ -3221,7 +3273,7 @@
                         const levelsToHighlight = getLevelsForOpmId(opmId);
                         
                         levelsToHighlight.forEach(level => {
-                            const levelIndex = level - 1; // Convertir niveau à index 0-based
+                            const levelIndex = level; // Utiliser directement le niveau sans conversion
                             if (levelIndex >= 0 && levelIndex < levelCircles.length) {
                                 const circle = levelCircles[levelIndex];
                                 if (circle) {
@@ -3257,7 +3309,7 @@
                             
                             // Parcourir chaque niveau spécifié dans la configuration
                             competenceConfig.levels.forEach(level => {
-                                const levelIndex = parseInt(level) - 1; // Convertir niveau à index 0-based
+                                const levelIndex = parseInt(level); // Utiliser directement le niveau sans conversion
                                 if (levelIndex >= 0 && levelIndex < levelBoxes.length) {
                                     const levelBox = levelBoxes[levelIndex];
                                     
@@ -3324,6 +3376,9 @@
                     }
                 });
             }
+            
+            // Mettre à jour l'échelle du haut
+            updateTopScale();
         }
 
         window.addEventListener('load', function() {
@@ -3389,6 +3444,9 @@
             }
             
             console.log('Initialisation terminée: les surbrillances ont été appliquées selon les états sauvegardés');
+            
+            // Mettre à jour l'échelle du haut après l'initialisation
+            updateTopScale();
             
             // Configurer les tooltips après un court délai pour s'assurer que les modifications DOM sont appliquées
             setTimeout(() => {

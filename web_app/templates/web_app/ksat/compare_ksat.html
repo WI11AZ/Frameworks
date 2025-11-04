@@ -262,13 +262,13 @@
   <div id="tab-contents">
     {% for key, ksats in ksat_dict.items %}
       <div id="{{ key }}" class="tab-content hidden">
-        <table class="min-w-full table-auto border-collapse mb-6">
+        <table class="min-w-full table-fixed border-collapse mb-6" style="table-layout: fixed;">
           <thead>
 
             
             <!-- Ligne principale du tableau -->
-            <tr class="bg-gray-100">
-              <th class="px-3 py-2 border text-left bg-white">
+            <tr class="bg-gray-100 sticky top-16 z-50">
+              <th class="px-3 py-2 border text-left bg-white" style="width: 300px;">
                 <span class="font-medium">Description / ID</span>
               </th>
               {% for role in formatted_roles %}
@@ -277,11 +277,12 @@
                     data-role-id="{{ role.id }}"
                     data-model-type="{{ role.model_type }}"
                     data-group-id="{{ role.group_id }}"
-                    data-category-color="{{ role.category_color }}">
+                    data-category-color="{{ role.category_color }}"
+                    style="width: 126px;">
                   
                   <!-- Compteur T/K/S/A pour ce work role -->
                   <div class="mb-3">
-                    <div class="grid grid-cols-4 gap-1 text-xs">
+                    <div class="grid text-xs" style="width: 100px; grid-template-columns: repeat(4, 1fr);">
                       <!-- En-tête -->
                       <div class="bg-blue-600 text-white text-center py-1 font-bold">Total</div>
                       <div class="bg-blue-600 text-white text-center py-1 font-bold" id="total-{{ key }}-{{ role.id }}">0</div>
@@ -338,7 +339,7 @@
           <tbody>
             {% for ksat in ksats %}
               <tr class="hover:bg-gray-50">
-                <td class="px-3 py-2 border align-top">
+                <td class="px-3 py-2 border align-top" style="width: 300px;">
                   <p class="font-medium">{{ ksat.description }}</p>
                   <div class="mt-1 text-sm text-gray-600 space-x-2">
                       {% dcwf_url ksat %}
@@ -422,7 +423,7 @@
                   {% endif %}
                 </td>
                 {% for role in formatted_roles %}
-                  <td class="px-3 py-2 border text-center align-middle">
+                  <td class="px-3 py-2 border text-center align-middle" style="width: 126px;">
                     {% if role.model_obj|has_ksat:ksat %}✅{% else %}❌{% endif %}
                   </td>
                 {% endfor %}

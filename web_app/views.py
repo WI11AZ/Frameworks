@@ -240,81 +240,9 @@ def get_sorted_data_ai_roles(roles):
 
 
 def home(request):
-    template = loader.get_template("web_app/home/index.html")
-
-    # 1. Tes requêtes existantes
-    it_work_roles = DcwfCategory.objects.get(title="IT (Cyberspace)").dcwf_work_roles.all()
-    cyber_security_work_roles = DcwfCategory.objects.get(title="Cybersecurity").dcwf_work_roles.all()
-    cyber_effects_work_roles = DcwfCategory.objects.get(title="Cyberspace Effects").dcwf_work_roles.all()
-    intel_work_roles = DcwfCategory.objects.get(title="Intelligence (Cyberspace)").dcwf_work_roles.all()
-    enabler_work_roles = DcwfCategory.objects.get(title="Cyberspace Enablers").dcwf_work_roles.all()
-    software_engineering_work_roles = DcwfCategory.objects.get(title="Software Engineering").dcwf_work_roles.all()
-    data_work_roles = DcwfCategory.objects.get(title="Data/AI").dcwf_work_roles.all()
-    ai_work_roles = AIWorkRole.objects.all()
-
-    # 2. Tes tris existants
-    sorted_cyber_security_lines = get_sorted_cyber_roles(cyber_security_work_roles)
-    it_work_lines = get_sorted_it_roles(it_work_roles)
-    cyber_effects_work_lines = get_sorted_cybereffects_roles(cyber_effects_work_roles)
-    enabler_work_lines = get_sorted_enabler_roles(enabler_work_roles)
-    software_engineering_work_lines = get_sorted_software_engineering_roles(software_engineering_work_roles)
-    data_work_lines = get_sorted_data_ai_roles(data_work_roles)
-
-    # 3. Liste des OPM IDs à surligner
-    #    Ajuste le type (int ou str) selon celui de work_role.opm_id
-    highlight_ids = [901, 722, 723, 752, 661, 622, 631, 461, 511, 521,
-        531, 541, 141, 121, 111, 112, 443, 151, 331, 332,
-        333, 322, 221, 211, 212, 651, 652, 621, 641, 671,
-        632, 411, 451, 803, 801, 802, 804, 312, 421, 422,
-        612, 805, 731, 732, 751, 711, 712, 311, 431, 611,]
-
-    # 4. Contexte final
-    # Définir l'ordre souhaité des catégories
-    category_order = [
-        "IT (Cyberspace)",
-        "Cybersecurity",
-        "Cyberspace Enablers",
-        "Cyberspace Effects",
-        "Intelligence (Cyberspace)",
-        "Data/AI",
-        "Software Engineering",
-        "Emerging AI work roles with Real Impact (SANS)",
-        "Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)",
-        "Without Community"
-    ]
-    
-    # Récupérer les catégories dans l'ordre souhaité
-    ordered_categories = []
-    for title in category_order:
-        try:
-            category = DcwfCategory.objects.get(title=title)
-            ordered_categories.append(category)
-        except DcwfCategory.DoesNotExist:
-            pass
-    
-    # Ajouter les catégories qui ne sont pas dans la liste
-    existing_titles = [cat.title for cat in ordered_categories]
-    remaining_categories = DcwfCategory.objects.exclude(title__in=existing_titles)
-    ordered_categories.extend(remaining_categories)
-    
-    # Récupérer la catégorie CEMA spécifiquement
-    cema_category = DcwfCategory.objects.get(title="Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)")
-    
-    context = {
-        "it_work_lines": it_work_lines,
-        "cyber_security_lines": sorted_cyber_security_lines,
-        "cyber_effects_work_lines": cyber_effects_work_lines,
-        "intel_work_roles": intel_work_roles,
-        "enabler_work_lines": enabler_work_lines,
-        "software_engineering_work_lines": software_engineering_work_lines,
-        "data_work_lines": data_work_lines,
-        "ai_work_roles": ai_work_roles,
-        "cema_category": cema_category,
-        "categories": ordered_categories,
-        "highlight_ids": highlight_ids,
-    }
-
-    return HttpResponse(template.render(context, request))
+    # Utiliser t1.html avec le template Django
+    template = loader.get_template("web_app/main/t1.html")
+    return HttpResponse(template.render({}, request))
 
 def work_role(request, work_role_id):
     template = loader.get_template("web_app/work_role/index.html")
@@ -420,7 +348,7 @@ def compare(request):
     dcwf_2025_work_roles = Dcwf2025WorkRole.objects.filter(id__in=dcwf_2025_ids)
     for role in dcwf_2025_work_roles:
         # Récupérer la couleur de la catégorie
-        category_color = role.category.color if hasattr(role, 'category') and role.category else '168, 85, 247'  # Violet par défaut
+        category_color = role.category.color if hasattr(role, 'category') and role.category else '59, 130, 246'  # Bleu par défaut
         
         # Ajouter le rôle DCWF 2025 formaté
         dcwf_2025_formatted_roles.append({
@@ -512,7 +440,7 @@ def compare(request):
                 break
         
         # Utiliser la couleur du parent DCWF 2025 si disponible
-        category_color = '168, 85, 247'  # Violet par défaut pour 2025
+        category_color = '59, 130, 246'  # Bleu par défaut pour 2025
         if parent_dcwf_2025_id:
             for dcwf_2025_role in dcwf_2025_formatted_roles:
                 if dcwf_2025_role['id'] == parent_dcwf_2025_id:
@@ -573,7 +501,9 @@ def compare(request):
             # Ajouter le rôle NCWF 2025 correspondant s'il existe
             # MAIS seulement s'il n'est pas sélectionné directement (pour éviter la duplication)
             for role in ncwf_2025_formatted_roles:
-                if role['parent_dcwf_id'] == dcwf_id:
+                # Vérifier si le rôle a un parent DCWF (peut être DCWF 2017 ou DCWF 2025)
+                parent_id = role.get('parent_dcwf_id') or role.get('parent_dcwf_2025_id')
+                if parent_id and parent_id == dcwf_id:
                     # Vérifier si ce rôle NCWF 2025 est sélectionné directement
                     if role['id'] not in ncwf_2025_ids:
                         role['group_id'] = current_group_id  # Ajouter le même ID de groupe
@@ -598,6 +528,20 @@ def compare(request):
             formatted_roles.append(dcwf_2025_role)
             processed_roles.add(('dcwf_2025', dcwf_2025_id))
             print(f"DEBUG: Added DCWF 2025 role: {dcwf_2025_role['title']}")
+            
+            # Ajouter le rôle NCWF 2025 correspondant s'il existe
+            # MAIS seulement s'il n'est pas sélectionné directement (pour éviter la duplication)
+            for role in ncwf_2025_formatted_roles:
+                # Vérifier si le rôle a un parent DCWF 2025
+                parent_id = role.get('parent_dcwf_2025_id')
+                if parent_id and parent_id == dcwf_2025_id:
+                    # Vérifier si ce rôle NCWF 2025 est sélectionné directement
+                    if role['id'] not in ncwf_2025_ids:
+                        role['group_id'] = current_group_id  # Ajouter le même ID de groupe
+                        formatted_roles.append(role)
+                        processed_roles.add(('ncwf_2025', role['id']))
+                        print(f"DEBUG: Added NCWF 2025 role for DCWF 2025: {role['title']}")
+                        break
     
     # Ajouter les rôles NCWF 2017 sans parent DCWF
     for role in ncwf_2017_formatted_roles:
@@ -775,9 +719,27 @@ def compare(request):
             return int(numeric_part.group()) if numeric_part else 999999
         return 999999  # Mettre les rôles sans OPM ID à la fin
     
-    # Trier les rôles par OPM ID, puis par framework (DCWF avant NCWF)
+    def get_year_for_sorting(role):
+        """Extraire l'année du framework pour le tri"""
+        framework = role.get('framework', '')
+        # Chercher un pattern d'année (4 chiffres)
+        import re
+        year_match = re.search(r'(\d{4})', framework)
+        if year_match:
+            return int(year_match.group())
+        # Ordre par défaut si pas d'année trouvée
+        if '2017' in framework:
+            return 2017
+        elif '2024' in framework:
+            return 2024
+        elif '2025' in framework:
+            return 2025
+        return 9999
+    
+    # Trier les rôles par OPM ID, puis par année (2025 avant 2017), puis par framework (DCWF avant NCWF)
     formatted_roles.sort(key=lambda role: (
         get_opm_id_for_sorting(role),
+        -get_year_for_sorting(role),  # Année inverse (2025 avant 2017)
         0 if role.get('framework', '').startswith('DCWF') else 1  # DCWF avant NCWF
     ))
     
@@ -1160,3 +1122,81 @@ def check_saved_selections(request):
     saved_data = UserSavedData.objects.filter(user=request.user).exists()
     
     return JsonResponse({'has_saved_selections': saved_data})
+
+def convert_t1_codes_to_ids(request):
+    """Convertir les codes (omp_id, work_role_id, etc.) de t1.html en IDs de base de données"""
+    from .models import DcwfWorkRole, Dcwf2025WorkRole, Ncwf2017WorkRole, Ncwf2024WorkRole, Ncwf2025WorkRole
+    
+    dcwf_2017_codes = request.GET.getlist('dcwf_2017_codes')
+    dcwf_2025_codes = request.GET.getlist('dcwf_2025_codes')
+    ncwf_2017_codes = request.GET.getlist('ncwf_2017_codes')
+    ncwf_2024_codes = request.GET.getlist('ncwf_2024_codes')
+    ncwf_2025_codes = request.GET.getlist('ncwf_2025_codes')
+    
+    print(f"DEBUG convert_t1_codes_to_ids: codes reçus:")
+    print(f"  dcwf_2017_codes: {dcwf_2017_codes}")
+    print(f"  dcwf_2025_codes: {dcwf_2025_codes}")
+    print(f"  ncwf_2017_codes: {ncwf_2017_codes}")
+    print(f"  ncwf_2024_codes: {ncwf_2024_codes}")
+    print(f"  ncwf_2025_codes: {ncwf_2025_codes}")
+    
+    result = {
+        'dcwf_ids': [],
+        'dcwf_2025_ids': [],
+        'ncwf_2017_ids': [],
+        'ncwf_2024_ids': [],
+        'ncwf_2025_ids': []
+    }
+    
+    # Convertir DCWF 2017: omp_id -> id (via opm__id)
+    try:
+        dcwf_2017_codes = [int(c) for c in dcwf_2017_codes]
+        result['dcwf_ids'] = list(DcwfWorkRole.objects.filter(opm__id__in=dcwf_2017_codes).values_list('id', flat=True))
+        print(f"  DCWF 2017: {dcwf_2017_codes} -> IDs: {result['dcwf_ids']}")
+    except Exception as e:
+        print(f"  Erreur DCWF 2017: {e}")
+    
+    # Convertir DCWF 2025: dcwf_code -> id
+    try:
+        dcwf_2025_ids_list = list(Dcwf2025WorkRole.objects.filter(dcwf_code__in=dcwf_2025_codes).values_list('id', flat=True))
+        result['dcwf_2025_ids'] = dcwf_2025_ids_list
+        print(f"  DCWF 2025: {dcwf_2025_codes} -> IDs: {result['dcwf_2025_ids']}")
+    except Exception as e:
+        print(f"  Erreur DCWF 2025: {e}")
+    
+    # Convertir NCWF 2017: opm_code -> id via opms__id
+    try:
+        # Les codes sont maintenant des opm_code numériques
+        ncwf_2017_codes = [int(c) for c in ncwf_2017_codes]
+        ncwf_2017_ids_list = list(Ncwf2017WorkRole.objects.filter(opms__id__in=ncwf_2017_codes).values_list('id', flat=True))
+        result['ncwf_2017_ids'] = ncwf_2017_ids_list
+        print(f"  NCWF 2017: {ncwf_2017_codes} -> IDs: {result['ncwf_2017_ids']}")
+    except Exception as e:
+        print(f"  Erreur NCWF 2017: {e}")
+    
+    # Convertir NCWF 2024: opm_code -> id via opms__id
+    try:
+        # Les codes sont maintenant des opm_code numériques
+        ncwf_2024_codes = [int(c) for c in ncwf_2024_codes]
+        ncwf_2024_ids_list = list(Ncwf2024WorkRole.objects.filter(opms__id__in=ncwf_2024_codes).values_list('id', flat=True))
+        result['ncwf_2024_ids'] = ncwf_2024_ids_list
+        print(f"  NCWF 2024: {ncwf_2024_codes} -> IDs: {result['ncwf_2024_ids']}")
+    except Exception as e:
+        print(f"  Erreur NCWF 2024: {e}")
+    
+    # Convertir NCWF 2025: work_role_id -> id via ncwf_id ou name
+    try:
+        # Chercher d'abord par ncwf_id, sinon par name
+        ncwf_2025_ids_list = []
+        for code in ncwf_2025_codes:
+            role = Ncwf2025WorkRole.objects.filter(ncwf_id=code).first()
+            if role:
+                ncwf_2025_ids_list.append(role.id)
+        result['ncwf_2025_ids'] = ncwf_2025_ids_list
+        print(f"  NCWF 2025: {ncwf_2025_codes} -> IDs: {result['ncwf_2025_ids']}")
+    except Exception as e:
+        print(f"  Erreur NCWF 2025: {e}")
+    
+    print(f"DEBUG: Résultat final: {result}")
+    
+    return JsonResponse(result)

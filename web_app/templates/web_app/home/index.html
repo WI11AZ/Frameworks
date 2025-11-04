@@ -139,7 +139,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -156,78 +156,76 @@
                                 <div class="col-span-1"></div>  {# Espace vide, transparent #}
 
                             {% else %}
-                                <!-- Conteneur relatif pour positionner le detail-box -->
-                                <div class="bg-white rounded-lg shadow-md grid grid-rows-6 work-role relative"
-                                     id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+                                <!-- Carte de work role -->
+                                <div class="work-role-card bg-white rounded-lg shadow-md border-2 border-gray-300 hover:border-purple-500 transition-all duration-300 cursor-pointer relative"
+                                     id="work-role-{{ work_role.id }}"
+                                     data-selected="false"
+                                     onclick="toggleWorkRoleCard('{{ work_role.id }}')">
 
-                                    <!-- ZONE 0 - OPM ID (toujours visible) -->
-                                    <div class="px-5 pt-5 flex flex-col items-center justify-center">
-                                        <p class="font-semibold text-center"
+                                    <!-- Zone OPM ID en haut -->
+                                    <div class="px-4 pt-4 pb-2 flex flex-col items-center justify-center border-b border-gray-200">
+                                        <p class="font-bold text-lg text-gray-800"
                                            style="color: rgba({{ category.color }},1);">
                                             {% if work_role.opm.id in highlight_ids %}
-                                                <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                                <span class="inline-block w-3 h-3 bg-red-600 rounded-full mr-2 animate-pulse"></span>
                                             {% endif %}
                                             {{ work_role.opm.id }}
                                         </p>
                                     </div>
 
-                                    <!-- ZONE 1 - DCWF 2025 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                    <!-- Contenu de la carte -->
+                                    <div class="px-4 py-3 space-y-2">
+                                        <!-- DCWF 2025 -->
                                         {% if work_role.dcwf_2025_work_role %}
-                                            <p class="font-bold text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                            <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                            <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                        <div class="work-role-zone dcwf-2025-zone flex flex-col justify-center pb-2 border-b border-purple-100">
+                                            <p class="text-purple-600 text-xs font-bold mb-1">DCWF 2025</p>
+                                            <p class="text-sm font-semibold text-gray-700">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                        </div>
                                         {% endif %}
-                                    </div>
 
-                                    <!-- ZONE 2 - NCWF 2025 -->
-                                    <div class="px-5 py-1 flex flex-col items-center justify-center">
+                                        <!-- NCWF 2025 -->
                                         {% if work_role.ncwf_2025_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                            <p class="font-normal text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
-                                            <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
-                                            <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                        <div class="work-role-zone ncwf-2025-zone flex flex-col justify-center pb-2 border-b border-orange-100">
+                                            <p class="text-orange-600 text-xs font-bold mb-1">NCWF 2025</p>
+                                            <p class="text-xs text-gray-500">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                            <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                        </div>
                                         {% endif %}
-                                    </div>
 
-                                    <!-- ZONE 3 - NCWF 2024 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
+                                        <!-- NCWF 2024 -->
                                         {% if work_role.ncwf_2024_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-                                            <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-                                            <p class="text-red-600 text-xs font-semibold mt-1">NCWF 2024</p>
+                                        <div class="work-role-zone ncwf-2024-zone flex flex-col justify-center pb-2 border-b border-red-100">
+                                            <p class="text-red-600 text-xs font-bold mb-1">NCWF 2024</p>
+                                            <p class="text-xs text-gray-500">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                            <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                        </div>
                                         {% endif %}
-                                    </div>
 
-                                    <!-- ZONE 4 - DCWF 2017 -->
-                                    <div class="text-center px-5 py-1 flex flex-col justify-center">
-                                        <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                        <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                               class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                        <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
-                                    </div>
+                                        <!-- DCWF 2017 -->
+                                        <div class="work-role-zone dcwf-2017-zone flex flex-col justify-center pb-2 border-b border-blue-100">
+                                            <p class="text-blue-600 text-xs font-bold mb-1">DCWF 2017</p>
+                                            <p class="text-sm font-semibold text-gray-700">{{ work_role.title }}</p>
+                                        </div>
 
-                                    <!-- ZONE 5 - NCWF 2017 -->
-                                    <div class="text-center px-5 pb-5 flex flex-col justify-center">
+                                        <!-- NCWF 2017 -->
                                         {% if work_role.ncwf_2017_work_role %}
-                                            <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-                                            <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-                                            <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
-                                                   class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-                                            <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
+                                        <div class="work-role-zone ncwf-2017-zone flex flex-col justify-center">
+                                            <p class="text-green-600 text-xs font-bold mb-1">NCWF 2017</p>
+                                            <p class="text-xs text-gray-500">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                            <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                        </div>
                                         {% endif %}
+                                    </div>
+
+                                    <!-- Badge de sélection -->
+                                    <div class="selection-badge absolute top-2 right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 transition-opacity duration-300">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                        </svg>
                                     </div>
 
                                     <!-- Données cachées -->
-                                    <p class="hidden description">{{ work_role.description }}</p>
-                                    <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-                                    <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-                                    <p class="hidden description">{{ item.description }}</p>
-
+                                    <input type="hidden" name="work_role_{{ work_role.id }}_selected" value="false">
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -251,7 +249,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -361,7 +359,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -472,7 +470,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -484,77 +482,66 @@
                 <div class="work-role-container">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4 pt-6">
                     {% for work_role in intel_work_roles %}
-                        <div class="bg-white rounded-lg shadow-md grid grid-rows-6 work-role relative"
-                             id="work-role-{{ work_role.id }}" onclick="toggleDetail('{{ work_role.id }}')">
+                        <div class="work-role-card bg-white rounded-lg shadow-md border-2 border-gray-300 hover:border-purple-500 transition-all duration-300 cursor-pointer relative"
+                             id="work-role-{{ work_role.id }}"
+                             data-selected="false"
+                             onclick="toggleWorkRoleCard('{{ work_role.id }}')">
 
-                            <!-- ZONE 0 - OPM ID (toujours visible) -->
-                            <div class="px-5 pt-5 flex flex-col items-center justify-center">
-                                <p class="font-semibold text-center"
+                            <div class="px-4 pt-4 pb-2 flex flex-col items-center justify-center border-b border-gray-200">
+                                <p class="font-bold text-lg text-gray-800"
                                    style="color: rgba({{ category.color }},1);">
                                     {% if work_role.opm.id in highlight_ids %}
-                                        <span class="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                                        <span class="inline-block w-3 h-3 bg-red-600 rounded-full mr-2 animate-pulse"></span>
                                     {% endif %}
                                     {{ work_role.opm.id }}
                                 </p>
                             </div>
 
-                            <!-- ZONE 1 - NCWF 2025 -->
-                            <div class="px-5 py-1 flex flex-col items-center justify-center">
+                            <div class="px-4 py-3 space-y-2">
                                 {% if work_role.ncwf_2025_work_role %}
-                                    <p class="text-gray-500 text-sm font-medium text-center">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
-                                    <p class="font-bold text-sm text-gray-600 text-center">{{ work_role.ncwf_2025_work_role.name }}</p>
-                                    <input type="checkbox" name="ncwf_2025_{{ work_role.ncwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-orange-600 self-center mt-2">
-                                    <p class="text-orange-600 text-xs font-semibold mt-1">NCWF 2025</p>
+                                <div class="work-role-zone ncwf-2025-zone flex flex-col justify-center pb-2 border-b border-orange-100">
+                                    <p class="text-orange-600 text-xs font-bold mb-1">NCWF 2025</p>
+                                    <p class="text-xs text-gray-500">{{ work_role.ncwf_2025_work_role.ncwf_id }}</p>
+                                    <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2025_work_role.name }}</p>
+                                </div>
                                 {% endif %}
-                            </div>
 
-                            <!-- ZONE 2 - DCWF 2025 -->
-                            <div class="text-center px-5 py-1 flex flex-col justify-center">
                                 {% if work_role.dcwf_2025_work_role %}
-                                    <p class="font-normal text-sm text-gray-600">{{ work_role.dcwf_2025_work_role.title }}</p>
-                                    <input type="checkbox" name="dcwf_2025_{{ work_role.dcwf_2025_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-purple-600 self-center mt-2">
-                                    <p class="text-purple-600 text-xs font-semibold mt-1">DCWF 2025</p>
+                                <div class="work-role-zone dcwf-2025-zone flex flex-col justify-center pb-2 border-b border-purple-100">
+                                    <p class="text-purple-600 text-xs font-bold mb-1">DCWF 2025</p>
+                                    <p class="text-sm font-semibold text-gray-700">{{ work_role.dcwf_2025_work_role.title }}</p>
+                                </div>
                                 {% endif %}
-                            </div>
 
-                            <!-- ZONE 3 - NCWF 2024 -->
-                            <div class="text-center px-5 py-1 flex flex-col justify-center">
                                 {% if work_role.ncwf_2024_work_role %}
-                                    <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
-                                    <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2024_work_role.title }}</p>
-                                    <input type="checkbox" name="ncwf_2024_{{ work_role.ncwf_2024_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-red-600 self-center mt-2">
-                                    <p class="text-red-600 text-xs font-semibold mt-1">NCWF 2024</p>
+                                <div class="work-role-zone ncwf-2024-zone flex flex-col justify-center pb-2 border-b border-red-100">
+                                    <p class="text-red-600 text-xs font-bold mb-1">NCWF 2024</p>
+                                    <p class="text-xs text-gray-500">{{ work_role.ncwf_2024_work_role.nist_id }}</p>
+                                    <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2024_work_role.title }}</p>
+                                </div>
                                 {% endif %}
-                            </div>
 
-                            <!-- ZONE 4 - NCWF 2017 -->
-                            <div class="text-center px-5 py-1 flex flex-col justify-center">
                                 {% if work_role.ncwf_2017_work_role %}
-                                    <p class="text-gray-500 text-sm font-medium">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
-                                    <p class="font-normal text-sm text-gray-600">{{ work_role.ncwf_2017_work_role.title }}</p>
-                                    <input type="checkbox" name="ncwf_2017_{{ work_role.ncwf_2017_work_role.id }}"
-                                           class="form-checkbox h-5 w-5 text-green-600 self-center mt-2">
-                                    <p class="text-green-600 text-xs font-semibold mt-1">NCWF 2017</p>
+                                <div class="work-role-zone ncwf-2017-zone flex flex-col justify-center pb-2 border-b border-green-100">
+                                    <p class="text-green-600 text-xs font-bold mb-1">NCWF 2017</p>
+                                    <p class="text-xs text-gray-500">{{ work_role.ncwf_2017_work_role.nist_id }}</p>
+                                    <p class="text-sm font-semibold text-gray-700">{{ work_role.ncwf_2017_work_role.title }}</p>
+                                </div>
                                 {% endif %}
+
+                                <div class="work-role-zone dcwf-2017-zone flex flex-col justify-center">
+                                    <p class="text-blue-600 text-xs font-bold mb-1">DCWF 2017</p>
+                                    <p class="text-sm font-semibold text-gray-700">{{ work_role.title }}</p>
+                                </div>
                             </div>
 
-                            <!-- ZONE 5 - DCWF (le plus ancien) -->
-                            <div class="text-center px-5 pb-5 flex flex-col justify-center">
-                                <p class="font-normal text-base text-gray-600">{{ work_role.title }}</p>
-                                <input type="checkbox" name="dcwf_{{ work_role.id }}"
-                                       class="form-checkbox h-5 w-5 text-blue-600 self-center mt-2">
-                                <p class="text-blue-600 text-xs font-semibold mt-1">DCWF 2017</p>
+                            <div class="selection-badge absolute top-2 right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 transition-opacity duration-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
                             </div>
 
-                            <!-- Données cachées -->
-                            <p class="hidden description">{{ work_role.description }}</p>
-                            <p class="hidden ksat-id">{{ item.ncwf_2017_ksat.ncwf_id }}</p>
-                            <p class="hidden dcwf-id">{{ item.dcwf_id }}</p>
-                            <p class="hidden description">{{ item.description }}</p>
-
+                            <input type="hidden" name="work_role_{{ work_role.id }}_selected" value="false">
                         </div>
                     {% endfor %}
                 </div>
@@ -576,7 +563,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -687,7 +674,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -798,7 +785,7 @@
                             <input type="checkbox" 
                                    class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                                    data-category="category-{{ category.title|slugify }}">
-                            <span class="text-white font-medium">Dérouler</span>
+                            <span class="text-white font-medium">Expend</span>
                         </label>
                     </div>
                     <div class="text-white p-2">
@@ -912,7 +899,7 @@
                     <input type="checkbox" 
                            class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                            data-category="category-without-community">
-                    <span class="text-white font-medium">Dérouler</span>
+                    <span class="text-white font-medium">Expend</span>
                 </label>
             </div>
             <div class="text-white p-2">
@@ -1031,7 +1018,7 @@
                     <input type="checkbox" 
                            class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                            data-category="category-emerging-ai-work-roles">
-                    <span class="text-white font-medium">Dérouler</span>
+                    <span class="text-white font-medium">Expend</span>
                 </label>
             </div>
             <div class="text-white p-2">
@@ -1074,7 +1061,7 @@
                     <input type="checkbox" 
                            class="category-toggle mr-2 h-5 w-5 text-blue-600" 
                            data-category="category-cyberspace-operations-electromagnetic-warfare">
-                    <span class="text-white font-medium">Dérouler</span>
+                    <span class="text-white font-medium">Expend</span>
                 </label>
             </div>
             <div class="text-white p-2">
@@ -1103,13 +1090,6 @@
                 Publication available @ Army Publishing Directorate site (https://armypubs.army.mil), and @ Central Army Registry site (https://atiam.train.army.mil/catalog/dashboard)
             </div>
         </div>
-    </div>
-
-    <!-- Div caché pour afficher plus de détails (commun à toutes les catégories) -->
-    <div id="detail-box"
-         class="detail-box hidden fixed right-0 top-0 h-full w-[400px] p-6 shadow-xl overflow-y-auto z-50">
-        <button onclick="toggleDetail(null)" class="text-red-500 font-bold float-right">X</button>
-        <div id="detail-box-content"></div>
     </div>
 
     </main>
@@ -1373,6 +1353,34 @@
         const detailBox = document.getElementById(`detail-box-${workRoleId}`);
         if (detailBox) {
             detailBox.classList.toggle('hidden');  // Toggle visibility (hidden/visible)
+        }
+    }
+
+    // Fonction pour sélectionner/désélectionner une carte de work role
+    function toggleWorkRoleCard(workRoleId) {
+        const card = document.getElementById('work-role-' + workRoleId);
+        if (!card) return;
+
+        const isSelected = card.getAttribute('data-selected') === 'true';
+        const hiddenInput = card.querySelector('input[type="hidden"]');
+        const badge = card.querySelector('.selection-badge');
+
+        if (isSelected) {
+            // Désélectionner
+            card.setAttribute('data-selected', 'false');
+            card.classList.remove('selected');
+            card.style.borderColor = '';
+            card.style.backgroundColor = '';
+            badge.style.opacity = '0';
+            if (hiddenInput) hiddenInput.value = 'false';
+        } else {
+            // Sélectionner
+            card.setAttribute('data-selected', 'true');
+            card.classList.add('selected');
+            card.style.borderColor = '#a855f7';
+            card.style.backgroundColor = '#faf5ff';
+            badge.style.opacity = '1';
+            if (hiddenInput) hiddenInput.value = 'true';
         }
     }
 
@@ -1676,38 +1684,6 @@
         display: grid;
     }
     
-            /* Animation pour le detail box */
-        .detail-box {
-            max-width: 350px;
-            max-height: 70vh;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            /* Améliorer le positionnement */
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            /* Ajouter une ombre pour mieux le distinguer */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            /* Améliorer l'apparence */
-            border-radius: 12px;
-            background: white;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(-50%) translateX(20px);
-        }
-        
-        .detail-box:not(.hidden) {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
-        }
-        
-        /* Garder les cartes blanches opaques pour la lisibilité */
-        .bg-white {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
         /* Navigation fixe en haut */
         nav.bg-gray-800 {
             position: fixed !important;
@@ -1731,6 +1707,41 @@
         /* Ajuster le contenu principal pour compenser la navigation et le header fixes */
         main {
             margin-top: 4rem; /* Espace très minimal pour la navigation + header fixes */
+        }
+
+        /* Styles pour les cartes de work role */
+        .work-role-card {
+            min-height: 200px;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .work-role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .work-role-card.selected {
+            border-color: #a855f7 !important;
+            background-color: #faf5ff !important;
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .work-role-zone {
+            min-height: 40px;
+        }
+
+        .work-role-zone p {
+            margin: 0.1rem 0;
+            line-height: 1.3;
+        }
+
+        .selection-badge {
+            pointer-events: none;
+        }
+
+        .work-role-card .grid {
+            display: block;
         }
     </style>
 

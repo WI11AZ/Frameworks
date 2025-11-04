@@ -1,0 +1,2009 @@
+{% extends "web_app/template/base.html" %}
+{% load static %}
+
+{% block title %}Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017{% endblock %}
+
+{% block content %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #ffffff !important;
+        }
+        html {
+            background-color: #ffffff !important;
+        }
+        .container {
+            background-color: #ffffff !important;
+            padding: 2rem;
+        }
+        .relation-card {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .relation-card.connected {
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+        }
+        /* Couleurs de fond des cartes selon la famille - effet discret */
+        .family-cs .relation-card.connected {
+            background-color: #f0fdf4 !important;
+            color: #1f2937;
+            border: 3px solid #16a34a;
+        }
+        .family-it .relation-card.connected {
+            background-color: #eff6ff !important;
+            color: #1f2937;
+            border: 3px solid #1d4ed8;
+        }
+        .family-en .relation-card.connected {
+            background-color: #f3e8ff !important;
+            color: #1f2937;
+            border: 3px solid #7c3aed;
+        }
+        .family-ce .relation-card.connected {
+            background-color: #fef9e7 !important;
+            color: #1f2937;
+            border: 3px solid #d4a574;
+        }
+        .family-ci .relation-card.connected {
+            background-color: #fef3c7 !important;
+            color: #1f2937;
+            border: 3px solid #d97706;
+        }
+        .family-da .relation-card.connected {
+            background-color: #f0fdfa !important;
+            color: #1f2937;
+            border: 3px solid #0d9488;
+        }
+        .family-se .relation-card.connected {
+            background-color: #fef2f2 !important;
+            color: #1f2937;
+            border: 3px solid #dc2626;
+        }
+        .family-cx .relation-card.connected {
+            background-color: #f9fafb !important;
+            color: #1f2937;
+            border: 3px solid #6b7280;
+        }
+        .relation-card.not-connected {
+            background-color: #fef2f2;
+            border: 2px solid #ef4444;
+        }
+        .relation-side {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            min-height: 200px;
+        }
+        .relation-side.dcwf-2017 {
+            border-left: 6px solid #7c3aed;
+            background-color: #ffffff;
+        }
+        .relation-side.dcwf-2025 {
+            border-left: 6px solid #1d4ed8;
+            background-color: #ffffff;
+        }
+        .relation-side.ncwf-2017 {
+            border-left: 6px solid #7cb342;
+            background-color: #ffffff;
+        }
+        .relation-side.ncwf-2024 {
+            border-left: 6px solid #059669;
+            background-color: #ffffff;
+        }
+        .relation-side.ncwf-2025 {
+            border-left: 6px solid #0891b2;
+            background-color: #ffffff;
+        }
+        .relation-side.no-match {
+            border-left: 4px solid #6b7280;
+            background-color: #f9fafb;
+        }
+        
+        /* Styles pour les relation-side sélectionnables */
+        .relation-side.clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .relation-side.clickable:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .relation-side.clickable.selected {
+            background-color: #f0fdf4 !important;
+            border: 3px solid #10b981 !important;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .connection-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 2rem;
+            color: #6b7280;
+        }
+        .connection-arrow.connected {
+            color: #10b981;
+        }
+        .connection-arrow.not-connected {
+            color: #ef4444;
+        }
+        .element-badge {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.25rem 0.25rem 0.25rem 0;
+        }
+        .element-badge.it { background-color: #3b82f6; }
+        .element-badge.cs { background-color: #ef4444; }
+        .element-badge.en { background-color: #10b981; }
+        .element-badge.se { background-color: #8b5cf6; }
+        .element-badge.da { background-color: #f59e0b; }
+        .element-badge.ce { background-color: #06b6d4; }
+        .element-badge.in { background-color: #84cc16; }
+        .element-badge.og { background-color: #9333ea; }
+        .element-badge.dd { background-color: #2563eb; }
+        .element-badge.io { background-color: #0369a1; }
+        .element-badge.pd { background-color: #f59e0b; }
+        .element-badge.cx { background-color: #6b7280; }
+        .relation-info {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 0.75rem;
+        }
+        .column-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: white;
+        }
+        .column-header.dcwf-2017 { background-color: #8b5cf6; }
+        .column-header.dcwf-2025 { background-color: #3b82f6; }
+        .column-header.ncwf-2017 { background-color: #7cb342; }
+        .column-header.ncwf-2024 { background-color: #10b981; }
+        .column-header.ncwf-2025 { background-color: #06b6d4; }
+        .family-header {
+            margin: 2rem 0 1rem 0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .family-header h2 {
+            margin: 0;
+            color: white !important;
+        }
+        .family-definition {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        /* Styles spécifiques pour chaque famille */
+        .family-header.it { background-color: #3b82f6 !important; }
+        .family-header.cs { background-color: #22c55e !important; }
+        .family-header.en { background-color: #8b5cf6 !important; }
+        .family-header.ce { background-color: #d4a574 !important; }
+        .family-header.ci { background-color: #f59e0b !important; }
+        .family-header.da { background-color: #14b8a6 !important; }
+        .family-header.se { background-color: #ef4444 !important; }
+        .family-header.cx { background-color: #6b7280 !important; }
+        
+        /* Styles pour le header de carte avec toggle */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background-color: rgba(0, 0, 0, 0.02);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .card-header:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .card-header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+        .card-opm-id {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1f2937;
+            min-width: 60px;
+        }
+        .card-work-role {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+        .toggle-arrow {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        .toggle-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+        .card-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+        .card-content.collapsed {
+            max-height: 0 !important;
+            opacity: 0;
+        }
+
+        /* =====================
+           Styles d'impression
+           ===================== */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+
+            html, body {
+                width: 297mm;
+                height: 210mm;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                background: #ffffff !important;
+            }
+
+            body {
+                background-color: #ffffff !important;
+            }
+
+            /* Nettoyage des espacements inutiles à l'impression */
+            .container {
+                padding: 0;
+            }
+
+            /* Désactiver les effets visuels coûteux à l'impression */
+            .relation-card,
+            .family-header,
+            .column-header,
+            .card-header,
+            .relation-side {
+                box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+            }
+
+            /* Éviter que les éléments clés soient coupés entre deux pages */
+            .relation-card,
+            .relation-side,
+            .family-header,
+            .family-definition,
+            .card-header,
+            .card-content,
+            .column-header {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            /* Forcer un léger bord imprimable pour la lisibilité */
+            .relation-card.connected,
+            .relation-card.not-connected {
+                border-width: 1px !important;
+            }
+
+            /* Cacher les éléments interactifs / décoratifs non utiles à l'impression */
+            .no-print,
+            .toggle-arrow,
+            .connection-arrow {
+                display: none !important;
+            }
+
+            /* Neutraliser l'ajout des URLs après les liens */
+            a[href]:after {
+                content: "" !important;
+            }
+
+            /* Réduire légèrement les espacements pour optimiser la pagination */
+            .relation-card { margin-bottom: 1rem; padding: 1rem; }
+            .relation-side { padding: 0.75rem; }
+            .family-header { margin: 1rem 0 0.75rem 0; padding: 0.75rem; }
+
+            /* Règles ciblées pour 151 et 311: même visuel, tenir sur une seule page */
+            .relation-card[data-opm-id="151"],
+            .relation-card[data-opm-id="311"] {
+                page-break-before: auto !important;
+                page-break-after: auto !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                margin-bottom: 1.5rem !important; /* restaurer le visuel */
+                padding: 1.5rem !important;      /* restaurer le visuel */
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                /* Fitting sur A4 paysage */
+                transform: scale(0.82);
+                transform-origin: top left;
+                width: calc(100% / 0.82);
+            }
+            @supports (zoom: 1) {
+                .relation-card[data-opm-id="151"],
+                .relation-card[data-opm-id="311"] {
+                    transform: none;
+                    width: auto;
+                    zoom: 0.82; /* Chrome/Edge: réduction propre pour tenir en A4 paysage */
+                }
+            }
+            .relation-card[data-opm-id="151"] .card-content,
+            .relation-card[data-opm-id="311"] .card-content {
+                overflow: hidden;
+                max-height: none !important; /* pas de collapse en impression */
+            }
+            .relation-card[data-opm-id="151"] .card-content > div,
+            .relation-card[data-opm-id="311"] .card-content > div {
+                display: flex !important; /* conserver la rangée flex */
+                gap: 0.75rem !important;
+            }
+            .relation-card[data-opm-id="151"] .relation-side,
+            .relation-card[data-opm-id="311"] .relation-side {
+                padding: 1rem !important; /* restaurer le visuel */
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            /* Réactiver les flèches de connexion pour ces cartes pour conserver le visuel */
+            .relation-card[data-opm-id="151"] .connection-arrow,
+            .relation-card[data-opm-id="311"] .connection-arrow {
+                display: flex !important;
+            }
+
+            /* Garantir des couleurs en impression (si l'imprimante le permet) */
+            .family-header.it,
+            .family-header.cs,
+            .family-header.en,
+            .family-header.ce,
+            .family-header.ci,
+            .family-header.da,
+            .family-header.se,
+            .family-header.cx,
+            .relation-card.connected,
+            .column-header.dcwf-2017,
+            .column-header.dcwf-2025,
+            .column-header.ncwf-2017,
+            .column-header.ncwf-2024,
+            .column-header.ncwf-2025 {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="header-section">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017</h1>
+            <p class="text-lg opacity-90">Visualisation comparative des rôles de travail à travers les différentes versions des frameworks</p>
+            <div class="mt-4 flex gap-2 justify-center">
+                <button id="export-xlsx" class="no-print bg-white/20 hover:bg-white text-white font-semibold py-2 px-4 rounded shadow">
+                    Exporter en Excel (xlsx)
+                </button>
+            </div>
+            
+        </div>
+
+        <!-- En-têtes des colonnes -->
+        <div class="grid grid-cols-5 gap-2 mb-6">
+            <div class="column-header dcwf-2025">DCWF 2025</div>
+            <div class="column-header ncwf-2025">NCWF 2025</div>
+            <div class="column-header ncwf-2024">NCWF 2024</div>
+            <div class="column-header dcwf-2017">DCWF 2017</div>
+            <div class="column-header ncwf-2017">NCWF 2017</div>
+        </div>
+
+        <!-- Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017 -->
+        <div class="mb-8">
+            <div id="relations-container">
+                <!-- Les relations seront injectées ici -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour toggle (réduire/agrandir) une carte - doit être globale
+        function toggleCard(cardId) {
+            const content = document.getElementById('content-' + cardId);
+            const arrow = document.getElementById('arrow-' + cardId);
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                arrow.classList.remove('collapsed');
+                content.style.maxHeight = '2000px';
+            } else {
+                content.classList.add('collapsed');
+                arrow.classList.add('collapsed');
+                content.style.maxHeight = '0';
+            }
+        }
+        
+        // Fonction pour mettre à jour le bouton de comparaison pour t1.html
+        window.updateT1CompareButton = function() {
+            console.log('=== updateCompareButton appelé ===');
+            
+            const selectedSides = document.querySelectorAll('.selectable-side.selected');
+            console.log('Nombre de sélections trouvées:', selectedSides.length);
+            
+            // Debug : voir tous les selectable-side
+            const allSides = document.querySelectorAll('.selectable-side');
+            console.log('Total de relation-side:', allSides.length);
+            console.log('Total de clickable:', document.querySelectorAll('.clickable').length);
+            
+            let compareContainer = document.getElementById('compare-button-container');
+            
+            if (!compareContainer) {
+                console.log('ERREUR: Conteneur de bouton non trouvé!');
+                return;
+            }
+            
+            console.log('Conteneur trouvé:', compareContainer);
+            
+            if (selectedSides.length > 0) {
+                console.log('Il y a des sélections, affichage du bouton vert');
+                compareContainer.innerHTML = `
+                    <button onclick="window.compareSelectedSidesT1()" 
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg border-2 border-green-600 transition-colors">
+                        🔍 Comparer (${selectedSides.length} sélection${selectedSides.length > 1 ? 's' : ''})
+                    </button>
+                `;
+                compareContainer.style.display = 'block';
+            } else {
+                console.log('Aucune sélection, affichage du bouton gris');
+                compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
+            }
+            
+            console.log('Bouton mis à jour');
+        };
+        
+        // Fonction pour comparer les relation-side sélectionnées pour t1.html
+        window.compareSelectedSidesT1 = function() {
+            const selectedSides = document.querySelectorAll('.selectable-side.selected');
+            
+            const dcwf2017Codes = [];
+            const dcwf2025Codes = [];
+            const ncwf2025Codes = [];
+            const ncwf2024Codes = [];
+            const ncwf2017Codes = [];
+            
+            console.log('=== DÉBUT DE LA COMPARAISON T1 ===');
+            console.log('Nombre de sélections:', selectedSides.length);
+            
+            selectedSides.forEach(side => {
+                const model = side.getAttribute('data-model');
+                const code = side.getAttribute('data-id');
+                
+                console.log('Work role sélectionné:', { model, code });
+                
+                if (!code || code === '') return;
+                
+                if (model === 'dcwf_2017') {
+                    dcwf2017Codes.push(code);
+                } else if (model === 'dcwf_2025') {
+                    dcwf2025Codes.push(code);
+                } else if (model === 'ncwf_2025') {
+                    ncwf2025Codes.push(code);
+                } else if (model === 'ncwf_2024') {
+                    ncwf2024Codes.push(code);
+                } else if (model === 'ncwf_2017') {
+                    ncwf2017Codes.push(code);
+                }
+            });
+            
+            console.log('Codes collectés:', {
+                dcwf2017Codes,
+                dcwf2025Codes,
+                ncwf2025Codes,
+                ncwf2024Codes,
+                ncwf2017Codes
+            });
+            
+            // Convertir les codes en IDs de base de données via l'API
+            const params = new URLSearchParams();
+            dcwf2017Codes.forEach(code => params.append('dcwf_2017_codes', code));
+            dcwf2025Codes.forEach(code => params.append('dcwf_2025_codes', code));
+            ncwf2025Codes.forEach(code => params.append('ncwf_2025_codes', code));
+            ncwf2024Codes.forEach(code => params.append('ncwf_2024_codes', code));
+            ncwf2017Codes.forEach(code => params.append('ncwf_2017_codes', code));
+            
+            console.log('URL de conversion:', `/api/convert-t1-codes/?${params.toString()}`);
+            
+            // Faire un appel AJAX pour convertir les codes en IDs
+            fetch(`/api/convert-t1-codes/?${params.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Réponse de l\'API:', data);
+                    
+                    // Construire l'URL de comparaison avec les IDs convertis
+                    const compareParams = new URLSearchParams();
+                    data.dcwf_ids.forEach(id => compareParams.append('dcwf_ids', id));
+                    data.dcwf_2025_ids.forEach(id => compareParams.append('dcwf_2025_ids', id));
+                    data.ncwf_2017_ids.forEach(id => compareParams.append('ncwf_2017_ids', id));
+                    data.ncwf_2024_ids.forEach(id => compareParams.append('ncwf_2024_ids', id));
+                    data.ncwf_2025_ids.forEach(id => compareParams.append('ncwf_2025_ids', id));
+                    
+                    console.log('URL de comparaison finale:', `/compare/?${compareParams.toString()}`);
+                    
+                    // Rediriger vers la page de comparaison
+                    window.open(`/compare/?${compareParams.toString()}`, '_blank');
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la conversion des codes:', error);
+                    alert('Erreur lors de la comparaison. Veuillez réessayer.');
+                });
+        };
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded déclenché');
+            
+            // Créer le bouton IMMÉDIATEMENT
+            let compareContainer = document.createElement('div');
+            compareContainer.id = 'compare-button-container';
+            compareContainer.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+                min-width: 200px;
+            `;
+            compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
+            document.body.appendChild(compareContainer);
+            console.log('Bouton de comparaison créé et affiché');
+            
+            const relationsContainer = document.getElementById('relations-container');
+            const exportBtn = document.getElementById('export-xlsx');
+            
+            // Données DCWF 2017 intégrées
+            const dcwf2017Data = [
+                {omp_id: 611, title: "Authorizing Official/Designating Representative", category: "Cybersecurity (CS)", description: "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations."},
+                {omp_id: 612, title: "Security Control Assessor", category: "Cybersecurity (CS)", description: "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system."},
+                {omp_id: 621, title: "Software Developer", category: "Cybersecurity (CS)", description: "Develops, creates, maintains, and writes/codes new (or modifies existing) computer applications, software, or specialized utility programs."},
+                {omp_id: 622, title: "Secure Software Assessor", category: "Cybersecurity (CS)", description: "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results."},
+                {omp_id: 631, title: "Information Systems Security Developer", category: "Cybersecurity (CS)", description: "Designs, develops, tests, and evaluates information system security throughout the systems development lifecycle."},
+                {omp_id: 632, title: "Systems Developer", category: "Information Technology (IT)", description: "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle."},
+                {omp_id: 641, title: "Systems Requirements Planner", category: "Information Technology (IT)", description: "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions."},
+                {omp_id: 651, title: "Enterprise Architect", category: "Information Technology (IT)", description: "Develops and maintains business, systems, and information processes to support enterprise mission needs."},
+                {omp_id: 652, title: "Security Architect", category: "Cybersecurity (CS)", description: "Ensures that the stakeholder security requirements necessary to protect the organization's mission and business processes are adequately addressed."},
+                {omp_id: 661, title: "Research & Development Specialist", category: "Information Technology (IT)", description: "Conducts software and systems engineering and software systems research to develop new capabilities, ensuring cybersecurity is fully integrated."},
+                {omp_id: 671, title: "System Testing and Evaluation Specialist", category: "Information Technology (IT)", description: "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements."},
+                {omp_id: 421, title: "Database Administrator", category: "Information Technology (IT)", description: "Administers databases and/or data management systems that allow for the storage, query, and utilization of data."},
+                {omp_id: 431, title: "Knowledge Manager", category: "Information Technology (IT)", description: "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital."},
+                {omp_id: 441, title: "Network Operations Specialist", category: "Information Technology (IT)", description: "Plans, implements, and operates network services/systems, to include hardware and virtual environments."},
+                {omp_id: 451, title: "System Administrator", category: "Information Technology (IT)", description: "Installs, configures, troubleshoots, and maintains hardware, software, and administers system accounts."},
+                {omp_id: 511, title: "Cyber Defense Analyst", category: "Cybersecurity (CS)", description: "Uses data collected from a variety of cyber defense tools to analyze events that occur within their environments for the purposes of mitigating threats."},
+                {omp_id: 521, title: "Cyber Defense Infrastructure Support Specialist", category: "Cybersecurity (CS)", description: "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software."},
+                {omp_id: 531, title: "Cyber Defense Incident Responder", category: "Cybersecurity (CS)", description: "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave."},
+                {omp_id: 541, title: "Vulnerability Assessment Analyst", category: "Cybersecurity (CS)", description: "Performs assessments of systems and networks within the NE or enclave and identifies where those systems/networks deviate from acceptable configurations."},
+                {omp_id: 722, title: "Information Systems Security Manager", category: "Cybersecurity (CS)", description: "Responsible for the cybersecurity of a program, organization, system, or enclave."},
+                {omp_id: 723, title: "COMSEC Manager", category: "Cybersecurity (CS)", description: "Manages the Communications Security (COMSEC) resources of an organization."},
+                {omp_id: 751, title: "Cyber Workforce Developer and Manager", category: "Cyber Enablers (EN)", description: "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements."},
+                {omp_id: 752, title: "Cyber Policy and Strategy Planner", category: "Cyber Enablers (EN)", description: "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives."},
+                {omp_id: 901, title: "Executive Cyber Leader", category: "Cyber Enablers (EN)", description: "Executes decision-making authorities and establishes vision and direction for an organization's cyber and cyber-related policies, resources, and/or operations."},
+                {omp_id: 711, title: "Cyber Instructional Curriculum Developer", category: "Cyber Enablers (EN)", description: "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs."},
+                {omp_id: 712, title: "Cyber Instructor", category: "Cyber Enablers (EN)", description: "Develops and conducts training or education of personnel within cyber domain."},
+                {omp_id: 211, title: "Forensics Analyst", category: "Cyber Enablers (EN)", description: "Conducts deep-dive investigations on computer-based crimes establishing documentary or physical evidence."},
+                {omp_id: 221, title: "Cyber Crime Investigator", category: "Cyber Enablers (EN)", description: "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques."},
+                {omp_id: 731, title: "Cyber Legal Advisor", category: "Cyber Enablers (EN)", description: "Provides legal advice and recommendations on relevant topics related to cyber law."},
+                {omp_id: 801, title: "Program Manager", category: "Cyber Enablers (EN)", description: "Leads, coordinates, communicates, integrates and is accountable for the overall success of the program."},
+                {omp_id: 802, title: "IT Project Manager", category: "Cyber Enablers (EN)", description: "Work that involves directly managing information technology projects to provide a unique service or product."},
+                {omp_id: 803, title: "Product Support Manager", category: "Cyber Enablers (EN)", description: "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components."},
+                {omp_id: 804, title: "IT Investment/Portfolio Manager", category: "Cyber Enablers (EN)", description: "Manages a portfolio of IT capabilities that align with the overall needs of mission and business enterprise priorities."},
+                {omp_id: 805, title: "IT Program Auditor", category: "Cyber Enablers (EN)", description: "Conducts evaluations of an IT program or its individual components, to determine compliance with published standards."},
+                {omp_id: 121, title: "Exploitation Analyst", category: "Cyber Effects (CE)", description: "Partners with cyberspace operations customers to identify access and collection gaps that can be satisfied through cyberspace exploitation."},
+                {omp_id: 122, title: "Digital Network Exploitation Analyst", category: "Cyber Effects (CE)", description: "Analyzes intercepted intelligence information for metadata and content. Uses this data to reconstruct and document target networks."},
+                {omp_id: 131, title: "Joint Targeting Analyst", category: "Cyber Effects (CE)", description: "Conduct target development at the system, component and entity levels. Builds and maintains Electronic Target Folders (ETFs)."},
+                {omp_id: 132, title: "Target Digital Network Analyst", category: "Cyber Effects (CE)", description: "Conducts advanced analysis of collection and open-source data to ensure target continuity, profile targets and their activities."},
+                {omp_id: 133, title: "Target Analyst Reporter", category: "Cyber Effects (CE)", description: "Provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles."},
+                {omp_id: 151, title: "Multi-Disciplined Language Analyst", category: "Intel (Cyber) (CI)", description: "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information."},
+                {omp_id: 311, title: "All-Source Collection Manager", category: "Intel (Cyber) (CI)", description: "Identifies collection authorities and environment; incorporates priority information requirements into collection management."},
+                {omp_id: 312, title: "All-Source Collection Requirements Manager", category: "Intel (Cyber) (CI)", description: "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods."},
+                {omp_id: 322, title: "Cyberspace Operator", category: "Cyber Effects (CE)", description: "Uses a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance."},
+                {omp_id: 331, title: "Cyber Intelligence Planner", category: "Intel (Cyber) (CI)", description: "Develops detailed intelligence plans to satisfy cyber operations requirements."},
+                {omp_id: 411, title: "Technical Support Specialist", category: "Information Technology (IT)", description: "Provides technical support to customers who need assistance utilizing client level hardware and software."},
+                {omp_id: 422, title: "Data Analyst", category: "Data/AI (DA)", description: "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights."},
+                {omp_id: 423, title: "Data Scientist", category: "Data/AI (DA)", description: "Uncovers and explains actionable insights from data by combining scientific method, math and statistics, specialized programming, advanced analytics, AI, and storytelling."},
+                {omp_id: 424, title: "Data Steward", category: "Data/AI (DA)", description: "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal."},
+                {omp_id: 442, title: "Network Technician", category: "Cyber Effects (CE)", description: "Provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT)."},
+                {omp_id: 443, title: "Network Analyst", category: "Cyber Effects (CE)", description: "Understands network traffic signatures and discovers anomalies through network traffic and packet capture (PCAP) analysis."},
+                {omp_id: 461, title: "Systems Security Analyst", category: "Cybersecurity (CS)", description: "Responsible for analysis and development of systems/software security through the product lifecycle."},
+                {omp_id: 462, title: "Control Systems Security Specialist", category: "Cybersecurity (CS)", description: "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems."},
+                {omp_id: 463, title: "Host Analyst", category: "Cyber Effects (CE)", description: "Has knowledge of various system configurations encountered. Performs analysis using built-in tools and capabilities."},
+                {omp_id: 623, title: "AI/ML Specialist", category: "Data/AI (DA)", description: "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives."},
+                {omp_id: 624, title: "Data Operations Specialist", category: "Data/AI (DA)", description: "Builds, manages, and operationalizes data pipelines."},
+                {omp_id: 625, title: "Product Designer User Interface (UI)", category: "Software Engineering (SE)", description: "Manages the user interface design portion of the design process of a product."},
+                {omp_id: 626, title: "Service Designer User Experience (UX)", category: "Software Engineering (SE)", description: "Manages the user experience of a product focused on human factors by making products intuitive and maximizing usability."},
+                {omp_id: 627, title: "DevSecOps Specialist", category: "Software Engineering (SE)", description: "Selects/Deploys/Maintains the set of Continuous Integration/Continuous Deployment (CI/CD) tools and processes."},
+                {omp_id: 628, title: "Software/Cloud Architect", category: "Software Engineering (SE)", description: "Manages and identifies program high-level technical specifications, which may include application design, cloud computing strategy and adoption."},
+                {omp_id: 653, title: "Data Architect", category: "Data/AI (DA)", description: "Designs a system's data models, data flow, interfaces, and infrastructure to meet the information requirements of a business or mission."},
+                {omp_id: 672, title: "AI Test & Evaluation Specialist", category: "Data/AI (DA)", description: "Performs testing, evaluation, verification, and validation on AI solutions to ensure they are developed to be and remain robust, resilient, responsible, secure, and trustworthy."},
+                {omp_id: 673, title: "Software Test & Evaluation Specialist", category: "Software Engineering (SE)", description: "Plans, prepares, and performs testing, evaluation, verification, and validation of software to evaluate results against specifications, requirements, and operational need."},
+                {omp_id: 732, title: "Privacy Compliance Manager", category: "Cyber Enablers (EN)", description: "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance needs of privacy and security executives."},
+                {omp_id: 733, title: "AI Risk and Ethics Specialist", category: "Data/AI (DA)", description: "Educates those involved in the development of AI and conducts assessments on the technical and societal risks across the lifecycle of AI solutions."},
+                {omp_id: 753, title: "AI Adoption Specialist", category: "Data/AI (DA)", description: "Facilitates AI adoption by supporting the users of AI-enabled solutions."},
+                {omp_id: 806, title: "Product Manager", category: "Software Engineering (SE)", description: "Manages the development of products including the resource management, product strategy (physical or digital), functional requirements, and releases."},
+                {omp_id: 902, title: "AI Innovation Leader", category: "Data/AI (DA)", description: "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."},
+                {omp_id: 903, title: "Data Officer", category: "Data/AI (DA)", description: "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies."},
+                {omp_id: 111, title: "All-Source Analyst", category: "Intel (Cyber) (CI)", description: "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information."},
+                {omp_id: 212, title: "Cyber Defense Forensics Analyst", category: "Intel (Cyber) (CI)", description: "Analyzes digital evidence and investigates computer security incidents to derive useful information in support of system/network vulnerability mitigation."},
+            ];
+
+            // Données DCWF 2025 intégrées (exemple de quelques rôles)
+            const dcwf2025Data = [
+                {dcwf_code: 421, work_role: "Database Administrator", element: "Information Technology\n(IT)", work_role_definition: "Administers databases and/or data management systems that allow for the storage, query, and utilization of data."},
+                {dcwf_code: 431, work_role: "Knowledge Manager", element: "Information Technology\n(IT)", work_role_definition: "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content."},
+                {dcwf_code: 441, work_role: "Network Operations Specialist", element: "Information Technology\n(IT)", work_role_definition: "Plans, implements, and operates network services/systems, to include hardware and virtual environments."},
+                {dcwf_code: 451, work_role: "System Administrator", element: "Information Technology\n(IT)", work_role_definition: "Installs, configures, troubleshoots, and maintains hardware, software, and administers system accounts."},
+                {dcwf_code: 511, work_role: "Cyber Defense Analyst", element: "Cybersecurity\n(CS)", work_role_definition: "Uses data collected from a variety of cyber defense tools (e.g., IDS alerts, firewalls, network traffic logs.) to analyze events that occur within their environments for the purposes of mitigating threats."},
+                {dcwf_code: 521, work_role: "Cyber Defense Infrastructure Support Specialist", element: "Cybersecurity\n(CS)", work_role_definition: "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software."},
+                {dcwf_code: 531, work_role: "Cyber Defense Incident Responder", element: "Cybersecurity\n(CS)", work_role_definition: "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave."},
+                {dcwf_code: 541, work_role: "Vulnerability Assessment Analyst", element: "Cybersecurity\n(CS)", work_role_definition: "Performs assessments of systems and networks within the NE or enclave and identifies where those systems/networks deviate from acceptable configurations, enclave policy, or local policy."},
+                {dcwf_code: 611, work_role: "Authorizing Official/Designated Representative", element: "Cybersecurity\n(CS)", work_role_definition: "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations."},
+                {dcwf_code: 612, work_role: "Security Control Assessor", element: "Cybersecurity\n(CS)", work_role_definition: "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system to determine the overall effectiveness of the controls."},
+                {dcwf_code: 621, work_role: "Software Developer", element: "Software Engineering\n(SE)", work_role_definition: "Executes software planning, requirements, risk management, design, development, architecture, modeling, estimation, configuration management, quality, security, and tests using software development methodologies."},
+                {dcwf_code: 622, work_role: "Secure Software Assessor", element: "Cybersecurity\n(CS)", work_role_definition: "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results."},
+                {dcwf_code: 631, work_role: "Information Systems Security Developer", element: "Cybersecurity\n(CS)", work_role_definition: "Designs, develops, tests, and evaluates information system security throughout the systems development lifecycle."},
+                {dcwf_code: 632, work_role: "Systems Developer", element: "Information Technology\n(IT)", work_role_definition: "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle."},
+                {dcwf_code: 641, work_role: "Systems Requirements Planner", element: "Information Technology\n(IT)", work_role_definition: "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions."},
+                {dcwf_code: 651, work_role: "Enterprise Architect", element: "Information Technology\n(IT)", work_role_definition: "Develops and maintains business, systems, and information processes to support enterprise mission needs; develops information technology (IT) rules and requirements that describe baseline and target architectures."},
+                {dcwf_code: 652, work_role: "Security Architect", element: "Cybersecurity\n(CS)", work_role_definition: "Designs enterprise and systems security throughout the development lifecycle; translates technology and environmental conditions (e.g., law and regulation) into security designs and processes."},
+                {dcwf_code: 661, work_role: "Research & Development Specialist", element: "Information Technology\n(IT)", work_role_definition: "Conducts software and systems engineering and software systems research in order to develop new capabilities, ensuring cybersecurity is fully integrated."},
+                {dcwf_code: 671, work_role: "System Testing and Evaluation Specialist", element: "Information Technology\n(IT)", work_role_definition: "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements as well as analyze/report test results."},
+                {dcwf_code: 722, work_role: "Information Systems Security Manager", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for the cybersecurity of a program, organization, system, or enclave."},
+                {dcwf_code: 723, work_role: "COMSEC Manager", element: "Cybersecurity\n(CS)", work_role_definition: "Manages the Communications Security (COMSEC) resources of an organization."},
+                {dcwf_code: 751, work_role: "Cyber Workforce Developer and Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements."},
+                {dcwf_code: 752, work_role: "Cyber Policy and Strategy Planner", element: "Cyber Enablers\n(EN)", work_role_definition: "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives."},
+                {dcwf_code: 901, work_role: "Executive Cyber Leader", element: "Cyber Enablers\n(EN)", work_role_definition: "Executes decision-making authorities and establishes vision and direction for an organization's cyber and cyber-related policies, resources, and/or operations."},
+                {dcwf_code: 711, work_role: "Cyber Instructional Curriculum Developer", element: "Cyber Enablers\n(EN)", work_role_definition: "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs."},
+                {dcwf_code: 712, work_role: "Cyber Instructor", element: "Cyber Enablers\n(EN)", work_role_definition: "Develops and conducts training or education of personnel within cyber domain."},
+                {dcwf_code: 211, work_role: "Forensics Analyst", element: "Cyber Enablers\n(EN)", work_role_definition: "Conducts deep-dive investigations on computer-based crimes establishing documentary or physical evidence, to include digital media and logs associated with cyber intrusion incidents."},
+                {dcwf_code: 212, work_role: "Digital Forensics", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation."},
+                {dcwf_code: 221, work_role: "Cyber Crime Investigator", element: "Cyber Enablers\n(EN)", work_role_definition: "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques."},
+                {dcwf_code: 731, work_role: "Cyber Legal Advisor", element: "Cyber Enablers\n(EN)", work_role_definition: "Provides legal advice and recommendations on relevant topics related to cyber law."},
+                {dcwf_code: 801, work_role: "Program Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Leads, coordinates, communicates, integrates and is accountable for the overall success of the program, ensuring alignment with critical agency priorities."},
+                {dcwf_code: 802, work_role: "IT Project Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Work that involves directly managing information technology projects to provide a unique service or product."},
+                {dcwf_code: 803, work_role: "Product Support Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components."},
+                {dcwf_code: 804, work_role: "IT Investment/Portfolio Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Manages a portfolio of IT capabilities that align with the overall needs of mission and business enterprise priorities."},
+                {dcwf_code: 805, work_role: "IT Program Auditor", element: "Cyber Enablers\n(EN)", work_role_definition: "Conducts evaluations of an IT program or its individual components, to determine compliance with published standards."},
+                {dcwf_code: 121, work_role: "Exploitation Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "Partners with cyberspace operations customers to identify access and collection gaps that can be satisfied through cyberspace exploitation."},
+                {dcwf_code: 122, work_role: "Digital Network Exploitation Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "The DNEA analyzes intercepted intelligence information for metadata and content. They use this data to reconstruct and document target networks."},
+                {dcwf_code: 131, work_role: "Joint Targeting Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "Joint Targeting Analyst conduct target development at the system, component and entity levels. Builds and maintains Electronic Target Folders (ETFs)."},
+                {dcwf_code: 132, work_role: "Target Digital Network Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "The TDNA conducts advanced analysis of collection and open-source data to ensure target continuity, profile targets and their activities."},
+                {dcwf_code: 133, work_role: "Target Analyst Reporter", element: "Cyber Effects\n(CE)", work_role_definition: "The Target Analyst Reporter (TAR) provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles."},
+                {dcwf_code: 151, work_role: "Multi-Disciplined Language Analyst", element: "Intel (Cyber)\n(CI)", work_role_definition: "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information derived from language, voice and/or graphic material."},
+                {dcwf_code: 311, work_role: "All-Source Collection Manager", element: "Intel (Cyber)\n(CI)", work_role_definition: "Identifies collection authorities and environment; incorporates priority information requirements into collection management; develops concepts to meet leadership's intent."},
+                {dcwf_code: 312, work_role: "All-Source Collection Requirements Manager", element: "Intel (Cyber)\n(CI)", work_role_definition: "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods to improve collection."},
+                {dcwf_code: 321, work_role: "Access Network Operator", element: "Cyber Effects\n(CE)", work_role_definition: "Conducts access collection, processing, and/or geolocation of wired or wireless computer and digital networks in order to exploit, locate, and/or track targets of interest."},
+                {dcwf_code: 322, work_role: "Cyberspace Operator", element: "Cyber Effects\n(CE)", work_role_definition: "Cyberspace Operators use a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance, and executing on-net operations in support of offensive cyberspace operations when directed."},
+                {dcwf_code: 331, work_role: "Cyber Intelligence Planner", element: "Intel (Cyber)\n(CI)", work_role_definition: "Develops detailed intelligence plans to satisfy cyber operations requirements."},
+                {dcwf_code: 332, work_role: "Cyber Operations Planner", element: "Cyber Effects\n(CE)", work_role_definition: "The Cyberspace Operations Planner applies in-depth knowledge of the JOPP to develop detailed plans and orders supporting CCMD cyberspace operation requirements."},
+                {dcwf_code: 341, work_role: "Cyberspace Capability Developer", element: "Cyber Effects\n(CE)", work_role_definition: "Provides software and hardware capabilities that produce cyberspace effects in and throughout cyberspace operations through vulnerability analysis, and software research and development."},
+                {dcwf_code: 411, work_role: "Technical Support Specialist", element: "Information Technology\n(IT)", work_role_definition: "Provides technical support to customers who need assistance utilizing client level hardware and software in accordance with established or approved organizational process components."},
+                {dcwf_code: 422, work_role: "Data Analyst", element: "Data/AI\n(DA)", work_role_definition: "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights."},
+                {dcwf_code: 423, work_role: "Data Scientist", element: "Data/AI\n(DA)", work_role_definition: "Uncovers and explains actionable insights from data by combining scientific method, math and statistics, specialized programming, advanced analytics, AI, and storytelling."},
+                {dcwf_code: 424, work_role: "Data Steward", element: "Data/AI\n(DA)", work_role_definition: "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal."},
+                {dcwf_code: 442, work_role: "Network Technician", element: "Cyber Effects\n(CE)", work_role_definition: "The Network Technician provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT)."},
+                {dcwf_code: 443, work_role: "Network Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "The Network Analyst will understand network traffic signatures and discover anomalies through network traffic and packet capture (PCAP) analysis."},
+                {dcwf_code: 461, work_role: "Systems Security Analyst", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance."},
+                {dcwf_code: 462, work_role: "Control Systems Security Specialist", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems."},
+                {dcwf_code: 463, work_role: "Host Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "A Host Analyst (HA) will have knowledge of various system configurations encountered. This work role also performs analysis using built-in tools and capabilities."},
+                {dcwf_code: 551, work_role: "Red Team Specialist", element: "Cyber Effects\n(CE)", work_role_definition: "Leverages tools, systems, and utilities necessary to enhance the security posture of an organization, conducts threat and risk assessments, and performs testing and evaluation in accordance with legal and organizational requirements, policies, and regulations."},
+                {dcwf_code: 623, work_role: "AI/ML Specialist", element: "Data/AI\n(DA)", work_role_definition: "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives."},
+                {dcwf_code: 624, work_role: "Data Operations Specialist", element: "Data/AI\n(DA)", work_role_definition: "Builds, manages, and operationalizes data pipelines."},
+                {dcwf_code: 625, work_role: "Product Designer User Interface (UI)", element: "Software Engineering\n(SE)", work_role_definition: "Manages the user interface design portion of the design process of a product."},
+                {dcwf_code: 626, work_role: "Service Designer User Experience (UX)", element: "Software Engineering\n(SE)", work_role_definition: "Manages the user experience of a product focused on human factors by making products intuitive and maximizing usability, accessibility, and simplicity."},
+                {dcwf_code: 627, work_role: "DevSecOps Specialist", element: "Software Engineering\n(SE)", work_role_definition: "Selects/Deploys/Maintains the set of Continuous Integration/Continuous Deployment (CI/CD) tools and processes used by the development team and/or maintains the deployed software product and ensures observability and security across the lifecycle."},
+                {dcwf_code: 628, work_role: "Software/Cloud Architect", element: "Software Engineering\n(SE)", work_role_definition: "Manages and identifies program high-level technical specifications, which may include application design, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements."},
+                {dcwf_code: 653, work_role: "Data Architect", element: "Data/AI\n(DA)", work_role_definition: "Designs a system's data models, data flow, interfaces, and infrastructure to meet the information requirements of a business or mission."},
+                {dcwf_code: 672, work_role: "AI Test & Evaluation Specialist", element: "Data/AI\n(DA)", work_role_definition: "Performs testing, evaluation, verification, and validation on AI solutions to ensure they are developed to be and remain robust, resilient, responsible, secure, and trustworthy; and communicates results and concerns to leadership."},
+                {dcwf_code: 673, work_role: "Software Test & Evaluation Specialist", element: "Software Engineering\n(SE)", work_role_definition: "Plans, prepares, and performs testing, evaluation, verification, and validation of software to evaluate results against specifications, requirements, and operational need."},
+                {dcwf_code: 732, work_role: "Privacy Compliance Manager", element: "Cyber Enablers\n(EN)", work_role_definition: "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance needs of privacy and security executives and their teams."},
+                {dcwf_code: 733, work_role: "AI Risk and Ethics Specialist", element: "Data/AI\n(DA)", work_role_definition: "Educates those involved in the development of AI and conducts assessments on the technical and societal risks across the lifecycle of AI solutions from acquisition or design to deployment and use."},
+                {dcwf_code: 753, work_role: "AI Adoption Specialist", element: "Data/AI\n(DA)", work_role_definition: "Facilitates AI adoption by supporting the users of AI-enabled solutions."},
+                {dcwf_code: 806, work_role: "Product Manager", element: "Software Engineering\n(SE)", work_role_definition: "Manages the development of products including the resource management, product strategy (physical or digital), functional requirements, and releases."},
+                {dcwf_code: 902, work_role: "AI Innovation Leader", element: "Data/AI\n(DA)", work_role_definition: "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."},
+                {dcwf_code: 903, work_role: "Data Officer", element: "Data/AI\n(DA)", work_role_definition: "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance."},
+                {dcwf_code: 111, work_role: "All-Source Analyst", element: "Intel (Cyber)\n(CI)", work_role_definition: "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations."},
+                {dcwf_code: "TBD-A", work_role: "Insider Threat Analysis", element: "Not in any DCWF Community / Workforce Element\n(CX)", work_role_definition: "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations."},
+                {dcwf_code: "TBD-B", work_role: "Operational Technology (OT) Cybersecurity Engineering", element: "Not in any DCWF Community / Workforce Element\n(CX)", work_role_definition: "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians."}
+            ];
+
+            // Données NCWF 2017 intégrées (basées sur le fichier dcwf_nice_no_ksat.json)
+            const ncwf2017Data = [
+                {work_role: "Authorizing Official/Designating Representative", work_role_description: "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations (including mission, functions, image, or reputation), organizational assets, individuals, other organizations, and the Nation (CNSSI 4009).", work_role_id: "SP-RSK-001", opm_code: 611, element: "SECURELY PROVISION (SP)", specialty_area: "Risk Management (RSK)", specialty_area_code: "RSK"},
+                {work_role: "Security Control Assessor", work_role_description: "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system to determine the overall effectiveness of the controls (as defined in NIST SP 800-37). ", work_role_id: "SP-RSK-002", opm_code: 612, element: "SECURELY PROVISION (SP)", specialty_area: "Risk Management (RSK)", specialty_area_code: "RSK"},
+                {work_role: "Software Developer", work_role_description: "Develops, creates, maintains, and writes/codes new (or modifies existing) computer applications, software, or specialized utility programs.", work_role_id: "SP-DEV-001", opm_code: 621, element: "SECURELY PROVISION (SP)", specialty_area: "Software Development (DEV)", specialty_area_code: "DEV"},
+                {work_role: "Secure Software Assessor", work_role_description: "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results.", work_role_id: "SP-DEV-002", opm_code: 622, element: "SECURELY PROVISION (SP)", specialty_area: "Software Development (DEV)", specialty_area_code: "DEV"},
+                {work_role: "Enterprise Architect ", work_role_description: "Develops and maintains business, systems, and information processes to support enterprise mission needs; develops information technology (IT) rules and requirements that describe baseline and target architectures. ", work_role_id: "SP-ARC-001", opm_code: 651, element: "SECURELY PROVISION (SP)", specialty_area: "Systems Architecture (ARC)", specialty_area_code: "ARC"},
+                {work_role: "Security Architect ", work_role_description: "Ensures that the stakeholder security requirements necessary to protect the organization's mission and business processes are adequately addressed in all aspects of enterprise architecture including reference models, segment and solution architectures, and the resulting systems supporting those missions and business processes.", work_role_id: "SP-ARC-002", opm_code: 652, element: "SECURELY PROVISION (SP)", specialty_area: "Systems Architecture (ARC)", specialty_area_code: "ARC"},
+                {work_role: "Research & Development Specialist ", work_role_description: "Conducts software and systems engineering and software systems research to develop new capabilities, ensuring cybersecurity is fully integrated. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems. ", work_role_id: "SP-TRD-001", opm_code: 661, element: "SECURELY PROVISION (SP)", specialty_area: "Technology R&D (TRD)", specialty_area_code: "TRD"},
+                {work_role: "Systems Requirements Planner ", work_role_description: "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions.", work_role_id: "SP-SRP-001", opm_code: 641, element: "SECURELY PROVISION (SP)", specialty_area: "Systems Requirements Planning (SRP)", specialty_area_code: "SRP"},
+                {work_role: "System Testing and Evaluation Specialist ", work_role_description: "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements as well as analyze/report test results.", work_role_id: "SP-TST-001", opm_code: 671, element: "SECURELY PROVISION (SP)", specialty_area: "Test and Evaluation (TST)", specialty_area_code: "TST"},
+                {work_role: "Information Systems Security Developer ", work_role_description: "Designs, develops, tests, and evaluates information system security throughout the systems development life cycle.", work_role_id: "SP-SYS-001", opm_code: 631, element: "SECURELY PROVISION (SP)", specialty_area: "Systems Development (SYS)", specialty_area_code: "SYS"},
+                {work_role: "Systems Developer ", work_role_description: "Designs, develops, tests, and evaluates information systems throughout the systems development life cycle.", work_role_id: "SP-SYS-002", opm_code: 632, element: "SECURELY PROVISION (SP)", specialty_area: "Systems Development (SYS)", specialty_area_code: "SYS"},
+                {work_role: "Database Administrator", work_role_description: "Administers databases and/or data management systems that allow for the secure storage, query, protection, and utilization of data.", work_role_id: "OM-DTA-001", opm_code: 421, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Data Administration (DTA)", specialty_area_code: "DTA"},
+                {work_role: "Data Analyst ", work_role_description: "Examines data from multiple disparate sources with the goal of providing security and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets used for modeling, data mining, and research purposes.", work_role_id: "OM-DTA-002", opm_code: 422, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Data Administration (DTA)", specialty_area_code: "DTA"},
+                {work_role: "Knowledge Manager", work_role_description: "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content.", work_role_id: "OM-KMG-001", opm_code: 431, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Knowledge Management (KMG)", specialty_area_code: "KMG"},
+                {work_role: "Technical Support Specialist", work_role_description: "Provides technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational process components (i.e., Master Incident Management Plan, when applicable).", work_role_id: "OM-STS-001", opm_code: 411, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Customer Service and Technical Support (STS)", specialty_area_code: "STS"},
+                {work_role: "Network Operations Specialist", work_role_description: "Plans, implements, and operates network services/systems, to include hardware and virtual environments.", work_role_id: "OM-NET-001", opm_code: 441, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Network Services (NET)", specialty_area_code: "NET"},
+                {work_role: "System Administrator", work_role_description: "Responsible for setting up and maintaining a system or specific components of a system (e.g. for example, installing, configuring, and updating hardware and software; establishing and managing user accounts; overseeing or conducting backup and recovery tasks; implementing operational and technical security controls; and adhering to organizational security policies and procedures).", work_role_id: "OM-ADM-001", opm_code: 451, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Systems Administration (ADM)", specialty_area_code: "ADM"},
+                {work_role: "Systems Security Analyst", work_role_description: "Responsible for the analysis and development of the integration, testing, operations, and maintenance of systems security.", work_role_id: "OM-ANA-001", opm_code: 461, element: "OPERATE and MAINTAIN (OM)", specialty_area: "Systems Analysis (ANA)", specialty_area_code: "ANA"},
+                {work_role: "Cyber Legal Advisor ", work_role_description: "Provides legal advice and recommendations on relevant topics related to cyber law. ", work_role_id: "OV-LGA-001", opm_code: 731, element: "OVERSEE and GOVERN (OV)", specialty_area: "Legal Advice and Advocacy (LGA)", specialty_area_code: "LGA"},
+                {work_role: "Privacy Officer/Privacy Compliance Manager", work_role_description: "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance, governance/policy, and incident response needs of privacy and security executives and their teams.", work_role_id: " OV-LGA-002", opm_code: 732, element: "OVERSEE and GOVERN (OV)", specialty_area: "Legal Advice and Advocacy (LGA)", specialty_area_code: "LGA"},
+                {work_role: "Cyber Instructional Curriculum Developer ", work_role_description: "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs.", work_role_id: "OV-TEA-001", opm_code: 711, element: "OVERSEE and GOVERN (OV)", specialty_area: "Training, Education, and Awareness (TEA)", specialty_area_code: "TEA"},
+                {work_role: "Cyber Instructor ", work_role_description: "Develops and conducts training or education of personnel within cyber domain. ", work_role_id: "OV-TEA-002", opm_code: 712, element: "OVERSEE and GOVERN (OV)", specialty_area: "Training, Education, and Awareness (TEA)", specialty_area_code: "TEA"},
+                {work_role: "Information Systems Security Manager", work_role_description: "Responsible for the cybersecurity of a program, organization, system, or enclave. ", work_role_id: "OV-MGT-001", opm_code: 722, element: "OVERSEE and GOVERN (OV)", specialty_area: "Cybersecurity Management (MGT)", specialty_area_code: "MGT"},
+                {work_role: "Communications Security (COMSEC) Manager", work_role_description: "Individual who manages the Communications Security (COMSEC) resources of an organization (CNSSI  4009) or key custodian for a Crypto Key Management System (CKMS).", work_role_id: "OV-MGT-002", opm_code: 723, element: "OVERSEE and GOVERN (OV)", specialty_area: "Cybersecurity Management (MGT)", specialty_area_code: "MGT"},
+                {work_role: "Cyber Workforce Developer and Manager ", work_role_description: "Develops cyberspace workforce plans, strategies, and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements. ", work_role_id: "OV-SPP-001", opm_code: 751, element: "OVERSEE and GOVERN (OV)", specialty_area: "Strategic Planning and Policy (SPP)", specialty_area_code: "SPP"},
+                {work_role: "Cyber Policy and Strategy Planner", work_role_description: "Develops and maintains cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.", work_role_id: "OV-SPP-002", opm_code: 752, element: "OVERSEE and GOVERN (OV)", specialty_area: "Strategic Planning and Policy (SPP)", specialty_area_code: "SPP"},
+                {work_role: "Executive Cyber Leadership ", work_role_description: "Executes decision-making authorities and establishes vision and direction for an organization's cyber and cyber-related resources and/or operations.", work_role_id: "OV-EXL-001", opm_code: 901, element: "OVERSEE and GOVERN (OV)", specialty_area: "Executive Cyber Leadership (EXL)", specialty_area_code: "EXL"},
+                {work_role: "Program Manager ", work_role_description: "Leads, coordinates, communicates, integrates, and is accountable for the overall success of the program, ensuring alignment with agency or enterprise priorities.", work_role_id: "OV-PMA-001", opm_code: 801, element: "OVERSEE and GOVERN (OV)", specialty_area: "Program/Project Management (PMA)", specialty_area_code: "PMA"},
+                {work_role: "IT Project Manager", work_role_description: "Directly manages information technology projects.", work_role_id: "OV-PMA-002", opm_code: 802, element: "OVERSEE and GOVERN (OV)", specialty_area: "Program/Project Management (PMA)", specialty_area_code: "PMA"},
+                {work_role: "Product Support Manager", work_role_description: "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components. ", work_role_id: "OV-PMA-003", opm_code: 803, element: "OVERSEE and GOVERN (OV)", specialty_area: "Program/Project Management (PMA)", specialty_area_code: "PMA"},
+                {work_role: "IT Investment/Portfolio Manager", work_role_description: "Manages a portfolio of IT investments that align with the overall needs of mission and enterprise priorities.", work_role_id: "OV-PMA-004", opm_code: 804, element: "OVERSEE and GOVERN (OV)", specialty_area: "Program/Project Management (PMA)", specialty_area_code: "PMA"},
+                {work_role: "IT Program Auditor", work_role_description: "Conducts evaluations of an IT program or its individual components to determine compliance with published standards. ", work_role_id: "OV-PMA-005", opm_code: 805, element: "OVERSEE and GOVERN (OV)", specialty_area: "Program/Project Management (PMA)", specialty_area_code: "PMA"},
+                {work_role: "Cyber Defense Analyst", work_role_description: "Uses data collected from a variety of cyber defense tools (e.g., IDS alerts, firewalls, network traffic logs) to analyze events that occur within their environments for the purposes of mitigating threats.", work_role_id: " PR-CDA-001", opm_code: 511, element: "PROTECT and DEFEND (PR)", specialty_area: "Cybersecurity Defense Analysis (CDA)", specialty_area_code: "CDA"},
+                {work_role: "Cyber Defense Infrastructure Support Specialist", work_role_description: "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software. ", work_role_id: " PR-INF-001", opm_code: 521, element: "PROTECT and DEFEND (PR)", specialty_area: "Cybersecurity Defense Infrastructure Support (INF)", specialty_area_code: "INF"},
+                {work_role: "Cyber Defense Incident Responder ", work_role_description: "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave.", work_role_id: "PR-CIR-001", opm_code: 531, element: "PROTECT and DEFEND (PR)", specialty_area: "Incident Response (CIR)", specialty_area_code: "CIR"},
+                {work_role: "Vulnerability Assessment Analyst", work_role_description: "Performs assessments of systems and networks within the network environment or enclave and identifies where those systems/networks deviate from acceptable configurations, enclave policy, or local policy. Measures effectiveness of defense-in-depth architecture against known vulnerabilities.", work_role_id: "PR-VAM-001", opm_code: 541, element: "PROTECT and DEFEND (PR)", specialty_area: "Vulnerability Assessment and Management (VAM)", specialty_area_code: "VAM"},
+                {work_role: "Threat/Warning Analyst", work_role_description: "Develops cyber indicators to maintain awareness of the status of the highly dynamic operating environment. Collects, processes, analyzes, and disseminates cyber threat/warning assessments.", work_role_id: "AN-TWA-001", opm_code: 141, element: "ANALYZE (AN)", specialty_area: "Threat Analysis (TWA)", specialty_area_code: "TWA"},
+                {work_role: "Exploitation Analyst", work_role_description: "Collaborates to identify access and collection gaps that can be satisfied through cyber collection and/or preparation activities. Leverages all authorized resources and analytic techniques to penetrate targeted networks.", work_role_id: "AN-EXP-001", opm_code: 121, element: "ANALYZE (AN)", specialty_area: "Exploitation Analysis (EXP)", specialty_area_code: "EXP"},
+                {work_role: "All-Source Analyst", work_role_description: "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations.", work_role_id: "AN-ASA-001", opm_code: 111, element: "ANALYZE (AN)", specialty_area: "All-Source Analysis (ASA)", specialty_area_code: "ASA"},
+                {work_role: "Mission Assessment Specialist", work_role_description: "Develops assessment plans and measures of performance/effectiveness. Conducts strategic and operational effectiveness assessments as required for cyber events. Determines whether systems performed as expected and provides input to the determination of operational effectiveness.", work_role_id: "AN-ASA-002", opm_code: 112, element: "ANALYZE (AN)", specialty_area: "All-Source Analysis (ASA)", specialty_area_code: "ASA"},
+                {work_role: "Target Developer", work_role_description: "Performs target system analysis, builds and/or maintains electronic target folders to include inputs from environment preparation, and/or internal or external intelligence sources. Coordinates with partner target activities and intelligence organizations, and presents candidate targets for vetting and validation.", work_role_id: "AN-TGT-001", opm_code: 131, element: "ANALYZE (AN)", specialty_area: "Targets (TGT)", specialty_area_code: "TGT"},
+                {work_role: "Target Network Analyst", work_role_description: "Conducts advanced analysis of collection and open-source data to ensure target continuity; to profile targets and their activities; and develop techniques to gain more target information. Determines how targets communicate, move, operate and live based on knowledge of target technologies, digital networks, and the applications on them.", work_role_id: "AN-TGT-002", opm_code: 132, element: "ANALYZE (AN)", specialty_area: "Targets (TGT)", specialty_area_code: "TGT"},
+                {work_role: "Multi-Disciplined Language Analyst", work_role_description: "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information derived from language, voice and/or graphic material. Creates and maintains language-specific databases and working aids to support cyber action execution and ensure critical knowledge sharing. Provides subject matter expertise in foreign language-intensive or interdisciplinary projects.", work_role_id: "AN-LNG-001", opm_code: 151, element: "ANALYZE (AN)", specialty_area: "Language Analysis (LNG)", specialty_area_code: "LNG"},
+                {work_role: "All Source-Collection Manager", work_role_description: "Identifies collection authorities and environment; incorporates priority information requirements into collection management; develops concepts to meet leadership's intent. Determines capabilities of available collection assets, identifies new collection capabilities; and constructs and disseminates collection plans.  Monitors execution of tasked collection to ensure effective execution of the collection plan.", work_role_id: "CO-CLO-001", opm_code: 311, element: "COLLECT and OPERATE (CO)", specialty_area: "Collection Operations (CLO)", specialty_area_code: "CLO"},
+                {work_role: "All Source-Collection Requirements Manager", work_role_description: "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods to improve collection. Develops, processes, validates, and coordinates submission of collection requirements. Evaluates performance of collection assets and collection operations.", work_role_id: "CO-CLO-002", opm_code: 312, element: "COLLECT and OPERATE (CO)", specialty_area: "Collection Operations (CLO)", specialty_area_code: "CLO"},
+                {work_role: "Cyber Intel Planner", work_role_description: "Develops detailed intelligence plans to satisfy cyber operations requirements. Collaborates with cyber operations planners to identify, validate, and levy requirements for collection and analysis. Participates in targeting selection, validation, synchronization, and execution of cyber actions. Synchronizes intelligence activities to support organization objectives in cyberspace.", work_role_id: "CO-OPL-001", opm_code: 331, element: "COLLECT and OPERATE (CO)", specialty_area: "Cyber Operational Planning (OPL)", specialty_area_code: "OPL"},
+                {work_role: "Cyber Ops Planner", work_role_description: "Develops detailed plans for the conduct or support of the applicable range of cyber operations through collaboration with other planners, operators and/or analysts. Participates in targeting selection, validation, synchronization, and enables integration during the execution of cyber actions.", work_role_id: "CO-OPL-002", opm_code: 332, element: "COLLECT and OPERATE (CO)", specialty_area: "Cyber Operational Planning (OPL)", specialty_area_code: "OPL"},
+                {work_role: "Partner Integration Planner", work_role_description: "Works to advance cooperation across organizational or national borders between cyber operations partners. Aids the integration of partner cyber teams by providing guidance, resources, and collaboration to develop best practices and facilitate organizational support for achieving objectives in integrated cyber actions.", work_role_id: "CO-OPL-003", opm_code: 333, element: "COLLECT and OPERATE (CO)", specialty_area: "Cyber Operational Planning (OPL)", specialty_area_code: "OPL"},
+                {work_role: "Cyber Operator", work_role_description: "Conducts collection, processing, and/or geolocation of systems to exploit, locate, and/or track targets of interest. Performs network navigation, tactical forensic analysis, and, when directed, executes on-net operations.", work_role_id: "CO-OPS-001", opm_code: 321, element: "COLLECT and OPERATE (CO)", specialty_area: "Cyber Operations (OPS)", specialty_area_code: "OPS"},
+                {work_role: "Cyber Crime Investigator", work_role_description: "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques.", work_role_id: "IN-INV-001", opm_code: 221, element: "INVESTIGATE (IN)", specialty_area: "Cyber Investigation (INV)", specialty_area_code: "INV"},
+                {work_role: "Law Enforcement /CounterIntelligence Forensics Analyst", work_role_description: "Conducts detailed investigations on computer-based crimes establishing documentary or physical evidence, to include digital media and logs associated with cyber intrusion incidents.", work_role_id: "IN-FOR-001", opm_code: 211, element: "INVESTIGATE (IN)", specialty_area: "Digital Forensics (FOR)", specialty_area_code: "FOR"},
+                {work_role: "Cyber Defense Forensics Analyst", work_role_description: "Analyzes digital evidence and investigates computer security incidents to derive useful information in support of system/network vulnerability mitigation.", work_role_id: "IN-FOR-002", opm_code: 212, element: "INVESTIGATE (IN)", specialty_area: "Digital Forensics (FOR)", specialty_area_code: "FOR"}
+            ];
+
+            // Données NCWF 2024 intégrées (exemple de quelques rôles)
+            const ncwf2024Data = [
+                {work_role: "Communications Security (COMSEC) Management", work_role_description: "Responsible for managing the Communications Security (COMSEC) resources of an organization.", work_role_id: "OG-WRL-001", opm_code: 723, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Policy and Planning", work_role_description: "Responsible for developing and maintaining cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.", work_role_id: "OG-WRL-002", opm_code: 752, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Workforce Management", work_role_description: "Responsible for developing cybersecurity workforce plans, assessments, strategies, and guidance, including cybersecurity-related staff training, education, and hiring processes.", work_role_id: "OG-WRL-003", opm_code: 751, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Curriculum Development", work_role_description: "Responsible for developing, planning, coordinating, and evaluating cybersecurity awareness, training, or education content, methods, and techniques based on instructional needs and requirements.", work_role_id: "OG-WRL-004", opm_code: 711, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Instruction", work_role_description: "Responsible for developing and conducting cybersecurity awareness, training, or education.", work_role_id: "OG-WRL-005", opm_code: 712, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Legal Advice", work_role_description: "Responsible for providing cybersecurity legal advice and recommendations, including monitoring related legislation and regulations.", work_role_id: "OG-WRL-006", opm_code: 731, element: "Oversight and Governance (OG)"},
+                {work_role: "Executive Cybersecurity Leadership", work_role_description: "Responsible for establishing vision and direction for an organization's cybersecurity operations and resources and their impact on digital and physical spaces.", work_role_id: "OG-WRL-007", opm_code: 901, element: "Oversight and Governance (OG)"},
+                {work_role: "Privacy Compliance", work_role_description: "Responsible for developing and overseeing an organization's privacy compliance program and staff, including establishing and managing privacy-related governance, policy, and incident response needs.", work_role_id: "OG-WRL-008", opm_code: 732, element: "Oversight and Governance (OG)"},
+                {work_role: "Product Support Management", work_role_description: "Responsible for planning, estimating costs, budgeting, developing, implementing, and managing product support strategies in order to field and maintain the readiness and operational capability of systems and components.", work_role_id: "OG-WRL-009", opm_code: 803, element: "Oversight and Governance (OG)"},
+                {work_role: "Program Management", work_role_description: "Responsible for leading, coordinating, and the overall success of a defined program. Includes communicating about the program and ensuring alignment with agency or organizational priorities.", work_role_id: "OG-WRL-010", opm_code: 801, element: "Oversight and Governance (OG)"},
+                {work_role: "Secure Project Management", work_role_description: "Responsible for overseeing and directly managing technology projects. Ensures cybersecurity is built into projects to protect the organization's critical infrastructure and assets, reduce risk, and meet organizational goals.", work_role_id: "OG-WRL-011", opm_code: 802, element: "Oversight and Governance (OG)"},
+                {work_role: "Security Control Assessment", work_role_description: "Responsible for conducting independent comprehensive assessments of management, operational, and technical security controls and control enhancements employed within or inherited by a system to determine their overall effectiveness.", work_role_id: "OG-WRL-012", opm_code: 612, element: "Oversight and Governance (OG)"},
+                {work_role: "Systems Authorization", work_role_description: "Responsible for operating an information system at an acceptable level of risk to organizational operations, organizational assets, individuals, other organizations, and the nation.", work_role_id: "OG-WRL-013", opm_code: 611, element: "Oversight and Governance (OG)"},
+                {work_role: "Systems Security Management", work_role_description: "Responsible for managing the cybersecurity of a program, organization, system, or enclave.", work_role_id: "OG-WRL-014", opm_code: 722, element: "Oversight and Governance (OG)"},
+                {work_role: "Technology Portfolio Management", work_role_description: "Responsible for managing a portfolio of technology investments that align with the overall needs of mission and enterprise priorities.", work_role_id: "OG-WRL-015", opm_code: 804, element: "Oversight and Governance (OG)"},
+                {work_role: "Technology Program Auditing", work_role_description: "Responsible for conducting evaluations of technology programs or their individual components to determine compliance with published standards.", work_role_id: "OG-WRL-016", opm_code: 805, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Architecture", work_role_description: "Responsible for ensuring that security requirements are adequately addressed in all aspects of enterprise architecture, including reference models, segment and solution architectures, and the resulting systems that protect and support organizational mission and business processes.", work_role_id: "DD-WRL-001", opm_code: 652, element: "Design and Development (DD)"},
+                {work_role: "Enterprise Architecture", work_role_description: "Responsible for developing and maintaining business, systems, and information processes to support enterprise mission needs. Develops technology rules and requirements that describe baseline and target architectures.", work_role_id: "DD-WRL-002", opm_code: 651, element: "Design and Development (DD)"},
+                {work_role: "Secure Software Development", work_role_description: "Responsible for developing, creating, modifying, and maintaining computer applications, software, or specialized utility programs.", work_role_id: "DD-WRL-003", opm_code: 621, element: "Design and Development (DD)"},
+                {work_role: "Secure Systems Development", work_role_description: "Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.", work_role_id: "DD-WRL-004", opm_code: 631, element: "Design and Development (DD)"},
+                {work_role: "Systems Developer", work_role_description: "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle.", work_role_id: "DD-WRL-009", opm_code: 632, element: "Design and Development (DD)"},
+                {work_role: "Software Security Assessment", work_role_description: "Responsible for analyzing the security of new or existing computer applications, software, or specialized utility programs and delivering actionable results.", work_role_id: "DD-WRL-005", opm_code: 622, element: "Design and Development (DD)"},
+                {work_role: "Systems Requirements Planning", work_role_description: "Responsible for consulting with internal and external customers to evaluate and translate functional requirements and integrating security policies into technical solutions.", work_role_id: "DD-WRL-006", opm_code: 641, element: "Design and Development (DD)"},
+                {work_role: "Systems Testing and Evaluation", work_role_description: "Responsible for planning, preparing, and executing system tests; evaluating test results against specifications and requirements; and reporting test results and findings.", work_role_id: "DD-WRL-007", opm_code: 671, element: "Design and Development (DD)"},
+                {work_role: "Technology Research and Development", work_role_description: "Responsible for conducting software and systems engineering and software systems research to develop new capabilities with fully integrated cybersecurity.", work_role_id: "DD-WRL-008", opm_code: 661, element: "Design and Development (DD)"},
+                {work_role: "Data Analysis", work_role_description: "Responsible for analyzing data from multiple disparate sources to provide cybersecurity and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets used for modeling, data mining, and research purposes.", work_role_id: "IO-WRL-001", opm_code: 422, element: "Implementation and Operation (IO)"},
+                {work_role: "Database Administration", work_role_description: "Responsible for administering databases and data management systems that allow for the secure storage, query, protection, and utilization of data.", work_role_id: "IO-WRL-002", opm_code: 421, element: "Implementation and Operation (IO)"},
+                {work_role: "Knowledge Management", work_role_description: "Responsible for managing and administering processes and tools to identify, document, and access an organization's intellectual capital.", work_role_id: "IO-WRL-003", opm_code: 431, element: "Implementation and Operation (IO)"},
+                {work_role: "Network Operations", work_role_description: "Responsible for planning, implementing, and operating network services and systems, including hardware and virtual environments.", work_role_id: "IO-WRL-004", opm_code: 441, element: "Implementation and Operation (IO)"},
+                {work_role: "Systems Administration", work_role_description: "Responsible for setting up and maintaining a system or specific components of a system in adherence with organizational security policies and procedures.", work_role_id: "IO-WRL-005", opm_code: 451, element: "Implementation and Operation (IO)"},
+                {work_role: "Systems Security Analysis", work_role_description: "Responsible for developing and analyzing the integration, testing, operations, and maintenance of systems security.", work_role_id: "IO-WRL-006", opm_code: 461, element: "Implementation and Operation (IO)"},
+                {work_role: "Technical Support", work_role_description: "Responsible for providing technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational policies and processes.", work_role_id: "IO-WRL-007", opm_code: 411, element: "Implementation and Operation (IO)"},
+                {work_role: "Defensive Cybersecurity", work_role_description: "Responsible for analyzing data collected from various cybersecurity defense tools to mitigate risks.", work_role_id: "PD-WRL-001", opm_code: 511, element: "Protection and Defense (PD)"},
+                {work_role: "Digital Forensics", work_role_description: "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation.", work_role_id: "PD-WRL-002", opm_code: 212, element: "Protection and Defense (PD)"},
+                {work_role: "Incident Response", work_role_description: "Responsible for investigating, analyzing, and responding to network cybersecurity incidents.", work_role_id: "PD-WRL-003", opm_code: 531, element: "Protection and Defense (PD)"},
+                {work_role: "Infrastructure Support", work_role_description: "Responsible for testing, implementing, deploying, maintaining, and administering infrastructure hardware and software for cybersecurity.", work_role_id: "PD-WRL-004", opm_code: 521, element: "Protection and Defense (PD)"},
+                {work_role: "Insider Threat Analysis", work_role_description: "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.", work_role_id: "PD-WRL-005", opm_code: "TBD-A", element: "Protection and Defense (PD)"},
+                {work_role: "Threat Analysis", work_role_description: "Responsible for collecting, processing, analyzing, and disseminating cybersecurity threat assessments. Develops cybersecurity indicators to maintain awareness of the status of the highly dynamic operating environment.", work_role_id: "PD-WRL-006", opm_code: 141, element: "Protection and Defense (PD)"},
+                {work_role: "Vulnerability Analysis", work_role_description: "Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy. Measure effectiveness of defense-in-depth architecture against known vulnerabilities.", work_role_id: "PD-WRL-007", opm_code: 541, element: "Protection and Defense (PD)"},
+                {work_role: "Cybercrime Investigation", work_role_description: "Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes and appropriately balances the benefits of prosecution versus intelligence gathering.", work_role_id: "IN-WRL-001", opm_code: 221, element: "Investigation (IN)"},
+                {work_role: "Digital Evidence Analysis", work_role_description: "Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.", work_role_id: "IN-WRL-002", opm_code: 211, element: "Investigation (IN)"},
+                {work_role: "All-Source Analysis", work_role_description: "Responsible for analyzing data and information from one or multiple sources to conduct preparation of the operational environment, respond to requests for information, and submit intelligence collection and production requirements in support of intelligence planning and operations.", work_role_id: "CI-WRL-001", opm_code: 111, element: "Cyberspace Intelligence (CI)"},
+                {work_role: "All-Source Collection Management", work_role_description: "Responsible for identifying intelligence collection authorities and environment; incorporating priority information requirements into intelligence collection management; and developing concepts to meet leadership's intent.", work_role_id: "CI-WRL-002", opm_code: 311, element: "Cyberspace Intelligence (CI)"},
+                {work_role: "All-Source Collection Requirements Management", work_role_description: "Responsible for evaluating intelligence collection operations and developing effects-based collection requirements strategies using available sources and methods to improve collection.", work_role_id: "CI-WRL-003", opm_code: 312, element: "Cyberspace Intelligence (CI)"},
+                {work_role: "Cyber Intelligence Planning", work_role_description: "Responsible for developing intelligence plans to satisfy cyber operation requirements. Identifies, validates, and levies requirements for intelligence collection and analysis.", work_role_id: "CI-WRL-004", opm_code: 331, element: "Cyberspace Intelligence (CI)"},
+                {work_role: "Multi-Disciplined Language Analysis", work_role_description: "Responsible for applying language and cultural expertise with target, threat, and technical knowledge to process, analyze, and disseminate intelligence information derived from language, voice, and/or graphic materials.", work_role_id: "CI-WRL-005", opm_code: 151, element: "Cyberspace Intelligence (CI)"},
+                {work_role: "Cyberspace Operations", work_role_description: "Responsible for gathering evidence on criminal or foreign intelligence entities to mitigate and protect against possible or real-time threats. Conducts collection, processing, and geolocation of systems to exploit, locate, and track targets.", work_role_id: "CE-WRL-001", opm_code: 321, element: "Cyberspace Effects (CE)"},
+                {work_role: "Cyber Operations Planning", work_role_description: "Responsible for developing cybersecurity operations plans; participating in targeting selection, validation, and synchronization; and enabling integration during the execution of cyber actions.", work_role_id: "CE-WRL-002", opm_code: 332, element: "Cyberspace Effects (CE)"},
+                {work_role: "Exploitation Analysis", work_role_description: "Responsible for identifying access and intelligence collection gaps that can be satisfied through cyber collection and/or preparation activities. Leverages all authorized resources and analytic techniques to penetrate targeted networks.", work_role_id: "CE-WRL-003", opm_code: 121, element: "Cyberspace Effects (CE)"},
+                {work_role: "Mission Assessment", work_role_description: "Responsible for developing assessment plans and measures of performance/effectiveness; conducting strategic and operational effectiveness assessments for cyber events; determining whether systems perform as expected; and providing input to the determination of operational effectiveness.", work_role_id: "CE-WRL-004", opm_code: 112, element: "Cyberspace Effects (CE)"},
+                {work_role: "Partner Integration Planning", work_role_description: "Responsible for advancing cooperation across organizational or national borders between cyber operations partners. Provides guidance, resources, and collaboration to develop best practices and facilitate organizational support for achieving objectives in integrated cyber actions.", work_role_id: "CE-WRL-005", opm_code: 333, element: "Cyberspace Effects (CE)"},
+                {work_role: "Target Analysis", work_role_description: "Responsible for conducting target development at the system, component, and entity levels. Builds and maintains electronic target folders to include inputs from environment preparation and/or internal or external intelligence sources.", work_role_id: "CE-WRL-006", opm_code: 131, element: "Cyberspace Effects (CE)"},
+                {work_role: "Target Network Analysis", work_role_description: "Responsible for conducting advanced analysis of collection and open-source data to ensure target continuity; profiling targets and their activities; and developing techniques to gain target information.", work_role_id: "CE-WRL-007", opm_code: 132, element: "Cyberspace Effects (CE)"}
+            ];
+
+            // Données NCWF 2025 intégrées (basées sur les données existantes du fichier ncwf_dcwf25.json)
+            const ncwf2025Data = [
+                {work_role: "Database Administration", work_role_description: "Responsible for administering databases and data management systems that allow for the secure storage, query, protection, and utilization of data.", work_role_id: "IO-WRL-002", opm_code: 421, element: "Implementation and Operation (IO)"},
+                {work_role: "Knowledge Management", work_role_description: "Responsible for managing and administering processes and tools to identify, document, and access an organization's intellectual capital.", work_role_id: "IO-WRL-003", opm_code: 431, element: "Implementation and Operation (IO)"},
+                {work_role: "Network Operations", work_role_description: "Responsible for planning, implementing, and operating network services and systems, including hardware and virtual environments.", work_role_id: "IO-WRL-004", opm_code: 441, element: "Implementation and Operation (IO)"},
+                {work_role: "Systems Administration", work_role_description: "Responsible for setting up and maintaining a system or specific components of a system in adherence with organizational security policies and procedures.", work_role_id: "IO-WRL-005", opm_code: 451, element: "Implementation and Operation (IO)"},
+                {work_role: "Defensive Cybersecurity", work_role_description: "Responsible for analyzing data collected from various cybersecurity defense tools to mitigate risks.", work_role_id: "PD-WRL-001", opm_code: 511, element: "Protection and Defense (PD)"},
+                {work_role: "Infrastructure Support", work_role_description: "Responsible for testing, implementing, deploying, maintaining, and administering infrastructure hardware and software for cybersecurity.", work_role_id: "PD-WRL-004", opm_code: 521, element: "Protection and Defense (PD)"},
+                {work_role: "Incident Response", work_role_description: "Responsible for investigating, analyzing, and responding to network cybersecurity incidents.", work_role_id: "PD-WRL-003", opm_code: 531, element: "Protection and Defense (PD)"},
+                {work_role: "Threat Analysis", work_role_description: "Responsible for collecting, processing, analyzing, and disseminating cybersecurity threat assessments. Develops cybersecurity indicators to maintain awareness of the status of the highly dynamic operating environment.", work_role_id: "PD-WRL-006", opm_code: 141, element: "Protection and Defense (PD)"},
+                {work_role: "Vulnerability Analysis", work_role_description: "Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy.", work_role_id: "PD-WRL-007", opm_code: 541, element: "Protection and Defense (PD)"},
+                {work_role: "Systems Authorization", work_role_description: "Responsible for operating an information system at an acceptable level of risk to organizational operations, organizational assets, individuals, other organizations, and the nation.", work_role_id: "OG-WRL-013", opm_code: 611, element: "Oversight and Governance (OG)"},
+                {work_role: "Security Control Assessment", work_role_description: "Responsible for conducting independent comprehensive assessments of management, operational, and technical security controls and control enhancements employed within or inherited by a system to determine their overall effectiveness.", work_role_id: "OG-WRL-012", opm_code: 612, element: "Oversight and Governance (OG)"},
+                {work_role: "Secure Software Development", work_role_description: "Responsible for developing, creating, modifying, and maintaining computer applications, software, or specialized utility programs.", work_role_id: "DD-WRL-003", opm_code: 621, element: "Design and Development (DD)"},
+                {work_role: "Software Security Assessment", work_role_description: "Responsible for analyzing the security of new or existing computer applications, software, or specialized utility programs and delivering actionable results.", work_role_id: "DD-WRL-005", opm_code: 622, element: "Design and Development (DD)"},
+                {work_role: "Secure Systems Development", work_role_description: "Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.", work_role_id: "DD-WRL-004", opm_code: 631, element: "Design and Development (DD)"},
+                {work_role: "Secure Systems Development", work_role_description: "Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.", work_role_id: "DD-WRL-004", opm_code: 632, element: "Design and Development (DD)"},
+                {work_role: "Systems Requirements Planning", work_role_description: "Responsible for consulting with internal and external customers to evaluate and translate functional requirements and integrating security policies into technical solutions.", work_role_id: "DD-WRL-006", opm_code: 641, element: "Design and Development (DD)"},
+                {work_role: "Enterprise Architecture", work_role_description: "Responsible for developing and maintaining business, systems, and information processes to support enterprise mission needs. Develops technology rules and requirements that describe baseline and target architectures.", work_role_id: "DD-WRL-002", opm_code: 651, element: "Design and Development (DD)"},
+                {work_role: "Cybersecurity Architecture", work_role_description: "Responsible for ensuring that security requirements are adequately addressed in all aspects of enterprise architecture, including reference models, segment and solution architectures, and the resulting systems that protect and support organizational mission and business processes.", work_role_id: "DD-WRL-001", opm_code: 652, element: "Design and Development (DD)"},
+                {work_role: "Technology Research and Development", work_role_description: "Responsible for conducting software and systems engineering and software systems research to develop new capabilities with fully integrated cybersecurity.", work_role_id: "DD-WRL-008", opm_code: 661, element: "Design and Development (DD)"},
+                {work_role: "Systems Testing and Evaluation", work_role_description: "Responsible for planning, preparing, and executing system tests; evaluating test results against specifications and requirements; and reporting test results and findings.", work_role_id: "DD-WRL-007", opm_code: 671, element: "Design and Development (DD)"},
+                {work_role: "Systems Security Management", work_role_description: "Responsible for managing the cybersecurity of a program, organization, system, or enclave.", work_role_id: "OG-WRL-014", opm_code: 722, element: "Oversight and Governance (OG)"},
+                {work_role: "Communications Security (COMSEC) Management", work_role_description: "Responsible for managing the Communications Security (COMSEC) resources of an organization.", work_role_id: "OG-WRL-001", opm_code: 723, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Workforce Management", work_role_description: "Responsible for developing cybersecurity workforce plans, assessments, strategies, and guidance, including cybersecurity-related staff training, education, and hiring processes.", work_role_id: "OG-WRL-003", opm_code: 751, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Policy and Planning", work_role_description: "Responsible for developing and maintaining cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.", work_role_id: "OG-WRL-002", opm_code: 752, element: "Oversight and Governance (OG)"},
+                {work_role: "Executive Cybersecurity Leadership", work_role_description: "Responsible for establishing vision and direction for an organization's cybersecurity operations and resources and their impact on digital and physical spaces.", work_role_id: "OG-WRL-007", opm_code: 901, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Curriculum Development", work_role_description: "Responsible for developing, planning, coordinating, and evaluating cybersecurity awareness, training, or education content, methods, and techniques based on instructional needs and requirements.", work_role_id: "OG-WRL-004", opm_code: 711, element: "Oversight and Governance (OG)"},
+                {work_role: "Cybersecurity Instruction", work_role_description: "Responsible for developing and conducting cybersecurity awareness, training, or education.", work_role_id: "OG-WRL-005", opm_code: 712, element: "Oversight and Governance (OG)"},
+                {work_role: "Digital Evidence Analysis", work_role_description: "Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.", work_role_id: "IN-WRL-002", opm_code: 211, element: "Investigation (IN)"},
+                {work_role: "Cybercrime Investigation", work_role_description: "Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes.", work_role_id: "IN-WRL-001", opm_code: 221, element: "Investigation (IN)"},
+                {work_role: "Cybersecurity Legal Advice", work_role_description: "Responsible for providing cybersecurity legal advice and recommendations, including monitoring related legislation and regulations.", work_role_id: "OG-WRL-006", opm_code: 731, element: "Oversight and Governance (OG)"},
+                {work_role: "Program Management", work_role_description: "Responsible for leading, coordinating, and the overall success of a defined program. Includes communicating about the program and ensuring alignment with agency or organizational priorities.", work_role_id: "OG-WRL-010", opm_code: 801, element: "Oversight and Governance (OG)"},
+                {work_role: "Secure Project Management", work_role_description: "Responsible for overseeing and directly managing technology projects. Ensures cybersecurity is built into projects to protect the organization's critical infrastructure and assets.", work_role_id: "OG-WRL-011", opm_code: 802, element: "Oversight and Governance (OG)"},
+                {work_role: "Product Support Management", work_role_description: "Responsible for planning, estimating costs, budgeting, developing, implementing, and managing product support strategies in order to field and maintain the readiness and operational capability of systems and components.", work_role_id: "OG-WRL-009", opm_code: 803, element: "Oversight and Governance (OG)"},
+                {work_role: "Technology Portfolio Management", work_role_description: "Responsible for managing a portfolio of technology investments that align with the overall needs of mission and enterprise priorities.", work_role_id: "OG-WRL-015", opm_code: 804, element: "Oversight and Governance (OG)"},
+                {work_role: "Technology Program Auditing", work_role_description: "Responsible for conducting evaluations of technology programs or their individual components to determine compliance with published standards.", work_role_id: "OG-WRL-016", opm_code: 805, element: "Oversight and Governance (OG)"},
+                {work_role: "Technical Support", work_role_description: "Responsible for providing technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational policies and processes.", work_role_id: "IO-WRL-007", opm_code: 411, element: "Implementation and Operation (IO)"},
+                {work_role: "Digital Forensics", work_role_description: "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation.", work_role_id: "PD-WRL-002", opm_code: 212, element: "Protection and Defense (PD)"},
+                {work_role: "Data Analysis", work_role_description: "Responsible for analyzing data from multiple disparate sources to provide cybersecurity and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets.", work_role_id: "IO-WRL-001", opm_code: 422, element: "Implementation and Operation (IO)"},
+                {work_role: "Systems Security Analysis", work_role_description: "Responsible for developing and analyzing the integration, testing, operations, and maintenance of systems security.", work_role_id: "IO-WRL-006", opm_code: 461, element: "Implementation and Operation (IO)"},
+                {work_role: "Privacy Compliance", work_role_description: "Responsible for developing and overseeing an organization's privacy compliance program and staff, including establishing and managing privacy-related governance, policy, and incident response needs.", work_role_id: "OG-WRL-008", opm_code: 732, element: "Oversight and Governance (OG)"},
+                {work_role: "Insider Threat Analysis", work_role_description: "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.", work_role_id: "PD-WRL-005", opm_code: "TBD-A", element: "Protection and Defense (PD)"},
+                {work_role: "Operational Technology (OT) Cybersecurity Engineering", work_role_description: "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.", work_role_id: "DD-WRL-009", opm_code: "TBD-B", element: "Design and Development (DD)"}
+            ];
+
+            console.log('Données chargées:', {
+                dcwf2017: dcwf2017Data.length,
+                dcwf2025: dcwf2025Data.length,
+                ncwf2017: ncwf2017Data.length,
+                ncwf2024: ncwf2024Data.length,
+                ncwf2025: ncwf2025Data.length
+            });
+            
+            // Fonction pour obtenir la couleur d'une catégorie/famille
+            function getCategoryColor(category) {
+                if (!category) return '#6b7280';
+                
+                if (category.includes('Cyber Effects') || category.includes('(CE)')) return '#d4a574'; // Champagne
+                if (category.includes('Intel') || category.includes('(CI)')) return '#f59e0b'; // Orange (même couleur que CE)
+                if (category.includes('Cybersecurity') || category.includes('(CS)')) return '#22c55e'; // Vert
+                if (category.includes('Information Technology') || category.includes('(IT)')) return '#3b82f6'; // Bleu
+                if (category.includes('Cyber Enablers') || category.includes('(EN)')) return '#8b5cf6'; // Violet
+                if (category.includes('Data/AI') || category.includes('(DA)')) return '#14b8a6'; // Turquoise
+                if (category.includes('Software Engineering') || category.includes('(SE)')) return '#ef4444'; // Rouge
+                if (category.includes('(CX)')) return '#6b7280'; // Gris
+                
+                return '#6b7280'; // Par défaut gris
+            }
+            
+            // Fonction pour obtenir la couleur de fond avec transparence
+            function getCategoryBackgroundColor(category) {
+                if (!category) return 'rgba(107, 114, 128, 0.05)';
+                
+                if (category.includes('Cyber Effects') || category.includes('(CE)')) return 'rgba(245, 158, 11, 0.05)'; // Orange léger
+                if (category.includes('Intel') || category.includes('(CI)')) return 'rgba(234, 179, 8, 0.05)'; // Jaune léger
+                if (category.includes('Cybersecurity') || category.includes('(CS)')) return 'rgba(34, 197, 94, 0.05)'; // Vert léger
+                if (category.includes('Information Technology') || category.includes('(IT)')) return 'rgba(59, 130, 246, 0.05)'; // Bleu léger
+                if (category.includes('Cyber Enablers') || category.includes('(EN)')) return 'rgba(139, 92, 246, 0.05)'; // Violet léger
+                if (category.includes('Data/AI') || category.includes('(DA)')) return 'rgba(20, 184, 166, 0.05)'; // Turquoise léger
+                if (category.includes('Software Engineering') || category.includes('(SE)')) return 'rgba(239, 68, 68, 0.05)'; // Rouge léger
+                if (category.includes('(CX)')) return 'rgba(107, 114, 128, 0.05)'; // Gris léger
+                
+                return 'rgba(107, 114, 128, 0.05)'; // Par défaut gris léger
+            }
+            
+            // Fonction pour créer un badge d'élément coloré
+            function getElementBadge(element, version = '2025') {
+                if (!element) return '';
+                
+                let elementCode = 'default';
+                let backgroundColor = '#6b7280'; // Couleur par défaut grise
+                
+                if (version === '2017') {
+                    // Pour DCWF 2017, utiliser les mêmes couleurs que les familles
+                    if (element.includes('Cyber Effects')) {
+                        elementCode = 'ce';
+                        backgroundColor = '#d4a574'; // Champagne (même que famille CE)
+                    } else if (element.includes('Intel')) {
+                        elementCode = 'ci';
+                        backgroundColor = '#f59e0b'; // Orange (même que famille CI)
+                    } else if (element.includes('Cybersecurity')) {
+                        elementCode = 'cs';
+                        backgroundColor = '#22c55e'; // Vert (même que famille CS)
+                    } else if (element.includes('Information Technology')) {
+                        elementCode = 'it';
+                        backgroundColor = '#3b82f6'; // Bleu (même que famille IT)
+                    } else if (element.includes('Cyber Enablers')) {
+                        elementCode = 'en';
+                        backgroundColor = '#8b5cf6'; // Violet (même que famille EN)
+                    } else if (element.includes('Data/AI')) {
+                        elementCode = 'da';
+                        backgroundColor = '#14b8a6'; // Turquoise (même que famille DA)
+                    } else if (element.includes('Software Engineering')) {
+                        elementCode = 'se';
+                        backgroundColor = '#ef4444'; // Rouge (même que famille SE)
+                    }
+                } else if (version === 'ncwf2017') {
+                    // Couleurs spécifiques pour NCWF 2017 (plus foncées)
+                    if (element.includes('OPERATE and MAINTAIN')) {
+                        elementCode = 'om';
+                        backgroundColor = '#0f766e'; // Turquoise foncé
+                    } else if (element.includes('SECURELY PROVISION')) {
+                        elementCode = 'sp';
+                        backgroundColor = '#dc2626'; // Rouge foncé
+                    } else if (element.includes('PROTECT and DEFEND')) {
+                        elementCode = 'pr';
+                        backgroundColor = '#db2777'; // Rose foncé
+                    } else if (element.includes('OVERSEE and GOVERN')) {
+                        elementCode = 'ov';
+                        backgroundColor = '#1d4ed8'; // Bleu foncé
+                    } else if (element.includes('INVESTIGATE')) {
+                        elementCode = 'in';
+                        backgroundColor = '#7c3aed'; // Mauve foncé
+                    } else if (element.includes('COLLECT and OPERATE')) {
+                        elementCode = 'co';
+                        backgroundColor = '#16a34a'; // Vert foncé
+                    } else if (element.includes('ANALYZE')) {
+                        elementCode = 'an';
+                        backgroundColor = '#ea580c'; // Orange foncé
+                    }
+                } else if (version === 'ncwf2024') {
+                    // Couleurs spécifiques pour NCWF 2024 - utiliser les codes entre parenthèses
+                    const elementMatch = element.match(/\(([A-Z]+)\)/);
+                    if (elementMatch) {
+                        const code = elementMatch[1];
+                        elementCode = code.toLowerCase();
+                        
+                        // Définir les couleurs selon le code pour NCWF 2024
+                        switch(code) {
+                            case 'IO': backgroundColor = '#14b8a6'; break; // Turquoise
+                            case 'CI': backgroundColor = '#eab308'; break; // Jaune
+                            case 'CE': backgroundColor = '#22c55e'; break; // Vert
+                            case 'PD': backgroundColor = '#ec4899'; break; // Rose
+                            case 'OG': backgroundColor = '#3b82f6'; break; // Bleu
+                            case 'IN': backgroundColor = '#8b5cf6'; break; // Mauve
+                            case 'DD': backgroundColor = '#ef4444'; break; // Rouge
+                            default: backgroundColor = '#6b7280'; break; // Gris par défaut
+                        }
+                    }
+                } else if (version === 'ncwf2025') {
+                    // Couleurs spécifiques pour NCWF 2025 - utiliser les codes entre parenthèses
+                    const elementMatch = element.match(/\(([A-Z]+)\)/);
+                    if (elementMatch) {
+                        const code = elementMatch[1];
+                        
+                        // Pour NCWF 2025, remplacer CE et CI par "Not Available in NCWF 2025"
+                        if (code === 'CE' || code === 'CI') {
+                            return `<span class="element-badge" style="background-color: #6b7280; color: white;">Not Available in NCWF 2025</span>`;
+                        }
+                        
+                        elementCode = code.toLowerCase();
+                        
+                        // Définir les couleurs selon le code pour NCWF 2025
+                        switch(code) {
+                            case 'IO': backgroundColor = '#14b8a6'; break; // Turquoise
+                            case 'PD': backgroundColor = '#ec4899'; break; // Rose
+                            case 'OG': backgroundColor = '#3b82f6'; break; // Bleu
+                            case 'IN': backgroundColor = '#8b5cf6'; break; // Mauve
+                            case 'DD': backgroundColor = '#ef4444'; break; // Rouge
+                            default: backgroundColor = '#6b7280'; break; // Gris par défaut
+                        }
+                    }
+                } else {
+                    // Pour les autres versions (DCWF 2025), utiliser les mêmes couleurs que les familles
+                const elementMatch = element.match(/\(([A-Z]+)\)/);
+                    if (elementMatch) {
+                        const code = elementMatch[1];
+                        elementCode = code.toLowerCase();
+                        
+                        // Définir les couleurs selon le code (mêmes que les familles)
+                        switch(code) {
+                            case 'IT': backgroundColor = '#3b82f6'; break; // Bleu (même que famille IT)
+                            case 'CS': backgroundColor = '#22c55e'; break; // Vert (même que famille CS)
+                            case 'EN': backgroundColor = '#8b5cf6'; break; // Violet (même que famille EN)
+                            case 'CE': backgroundColor = '#d4a574'; break; // Champagne (même que famille CE)
+                            case 'CI': backgroundColor = '#f59e0b'; break; // Orange (même que famille CI)
+                            case 'DA': backgroundColor = '#14b8a6'; break; // Turquoise (même que famille DA)
+                            case 'SE': backgroundColor = '#ef4444'; break; // Rouge (même que famille SE)
+                            case 'CX': backgroundColor = '#6b7280'; break; // Gris (même que famille CX)
+                            default: backgroundColor = '#6b7280'; break; // Gris par défaut
+                        }
+                    }
+                }
+                
+                // Pour NCWF 2017, mettre en Title Case mais garder le code entre parenthèses en majuscules
+                let displayText = element.replace(/\n/g, ' ');
+                if (version === 'ncwf2017') {
+                    // Extraire le texte et le code
+                    const match = displayText.match(/^(.+?)\s*\(([A-Z]+)\)$/);
+                    if (match) {
+                        const text = match[1].toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+                        const code = match[2]; // Garder en majuscules
+                        displayText = `${text} (${code})`;
+                    } else {
+                        displayText = displayText.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+                    }
+                }
+                
+                return `<span class="element-badge ${elementCode}" style="background-color: ${backgroundColor};">${displayText}</span>`;
+            }
+            
+            // Fonction pour créer une carte de relation à cinq colonnes
+            function createFiveColumnCard(dcwf2017, dcwf2025, ncwf2017, ncwf2024, ncwf2025) {
+                const card = document.createElement('div');
+                card.className = 'relation-card connected';
+                
+                // Créer un ID unique pour cette carte
+                const cardId = 'card-' + Math.random().toString(36).substr(2, 9);
+
+                // Colonne DCWF 2017
+                let dcwf2017Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">DCWF 2017</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
+                if (dcwf2017) {
+                    const dcwf2017Badge = getElementBadge(dcwf2017.category, '2017');
+                    dcwf2017Side = `
+                        <div class="relation-side dcwf-2017 clickable selectable-side" 
+                             data-model="dcwf_2017" 
+                             data-id="${dcwf2017.omp_id || ''}" 
+                             style="border-left-color: #8b5cf6;">
+                            <h3 class="text-lg font-semibold text-purple-900 mb-2">DCWF 2017</h3>
+                            <h4 class="font-semibold text-gray-800 mb-2">${dcwf2017.title || 'N/A'}</h4>
+                            <span class="text-sm text-purple-600 font-medium">OPM ID: ${dcwf2017.omp_id || 'N/A'}</span>
+                            <p class="text-sm text-gray-600 mt-2">${dcwf2017.description || 'N/A'}</p>
+                            ${dcwf2017Badge}
+                    </div>
+                `;
+                }
+
+                // Colonne DCWF 2025
+                let dcwf2025Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">DCWF 2025</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
+                if (dcwf2025) {
+                    const dcwf2025Badge = getElementBadge(dcwf2025.element);
+                    dcwf2025Side = `
+                        <div class="relation-side dcwf-2025 clickable selectable-side" 
+                             data-model="dcwf_2025" 
+                             data-id="${dcwf2025.dcwf_code || ''}" 
+                             style="border-left-color: #3b82f6;">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-2">DCWF 2025</h3>
+                            <h4 class="font-semibold text-gray-800 mb-2">${dcwf2025.work_role || 'N/A'}</h4>
+                            <span class="text-sm text-blue-600 font-medium">OPM ID: ${dcwf2025.dcwf_code || 'N/A'}</span>
+                            <p class="text-sm text-gray-600 mt-2">${dcwf2025.work_role_definition || 'N/A'}</p>
+                            ${dcwf2025Badge}
+                    </div>
+                `;
+                }
+
+                // Colonne NCWF 2017
+                let ncwf2017Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">NCWF 2017</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
+                if (ncwf2017) {
+                    const ncwf2017Badge = getElementBadge(ncwf2017.element || '', 'ncwf2017');
+                    
+                    // Extraire le specialty area code du work_role_id (ex: "SP-RSK-001" -> "RSK")
+                    let specialtyAreaCode = '';
+                    let specialtyAreaName = '';
+                    if (ncwf2017.work_role_id) {
+                        const parts = ncwf2017.work_role_id.split('-');
+                        if (parts.length >= 2) {
+                            specialtyAreaCode = parts[1];
+                            // Mapper les codes aux noms
+                            const specialtyAreaNames = {
+                                'RSK': 'Risk Management',
+                                'DEV': 'Software Development',
+                                'ARC': 'Systems Architecture',
+                                'TRD': 'Technology R&D',
+                                'SRP': 'Systems Requirements Planning',
+                                'TST': 'Test and Evaluation',
+                                'SYS': 'Systems Development',
+                                'DTA': 'Data Administration',
+                                'KMG': 'Knowledge Management',
+                                'STS': 'Customer Service and Technical Support',
+                                'NET': 'Network Services',
+                                'ADM': 'Systems Administration',
+                                'ANA': 'Systems Analysis',
+                                'LGA': 'Legal Advice and Advocacy',
+                                'TEA': 'Training, Education, and Awareness',
+                                'MGT': 'Cybersecurity Management',
+                                'SPP': 'Strategic Planning and Policy',
+                                'EXL': 'Executive Cyber Leadership',
+                                'PMA': 'Program/Project Management',
+                                'CDA': 'Cybersecurity Defense Analysis',
+                                'INF': 'Cybersecurity Defense Infrastructure Support',
+                                'CIR': 'Incident Response',
+                                'VAM': 'Vulnerability Assessment and Management',
+                                'TWA': 'Threat Analysis',
+                                'EXP': 'Exploitation Analysis',
+                                'ASA': 'All-Source Analysis',
+                                'TGT': 'Targets',
+                                'LNG': 'Language Analysis',
+                                'CLO': 'Collection Operations',
+                                'OPL': 'Cyber Operational Planning',
+                                'OPS': 'Cyber Operations',
+                                'INV': 'Cyber Investigation',
+                                'FOR': 'Digital Forensics'
+                            };
+                            specialtyAreaName = specialtyAreaNames[specialtyAreaCode] || specialtyAreaCode;
+                        }
+                    }
+                    
+                    const specialtyBadge = specialtyAreaCode ? `<span class="element-badge" style="background-color: #6b7280; color: white; margin-top: 0.5rem; display: block;">${specialtyAreaName} (${specialtyAreaCode})</span>` : '';
+                    
+                    ncwf2017Side = `
+                        <div class="relation-side ncwf-2017 clickable selectable-side" 
+                             data-model="ncwf_2017" 
+                             data-id="${ncwf2017.opm_code || ''}" 
+                             data-nist-id="${ncwf2017.work_role_id || ''}" 
+                             style="border-left-color: #7cb342;">
+                            <h3 class="text-lg font-semibold text-green-800 mb-2">NCWF 2017</h3>
+                            <h4 class="font-semibold text-gray-800 mb-2">${ncwf2017.work_role || 'N/A'}</h4>
+                            <div class="text-sm text-green-600 font-medium">
+                                <div>WRL ID: ${ncwf2017.work_role_id || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2017.opm_code || 'N/A'}</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">${ncwf2017.work_role_description || 'N/A'}</p>
+                            ${ncwf2017Badge}
+                            ${specialtyBadge}
+                        </div>
+                    `;
+                }
+
+                // Colonne NCWF 2024
+                let ncwf2024Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">NCWF 2024</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
+                if (ncwf2024) {
+                    const ncwf2024Badge = getElementBadge(ncwf2024.element || '', 'ncwf2024');
+                    ncwf2024Side = `
+                        <div class="relation-side ncwf-2024 clickable selectable-side" 
+                             data-model="ncwf_2024" 
+                             data-id="${ncwf2024.opm_code || ''}" 
+                             data-nist-id="${ncwf2024.work_role_id || ''}" 
+                             style="border-left-color: #10b981;">
+                            <h3 class="text-lg font-semibold text-green-900 mb-2">NCWF 2024</h3>
+                            <h4 class="font-semibold text-gray-800 mb-2">${ncwf2024.work_role || 'N/A'}</h4>
+                            <div class="text-sm text-green-600 font-medium">
+                                <div>WRL ID: ${ncwf2024.work_role_id || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2024.opm_code || 'N/A'}</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">${ncwf2024.work_role_description || 'N/A'}</p>
+                            ${ncwf2024Badge}
+                        </div>
+                    `;
+                }
+
+                // Colonne NCWF 2025
+                let ncwf2025Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">NCWF 2025</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
+                if (ncwf2025) {
+                    const ncwf2025Badge = getElementBadge(ncwf2025.element || '', 'ncwf2025');
+                    ncwf2025Side = `
+                        <div class="relation-side ncwf-2025 clickable selectable-side" 
+                             data-model="ncwf_2025" 
+                             data-id="${ncwf2025.work_role_id || ''}" 
+                             style="border-left-color: #06b6d4;">
+                            <h3 class="text-lg font-semibold text-cyan-900 mb-2">NCWF 2025</h3>
+                            <h4 class="font-semibold text-gray-800 mb-2">${ncwf2025.work_role || 'N/A'}</h4>
+                            <div class="text-sm text-cyan-600 font-medium">
+                                <div>WRL ID: ${ncwf2025.work_role_id || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2025.opm_code || 'N/A'}</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">${ncwf2025.work_role_description || 'N/A'}</p>
+                            ${ncwf2025Badge}
+                        </div>
+                    `;
+                }
+
+                // Créer le header avec OPM ID et nom du rôle
+                // Priorité : DCWF 2025, sinon DCWF 2017
+                let headerOpmId, headerWorkRole, headerFamily;
+                let isCollapsedByDefault = false;
+                
+                if (dcwf2025) {
+                    headerOpmId = dcwf2025.dcwf_code;
+                    headerWorkRole = dcwf2025.work_role;
+                    // Extraire le code de famille (IT, CS, EN, etc.) de l'element
+                    const familyMatch = dcwf2025.element ? dcwf2025.element.match(/\(([A-Z]{2})\)/) : null;
+                    headerFamily = familyMatch ? familyMatch[1] : '';
+                } else if (dcwf2017) {
+                    headerOpmId = dcwf2017.omp_id;
+                    headerWorkRole = dcwf2017.title;
+                    // Extraire le code de famille de la catégorie DCWF 2017
+                    const familyMatch = dcwf2017.category ? dcwf2017.category.match(/\(([A-Z]{2})\)/) : null;
+                    headerFamily = familyMatch ? familyMatch[1] : '';
+                    isCollapsedByDefault = true; // Réduire par défaut si pas de DCWF 2025
+                } else {
+                    headerOpmId = 'N/A';
+                    headerWorkRole = 'Non disponible';
+                    headerFamily = '';
+                    isCollapsedByDefault = true;
+                }
+                
+                const collapsedClass = isCollapsedByDefault ? ' collapsed' : '';
+                const arrowClass = isCollapsedByDefault ? ' collapsed' : '';
+                const maxHeight = isCollapsedByDefault ? '0' : '2000px';
+
+                // Ajouter l'attribut data-opm-id pour le ciblage impression
+                try {
+                    if (typeof headerOpmId !== 'undefined' && headerOpmId !== null) {
+                        card.setAttribute('data-opm-id', String(headerOpmId));
+                    }
+                } catch (e) {}
+
+                card.innerHTML = `
+                    <div style="width: 100%;">
+                        <div class="card-header" onclick="toggleCard('${cardId}')">
+                            <div class="card-header-info">
+                                <span class="card-opm-id">OPM-ID : ${headerOpmId} ${headerFamily ? '(' + headerFamily + ')' : ''}</span>
+                                <span class="card-work-role">${headerWorkRole}</span>
+                            </div>
+                            <div class="toggle-arrow${arrowClass}" id="arrow-${cardId}">▼</div>
+                        </div>
+                        <div class="card-content${collapsedClass}" id="content-${cardId}" style="max-height: ${maxHeight};">
+                            <div style="display: flex; gap: 0.75rem;">
+                                ${dcwf2025Side}
+                                <div class="connection-arrow connected">→</div>
+                                ${ncwf2025Side}
+                                <div class="connection-arrow connected">→</div>
+                                ${ncwf2024Side}
+                                <div class="connection-arrow connected">→</div>
+                                ${dcwf2017Side}
+                                <div class="connection-arrow connected">→</div>
+                                ${ncwf2017Side}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            // Créer un mapping basé sur les codes OPM pour faire correspondre les rôles
+            const dcwf2017Map = new Map();
+            const dcwf2025Map = new Map();
+            const ncwf2017Map = new Map();
+            const ncwf2024Map = new Map();
+            const ncwf2025Map = new Map();
+
+            // Mapper DCWF 2017
+            dcwf2017Data.forEach(role => {
+                if (role.omp_id) {
+                    dcwf2017Map.set(role.omp_id, role);
+                }
+            });
+
+            // Mapper DCWF 2025
+            dcwf2025Data.forEach(role => {
+                if (role.dcwf_code) {
+                    dcwf2025Map.set(role.dcwf_code, role);
+                }
+            });
+
+            // Mapper NCWF 2017
+            ncwf2017Data.forEach(role => {
+                if (role.opm_code && role.opm_code !== 'NaN') {
+                    ncwf2017Map.set(role.opm_code, role);
+                }
+            });
+
+            // Mapper NCWF 2024
+            ncwf2024Data.forEach(role => {
+                if (role.opm_code && role.opm_code !== 'NaN') {
+                    ncwf2024Map.set(role.opm_code, role);
+                }
+            });
+
+            // Mapper NCWF 2025
+            ncwf2025Data.forEach(role => {
+                if (role.opm_code && role.opm_code !== 'NaN') {
+                    ncwf2025Map.set(role.opm_code, role);
+                }
+            });
+
+            // Définir l'ordre des familles selon DCWF 2025 avec les bonnes couleurs
+            const familyOrder = [
+                { code: 'IT', name: 'Information Technology (IT)', color: '#3b82f6' }, // Bleu
+                { code: 'CS', name: 'Cybersecurity (CS)', color: '#22c55e' }, // Vert
+                { code: 'EN', name: 'Cyber Enablers (EN)', color: '#8b5cf6' }, // Violet
+                { code: 'CE', name: 'Cyber Effects (CE)', color: '#d4a574' }, // Champagne
+                { code: 'CI', name: 'Intel (Cyber) (CI)', color: '#f59e0b' }, // Orange (même couleur que CE)
+                { code: 'DA', name: 'Data/AI (DA)', color: '#14b8a6' }, // Turquoise
+                { code: 'SE', name: 'Software Engineering (SE)', color: '#ef4444' }, // Rouge
+                { code: 'CX', name: 'Not in any DCWF Community / Workforce Element (CX)', color: '#6b7280' } // Gris
+            ];
+
+            // Créer un mapping par famille
+            const familyMap = new Map();
+            familyOrder.forEach(family => {
+                familyMap.set(family.code, {
+                    name: family.name,
+                    color: family.color,
+                    codes: new Set()
+                });
+            });
+
+            // Export XLSX: extraire toutes les cartes et remplir 5 colonnes
+            function extractText(el) {
+                return (el ? el.textContent : '').replace(/\s+/g, ' ').trim();
+            }
+
+            function parseSideHtml(sideHtml) {
+                const temp = document.createElement('div');
+                temp.innerHTML = sideHtml;
+                return {
+                    title: extractText(temp.querySelector('h4')) || extractText(temp.querySelector('h3')),
+                    id: extractText(temp.querySelector('div > div:nth-child(1)')) || extractText(temp.querySelector('span')),
+                    description: extractText(temp.querySelector('p'))
+                };
+            }
+
+            function parseIdBlock(sideEl) {
+                const result = { wrl: '', opm: '' };
+                const container = sideEl.querySelector('.text-sm.font-medium');
+                if (!container) return result;
+
+                // Récupérer les lignes depuis des <div> enfants ET le texte brut du conteneur
+                const lineEls = Array.from(container.querySelectorAll('div'));
+                const lines = lineEls.length > 0
+                    ? lineEls.map(el => extractText(el))
+                    : extractText(container).split(/\n+/);
+
+                lines.forEach(line => {
+                    const m = String(line).match(/^\s*([A-Z ]+):\s*(.*)\s*$/i);
+                    if (!m) return;
+                    const key = m[1].toUpperCase();
+                    const val = m[2];
+                    if (key.startsWith('WRL')) result.wrl = val;
+                    if (key.startsWith('OPM')) result.opm = val;
+                });
+                return result;
+            }
+
+            function getBadges(sideEl) {
+                return Array.from(sideEl.querySelectorAll('.element-badge')).map(b => extractText(b));
+            }
+
+            function rowFromCard(cardEl) {
+                const content = cardEl.querySelector('.card-content > div');
+                if (!content) return null;
+                const sides = Array.from(content.querySelectorAll('.relation-side, .no-match'));
+                // Ordre dans le DOM: DCWF 2025 → NCWF 2025 → NCWF 2024 → DCWF 2017 → NCWF 2017
+                const dcwf2025 = sides[0] ? (() => {
+                    const side = sides[0];
+                    const ids = parseIdBlock(side);
+                    return {
+                        title: extractText(side.querySelector('h4')),
+                        opm: ids.opm || '',
+                        description: extractText(side.querySelector('p')),
+                    };
+                })() : {};
+
+                const ncwf2025 = sides[1] ? (() => {
+                    const side = sides[1];
+                    const ids = parseIdBlock(side);
+                    const badges = getBadges(side);
+                    return {
+                        title: extractText(side.querySelector('h4')),
+                        wrl: ids.wrl || '',
+                        opm: ids.opm || '',
+                        category: badges[0] || '',
+                        description: extractText(side.querySelector('p')),
+                    };
+                })() : {};
+
+                const ncwf2024 = sides[2] ? (() => {
+                    const side = sides[2];
+                    const ids = parseIdBlock(side);
+                    const badges = getBadges(side);
+                    return {
+                        title: extractText(side.querySelector('h4')),
+                        wrl: ids.wrl || '',
+                        opm: ids.opm || '',
+                        category: badges[0] || '',
+                        description: extractText(side.querySelector('p')),
+                    };
+                })() : {};
+
+                const dcwf2017 = sides[3] ? (() => {
+                    const side = sides[3];
+                    const ids = parseIdBlock(side);
+                    return {
+                        title: extractText(side.querySelector('h4')),
+                        opm: ids.opm || '',
+                        description: extractText(side.querySelector('p')),
+                    };
+                })() : {};
+
+                const ncwf2017 = sides[4] ? (() => {
+                    const side = sides[4];
+                    const ids = parseIdBlock(side);
+                    const badges = getBadges(side);
+                    return {
+                        title: extractText(side.querySelector('h4')),
+                        wrl: ids.wrl || '',
+                        opm: ids.opm || '',
+                        category: badges[0] || '',
+                        subcategory: badges[1] || '',
+                        description: extractText(side.querySelector('p')),
+                    };
+                })() : {};
+
+                return {
+                    dcwf2025_title: dcwf2025.title || '',
+                    dcwf2025_opm: dcwf2025.opm || '',
+                    dcwf2025_desc: dcwf2025.description || '',
+
+                    ncwf2025_title: ncwf2025.title || '',
+                    ncwf2025_wrl: ncwf2025.wrl || '',
+                    ncwf2025_opm: ncwf2025.opm || '',
+                    ncwf2025_cat: ncwf2025.category || '',
+                    ncwf2025_desc: ncwf2025.description || '',
+
+                    ncwf2024_title: ncwf2024.title || '',
+                    ncwf2024_wrl: ncwf2024.wrl || '',
+                    ncwf2024_opm: ncwf2024.opm || '',
+                    ncwf2024_cat: ncwf2024.category || '',
+                    ncwf2024_desc: ncwf2024.description || '',
+
+                    dcwf2017_title: dcwf2017.title || '',
+                    dcwf2017_opm: dcwf2017.opm || '',
+                    dcwf2017_desc: dcwf2017.description || '',
+
+                    ncwf2017_title: ncwf2017.title || '',
+                    ncwf2017_wrl: ncwf2017.wrl || '',
+                    ncwf2017_opm: ncwf2017.opm || '',
+                    ncwf2017_cat: ncwf2017.category || '',
+                    ncwf2017_subcat: ncwf2017.subcategory || '',
+                    ncwf2017_desc: ncwf2017.description || ''
+                };
+            }
+
+            function buildWorkbookFromDom() {
+                const rows = [];
+                const cards = Array.from(document.querySelectorAll('.relation-card.connected'));
+                cards.forEach(card => {
+                    const row = rowFromCard(card);
+                    if (row) rows.push(row);
+                });
+
+                const header = [
+                    'DCWF 2025 - OPM ID', 'DCWF 2025 - Titre', 'DCWF 2025 - Description',
+                    'NCWF 2025 - WRL ID', 'NCWF 2025 - OPM ID', 'NCWF 2025 - Catégorie', 'NCWF 2025 - Titre', 'NCWF 2025 - Description',
+                    'NCWF 2024 - WRL ID', 'NCWF 2024 - OPM ID', 'NCWF 2024 - Catégorie', 'NCWF 2024 - Titre', 'NCWF 2024 - Description',
+                    'DCWF 2017 - OPM ID', 'DCWF 2017 - Titre', 'DCWF 2017 - Description',
+                    'NCWF 2017 - WRL ID', 'NCWF 2017 - OPM ID', 'NCWF 2017 - Catégorie', 'NCWF 2017 - Sous-catégorie', 'NCWF 2017 - Titre', 'NCWF 2017 - Description'
+                ];
+
+                const data = [header];
+                rows.forEach(r => {
+                    data.push([
+                        r.dcwf2025_opm, r.dcwf2025_title, r.dcwf2025_desc,
+                        r.ncwf2025_wrl, r.ncwf2025_opm, r.ncwf2025_cat, r.ncwf2025_title, r.ncwf2025_desc,
+                        r.ncwf2024_wrl, r.ncwf2024_opm, r.ncwf2024_cat, r.ncwf2024_title, r.ncwf2024_desc,
+                        r.dcwf2017_opm, r.dcwf2017_title, r.dcwf2017_desc,
+                        r.ncwf2017_wrl, r.ncwf2017_opm, r.ncwf2017_cat, r.ncwf2017_subcat, r.ncwf2017_title, r.ncwf2017_desc
+                    ]);
+                });
+
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                // Ajuster largeur colonnes
+                ws['!cols'] = [
+                    { wch: 14 }, { wch: 35 }, { wch: 60 },
+                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 35 }, { wch: 60 },
+                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 35 }, { wch: 60 },
+                    { wch: 14 }, { wch: 35 }, { wch: 60 },
+                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 18 }, { wch: 35 }, { wch: 60 }
+                ];
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Export');
+                return wb;
+            }
+
+            if (exportBtn) {
+                exportBtn.addEventListener('click', function() {
+                    const wb = buildWorkbookFromDom();
+                    XLSX.writeFile(wb, 'export.xlsx');
+                });
+            }
+            // Collecter tous les codes et les organiser par famille
+            const allCodes = new Set([
+                ...dcwf2017Map.keys(),
+                ...dcwf2025Map.keys(),
+                ...ncwf2017Map.keys(),
+                ...ncwf2024Map.keys(),
+                ...ncwf2025Map.keys()
+            ]);
+
+            // Mapping des éléments NCWF vers les familles DCWF
+            const ncwfToDcwfMapping = {
+                'PD': 'CS', // Protection and Defense -> Cybersecurity
+                'IO': 'IT', // Implementation and Operation -> Information Technology
+                'OG': 'EN', // Oversight and Governance -> Cyber Enablers
+                'DD': 'IT', // Design and Development -> Information Technology
+                'IN': 'EN', // Investigation -> Cyber Enablers
+                'CI': 'CI', // Cyberspace Intelligence -> Intel (Cyber)
+                'CE': 'CE'  // Cyberspace Effects -> Cyber Effects
+            };
+
+            // Organiser les codes par famille selon DCWF 2025
+            allCodes.forEach(code => {
+                const dcwf2025 = dcwf2025Map.get(code);
+                if (dcwf2025 && dcwf2025.element) {
+                    const elementMatch = dcwf2025.element.match(/\(([A-Z]+)\)/);
+                    if (elementMatch) {
+                        const familyCode = elementMatch[1];
+                        if (familyMap.has(familyCode)) {
+                            familyMap.get(familyCode).codes.add(code);
+                        }
+                    }
+                } else {
+                    // Si pas de DCWF 2025, essayer avec les autres frameworks
+                    const ncwf2025 = ncwf2025Map.get(code);
+                    if (ncwf2025 && ncwf2025.element) {
+                        const elementMatch = ncwf2025.element.match(/\(([A-Z]+)\)/);
+                        if (elementMatch) {
+                            let familyCode = elementMatch[1];
+                            // Mapper les codes NCWF vers les familles DCWF
+                            familyCode = ncwfToDcwfMapping[familyCode] || familyCode;
+                            if (familyMap.has(familyCode)) {
+                                familyMap.get(familyCode).codes.add(code);
+                            } else {
+                                // Par défaut, mettre dans IT
+                                familyMap.get('IT').codes.add(code);
+                            }
+                        }
+                    } else {
+                        // Par défaut, mettre dans IT
+                        familyMap.get('IT').codes.add(code);
+                    }
+                }
+            });
+
+            // Fonction pour créer un en-tête de famille
+            function createFamilyHeader(family) {
+                const header = document.createElement('div');
+                header.className = 'family-header ' + family.code.toLowerCase();
+                
+                // Debug pour voir la couleur
+                console.log('Création en-tête pour ' + family.name + ' avec couleur ' + family.color);
+                
+                // Forcer l'application de la couleur de fond
+                header.style.setProperty('background-color', family.color, 'important');
+                header.style.setProperty('background', family.color, 'important');
+                
+                let headerContent = '<h2 class="text-xl font-bold text-white">' + family.name + '</h2>';
+                
+                // Ajouter la définition spécifique pour la famille IT
+                if (family.code === 'IT') {
+                    headerContent += '<div class="family-definition">Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille CS
+                if (family.code === 'CS') {
+                    headerContent += '<div class="family-definition">Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille EN
+                if (family.code === 'EN') {
+                    headerContent += '<div class="family-definition">Personnel who perform work roles to govern, support or facilitate the functions of the other workforce elements (communities). This includes: Strategic / Executive Leadership, Human Capital / Talent Management, Legal / Law Enforcement, Acquisition / Lifecycle Management, Training / Education.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille CE
+                if (family.code === 'CE') {
+                    headerContent += '<div class="family-definition">Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille CI
+                if (family.code === 'CI') {
+                    headerContent += '<div class="family-definition">Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors\' cyberspace programs, intentions, capabilities, research and development, and operational activities.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille DA
+                if (family.code === 'DA') {
+                    headerContent += '<div class="family-definition">Analyze large data sets, build AI models, and deploy intelligent systems to extract insights and automate tasks.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille SE
+                if (family.code === 'SE') {
+                    headerContent += '<div class="family-definition">Design, develop, test, and maintain software systems to meet user needs and ensure system reliability, scalability, and performance.</div>';
+                }
+                
+                // Ajouter la définition spécifique pour la famille CX
+                if (family.code === 'CX') {
+                    headerContent += '<div class="family-definition">Work roles not yet assigned to a DCWF workforce element.</div>';
+                }
+                
+                header.innerHTML = headerContent;
+                return header;
+            }
+
+            // Afficher les familles dans l'ordre défini
+            try {
+                familyOrder.forEach(family => {
+                    const familyData = familyMap.get(family.code);
+                    if (familyData && familyData.codes.size > 0) {
+                        // Créer un conteneur pour cette famille
+                        const familySection = document.createElement('div');
+                        familySection.className = 'family-section family-' + family.code.toLowerCase();
+                        
+                        // Ajouter l'en-tête de famille
+                        const familyHeader = createFamilyHeader(family);
+                        familySection.appendChild(familyHeader);
+
+                        // Ajouter les cartes de cette famille (triées par ordre croissant des codes OPM, avec TBD à la fin)
+                        const sortedCodes = Array.from(familyData.codes).sort((a, b) => {
+                            // Si les deux sont des nombres, trier numériquement
+                            if (typeof a === 'number' && typeof b === 'number') {
+                                return a - b;
+                            }
+                            // Si l'un est TBD et l'autre non, TBD va à la fin
+                            if (typeof a === 'string' && a.startsWith('TBD')) return 1;
+                            if (typeof b === 'string' && b.startsWith('TBD')) return -1;
+                            // Si les deux sont des strings, trier alphabétiquement
+                            if (typeof a === 'string' && typeof b === 'string') {
+                                return a.localeCompare(b);
+                            }
+                            // Si l'un est un nombre et l'autre une string, le nombre va avant
+                            if (typeof a === 'number') return -1;
+                            if (typeof b === 'number') return 1;
+                            return 0;
+                        });
+                        sortedCodes.forEach(code => {
+                            const dcwf2017 = dcwf2017Map.get(code);
+                            const dcwf2025 = dcwf2025Map.get(code);
+                            const ncwf2017 = ncwf2017Map.get(code);
+                            const ncwf2024 = ncwf2024Map.get(code);
+                            const ncwf2025 = ncwf2025Map.get(code);
+
+                            const card = createFiveColumnCard(dcwf2017, dcwf2025, ncwf2017, ncwf2024, ncwf2025);
+                            familySection.appendChild(card);
+                        });
+                        
+                        // Ajouter la section complète au conteneur principal
+                        relationsContainer.appendChild(familySection);
+                    }
+                });
+
+                console.log('Affichage organisé par familles: ' + allCodes.size + ' relations');
+            } catch (error) {
+                console.error('Erreur lors de l\'affichage:', error);
+                // Fallback: affichage simple sans organisation par famille
+                allCodes.forEach(code => {
+                    const dcwf2017 = dcwf2017Map.get(code);
+                    const dcwf2025 = dcwf2025Map.get(code);
+                    const ncwf2017 = ncwf2017Map.get(code);
+                    const ncwf2024 = ncwf2024Map.get(code);
+                    const ncwf2025 = ncwf2025Map.get(code);
+
+                    const card = createFiveColumnCard(dcwf2017, dcwf2025, ncwf2017, ncwf2024, ncwf2025);
+                    relationsContainer.appendChild(card);
+                });
+                console.log('Affichage de base: ' + allCodes.size + ' relations');
+          }
+          
+          // Attendre que tout soit ajouté au DOM avant d'ajouter les event listeners
+          setTimeout(() => {
+              console.log('Ajout des event listeners pour les relation-side');
+              
+          // Ajouter les event listeners pour la sélection des relation-side
+          document.querySelectorAll('.selectable-side.clickable').forEach(side => {
+              side.addEventListener('click', function() {
+                  console.log('Clic sur relation-side!');
+                  this.classList.toggle('selected');
+                  const isSelected = this.classList.contains('selected');
+                  console.log('Classe selected:', isSelected);
+                  
+                  // FORCER l'appel à updateCompareButton
+                  console.log('Appel à updateCompareButton depuis le clic');
+                  try {
+                      if (window.updateT1CompareButton) {
+                          window.updateT1CompareButton();
+                          console.log('updateT1CompareButton appelé avec succès');
+                      } else {
+                          console.error('updateT1CompareButton n\'existe pas!');
+                      }
+                  } catch(e) {
+                      console.error('Erreur lors de l\'appel updateT1CompareButton:', e);
+                  }
+              });
+          });
+              
+              console.log('Nombre de relation-side trouvés:', document.querySelectorAll('.selectable-side.clickable').length);
+              
+              // Initialiser le bouton de comparaison
+              console.log('Appel de updateT1CompareButton depuis setTimeout');
+              window.updateT1CompareButton();
+          }, 500);
+          
+          // AUSSI appeler updateT1CompareButton immédiatement
+          setTimeout(() => {
+              console.log('Appel immédiat de updateT1CompareButton');
+              window.updateT1CompareButton();
+          }, 2000);
+      });
+
+      // Section pour afficher les informations du JSON SANS Emerging AI Work Roles
+      function displaySansEmergingAiInfo() {
+          const container = document.querySelector('.container');
+          if (!container) return;
+
+          // Données du JSON SANS Emerging AI Work Roles
+          const sansData = {
+              metadata: {
+                  title: "Emerging AI work roles with Real Impact (SANS)",
+                  description: "Two years of industry tracking reveal these EMERGING AI cybersecurity roles. We observed NEW AI cybersecurity roles maturing through SANS Summit presentations, expert discussions, course development, and community insights. The focus: defending the nation's new AI technological capabilities.",
+                  source: "SANS",
+                  total_work_roles: 10
+              },
+              work_roles: [
+                  {
+                      title: "AI Offensive Orchestrator",
+                      description: "Manages autonomous AI agent swarms that conduct continuous penetration testing and red team operations. Oversees adaptive testing systems that modify attack methods based on defensive responses to maintain organizational security posture against AI-enhanced threats."
+                  },
+                  {
+                      title: "AI/ML Security Engineer",
+                      description: "Develops and implements AI-driven security solutions that automatically map attack surfaces, detect capability gaps, and respond to emerging threats. Creates adaptive security systems that learn organizational environments beyond human analytical capacity."
+                  },
+                  {
+                      title: "AI Security Specialist",
+                      description: "Provides strategic guidance for AI adoption with integrated security intelligence. Evaluates AI initiatives for security risks, monitors cross-organizational AI deployments, and delivers rapid security impact assessments for AI-related projects."
+                  },
+                  {
+                      title: "AI Threat Intelligence Analyst",
+                      description: "Transforms threat intelligence into automated hunting operations across multiple environments simultaneously. Operates AI agents that convert emerging attack patterns into executable hunting queries for rapid deployment across partner organizations."
+                  },
+                  {
+                      title: "AI SOC Orchestrator",
+                      description: "Leads security operations centers utilizing AI agent swarms instead of traditional alert monitoring systems. Manages automated detection, investigation, correlation, and response capabilities while making strategic operational decisions."
+                  },
+                  {
+                      title: "AI Ethics & Compliance Officer",
+                      description: "Deploys real-time compliance governance agents that automatically adjust AI systems to maintain regulatory compliance. Develops policy enforcement agents that prevent non-compliant AI deployments before implementation."
+                  },
+                  {
+                      title: "AI Governance Lead",
+                      description: "Builds AI governance orchestration systems that automatically enforce policies, track compliance, and adapt to evolving AI capabilities. Manages real-time monitoring of AI utilization across all organizational business sectors."
+                  },
+                  {
+                      title: "Quantum-AI Security Specialist",
+                      description: "Develops quantum-resistant security systems and quantum-powered threat detection agents. Creates hybrid quantum-classical AI security architectures that provide computational advantages over traditional security systems."
+                  },
+                  {
+                      title: "AI Prompt Engineer (Security)",
+                      description: "Builds prompt orchestration systems that dynamically modify AI responses for security applications. Develops prompt libraries for security AI tools and creates testing agents to detect adversarial prompt vulnerabilities."
+                  },
+                  {
+                      title: "AI Incident Response Orchestrator",
+                      description: "Manages and commands autonomous AI defensive agents to combat adversarial AI systems operating within organizational networks. Orchestrates defensive swarms that hunt malicious code, interrupt attack sequences, and repair compromised systems at machine speed to counter AI-powered threats."
+                  }
+              ]
+          };
+
+          let html = `
+              <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                  <h2 class="text-2xl font-bold text-gray-800 mb-4">🤖 Rôles de Travail IA Émergents (SANS)</h2>
+                  
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                      <div class="bg-purple-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-purple-800">Total Rôles IA</h3>
+                          <p class="text-2xl font-bold text-purple-600">${sansData.metadata.total_work_roles}</p>
+                      </div>
+                      <div class="bg-indigo-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-indigo-800">Source</h3>
+                          <p class="text-2xl font-bold text-indigo-600">${sansData.metadata.source}</p>
+                      </div>
+                      <div class="bg-pink-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-pink-800">Focus</h3>
+                          <p class="text-lg font-bold text-pink-600">IA & Cybersécurité</p>
+                      </div>
+                  </div>
+
+                  <div class="mb-6">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-3">📋 Description</h3>
+                      <p class="text-gray-600 mb-4">${sansData.metadata.description}</p>
+                  </div>
+
+                  <div class="mb-6">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-3">🔧 Rôles de Travail IA Émergents</h3>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          `;
+
+          sansData.work_roles.forEach((role, index) => {
+              html += `
+                  <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                          <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-mono mr-2">${index + 1}</span>
+                          ${role.title}
+                      </h4>
+                      <p class="text-sm text-gray-600 leading-relaxed">${role.description}</p>
+                  </div>
+              `;
+          });
+
+          html += `
+                      </div>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-lg">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                          <div>
+                              <p><strong>Source:</strong> ${sansData.metadata.source}</p>
+                              <p><strong>Période d'observation:</strong> 2 ans</p>
+                              <p><strong>Méthode:</strong> SANS Summit, discussions d'experts</p>
+                          </div>
+                          <div>
+                              <p><strong>Focus:</strong> Défense des capacités technologiques IA</p>
+                              <p><strong>Type:</strong> Rôles émergents avec impact réel</p>
+                              <p><strong>Domaine:</strong> Cybersécurité IA</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          `;
+
+          container.insertAdjacentHTML('beforeend', html);
+      }
+
+      // Section pour afficher les informations du JSON CEMA FM 3-12
+      function displayCemaFm3Info() {
+          const container = document.querySelector('.container');
+          if (!container) return;
+
+          // Données du JSON CEMA FM 3-12
+          const cemaData = {
+              metadata: {
+                  title: "Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)",
+                  description: "The Cyberspace Electromagnetic Activities workroles CEMA are responsible for synchronizing and integrating cyberspace operations and EW with the operations process and through other integrating processes.",
+                  source: "FM 3-12 (2021)",
+                  total_work_roles: 7
+              },
+              work_roles: [
+                  {
+                      title: "Commander",
+                      description: "Provides strategic leadership and direction for the integration of cyberspace operations and electromagnetic warfare within organizational operations to achieve mission objectives and maintain operational advantage."
+                  },
+                  {
+                      title: "Cyber Electromagnetic Warfare Officer",
+                      description: "Serves as the commander designated staff officer responsible for integrating, coordinating, and synchronizing actions in cyberspace and the electromagnetic spectrum to support mission accomplishment."
+                  },
+                  {
+                      title: "Cyber Warfare Officer",
+                      description: "Assists the CEWO with integrating and synchronizing cyberspace operations into the operations process while providing specialized insight into cyberspace capabilities and effects."
+                  },
+                  {
+                      title: "Electromagnetic Warfare Technician",
+                      description: "Serves as the resident technical and tactical expert for electromagnetic warfare operations, coordinating and integrating CEMA effects to exploit adversary vulnerabilities while denying enemy use of the electromagnetic spectrum."
+                  },
+                  {
+                      title: "Electromagnetic Warfare Sergeant Major",
+                      description: "Serves as the CEWO senior enlisted advisor for electromagnetic warfare operations, providing expertise on EW training development and ensuring effective integration of EW capabilities."
+                  },
+                  {
+                      title: "Electromagnetic Warfare Noncommissioned Officer",
+                      description: "Manages the availability and employment of EW assets while serving as the organization senior training developer for electromagnetic warfare operations."
+                  },
+                  {
+                      title: "Cyberspace Electromagnetic Activities Spectrum Manager",
+                      description: "Assists the CEMA section in planning, coordination, assessment, and implementation of electromagnetic warfare through comprehensive frequency management and spectrum operations support."
+                  }
+              ]
+          };
+
+          let html = `
+              <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                  <h2 class="text-2xl font-bold text-gray-800 mb-4">⚡ Activités Cyberespace et Guerre Électromagnétique (CEMA FM 3-12)</h2>
+                  
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                      <div class="bg-orange-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-orange-800">Total Rôles CEMA</h3>
+                          <p class="text-2xl font-bold text-orange-600">${cemaData.metadata.total_work_roles}</p>
+                      </div>
+                      <div class="bg-red-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-red-800">Source</h3>
+                          <p class="text-2xl font-bold text-red-600">${cemaData.metadata.source}</p>
+                      </div>
+                      <div class="bg-yellow-50 p-4 rounded-lg">
+                          <h3 class="font-semibold text-yellow-800">Domaine</h3>
+                          <p class="text-lg font-bold text-yellow-600">Cyberspace & EW</p>
+                      </div>
+                  </div>
+
+                  <div class="mb-6">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-3">📋 Description</h3>
+                      <p class="text-gray-600 mb-4">${cemaData.metadata.description}</p>
+                  </div>
+
+                  <div class="mb-6">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-3">🔧 Rôles de Travail CEMA</h3>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          `;
+
+          cemaData.work_roles.forEach((role, index) => {
+              html += `
+                  <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                          <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm font-mono mr-2">${index + 1}</span>
+                          ${role.title}
+                      </h4>
+                      <p class="text-sm text-gray-600 leading-relaxed">${role.description}</p>
+                  </div>
+              `;
+          });
+
+          html += `
+                      </div>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg">
+                      <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                          <div>
+                              <p><strong>Source:</strong> ${cemaData.metadata.source}</p>
+                              <p><strong>Domaine:</strong> Cyberspace & Guerre Électromagnétique</p>
+                              <p><strong>Focus:</strong> Intégration et synchronisation</p>
+                          </div>
+                          <div>
+                              <p><strong>Type:</strong> Rôles militaires spécialisés</p>
+                              <p><strong>Responsabilité:</strong> Opérations CEMA</p>
+                              <p><strong>Niveau:</strong> Tactique et opérationnel</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          `;
+
+          container.insertAdjacentHTML('beforeend', html);
+      }
+
+      // Appeler les fonctions d'affichage après le chargement de la page
+      document.addEventListener('DOMContentLoaded', function() {
+          displaySansEmergingAiInfo();
+          displayCemaFm3Info();
+      });
+      </script>
+      
+{% endblock %}
