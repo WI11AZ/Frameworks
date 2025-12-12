@@ -1,7 +1,7 @@
 {% extends "web_app/template/base.html" %}
 {% load static %}
 
-{% block title %}Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017{% endblock %}
+{% block title %}T1{% endblock %}
 
 {% block content %}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,6 +81,22 @@
             border-radius: 0.5rem;
             background-color: white;
             min-height: 200px;
+            position: relative;
+        }
+        
+        .relation-side-checkbox {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 10;
+            accent-color: #10b981;
+        }
+        
+        .relation-side-checkbox:checked {
+            accent-color: #10b981;
         }
         .relation-side.dcwf-2017 {
             border-left: 6px solid #7c3aed;
@@ -173,6 +189,61 @@
             color: white;
             border-radius: 0.75rem;
         }
+        
+        .selected-role-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            transition: all 0.3s ease;
+            min-width: 280px;
+        }
+        
+        .selected-role-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .selected-role-card.primary {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%);
+            border: 2px solid rgba(255, 193, 7, 0.8);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+        
+        .selected-role-card.primary::before {
+            content: '⭐ Principal';
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffc107;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .selected-role-card .role-opm {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .selected-role-card .role-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.3;
+        }
+        
+        .selected-role-card .role-element {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
         .column-header {
             text-align: center;
             font-weight: bold;
@@ -409,17 +480,16 @@
 <body>
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         <div class="header-section">
-            <h1 class="text-3xl md:text-4xl font-bold mb-4">Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017</h1>
-            <p class="text-lg opacity-90">Visualisation comparative des rôles de travail à travers les différentes versions des frameworks</p>
-            <div class="mt-4 flex gap-2 justify-center">
-                <button id="export-xlsx" class="no-print bg-white/20 hover:bg-white text-white font-semibold py-2 px-4 rounded shadow">
-                    Exporter en Excel (xlsx)
-                </button>
-            </div>
+            <p class="text-lg opacity-90">Comparative visualization of work roles across different framework versions</p>
             
+            <!-- Display of work roles selected from Step0 -->
+            <div id="step0-selected-roles" class="mt-6" style="display: none;">
+                <h3 class="text-xl font-semibold mb-3 text-white">Work Roles selected from baseline:</h3>
+                <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center"></div>
+            </div>
         </div>
 
-        <!-- En-têtes des colonnes -->
+        <!-- Column Headers -->
         <div class="grid grid-cols-5 gap-2 mb-6">
             <div class="column-header dcwf-2025">DCWF 2025</div>
             <div class="column-header ncwf-2025">NCWF 2025</div>
@@ -428,7 +498,7 @@
             <div class="column-header ncwf-2017">NCWF 2017</div>
         </div>
 
-        <!-- Relations DCWF 2025 ↔ NCWF 2025 ↔ NCWF 2024 ↔ DCWF 2017 ↔ NCWF 2017 -->
+        <!-- Relations -->
         <div class="mb-8">
             <div id="relations-container">
                 <!-- Les relations seront injectées ici -->
@@ -438,7 +508,7 @@
 
     <script>
         // Fonction pour toggle (réduire/agrandir) une carte - doit être globale
-        function toggleCard(cardId) {
+        window.toggleCard = function(cardId) {
             const content = document.getElementById('content-' + cardId);
             const arrow = document.getElementById('arrow-' + cardId);
             
@@ -477,12 +547,15 @@
             if (selectedSides.length > 0) {
                 console.log('Il y a des sélections, affichage du bouton vert');
                 compareContainer.innerHTML = `
+                    <div style="margin-bottom: 8px; font-size: 12px; color: #666; text-align: right; font-style: italic; max-width: 250px; line-height: 1.4;">
+                        <span style="color: #dc2626;">*</span> Only OPM IDs selected at<br>the baseline will proceed to the next step.
+                    </div>
                     <button onclick="window.compareSelectedSidesT1()" 
                             class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg border-2 border-green-600 transition-colors">
                         🔍 Comparer (${selectedSides.length} sélection${selectedSides.length > 1 ? 's' : ''})
                     </button>
                 `;
-                compareContainer.style.display = 'block';
+                compareContainer.style.display = 'flex';
             } else {
                 console.log('Aucune sélection, affichage du bouton gris');
                 compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
@@ -568,8 +641,226 @@
                 });
         };
         
+        // Fonction pour extraire l'abréviation d'un élément
+        function getElementAbbreviation(element) {
+            if (!element) return '';
+            const normalized = element.replace(/\s+/g, ' ').trim();
+            
+            // Map pour DCWF
+            const dcwfMap = {
+                'Information Technology (IT)': 'IT',
+                'Information Technology  (IT)': 'IT',
+                'Cybersecurity (CS)': 'CS',
+                'Cyber Enablers (EN)': 'EN',
+                'Cyber Effects (CE)': 'CE',
+                'Intel (Cyber) (CI)': 'CI',
+                'Data/AI (DA)': 'DA',
+                'Software Engineering (SE)': 'SE'
+            };
+            
+            // Map pour NCWF
+            const ncwfMap = {
+                'Oversight & Governance': 'OG',
+                'Implementation & Operation': 'IO',
+                'Design & Development': 'DD',
+                'Protection & Defense': 'PD',
+                'Protection and Defense': 'PD',
+                'Investigation': 'IN'
+            };
+            
+            // Essayer DCWF d'abord
+            if (dcwfMap[normalized]) {
+                return dcwfMap[normalized];
+            }
+            
+            // Essayer NCWF
+            if (ncwfMap[normalized]) {
+                return ncwfMap[normalized];
+            }
+            
+            // Sinon, essayer d'extraire depuis les parenthèses
+            const match = normalized.match(/\(([A-Z]+)\)/);
+            return match ? match[1] : '';
+        }
+
+        // Fonction pour charger et afficher les sélections de Step0
+        function loadAndDisplayStep0Selections() {
+            try {
+                const step0Data = localStorage.getItem('step0_baseline_data');
+                if (!step0Data) {
+                    console.log('Aucune donnée Step0 trouvée');
+                    return;
+                }
+                
+                const data = JSON.parse(step0Data);
+                console.log('Données Step0 chargées:', data);
+                
+                if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+                    return;
+                }
+                
+                const container = document.getElementById('selected-roles-container');
+                const sectionDiv = document.getElementById('step0-selected-roles');
+                
+                if (!container || !sectionDiv) {
+                    console.error('Conteneur non trouvé');
+                    return;
+                }
+                
+                // Afficher la section
+                sectionDiv.style.display = 'block';
+                
+                // Créer les cartes pour chaque work role
+                data.selectedWorkRoles.forEach(role => {
+                    const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                    const roleCard = document.createElement('div');
+                    roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                    
+                    const dcwfName = role.dcwf_work_role || '';
+                    const ncwfName = role.ncwf_work_role || '';
+                    const dcwfElement = role.dcwf_element || '';
+                    const ncwfElement = role.ncwf_element || '';
+                    const opmId = role.opm_code || '';
+                    
+                    const dcwfAbbr = getElementAbbreviation(dcwfElement);
+                    const ncwfAbbr = getElementAbbreviation(ncwfElement);
+                    
+                    roleCard.innerHTML = `
+                        <div class="role-opm">OPM-ID: ${opmId}</div>
+                        ${dcwfName ? `<div class="role-name" style="font-weight: 500; color: rgba(255, 255, 255, 0.9); font-size: 14px; margin-bottom: 2px;">${dcwfName}${dcwfAbbr ? ` (${dcwfAbbr})` : ''}</div>` : ''}
+                        ${ncwfName ? `<div class="role-name" style="font-weight: 600; color: rgba(255, 255, 255, 0.95); font-size: 14px; margin-bottom: 2px;">${ncwfName}${ncwfAbbr ? ` (${ncwfAbbr})` : ''}</div>` : ''}
+                    `;
+                    
+                    container.appendChild(roleCard);
+                });
+                
+                // Attendre que les cartes soient créées avant de les ouvrir et sélectionner
+                // Utiliser plusieurs tentatives pour s'assurer que les cartes sont créées
+                let attempts = 0;
+                const maxAttempts = 10;
+                const checkAndOpen = setInterval(() => {
+                    attempts++;
+                    const allCardsLoaded = data.selectedWorkRoles.every(role => {
+                        const card = document.querySelector(`.relation-card.connected[data-opm-id="${role.opm_code}"]`);
+                        return card !== null;
+                    });
+                    
+                    if (allCardsLoaded || attempts >= maxAttempts) {
+                        clearInterval(checkAndOpen);
+                        if (allCardsLoaded) {
+                            openAndSelectStep0Cards(data.selectedWorkRoles);
+                        } else {
+                            console.warn('Certaines cartes n\'ont pas été trouvées après', maxAttempts, 'tentatives');
+                        }
+                    }
+                }, 200);
+                
+            } catch (e) {
+                console.error('Erreur lors du chargement des données Step0:', e);
+            }
+        }
+        
+        // Fonction pour ouvrir les cartes et sélectionner les cases appropriées
+        function openAndSelectStep0Cards(selectedRoles) {
+            selectedRoles.forEach(role => {
+                const opmId = role.opm_code;
+                if (!opmId) return;
+                
+                // Trouver la carte correspondante par data-opm-id
+                const card = document.querySelector(`.relation-card.connected[data-opm-id="${opmId}"]`);
+                if (!card) {
+                    console.log(`Carte non trouvée pour OPM-ID ${opmId}`);
+                    return;
+                }
+                
+                // Ouvrir la carte (enlever collapsed)
+                const cardContent = card.querySelector('.card-content');
+                const cardArrow = card.querySelector('.toggle-arrow');
+                const cardId = cardContent ? cardContent.id.replace('content-', '') : null;
+                
+                if (cardContent && cardContent.classList.contains('collapsed')) {
+                    if (cardId && window.toggleCard) {
+                        window.toggleCard(cardId);
+                    } else {
+                        // Ouvrir manuellement si toggleCard n'est pas disponible
+                        cardContent.classList.remove('collapsed');
+                        cardContent.style.maxHeight = '2000px';
+                        if (cardArrow) {
+                            cardArrow.classList.remove('collapsed');
+                        }
+                    }
+                }
+                
+                // Déterminer quelle case DCWF cocher (DCWF 2025 sauf pour 141, 112, 333)
+                let dcwfToSelect = null;
+                if (opmId !== 141 && opmId !== 112 && opmId !== 333) {
+                    // Chercher DCWF 2025
+                    const dcwf2025Side = card.querySelector('.relation-side.dcwf-2025');
+                    if (dcwf2025Side) {
+                        dcwfToSelect = dcwf2025Side;
+                    }
+                }
+                
+                // Si pas de DCWF 2025, chercher DCWF 2017
+                if (!dcwfToSelect) {
+                    const dcwf2017Side = card.querySelector('.relation-side.dcwf-2017');
+                    if (dcwf2017Side) {
+                        dcwfToSelect = dcwf2017Side;
+                    }
+                }
+                
+                // Cocher la case DCWF la plus à gauche disponible (sauf DCWF 2017 qui n'a pas de checkbox)
+                if (dcwfToSelect && !dcwfToSelect.classList.contains('dcwf-2017')) {
+                    const dcwfCheckbox = dcwfToSelect.querySelector('.relation-side-checkbox');
+                    if (dcwfCheckbox && !dcwfCheckbox.checked) {
+                        dcwfCheckbox.checked = true;
+                        dcwfToSelect.classList.add('selected');
+                        if (window.toggleSideSelection) {
+                            window.toggleSideSelection(dcwfCheckbox);
+                        }
+                    }
+                }
+                
+                // Cocher la case NCWF la plus à gauche (NCWF 2025)
+                const ncwf2025Side = card.querySelector('.relation-side.ncwf-2025');
+                if (ncwf2025Side) {
+                    const ncwf2025Checkbox = ncwf2025Side.querySelector('.relation-side-checkbox');
+                    if (ncwf2025Checkbox && !ncwf2025Checkbox.checked) {
+                        ncwf2025Checkbox.checked = true;
+                        ncwf2025Side.classList.add('selected');
+                        if (window.toggleSideSelection) {
+                            window.toggleSideSelection(ncwf2025Checkbox);
+                        }
+                    }
+                } else {
+                    // Si pas de NCWF 2025, chercher NCWF 2024 (seulement ceux avec nouveaux KSAT qui ont une checkbox)
+                    const ncwf2024Side = card.querySelector('.relation-side.ncwf-2024');
+                    if (ncwf2024Side) {
+                        const ncwf2024Checkbox = ncwf2024Side.querySelector('.relation-side-checkbox');
+                        if (ncwf2024Checkbox && !ncwf2024Checkbox.checked) {
+                            ncwf2024Checkbox.checked = true;
+                            ncwf2024Side.classList.add('selected');
+                            if (window.toggleSideSelection) {
+                                window.toggleSideSelection(ncwf2024Checkbox);
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Mettre à jour le bouton de comparaison après toutes les sélections
+            setTimeout(() => {
+                if (window.updateT1CompareButton) {
+                    window.updateT1CompareButton();
+                }
+            }, 100);
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOMContentLoaded déclenché');
+            
+            // Charger et afficher les work roles sélectionnés depuis Step0
+            loadAndDisplayStep0Selections();
             
             // Créer le bouton IMMÉDIATEMENT
             let compareContainer = document.createElement('div');
@@ -580,13 +871,15 @@
                 right: 20px;
                 z-index: 1000;
                 min-width: 200px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
             `;
             compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
             document.body.appendChild(compareContainer);
             console.log('Bouton de comparaison créé et affiché');
             
             const relationsContainer = document.getElementById('relations-container');
-            const exportBtn = document.getElementById('export-xlsx');
             
             // Données DCWF 2017 intégrées
             const dcwf2017Data = [
@@ -640,7 +933,7 @@
                 {omp_id: 424, title: "Data Steward", category: "Data/AI (DA)", description: "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal."},
                 {omp_id: 442, title: "Network Technician", category: "Cyber Effects (CE)", description: "Provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT)."},
                 {omp_id: 443, title: "Network Analyst", category: "Cyber Effects (CE)", description: "Understands network traffic signatures and discovers anomalies through network traffic and packet capture (PCAP) analysis."},
-                {omp_id: 461, title: "Systems Security Analyst", category: "Cybersecurity (CS)", description: "Responsible for analysis and development of systems/software security through the product lifecycle."},
+                {omp_id: 461, title: "Systems Security Analyst", category: "Software Engineering (SE)", description: "Responsible for analysis and development of systems/software security through the product lifecycle."},
                 {omp_id: 462, title: "Control Systems Security Specialist", category: "Cybersecurity (CS)", description: "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems."},
                 {omp_id: 463, title: "Host Analyst", category: "Cyber Effects (CE)", description: "Has knowledge of various system configurations encountered. Performs analysis using built-in tools and capabilities."},
                 {omp_id: 623, title: "AI/ML Specialist", category: "Data/AI (DA)", description: "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives."},
@@ -711,6 +1004,7 @@
                 {dcwf_code: 322, work_role: "Cyberspace Operator", element: "Cyber Effects\n(CE)", work_role_definition: "Cyberspace Operators use a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance, and executing on-net operations in support of offensive cyberspace operations when directed."},
                 {dcwf_code: 331, work_role: "Cyber Intelligence Planner", element: "Intel (Cyber)\n(CI)", work_role_definition: "Develops detailed intelligence plans to satisfy cyber operations requirements."},
                 {dcwf_code: 332, work_role: "Cyber Operations Planner", element: "Cyber Effects\n(CE)", work_role_definition: "The Cyberspace Operations Planner applies in-depth knowledge of the JOPP to develop detailed plans and orders supporting CCMD cyberspace operation requirements."},
+                {dcwf_code: 333, work_role: "Partner Integration Planner", element: "Cyber Effects\n(CE)", work_role_definition: "Works to advance cooperation across organizational or national borders between cyber operations partners. Aids the integration of partner cyber teams by providing guidance, resources, and collaboration to develop best practices and facilitate organizational support for achieving objectives in integrated cyber actions."},
                 {dcwf_code: 341, work_role: "Cyberspace Capability Developer", element: "Cyber Effects\n(CE)", work_role_definition: "Provides software and hardware capabilities that produce cyberspace effects in and throughout cyberspace operations through vulnerability analysis, and software research and development."},
                 {dcwf_code: 411, work_role: "Technical Support Specialist", element: "Information Technology\n(IT)", work_role_definition: "Provides technical support to customers who need assistance utilizing client level hardware and software in accordance with established or approved organizational process components."},
                 {dcwf_code: 422, work_role: "Data Analyst", element: "Data/AI\n(DA)", work_role_definition: "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights."},
@@ -718,7 +1012,7 @@
                 {dcwf_code: 424, work_role: "Data Steward", element: "Data/AI\n(DA)", work_role_definition: "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal."},
                 {dcwf_code: 442, work_role: "Network Technician", element: "Cyber Effects\n(CE)", work_role_definition: "The Network Technician provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT)."},
                 {dcwf_code: 443, work_role: "Network Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "The Network Analyst will understand network traffic signatures and discover anomalies through network traffic and packet capture (PCAP) analysis."},
-                {dcwf_code: 461, work_role: "Systems Security Analyst", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance."},
+                {dcwf_code: 461, work_role: "Systems Security Analyst", element: "Software Engineering\n(SE)", work_role_definition: "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance."},
                 {dcwf_code: 462, work_role: "Control Systems Security Specialist", element: "Cybersecurity\n(CS)", work_role_definition: "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems."},
                 {dcwf_code: 463, work_role: "Host Analyst", element: "Cyber Effects\n(CE)", work_role_definition: "A Host Analyst (HA) will have knowledge of various system configurations encountered. This work role also performs analysis using built-in tools and capabilities."},
                 {dcwf_code: 551, work_role: "Red Team Specialist", element: "Cyber Effects\n(CE)", work_role_definition: "Leverages tools, systems, and utilities necessary to enhance the security posture of an organization, conducts threat and risk assessments, and performs testing and evaluation in accordance with legal and organizational requirements, policies, and regulations."},
@@ -738,6 +1032,7 @@
                 {dcwf_code: 902, work_role: "AI Innovation Leader", element: "Data/AI\n(DA)", work_role_definition: "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."},
                 {dcwf_code: 903, work_role: "Data Officer", element: "Data/AI\n(DA)", work_role_definition: "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance."},
                 {dcwf_code: 111, work_role: "All-Source Analyst", element: "Intel (Cyber)\n(CI)", work_role_definition: "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations."},
+                {dcwf_code: 112, work_role: "Mission Assessment Specialist", element: "Cyber Effects\n(CE)", work_role_definition: "Develops assessment plans and measures of performance/effectiveness. Conducts strategic and operational effectiveness assessments as required for cyber events. Determines whether systems performed as expected and provides input to the determination of operational effectiveness."},
                 {dcwf_code: "TBD-A", work_role: "Insider Threat Analysis", element: "Not in any DCWF Community / Workforce Element\n(CX)", work_role_definition: "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations."},
                 {dcwf_code: "TBD-B", work_role: "Operational Technology (OT) Cybersecurity Engineering", element: "Not in any DCWF Community / Workforce Element\n(CX)", work_role_definition: "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians."}
             ];
@@ -1089,14 +1384,16 @@
                 let dcwf2017Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">DCWF 2017</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
                 if (dcwf2017) {
                     const dcwf2017Badge = getElementBadge(dcwf2017.category, '2017');
+                    const dcwf2017Id = dcwf2017.omp_id || '';
+                    // DCWF 2017 n'a pas de checkbox, donc pas de classes clickable/selectable-side
                     dcwf2017Side = `
-                        <div class="relation-side dcwf-2017 clickable selectable-side" 
+                        <div class="relation-side dcwf-2017" 
                              data-model="dcwf_2017" 
-                             data-id="${dcwf2017.omp_id || ''}" 
+                             data-id="${dcwf2017Id}" 
                              style="border-left-color: #8b5cf6;">
                             <h3 class="text-lg font-semibold text-purple-900 mb-2">DCWF 2017</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">${dcwf2017.title || 'N/A'}</h4>
-                            <span class="text-sm text-purple-600 font-medium">OPM ID: ${dcwf2017.omp_id || 'N/A'}</span>
+                            <span class="text-sm text-purple-600 font-medium">OPM ID: ${dcwf2017Id || 'N/A'}</span>
                             <p class="text-sm text-gray-600 mt-2">${dcwf2017.description || 'N/A'}</p>
                             ${dcwf2017Badge}
                     </div>
@@ -1107,14 +1404,19 @@
                 let dcwf2025Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">DCWF 2025</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
                 if (dcwf2025) {
                     const dcwf2025Badge = getElementBadge(dcwf2025.element);
+                    const dcwf2025Id = dcwf2025.dcwf_code || '';
                     dcwf2025Side = `
                         <div class="relation-side dcwf-2025 clickable selectable-side" 
                              data-model="dcwf_2025" 
-                             data-id="${dcwf2025.dcwf_code || ''}" 
+                             data-id="${dcwf2025Id}" 
                              style="border-left-color: #3b82f6;">
+                            <input type="checkbox" class="relation-side-checkbox" 
+                                   data-model="dcwf_2025" 
+                                   data-id="${dcwf2025Id}"
+                                   onclick="event.stopPropagation(); toggleSideSelection(this)">
                         <h3 class="text-lg font-semibold text-blue-900 mb-2">DCWF 2025</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">${dcwf2025.work_role || 'N/A'}</h4>
-                            <span class="text-sm text-blue-600 font-medium">OPM ID: ${dcwf2025.dcwf_code || 'N/A'}</span>
+                            <span class="text-sm text-blue-600 font-medium">OPM ID: ${dcwf2025Id || 'N/A'}</span>
                             <p class="text-sm text-gray-600 mt-2">${dcwf2025.work_role_definition || 'N/A'}</p>
                             ${dcwf2025Badge}
                     </div>
@@ -1174,18 +1476,21 @@
                     }
                     
                     const specialtyBadge = specialtyAreaCode ? `<span class="element-badge" style="background-color: #6b7280; color: white; margin-top: 0.5rem; display: block;">${specialtyAreaName} (${specialtyAreaCode})</span>` : '';
+                    const ncwf2017Id = ncwf2017.opm_code || '';
+                    const ncwf2017NistId = ncwf2017.work_role_id || '';
                     
+                    // NCWF 2017 n'a pas de checkbox, donc pas de classes clickable/selectable-side
                     ncwf2017Side = `
-                        <div class="relation-side ncwf-2017 clickable selectable-side" 
+                        <div class="relation-side ncwf-2017" 
                              data-model="ncwf_2017" 
-                             data-id="${ncwf2017.opm_code || ''}" 
-                             data-nist-id="${ncwf2017.work_role_id || ''}" 
+                             data-id="${ncwf2017Id}" 
+                             data-nist-id="${ncwf2017NistId}" 
                              style="border-left-color: #7cb342;">
                             <h3 class="text-lg font-semibold text-green-800 mb-2">NCWF 2017</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">${ncwf2017.work_role || 'N/A'}</h4>
                             <div class="text-sm text-green-600 font-medium">
-                                <div>WRL ID: ${ncwf2017.work_role_id || 'N/A'}</div>
-                                <div>OPM ID: ${ncwf2017.opm_code || 'N/A'}</div>
+                                <div>WRL ID: ${ncwf2017NistId || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2017Id || 'N/A'}</div>
                             </div>
                             <p class="text-sm text-gray-600 mt-2">${ncwf2017.work_role_description || 'N/A'}</p>
                             ${ncwf2017Badge}
@@ -1198,17 +1503,31 @@
                 let ncwf2024Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">NCWF 2024</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
                 if (ncwf2024) {
                     const ncwf2024Badge = getElementBadge(ncwf2024.element || '', 'ncwf2024');
+                    const ncwf2024Id = ncwf2024.opm_code || '';
+                    const ncwf2024NistId = ncwf2024.work_role_id || '';
+                    // WRL-IDs avec nouveaux KSAT (ceux qui doivent garder la checkbox)
+                    const ncwf2024WithNewKsat = ['CE-WRL-001', 'CE-WRL-002', 'CE-WRL-003', 'CE-WRL-004', 'CE-WRL-005', 'CE-WRL-006', 'CE-WRL-007', 'CI-WRL-001', 'CI-WRL-002', 'CI-WRL-003', 'CI-WRL-004', 'CI-WRL-005'];
+                    const hasNewKsat = ncwf2024WithNewKsat.includes(ncwf2024NistId);
+                    const checkboxHtml = hasNewKsat ? `
+                            <input type="checkbox" class="relation-side-checkbox" 
+                                   data-model="ncwf_2024" 
+                                   data-id="${ncwf2024Id}"
+                                   data-nist-id="${ncwf2024NistId}"
+                                   onclick="event.stopPropagation(); toggleSideSelection(this)">` : '';
+                    // Ajouter les classes clickable/selectable-side seulement si il y a une checkbox
+                    const clickableClasses = hasNewKsat ? 'clickable selectable-side' : '';
                     ncwf2024Side = `
-                        <div class="relation-side ncwf-2024 clickable selectable-side" 
+                        <div class="relation-side ncwf-2024 ${clickableClasses}" 
                              data-model="ncwf_2024" 
-                             data-id="${ncwf2024.opm_code || ''}" 
-                             data-nist-id="${ncwf2024.work_role_id || ''}" 
+                             data-id="${ncwf2024Id}" 
+                             data-nist-id="${ncwf2024NistId}" 
                              style="border-left-color: #10b981;">
+                            ${checkboxHtml}
                             <h3 class="text-lg font-semibold text-green-900 mb-2">NCWF 2024</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">${ncwf2024.work_role || 'N/A'}</h4>
                             <div class="text-sm text-green-600 font-medium">
-                                <div>WRL ID: ${ncwf2024.work_role_id || 'N/A'}</div>
-                                <div>OPM ID: ${ncwf2024.opm_code || 'N/A'}</div>
+                                <div>WRL ID: ${ncwf2024NistId || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2024Id || 'N/A'}</div>
                             </div>
                             <p class="text-sm text-gray-600 mt-2">${ncwf2024.work_role_description || 'N/A'}</p>
                             ${ncwf2024Badge}
@@ -1220,16 +1539,22 @@
                 let ncwf2025Side = '<div class="relation-side no-match"><h3 class="text-lg font-semibold text-gray-600 mb-2">NCWF 2025</h3><p class="text-sm text-gray-500">Non disponible</p></div>';
                 if (ncwf2025) {
                     const ncwf2025Badge = getElementBadge(ncwf2025.element || '', 'ncwf2025');
+                    const ncwf2025Id = ncwf2025.opm_code || '';
+                    const ncwf2025NistId = ncwf2025.work_role_id || '';
                     ncwf2025Side = `
                         <div class="relation-side ncwf-2025 clickable selectable-side" 
                              data-model="ncwf_2025" 
-                             data-id="${ncwf2025.work_role_id || ''}" 
+                             data-id="${ncwf2025NistId}" 
                              style="border-left-color: #06b6d4;">
+                            <input type="checkbox" class="relation-side-checkbox" 
+                                   data-model="ncwf_2025" 
+                                   data-id="${ncwf2025NistId}"
+                                   onclick="event.stopPropagation(); toggleSideSelection(this)">
                             <h3 class="text-lg font-semibold text-cyan-900 mb-2">NCWF 2025</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">${ncwf2025.work_role || 'N/A'}</h4>
                             <div class="text-sm text-cyan-600 font-medium">
-                                <div>WRL ID: ${ncwf2025.work_role_id || 'N/A'}</div>
-                                <div>OPM ID: ${ncwf2025.opm_code || 'N/A'}</div>
+                                <div>WRL ID: ${ncwf2025NistId || 'N/A'}</div>
+                                <div>OPM ID: ${ncwf2025Id || 'N/A'}</div>
                             </div>
                             <p class="text-sm text-gray-600 mt-2">${ncwf2025.work_role_description || 'N/A'}</p>
                             ${ncwf2025Badge}
@@ -1238,9 +1563,9 @@
                 }
 
                 // Créer le header avec OPM ID et nom du rôle
-                // Priorité : DCWF 2025, sinon DCWF 2017
+                // Priorité : DCWF 2025, sinon NCWF 2025, sinon DCWF 2017, sinon NCWF 2017
                 let headerOpmId, headerWorkRole, headerFamily;
-                let isCollapsedByDefault = false;
+                let isCollapsedByDefault = true; // Toutes les cartes .connected sont fermées par défaut
                 
                 if (dcwf2025) {
                     headerOpmId = dcwf2025.dcwf_code;
@@ -1248,16 +1573,31 @@
                     // Extraire le code de famille (IT, CS, EN, etc.) de l'element
                     const familyMatch = dcwf2025.element ? dcwf2025.element.match(/\(([A-Z]{2})\)/) : null;
                     headerFamily = familyMatch ? familyMatch[1] : '';
+                } else if (ncwf2025) {
+                    // Utiliser NCWF 2025 si DCWF 2025 n'est pas disponible
+                    headerOpmId = ncwf2025.opm_code;
+                    headerWorkRole = ncwf2025.work_role;
+                    // Extraire le code de famille de l'élément NCWF 2025
+                    const familyMatch = ncwf2025.element ? ncwf2025.element.match(/\(([A-Z]{2})\)/) : null;
+                    headerFamily = familyMatch ? familyMatch[1] : '';
+                    isCollapsedByDefault = true;
                 } else if (dcwf2017) {
                     headerOpmId = dcwf2017.omp_id;
                     headerWorkRole = dcwf2017.title;
                     // Extraire le code de famille de la catégorie DCWF 2017
                     const familyMatch = dcwf2017.category ? dcwf2017.category.match(/\(([A-Z]{2})\)/) : null;
                     headerFamily = familyMatch ? familyMatch[1] : '';
-                    isCollapsedByDefault = true; // Réduire par défaut si pas de DCWF 2025
+                    isCollapsedByDefault = true;
+                } else if (ncwf2017) {
+                    // Utiliser NCWF 2017 en dernier recours
+                    headerOpmId = ncwf2017.opm_code;
+                    headerWorkRole = ncwf2017.work_role;
+                    headerFamily = '';
+                    isCollapsedByDefault = true;
                 } else {
+                    // Ne devrait jamais arriver pour une carte .connected
                     headerOpmId = 'N/A';
-                    headerWorkRole = 'Non disponible';
+                    headerWorkRole = 'N/A';
                     headerFamily = '';
                     isCollapsedByDefault = true;
                 }
@@ -1406,148 +1746,6 @@
                 return Array.from(sideEl.querySelectorAll('.element-badge')).map(b => extractText(b));
             }
 
-            function rowFromCard(cardEl) {
-                const content = cardEl.querySelector('.card-content > div');
-                if (!content) return null;
-                const sides = Array.from(content.querySelectorAll('.relation-side, .no-match'));
-                // Ordre dans le DOM: DCWF 2025 → NCWF 2025 → NCWF 2024 → DCWF 2017 → NCWF 2017
-                const dcwf2025 = sides[0] ? (() => {
-                    const side = sides[0];
-                    const ids = parseIdBlock(side);
-                    return {
-                        title: extractText(side.querySelector('h4')),
-                        opm: ids.opm || '',
-                        description: extractText(side.querySelector('p')),
-                    };
-                })() : {};
-
-                const ncwf2025 = sides[1] ? (() => {
-                    const side = sides[1];
-                    const ids = parseIdBlock(side);
-                    const badges = getBadges(side);
-                    return {
-                        title: extractText(side.querySelector('h4')),
-                        wrl: ids.wrl || '',
-                        opm: ids.opm || '',
-                        category: badges[0] || '',
-                        description: extractText(side.querySelector('p')),
-                    };
-                })() : {};
-
-                const ncwf2024 = sides[2] ? (() => {
-                    const side = sides[2];
-                    const ids = parseIdBlock(side);
-                    const badges = getBadges(side);
-                    return {
-                        title: extractText(side.querySelector('h4')),
-                        wrl: ids.wrl || '',
-                        opm: ids.opm || '',
-                        category: badges[0] || '',
-                        description: extractText(side.querySelector('p')),
-                    };
-                })() : {};
-
-                const dcwf2017 = sides[3] ? (() => {
-                    const side = sides[3];
-                    const ids = parseIdBlock(side);
-                    return {
-                        title: extractText(side.querySelector('h4')),
-                        opm: ids.opm || '',
-                        description: extractText(side.querySelector('p')),
-                    };
-                })() : {};
-
-                const ncwf2017 = sides[4] ? (() => {
-                    const side = sides[4];
-                    const ids = parseIdBlock(side);
-                    const badges = getBadges(side);
-                    return {
-                        title: extractText(side.querySelector('h4')),
-                        wrl: ids.wrl || '',
-                        opm: ids.opm || '',
-                        category: badges[0] || '',
-                        subcategory: badges[1] || '',
-                        description: extractText(side.querySelector('p')),
-                    };
-                })() : {};
-
-                return {
-                    dcwf2025_title: dcwf2025.title || '',
-                    dcwf2025_opm: dcwf2025.opm || '',
-                    dcwf2025_desc: dcwf2025.description || '',
-
-                    ncwf2025_title: ncwf2025.title || '',
-                    ncwf2025_wrl: ncwf2025.wrl || '',
-                    ncwf2025_opm: ncwf2025.opm || '',
-                    ncwf2025_cat: ncwf2025.category || '',
-                    ncwf2025_desc: ncwf2025.description || '',
-
-                    ncwf2024_title: ncwf2024.title || '',
-                    ncwf2024_wrl: ncwf2024.wrl || '',
-                    ncwf2024_opm: ncwf2024.opm || '',
-                    ncwf2024_cat: ncwf2024.category || '',
-                    ncwf2024_desc: ncwf2024.description || '',
-
-                    dcwf2017_title: dcwf2017.title || '',
-                    dcwf2017_opm: dcwf2017.opm || '',
-                    dcwf2017_desc: dcwf2017.description || '',
-
-                    ncwf2017_title: ncwf2017.title || '',
-                    ncwf2017_wrl: ncwf2017.wrl || '',
-                    ncwf2017_opm: ncwf2017.opm || '',
-                    ncwf2017_cat: ncwf2017.category || '',
-                    ncwf2017_subcat: ncwf2017.subcategory || '',
-                    ncwf2017_desc: ncwf2017.description || ''
-                };
-            }
-
-            function buildWorkbookFromDom() {
-                const rows = [];
-                const cards = Array.from(document.querySelectorAll('.relation-card.connected'));
-                cards.forEach(card => {
-                    const row = rowFromCard(card);
-                    if (row) rows.push(row);
-                });
-
-                const header = [
-                    'DCWF 2025 - OPM ID', 'DCWF 2025 - Titre', 'DCWF 2025 - Description',
-                    'NCWF 2025 - WRL ID', 'NCWF 2025 - OPM ID', 'NCWF 2025 - Catégorie', 'NCWF 2025 - Titre', 'NCWF 2025 - Description',
-                    'NCWF 2024 - WRL ID', 'NCWF 2024 - OPM ID', 'NCWF 2024 - Catégorie', 'NCWF 2024 - Titre', 'NCWF 2024 - Description',
-                    'DCWF 2017 - OPM ID', 'DCWF 2017 - Titre', 'DCWF 2017 - Description',
-                    'NCWF 2017 - WRL ID', 'NCWF 2017 - OPM ID', 'NCWF 2017 - Catégorie', 'NCWF 2017 - Sous-catégorie', 'NCWF 2017 - Titre', 'NCWF 2017 - Description'
-                ];
-
-                const data = [header];
-                rows.forEach(r => {
-                    data.push([
-                        r.dcwf2025_opm, r.dcwf2025_title, r.dcwf2025_desc,
-                        r.ncwf2025_wrl, r.ncwf2025_opm, r.ncwf2025_cat, r.ncwf2025_title, r.ncwf2025_desc,
-                        r.ncwf2024_wrl, r.ncwf2024_opm, r.ncwf2024_cat, r.ncwf2024_title, r.ncwf2024_desc,
-                        r.dcwf2017_opm, r.dcwf2017_title, r.dcwf2017_desc,
-                        r.ncwf2017_wrl, r.ncwf2017_opm, r.ncwf2017_cat, r.ncwf2017_subcat, r.ncwf2017_title, r.ncwf2017_desc
-                    ]);
-                });
-
-                const ws = XLSX.utils.aoa_to_sheet(data);
-                // Ajuster largeur colonnes
-                ws['!cols'] = [
-                    { wch: 14 }, { wch: 35 }, { wch: 60 },
-                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 35 }, { wch: 60 },
-                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 35 }, { wch: 60 },
-                    { wch: 14 }, { wch: 35 }, { wch: 60 },
-                    { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 18 }, { wch: 35 }, { wch: 60 }
-                ];
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Export');
-                return wb;
-            }
-
-            if (exportBtn) {
-                exportBtn.addEventListener('click', function() {
-                    const wb = buildWorkbookFromDom();
-                    XLSX.writeFile(wb, 'export.xlsx');
-                });
-            }
             // Collecter tous les codes et les organiser par famille
             const allCodes = new Set([
                 ...dcwf2017Map.keys(),
@@ -1693,7 +1891,11 @@
                         });
                         sortedCodes.forEach(code => {
                             const dcwf2017 = dcwf2017Map.get(code);
-                            const dcwf2025 = dcwf2025Map.get(code);
+                            // Pour les OPM-ID 112 et 333, ne pas utiliser les données DCWF 2025 même si elles existent
+                            let dcwf2025 = dcwf2025Map.get(code);
+                            if (code === 112 || code === 333) {
+                                dcwf2025 = null;
+                            }
                             const ncwf2017 = ncwf2017Map.get(code);
                             const ncwf2024 = ncwf2024Map.get(code);
                             const ncwf2025 = ncwf2025Map.get(code);
@@ -1713,7 +1915,11 @@
                 // Fallback: affichage simple sans organisation par famille
                 allCodes.forEach(code => {
                     const dcwf2017 = dcwf2017Map.get(code);
-                    const dcwf2025 = dcwf2025Map.get(code);
+                    // Pour les OPM-ID 112 et 333, ne pas utiliser les données DCWF 2025 même si elles existent
+                    let dcwf2025 = dcwf2025Map.get(code);
+                    if (code === 112 || code === 333) {
+                        dcwf2025 = null;
+                    }
                     const ncwf2017 = ncwf2017Map.get(code);
                     const ncwf2024 = ncwf2024Map.get(code);
                     const ncwf2025 = ncwf2025Map.get(code);
@@ -1724,17 +1930,56 @@
                 console.log('Affichage de base: ' + allCodes.size + ' relations');
           }
           
+          // Fonction pour gérer la sélection via la checkbox
+          window.toggleSideSelection = function(checkbox) {
+              const side = checkbox.closest('.relation-side');
+              if (side) {
+                  const isChecked = checkbox.checked;
+                  if (isChecked) {
+                      side.classList.add('selected');
+                  } else {
+                      side.classList.remove('selected');
+                  }
+                  
+                  // Mettre à jour le bouton de comparaison
+                  if (window.updateT1CompareButton) {
+                      window.updateT1CompareButton();
+                  }
+              }
+          };
+          
           // Attendre que tout soit ajouté au DOM avant d'ajouter les event listeners
           setTimeout(() => {
               console.log('Ajout des event listeners pour les relation-side');
               
           // Ajouter les event listeners pour la sélection des relation-side
+          // UNIQUEMENT ceux qui ont une checkbox
           document.querySelectorAll('.selectable-side.clickable').forEach(side => {
-              side.addEventListener('click', function() {
+              // Vérifier si cette relation-side a une checkbox
+              const checkbox = side.querySelector('.relation-side-checkbox');
+              if (!checkbox) {
+                  // Si pas de checkbox, retirer les classes qui permettent la sélection
+                  side.classList.remove('clickable', 'selectable-side');
+                  side.style.cursor = 'default';
+                  return; // Ne pas ajouter d'event listener
+              }
+              
+              side.addEventListener('click', function(e) {
+                  // Ignorer le clic si c'est sur la checkbox (géré par toggleSideSelection)
+                  if (e.target.classList.contains('relation-side-checkbox')) {
+                      return;
+                  }
+                  
                   console.log('Clic sur relation-side!');
                   this.classList.toggle('selected');
                   const isSelected = this.classList.contains('selected');
                   console.log('Classe selected:', isSelected);
+                  
+                  // Synchroniser la checkbox
+                  const checkbox = this.querySelector('.relation-side-checkbox');
+                  if (checkbox) {
+                      checkbox.checked = isSelected;
+                  }
                   
                   // FORCER l'appel à updateCompareButton
                   console.log('Appel à updateCompareButton depuis le clic');
@@ -1749,6 +1994,11 @@
                       console.error('Erreur lors de l\'appel updateT1CompareButton:', e);
                   }
               });
+              
+              // Synchroniser l'état initial de la checkbox avec la classe selected
+              if (checkbox) {
+                  checkbox.checked = side.classList.contains('selected');
+              }
           });
               
               console.log('Nombre de relation-side trouvés:', document.querySelectorAll('.selectable-side.clickable').length);
@@ -1765,245 +2015,6 @@
           }, 2000);
       });
 
-      // Section pour afficher les informations du JSON SANS Emerging AI Work Roles
-      function displaySansEmergingAiInfo() {
-          const container = document.querySelector('.container');
-          if (!container) return;
-
-          // Données du JSON SANS Emerging AI Work Roles
-          const sansData = {
-              metadata: {
-                  title: "Emerging AI work roles with Real Impact (SANS)",
-                  description: "Two years of industry tracking reveal these EMERGING AI cybersecurity roles. We observed NEW AI cybersecurity roles maturing through SANS Summit presentations, expert discussions, course development, and community insights. The focus: defending the nation's new AI technological capabilities.",
-                  source: "SANS",
-                  total_work_roles: 10
-              },
-              work_roles: [
-                  {
-                      title: "AI Offensive Orchestrator",
-                      description: "Manages autonomous AI agent swarms that conduct continuous penetration testing and red team operations. Oversees adaptive testing systems that modify attack methods based on defensive responses to maintain organizational security posture against AI-enhanced threats."
-                  },
-                  {
-                      title: "AI/ML Security Engineer",
-                      description: "Develops and implements AI-driven security solutions that automatically map attack surfaces, detect capability gaps, and respond to emerging threats. Creates adaptive security systems that learn organizational environments beyond human analytical capacity."
-                  },
-                  {
-                      title: "AI Security Specialist",
-                      description: "Provides strategic guidance for AI adoption with integrated security intelligence. Evaluates AI initiatives for security risks, monitors cross-organizational AI deployments, and delivers rapid security impact assessments for AI-related projects."
-                  },
-                  {
-                      title: "AI Threat Intelligence Analyst",
-                      description: "Transforms threat intelligence into automated hunting operations across multiple environments simultaneously. Operates AI agents that convert emerging attack patterns into executable hunting queries for rapid deployment across partner organizations."
-                  },
-                  {
-                      title: "AI SOC Orchestrator",
-                      description: "Leads security operations centers utilizing AI agent swarms instead of traditional alert monitoring systems. Manages automated detection, investigation, correlation, and response capabilities while making strategic operational decisions."
-                  },
-                  {
-                      title: "AI Ethics & Compliance Officer",
-                      description: "Deploys real-time compliance governance agents that automatically adjust AI systems to maintain regulatory compliance. Develops policy enforcement agents that prevent non-compliant AI deployments before implementation."
-                  },
-                  {
-                      title: "AI Governance Lead",
-                      description: "Builds AI governance orchestration systems that automatically enforce policies, track compliance, and adapt to evolving AI capabilities. Manages real-time monitoring of AI utilization across all organizational business sectors."
-                  },
-                  {
-                      title: "Quantum-AI Security Specialist",
-                      description: "Develops quantum-resistant security systems and quantum-powered threat detection agents. Creates hybrid quantum-classical AI security architectures that provide computational advantages over traditional security systems."
-                  },
-                  {
-                      title: "AI Prompt Engineer (Security)",
-                      description: "Builds prompt orchestration systems that dynamically modify AI responses for security applications. Develops prompt libraries for security AI tools and creates testing agents to detect adversarial prompt vulnerabilities."
-                  },
-                  {
-                      title: "AI Incident Response Orchestrator",
-                      description: "Manages and commands autonomous AI defensive agents to combat adversarial AI systems operating within organizational networks. Orchestrates defensive swarms that hunt malicious code, interrupt attack sequences, and repair compromised systems at machine speed to counter AI-powered threats."
-                  }
-              ]
-          };
-
-          let html = `
-              <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                  <h2 class="text-2xl font-bold text-gray-800 mb-4">🤖 Rôles de Travail IA Émergents (SANS)</h2>
-                  
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                      <div class="bg-purple-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-purple-800">Total Rôles IA</h3>
-                          <p class="text-2xl font-bold text-purple-600">${sansData.metadata.total_work_roles}</p>
-                      </div>
-                      <div class="bg-indigo-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-indigo-800">Source</h3>
-                          <p class="text-2xl font-bold text-indigo-600">${sansData.metadata.source}</p>
-                      </div>
-                      <div class="bg-pink-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-pink-800">Focus</h3>
-                          <p class="text-lg font-bold text-pink-600">IA & Cybersécurité</p>
-                      </div>
-                  </div>
-
-                  <div class="mb-6">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-3">📋 Description</h3>
-                      <p class="text-gray-600 mb-4">${sansData.metadata.description}</p>
-                  </div>
-
-                  <div class="mb-6">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-3">🔧 Rôles de Travail IA Émergents</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          `;
-
-          sansData.work_roles.forEach((role, index) => {
-              html += `
-                  <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
-                          <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-mono mr-2">${index + 1}</span>
-                          ${role.title}
-                      </h4>
-                      <p class="text-sm text-gray-600 leading-relaxed">${role.description}</p>
-                  </div>
-              `;
-          });
-
-          html += `
-                      </div>
-                  </div>
-
-                  <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-lg">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                          <div>
-                              <p><strong>Source:</strong> ${sansData.metadata.source}</p>
-                              <p><strong>Période d'observation:</strong> 2 ans</p>
-                              <p><strong>Méthode:</strong> SANS Summit, discussions d'experts</p>
-                          </div>
-                          <div>
-                              <p><strong>Focus:</strong> Défense des capacités technologiques IA</p>
-                              <p><strong>Type:</strong> Rôles émergents avec impact réel</p>
-                              <p><strong>Domaine:</strong> Cybersécurité IA</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          `;
-
-          container.insertAdjacentHTML('beforeend', html);
-      }
-
-      // Section pour afficher les informations du JSON CEMA FM 3-12
-      function displayCemaFm3Info() {
-          const container = document.querySelector('.container');
-          if (!container) return;
-
-          // Données du JSON CEMA FM 3-12
-          const cemaData = {
-              metadata: {
-                  title: "Cyberspace Operations and Electromagnetic Warfare / FM 3-12 (2021)",
-                  description: "The Cyberspace Electromagnetic Activities workroles CEMA are responsible for synchronizing and integrating cyberspace operations and EW with the operations process and through other integrating processes.",
-                  source: "FM 3-12 (2021)",
-                  total_work_roles: 7
-              },
-              work_roles: [
-                  {
-                      title: "Commander",
-                      description: "Provides strategic leadership and direction for the integration of cyberspace operations and electromagnetic warfare within organizational operations to achieve mission objectives and maintain operational advantage."
-                  },
-                  {
-                      title: "Cyber Electromagnetic Warfare Officer",
-                      description: "Serves as the commander designated staff officer responsible for integrating, coordinating, and synchronizing actions in cyberspace and the electromagnetic spectrum to support mission accomplishment."
-                  },
-                  {
-                      title: "Cyber Warfare Officer",
-                      description: "Assists the CEWO with integrating and synchronizing cyberspace operations into the operations process while providing specialized insight into cyberspace capabilities and effects."
-                  },
-                  {
-                      title: "Electromagnetic Warfare Technician",
-                      description: "Serves as the resident technical and tactical expert for electromagnetic warfare operations, coordinating and integrating CEMA effects to exploit adversary vulnerabilities while denying enemy use of the electromagnetic spectrum."
-                  },
-                  {
-                      title: "Electromagnetic Warfare Sergeant Major",
-                      description: "Serves as the CEWO senior enlisted advisor for electromagnetic warfare operations, providing expertise on EW training development and ensuring effective integration of EW capabilities."
-                  },
-                  {
-                      title: "Electromagnetic Warfare Noncommissioned Officer",
-                      description: "Manages the availability and employment of EW assets while serving as the organization senior training developer for electromagnetic warfare operations."
-                  },
-                  {
-                      title: "Cyberspace Electromagnetic Activities Spectrum Manager",
-                      description: "Assists the CEMA section in planning, coordination, assessment, and implementation of electromagnetic warfare through comprehensive frequency management and spectrum operations support."
-                  }
-              ]
-          };
-
-          let html = `
-              <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                  <h2 class="text-2xl font-bold text-gray-800 mb-4">⚡ Activités Cyberespace et Guerre Électromagnétique (CEMA FM 3-12)</h2>
-                  
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                      <div class="bg-orange-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-orange-800">Total Rôles CEMA</h3>
-                          <p class="text-2xl font-bold text-orange-600">${cemaData.metadata.total_work_roles}</p>
-                      </div>
-                      <div class="bg-red-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-red-800">Source</h3>
-                          <p class="text-2xl font-bold text-red-600">${cemaData.metadata.source}</p>
-                      </div>
-                      <div class="bg-yellow-50 p-4 rounded-lg">
-                          <h3 class="font-semibold text-yellow-800">Domaine</h3>
-                          <p class="text-lg font-bold text-yellow-600">Cyberspace & EW</p>
-                      </div>
-                  </div>
-
-                  <div class="mb-6">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-3">📋 Description</h3>
-                      <p class="text-gray-600 mb-4">${cemaData.metadata.description}</p>
-                  </div>
-
-                  <div class="mb-6">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-3">🔧 Rôles de Travail CEMA</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          `;
-
-          cemaData.work_roles.forEach((role, index) => {
-              html += `
-                  <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
-                          <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm font-mono mr-2">${index + 1}</span>
-                          ${role.title}
-                      </h4>
-                      <p class="text-sm text-gray-600 leading-relaxed">${role.description}</p>
-                  </div>
-              `;
-          });
-
-          html += `
-                      </div>
-                  </div>
-
-                  <div class="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg">
-                      <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                          <div>
-                              <p><strong>Source:</strong> ${cemaData.metadata.source}</p>
-                              <p><strong>Domaine:</strong> Cyberspace & Guerre Électromagnétique</p>
-                              <p><strong>Focus:</strong> Intégration et synchronisation</p>
-                          </div>
-                          <div>
-                              <p><strong>Type:</strong> Rôles militaires spécialisés</p>
-                              <p><strong>Responsabilité:</strong> Opérations CEMA</p>
-                              <p><strong>Niveau:</strong> Tactique et opérationnel</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          `;
-
-          container.insertAdjacentHTML('beforeend', html);
-      }
-
-      // Appeler les fonctions d'affichage après le chargement de la page
-      document.addEventListener('DOMContentLoaded', function() {
-          displaySansEmergingAiInfo();
-          displayCemaFm3Info();
-      });
       </script>
       
 {% endblock %}

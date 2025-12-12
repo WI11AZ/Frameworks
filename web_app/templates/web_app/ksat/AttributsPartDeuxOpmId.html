@@ -1,0 +1,1165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attributs Part Deux - Poste</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; padding: 0; }
+        .step-indicator { 
+            display: none; 
+        }
+        .step-item { padding: 10px 20px; border-bottom: 3px solid #e5e7eb; color: #9ca3af; font-weight: 500; transition: all 0.3s; position: relative; }
+        .step-item.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 700; }
+        .step-item.completed { border-bottom-color: #10b981; color: #10b981; }
+        .step-item.completed::after { content: ' ✓'; }
+        .step-item-level { 
+            font-size: 11px; 
+            color: #10b981; 
+            font-weight: 600; 
+            margin-top: 4px; 
+            display: block;
+        }
+        .level-scale-container { 
+            margin: 30px 0 20px 0; 
+            background: #f3f4f6;
+        }
+        .level-preview-container {
+            min-height: 120px;
+            margin: 15px 0 20px 0;
+            position: relative;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 12px 16px;
+        }
+        .level-preview { 
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+        .level-preview.hidden { 
+            opacity: 0; 
+        }
+        .level-preview-number { 
+            font-size: 15px; 
+            font-weight: bold; 
+            color: #3b82f6; 
+            margin-bottom: 6px; 
+        }
+        .level-preview-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-bottom: 6px; 
+        }
+        .level-preview-description { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            font-size: 12px; 
+        }
+        .level-scale-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .level-scale { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 12px; 
+            margin: 0; 
+        }
+        .level-scale-item { 
+            flex: 1; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 2px solid #d1d5db; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            background: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            color: #6b7280;
+            position: relative;
+        }
+        .level-scale-item:hover { 
+            border-color: #9ca3af; 
+            background: #f9fafb; 
+            color: #6b7280;
+        }
+        .level-scale-item.selected { 
+            border-color: #6b7280; 
+            background: #6b7280; 
+            color: white;
+            box-shadow: none;
+        }
+        .previous-choices { background: #f9fafb; border-radius: 8px; padding: 10px; margin: 10px 0; border-left: 4px solid #10b981; }
+        .previous-choice-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+        .previous-choice-item:last-child { border-bottom: none; }
+        .navigation-buttons { 
+            display: flex; 
+            justify-content: flex-end; 
+            margin-top: 20px; 
+            padding: 0; 
+        }
+        .btn { 
+            padding: 8px 24px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            border: none; 
+            font-size: 13px;
+        }
+        .btn-primary { 
+            background: #9ca3af; 
+            color: white; 
+        }
+        .btn-primary:hover:not(:disabled) { 
+            background: #4b5563; 
+        }
+        .btn-primary:disabled { 
+            background: #d1d5db; 
+            cursor: not-allowed; 
+            color: #9ca3af;
+        }
+        .btn-secondary { 
+            background: #6b7280; 
+            color: white; 
+        }
+        .btn-secondary:hover { 
+            background: #4b5563; 
+        }
+        .main-container { 
+            background: #ffffff;
+            min-height: calc(100vh - 64px);
+            padding: 15px;
+            position: relative;
+        }
+        .attributes-table-container { 
+            width: 480px; 
+            float: left;
+            margin-right: 25px;
+            margin-bottom: 15px;
+        }
+        #opmIdSelector {
+            width: 100%;
+        }
+        #opmIdSelector .bg-white {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .category-container { 
+            border-radius: 15px; 
+            overflow: visible; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
+            min-width: auto; 
+            margin-bottom: 0; 
+            height: fit-content;
+            background-color: #2d2d2d; 
+            border: 1px solid #404040;
+        }
+        .category-header { 
+            color: #e5e5e5; 
+            background: linear-gradient(135deg, #404040, #2d2d2d); 
+            padding: 10px 12px; 
+            font-weight: bold; 
+            font-size: 14px; 
+            text-align: center; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            border-radius: 12px 12px 0 0; 
+            border-bottom: 2px solid #555; 
+        }
+        .level-header { 
+            display: flex; 
+            padding: 8px 10px; 
+            font-weight: bold; 
+            background-color: #333; 
+            border-bottom: 1px solid #555; 
+            color: #e5e5e5; 
+            align-items: center;
+            font-size: 11px;
+        }
+        .subcategory-header { 
+            padding: 8px 10px; 
+            font-weight: 600; 
+            border-bottom-width: 1px; 
+            font-size: 12px; 
+            background-color: #363636; 
+            border-bottom: 1px solid #555; 
+            color: #d5d5d5; 
+        }
+        .skill-row { 
+            display: flex; 
+            align-items: center; 
+            padding: 6px 10px; 
+            border-bottom: 1px solid #404040; 
+            font-size: 10px; 
+            border-radius: 6px; 
+            margin: 2px 6px; 
+            background-color: #2d2d2d; 
+        }
+        .skill-row:last-child { 
+            border-bottom: none; 
+        }
+        .skill-row:hover { 
+            background-color: #363636; 
+        }
+        .skill-name { 
+            flex: 3; 
+            padding-right: 8px; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap; 
+            color: #e5e5e5; 
+            cursor: help; 
+        }
+        .skill-pm { 
+            flex: 0 0 50px; 
+            font-weight: normal; 
+            color: #a0a0a0; 
+            text-align: right;
+            padding-right: 8px;
+        }
+        .skill-pm.red {
+            color: #ef4444;
+        }
+        .skill-code { 
+            flex: 1; 
+            font-weight: bold; 
+            color: #a0a0a0; 
+        }
+        .level-boxes { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 3px; 
+            align-items: center;
+        }
+        .level-number, .level-box { 
+            width: 20px; 
+            height: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0; 
+            font-size: 10px; 
+            border-radius: 3px; 
+            transition: all 0.2s ease; 
+            background-color: #404040; 
+            border: 1px solid #555; 
+            color: #a0a0a0; 
+            text-align: center; 
+            line-height: 20px; 
+            position: relative; 
+            cursor: pointer; 
+        }
+        .level-box:hover { 
+            transform: translateY(-1px); 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+        }
+        .level-box.filled { 
+            background: #ffffff; 
+            border: 2px solid #ffffff; 
+            color: #2d2d2d; 
+            box-shadow: none; 
+            font-weight: bold;
+        }
+        .level-box.clear-btn {
+            color: #ef4444;
+            border-color: #ef4444;
+            font-weight: bold;
+        }
+        .level-box.clear-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+        .flex-grow { 
+            flex-grow: 1; 
+        }
+        .right-content-wrapper {
+            margin-left: 505px;
+            background: #f3f4f6;
+            padding: 20px 35px;
+            height: fit-content;
+            border-radius: 8px;
+        }
+        .content-section { 
+            display: flex;
+            flex-direction: column;
+        }
+        .definition-section { 
+            background: #ffffff; 
+            border-radius: 8px; 
+            padding: 12px 16px; 
+            margin: 15px 0; 
+            max-height: 320px; 
+            overflow-y: auto;
+            box-shadow: none;
+            border: 1px solid #e5e7eb;
+        }
+        .definition-title { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-bottom: 10px; 
+        }
+        .definition-text { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            margin-bottom: 12px; 
+            font-size: 12px; 
+        }
+        .guidance-title { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-top: 8px; 
+            margin-bottom: 10px; 
+        }
+        .guidance-text { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            font-size: 12px; 
+        }
+        .summary-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 20px 0; }
+        .summary-title { font-size: 24px; font-weight: bold; color: #1f2937; margin-bottom: 20px; text-align: center; }
+        .summary-item { display: flex; justify-content: space-between; padding: 15px; margin: 10px 0; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6; }
+    </style>
+</head>
+<body>
+    <nav class="bg-gray-800 mb-0 -mx-0 -mt-0 px-4" style="margin-top: 0 !important; margin-bottom: 0 !important;">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="shrink-0 flex items-center">
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                        <span class="text-2xl font-bold text-white">DCWF</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="{% url 'main' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                            <a href="{% url 'summary_chart' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Tableau des compétences</a>
+                            <a href="{% url 'attributs_part_deux_opm_id' %}" class="rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white">PARTIE 2 - POSTE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Tableau noir des attributs génériques SFIA à gauche -->
+        <div class="attributes-table-container">
+            <div id="sfiaAttributesTable" class="category-container">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <!-- OPM ID Selector - Below the black table -->
+            <div id="opmIdSelector" class="mt-3" style="display: none;">
+                <div class="bg-white border border-gray-300 rounded-lg p-3">
+                    <h3 class="text-base font-semibold mb-2 text-gray-800">Postes sélectionnés</h3>
+                    <div id="opmIdList" class="flex flex-wrap gap-2 mb-2"></div>
+                    <div class="flex gap-2 mt-2">
+                        <button id="copySelectionsBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="showCopySelectionsModal()">Copy Selections</button>
+                        <button id="resetCurrentBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="resetCurrentOpmId()">Reset Current</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu principal à droite -->
+        <div class="right-content-wrapper">
+            <!-- Page Title -->
+            <div class="mb-3">
+                <h1 class="text-xl font-bold text-gray-800" style="margin-bottom: 15px;" id="pageTitle">Attributs Part Deux - Poste</h1>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div id="mainContent">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons" id="navigationButtons" style="display: none;">
+                <button class="btn btn-secondary" id="backButton" onclick="goToPreviousStep()">Back</button>
+                <button class="btn btn-primary" id="nextButton" onclick="goToNextStep()" disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Copy Selections Modal -->
+        <div id="copyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
+                <h3 class="text-xl font-bold mb-4 text-gray-800">Copy Selections</h3>
+                <p class="mb-4 text-gray-600">Sélectionner le poste source à copier :</p>
+                <div id="copySourceList" class="mb-4"></div>
+                <div class="flex justify-end gap-2">
+                    <button class="btn btn-secondary" onclick="closeCopyModal()">Cancel</button>
+                    <button class="btn btn-primary" id="confirmCopyBtn" onclick="confirmCopySelections()" disabled>Copy</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Clear float -->
+        <div style="clear: both;"></div>
+    </div>
+
+    <script>
+        let genericAttributesData = [];
+        let selectedLevels = {}; // Structure: { '101': { 'AUTO': 2, 'INFL': 3, ... }, ... }
+        let currentStep = 0;
+        let selectedPostes = []; // Array of poste numbers like ['101', '102', ...]
+        let currentPoste = null; // Current poste number being processed
+        let copySourcePoste = null; // Poste number selected as source for copying
+        let posteData = {}; // Store poste info: { '101': 'Nom - Couleur', ... }
+        let allAttributes = []; // Tous les codes d'attributs depuis le JSON (sera rempli après le chargement)
+        const attributeNames = {}; // Sera rempli dynamiquement depuis le JSON
+
+        // Load selected poste numbers from localStorage
+        async function loadSelectedPostes() {
+            try {
+                const selectedPostesList = [];
+                
+                // Method 1: Get from localStorage (currentJobNumber or currentJobSelection)
+                const currentJobNumber = localStorage.getItem('currentJobNumber');
+                const currentJobSelection = localStorage.getItem('currentJobSelection');
+                
+                if (currentJobNumber) {
+                    const poste = currentJobNumber.trim();
+                    if (poste && !selectedPostesList.includes(poste)) {
+                        selectedPostesList.push(poste);
+                        // Try to get nom and couleur from currentJobSelection
+                        if (currentJobSelection) {
+                            try {
+                                const selection = JSON.parse(currentJobSelection);
+                                posteData[poste] = `${selection.nom || ''} - ${selection.couleur || ''}`.trim() || `Poste ${poste}`;
+                            } catch (e) {
+                                posteData[poste] = `Poste ${poste}`;
+                            }
+                        } else {
+                            posteData[poste] = `Poste ${poste}`;
+                        }
+                    }
+                }
+
+                // Method 2: Try to get from URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const postesParam = urlParams.get('postes');
+                if (postesParam) {
+                    try {
+                        const parsed = JSON.parse(decodeURIComponent(postesParam));
+                        if (Array.isArray(parsed)) {
+                            parsed.forEach(poste => {
+                                const cleanPoste = String(poste).trim();
+                                if (cleanPoste && !selectedPostesList.includes(cleanPoste)) {
+                                    selectedPostesList.push(cleanPoste);
+                                    if (!posteData[cleanPoste]) {
+                                        posteData[cleanPoste] = `Poste ${cleanPoste}`;
+                                    }
+                                }
+                            });
+                        } else if (typeof parsed === 'string') {
+                            // Single poste number
+                            const cleanPoste = parsed.trim();
+                            if (cleanPoste && !selectedPostesList.includes(cleanPoste)) {
+                                selectedPostesList.push(cleanPoste);
+                                if (!posteData[cleanPoste]) {
+                                    posteData[cleanPoste] = `Poste ${cleanPoste}`;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        // If not JSON, treat as single poste number
+                        const cleanPoste = postesParam.trim();
+                        if (cleanPoste && !selectedPostesList.includes(cleanPoste)) {
+                            selectedPostesList.push(cleanPoste);
+                            if (!posteData[cleanPoste]) {
+                                posteData[cleanPoste] = `Poste ${cleanPoste}`;
+                            }
+                        }
+                    }
+                }
+
+                selectedPostes = selectedPostesList;
+                console.log('Loaded Postes:', selectedPostes);
+                console.log('Poste Data:', posteData);
+
+                // Initialize selectedLevels structure for each poste
+                selectedPostes.forEach(poste => {
+                    if (!selectedLevels[poste]) {
+                        selectedLevels[poste] = {};
+                    }
+                });
+
+                if (selectedPostes.length > 0) {
+                    currentPoste = selectedPostes[0];
+                    renderPosteSelector();
+                } else {
+                    // No postes selected, show message
+                    document.getElementById('mainContent').innerHTML = 
+                        '<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6"><p class="text-yellow-800">Aucun numéro de poste sélectionné. Veuillez retourner à la page principale et sélectionner un numéro de poste.</p></div>';
+                }
+            } catch (error) {
+                console.error('Error loading selected postes:', error);
+            }
+        }
+
+        // Render Poste selector UI
+        function renderPosteSelector() {
+            const selector = document.getElementById('opmIdSelector');
+            const list = document.getElementById('opmIdList');
+            
+            if (selectedPostes.length === 0) {
+                selector.style.display = 'none';
+                return;
+            }
+
+            selector.style.display = 'block';
+            list.innerHTML = '';
+
+            selectedPostes.forEach((poste, index) => {
+                const isCurrent = poste === currentPoste;
+                const isComplete = isPosteComplete(poste);
+                const badge = document.createElement('div');
+                badge.className = `px-3 py-1.5 rounded-lg cursor-pointer transition-all text-sm ${
+                    isCurrent 
+                        ? 'bg-blue-600 text-white font-semibold' 
+                        : isComplete 
+                            ? 'bg-green-100 text-green-800 border border-green-300' 
+                            : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
+                }`;
+                badge.textContent = `Poste ${poste}${posteData[poste] ? ' - ' + posteData[poste] : ''}`;
+                badge.onclick = () => switchToPoste(poste);
+                
+                if (isComplete) {
+                    const checkmark = document.createElement('span');
+                    checkmark.className = 'ml-2';
+                    checkmark.textContent = '✓';
+                    badge.appendChild(checkmark);
+                }
+                
+                list.appendChild(badge);
+            });
+
+            // Show/hide action buttons
+            document.getElementById('copySelectionsBtn').style.display = selectedPostes.length > 1 ? 'block' : 'none';
+            document.getElementById('resetCurrentBtn').style.display = currentPoste ? 'block' : 'none';
+        }
+
+        // Check if Poste selection is complete (tous les attributs doivent avoir un niveau)
+        function isPosteComplete(poste) {
+            if (!selectedLevels[poste]) return false;
+            const levels = selectedLevels[poste];
+            // Vérifier que tous les attributs ont un niveau sélectionné
+            return allAttributes.every(attr => levels[attr] !== undefined && levels[attr] !== null);
+        }
+
+        // Switch to a different Poste
+        function switchToPoste(poste) {
+            if (poste === currentPoste) return;
+            
+            // Save current state
+            saveCurrentPosteState();
+            
+            // Switch to new Poste
+            currentPoste = poste;
+            currentStep = 0;
+            
+            // Load state for new Poste
+            loadPosteState(poste);
+            
+            // Update UI
+            renderPosteSelector();
+            renderCurrentStep();
+            updateNavigationButtons();
+        }
+
+        // Save current Poste state
+        function saveCurrentPosteState() {
+            if (!currentPoste) return;
+            if (!selectedLevels[currentPoste]) {
+                selectedLevels[currentPoste] = {};
+            }
+            // State is already in selectedLevels[currentPoste] through selectLevel function
+        }
+
+        // Load Poste state
+        function loadPosteState(poste) {
+            if (!selectedLevels[poste]) {
+                selectedLevels[poste] = {};
+            }
+            // State is already loaded in selectedLevels[poste]
+        }
+
+        // Reset current Poste
+        function resetCurrentOpmId() {
+            if (!currentPoste) return;
+            if (confirm(`Êtes-vous sûr de vouloir réinitialiser toutes les sélections pour le poste ${currentPoste} ?`)) {
+                selectedLevels[currentPoste] = {};
+                currentStep = 0;
+                renderCurrentStep();
+                updateNavigationButtons();
+                renderPosteSelector();
+            }
+        }
+
+        // Show copy selections modal
+        function showCopySelectionsModal() {
+            const modal = document.getElementById('copyModal');
+            const list = document.getElementById('copySourceList');
+            
+            list.innerHTML = '';
+            copySourcePoste = null;
+            document.getElementById('confirmCopyBtn').disabled = true;
+
+            selectedPostes.forEach(poste => {
+                if (poste === currentPoste) return; // Skip current Poste
+                
+                const isComplete = isPosteComplete(poste);
+                if (!isComplete) return; // Only show complete Postes
+
+                const item = document.createElement('div');
+                item.className = `p-3 mb-2 border rounded-lg cursor-pointer transition-all ${
+                    copySourcePoste === poste 
+                        ? 'bg-blue-100 border-blue-500' 
+                        : 'bg-gray-50 border-gray-300 hover:bg-gray-100'
+                }`;
+                item.innerHTML = `<strong>Poste ${poste}</strong>${posteData[poste] ? ' - ' + posteData[poste] : ''}`;
+                item.onclick = () => {
+                    copySourcePoste = poste;
+                    document.querySelectorAll('#copySourceList > div').forEach(el => {
+                        el.className = el.className.replace('bg-blue-100 border-blue-500', 'bg-gray-50 border-gray-300');
+                    });
+                    item.className = 'p-3 mb-2 border rounded-lg cursor-pointer transition-all bg-blue-100 border-blue-500';
+                    document.getElementById('confirmCopyBtn').disabled = false;
+                };
+                list.appendChild(item);
+            });
+
+            if (list.children.length === 0) {
+                list.innerHTML = '<p class="text-gray-500">Aucune sélection de poste complète disponible pour copier.</p>';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Close copy modal
+        function closeCopyModal() {
+            document.getElementById('copyModal').classList.add('hidden');
+            copySourcePoste = null;
+        }
+
+        // Confirm and copy selections
+        function confirmCopySelections() {
+            if (!copySourcePoste || !currentPoste) return;
+
+            if (confirm(`Copier toutes les sélections du poste ${copySourcePoste} vers le poste ${currentPoste} ? Cela écrasera toutes les sélections existantes.`)) {
+                selectedLevels[currentPoste] = JSON.parse(JSON.stringify(selectedLevels[copySourcePoste]));
+                currentStep = 0;
+                renderCurrentStep();
+                updateNavigationButtons();
+                renderPosteSelector();
+                closeCopyModal();
+            }
+        }
+
+        async function loadGenericAttributes() {
+            try {
+                const response = await fetch('/api/sfia-generic-attributes/');
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+                genericAttributesData = await response.json();
+                
+                // Construire la liste de tous les attributs et le mapping des noms
+                allAttributes = genericAttributesData.map(attr => attr.four_letters);
+                genericAttributesData.forEach(attr => {
+                    attributeNames[attr.four_letters] = attr.h1;
+                });
+                
+                console.log('Loaded attributes:', allAttributes);
+                console.log('Attribute names:', attributeNames);
+                
+                // Load Postes first, then initialize
+                await loadSelectedPostes();
+                if (selectedPostes.length > 0) {
+                    initializeSteps();
+                }
+            } catch (error) {
+                console.error('Error loading generic attributes:', error);
+                document.getElementById('mainContent').innerHTML = '<p style="color: red; padding: 20px;">Error loading data: ' + error.message + '</p>';
+            }
+        }
+
+        function createLevelBoxes(attribute) {
+            if (!currentPoste || !selectedLevels[currentPoste]) return '';
+            let levelBoxesHtml = '';
+            const posteLevels = selectedLevels[currentPoste];
+            const selectedLevel = posteLevels[attribute.four_letters];
+            
+            for (let level = 1; level <= 7; level++) {
+                const isFilled = selectedLevel === level ? 'filled' : '';
+                // Ajouter un espace après le niveau 2 et après le niveau 4
+                const spacer = (level === 2 || level === 4) ? '<div style="width: 8px;"></div>' : '';
+                levelBoxesHtml += `<div class="level-box ${isFilled}" data-attribute-code="${attribute.four_letters}" data-level="${level}" onclick="toggleAttributeLevel('${attribute.four_letters}', ${level})">${level}</div>${spacer}`;
+            }
+            
+            return levelBoxesHtml;
+        }
+
+        function createSkillRow(attribute) {
+            const levelBoxesHtml = createLevelBoxes(attribute);
+            // Ne plus afficher "p.m."
+            const pmDisplay = '<div class="skill-pm"></div>';
+            return `<div class="skill-row" data-skill-row-code="${attribute.four_letters}"><div class="skill-name">${attribute.h1}</div>${pmDisplay}<div class="skill-code">${attribute.four_letters}</div><div class="level-boxes">${levelBoxesHtml}</div></div>`;
+        }
+
+        function createLevelHeader() {
+            let levelNumbersHtml = '';
+            for (let i = 1; i <= 7; i++) {
+                levelNumbersHtml += `<div class="level-number">${i}</div>`;
+            }
+            return `<div class="level-header"><div class="flex-grow">Generic Attribute:</div><div class="skill-pm"></div><div class="level-boxes">${levelNumbersHtml}</div></div>`;
+        }
+
+        function toggleAttributeLevel(attributeCode, level) {
+            if (!currentPoste) return;
+            
+            // Initialize Poste levels if needed
+            if (!selectedLevels[currentPoste]) {
+                selectedLevels[currentPoste] = {};
+            }
+            
+            const posteLevels = selectedLevels[currentPoste];
+            // If same level clicked, deselect, otherwise select new level
+            if (posteLevels[attributeCode] === level) {
+                delete posteLevels[attributeCode];
+            } else {
+                posteLevels[attributeCode] = level;
+            }
+            populateSfiaAttributesTable();
+            renderPosteSelector(); // Update Poste selector
+            // If it's the current attribute, update display
+            const currentAttribute = getCurrentAttribute();
+            if (currentAttribute && currentAttribute.four_letters === attributeCode) {
+                renderCurrentStep();
+                updateNavigationButtons();
+            }
+        }
+
+        function createBusinessSkillsRow() {
+            // Créer une ligne vide pour "BUSINESS SKILLS BEHAVIOURAL FACTORS"
+            const emptyBoxes = '<div class="level-boxes"></div>';
+            return `<div class="skill-row"><div class="skill-name">BUSINESS SKILLS BEHAVIOURAL FACTORS</div><div class="skill-pm"></div><div class="skill-code"></div>${emptyBoxes}</div>`;
+        }
+
+        function populateSfiaAttributesTable() {
+            const container = document.getElementById('sfiaAttributesTable');
+            if (!container || !genericAttributesData.length) return;
+
+            // Trouver l'index de Knowledge (KNGE) et Collaboration (COLL)
+            const kngeIndex = genericAttributesData.findIndex(a => a.four_letters === 'KNGE');
+            const collIndex = genericAttributesData.findIndex(a => a.four_letters === 'COLL');
+            
+            // Construire le HTML avec BUSINESS SKILLS BEHAVIOURAL FACTORS entre KNGE et COLL
+            let skillsHtml = '';
+            
+            // Partie avant KNGE (inclus)
+            if (kngeIndex !== -1) {
+                const beforeKnge = genericAttributesData.slice(0, kngeIndex + 1);
+                skillsHtml += beforeKnge.map(createSkillRow).join('');
+            }
+            
+            // Insérer BUSINESS SKILLS BEHAVIOURAL FACTORS après KNGE
+            const businessSkillsRow = createBusinessSkillsRow();
+            skillsHtml += businessSkillsRow;
+            
+            // Partie après KNGE (à partir de COLL)
+            if (collIndex !== -1 && collIndex > kngeIndex) {
+                const afterKnge = genericAttributesData.slice(collIndex);
+                skillsHtml += afterKnge.map(createSkillRow).join('');
+            } else if (kngeIndex !== -1) {
+                // Si COLL n'existe pas, prendre tout ce qui est après KNGE
+                const afterKnge = genericAttributesData.slice(kngeIndex + 1);
+                skillsHtml += afterKnge.map(createSkillRow).join('');
+            } else {
+                // Si KNGE n'existe pas, afficher tous les attributs
+                skillsHtml += genericAttributesData.map(createSkillRow).join('');
+            }
+            
+            let html = '<div class="category-header">(SFIA 9) GENERIC ATTRIBUTES, BUSINESS SKILLS BEHAVIOURAL FACTORS</div>';
+            html += `<div class="subcategory"><div class="subcategory-header">Generic Attribute :</div>${skillsHtml}</div>`;
+            
+            container.innerHTML = html;
+        }
+
+        function initializeSteps() {
+            populateSfiaAttributesTable();
+            renderCurrentStep();
+            updateStepIndicator();
+            updateNavigationButtons();
+        }
+
+        function getCurrentAttribute() {
+            if (allAttributes.length === 0 || currentStep >= allAttributes.length) return null;
+            const attributeCode = allAttributes[currentStep];
+            return genericAttributesData.find(attr => attr.four_letters === attributeCode);
+        }
+
+        function renderCurrentStep() {
+            const attribute = getCurrentAttribute();
+            if (!attribute) {
+                if (currentStep >= allAttributes.length) {
+                    renderSummary();
+                    return;
+                }
+                return;
+            }
+
+            let html = '';
+
+            // Update title with attribute name and current Poste
+            const pageTitle = document.getElementById('pageTitle');
+            if (pageTitle) {
+                const posteName = currentPoste ? `Poste ${currentPoste}${posteData[currentPoste] ? ' - ' + posteData[currentPoste] : ''}` : '';
+                pageTitle.textContent = `${attribute.h1}${posteName ? ` (${posteName})` : ''}`;
+            }
+
+            // Nettoyer le texte guidance_notes pour supprimer "Guidance notes" au début
+            let guidanceText = attribute.guidance_notes || '';
+            // Supprimer "Guidance notes" au début (insensible à la casse)
+            guidanceText = guidanceText.replace(/^Guidance notes/i, '').trim();
+
+            // Definition & Guidance - En haut
+            html += '<div class="definition-section">';
+            html += '<div class="definition-title"><strong>Definition & guidance note</strong></div>';
+            html += `<div class="definition-text">${attribute.lead}</div>`;
+            html += '<div class="guidance-title"><strong>Guidance Notes</strong></div>';
+            html += `<div class="guidance-text">${guidanceText}</div>`;
+            html += '</div>';
+
+            // Level Preview Area - Zone pour afficher la définition du niveau au survol
+            html += '<div class="level-preview-container">';
+            html += '<div class="level-preview hidden" id="levelPreview">';
+            html += '<div class="level-preview-number" id="previewNumber"></div>';
+            html += '<div class="level-preview-title" id="previewTitle"></div>';
+            html += '<div class="level-preview-description" id="previewDescription"></div>';
+            html += '</div>';
+            html += '</div>';
+
+            // Level Scale - Fixe en bas
+            html += '<div class="level-scale-container">';
+            html += '<div class="level-scale-label"><strong>Select Level</strong></div>';
+            html += '<div class="level-scale">';
+            
+            // Create scale items 1-7
+            const posteLevels = currentPoste && selectedLevels[currentPoste] ? selectedLevels[currentPoste] : {};
+            for (let i = 1; i <= 7; i++) {
+                const isSelected = posteLevels[attribute.four_letters] === i;
+                html += `<div class="level-scale-item ${isSelected ? 'selected' : ''}" 
+                             onclick="selectLevel(${i})" 
+                             onmouseenter="showLevelPreview(${i})" 
+                             onmouseleave="hideLevelPreview()"
+                             data-level="${i}">${i}</div>`;
+            }
+            
+            html += '</div>';
+            html += '</div>';
+
+            document.getElementById('mainContent').innerHTML = html;
+            document.getElementById('navigationButtons').style.display = 'flex';
+            
+            // Show selected level if one is selected
+            const selectedLevel = posteLevels[attribute.four_letters];
+            if (selectedLevel) {
+                setTimeout(() => showLevelPreview(selectedLevel, true), 100);
+            }
+        }
+
+        function selectLevel(level) {
+            const attribute = getCurrentAttribute();
+            if (!attribute || !currentPoste) return;
+
+            // Initialize Poste levels if needed
+            if (!selectedLevels[currentPoste]) {
+                selectedLevels[currentPoste] = {};
+            }
+            
+            selectedLevels[currentPoste][attribute.four_letters] = level;
+            populateSfiaAttributesTable(); // Update left list
+            renderCurrentStep();
+            updateNavigationButtons();
+            renderPosteSelector(); // Update Poste selector to show progress
+            // Show selected level preview
+            showLevelPreview(level, true);
+        }
+
+        function showLevelPreview(level, persist = false) {
+            const attribute = getCurrentAttribute();
+            if (!attribute) return;
+
+            const levelData = attribute.skill_levels[level - 1];
+            if (!levelData) return;
+
+            const preview = document.getElementById('levelPreview');
+            const previewNumber = document.getElementById('previewNumber');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewDescription = document.getElementById('previewDescription');
+
+            if (preview && previewNumber && previewTitle && previewDescription) {
+                previewNumber.textContent = `Level ${level}`;
+                previewTitle.textContent = levelData.level;
+                previewDescription.textContent = levelData.description;
+                
+                // Toujours visible, juste changer l'opacité
+                preview.classList.remove('hidden');
+                preview.style.opacity = '1';
+                
+                if (persist) {
+                    preview.dataset.persist = 'true';
+                } else {
+                    delete preview.dataset.persist;
+                }
+            }
+        }
+
+        function hideLevelPreview() {
+            const preview = document.getElementById('levelPreview');
+            if (preview) {
+                // Don't hide if a level is selected
+                const attribute = getCurrentAttribute();
+                const posteLevels = currentPoste && selectedLevels[currentPoste] ? selectedLevels[currentPoste] : {};
+                if (attribute && posteLevels[attribute.four_letters]) {
+                    const selectedLevel = posteLevels[attribute.four_letters];
+                    showLevelPreview(selectedLevel, true);
+                    return;
+                }
+                // Only hide content if not persisted
+                if (!preview.dataset.persist) {
+                    preview.classList.add('hidden');
+                    preview.style.opacity = '0';
+                }
+            }
+        }
+
+        function updateStepIndicator() {
+            const indicators = document.querySelectorAll('.step-item');
+            const posteLevels = currentPoste && selectedLevels[currentPoste] ? selectedLevels[currentPoste] : {};
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                
+                // Remove previous level display if exists
+                const existingLevel = indicator.querySelector('.step-item-level');
+                if (existingLevel) {
+                    existingLevel.remove();
+                }
+                
+                if (index < currentStep && index < allAttributes.length) {
+                    indicator.classList.add('completed');
+                    // Display selected level for completed steps
+                    const attributeCode = allAttributes[index];
+                    const level = posteLevels[attributeCode];
+                    if (level) {
+                        const levelSpan = document.createElement('span');
+                        levelSpan.className = 'step-item-level';
+                        levelSpan.textContent = `Level ${level}`;
+                        indicator.appendChild(levelSpan);
+                    }
+                } else if (index === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        function updateNavigationButtons() {
+            const attribute = getCurrentAttribute();
+            const posteLevels = currentPoste && selectedLevels[currentPoste] ? selectedLevels[currentPoste] : {};
+            const hasSelection = attribute && posteLevels[attribute.four_letters];
+            
+            document.getElementById('backButton').style.display = currentStep === 0 ? 'none' : 'block';
+            document.getElementById('nextButton').disabled = !hasSelection && currentStep < allAttributes.length;
+            
+            if (currentStep >= allAttributes.length) {
+                // Check if current Poste is complete
+                const isCurrentPosteComplete = isPosteComplete(currentPoste);
+                
+                // Check if there are more Postes to process
+                const currentIndex = selectedPostes.indexOf(currentPoste);
+                const hasMorePostes = currentIndex < selectedPostes.length - 1;
+                
+                // Only show "Next Poste" or "Finish" if current Poste is complete
+                if (isCurrentPosteComplete) {
+                    document.getElementById('nextButton').textContent = hasMorePostes ? 'Next Poste' : 'Finish';
+                    document.getElementById('nextButton').disabled = false;
+                } else {
+                    // Current Poste not complete, stay on review but disable finish
+                    document.getElementById('nextButton').textContent = 'Review';
+                    document.getElementById('nextButton').disabled = true;
+                }
+            } else if (currentStep === allAttributes.length - 1) {
+                document.getElementById('nextButton').textContent = 'Review';
+            } else {
+                document.getElementById('nextButton').textContent = 'Next';
+            }
+        }
+
+        function goToNextStep() {
+            const posteLevels = currentPoste && selectedLevels[currentPoste] ? selectedLevels[currentPoste] : {};
+            
+            if (currentStep < allAttributes.length) {
+                const attribute = getCurrentAttribute();
+                if (!attribute) {
+                    alert('Erreur: attribut non trouvé.');
+                    return;
+                }
+                if (!posteLevels[attribute.four_letters]) {
+                    alert('Veuillez sélectionner un niveau avant de continuer.');
+                    return;
+                }
+                currentStep++;
+            } else if (currentStep >= allAttributes.length) {
+                // Check if current Poste is complete before proceeding
+                const isCurrentPosteComplete = isPosteComplete(currentPoste);
+                
+                if (!isCurrentPosteComplete) {
+                    alert('Veuillez compléter toutes les sélections d\'attributs pour le poste actuel avant de continuer.');
+                    return;
+                }
+                
+                // Current Poste is complete, move to next Poste or finish
+                const currentIndex = selectedPostes.indexOf(currentPoste);
+                const nextIndex = currentIndex + 1;
+                
+                if (nextIndex < selectedPostes.length) {
+                    // Switch to next Poste
+                    switchToPoste(selectedPostes[nextIndex]);
+                    return;
+                } else {
+                    // Check if all Postes are complete before finishing
+                    const allPostesComplete = selectedPostes.every(poste => isPosteComplete(poste));
+                    
+                    if (allPostesComplete) {
+                        // All Postes complete, finish
+                        confirmSelections();
+                        return;
+                    } else {
+                        alert('Veuillez compléter tous les postes avant de terminer.');
+                        return;
+                    }
+                }
+            }
+            renderCurrentStep();
+            updateStepIndicator();
+            updateNavigationButtons();
+        }
+
+        function goToPreviousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderCurrentStep();
+                updateStepIndicator();
+                updateNavigationButtons();
+            }
+        }
+
+        function renderSummary() {
+            if (!currentPoste) return;
+            
+            const posteLevels = selectedLevels[currentPoste] || {};
+            const posteName = `Poste ${currentPoste}${posteData[currentPoste] ? ' - ' + posteData[currentPoste] : ''}`;
+            
+            let html = '<div class="summary-card">';
+            html += `<div class="summary-title">Résumé pour ${posteName}</div>`;
+            
+            // Afficher tous les attributs qui ont un niveau sélectionné
+            allAttributes.forEach(code => {
+                const attr = genericAttributesData.find(a => a.four_letters === code);
+                if (!attr) return;
+                
+                const level = posteLevels[code];
+                if (!level) return; // Ne pas afficher les attributs sans niveau
+                
+                const levelData = attr.skill_levels.find(sl => {
+                    const match = sl.level.match(/Level (\d+)/);
+                    return match && parseInt(match[1]) === level;
+                });
+                
+                html += '<div class="summary-item">';
+                html += `<div><strong>${attributeNames[code] || attr.h1}</strong><br><span style="color: #6b7280; font-size: 14px;">${attr.lead}</span></div>`;
+                html += `<div style="text-align: right;"><strong>${levelData ? levelData.level : 'Level ' + level}</strong><br><span style="color: #6b7280; font-size: 12px;">${levelData ? levelData.description : ''}</span></div>`;
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            
+            document.getElementById('mainContent').innerHTML = html;
+            document.getElementById('navigationButtons').style.display = 'flex';
+            document.getElementById('backButton').style.display = 'block';
+        }
+
+        function confirmSelections() {
+            // Save all Poste selections
+            console.log('All Poste selections:', selectedLevels);
+            
+            // Save to localStorage
+            localStorage.setItem('posteAttributeSelections', JSON.stringify(selectedLevels));
+            
+            // Save to serverStorage if available
+            if (typeof serverStorage !== 'undefined') {
+                serverStorage.setItem('posteAttributeSelections', JSON.stringify(selectedLevels))
+                    .then(() => console.log('Selections saved to server'))
+                    .catch(err => console.error('Error saving to server:', err));
+            }
+            
+            // Afficher un message de confirmation
+            alert(`Toutes les sélections pour ${selectedPostes.length} poste(s) ont été sauvegardées avec succès ! Redirection vers Step 4...`);
+            
+            // Rediriger vers Step 4 (summary chart)
+            window.location.href = "{% url 'summary_chart' %}";
+        }
+
+        // Reset all Poste selections
+        function resetAllSelections() {
+            // Clear all selections
+            selectedLevels = {};
+            
+            // Reinitialize structure for each Poste (empty)
+            selectedPostes.forEach(poste => {
+                selectedLevels[poste] = {};
+            });
+            
+            // Reset current state
+            currentPoste = selectedPostes.length > 0 ? selectedPostes[0] : null;
+            currentStep = 0;
+            
+            // Clear saved selections from localStorage
+            localStorage.removeItem('posteAttributeSelections');
+            
+            // Clear from serverStorage if available
+            if (typeof serverStorage !== 'undefined') {
+                serverStorage.removeItem('posteAttributeSelections')
+                    .catch(err => console.error('Error removing from serverStorage:', err));
+            }
+            
+            // Update UI
+            renderPosteSelector();
+            renderCurrentStep();
+            updateNavigationButtons();
+            populateSfiaAttributesTable();
+            
+            console.log('All selections have been reset');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Attributs Part Deux Poste: DOM loaded, starting initialization...');
+            loadGenericAttributes();
+        });
+    </script>
+</body>
+</html>
+

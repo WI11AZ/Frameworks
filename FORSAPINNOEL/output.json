@@ -1,0 +1,2128 @@
+[
+  {
+    "OPM_ID": "411",
+    "Primaires": [
+      {
+        "code": "ASUP",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "HSIN",
+      {
+        "code": "ITOP",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "NTAS",
+      "PBMG",
+      "SCAD",
+      "SYSP",
+      {
+        "code": "USUP",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "CFMG",
+      "CSMG",
+      "IAMT",
+      "INCA",
+      "KNOW"
+    ]
+  },
+  {
+    "OPM_ID": "421",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DBAD",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "STMG",
+      "SYSP"
+    ],
+    "Secondaires": [
+      "ASUP",
+      "AVMT",
+      "CFMG",
+      "COPL",
+      "CPMG",
+      "ITOP"
+    ]
+  },
+  {
+    "OPM_ID": "431",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "ICPM",
+      {
+        "code": "IRMG",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "KNOW",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "Secondaires": [
+      "ANCC",
+      "BINT",
+      "GOVN",
+      "METL",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "441",
+    "Primaires": [
+      "HSIN",
+      {
+        "code": "ITOP",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "NFTS",
+      {
+        "code": "NTAS",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "PBMG",
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SYSP",
+      "TEST"
+    ],
+    "Secondaires": [
+      "ASUP",
+      "CFMG",
+      "IFDN",
+      "INCA",
+      "NTDS",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "451",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "HSIN",
+      "IAMT",
+      {
+        "code": "ITOP",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "NFTS",
+      "SCAD",
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "STMG",
+      "SYSP",
+      "TEST"
+    ],
+    "Secondaires": [
+      "ASUP",
+      "CHMG",
+      "INCA",
+      "NTAS",
+      "PBMG",
+      "SLEN",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "632",
+    "Primaires": [
+      "ARCH",
+      {
+        "code": "DESN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "HWDE",
+      "IFDN",
+      "NFTS",
+      "NTDS",
+      {
+        "code": "PROG",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "RESD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "SWDN",
+      "TEST",
+      "VUAS"
+    ],
+    "Secondaires": [
+      "CFMG",
+      "COPL",
+      "DEPL",
+      "DLMG",
+      "METL",
+      "PENT",
+      "RELM",
+      "REQM",
+      "SLEN"
+    ]
+  },
+  {
+    "OPM_ID": "641",
+    "Primaires": [
+      "ARCH",
+      {
+        "code": "DESN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "REQM",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "UNAN"
+    ],
+    "Secondaires": [
+      "BPRE",
+      "BURM",
+      "CFMG",
+      "CNSL",
+      "IRMG",
+      "SORC",
+      "SUPP"
+    ]
+  },
+  {
+    "OPM_ID": "651",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "DESN",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "IFDN",
+      "IRMG",
+      "ISCO",
+      "OCDV",
+      "REQM",
+      {
+        "code": "STPL",
+        "levels": [
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BPRE",
+      "BURM",
+      "BUSA",
+      "EMRG",
+      "FEAS",
+      "GOVN",
+      "ITSP",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "661",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "EMRG",
+      {
+        "code": "PROG",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RSCH",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "TECH",
+      "VURE"
+    ],
+    "Secondaires": [
+      "ARCH",
+      "KNOW",
+      "METL",
+      "SCTY",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "671",
+    "Primaires": [
+      "NFTS",
+      "PENT",
+      {
+        "code": "QUAS",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "REQM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "USEV"
+    ],
+    "Secondaires": [
+      "DLMG",
+      "DTAN",
+      "METL",
+      "PRTS",
+      "SCTY",
+      "SLEN"
+    ]
+  },
+  {
+    "OPM_ID": "141",
+    "Primaires": [
+      "SCAD",
+      "THIN",
+      "VISL"
+    ],
+    "Secondaires": [
+      "INCA",
+      "TECH"
+    ]
+  },
+  {
+    "OPM_ID": "212",
+    "Primaires": [
+      "DGFS",
+      {
+        "code": "INCA",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "PENT",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "BURM",
+      "DTAN",
+      "METL",
+      "PBMG",
+      "USUP",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "462",
+    "Primaires": [
+      "CFMG",
+      "COPL",
+      "INAS",
+      "ITOP",
+      "SCTY",
+      "USUP"
+    ],
+    "Secondaires": [
+      "BURM",
+      "DEMM",
+      "FEAS",
+      "INCA",
+      "NTAS",
+      "QUAS",
+      "QUMG",
+      "REQM",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "511",
+    "Primaires": [
+      "BURM",
+      {
+        "code": "INCA",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "SCAD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "THIN",
+      {
+        "code": "VISL",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BINT",
+      "DTAN",
+      "IAMT",
+      "METL",
+      "NTAS",
+      "PENT",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "521",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "HSIN",
+      "IAMT",
+      {
+        "code": "ITOP",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "NTAS",
+      "SCAD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "ASUP",
+      "INCA",
+      "NFTS",
+      "PBMG",
+      "SUPP",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "531",
+    "Primaires": [
+      "COPL",
+      "IAMT",
+      {
+        "code": "INCA",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SCAD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "USUP"
+    ],
+    "Secondaires": [
+      "BURM",
+      "DTAN",
+      "METL",
+      "NTAS",
+      "RLMT",
+      "SUPP",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "541",
+    "Primaires": [
+      "MEAS",
+      "PENT",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "AUDT",
+      "BURM",
+      "DTAN",
+      "METL"
+    ]
+  },
+  {
+    "OPM_ID": "611",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "INAS",
+      "IRMG",
+      "ISCO",
+      "QUAS",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "612",
+    "Primaires": [
+      "AUDT",
+      "BURM",
+      "INAS",
+      {
+        "code": "QUAS",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "METL",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "631",
+    "Primaires": [
+      "ARCH",
+      {
+        "code": "DESN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "HWDE",
+      "IFDN",
+      "NFTS",
+      "NTDS",
+      {
+        "code": "PROG",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "RESD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "SWDN",
+      "TEST",
+      "VUAS"
+    ],
+    "Secondaires": [
+      "CFMG",
+      "COPL",
+      "DEPL",
+      "DLMG",
+      "METL",
+      "PENT",
+      "RELM",
+      "REQM",
+      "SLEN"
+    ]
+  },
+  {
+    "OPM_ID": "652",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "BUSA",
+      "REQM",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "STPL",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "AVMT",
+      "BURM",
+      "DESN",
+      "GOVN",
+      "IRMG",
+      "NTDS",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "722",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "Secondaires": [
+      "INCA",
+      "ITOP",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "723",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "IAMT",
+      "INAS",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SCAD",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CFMG",
+      "COPL",
+      "FEAS",
+      "INCA",
+      "ISCO",
+      "ITOP",
+      "SFAS",
+      "SORC",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "211",
+    "Primaires": [
+      "CRIM",
+      "DGFS",
+      {
+        "code": "DTAN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BURM",
+      "INCA",
+      "METL",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "221",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "CRIM",
+      "DGFS",
+      {
+        "code": "INCA",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "DTAN",
+      "METL",
+      "SCTY",
+      "TECH",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "711",
+    "Primaires": [
+      "INCA",
+      {
+        "code": "LEDA",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "METL",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "SUBF",
+      "TMCR"
+    ],
+    "Secondaires": [
+      "CSOP",
+      "ETDL",
+      "KNOW",
+      "MEAS",
+      "REQM",
+      "UNAN"
+    ]
+  },
+  {
+    "OPM_ID": "712",
+    "Primaires": [
+      {
+        "code": "ETDL",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "INCA",
+      {
+        "code": "KNOW",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "TEAC",
+      "TMCR"
+    ],
+    "Secondaires": [
+      "LEDA",
+      "MEAS",
+      "METL",
+      "PDSV",
+      "UNAN"
+    ]
+  },
+  {
+    "OPM_ID": "731",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "TECH"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CNSL",
+      "IRMG",
+      "ITCM",
+      "PEDP"
+    ]
+  },
+  {
+    "OPM_ID": "732",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "IRMG",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "PEDP",
+      {
+        "code": "RLMT",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BURM",
+      "DATM",
+      "ETDL",
+      "ISCO",
+      "QUAS",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "751",
+    "Primaires": [
+      "CIPM",
+      "ETMG",
+      "JADN",
+      {
+        "code": "ORDI",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "PDSV",
+      {
+        "code": "REQM",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "WFPL"
+    ],
+    "Secondaires": [
+      "BURM",
+      "ETDL",
+      "GOVN",
+      "OCDV",
+      "OCEN",
+      "RESC",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "752",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "INAS",
+      "OCDV",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SCTY",
+      {
+        "code": "STPL",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "WFPL"
+    ],
+    "Secondaires": [
+      "AUDT",
+      "BURM",
+      "BUSA",
+      "CIPM",
+      "IRMG",
+      "ISCO",
+      "REQM"
+    ]
+  },
+  {
+    "OPM_ID": "801",
+    "Primaires": [
+      "BENM",
+      {
+        "code": "BURM",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "CIPM",
+      "PGMG",
+      {
+        "code": "POMG",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "QUMG",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SUPP"
+    ],
+    "Secondaires": [
+      "DLMG",
+      "GOVN",
+      "RELM",
+      "REQM"
+    ]
+  },
+  {
+    "OPM_ID": "802",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "FEAS",
+      {
+        "code": "PRMG",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "REQM",
+      "RLMT",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "CIPM",
+      "DLMG",
+      "QUMG",
+      "RELM",
+      "SLMO",
+      "DEMG",
+      "SUPP"
+    ]
+  },
+  {
+    "OPM_ID": "803",
+    "Primaires": [
+      {
+        "code": "ASUP",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "BURM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "BUSA",
+      "FEAS",
+      {
+        "code": "PROD",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "REQM",
+      "SCMG",
+      "SLMO"
+    ],
+    "Secondaires": [
+      "CFMG",
+      "COPL",
+      "CSMG",
+      "ITOP",
+      "MEAS"
+    ]
+  },
+  {
+    "OPM_ID": "804",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "INVA",
+      {
+        "code": "POMG",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "RLMT",
+      {
+        "code": "STPL",
+        "levels": [
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BENM",
+      "DEMM",
+      "EMRG",
+      "GOVN",
+      "IRMG",
+      "REQM"
+    ]
+  },
+  {
+    "OPM_ID": "805",
+    "Primaires": [
+      "AUDT",
+      "BURM",
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "INAS",
+      {
+        "code": "QUAS",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "MEAS",
+      "METL",
+      "SFAS",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "901",
+    "Primaires": [
+      "BURM",
+      {
+        "code": "GOVN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "INAS",
+      {
+        "code": "ITSP",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "SCTY",
+      {
+        "code": "STPL",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "BUDF",
+      "DEMM",
+      "IRMG",
+      "ISCO",
+      "OCDV",
+      "ORDI",
+      "RESC",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "112",
+    "Primaires": [
+      "INAS",
+      "MEAS",
+      "SCTY",
+      "THIN"
+    ],
+    "Secondaires": []
+  },
+  {
+    "OPM_ID": "121",
+    "Primaires": [], 
+    "Secondaires": []
+  },
+  {
+    "OPM_ID": "122",
+    "Primaires": [
+      "DTAN",
+      "NTAS"
+    ],
+    "Secondaires": [
+      "KNOW",
+      "METL",
+      "SCTY",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "131",
+    "Primaires": [
+      "DTAN",
+      "KNOW",
+      "OCOP",
+      "THIN",
+      "VURE"
+    ],
+    "Secondaires": [
+      "BURM",
+      "METL",
+      "NTAS",
+      "RLMT",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "132",
+    "Primaires": [
+      "DATS",
+      "DTAN",
+      "KNOW",
+      "NTAS",
+      "OCOP",
+      "PENT"
+    ],
+    "Secondaires": [
+      "METL",
+      "RSCH",
+      "SCTY",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "133",
+    "Primaires": [
+      "BURM",
+      "KNOW"
+    ],
+    "Secondaires": [
+      "CNSL",
+      "DTAN",
+      "METL",
+      "NTAS",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "321",
+    "Primaires": [
+      "NTAS",
+      "SCTY"
+    ],
+    "Secondaires": [
+      "DTAN",
+      "ITOP",
+      "METL",
+      "PROG"
+    ]
+  },
+  {
+    "OPM_ID": "322",
+    "Primaires": [
+      "DGFS",
+      "NTAS",
+      "OCOP",
+      "TEST",
+      "THIN"
+    ],
+    "Secondaires": [
+      "DATM",
+      "DENG",
+      "DTAN",
+      "INCA",
+      "PROG",
+      "SCAD",
+      "SCTY",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "332",
+    "Primaires": [
+      "OCOP",
+      "RLMT",
+      "SCAD",
+      "SCTY",
+      "STPL",
+      "SUPP",
+      "THIN"
+    ],
+    "Secondaires": [
+      "BURM",
+      "COPL",
+      "GOVN",
+      "INCA",
+      "MEAS",
+      "METL",
+      "NTAS"
+    ]
+  },
+  {
+    "OPM_ID": "333",
+    "Primaires": [
+      "KNOW",
+      "RLMT",
+      "SCTY",
+      "TECH"
+    ],
+    "Secondaires": [
+      "ISCO",
+      "OFCL"
+    ]
+  },
+  {
+    "OPM_ID": "341",
+    "Primaires": [
+      "PROG",
+      "RSCH"
+    ],
+    "Secondaires": [
+      "ARCH",
+      "METL",
+      "NTAS",
+      "SCTY",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "442",
+    "Primaires": [
+      "ITOP",
+      "NTAS",
+      "SCTY"
+    ],
+    "Secondaires": [
+      "ASUP",
+      "CFMG",
+      "INCA",
+      "USUP"
+    ]
+  },
+  {
+    "OPM_ID": "443",
+    "Primaires": [
+      "INCA",
+      "NTAS",
+      "SCTY"
+    ],
+    "Secondaires": [
+      "DTAN",
+      "METL",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "463",
+    "Primaires": [
+      "INCA",
+      "SCTY"
+    ],
+    "Secondaires": [
+      "DTAN",
+      "ITOP",
+      "METL",
+      "TEST",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "551",
+    "Primaires": [
+      "BURM",
+      "TEST"
+    ],
+    "Secondaires": [
+      "NTAS",
+      "PROG",
+      "RLMT",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "111",
+    "Primaires": [
+      "DTAN",
+      "KNOW",
+      "SCAD",
+      "THIN",
+      "VURE"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CNSL",
+      "MEAS",
+      "METL",
+      "REQM",
+      "RSCH",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "151",
+    "Primaires": [
+      "KNOW",
+      "TECH",
+      "THIN",
+      "VUAS"
+    ],
+    "Secondaires": [
+      "CNSL",
+      "DTAN",
+      "INCA",
+      "METL",
+      "RSCH",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "311",
+    "Primaires": [
+      "BPRE",
+      "KNOW",
+      "OCDV",
+      "RLMT"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CNSL",
+      "DEMM",
+      "GOVN",
+      "ICPM",
+      "IRMG",
+      "ISCO",
+      "METL",
+      "RMGT",
+      "STPL"
+    ]
+  },
+  {
+    "OPM_ID": "312",
+    "Primaires": [
+      "BURM",
+      "DEMM",
+      "REQM"
+    ],
+    "Secondaires": [
+      "BUSA",
+      "CNSL",
+      "DATM",
+      "DTAN",
+      "GOVN",
+      "IRMG",
+      "METL",
+      "STPL"
+    ]
+  },
+  {
+    "OPM_ID": "331",
+    "Primaires": [
+      "DEMM",
+      "ITSP",
+      "OCOP",
+      "SCTY",
+      "STPL",
+      "THIN"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CNSL",
+      "ISCO",
+      "METL",
+      "NTAS",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "422",
+    "Primaires": [
+      "BINT",
+      "DAAN",
+      {
+        "code": "DATM",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "DENG",
+      {
+        "code": "DTAN",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "PEDP",
+      "REQM",
+      {
+        "code": "VISL",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "Secondaires": [
+      "CPMG",
+      "DATS",
+      "METL",
+      "MLNG",
+      "PROG",
+      "RSCH"
+    ]
+  },
+  {
+    "OPM_ID": "423",
+    "Primaires": [
+      "DATM",
+      "DTAN",
+      "PROG"
+    ],
+    "Secondaires": [
+      "MLNG",
+      "RLMT",
+      "RSCH",
+      "SCTY",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "424",
+    "Primaires": [
+      "DATM",
+      "GOVN",
+      "IRMG"
+    ],
+    "Secondaires": [
+      "BINT",
+      "METL",
+      "QUAS",
+      "RLMT",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "623",
+    "Primaires": [
+      "DTAN",
+      "MLNG",
+      "PROG"
+    ],
+    "Secondaires": [
+      "ARCH",
+      "DATM",
+      "RELM",
+      "SCTY",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "624",
+    "Primaires": [
+      "DATM",
+      "ITOP",
+      "PROG"
+    ],
+    "Secondaires": [
+      "ASUP",
+      "DBAD",
+      "RELM",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "653",
+    "Primaires": [
+      "ARCH",
+      "DATM",
+      "DTAN"
+    ],
+    "Secondaires": [
+      "BINT",
+      "DBAD",
+      "DESN",
+      "IRMG",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "672",
+    "Primaires": [
+      "MLNG",
+      "QUAS",
+      "TEST"
+    ],
+    "Secondaires": [
+      "BURM",
+      "DTAN",
+      "METL",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "733",
+    "Primaires": [
+      "BURM",
+      "ETDL",
+      "RLMT"
+    ],
+    "Secondaires": [
+      "GOVN",
+      "IRMG",
+      "MLNG",
+      "QUAS"
+    ]
+  },
+  {
+    "OPM_ID": "753",
+    "Primaires": [
+      "CIPM",
+      "ETDL",
+      "USUP"
+    ],
+    "Secondaires": [
+      "CNSL",
+      "KNOW",
+      "MLNG",
+      "RLMT",
+      "UNAN"
+    ]
+  },
+  {
+    "OPM_ID": "902",
+    "Primaires": [
+      "IRMG",
+      "ITSP",
+      "STPL"
+    ],
+    "Secondaires": [
+      "BURM",
+      "CIPM",
+      "GOVN",
+      "MLNG",
+      "RLMT"
+    ]
+  },
+  {
+    "OPM_ID": "903",
+    "Primaires": [
+      "GOVN",
+      "IRMG",
+      "ITSP"
+    ],
+    "Secondaires": [
+      "BURM",
+      "DATM",
+      "ORDI",
+      "RLMT",
+      "STPL"
+    ]
+  },
+  {
+    "OPM_ID": "461",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "INAS",
+      "NFTS",
+      "PENT",
+      {
+        "code": "SCTY",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "TEST",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "ARCH",
+      "BURM",
+      "REQM",
+      "RLMT",
+      "SCAD"
+    ]
+  },
+  {
+    "OPM_ID": "621",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "PORT",
+      {
+        "code": "PROG",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      "RESD",
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      "SWDN",
+      "SYSP",
+      "TEST"
+    ],
+    "Secondaires": [
+      "ADEV",
+      "ASUP",
+      "CFMG",
+      "NFTS",
+      "PENT",
+      "QUAS",
+      "REQM",
+      "SINT",
+      "SLEN"
+    ]
+  },
+  {
+    "OPM_ID": "622",
+    "Primaires": [
+      "PENT",
+      {
+        "code": "RLMT",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      "VUAS"
+    ],
+    "Secondaires": [
+      "PROG",
+      "BURM",
+      "METL"
+    ]
+  },
+  {
+    "OPM_ID": "625",
+    "Primaires": [
+      "DESN",
+      "HCEV",
+      "UNAN"
+    ],
+    "Secondaires": [
+      "ADEV",
+      "METL",
+      "REQM",
+      "TEST",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "626",
+    "Primaires": [
+      "DESN",
+      "HCEV",
+      "UNAN"
+    ],
+    "Secondaires": [
+      "CNSL",
+      "METL",
+      "RSCH",
+      "TEST",
+      "VISL"
+    ]
+  },
+  {
+    "OPM_ID": "627",
+    "Primaires": [
+      "CFMG",
+      "RELM",
+      "SCTY"
+    ],
+    "Secondaires": [
+      "ITOP",
+      "PROG",
+      "RLMT",
+      "TEST"
+    ]
+  },
+  {
+    "OPM_ID": "628",
+    "Primaires": [
+      "ADEV",
+      "ARCH",
+      "STPL"
+    ],
+    "Secondaires": [
+      "DESN",
+      "IRMG",
+      "ITOP",
+      "REQM",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "673",
+    "Primaires": [
+      "METL",
+      "QUAS",
+      "TEST"
+    ],
+    "Secondaires": [
+      "PROG",
+      "REQM",
+      "RLMT",
+      "SCTY"
+    ]
+  },
+  {
+    "OPM_ID": "806",
+    "Primaires": [
+      "BURM",
+      "PROD",
+      "REQM"
+    ],
+    "Secondaires": [
+      "BINT",
+      "CIPM",
+      "RELM",
+      "STPL",
+      "UNAN"
+    ]
+  },
+  {
+    "OPM_ID": "TBD-A",
+    "Primaires": [
+      "SCAD",
+      "THIN",
+      "VISL"
+    ],
+    "Secondaires": []
+  },
+  {
+    "OPM_ID": "TBD-B",
+    "Primaires": [],
+    "Secondaires": []
+  }
+]

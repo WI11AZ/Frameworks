@@ -299,11 +299,56 @@
       .heatmap-table td.domain-name {
         text-align: left;
         padding-left: 8px;
-        min-width: 120px;
-        max-width: 150px;
+        min-width: 140px;
+        max-width: 170px;
         white-space: nowrap;
         overflow: visible;
         text-overflow: clip;
+      }
+      
+      .domain-checkbox {
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      
+      #domain-definition-display {
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        background: linear-gradient(135deg, #374151, #1f2937);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+        border: 2px solid rgba(59, 130, 246, 0.5);
+        backdrop-filter: blur(10px);
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      
+      #domain-definition-display.hidden {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        pointer-events: none;
+      }
+      
+      #domain-definition-display:not(.hidden) {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      
+      #domain-definition-title {
+        color: #60a5fa;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+      }
+      
+      #domain-definition-content {
+        line-height: 1.6;
+        color: #d1d5db;
+        font-size: 14px;
       }
       
 
@@ -354,10 +399,17 @@
       
       /* Style pour mettre en évidence les OPM IDs sélectionnés */
       .opm-id.selected {
-        background-color: #FFFF00;
-        color: black;
-        font-weight: bold;
-        box-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+        background-color: #FFFF00 !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+        box-shadow: 0 0 8px rgba(255, 255, 0, 0.8), 0 0 3px rgba(0, 0, 0, 0.5) !important;
+        border: 2px solid #FFD700 !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+        padding: 4px 6px !important;
+        min-height: 24px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
       
       .heatmap-table th.rotate-header {
@@ -731,6 +783,159 @@
         line-height: 1.2;
         color: white;
       }
+      
+      /* Styles pour les cartes de rôles sélectionnés depuis Step0 */
+      #step0-selected-roles {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        margin-top: 1.5rem;
+        text-align: center;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      #step0-selected-roles h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: white;
+      }
+
+      #selected-roles-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+      }
+
+      #step0-selected-roles .selected-role-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        transition: all 0.3s ease;
+        min-width: 280px;
+        max-width: 320px;
+        flex: 0 0 auto;
+      }
+
+      #step0-selected-roles .selected-role-card:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      #step0-selected-roles .selected-role-card.primary {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%);
+        border: 2px solid rgba(255, 193, 7, 0.8);
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+      }
+
+      #step0-selected-roles .selected-role-card.primary::before {
+        content: '⭐ Principal';
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #ffc107;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+
+      #step0-selected-roles .selected-role-card .role-opm {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        text-align: left;
+      }
+
+      #step0-selected-roles .selected-role-card .role-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.3;
+        text-align: left;
+      }
+
+      #step0-selected-roles .selected-role-card .role-element {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 0.5rem;
+        font-weight: 500;
+        text-align: left;
+      }
+      
+      #step0-selected-roles .step0-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+      
+      #step0-selected-roles .step0-actions .btn-simplify {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      #step0-selected-roles .step0-actions button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      #step0-selected-roles .step0-actions .btn-step1 {
+        background-color: rgba(107, 114, 128, 0.9);
+        color: white;
+      }
+      
+      #step0-selected-roles .step0-actions .btn-step1:hover {
+        background-color: rgba(75, 85, 99, 1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+      
+      #step0-selected-roles .step0-actions .btn-simplify {
+        background-color: rgba(59, 130, 246, 0.9);
+        color: white;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      #step0-selected-roles .step0-actions .btn-simplify:hover {
+        background-color: rgba(37, 99, 235, 1);
+        transform: translateX(-50%) translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+      
+      #step0-selected-roles .step0-actions .btn-step3 {
+        background-color: rgba(34, 197, 94, 0.9);
+        color: white;
+        margin-left: auto;
+      }
+      
+      #step0-selected-roles .step0-actions .btn-step3:hover {
+        background-color: rgba(22, 163, 74, 1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
     </style>
 
     <!-- Style inline pour forcer les textes sur fond jaune à être noirs -->
@@ -744,7 +949,7 @@
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center">
-                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta 0.2.0</span>
                         <span class="text-2xl font-bold text-white">Cyber Align</span>
                     </div>
                     <div class="hidden md:block">
@@ -873,6 +1078,11 @@
           </div>
         </div>
         
+        <!-- Competency Areas Image -->
+        <div class="mb-6 text-center">
+            <img src="{% static 'photos_haute_qualite/Gemini_Generated_Image_yadv4cyadv4cyadv.png' %}" alt="Cybersecurity Competency Areas" class="mx-auto max-w-full h-auto rounded-lg shadow-md">
+        </div>
+        
         <!-- Zone du bas - Explorer App -->
         <div class="bg-gray-700 rounded-lg p-6">
           <div class="text-center">
@@ -944,17 +1154,39 @@
        <header class="mb-8 text-center">
        </header>
       
-      <!-- Liste des sauvegardes KSAT -->
-      <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-600">Sélections sauvegardées</h2>
+      <!-- Affichage des work roles sélectionnés depuis Step0 -->
+      <div id="step0-selected-roles" class="w-full max-w-7xl mt-6" style="display: none;">
+        <h3 class="text-xl font-semibold mb-3 text-white">Work Roles selected from baseline:</h3>
+        <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center mb-4"></div>
         
-        <ul id="saved-selections-list" class="divide-y divide-gray-200">
-          <!-- La liste sera remplie dynamiquement par JavaScript -->
-        </ul>
-        
-        <!-- Message si aucune sauvegarde -->
-        <div id="no-saved-selections" class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-gray-600">Aucune sélection sauvegardée.</p>
+        <!-- Buttons: Step 1 on left, Reset Heatmap/Simplify Heatmap/Select Level in center, Step 3 on right -->
+        <div class="flex justify-between items-center gap-4 flex-wrap">
+          <button id="step1-btn" class="px-6 py-3 bg-gray-500 text-white text-lg font-bold rounded-lg hover:bg-gray-600 transition-all shadow-md flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Step 2</span>
+          </button>
+          <div class="flex items-center gap-4">
+            <button id="reset-view-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+              </svg>
+              Reset Heatmap
+            </button>
+            <button id="simplify-heatmap-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">
+              Simplify Heatmap
+            </button>
+            <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
+              Select Level
+            </button>
+          </div>
+          <button id="step3-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all shadow-md flex items-center gap-2">
+            <span>Step 4</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
       
@@ -970,19 +1202,15 @@
           </p>
         </div>
         
-        <!-- Bouton centré -->
-        <div class="text-center">
-          <button id="reset-view-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 mx-auto shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
-            </svg>
-            Réinitialiser la heatmap
-          </button>
-        </div>
       </div>
       
       <!-- La heatmap/tableau doit toujours être sombre -->
-      <main id="heatmap-main" class="w-full max-w-full bg-gray-800 p-6 rounded-lg shadow-lg text-gray-100">
+      <main id="heatmap-main" class="w-full max-w-full bg-gray-800 p-6 rounded-lg shadow-lg text-gray-100 relative" style="margin-top: 120px;">
+        <!-- Zone d'affichage de la définition du domaine au survol - position absolue au-dessus, ne fait pas descendre la heatmap -->
+        <div id="domain-definition-display" class="absolute p-5 rounded-lg hidden" style="top: -120px; left: 24px; right: 24px; z-index: 20;">
+          <div id="domain-definition-title"></div>
+          <div id="domain-definition-content"></div>
+        </div>
         <div id="heatmap-container" class="relative heatmap-fixed-container">
           <table class="heatmap-table border-collapse w-full">
             <thead>
@@ -1008,30 +1236,24 @@
             <p id="domain-tooltip-content"></p>
           </div>
           <div id="edit-value-popup">
-            <div id="edit-popup-title">Modifier la valeur</div>
+            <div id="edit-popup-title">Modify Value</div>
             <div class="value-controls">
               <button class="value-btn" id="decrease-value">-</button>
               <div class="value-display" id="current-value">0</div>
               <button class="value-btn" id="increase-value">+</button>
             </div>
-            <button class="save-changes-btn" id="save-value-btn">Appliquer</button>
+            <button class="save-changes-btn" id="save-value-btn">Apply</button>
           </div>
         </div>
        </main>
 
-       <!-- Boutons Simpli For P2 et P2 -->
+       <!-- Back to all domains button (kept separate as it's conditional) -->
        <div class="w-full max-w-7xl flex justify-center mt-6 gap-4">
-         <button id="simpli-for-p2-btn" class="px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
-           Simpli For P2
-         </button>
          <button id="back-to-all-btn" class="px-6 py-3 bg-orange-500 text-white text-lg font-bold rounded-lg hover:bg-orange-600 transition-all opacity-50 cursor-not-allowed disabled" disabled style="display: none;">
            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2 transform transition-transform duration-300 hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
            </svg>
-           Afficher tous les domaines
-         </button>
-         <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
-           P2
+           Show All Domains
          </button>
        </div>
 
@@ -1097,6 +1319,19 @@
          </div>
        </div>
 
+      <!-- Liste des sauvegardes KSAT (déplacée en bas) -->
+      <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-blue-600">Sélections sauvegardées</h2>
+        
+        <ul id="saved-selections-list" class="divide-y divide-gray-200">
+          <!-- La liste sera remplie dynamiquement par JavaScript -->
+        </ul>
+        
+        <!-- Message si aucune sauvegarde -->
+        <div id="no-saved-selections" class="p-4 bg-gray-100 rounded-lg text-center">
+          <p class="text-gray-600">Aucune sélection sauvegardée.</p>
+        </div>
+      </div>
 
       <footer class="mt-12 text-center text-gray-600 text-sm">
         <p>
@@ -1395,6 +1630,12 @@
       function initializeHeatmap() {
         heatmapData = generateHeatmapData();
         renderHeatmapTable();
+        // Mettre en surbrillance les OPM IDs des rôles sélectionnés après le rendu
+        setTimeout(() => {
+          if (window.highlightSelectedRolesInHeatmap) {
+            window.highlightSelectedRolesInHeatmap();
+          }
+        }, 200);
         // Supprimer l'appel redondant à loadSavedSelections()
       }
       
@@ -1419,12 +1660,12 @@
         
         if (isFiltered) {
           // En mode filtré: donner plus d'espace aux colonnes des OPM IDs
-          domainWidth = Math.min(120, containerWidth * 0.25); // Max 25% de la largeur ou 120px
+          domainWidth = Math.min(150, containerWidth * 0.26); // Max 26% de la largeur ou 150px
           const remainingWidth = containerWidth - domainWidth;
           cellWidth = Math.max(40, Math.floor(remainingWidth / (numColumns - 1)));
         } else {
           // En mode normal: cellules très compactes pour tout voir
-          domainWidth = 80; // Largeur réduite des domaines
+          domainWidth = 140; // Largeur élargie des domaines
           cellWidth = Math.max(15, Math.floor((containerWidth - domainWidth) / (numColumns - 1)) - 1);
         }
         
@@ -1749,6 +1990,8 @@
           const span = document.createElement('span');
           span.className = 'opm-id';
           span.dataset.opmId = id;
+          // Ajouter aussi l'attribut en kebab-case pour compatibilité avec le sélecteur
+          span.setAttribute('data-opm-id', id);
           
           // Déterminer si nous sommes en mode filtré (pour l'affichage des OPM IDs)
           const headerCells = table.querySelectorAll('thead tr th');
@@ -1846,6 +2089,22 @@
           // Ajouter la cellule du nom de domaine
           const tdDomain = document.createElement('td');
           tdDomain.className = 'domain-name';
+          
+          // Créer un conteneur flex pour la checkbox et le texte
+          const domainContainer = document.createElement('div');
+          domainContainer.style.display = 'flex';
+          domainContainer.style.alignItems = 'center';
+          domainContainer.style.gap = '8px';
+          
+          // Ajouter une checkbox à gauche
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'domain-checkbox';
+          checkbox.style.cursor = 'pointer';
+          checkbox.style.width = '16px';
+          checkbox.style.height = '16px';
+          checkbox.dataset.domainCode = '';
+          
           // Extraire le numéro du domaine depuis la chaîne (NF-COM-XXX)
           let domainCode = "";
           
@@ -1856,20 +2115,24 @@
           if (domainMatchWithParens && domainMatchWithParens[1]) {
               // Format avec parenthèses: "Access Controls (NF-COM-001)"
               domainCode = domainMatchWithParens[1];
-              tdDomain.textContent = domainCode;
-              tdDomain.title = domain;
           } 
           else if (domainMatchDirect && domainMatchDirect[1]) {
               // Format direct: "NF-COM-001"
               domainCode = domainMatchDirect[1];
-              tdDomain.textContent = domainCode;
-              tdDomain.title = domain;
           }
-          else {
-              // Fallback si le format ne correspond pas
-              tdDomain.textContent = domain.replace(/\(NF-COM-\d+\)/g, '').trim();
-              tdDomain.title = domain;
-          }
+          
+          // Mettre à jour le dataset de la checkbox
+          checkbox.dataset.domainCode = domainCode;
+          
+          // Créer le texte du domaine
+          const domainText = document.createElement('span');
+          domainText.textContent = domainCode || domain.replace(/\(NF-COM-\d+\)/g, '').trim();
+          domainText.style.flex = '1';
+          
+          // Assembler le conteneur
+          domainContainer.appendChild(checkbox);
+          domainContainer.appendChild(domainText);
+          tdDomain.appendChild(domainContainer);
           
           // Afficher le code de domaine dans la console pour le débogage
           console.log("Code de domaine extrait:", domainCode, "à partir de:", domain);
@@ -1881,13 +2144,32 @@
           tdDomain.dataset.domainCode = domainCode;
           tdDomain.dataset.domainIndex = i;
           tdDomain.className = 'domain-name'; // Ajouter la classe CSS pour le style
+          tdDomain.title = domain;
           
-
+          // Ajouter les événements pour afficher la définition au survol
+          tdDomain.addEventListener('mouseenter', function(e) {
+            if (domainCode && domainDefinitions[domainCode]) {
+              const definitionDisplay = document.getElementById('domain-definition-display');
+              const definitionTitle = document.getElementById('domain-definition-title');
+              const definitionContent = document.getElementById('domain-definition-content');
+              
+              if (definitionDisplay && definitionTitle && definitionContent) {
+                definitionTitle.textContent = domainCode + ' - ' + domain.replace(/\(NF-COM-\d+\)/g, '').trim();
+                definitionContent.textContent = domainDefinitions[domainCode];
+                definitionDisplay.classList.remove('hidden');
+              }
+            }
+          });
           
-          // Ajouter un événement de clic pour sélectionner/désélectionner le domaine
-          tdDomain.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
+          tdDomain.addEventListener('mouseleave', function(e) {
+            const definitionDisplay = document.getElementById('domain-definition-display');
+            if (definitionDisplay) {
+              definitionDisplay.classList.add('hidden');
+            }
+          });
+          
+          // Fonction pour basculer la sélection du domaine
+          function toggleDomainSelection() {
             // Basculer l'état de sélection
             const isCurrentlySelected = tdDomain.dataset.selected === "true";
             if (isCurrentlySelected) {
@@ -1896,6 +2178,7 @@
               tdDomain.style.backgroundColor = "";
               tdDomain.style.color = "";
               tdDomain.style.fontWeight = "";
+              checkbox.checked = false;
               
               // Retirer de la liste des domaines sélectionnés
               const index = selectedDomains.indexOf(domainCode);
@@ -1908,6 +2191,7 @@
               tdDomain.style.backgroundColor = "#4d88ff";
               tdDomain.style.color = "white";
               tdDomain.style.fontWeight = "bold";
+              checkbox.checked = true;
               
               // Ajouter à la liste des domaines sélectionnés
               if (!selectedDomains.includes(domainCode)) {
@@ -1917,29 +2201,24 @@
             
             // Mettre à jour l'état du bouton
             checkDomainSelection();
+          }
+          
+          // Gérer le clic sur la checkbox
+          checkbox.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleDomainSelection();
           });
           
-          // Ajouter les événements pour le tooltip personnalisé avec débogage
-          tdDomain.addEventListener('mouseenter', function(e) {
-            console.log("Survol détecté sur:", domainCode);
-            console.log("Définition disponible:", domainDefinitions[domainCode]);
-            
-            if (domainCode) {
-              showDomainTooltip(domainCode, this);
+          // Ajouter un événement de clic pour sélectionner/désélectionner le domaine
+          tdDomain.addEventListener('click', function(e) {
+            // Ne pas déclencher si on clique directement sur la checkbox (elle a son propre handler)
+            if (e.target === checkbox || checkbox.contains(e.target)) {
+              return;
             }
+            e.stopPropagation();
+            toggleDomainSelection();
           });
           
-          tdDomain.addEventListener('mouseleave', function() {
-            // Ne pas cacher immédiatement pour permettre au curseur d'entrer dans le tooltip
-            setTimeout(function() {
-              // Vérifier si le curseur n'est pas sur le tooltip avant de le cacher
-              const tooltip = document.getElementById('domain-tooltip');
-              const isHovered = tooltip.matches(':hover');
-              if (!isHovered) {
-                hideDomainTooltip();
-              }
-            }, 300);
-          });
           tr.appendChild(tdDomain);
           
                       // Utiliser les OPM IDs déjà filtrés et validés
@@ -2011,6 +2290,29 @@
             
             tbody.appendChild(tr);
         });
+        
+        // Synchroniser les checkboxes avec les domaines déjà sélectionnés
+        selectedDomains.forEach(domainCode => {
+          const domainCell = document.querySelector(`td.domain-name[data-domain-code="${domainCode}"]`);
+          if (domainCell) {
+            const checkbox = domainCell.querySelector('.domain-checkbox');
+            if (checkbox) {
+              checkbox.checked = true;
+              domainCell.dataset.selected = "true";
+              domainCell.style.backgroundColor = "#4d88ff";
+              domainCell.style.color = "white";
+              domainCell.style.fontWeight = "bold";
+            }
+          }
+        });
+        
+        // Mettre en surbrillance les OPM IDs des rôles sélectionnés après le rendu
+        // Attendre un peu pour s'assurer que tous les éléments sont dans le DOM
+        setTimeout(() => {
+          if (window.highlightSelectedRolesInHeatmap) {
+            window.highlightSelectedRolesInHeatmap();
+          }
+        }, 100);
       }
       
       // Fonction pour gérer le clic sur une cellule
@@ -2031,7 +2333,7 @@
         popup.style.top = (rect.top + window.scrollY - popup.offsetHeight) + 'px';
         
         document.getElementById('edit-popup-title').innerHTML = `
-          Modifier la valeur<br>
+          Modify Value<br>
           <span class="text-sm font-normal">${domain}<br>OPM ID: ${opmId}</span>
         `;
         
@@ -2188,27 +2490,16 @@
       
       // Fonction pour vérifier si au moins un domaine est sélectionné
       function checkDomainSelection() {
-        const simpliButton = document.getElementById('simpli-for-p2-btn');
         const p2Button = document.getElementById('p2-btn');
         
         if (selectedDomains.length > 0) {
-          // Activer les boutons si au moins un domaine est sélectionné
-          if (simpliButton) {
-            simpliButton.classList.remove('opacity-50', 'cursor-not-allowed');
-            simpliButton.disabled = false;
-          }
-          
+          // Activer le bouton si au moins un domaine est sélectionné
           if (p2Button) {
             p2Button.classList.remove('opacity-50', 'cursor-not-allowed');
             p2Button.disabled = false;
           }
         } else {
-          // Désactiver les boutons si aucun domaine n'est sélectionné
-          if (simpliButton) {
-            simpliButton.classList.add('opacity-50', 'cursor-not-allowed');
-            simpliButton.disabled = true;
-          }
-          
+          // Désactiver le bouton si aucun domaine n'est sélectionné
           if (p2Button) {
             p2Button.classList.add('opacity-50', 'cursor-not-allowed');
             p2Button.disabled = true;
@@ -2284,27 +2575,69 @@
         console.log("DEBUG: selectedDomains.length:", selectedDomains.length);
         
         if (selectedDomains.length === 0) {
-          console.log("DEBUG: Aucun domaine sélectionné, sortie");
+          console.log("DEBUG: Aucun domaine sélectionné, affichage de tous les domaines");
+          // Si aucun domaine n'est sélectionné, afficher tous les domaines
+          const rows = document.querySelectorAll('.heatmap-table tbody tr');
+          rows.forEach(row => {
+            row.style.display = '';
+          });
           return;
         }
         
         // Récupérer toutes les lignes de la heatmap
-        const rows = document.querySelectorAll('.heatmap-table tbody tr');
+        const heatmapTable = document.querySelector('.heatmap-table');
+        if (!heatmapTable) {
+          console.log("DEBUG: Table heatmap non trouvée, tentative de génération...");
+          // Si la table n'existe pas encore, attendre un peu et réessayer
+          setTimeout(() => {
+            filterHeatmapByDomains();
+          }, 500);
+          return;
+        }
+        
+        const rows = heatmapTable.querySelectorAll('tbody tr');
+        console.log("DEBUG: Nombre total de lignes trouvées:", rows.length);
+        let visibleCount = 0;
+        let hiddenCount = 0;
         
         // Parcourir chaque ligne
-        rows.forEach(row => {
+        rows.forEach((row, index) => {
           const domainCell = row.querySelector('.domain-name');
           if (domainCell) {
-            const domainCode = domainCell.dataset.domainCode;
+            // Essayer de récupérer le code depuis le dataset
+            let domainCode = domainCell.dataset.domainCode;
+            
+            // Si pas dans le dataset, essayer de l'extraire du texte
+            if (!domainCode || domainCode === '') {
+              const cellText = domainCell.textContent.trim();
+              const match = cellText.match(/(NF-COM-\d+)/);
+              if (match) {
+                domainCode = match[1];
+                // Mettre à jour le dataset pour les prochaines fois
+                domainCell.dataset.domainCode = domainCode;
+              }
+            }
+            
+            const isSelected = domainCode && selectedDomains.includes(domainCode);
+            console.log(`DEBUG: Ligne ${index} - Domaine: ${domainCode}, Sélectionné: ${isSelected}`);
             
             // Cacher les lignes non sélectionnées
-            if (!selectedDomains.includes(domainCode)) {
-              row.style.display = 'none';
-            } else {
+            if (isSelected) {
               row.style.display = '';
+              visibleCount++;
+            } else {
+              row.style.display = 'none';
+              hiddenCount++;
             }
+          } else {
+            // Si pas de cellule domaine, cacher la ligne par défaut
+            row.style.display = 'none';
+            hiddenCount++;
+            console.log(`DEBUG: Ligne ${index} - Pas de cellule domaine, cachée`);
           }
         });
+        
+        console.log("DEBUG: Résultat du filtrage - Visibles:", visibleCount, "Cachées:", hiddenCount);
         
         // Recalculer l'affinité globale pour les domaines sélectionnés
         recalculateGlobalAffinity();
@@ -2527,6 +2860,14 @@
         adjustHeatmapSize();
           console.log("DEBUG: Taille ajustée");
           
+          // Mettre en surbrillance les OPM IDs des rôles sélectionnés
+          console.log("DEBUG: Mise en surbrillance des OPM IDs sélectionnés...");
+          setTimeout(() => {
+            if (window.highlightSelectedRolesInHeatmap) {
+              window.highlightSelectedRolesInHeatmap();
+            }
+          }, 300);
+          
           console.log("DEBUG: Initialisation terminée avec succès");
         } catch (error) {
           console.error("DEBUG: Erreur lors de l'initialisation:", error);
@@ -2534,19 +2875,38 @@
         
         // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
         document.getElementById('reset-view-btn').addEventListener('click', function() {
-          // Réinitialiser la sélection sans régénérer les données
-          renderHeatmapTable();
+          // Réinitialiser la sélection avec resetView = true pour garantir une réinitialisation complète
+          renderHeatmapTable(null, true);
           resetAllOpmIdHighlights();
+          
+          // Retirer les classes de mode filtré
+          const heatmapContainer = document.getElementById('heatmap-container');
+          if (heatmapContainer) {
+            heatmapContainer.classList.remove('filtered-view');
+          }
+          const heatmapMain = document.getElementById('heatmap-main');
+          if (heatmapMain) {
+            heatmapMain.classList.remove('filtered-mode');
+          }
+          
+          // Restaurer le sous-titre original
+          const subtitle = document.getElementById('heatmap-subtitle');
+          if (subtitle) {
+            subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align (2017, 2024, 2025)';
+          }
+          
           adjustHeatmapSize(); // Réajuster après reset
           hideDomainTooltip(); // Cacher le tooltip s'il est visible
           
           // Réinitialiser également le filtre de domaines
           resetDomainFilter();
-        });
-        
-        // Gestionnaire d'événement pour le bouton Simpli For P2
-        document.getElementById('simpli-for-p2-btn').addEventListener('click', function() {
-          filterHeatmapByDomains();
+          
+          // Remettre en surbrillance les OPM IDs des rôles sélectionnés après le reset
+          setTimeout(() => {
+            if (window.highlightSelectedRolesInHeatmap) {
+              window.highlightSelectedRolesInHeatmap();
+            }
+          }, 200);
         });
         
         // Gestionnaire d'événement pour le bouton retour en arrière
@@ -2554,15 +2914,14 @@
           showAllDomains();
         });
 
-        // Gestionnaire d'événement pour le bouton P2
+        // Gestionnaire d'événement pour le bouton Select Level
         document.getElementById('p2-btn').addEventListener('click', function() {
           if (selectedDomains.length > 0) {
             // Sauvegarder les domaines sélectionnés dans le localStorage
             localStorage.setItem('selectedNFDomains', JSON.stringify(selectedDomains));
-            
-            // Rediriger vers AttributsPartDeux.html
-            window.location.href = "{% url 'attributs_part_deux' %}";
           }
+          // Rediriger vers AttributsPartDeux.html (même sans domaines sélectionnés)
+          window.location.href = "{% url 'attributs_part_deux' %}";
         });
         
         // Vérifier l'état initial des boutons
@@ -2580,15 +2939,32 @@
       // Fonction pour mettre en évidence un OPM ID sélectionné
       function highlightSelectedOpmId(opmId, selected = true) {
         // Trouver le span avec l'OPM ID correspondant
-        const opmIdElements = document.querySelectorAll(`.opm-id[data-opm-id="${opmId}"]`);
+        // Essayer les deux formats d'attributs possibles
+        const opmIdElements = document.querySelectorAll(`.opm-id[data-opm-id="${opmId}"], .opm-id[data-opmId="${opmId}"]`);
         
-        opmIdElements.forEach(element => {
-          if (selected) {
-            element.classList.add('selected');
-          } else {
-            element.classList.remove('selected');
-          }
-        });
+        // Si aucun élément trouvé avec les attributs, chercher par texte
+        if (opmIdElements.length === 0) {
+          const allOpmIds = document.querySelectorAll('.opm-id');
+          allOpmIds.forEach(element => {
+            // Vérifier si le texte contient l'OPM ID
+            const text = element.textContent.trim();
+            if (text === opmId || text.includes(opmId)) {
+              if (selected) {
+                element.classList.add('selected');
+              } else {
+                element.classList.remove('selected');
+              }
+            }
+          });
+        } else {
+          opmIdElements.forEach(element => {
+            if (selected) {
+              element.classList.add('selected');
+            } else {
+              element.classList.remove('selected');
+            }
+          });
+        }
       }
       
       // Fonction pour réinitialiser tous les OPM IDs
@@ -2596,6 +2972,60 @@
         document.querySelectorAll('.opm-id').forEach(element => {
           element.classList.remove('selected');
         });
+      }
+      
+      // Fonction pour récupérer les OPM IDs des rôles sélectionnés
+      function getSelectedRoleOpmIds() {
+        const selectedOpmIds = [];
+        
+        // Méthode 1: Récupérer depuis les cartes de rôles sélectionnés dans le DOM
+        const roleCards = document.querySelectorAll('#selected-roles-container .selected-role-card');
+        roleCards.forEach(card => {
+          const opmElement = card.querySelector('.role-opm');
+          if (opmElement) {
+            // Extraire l'OPM ID du texte "OPM-ID: XXX"
+            const text = opmElement.textContent.trim();
+            const match = text.match(/OPM-ID:\s*(\d+)/i);
+            if (match && match[1]) {
+              selectedOpmIds.push(match[1]);
+            }
+          }
+        });
+        
+        // Méthode 2: Si aucune carte trouvée, récupérer depuis localStorage
+        if (selectedOpmIds.length === 0) {
+          try {
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            if (step0Data) {
+              const data = JSON.parse(step0Data);
+              if (data.selectedWorkRoles && data.selectedWorkRoles.length > 0) {
+                data.selectedWorkRoles.forEach(role => {
+                  if (role.opm_code) {
+                    selectedOpmIds.push(role.opm_code);
+                  }
+                });
+              }
+            }
+          } catch (e) {
+            console.error('Erreur lors de la récupération des OPM IDs depuis localStorage:', e);
+          }
+        }
+        
+        return selectedOpmIds;
+      }
+      
+      // Fonction pour mettre en surbrillance les OPM IDs des rôles sélectionnés dans la heatmap par défaut
+      function highlightSelectedRolesInHeatmap() {
+        const selectedOpmIds = getSelectedRoleOpmIds();
+        if (selectedOpmIds.length > 0) {
+          console.log("DEBUG: Mise en surbrillance des OPM IDs sélectionnés:", selectedOpmIds);
+          // Attendre un peu pour s'assurer que la heatmap est rendue
+          setTimeout(() => {
+            if (window.highlightSelectedOpmIds) {
+              window.highlightSelectedOpmIds(selectedOpmIds);
+            }
+          }, 100);
+        }
       }
       
       // Exposer ces fonctions globalement pour une utilisation externe
@@ -2612,6 +3042,7 @@
       };
       
       window.resetAllOpmIdHighlights = resetAllOpmIdHighlights;
+      window.highlightSelectedRolesInHeatmap = highlightSelectedRolesInHeatmap;
     </script>
     
     <!-- Script de visualisation pour les sélections existantes -->
@@ -2692,6 +3123,745 @@
             // Ajuster la taille après la modification
             adjustHeatmapSize();
           };
+        }
+      });
+      
+      // Fonction pour visualiser les work roles de Step0
+      function visualizeStep0Roles() {
+        try {
+          const step0Data = localStorage.getItem('step0_baseline_data');
+          if (!step0Data) {
+            console.log('Aucune donnée Step0 trouvée');
+            return;
+          }
+          
+          const data = JSON.parse(step0Data);
+          if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+            return;
+          }
+          
+          // Extraire les OPM IDs des work roles
+          const selectedOpmIds = [];
+          
+          data.selectedWorkRoles.forEach(role => {
+            const opmId = role.opm_code;
+            if (opmId) {
+              // Extraire uniquement les chiffres si l'OPM ID contient du texte
+              const numericMatch = opmId.toString().match(/\d+/);
+              const cleanId = numericMatch ? numericMatch[0] : opmId;
+              
+              // Vérifier si cet OPM ID existe dans la liste des OPM IDs valides
+              if (opmIds.includes(cleanId)) {
+                if (!selectedOpmIds.includes(cleanId)) {
+                  selectedOpmIds.push(cleanId);
+                }
+              } else {
+                console.warn(`OPM ID ${cleanId} n'est pas dans la liste des OPM IDs valides`);
+              }
+            }
+          });
+          
+          console.log('OPM IDs trouvés dans Step0:', selectedOpmIds);
+          
+          // Mise à jour du titre de la page pour indiquer le filtre
+          const subtitle = document.getElementById('heatmap-subtitle');
+          if (subtitle) {
+            subtitle.innerHTML = `
+              <span class="font-medium">Step0 Selection in progress:</span> 
+              Work Roles selected from baseline
+              <span class="font-medium">(${selectedOpmIds.length} OPM IDs 2025)</span>
+              <span class="ml-2 text-sm">
+                <button id="clear-filter-btn" class="text-red-500 hover:text-red-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Clear Filter
+                </button>
+              </span>
+            `;
+            
+            // Ajouter un gestionnaire d'événements pour effacer le filtre
+            document.getElementById('clear-filter-btn').addEventListener('click', () => {
+              // Restaurer le sous-titre original
+              subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align';
+              
+              // Réinitialiser la heatmap avec tous les OPM IDs
+              renderHeatmapTable(null, true); // true = réinitialisation complète
+              resetAllOpmIdHighlights();
+              adjustHeatmapSize(); // Réajuster après reset
+            });
+          }
+          
+          // Filtrer la vue pour n'afficher que les OPM IDs sélectionnés
+          renderHeatmapTable(selectedOpmIds);
+          
+          // Mettre en évidence les OPM IDs
+          if (window.highlightSelectedOpmIds) {
+            window.highlightSelectedOpmIds(selectedOpmIds);
+          }
+          
+          // Ajuster la taille après la modification
+          adjustHeatmapSize();
+          
+          // Ajouter une classe spéciale au conteneur pour le mode filtré
+          const heatmapContainer = document.getElementById('heatmap-container');
+          if (heatmapContainer) {
+            heatmapContainer.classList.add('filtered-view');
+          }
+          
+          // Appliquer des styles spécifiques pour la vue filtrée
+          const heatmapMain = document.getElementById('heatmap-main');
+          if (heatmapMain) {
+            heatmapMain.classList.add('filtered-mode');
+          }
+        } catch (e) {
+          console.error('Erreur lors de la visualisation des work roles Step0:', e);
+        }
+      }
+      
+      // Fonction pour appliquer les work roles de Step0 et passer à l'étape du summary_chart
+      function applyStep0RolesAndGoToSummary() {
+        try {
+          const step0Data = localStorage.getItem('step0_baseline_data');
+          if (!step0Data) {
+            console.log('Aucune donnée Step0 trouvée');
+            return;
+          }
+          
+          const data = JSON.parse(step0Data);
+          if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+            console.log('Aucun work role sélectionné dans Step0');
+            return;
+          }
+          
+          console.log('Application des work roles Step0 et passage au summary_chart');
+          
+          // Préparer les données dans le bon format pour summary_chart
+          // Le summary_chart s'attend à trouver les OPM IDs dans un objet spécifique
+          // On s'assure que les rôles et OPM IDs sont correctement formatés
+          
+          // Vérifier que la sélection contient des rôles
+          const roles = data.selectedWorkRoles || [];
+          
+          // Formater les données pour le summary chart (même logique que applySelectionAndGoToSummary)
+          const formattedData = {
+            roles: roles.map(role => {
+              // S'assurer que les OPM IDs 2025 sont au bon format
+              // Le format attendu est une propriété opmId qui contient un nombre
+              // Utiliser la même logique que applySelectionAndGoToSummary
+              return {
+                ...role,
+                opmId: role.opm_id || role.opmId || role.opm_code || role.dcwf_code || role.ncwf_id || (role.id ? role.id.toString() : '')
+              };
+            }),
+            timestamp: new Date().toISOString(),
+            fromEtape2: true,
+            title: `Sélection Step0 - ${new Date().toLocaleString('fr-FR')}`
+          };
+          
+          console.log('Données formatées pour summary chart:', formattedData);
+          
+          // Sauvegarder dans les deux formats utilisés par l'application
+          localStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
+          localStorage.setItem('activateStep3', 'true');
+          
+          // Sauvegarder aussi dans serverStorage si disponible
+          if (typeof serverStorage !== 'undefined' && typeof serverStorage.setItem === 'function') {
+            try {
+              serverStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
+              console.log('Données sauvegardées dans serverStorage');
+            } catch (e) {
+              console.error('Erreur lors de la sauvegarde dans serverStorage:', e);
+            }
+          }
+          
+          // Rediriger vers la page summary_chart_full
+          window.location.href = "{% url 'summary_chart' %}";
+        } catch (e) {
+          console.error('Erreur lors de l\'application des work roles Step0:', e);
+        }
+      }
+      
+      // Cache pour les données KSAT
+      let dcwfKsatData = null;
+      let ncwfKsatData = null;
+      let ksatDataLoaded = false;
+
+      // Fonction pour charger les données KSAT
+      async function loadKsatData() {
+          if (ksatDataLoaded) {
+              return Promise.resolve();
+          }
+          
+          try {
+              const [dcwfResponse, ncwfResponse] = await Promise.all([
+                  fetch('/api/ksat-data/dcwf/'),
+                  fetch('/api/ksat-data/ncwf/')
+              ]);
+              
+              if (dcwfResponse.ok && ncwfResponse.ok) {
+                  dcwfKsatData = await dcwfResponse.json();
+                  ncwfKsatData = await ncwfResponse.json();
+                  ksatDataLoaded = true;
+                  console.log('Données KSAT chargées avec succès');
+              } else {
+                  console.error('Erreur lors du chargement des données KSAT:', dcwfResponse.status, ncwfResponse.status);
+              }
+          } catch (e) {
+              console.error('Erreur lors du chargement des données KSAT:', e);
+          }
+      }
+
+      // Fonction pour normaliser un OPM ID pour la comparaison
+      function normalizeOpmId(opmId) {
+          if (!opmId) return '';
+          // Retirer les parenthèses et espaces, et convertir en string
+          return String(opmId).replace(/[()\s]/g, '').trim();
+      }
+
+      // Fonction pour compter les KSAT DCWF pour un OPM ID (T, K, S, A séparément)
+      function countDCWFKsat(opmId) {
+          if (!dcwfKsatData || !opmId) {
+              return { T: 0, K: 0, S: 0, A: 0 };
+          }
+          
+          // Normaliser l'OPM ID : extraire uniquement les chiffres
+          const normalizedOpmId = String(opmId).replace(/[^\d]/g, '');
+          const counts = { T: 0, K: 0, S: 0, A: 0 };
+          
+          dcwfKsatData.forEach(item => {
+              // Le nouveau format a opm_id comme string de chiffres (ex: "411")
+              const itemOpmId = String(item.opm_id || '').trim();
+              
+              // Vérifier que la description n'est pas null ou vide
+              const description = item.description;
+              if (description === null || description === undefined || description === '') {
+                  return; // Ignorer les entrées sans description
+              }
+              
+              if (itemOpmId === normalizedOpmId) {
+                  const ksat = (item.ksat || '').trim();
+                  // Gérer les cas comme "K*" ou "K"
+                  const ksatType = ksat.charAt(0).toUpperCase();
+                  if (ksatType === 'T' || ksatType === 'K' || ksatType === 'S' || ksatType === 'A') {
+                      counts[ksatType] = (counts[ksatType] || 0) + 1;
+                  }
+              }
+          });
+          
+          return counts;
+      }
+
+      // Fonction pour compter les TKS NCWF pour un OPM ID (T, K, S séparément)
+      function countNCWFTks(opmId) {
+          if (!ncwfKsatData || !opmId) {
+              return { T: 0, K: 0, S: 0 };
+          }
+          
+          const normalizedOpmId = normalizeOpmId(opmId);
+          const counts = { T: 0, K: 0, S: 0 };
+          
+          ncwfKsatData.forEach(item => {
+              const itemOpmId = item['OPM-ID'] || item.opm_id || '';
+              const normalizedItemOpmId = normalizeOpmId(itemOpmId);
+              const ksat = (item.KSAT || item.ksat || '').trim().toUpperCase();
+              
+              // Vérifier que la description n'est pas null ou vide
+              const description = item.Description || item.description;
+              if (description === null || description === undefined || description === '') {
+                  return; // Ignorer les entrées sans description
+              }
+              
+              if (normalizedItemOpmId === normalizedOpmId && (ksat === 'T' || ksat === 'K' || ksat === 'S')) {
+                  counts[ksat] = (counts[ksat] || 0) + 1;
+              }
+          });
+          
+          return counts;
+      }
+
+      // Fonction pour extraire l'abréviation d'un élément
+      function getElementAbbreviation(element) {
+          if (!element) return '';
+          const normalized = element.replace(/\s+/g, ' ').trim();
+          
+          // Map pour DCWF
+          const dcwfMap = {
+              'Information Technology (IT)': 'IT',
+              'Information Technology  (IT)': 'IT',
+              'Cybersecurity (CS)': 'CS',
+              'Cyber Enablers (EN)': 'EN',
+              'Cyber Effects (CE)': 'CE',
+              'Intel (Cyber) (CI)': 'CI',
+              'Data/AI (DA)': 'DA',
+              'Software Engineering (SE)': 'SE'
+          };
+          
+          // Map pour NCWF
+          const ncwfMap = {
+              'Oversight & Governance': 'OG',
+              'Implementation & Operation': 'IO',
+              'Design & Development': 'DD',
+              'Protection & Defense': 'PD',
+              'Protection and Defense': 'PD',
+              'Investigation': 'IN'
+          };
+          
+          // Essayer DCWF d'abord
+          if (dcwfMap[normalized]) {
+              return dcwfMap[normalized];
+          }
+          
+          // Essayer NCWF
+          if (ncwfMap[normalized]) {
+              return ncwfMap[normalized];
+          }
+          
+          // Sinon, essayer d'extraire depuis les parenthèses
+          const match = normalized.match(/\(([A-Z]+)\)/);
+          return match ? match[1] : '';
+      }
+      
+      // Fonction pour charger et afficher les sélections de Step0
+      function loadAndDisplayStep0Selections() {
+        try {
+          const step0Data = localStorage.getItem('step0_baseline_data');
+          if (!step0Data) {
+            console.log('Aucune donnée Step0 trouvée');
+            return;
+          }
+          
+          const data = JSON.parse(step0Data);
+          console.log('Données Step0 chargées:', data);
+          
+          if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+            return;
+          }
+          
+          const container = document.getElementById('selected-roles-container');
+          const sectionDiv = document.getElementById('step0-selected-roles');
+          
+          if (!container || !sectionDiv) {
+            console.error('Conteneur non trouvé');
+            return;
+          }
+          
+          // Afficher la section
+          sectionDiv.style.display = 'block';
+          
+          // Charger les données KSAT d'abord
+          loadKsatData().then(() => {
+              console.log('Données KSAT chargées:', { 
+                  dcwfLoaded: !!dcwfKsatData, 
+                  dcwfLength: dcwfKsatData ? dcwfKsatData.length : 0,
+                  ncwfLoaded: !!ncwfKsatData,
+                  ncwfLength: ncwfKsatData ? ncwfKsatData.length : 0
+              });
+              
+              // Créer les cartes pour chaque work role
+              data.selectedWorkRoles.forEach(role => {
+                  const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                  const roleCard = document.createElement('div');
+                  roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                  
+                  const dcwfName = role.dcwf_work_role || '';
+                  const ncwfName = role.ncwf_work_role || '';
+                  const dcwfElement = role.dcwf_element || '';
+                  const ncwfElement = role.ncwf_element || '';
+                  const opmId = role.opm_code || '';
+                  
+                  const dcwfAbbr = getElementAbbreviation(dcwfElement);
+                  const ncwfAbbr = getElementAbbreviation(ncwfElement);
+                  
+                  // Compter les KSAT
+                  const dcwfCounts = countDCWFKsat(opmId);
+                  const ncwfCounts = countNCWFTks(opmId);
+                  
+                  // Formater les compteurs DCWF (T, K, S, A) - toujours afficher A même si 0
+                  const dcwfCountsText = [];
+                  if (dcwfCounts.T > 0) dcwfCountsText.push(`T:${dcwfCounts.T}`);
+                  if (dcwfCounts.K > 0) dcwfCountsText.push(`K:${dcwfCounts.K}`);
+                  if (dcwfCounts.S > 0) dcwfCountsText.push(`S:${dcwfCounts.S}`);
+                  // Toujours afficher A même si 0
+                  dcwfCountsText.push(`A:${dcwfCounts.A}`);
+                  const dcwfCountsDisplay = dcwfCountsText.length > 0 ? dcwfCountsText.join(' ') : '';
+                  
+                  // Formater les compteurs NCWF (T, K, S)
+                  const ncwfCountsText = [];
+                  if (ncwfCounts.T > 0) ncwfCountsText.push(`T:${ncwfCounts.T}`);
+                  if (ncwfCounts.K > 0) ncwfCountsText.push(`K:${ncwfCounts.K}`);
+                  if (ncwfCounts.S > 0) ncwfCountsText.push(`S:${ncwfCounts.S}`);
+                  const ncwfCountsDisplay = ncwfCountsText.length > 0 ? ncwfCountsText.join(' ') : '';
+                  
+                  roleCard.innerHTML = `
+                      <div class="role-opm">OPM-ID: ${opmId}</div>
+                      ${dcwfName ? `<div class="role-name" style="font-weight: 500; color: rgba(255, 255, 255, 0.9); font-size: 14px; margin-bottom: 2px;">${dcwfName}${dcwfAbbr ? ` (${dcwfAbbr})` : ''}</div>` : ''}
+                      ${dcwfCountsDisplay ? `<div style="font-size: 11px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">${dcwfCountsDisplay}</div>` : ''}
+                      ${ncwfName ? `<div class="role-name" style="font-weight: 600; color: rgba(255, 255, 255, 0.95); font-size: 14px; margin-bottom: 2px;">${ncwfName}${ncwfAbbr ? ` (${ncwfAbbr})` : ''}</div>` : ''}
+                      ${ncwfCountsDisplay ? `<div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">${ncwfCountsDisplay}</div>` : ''}
+                  `;
+                  
+                  container.appendChild(roleCard);
+              });
+              
+              // Mettre en surbrillance les OPM IDs dans la heatmap après le chargement des rôles
+              setTimeout(() => {
+                if (window.highlightSelectedRolesInHeatmap) {
+                  window.highlightSelectedRolesInHeatmap();
+                }
+              }, 300);
+          }).catch(() => {
+              // Si le chargement échoue, afficher les cartes sans les compteurs
+              data.selectedWorkRoles.forEach(role => {
+                  const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                  const roleCard = document.createElement('div');
+                  roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                  
+                  const dcwfName = role.dcwf_work_role || '';
+                  const ncwfName = role.ncwf_work_role || '';
+                  const dcwfElement = role.dcwf_element || '';
+                  const ncwfElement = role.ncwf_element || '';
+                  
+                  const dcwfAbbr = getElementAbbreviation(dcwfElement);
+                  const ncwfAbbr = getElementAbbreviation(ncwfElement);
+                  
+                  roleCard.innerHTML = `
+                      <div class="role-opm">OPM-ID: ${role.opm_code}</div>
+                      ${dcwfName ? `<div class="role-name" style="font-weight: 500; color: rgba(255, 255, 255, 0.9); font-size: 14px; margin-bottom: 4px;">${dcwfName}${dcwfAbbr ? ` (${dcwfAbbr})` : ''}</div>` : ''}
+                      ${ncwfName ? `<div class="role-name" style="font-weight: 600; color: rgba(255, 255, 255, 0.95); font-size: 14px;">${ncwfName}${ncwfAbbr ? ` (${ncwfAbbr})` : ''}</div>` : ''}
+                  `;
+                  
+                  container.appendChild(roleCard);
+              });
+              
+              // Mettre en surbrillance les OPM IDs dans la heatmap après le chargement des rôles
+              setTimeout(() => {
+                if (window.highlightSelectedRolesInHeatmap) {
+                  window.highlightSelectedRolesInHeatmap();
+                }
+              }, 300);
+          });
+          
+          // Connecter les événements aux boutons statiques
+          // Bouton Step 1
+          const step1Btn = document.getElementById('step1-btn');
+          if (step1Btn) {
+            step1Btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              // Essayer de récupérer les paramètres depuis l'URL actuelle
+              let searchParams = new URLSearchParams(window.location.search);
+              
+              // Si pas de paramètres dans l'URL actuelle, essayer de les récupérer depuis la page précédente
+              if (searchParams.toString() === '' && document.referrer) {
+                try {
+                  const referrerUrl = new URL(document.referrer);
+                  if (referrerUrl.pathname === '/compare/' || referrerUrl.pathname.includes('/compare')) {
+                    searchParams = new URLSearchParams(referrerUrl.search);
+                  }
+                } catch (err) {
+                  console.log('Error retrieving parameters from referrer:', err);
+                }
+              }
+              
+              // Construire l'URL de redirection
+              const redirectUrl = '/compare/' + (searchParams.toString() ? '?' + searchParams.toString() : '');
+              window.location.href = redirectUrl;
+            });
+          }
+          
+          // Bouton Simplify Heatmap - maintenant dans le HTML statique, on connecte juste l'événement
+          const simplifyBtn = document.getElementById('simplify-heatmap-btn');
+          if (simplifyBtn) {
+            simplifyBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              if (window.openSimplifyModal) {
+                window.openSimplifyModal();
+              } else {
+                console.error('openSimplifyModal is not defined');
+              }
+            });
+          }
+          
+          // Bouton Step 3
+          const step3Btn = document.getElementById('step3-btn');
+          if (step3Btn) {
+            step3Btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              // Récupérer le numéro de poste depuis localStorage
+              const currentJobNumber = localStorage.getItem('currentJobNumber');
+              const currentJobSelection = localStorage.getItem('currentJobSelection');
+              
+              if (currentJobNumber) {
+                // Rediriger vers la nouvelle page avec le numéro de poste
+                const posteParam = encodeURIComponent(currentJobNumber);
+                window.location.href = `{% url 'attributs_part_deux_opm_id' %}?postes=${posteParam}`;
+                return;
+              }
+              
+              // Fallback: rediriger sans paramètres (la page essaiera de charger depuis localStorage)
+              window.location.href = "{% url 'attributs_part_deux_opm_id' %}";
+            });
+          }
+          
+        } catch (e) {
+          console.error('Erreur lors du chargement des données Step0:', e);
+        }
+      }
+      
+      // Charger les sélections Step0 au chargement de la page
+      document.addEventListener('DOMContentLoaded', function() {
+        loadAndDisplayStep0Selections();
+      });
+    </script>
+
+    <!-- Modal pour sélectionner les domaines NF-COM -->
+    <div id="simplify-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+      <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 class="text-2xl font-bold text-gray-800">Sélectionner les Competency Areas</h2>
+          <button id="close-simplify-modal" class="text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="px-6 py-4 overflow-y-auto flex-1">
+          <div id="domains-list" class="space-y-3">
+            <!-- Les domaines seront générés par JavaScript -->
+          </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+          <div class="text-sm text-gray-600">
+            <span id="selected-count">0</span> domaine(s) sélectionné(s)
+          </div>
+          <div class="flex gap-3">
+            <button id="cancel-simplify-modal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all">
+              Annuler
+            </button>
+            <button id="apply-simplify" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold">
+              Simplify
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      #simplify-modal .domain-item {
+        border: 2px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      #simplify-modal .domain-item:hover {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+      #simplify-modal .domain-item.selected {
+        border-color: #3b82f6;
+        background-color: #dbeafe;
+      }
+      #simplify-modal .domain-item .domain-id {
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 0.25rem;
+      }
+      #simplify-modal .domain-item .domain-name {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+      }
+      #simplify-modal .domain-item .domain-description {
+        color: #6b7280;
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+    </style>
+
+    <script>
+      // Données des 15 domaines NF-COM
+      const nfComDomains = [
+        {
+          id: "NF-COM-001",
+          name: "Access Controls",
+          description: "This Competency Area describes a learner's capabilities to define, manage, and monitor the roles and secure access privileges of who is authorized to access protected data and resources and understand the impact of different types of access controls."
+        },
+        {
+          id: "NF-COM-002",
+          name: "Artificial Intelligence (AI) Security",
+          description: "This Competency Area describes a learner's capabilities to secure Artificial Intelligence (AI) against cyberattacks, to ensure it is adequately contained where it is used, and to mitigate the threat AI presents where it or its users have malicious intent"
+        },
+        {
+          id: "NF-COM-003",
+          name: "Asset Management",
+          description: "This Competency Area describes a learner's capabilities to conduct and maintain an accurate inventory of all digital assets, to include identifying, developing, operating, maintaining, upgrading, and disposing of assets."
+        },
+        {
+          id: "NF-COM-004",
+          name: "Cloud Security",
+          description: "This Competency Area describes a learner's capabilities to protect cloud data, applications, and infrastructure from internal and external threats."
+        },
+        {
+          id: "NF-COM-005",
+          name: "Communications Security",
+          description: "This Competency Area describes a learner's capabilities to secure the transmissions, broadcasting, switching, control, and operation of communications and related network infrastructures."
+        },
+        {
+          id: "NF-COM-006",
+          name: "Cryptography",
+          description: "This Competency Area describes a learner's capabilities to transform data using cryptographic processes to ensure it can only be read by the person who is authorized to access it."
+        },
+        {
+          id: "NF-COM-007",
+          name: "Cyber Resiliency",
+          description: "This Competency Area describes a learner's capability related to architecting, designing, developing, implementing, and maintaining the trustworthiness of systems that use or are enabled by cyber resources in order to anticipate, withstand, recover from, and adapt to adverse conditions, stresses, attacks, or compromises."
+        },
+        {
+          id: "NF-COM-008",
+          name: "DevSecOps",
+          description: "This Competency Area describes a learner's capabilities to integrate security as a shared responsibility throughout the development, security, and operations (DevSecOps) life cycle of technologies."
+        },
+        {
+          id: "NF-COM-009",
+          name: "Operating Systems (OS) Security",
+          description: "This Competency Area describes a learner's capabilities to install, administer, troubleshoot, backup, and conduct recovery of Operating Systems (OS), including in simulated environments."
+        },
+        {
+          id: "NF-COM-010",
+          name: "Operational Technology (OT) Security",
+          description: "This Competency Area describes a learner's capabilities to improve and maintain the security of Operational Technology (OT) systems while addressing their unique performance, reliability, and safety requirements."
+        },
+        {
+          id: "NF-COM-011",
+          name: "Supply Chain Security",
+          description: "This Competency Area describes a learner's capabilities to analyze and control digital and physical risks presented by technology products or services purchased from parties outside your organization."
+        },
+        {
+          id: "NF-COM-012",
+          name: "Cybersecurity Fundamentals",
+          description: "This Competency Area describes a learner's capabilities to understand and apply core cybersecurity principles including the CIA triad (confidentiality, integrity, availability), identify common threat vectors and attack surfaces, comprehend fundamental risk management concepts, and demonstrate knowledge of essential cybersecurity terminology, frameworks, and best practices that form the foundation for all cybersecurity disciplines."
+        },
+        {
+          id: "NF-COM-013",
+          name: "Cybersecurity Leadership",
+          description: "This Competency Area describes a learner's capabilities to lead cybersecurity initiatives and teams through strategic planning, effective communication of security concepts to diverse stakeholders, development of security culture within organizations, risk prioritization and resource allocation, incident response coordination, and the ability to align cybersecurity objectives with business goals while fostering collaboration across organizational boundaries."
+        },
+        {
+          id: "NF-COM-014",
+          name: "Data Security",
+          description: "This Competency Area describes a learner's capabilities to protect digital information throughout its entire lifecycle from creation to destruction, implement data classification schemes and access controls, apply appropriate encryption and data masking techniques, ensure compliance with data protection regulations, and maintain data integrity and availability while preventing unauthorized access, corruption, or theft of sensitive information."
+        },
+        {
+          id: "NF-COM-015",
+          name: "Secure Programming",
+          description: "This Competency Area describes a learner's capabilities to develop computer software using secure coding practices that prevent the introduction of security vulnerabilities, identify and remediate common programming flaws, implement security controls within application architecture, conduct code security reviews, and integrate security considerations throughout the software development lifecycle to protect against both known and emerging threats."
+        }
+      ];
+
+      // Variables pour gérer la sélection dans la modal
+      let modalSelectedDomains = [];
+
+      // Fonction pour ouvrir la modal (scope global)
+      window.openSimplifyModal = function() {
+        const modal = document.getElementById('simplify-modal');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        modalSelectedDomains = [...selectedDomains]; // Copier les domaines déjà sélectionnés
+        renderDomainsInModal();
+        updateSelectedCount();
+      };
+
+      // Fonction pour fermer la modal
+      function closeSimplifyModal() {
+        const modal = document.getElementById('simplify-modal');
+        modal.classList.add('hidden');
+      }
+
+      // Fonction pour rendre les domaines dans la modal
+      function renderDomainsInModal() {
+        const domainsList = document.getElementById('domains-list');
+        domainsList.innerHTML = '';
+
+        nfComDomains.forEach(domain => {
+          const domainItem = document.createElement('div');
+          domainItem.className = `domain-item ${modalSelectedDomains.includes(domain.id) ? 'selected' : ''}`;
+          domainItem.dataset.domainId = domain.id;
+          
+          domainItem.innerHTML = `
+            <div class="domain-id">${domain.id}</div>
+            <div class="domain-name">${domain.name}</div>
+            <div class="domain-description">${domain.description}</div>
+          `;
+
+          domainItem.addEventListener('click', function() {
+            const index = modalSelectedDomains.indexOf(domain.id);
+            if (index !== -1) {
+              modalSelectedDomains.splice(index, 1);
+              domainItem.classList.remove('selected');
+            } else {
+              modalSelectedDomains.push(domain.id);
+              domainItem.classList.add('selected');
+            }
+            updateSelectedCount();
+          });
+
+          domainsList.appendChild(domainItem);
+        });
+      }
+
+      // Fonction pour mettre à jour le compteur de sélection
+      function updateSelectedCount() {
+        const countElement = document.getElementById('selected-count');
+        if (countElement) {
+          countElement.textContent = modalSelectedDomains.length;
+        }
+      }
+
+      // Fonction pour appliquer la simplification
+      function applySimplify() {
+        // Mettre à jour selectedDomains avec les domaines sélectionnés dans la modal
+        selectedDomains = [...modalSelectedDomains];
+        console.log("DEBUG: applySimplify - selectedDomains mis à jour:", selectedDomains);
+        console.log("DEBUG: applySimplify - modalSelectedDomains:", modalSelectedDomains);
+        
+        // Fermer la modal
+        closeSimplifyModal();
+        
+        // Mettre à jour l'état des boutons
+        checkDomainSelection();
+        
+        // Exécuter visualizeStep0Roles d'abord (génère/filtre la heatmap)
+        visualizeStep0Roles();
+        
+        // Ensuite filtrer par domaines (après un court délai pour laisser la heatmap se générer)
+        setTimeout(() => {
+          filterHeatmapByDomains();
+        }, 300);
+      }
+
+      // Gestionnaires d'événements pour la modal
+      document.addEventListener('DOMContentLoaded', function() {
+        const closeBtn = document.getElementById('close-simplify-modal');
+        const cancelBtn = document.getElementById('cancel-simplify-modal');
+        const applyBtn = document.getElementById('apply-simplify');
+        const modal = document.getElementById('simplify-modal');
+
+        if (closeBtn) {
+          closeBtn.addEventListener('click', closeSimplifyModal);
+        }
+        if (cancelBtn) {
+          cancelBtn.addEventListener('click', closeSimplifyModal);
+        }
+        if (applyBtn) {
+          applyBtn.addEventListener('click', applySimplify);
+        }
+        if (modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              closeSimplifyModal();
+            }
+          });
         }
       });
     </script>

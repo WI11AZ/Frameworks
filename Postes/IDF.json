@@ -1,0 +1,168 @@
+[
+  {
+    "nom": "Hannibal",
+    "couleur": "YELLOW",
+    "postes": [
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113
+    ]
+  },
+  {
+    "nom": "Hannibal",
+    "couleur": "GREEN",
+    "postes": [
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211
+    ]
+  },
+  {
+    "nom": "Hannibal",
+    "couleur": "BLUE",
+    "postes": [
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312
+    ]
+  },
+  {
+    "nom": "Hannibal",
+    "couleur": "ORANGE",
+    "postes": [
+      401,
+      402,
+      403,
+      404,
+      405
+    ]
+  },
+  {
+    "nom": "Arminius",
+    "couleur": "YELLOW",
+    "postes": [
+      114,
+      115,
+      116
+    ]
+  },
+  {
+    "nom": "Arminius",
+    "couleur": "GREEN",
+    "postes": [
+      212
+    ]
+  },
+  {
+    "nom": "Arminius",
+    "couleur": "BLUE",
+    "postes": [
+      313,
+      314
+    ]
+  },
+  {
+    "nom": "Vercingetorix",
+    "couleur": "YELLOW",
+    "postes": [
+      117,
+      117,
+      119
+    ]
+  },
+  {
+    "nom": "Vercingetorix",
+    "couleur": "GREEN",
+    "postes": [
+      213,
+      214,
+      215
+    ]
+  },
+  {
+    "nom": "Attila",
+    "couleur": "YELLOW",
+    "postes": [
+      120
+    ]
+  },
+  {
+    "nom": "Attila",
+    "couleur": "BLUE",
+    "postes": [
+      315,
+      315,
+      317,
+      318,
+      319
+    ]
+  },
+  {
+    "nom": "Belisarius",
+    "couleur": "YELLOW",
+    "postes": [
+      121,
+      122,
+      123,
+      124,
+      125,
+      126
+    ]
+  },
+  {
+    "nom": "Leonidas",
+    "couleur": "GREEN",
+    "postes": [
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228,
+      229,
+      230,
+      231
+    ]
+  },
+  {
+    "nom": "Ramses",
+    "couleur": "PINK",
+    "postes": [
+      501
+    ]
+  }
+]

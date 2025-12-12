@@ -1,0 +1,2614 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Project Recap - Cyber Align</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Libraries for PDF and Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Wait for libraries to load
+        window.addEventListener('load', function() {
+            console.log('Libraries loaded:', {
+                html2canvas: typeof html2canvas !== 'undefined',
+                jsPDF: typeof window.jspdf !== 'undefined',
+                XLSX: typeof XLSX !== 'undefined'
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+        .section-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .skill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+        .level-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        .print-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        /* Print Styles - Clean with colors, avoid page breaks */
+        @media print {
+            /* Hide non-essential elements */
+            nav, .print-button, button, a[href], .back-button, svg {
+                display: none !important;
+            }
+            
+            /* Reset for print */
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+                font-size: 11pt;
+                line-height: 1.5;
+            }
+            
+            /* Page setup */
+            @page {
+                margin: 1.5cm;
+                size: A4;
+            }
+            
+            /* Main sections - NEVER break */
+            .section-card {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 1cm;
+                padding: 0.8cm;
+                border: 1px solid #ddd;
+                box-shadow: none;
+                background: white;
+            }
+            
+            /* Sub-sections - NEVER break */
+            .border-2, .border-gray-300, [class*="border-"] {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            /* Headers */
+            h1 {
+                font-size: 16pt;
+                font-weight: bold;
+                margin: 0 0 0.5cm 0;
+                page-break-after: avoid;
+            }
+            
+            h2 {
+                font-size: 13pt;
+                font-weight: bold;
+                margin: 0.6cm 0 0.3cm 0;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+                border-bottom: 1px solid #333;
+                padding-bottom: 0.15cm;
+            }
+            
+            h3, h4 {
+                font-size: 11pt;
+                font-weight: bold;
+                margin: 0.4cm 0 0.2cm 0;
+                page-break-after: avoid;
+            }
+            
+            /* Text */
+            p {
+                margin: 0.15cm 0;
+                font-size: 10pt;
+            }
+            
+            /* Lists */
+            ul, ol {
+                margin: 0.3cm 0;
+                padding-left: 0.8cm;
+                page-break-inside: avoid;
+            }
+            
+            li {
+                margin: 0.1cm 0;
+                font-size: 10pt;
+            }
+            
+            /* Tables */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 0.4cm 0;
+                font-size: 9pt;
+                page-break-inside: avoid;
+            }
+            
+            th, td {
+                border: 1px solid #ccc;
+                padding: 0.2cm;
+                text-align: left;
+            }
+            
+            th {
+                background: #f5f5f5;
+                font-weight: bold;
+            }
+            
+            /* Colors - keep but subtle */
+            [class*="bg-orange"] { background: #fff4e6 !important; }
+            [class*="bg-blue"] { background: #e3f2fd !important; }
+            [class*="bg-green"] { background: #e8f5e9 !important; }
+            [class*="bg-purple"] { background: #f3e5f5 !important; }
+            [class*="bg-indigo"] { background: #e8eaf6 !important; }
+            [class*="bg-yellow"] { background: #fffde7 !important; }
+            
+            [class*="text-orange"] { color: #e65100 !important; }
+            [class*="text-blue"] { color: #1565c0 !important; }
+            [class*="text-green"] { color: #2e7d32 !important; }
+            [class*="text-purple"] { color: #6a1b9a !important; }
+            [class*="text-indigo"] { color: #283593 !important; }
+            
+            /* Badges */
+            .badge, .skill-badge {
+                display: inline-block;
+                padding: 0.15cm 0.3cm;
+                margin: 0.05cm;
+                border: 1px solid #999;
+                font-size: 8pt;
+            }
+            
+            .level-indicator {
+                display: inline-block;
+                width: 1cm;
+                height: 1cm;
+                border: 1px solid #999;
+                text-align: center;
+                line-height: 1cm;
+                font-size: 8pt;
+                font-weight: bold;
+            }
+            
+            /* Grid - simple block */
+            .grid {
+                display: block;
+            }
+            
+            .grid > * {
+                margin-bottom: 0.4cm;
+                page-break-inside: avoid;
+            }
+            
+            /* Remove shadows and effects */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+            
+            /* Hide hidden elements */
+            .hidden, [style*="display: none"], [style*="display:none"] {
+                display: none !important;
+            }
+            
+            /* Prevent orphans/widows */
+            p, li, td {
+                orphans: 3;
+                widows: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 sticky top-0 z-50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="shrink-0 flex items-center">
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Beta v0.2.0</span>
+                        <span class="text-2xl font-bold text-white">Cyber Align</span>
+                    </div>
+                    <div class="flex items-baseline space-x-4">
+                        <a href="{% url 'main' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'saved_ksat_selections' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Saved</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    {% if user.is_authenticated %}
+                    <span class="text-sm text-white mr-2">
+                        <span class="font-semibold">ID:</span> {{ user.matricule }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="text-red-300 hover:text-red-100 text-sm font-medium">Logout</a>
+                    {% else %}
+                    <a href="{% url 'main' %}" class="text-green-300 hover:text-green-100 text-sm font-medium">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-6 px-6 pb-6 max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Complete Project Recap</h1>
+            <p class="text-gray-600">Overview of all your selections and configurations</p>
+            <div class="mt-4 text-sm text-gray-500" id="recap-timestamp"></div>
+            
+            <!-- Back Button -->
+            <div class="mt-4">
+                <a href="{% url 'summary_mil' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                    </svg>
+                    Back to Skills Selection
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: Job Position Information -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Job Position Information
+            </h2>
+            <div id="job-info-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 2: Selected Work Roles -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Selected Work Roles
+            </h2>
+            <div id="work-roles-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 2b: Emerging Work Roles (SANS & CEMA) -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Emerging Work Roles
+                <span class="text-sm font-normal text-gray-500 ml-2">(Optional - from Step 0)</span>
+            </h2>
+            <div id="emerging-work-roles-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 3: Selected KSAT -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Selected KSAT
+            </h2>
+            <div id="ksat-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 3b: Selected NF-COM Competency Areas -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                Selected NF-COM Competency Areas
+                <span class="text-sm font-normal text-gray-500 ml-2">(Optional - from Step 3)</span>
+            </h2>
+            <div id="nf-com-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 3c: GENERIC ATTRIBUTES of NF-COM-XXX -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                GENERIC ATTRIBUTES of NF-COM-XXX
+                <span class="text-sm font-normal text-gray-500 ml-2">(from AttributsPartDeux)</span>
+            </h2>
+            <div id="opm-attribute-levels-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 4: Skill Code Levels by OPM-ID -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Skill Code Levels by OPM-ID
+            </h2>
+            <div id="skill-levels-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 5: Generic Attributes and Business Skills Behavioural Factors -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Generic Attributes and Business Skills Behavioural Factors
+                <span class="text-sm font-normal text-gray-500 ml-2">(from Step 4)</span>
+            </h2>
+            <div id="competency-areas-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 6: Global Statistics -->
+        <div class="section-card p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Global Statistics
+            </h2>
+            <div id="global-stats-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="print-button flex gap-3">
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Print
+        </button>
+        <button onclick="exportToPDF()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            Download PDF
+        </button>
+        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download Excel
+        </button>
+    </div>
+
+    <script>
+        // Load and display all data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllRecapData();
+        });
+
+        function loadAllRecapData() {
+            // Display date/time
+            const timestampEl = document.getElementById('recap-timestamp');
+            if (timestampEl) {
+                timestampEl.textContent = `Generated on ${new Date().toLocaleString('en-US')}`;
+            }
+
+            // Debug: Log available data in localStorage
+            console.log('=== PROJECT RECAP DEBUG INFO ===');
+            console.log('Step 1 - Job & Work Roles:');
+            console.log('  step0_baseline_data:', localStorage.getItem('step0_baseline_data') ? 'Available' : 'Missing');
+            console.log('  currentJobNumber:', localStorage.getItem('currentJobNumber') || 'Missing');
+            console.log('Step 2 - KSAT Selection (Auto-selected from compare page):');
+            console.log('  ksatLastSavedState (session):', sessionStorage.getItem('ksatLastSavedState') ? 'Available' : 'Missing');
+            console.log('Step 3 - NF-COM Selection (Optional):');
+            console.log('  selectedNFDomains:', localStorage.getItem('selectedNFDomains') ? 'Available' : 'Missing');
+            console.log('  nfcomAttributeSelections:', localStorage.getItem('nfcomAttributeSelections') ? 'Available' : 'Missing');
+            console.log('Step 4 - Poste Attribute Levels (REQUIRED):');
+            console.log('  posteAttributeSelections:', localStorage.getItem('posteAttributeSelections') ? 'Available ✓' : 'Missing ✗');
+            console.log('Step 5 - Skill Levels (Optional):');
+            console.log('  wizardLevelSelections (summary_chart_full):', localStorage.getItem('wizardLevelSelections') ? 'Available' : 'Missing');
+            console.log('  summaryMilRoleCompetences (summary_mil checkboxes):', localStorage.getItem('summaryMilRoleCompetences') ? 'Available' : 'Missing');
+            console.log('  summaryMilSelectedSkills (summary_mil direct):', localStorage.getItem('summaryMilSelectedSkills') ? 'Available' : 'Missing');
+            console.log('================================');
+
+            // 1. Job Position Information
+            loadJobInfo();
+            
+            // 2. Work Roles
+            loadWorkRoles();
+            
+            // 2b. Emerging Work Roles (SANS & CEMA)
+            loadEmergingWorkRoles();
+            
+            // 3. KSAT
+            loadKSATData();
+            
+            // 3b. NF-COM Competency Areas
+            loadNFComDomains();
+            
+            // 3c. OPM Attribute Levels
+            loadOpmAttributeLevels();
+            
+            // 4. Skill Levels
+            loadSkillLevels();
+            
+            // 5. Competency Areas
+            loadCompetencyAreas();
+            
+            // 6. Global Statistics
+            loadGlobalStats();
+        }
+
+        function loadJobInfo() {
+            const container = document.getElementById('job-info-container');
+            if (!container) return;
+
+            const jobNumber = localStorage.getItem('currentJobNumber');
+            const jobSelection = localStorage.getItem('currentJobSelection');
+            
+            let html = '';
+            
+            if (jobSelection) {
+                try {
+                    const selection = JSON.parse(jobSelection);
+                    html += `
+                        <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+                            <div class="text-sm font-medium text-indigo-700 mb-1">Job Number</div>
+                            <div class="text-2xl font-bold text-indigo-900">${selection.poste || jobNumber || 'N/A'}</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="text-sm font-medium text-blue-700 mb-1">Job Name</div>
+                            <div class="text-xl font-semibold text-blue-900">${selection.nom || 'N/A'}</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <div class="text-sm font-medium text-purple-700 mb-1">Color</div>
+                            <div class="text-xl font-semibold text-purple-900">${selection.couleur || 'N/A'}</div>
+                        </div>
+                    `;
+                } catch (e) {
+                    console.error('Error parsing jobSelection:', e);
+                }
+            } else if (jobNumber) {
+                html += `
+                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+                        <div class="text-sm font-medium text-indigo-700 mb-1">Job Number</div>
+                        <div class="text-2xl font-bold text-indigo-900">${jobNumber}</div>
+                    </div>
+                `;
+            } else {
+                html = '<p class="text-gray-500 italic">No job position information available</p>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function loadEmergingWorkRoles() {
+            const container = document.getElementById('emerging-work-roles-container');
+            if (!container) return;
+
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            if (!step0Data) {
+                container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic">No emerging work roles selected.</p><p class="text-sm text-gray-500 mt-2">Emerging work roles (SANS and CEMA) can be selected in Step 0 (step0-baseline) if needed.</p></div>';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(step0Data);
+                const sansRoles = data.selectedSansRoles || [];
+                const cemaRoles = data.selectedCemaRoles || [];
+
+                if (sansRoles.length === 0 && cemaRoles.length === 0) {
+                    container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic">No emerging work roles selected.</p><p class="text-sm text-gray-500 mt-2">Emerging work roles (SANS and CEMA) can be selected in Step 0 (step0-baseline) if needed.</p></div>';
+                    return;
+                }
+
+                let html = '<div class="space-y-6">';
+                
+                // Display SANS roles if any
+                if (sansRoles.length > 0) {
+                    html += `
+                        <div class="border-2 border-purple-300 rounded-lg p-5 bg-gradient-to-br from-purple-50 to-indigo-50">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-purple-900 flex items-center gap-2">
+                                        <span>🤖</span>
+                                        SANS - Emerging AI Work Roles
+                                    </h3>
+                                    <p class="text-sm text-purple-700 mt-1">Source: SANS Summit, expert discussions</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-purple-600">${sansRoles.length}</div>
+                                    <div class="text-xs text-purple-500">Selected Roles</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    `;
+                    
+                    sansRoles.forEach((role, idx) => {
+                        html += `
+                            <div class="bg-white rounded-lg p-4 border-2 border-purple-200 shadow-sm">
+                                <div class="flex items-start gap-2 mb-2">
+                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-mono font-bold">${role.index + 1}</span>
+                                    <h4 class="font-semibold text-gray-800 flex-1">${role.title}</h4>
+                                </div>
+                                <p class="text-sm text-gray-600 leading-relaxed">${role.description || ''}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div></div>';
+                }
+                
+                // Display CEMA roles if any
+                if (cemaRoles.length > 0) {
+                    html += `
+                        <div class="border-2 border-orange-300 rounded-lg p-5 bg-gradient-to-br from-orange-50 to-red-50">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-orange-900 flex items-center gap-2">
+                                        <span>⚡</span>
+                                        CEMA FM 3-12 - Cyberspace & Electromagnetic Warfare
+                                    </h3>
+                                    <p class="text-sm text-orange-700 mt-1">Source: FM 3-12 (2021)</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-orange-600">${cemaRoles.length}</div>
+                                    <div class="text-xs text-orange-500">Selected Roles</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    `;
+                    
+                    cemaRoles.forEach((role, idx) => {
+                        html += `
+                            <div class="bg-white rounded-lg p-4 border-2 border-orange-200 shadow-sm">
+                                <div class="flex items-start gap-2 mb-2">
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-mono font-bold">${role.index + 1}</span>
+                                    <h4 class="font-semibold text-gray-800 flex-1">${role.title}</h4>
+                                </div>
+                                <p class="text-sm text-gray-600 leading-relaxed">${role.description || ''}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div></div>';
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Error parsing step0Data for emerging roles:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading emerging work roles</p>';
+            }
+        }
+
+        function loadWorkRoles() {
+            const container = document.getElementById('work-roles-container');
+            if (!container) return;
+
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            if (!step0Data) {
+                container.innerHTML = '<p class="text-gray-500 italic">No work roles selected</p>';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(step0Data);
+                const roles = data.selectedWorkRoles || [];
+                const primaryOpmId = data.primaryRoleOpmId;
+
+                if (roles.length === 0) {
+                    container.innerHTML = '<p class="text-gray-500 italic">No work roles selected</p>';
+                    return;
+                }
+
+                let html = '<div class="space-y-4">';
+                
+                if (primaryOpmId) {
+                    const primaryRole = roles.find(r => r.opm_code === primaryOpmId);
+                    if (primaryRole) {
+                        html += `
+                            <div class="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-yellow-600 font-bold">⭐ PRIMARY</span>
+                                </div>
+                                <div class="text-lg font-bold text-gray-900">OPM-ID: ${primaryRole.opm_code}</div>
+                                <div class="text-base text-gray-700">${primaryRole.ncwf_work_role || primaryRole.dcwf_work_role || 'N/A'}</div>
+                                ${primaryRole.dcwf_element ? `<div class="text-sm text-gray-600 mt-1">${primaryRole.dcwf_element}</div>` : ''}
+                            </div>
+                        `;
+                    }
+                }
+
+                const otherRoles = roles.filter(r => r.opm_code !== primaryOpmId);
+                if (otherRoles.length > 0) {
+                    html += '<div class="mt-4"><h3 class="text-lg font-semibold text-gray-800 mb-3">Other Work Roles</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+                    otherRoles.forEach(role => {
+                        html += `
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                <div class="text-base font-bold text-gray-900">OPM-ID: ${role.opm_code}</div>
+                                <div class="text-sm text-gray-700">${role.ncwf_work_role || role.dcwf_work_role || 'N/A'}</div>
+                                ${role.dcwf_element ? `<div class="text-xs text-gray-600 mt-1">${role.dcwf_element}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                    html += '</div></div>';
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Error parsing step0Data:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading work roles</p>';
+            }
+        }
+
+        function loadKSATData() {
+            const container = document.getElementById('ksat-container');
+            if (!container) return;
+
+            // Try sessionStorage first (most recent data from compare_ksat page)
+            const sessionData = sessionStorage.getItem('ksatLastSavedState');
+            let ksatData = null;
+            
+            console.log('=== LOADING KSAT DATA ===');
+            console.log('sessionStorage ksatLastSavedState exists:', !!sessionData);
+            
+            if (sessionData) {
+                try {
+                    ksatData = JSON.parse(sessionData);
+                    console.log('✓ Loaded KSAT data from sessionStorage');
+                    console.log('  - Has roles:', !!(ksatData.roles && ksatData.roles.length > 0));
+                    console.log('  - Has ksatData:', !!(ksatData.ksatData));
+                    console.log('  - Has allSelectValues:', !!(ksatData.allSelectValues));
+                    console.log('  - Current URL:', ksatData.currentUrl || 'N/A');
+                } catch (e) {
+                    console.error('✗ Error parsing ksatLastSavedState:', e);
+                }
+            }
+            
+            // Fallback to localStorage
+            if (!ksatData) {
+                console.log('Trying localStorage fallback...');
+                const localData = localStorage.getItem('currentKsatSelection');
+                console.log('localStorage currentKsatSelection exists:', !!localData);
+                
+                if (localData) {
+                    try {
+                        ksatData = JSON.parse(localData);
+                        console.log('✓ Loaded KSAT data from localStorage');
+                    } catch (e) {
+                        console.error('✗ Error parsing currentKsatSelection:', e);
+                    }
+                }
+            }
+            
+            if (!ksatData) {
+                console.error('✗ NO KSAT DATA FOUND in sessionStorage or localStorage');
+            }
+
+            // Get the saved URL from ksatData (if available)
+            let savedUrl = ksatData.currentUrl || null;
+            
+            // If no saved URL, try to construct it from step0
+            if (!savedUrl) {
+                const step0Data = localStorage.getItem('step0_baseline_data');
+                if (step0Data) {
+                    try {
+                        const data = JSON.parse(step0Data);
+                        const selectedRoles = data.selectedWorkRoles || [];
+                        
+                        // Build URL with parameters from step0
+                        const params = new URLSearchParams();
+                        selectedRoles.forEach(role => {
+                            if (role.dcwf_2025_id) {
+                                params.append('dcwf_2025_ids', role.dcwf_2025_id);
+                            }
+                            if (role.ncwf_2025_id) {
+                                params.append('ncwf_2025_ids', role.ncwf_2025_id);
+                            }
+                            if (role.dcwf_id) {
+                                params.append('dcwf_ids', role.dcwf_id);
+                            }
+                            if (role.ncwf_2017_id) {
+                                params.append('ncwf_2017_ids', role.ncwf_2017_id);
+                            }
+                            if (role.ncwf_2024_id) {
+                                params.append('ncwf_2024_ids', role.ncwf_2024_id);
+                            }
+                        });
+                        
+                        if (params.toString()) {
+                            savedUrl = `/compare/?${params.toString()}`;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing step0Data for URL:', e);
+                    }
+                }
+            }
+            
+            // Default fallback URL
+            const compareUrl = savedUrl || '/compare/';
+            
+            if (!ksatData) {
+                container.innerHTML = `
+                    <div class="bg-blue-50 border border-blue-300 rounded-lg p-4">
+                        <p class="text-blue-800 font-bold">No KSAT data available in sessionStorage</p>
+                        <p class="text-sm text-blue-700 mt-2">To load KSATs:</p>
+                        <ol class="text-sm text-blue-700 mt-2 list-decimal list-inside space-y-1">
+                            <li>Go to the <a href="${compareUrl}" class="underline font-semibold">KSAT comparison page</a> (with your selected work roles)</li>
+                            <li>The page will automatically save KSAT data when loaded (wait 2-3 seconds)</li>
+                            <li>Return to this page to see the KSAT data</li>
+                        </ol>
+                        <p class="text-xs text-blue-600 mt-3 italic">Note: KSATs are saved in sessionStorage and will be available until you close the browser tab.</p>
+                        <p class="text-xs text-blue-600 mt-1">URL: <code class="bg-blue-100 px-1 rounded">${compareUrl}</code></p>
+                    </div>
+                `;
+                return;
+            }
+
+            // EXACT REPLICATION OF compare_ksat.html LOGIC
+            const roles = ksatData.roles || [];
+            const ksat = ksatData.ksatData || {};
+            const allSelectValues = ksatData.allSelectValues || {};
+            
+            console.log('=== KSAT DEBUG START ===');
+            console.log('Roles count:', roles.length);
+            console.log('Roles (first 3):', roles.slice(0, 3));
+            console.log('KSAT categories:', Object.keys(ksat));
+            console.log('KSAT counts:', {
+                task: ksat.task?.length || 0,
+                knowledge: ksat.knowledge?.length || 0,
+                skill: ksat.skill?.length || 0,
+                abilitie: ksat.abilitie?.length || 0
+            });
+            console.log('allSelectValues structure:', {
+                hasTask: !!allSelectValues.task,
+                hasKnowledge: !!allSelectValues.knowledge,
+                hasSkill: !!allSelectValues.skill,
+                hasAbilitie: !!allSelectValues.abilitie
+            });
+            console.log('allSelectValues counts:', {
+                task: allSelectValues.task ? Object.keys(allSelectValues.task).length : 0,
+                knowledge: allSelectValues.knowledge ? Object.keys(allSelectValues.knowledge).length : 0,
+                skill: allSelectValues.skill ? Object.keys(allSelectValues.skill).length : 0,
+                abilitie: allSelectValues.abilitie ? Object.keys(allSelectValues.abilitie).length : 0
+            });
+            
+            // CRITICAL: Show sample keys from allSelectValues to debug ID matching
+            if (allSelectValues.task && Object.keys(allSelectValues.task).length > 0) {
+                console.log('allSelectValues.task sample keys (first 5):', Object.keys(allSelectValues.task).slice(0, 5));
+                console.log('allSelectValues.task sample entries (first 3):', Object.fromEntries(
+                    Object.entries(allSelectValues.task).slice(0, 3)
+                ));
+            }
+            if (ksat.task && ksat.task.length > 0) {
+                console.log('ksat.task sample IDs (first 5):', ksat.task.slice(0, 5).map(k => k.id));
+            }
+            
+            // CRITICAL CHECKS
+            if (roles.length === 0) {
+                console.error('❌ CRITICAL: NO ROLES FOUND! ksatData.roles is empty.');
+            }
+            const totalKsatItems = (ksat.task?.length || 0) + (ksat.knowledge?.length || 0) + 
+                                  (ksat.skill?.length || 0) + (ksat.abilitie?.length || 0);
+            console.log('KSAT items by category:', {
+                task: ksat.task?.length || 0,
+                knowledge: ksat.knowledge?.length || 0,
+                skill: ksat.skill?.length || 0,
+                abilitie: ksat.abilitie?.length || 0,
+                total: totalKsatItems
+            });
+            if (totalKsatItems === 0) {
+                console.error('❌ CRITICAL: NO KSAT ITEMS FOUND! ksatData.ksatData is empty.');
+            }
+            const totalAllSelectValues = (Object.keys(allSelectValues.task || {}).length) + 
+                                        (Object.keys(allSelectValues.knowledge || {}).length) +
+                                        (Object.keys(allSelectValues.skill || {}).length) +
+                                        (Object.keys(allSelectValues.abilitie || {}).length);
+            if (totalAllSelectValues === 0) {
+                console.warn('⚠️ WARNING: allSelectValues is empty! This means no checkboxes are marked as checked.');
+            }
+            
+            if (ksat.task && ksat.task.length > 0) {
+                console.log('First task KSAT:', {
+                    id: ksat.task[0].id,
+                    description: ksat.task[0].description?.substring(0, 50),
+                    roleStatuses: ksat.task[0].roleStatuses,
+                    roleStatusesKeys: ksat.task[0].roleStatuses ? Object.keys(ksat.task[0].roleStatuses) : [],
+                    checked: ksat.task[0].checked
+                });
+            }
+            
+            // Group roles by OPM-ID (one OPM-ID can have multiple frameworks: DCWF and NCWF)
+            // This matches the structure in compare_ksat.html where columns are grouped by OPM-ID
+            const rolesByOpmId = {};
+            const opmIds = [];
+            
+            roles.forEach(role => {
+                const opmId = String(role.opmId || role.opm_id || '');
+                if (opmId && opmId !== '&nbsp;') {
+                    if (!rolesByOpmId[opmId]) {
+                        rolesByOpmId[opmId] = [];
+                        opmIds.push(opmId);
+                    }
+                    rolesByOpmId[opmId].push(role);
+                }
+            });
+            
+            // Build workRolesMap (use first role title for each OPM-ID)
+            const workRolesMap = {};
+            opmIds.forEach(opmId => {
+                if (rolesByOpmId[opmId] && rolesByOpmId[opmId].length > 0) {
+                    workRolesMap[opmId] = rolesByOpmId[opmId][0].title || `OPM-ID ${opmId}`;
+                }
+            });
+            
+            console.log('OPM-IDs found:', opmIds);
+            console.log('Roles by OPM-ID:', rolesByOpmId);
+            
+            // EXACT REPLICATION: countSelectedKSATWithCheckmarkByType logic
+            // For each OPM-ID AND Framework, count KSATs where checkbox is checked AND the column for that framework has ✅
+            // IMPORTANT: One OPM-ID can have multiple frameworks (DCWF and NCWF), so we group by OPM-ID AND Framework
+            const ksatByOpmIdAndFramework = {};
+            
+            // Initialize for all OPM-IDs and their frameworks
+            opmIds.forEach(opmId => {
+                const rolesForOpmId = rolesByOpmId[opmId] || [];
+                rolesForOpmId.forEach(role => {
+                    const framework = role.framework || 'Unknown';
+                    if (!ksatByOpmIdAndFramework[opmId]) {
+                        ksatByOpmIdAndFramework[opmId] = {};
+                    }
+                    if (!ksatByOpmIdAndFramework[opmId][framework]) {
+                        ksatByOpmIdAndFramework[opmId][framework] = {
+                            task: [],
+                            knowledge: [],
+                            skill: [],
+                            abilitie: []
+                        };
+                    }
+                });
+            });
+            
+            let totalProcessed = 0;
+            let totalChecked = 0;
+            let totalAssociated = 0;
+            
+            // Process each category (order: Tasks, Knowledge, Skills, Abilities)
+            ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+                if (!ksat[category] || !Array.isArray(ksat[category])) {
+                    console.log(`${category}: No data`);
+                    return;
+                }
+                
+                console.log(`Processing ${category}: ${ksat[category].length} items`);
+                
+                ksat[category].forEach((ksatItem, idx) => {
+                    if (!ksatItem) return;
+                    totalProcessed++;
+                    
+                    // Check if checkbox is checked (EXACT LOGIC from compare_ksat.html)
+                    // IMPORTANT: Normalize the ID (remove \n, trim whitespace) to match allSelectValues keys
+                    const normalizedId = (ksatItem.id || '').trim().replace(/\n/g, '');
+                    
+                    let isChecked = false; // Default to false (changed from true)
+                    
+                    // Priority 1: Check allSelectValues (most reliable)
+                    if (allSelectValues && allSelectValues[category] && Object.keys(allSelectValues[category]).length > 0) {
+                        // Try exact match first
+                        isChecked = !!allSelectValues[category][normalizedId];
+                        
+                        // If not found, try all variations of the ID
+                        if (!isChecked) {
+                            // Try with original ID
+                            if (ksatItem.id) {
+                                isChecked = !!allSelectValues[category][ksatItem.id.trim()];
+                            }
+                            // Try with just the ID part (in case it's stored as number)
+                            if (!isChecked && normalizedId) {
+                                const idAsNumber = parseInt(normalizedId.replace(/[^0-9]/g, ''));
+                                if (!isNaN(idAsNumber)) {
+                                    isChecked = !!allSelectValues[category][idAsNumber.toString()];
+                                }
+                            }
+                            // Try searching in all keys (case-insensitive, partial match)
+                            if (!isChecked) {
+                                const matchingKey = Object.keys(allSelectValues[category]).find(key => 
+                                    key.trim() === normalizedId || 
+                                    key.trim() === ksatItem.id?.trim() ||
+                                    key.includes(normalizedId) ||
+                                    normalizedId.includes(key.trim())
+                                );
+                                if (matchingKey) {
+                                    isChecked = !!allSelectValues[category][matchingKey];
+                                }
+                            }
+                        }
+                        
+                        // Debug first item
+                        if (idx === 0) {
+                            console.log(`[CHECK] Checking KSAT ${normalizedId}:`, {
+                                normalizedId: normalizedId,
+                                originalId: ksatItem.id,
+                                foundInAllSelectValues: !!allSelectValues[category][normalizedId],
+                                allSelectValuesKeys: Object.keys(allSelectValues[category]).slice(0, 10),
+                                allSelectValuesSample: Object.fromEntries(
+                                    Object.entries(allSelectValues[category]).slice(0, 3)
+                                ),
+                                isChecked: isChecked
+                            });
+                        }
+                    }
+                    
+                    // Priority 2: Fallback to checked property if allSelectValues is empty
+                    if (!isChecked && (!allSelectValues || !allSelectValues[category] || Object.keys(allSelectValues[category] || {}).length === 0)) {
+                        if (ksatItem.hasOwnProperty('checked')) {
+                            isChecked = ksatItem.checked !== false;
+                        } else {
+                            // Default: assume checked if no info (backward compatibility)
+                            isChecked = true;
+                        }
+                    }
+                    
+                    // Debug first item
+                    if (idx === 0) {
+                        console.log(`First ${category} item:`, {
+                            id: ksatItem.id,
+                            checked: isChecked,
+                            hasRoleStatuses: !!ksatItem.roleStatuses,
+                            roleStatuses: ksatItem.roleStatuses,
+                            roleStatusesKeys: ksatItem.roleStatuses ? Object.keys(ksatItem.roleStatuses) : []
+                        });
+                    }
+                    
+                    if (!isChecked) return; // Skip if not checked
+                    totalChecked++;
+                    
+                    // For each OPM-ID, check if ANY role (column) for that OPM-ID has ✅
+                    opmIds.forEach(opmId => {
+                        const rolesForOpmId = rolesByOpmId[opmId] || [];
+                        
+                        if (rolesForOpmId.length === 0) {
+                            console.warn(`No roles found for OPM-ID ${opmId}`);
+                            return;
+                        }
+                        
+                        // Check EACH framework separately for this OPM-ID (not just the first match)
+                        // This allows a KSAT to appear in both DCWF and NCWF if it has ✅ in both columns
+                        rolesForOpmId.forEach(role => {
+                            const framework = role.framework || 'Unknown';
+                            let isAssociatedWithFramework = false;
+                            
+                            if (ksatItem.roleStatuses && Object.keys(ksatItem.roleStatuses).length > 0) {
+                                // Try exact match with role.title
+                                if (ksatItem.roleStatuses[role.title] === true) {
+                                    isAssociatedWithFramework = true;
+                                }
+                                // Try match with OPM-ID + Framework (new format from saveKsatDataForRecap)
+                                else {
+                                    const key = `${role.opmId}_${role.framework}`;
+                                    if (ksatItem.roleStatuses[key] === true) {
+                                        isAssociatedWithFramework = true;
+                                    }
+                                    // Try case-insensitive or partial match
+                                    else {
+                                        const roleStatusKeys = Object.keys(ksatItem.roleStatuses);
+                                        const matchingKey = roleStatusKeys.find(key => 
+                                            key.toLowerCase() === role.title.toLowerCase() ||
+                                            key.includes(role.title) ||
+                                            role.title.includes(key) ||
+                                            key === `${role.opmId}_${role.framework}`
+                                        );
+                                        if (matchingKey && ksatItem.roleStatuses[matchingKey] === true) {
+                                            isAssociatedWithFramework = true;
+                                        }
+                                    }
+                                }
+                            } else {
+                                // If no roleStatuses, assume all KSATs are associated (backward compatibility)
+                                isAssociatedWithFramework = true;
+                            }
+                            
+                            if (isAssociatedWithFramework) {
+                                totalAssociated++;
+                                
+                                // Initialize structure if needed
+                                if (!ksatByOpmIdAndFramework[opmId]) {
+                                    ksatByOpmIdAndFramework[opmId] = {};
+                                }
+                                if (!ksatByOpmIdAndFramework[opmId][framework]) {
+                                    ksatByOpmIdAndFramework[opmId][framework] = {
+                                        task: [],
+                                        knowledge: [],
+                                        skill: [],
+                                        abilitie: []
+                                    };
+                                }
+                                
+                                // Avoid duplicates
+                                const existing = ksatByOpmIdAndFramework[opmId][framework][category].find(k => k.id === ksatItem.id);
+                                if (!existing) {
+                                    ksatByOpmIdAndFramework[opmId][framework][category].push({
+                                        id: ksatItem.id || '',
+                                        description: ksatItem.description || ''
+                                    });
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+            
+            console.log('Processing summary:', {
+                totalProcessed,
+                totalChecked,
+                totalAssociated
+            });
+            console.log('KSAT by OPM-ID and Framework:', ksatByOpmIdAndFramework);
+            
+            // Check if we have any KSATs
+            const totalKsatCount = Object.values(ksatByOpmIdAndFramework).reduce((total, opmData) => {
+                return total + Object.values(opmData).reduce((frameworkTotal, frameworkKsat) => {
+                    return frameworkTotal + frameworkKsat.task.length + frameworkKsat.knowledge.length + 
+                           frameworkKsat.skill.length + frameworkKsat.abilitie.length;
+                }, 0);
+            }, 0);
+            
+            console.log('Total KSAT count:', totalKsatCount);
+            
+            console.log('=== END KSAT DEBUG ===');
+            
+            const finalKsatCount = totalKsatCount;
+            
+            if (finalKsatCount === 0) {
+                container.innerHTML = `
+                    <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-4">
+                        <p class="text-yellow-800 font-bold">No KSATs found (0 total)</p>
+                        <p class="text-sm text-yellow-700 mt-2">Go to <a href="${compareUrl}" class="underline font-semibold">compare page</a> and wait 2-3 seconds for auto-save</p>
+                        <p class="text-xs text-yellow-600 mt-2">Check browser console (F12) for detailed debug logs</p>
+                        <p class="text-xs text-yellow-600 mt-1">Debug info: totalProcessed=${totalProcessed}, totalChecked=${totalChecked}, totalAssociated=${totalAssociated}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div class="space-y-6">';
+            
+            // Display KSATs grouped by OPM-ID AND Framework
+            opmIds.forEach(opmId => {
+                const roleName = workRolesMap[opmId] || `OPM-ID ${opmId}`;
+                const opmData = ksatByOpmIdAndFramework[opmId] || {};
+                const frameworks = Object.keys(opmData);
+                
+                if (frameworks.length === 0) {
+                    return; // Skip if no frameworks for this OPM-ID
+                }
+                
+                // Calculate total count for this OPM-ID (across all frameworks)
+                const totalCountForOpm = frameworks.reduce((total, framework) => {
+                    const frameworkKsat = opmData[framework];
+                    return total + frameworkKsat.task.length + frameworkKsat.knowledge.length + 
+                           frameworkKsat.skill.length + frameworkKsat.abilitie.length;
+                }, 0);
+                
+                html += `
+                    <div class="border-2 border-gray-300 rounded-lg p-5 bg-white shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">OPM-ID: ${opmId}</h3>
+                                <p class="text-sm text-gray-600">${roleName}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-indigo-600">${totalCountForOpm}</div>
+                                <div class="text-xs text-gray-500">Total Selected KSATs</div>
+                            </div>
+                        </div>
+                `;
+                
+                // Display each framework separately
+                frameworks.forEach(framework => {
+                    const frameworkKsat = opmData[framework];
+                    const frameworkCount = frameworkKsat.task.length + frameworkKsat.knowledge.length + 
+                                          frameworkKsat.skill.length + frameworkKsat.abilitie.length;
+                    
+                    // Determine framework display name and color
+                    const frameworkInfo = {
+                        'DCWF 2017': { name: 'DCWF 2017', color: 'blue', bgColor: 'blue-50', borderColor: 'blue-200', textColor: 'blue-700' },
+                        'DCWF 2025': { name: 'DCWF 2025', color: 'blue', bgColor: 'blue-50', borderColor: 'blue-200', textColor: 'blue-700' },
+                        'NCWF 2017': { name: 'NCWF 2017', color: 'green', bgColor: 'green-50', borderColor: 'green-200', textColor: 'green-700' },
+                        'NCWF 2024': { name: 'NCWF 2024', color: 'green', bgColor: 'green-50', borderColor: 'green-200', textColor: 'green-700' },
+                        'NCWF 2025': { name: 'NCWF 2025', color: 'green', bgColor: 'green-50', borderColor: 'green-200', textColor: 'green-700' }
+                    };
+                    
+                    const fwInfo = frameworkInfo[framework] || { 
+                        name: framework, 
+                        color: 'gray', 
+                        bgColor: 'gray-50', 
+                        borderColor: 'gray-200', 
+                        textColor: 'gray-700' 
+                    };
+                    
+                    html += `
+                        <div class="mb-6 p-4 rounded-lg border-2 border-${fwInfo.borderColor} bg-${fwInfo.bgColor}">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-lg font-bold text-${fwInfo.textColor}">${fwInfo.name}</h4>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-${fwInfo.textColor}">${frameworkCount}</div>
+                                    <div class="text-xs text-${fwInfo.textColor} opacity-75">KSATs</div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                                <div class="bg-orange-50 p-3 rounded-lg text-center border-2 border-orange-200">
+                                    <div class="text-2xl font-bold text-orange-600">${frameworkKsat.task.length}</div>
+                                    <div class="text-xs font-semibold text-orange-700 mt-1">Tasks</div>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg text-center border-2 border-blue-200">
+                                    <div class="text-2xl font-bold text-blue-600">${frameworkKsat.knowledge.length}</div>
+                                    <div class="text-xs font-semibold text-blue-700 mt-1">Knowledge</div>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg text-center border-2 border-green-200">
+                                    <div class="text-2xl font-bold text-green-600">${frameworkKsat.skill.length}</div>
+                                    <div class="text-xs font-semibold text-green-700 mt-1">Skills</div>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg text-center border-2 border-purple-200">
+                                    <div class="text-2xl font-bold text-purple-600">${frameworkKsat.abilitie.length}</div>
+                                    <div class="text-xs font-semibold text-purple-700 mt-1">Abilities</div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="toggleKsatList('${opmId}', '${framework}')" 
+                                    class="w-full px-4 py-2 bg-${fwInfo.bgColor} hover:bg-${fwInfo.color}-100 text-${fwInfo.textColor} font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 border border-${fwInfo.borderColor}">
+                                <span id="ksat-toggle-text-${opmId}-${framework}">Show KSAT List</span>
+                                <svg id="ksat-toggle-icon-${opmId}-${framework}" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <div id="ksat-list-${opmId}-${framework}" class="hidden mt-4 space-y-3">
+                    `;
+                    
+                    // Display KSATs by category (order: Tasks, Knowledge, Skills, Abilities)
+                    const categoryInfo = {
+                        'task': { color: 'orange', label: 'Tasks' },
+                        'knowledge': { color: 'blue', label: 'Knowledge' },
+                        'skill': { color: 'green', label: 'Skills' },
+                        'abilitie': { color: 'purple', label: 'Abilities' }
+                    };
+                    
+                    ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+                        const info = categoryInfo[category];
+                        const ksatList = frameworkKsat[category] || [];
+                        
+                        if (ksatList.length > 0) {
+                            html += `
+                                <div class="bg-${info.color}-50 p-4 rounded-lg border-2 border-${info.color}-200">
+                                    <h4 class="text-sm font-bold text-${info.color}-800 mb-2">${info.label} (${ksatList.length})</h4>
+                                    <div class="space-y-1">
+                            `;
+                            
+                            ksatList.forEach(ksatItem => {
+                                html += `
+                                    <div class="bg-white p-2 rounded border border-${info.color}-300 text-sm">
+                                        <span class="font-semibold text-${info.color}-700">${ksatItem.id}</span>
+                                        <span class="text-gray-700 ml-2">${ksatItem.description || ''}</span>
+                                    </div>
+                                `;
+                            });
+                            
+                            html += '</div></div>';
+                        }
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // Function to toggle KSAT list visibility (updated to support framework)
+        function toggleKsatList(opmId, framework) {
+            const listDiv = document.getElementById(`ksat-list-${opmId}-${framework}`);
+            const toggleText = document.getElementById(`ksat-toggle-text-${opmId}-${framework}`);
+            const toggleIcon = document.getElementById(`ksat-toggle-icon-${opmId}-${framework}`);
+            
+            if (listDiv && toggleText && toggleIcon) {
+                if (listDiv.classList.contains('hidden')) {
+                    listDiv.classList.remove('hidden');
+                    toggleText.textContent = 'Hide KSAT List';
+                    toggleIcon.classList.add('rotate-180');
+                } else {
+                    listDiv.classList.add('hidden');
+                    toggleText.textContent = 'Show KSAT List';
+                    toggleIcon.classList.remove('rotate-180');
+                }
+            }
+        }
+
+        function loadNFComDomains() {
+            const container = document.getElementById('nf-com-container');
+            if (!container) return;
+
+            const selectedDomains = localStorage.getItem('selectedNFDomains');
+            if (!selectedDomains) {
+                container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No NF-COM competency areas selected.</strong></p><p class="text-sm text-gray-500 mt-2">This step is optional. NF-COM competency areas are selected in Step 3 (etape2_first_step.html) after clicking "Select Level". You can proceed without selecting any.</p></div>';
+                return;
+            }
+
+            try {
+                const domains = JSON.parse(selectedDomains);
+                if (domains.length === 0) {
+                    container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic">No NF-COM competency areas selected.</p></div>';
+                    return;
+                }
+
+                const nfComDefinitions = {
+                    "NF-COM-001": { name: "Access Controls", color: "#3b82f6" },
+                    "NF-COM-002": { name: "Artificial Intelligence (AI) Security", color: "#8b5cf6" },
+                    "NF-COM-003": { name: "Asset Management", color: "#10b981" },
+                    "NF-COM-004": { name: "Cloud Security", color: "#06b6d4" },
+                    "NF-COM-005": { name: "Communications Security", color: "#6366f1" },
+                    "NF-COM-006": { name: "Cryptography", color: "#ec4899" },
+                    "NF-COM-007": { name: "Cyber Resiliency", color: "#f59e0b" },
+                    "NF-COM-008": { name: "DevSecOps", color: "#84cc16" },
+                    "NF-COM-009": { name: "Operating Systems (OS) Security", color: "#14b8a6" },
+                    "NF-COM-010": { name: "Operational Technology (OT) Security", color: "#f97316" },
+                    "NF-COM-011": { name: "Supply Chain Security", color: "#ef4444" },
+                    "NF-COM-012": { name: "Cybersecurity Fundamentals", color: "#3b82f6" },
+                    "NF-COM-013": { name: "Cybersecurity Leadership", color: "#8b5cf6" },
+                    "NF-COM-014": { name: "Data Security", color: "#10b981" },
+                    "NF-COM-015": { name: "Secure Programming", color: "#06b6d4" }
+                };
+
+                let html = '<div class="space-y-3">';
+                html += `<div class="mb-4"><div class="text-sm font-medium text-gray-700">Total Selected: <span class="text-2xl font-bold text-indigo-600">${domains.length}</span> competency area${domains.length > 1 ? 's' : ''}</div></div>`;
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+                
+                domains.forEach(domainCode => {
+                    const domain = nfComDefinitions[domainCode];
+                    if (domain) {
+                        html += `
+                            <div class="flex items-center gap-3 p-4 bg-white border-2 rounded-lg shadow-sm" style="border-color: ${domain.color}">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white" style="background-color: ${domain.color}">
+                                    ${domainCode.split('-')[2]}
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-bold text-gray-900">${domainCode}</div>
+                                    <div class="text-sm text-gray-600">${domain.name}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="flex items-center gap-3 p-4 bg-gray-50 border-2 border-gray-300 rounded-lg">
+                                <div class="font-bold text-gray-900">${domainCode}</div>
+                            </div>
+                        `;
+                    }
+                });
+
+                html += '</div></div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Error parsing selectedNFDomains:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading NF-COM competency areas</p>';
+            }
+        }
+
+        function loadOpmAttributeLevels() {
+            const container = document.getElementById('opm-attribute-levels-container');
+            if (!container) return;
+
+            // Load selected NF-COM domains
+            const selectedNFDomains = localStorage.getItem('selectedNFDomains');
+            
+            // Load NF-COM attribute levels from AttributsPartDeux.html
+            const nfcomAttributeData = localStorage.getItem('nfcomAttributeSelections');
+            
+            if (!selectedNFDomains) {
+                container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No NF-COM competency areas selected.</strong></p><p class="text-sm text-gray-500 mt-2">This section displays the generic attributes (AUTO, INFL, COMP, KNGE) for each selected NF-COM. Please go to Step 3 (etape2_first_step) and select NF-COM domains, then complete Step 3b (AttributsPartDeux) to set attribute levels.</p></div>';
+                return;
+            }
+            
+            let nfcomList = [];
+            try {
+                nfcomList = JSON.parse(selectedNFDomains);
+            } catch (e) {
+                console.error('Error parsing selectedNFDomains:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading NF-COM list</p>';
+                return;
+            }
+            
+            let attributeLevels = {};
+            if (nfcomAttributeData) {
+                try {
+                    attributeLevels = JSON.parse(nfcomAttributeData);
+                    console.log('Loaded nfcomAttributeSelections:', attributeLevels);
+                } catch (e) {
+                    console.error('Error parsing nfcomAttributeSelections:', e);
+                }
+            }
+
+            try {
+                // NF-COM data mapping
+                const nfcomData = {
+                    'NF-COM-001': 'Access Controls',
+                    'NF-COM-002': 'Artificial Intelligence (AI) Security',
+                    'NF-COM-003': 'Asset Management',
+                    'NF-COM-004': 'Cloud Security',
+                    'NF-COM-005': 'Communications Security',
+                    'NF-COM-006': 'Cryptography',
+                    'NF-COM-007': 'Cyber Resiliency',
+                    'NF-COM-008': 'DevSecOps',
+                    'NF-COM-009': 'Operating Systems (OS) Security',
+                    'NF-COM-010': 'Operational Technology (OT) Security',
+                    'NF-COM-011': 'Supply Chain Security',
+                    'NF-COM-012': 'Cybersecurity Fundamentals',
+                    'NF-COM-013': 'Cybersecurity Leadership',
+                    'NF-COM-014': 'Data Security',
+                    'NF-COM-015': 'Secure Programming'
+                };
+
+                // Generic attribute names and colors
+                const attributeInfo = {
+                    'AUTO': { name: 'Autonomy', color: '#3b82f6', fullName: 'Autonomy' },
+                    'INFL': { name: 'Influence', color: '#22c55e', fullName: 'Influence' },
+                    'COMP': { name: 'Complexity', color: '#f97316', fullName: 'Complexity' },
+                    'KNGE': { name: 'Knowledge', color: '#8b5cf6', fullName: 'Knowledge' }
+                };
+
+                let html = '<div class="space-y-6">';
+                
+                if (nfcomList.length === 0) {
+                    html += '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic">No NF-COM competency areas selected.</p></div>';
+                } else {
+                    nfcomList.forEach(nfcom => {
+                        const nfcomName = nfcomData[nfcom] || nfcom;
+                        const levels = attributeLevels[nfcom] || {};
+                        
+                        // Check if this NF-COM has any levels set
+                        const hasLevels = Object.keys(levels).length > 0;
+                        
+                        // Calculate average if levels exist
+                        let avgLevel = 0;
+                        if (hasLevels) {
+                            const levelValues = Object.values(levels);
+                            avgLevel = levelValues.length > 0 ? (levelValues.reduce((a, b) => a + b, 0) / levelValues.length).toFixed(1) : 0;
+                        }
+                        
+                        html += `
+                            <div class="border-2 border-indigo-300 rounded-lg p-5 bg-gradient-to-br from-indigo-50 to-purple-50">
+                                <div class="flex justify-between items-center mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-indigo-900">${nfcom}</h3>
+                                        <p class="text-sm text-indigo-700">${nfcomName}</p>
+                                    </div>
+                                    ${hasLevels ? `
+                                    <div class="text-right">
+                                        <div class="text-3xl font-bold text-indigo-600">${avgLevel}/7</div>
+                                        <div class="text-xs text-indigo-500">Average Level</div>
+                                    </div>
+                                    ` : `
+                                    <div class="text-right">
+                                        <div class="text-sm font-semibold text-gray-500">Not Set</div>
+                                    </div>
+                                    `}
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        `;
+
+                        // Display each generic attribute
+                        ['AUTO', 'INFL', 'COMP', 'KNGE'].forEach(attrKey => {
+                            const info = attributeInfo[attrKey];
+                            const level = levels[attrKey] || 0;
+                            const isSet = level > 0;
+                            
+                            // Determine color based on level
+                            let bgColor = 'bg-gray-400';
+                            if (isSet) {
+                                if (level >= 7) bgColor = 'bg-green-600';
+                                else if (level >= 5) bgColor = 'bg-blue-600';
+                                else if (level >= 3) bgColor = 'bg-yellow-600';
+                                else bgColor = 'bg-orange-600';
+                            }
+                            
+                            html += `
+                                <div class="bg-white rounded-lg p-4 border-2 shadow-sm ${isSet ? '' : 'opacity-60'}" style="border-color: ${info.color}">
+                                    <div class="text-center">
+                                        <div class="text-sm font-semibold mb-2" style="color: ${info.color}">${info.fullName}</div>
+                                        <div class="text-3xl font-bold mb-2 ${isSet ? '' : 'text-gray-400'}" style="${isSet ? `color: ${info.color}` : ''}">${isSet ? level : '-'}</div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            ${isSet ? `<div class="h-2 rounded-full transition-all" style="width: ${Math.round((level / 7) * 100)}%; background-color: ${info.color}"></div>` : ''}
+                                        </div>
+                                        <div class="text-xs text-gray-500 mt-1">${isSet ? Math.round((level / 7) * 100) + '%' : 'Not set'}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        html += '</div></div>';
+                    });
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Error processing NF-COM attribute data:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading NF-COM generic attributes</p>';
+            }
+        }
+
+        function loadSkillLevels() {
+            const container = document.getElementById('skill-levels-container');
+            if (!container) return;
+
+            // Get OPM-IDs from step0
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            let opmIds = [];
+            let workRolesMap = {};
+            
+            if (step0Data) {
+                try {
+                    const data = JSON.parse(step0Data);
+                    // Normalize OPM-IDs to strings for consistency
+                    opmIds = (data.selectedWorkRoles || []).map(r => String(r.opm_code));
+                    (data.selectedWorkRoles || []).forEach(role => {
+                        const opmIdStr = String(role.opm_code);
+                        workRolesMap[opmIdStr] = role.ncwf_work_role || role.dcwf_work_role || `OPM-ID ${opmIdStr}`;
+                    });
+                    console.log('Loaded OPM-IDs from step0:', opmIds);
+                } catch (e) {
+                    console.error('Error parsing step0Data:', e);
+                }
+            }
+
+            // Structure to track skills with their source: { opmId: { skillCode: { level, source } } }
+            let combinedSelections = {}; 
+            
+            // Initialize structure for all OPM-IDs (even if no skills selected)
+            opmIds.forEach(opmId => {
+                combinedSelections[String(opmId)] = {};
+            });
+
+            // Load wizardLevelSelections (may contain data from BOTH summary_chart_full.html and summary_mil.html wizards)
+            // FILTER: Only keep OPM-IDs that are in step0 (current selection)
+            const wizardSelections = localStorage.getItem('wizardLevelSelections');
+            console.log('Raw wizardLevelSelections from localStorage:', wizardSelections);
+            
+            // Also check for wizardSummary which might contain additional info
+            const wizardSummary = localStorage.getItem('wizardSummary');
+            let summaryData = null;
+            if (wizardSummary) {
+                try {
+                    summaryData = JSON.parse(wizardSummary);
+                    console.log('Found wizardSummary:', summaryData);
+                } catch (e) {
+                    console.error('Error parsing wizardSummary:', e);
+                }
+            }
+            
+            if (wizardSelections) {
+                try {
+                    const wizard = JSON.parse(wizardSelections);
+                    console.log('Parsed wizardLevelSelections:', wizard);
+                    console.log('OPM-IDs in wizardLevelSelections:', Object.keys(wizard));
+                    console.log('OPM-IDs from step0 (CURRENT SELECTION):', opmIds);
+                    
+                    // FILTER: Only process OPM-IDs that are in step0
+                    Object.entries(wizard).forEach(([opmId, skills]) => {
+                        // Normalize OPM-ID to string for comparison
+                        const normalizedOpmId = String(opmId);
+                        
+                        // Check if this OPM-ID exists in step0 (current selection)
+                        const matchingOpmId = opmIds.find(id => String(id) === normalizedOpmId);
+                        
+                        if (matchingOpmId !== undefined) {
+                            // This OPM-ID is in step0 - include it
+                            const targetOpmId = String(matchingOpmId);
+                            if (!combinedSelections[targetOpmId]) {
+                                combinedSelections[targetOpmId] = {};
+                            }
+                            Object.entries(skills).forEach(([skillCode, level]) => {
+                                // Store with source to be determined later
+                                if (!combinedSelections[targetOpmId][skillCode]) {
+                                    combinedSelections[targetOpmId][skillCode] = {
+                                        level: level,
+                                        source: null // Will be determined later
+                                    };
+                                } else {
+                                    // Skill exists from another source - store both levels if different
+                                    const existingLevel = combinedSelections[targetOpmId][skillCode].level;
+                                    if (existingLevel !== level) {
+                                        // Store as array to indicate multiple sources
+                                        combinedSelections[targetOpmId][skillCode] = {
+                                            levels: [existingLevel, level],
+                                            source: null
+                                        };
+                                    }
+                                }
+                            });
+                            console.log(`✓ Mapped wizard data: ${opmId} -> ${targetOpmId}, ${Object.keys(skills).length} skills`);
+                        } else {
+                            // This OPM-ID is NOT in step0 - IGNORE IT (from previous sessions)
+                            console.log(`✗ Ignoring OPM-ID ${opmId} (not in current step0 selection)`);
+                        }
+                    });
+                    console.log('Final combinedSelections after filtering (only step0 OPM-IDs):', combinedSelections);
+                } catch (e) {
+                    console.error('Error parsing wizardLevelSelections:', e);
+                }
+            } else {
+                console.warn('No wizardLevelSelections found in localStorage');
+            }
+
+            // Check if we have any selections
+            const hasSelections = Object.values(combinedSelections).some(skills => Object.keys(skills).length > 0);
+
+            if (!hasSelections) {
+                container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No skill level selections available.</strong></p><p class="text-sm text-gray-500 mt-2">Skill levels can be selected using the wizard in:</p><ul class="text-sm text-gray-500 mt-2 list-disc list-inside"><li>summary_chart_full.html - using the "Start Level Selection" wizard</li><li>summary_mil.html - using the "Start Level Selection" wizard</li></ul></div>';
+                return;
+            }
+
+            try {
+                // Load both military and SFIA data to get skill names in English
+                Promise.all([
+                    fetch('{% url "military_skills_json" %}').then(r => r.json()),
+                    fetch('{% url "sfia_skills_json" %}').then(r => r.json()).catch(() => null)
+                ]).then(([militaryData, sfiaData]) => {
+                        // Create set of military skill codes for source detection
+                        const militarySkillCodes = new Set();
+                        const skillNameMap = {};
+                        const skillCategoryMap = {};
+                        
+                        // Military skills English name mapping (from summary_mil.html militaryFrameworkData)
+                        const militaryEnglishNames = {
+                            "PSOC": "Strategic Cyber Operations Planning",
+                            "DDCM": "Military Cyber Doctrine Development",
+                            "AGMS": "Geopolitical and Strategic Threat Analysis",
+                            "AOAL": "Alliance Objectives Alignment",
+                            "GRIO": "Operational Risk Management",
+                            "DCAC": "Law of Armed Conflict (LOAC) Applied to Cyber",
+                            "ROEN": "Rules of Engagement Development and Application",
+                            "APDI": "Proportionality and Distinction Analysis",
+                            "SEIA": "Ethical AI Supervision in Military Context",
+                            "GCAI": "Compliance and International Agreements Management",
+                            "ASZT": "Zero Trust Security Architecture",
+                            "DSASI": "Weapon Systems and Industrial (OT/SCADA) Hardening",
+                            "CRGC": "Cryptography and Key Management",
+                            "SIPL": "Physical and Logical Infrastructure Security",
+                            "DVSA": "Secure Application Development (DevSecOps)",
+                            "DMIA": "AI/ML Threat Detection",
+                            "AFML": "Multi-Layer Forensic Analysis",
+                            "GCRI": "Crisis Management and Major Incident Response",
+                            "CTHA": "Active Threat Hunting",
+                            "ACEU": "Entity and User Behavioral Analysis",
+                            "ASCT": "Target System Analysis",
+                            "RVDE": "Vulnerability Research and Exploit Development",
+                            "ICPM": "Payload Engineering (Malware)",
+                            "EEDC": "Effects and Collateral Damage Estimation",
+                            "CRAN": "Adversary Network Mapping",
+                            "DAMA": "Access Development and Maintenance",
+                            "COEN": "Effects Operations Conduct",
+                            "OIVS": "Influence Operations (Virtual/Social)",
+                            "DIMA": "Concealment and Anonymity Maintenance",
+                            "DNPO": "Post-Operation Disengagement and Cleanup",
+                            "IASC": "Signal Interception and Analysis (SIGINT)",
+                            "RSOS": "Open Source Intelligence (OSINT/SOCMINT)",
+                            "EDDM": "Data Exploitation and Data Mining",
+                            "REAP": "Active and Passive Reconnaissance",
+                            "ISCO": "Social Engineering for Collection",
+                            "AMCY": "Cyber Threat Analysis (Threat Intelligence)",
+                            "ATAS": "Attack Attribution",
+                            "MDAD": "Adversary Modeling (TTPs)",
+                            "FRMS": "Multi-Source Intelligence Fusion",
+                            "PDRA": "Actionable Intelligence Production",
+                            "DEOM": "Custom Tools Development",
+                            "GIC2": "C2 Infrastructure Management",
+                            "ICRE": "Cyber Ranges Engineering",
+                            "IIAO": "AI Integration in Tools",
+                            "GICL": "Classified Infrastructure Management",
+                            "APBD": "Big Data Platform Administration",
+                            "MCOO": "Tools Operational Readiness Maintenance",
+                            "CCFC": "Cyber Training Curriculum Design",
+                            "QCOC": "Operator Qualification and Certification",
+                            "OEEN": "Exercise Organization (NATO)",
+                            "EVGC": "Competency Assessment and Management",
+                            "IECM": "Cyber Effects Integration (Multi-Domain)",
+                            "CPIA": "Allied Cooperation and Sharing",
+                            "PSPR": "Partnerships (Private/Research)",
+                            "GTPC": "Talent Management and Career Planning",
+                            "MCYT": "Military Cyber Targeting",
+                            "CEWF": "Cyber Electronic Warfare",
+                            "CDAC": "Cross-Domain Attack Coordination",
+                            "SCEA": "Strategic Cyber Effects Assessment",
+                            "MFND": "Military Network Defense",
+                            "CIPX": "Critical Infrastructure Protection",
+                            "CTIF": "Cyber Threat Intelligence Fusion",
+                            "MAOP": "Mission Assurance Operations",
+                            "CEIO": "Cyber-Enabled Information Operations",
+                            "VLOP": "Virtual Layer Operations",
+                            "PSYT": "Psychological Operations Integration",
+                            "IEAS": "Information Environment Assessment",
+                            "ADCI": "Air Defense Cyber Integration",
+                            "AVCS": "Aviation Cybersecurity",
+                            "ALCO": "Air-Launched Cyber Operations",
+                            "AGES": "Aerospace Ground Equipment Security",
+                            "TNOP": "Tactical Network Operations",
+                            "GVCS": "Ground Vehicle Cybersecurity",
+                            "FOBS": "Forward Operating Base Security",
+                            "BFCE": "Battlefield Cyber Effects",
+                            "MCOP": "Maritime Cyber Operations",
+                            "NCSS": "Naval Combat System Security",
+                            "PHCS": "Port and Harbor Cybersecurity",
+                            "UCPR": "Undersea Cable Protection",
+                            "SACS": "Satellite Cybersecurity",
+                            "SSAX": "Space Situational Awareness",
+                            "SBCO": "Space-Based Cyber Operations",
+                            "GSSX": "Ground Station Security",
+                            "SICI": "Signal Intelligence Cyber Integration",
+                            "HEOP": "Hardware Exploitation Operations",
+                            "INTG": "Infrastructure Targeting",
+                            "EMWI": "Electromagnetic Warfare Integration",
+                            "LTAM": "Long-Term Access Maintenance",
+                            "CCMG": "Covert Channel Management",
+                            "ATAV": "Attribution Avoidance",
+                            "DTPN": "Deep Target Penetration",
+                            "AICO": "Artificial Intelligence Cyber Operations",
+                            "QROP": "Quantum-Resistant Operations",
+                            "ASYS": "Autonomous System Security",
+                            "BTCS": "Biotechnology Cybersecurity",
+                            "IHLC": "International Humanitarian Law Compliance",
+                            "ROED": "Rules of Engagement Development",
+                            "TLAG": "Targeting Legal Assessment",
+                            "CWLI": "Cyber Warfare Law Integration",
+                            "MCET": "Military Cyber Ethics",
+                            "OSPL": "Operational Security Planning",
+                            "CACM": "Classification and Compartmentalization",
+                            "CDAS": "Collateral Damage Assessment",
+                            "MCPR": "Military Cyber Procurement",
+                            "VSAS": "Vendor Security Assessment",
+                            "TTCX": "Technology Transfer Control",
+                            "SCRM": "Supply Chain Risk Management",
+                            "SCPL": "Strategic Cyber Planning",
+                            "CMCM": "Cyber Mission Command",
+                            "IACX": "Inter-Agency Coordination",
+                            "CRDM": "Crisis Decision Making",
+                            "CFSP": "Cyber Force Structure Planning",
+                            "CADV": "Capability Development",
+                            "TEMG": "Training and Education Management",
+                            "DOCD": "Doctrine Development",
+                            "ACCX": "Alliance Cyber Coordination",
+                            "PPPM": "Public-Private Partnership",
+                            "ICDP": "International Cyber Diplomacy",
+                            "ARCL": "Academic Research Collaboration"
+                        };
+                        
+                        // Load military skills
+                        militaryData.forEach(item => {
+                            const code = item['Skill-code'];
+                            militarySkillCodes.add(code);
+                            // Use English name from mapping if available, otherwise use Skill-name
+                            skillNameMap[code] = militaryEnglishNames[code] || item['Skill-name'] || code;
+                            skillCategoryMap[code] = item['Skill-cat'];
+                        });
+                        
+                        // Load SFIA skills (names are in English)
+                        if (sfiaData && Array.isArray(sfiaData)) {
+                            sfiaData.forEach(skill => {
+                                if (skill.code && skill.name) {
+                                    skillNameMap[skill.code] = skill.name; // SFIA names are already in English
+                                }
+                            });
+                        }
+
+                        // Determine source for each skill in combinedSelections
+                        Object.entries(combinedSelections).forEach(([opmId, skills]) => {
+                            Object.entries(skills).forEach(([skillCode, skillData]) => {
+                                if (skillData.source === null) {
+                                    // Determine source: if skill code is in military data, it's from summary_mil.html wizard
+                                    // Otherwise, it's from summary_chart_full.html wizard (SFIA skills)
+                                    const isMilitary = militarySkillCodes.has(skillCode);
+                                    skillData.source = isMilitary ? 'summary_mil.html' : 'summary_chart_full.html';
+                                    console.log(`Skill ${skillCode} (OPM-ID ${opmId}): ${isMilitary ? 'Military' : 'SFIA'} -> source: ${skillData.source}`);
+                                }
+                            });
+                        });
+                        console.log('Final combinedSelections after source detection:', combinedSelections);
+
+                        const categoryColors = {
+                            'Commandement, Stratégie & Gouvernance': '#3b82f6',
+                            'Opérations Cyber Défensives': '#22c55e',
+                            'Opérations Cyber Offensives': '#ef4444',
+                            'Renseignement & Reconnaissance Cyber': '#f97316',
+                            'Ingénierie & Soutien des Systèmes': '#8b5cf6',
+                            'Développement de la Force & Alliances': '#14b8a6',
+                            'Military Cyberspace Operations': '#c53030',
+                            'Other': '#6b7280',
+                            'SFIA Skills': '#9333ea'
+                        };
+
+                        let html = '<div class="space-y-6">';
+                        
+                        // Display ALL OPM-IDs (even if no skills selected)
+                        opmIds.forEach(opmId => {
+                            const opmIdStr = String(opmId);
+                            const roleName = workRolesMap[opmIdStr] || `OPM-ID ${opmIdStr}`;
+                            const skills = combinedSelections[opmIdStr] || {};
+                            const skillCount = Object.keys(skills).length;
+                            
+                            // Organize by category and source
+                            const skillsByCategory = {};
+                            const skillsBySource = {
+                                'summary_chart_full.html': [],
+                                'summary_mil.html': []
+                            };
+                            
+                            Object.entries(skills).forEach(([skillCode, skillData]) => {
+                                const level = skillData.level;
+                                const source = skillData.source;
+                                
+                                // Track by source
+                                if (source === 'summary_chart_full.html') {
+                                    skillsBySource['summary_chart_full.html'].push({ code: skillCode, level, source });
+                                } else {
+                                    skillsBySource['summary_mil.html'].push({ code: skillCode, level, source });
+                                }
+                                
+                                // Organize by category
+                                const category = skillCategoryMap[skillCode] || (skillCode.length === 4 ? 'SFIA Skills' : 'Other');
+                                if (!skillsByCategory[category]) {
+                                    skillsByCategory[category] = [];
+                                }
+                                skillsByCategory[category].push({ 
+                                    code: skillCode, 
+                                    level: level,
+                                    name: skillNameMap[skillCode] || skillCode,
+                                    source: source
+                                });
+                            });
+                            
+                            html += `
+                                <div class="border-2 border-gray-300 rounded-lg p-5 bg-white shadow-sm">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-gray-900">OPM-ID: ${opmIdStr}</h3>
+                                            <p class="text-sm text-gray-600">${roleName}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-3xl font-bold text-indigo-600">${skillCount}</div>
+                                            <div class="text-xs text-gray-500">Selected Skills</div>
+                                        </div>
+                                    </div>
+                            `;
+                            
+                            // Show source summary if there are skills
+                            if (skillCount > 0) {
+                                html += `
+                                    <div class="mb-4 flex gap-4 text-sm">
+                                        ${skillsBySource['summary_chart_full.html'].length > 0 ? `
+                                            <div class="flex items-center gap-2">
+                                                <span class="inline-block w-3 h-3 rounded-full bg-purple-600"></span>
+                                                <span class="text-gray-700"><strong>${skillsBySource['summary_chart_full.html'].length}</strong> from <code class="text-xs bg-purple-50 px-2 py-1 rounded">summary_chart_full.html</code></span>
+                                            </div>
+                                        ` : ''}
+                                        ${skillsBySource['summary_mil.html'].length > 0 ? `
+                                            <div class="flex items-center gap-2">
+                                                <span class="inline-block w-3 h-3 rounded-full bg-indigo-600"></span>
+                                                <span class="text-gray-700"><strong>${skillsBySource['summary_mil.html'].length}</strong> from <code class="text-xs bg-indigo-50 px-2 py-1 rounded">summary_mil.html</code></span>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `;
+                            }
+                            
+                            if (skillCount === 0) {
+                                html += `
+                                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+                                        <p class="text-gray-500 italic">No skills selected for this OPM-ID</p>
+                                        <p class="text-xs text-gray-400 mt-2">Use the wizard in summary_chart_full.html or summary_mil.html to select skills</p>
+                                    </div>
+                                `;
+                            } else {
+                                html += `<div class="space-y-4">`;
+                                
+                                Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
+                                    const color = categoryColors[category] || '#6b7280';
+                                    html += `
+                                        <div class="border-l-4 pl-4" style="border-color: ${color}">
+                                            <h4 class="font-semibold text-gray-800 mb-2" style="color: ${color}">${category}</h4>
+                                            <div class="space-y-2">
+                                    `;
+                                    
+                                    categorySkills.forEach(skill => {
+                                        const sourceColor = skill.source === 'summary_chart_full.html' ? '#9333ea' : '#3b82f6';
+                                        const sourceBadge = skill.source === 'summary_chart_full.html' ? 'summary_chart_full' : 'summary_mil';
+                                        
+                                        html += `
+                                            <div class="flex items-center gap-3 p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors">
+                                                <div class="skill-badge bg-white border-2 shadow-sm" style="border-color: ${color}">
+                                                    <span class="font-bold" style="color: ${color}">${skill.code}</span>
+                                                    <span class="level-indicator text-white" style="background-color: ${color}">${skill.level}</span>
+                                                </div>
+                                                <div class="text-sm text-gray-700 flex-1">${skill.name}</div>
+                                                <div class="text-xs">
+                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded" style="background-color: ${sourceColor}20; color: ${sourceColor}; border: 1px solid ${sourceColor}40;">
+                                                        <span class="inline-block w-2 h-2 rounded-full" style="background-color: ${sourceColor}"></span>
+                                                        ${sourceBadge}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        `;
+                                    });
+                                    
+                                    html += '</div></div>';
+                                });
+                                
+                                html += '</div>';
+                            }
+                            
+                            html += '</div>';
+                        });
+
+                        html += '</div>';
+                        container.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error loading military data:', error);
+                        // Fallback: display without category names
+                        let html = '<div class="space-y-6">';
+                        opmIds.forEach(opmId => {
+                            const roleName = workRolesMap[opmId] || `OPM-ID ${opmId}`;
+                            const skills = combinedSelections[opmId] || {};
+                            const skillCount = Object.keys(skills).length;
+                            
+                            html += `
+                                <div class="border-2 border-gray-300 rounded-lg p-5 bg-white shadow-sm">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-gray-900">OPM-ID: ${opmId}</h3>
+                                            <p class="text-sm text-gray-600">${roleName}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-3xl font-bold text-indigo-600">${skillCount}</div>
+                                            <div class="text-xs text-gray-500">Selected Skills</div>
+                                        </div>
+                                    </div>
+                            `;
+                            
+                            if (skillCount === 0) {
+                                html += `
+                                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+                                        <p class="text-gray-500 italic">No skills selected for this OPM-ID</p>
+                                    </div>
+                                `;
+                            } else {
+                                html += `<div class="flex flex-wrap gap-2">`;
+                                Object.entries(skills).forEach(([skillCode, skillData]) => {
+                                    const level = skillData.level;
+                                    const source = skillData.source;
+                                    const sourceColor = source === 'summary_chart_full.html' ? '#9333ea' : '#3b82f6';
+                                    const sourceBadge = source === 'summary_chart_full.html' ? 'summary_chart_full' : 'summary_mil';
+                                    
+                                    html += `
+                                        <div class="skill-badge bg-indigo-100 text-indigo-800 border border-indigo-300 relative">
+                                            <span class="font-bold">${skillCode}</span>
+                                            <span class="level-indicator bg-indigo-600 text-white">${level}</span>
+                                            <span class="absolute -top-1 -right-1 text-xs px-1 rounded" style="background-color: ${sourceColor}; color: white; font-size: 9px;">${sourceBadge === 'summary_chart_full' ? 'SCF' : 'SM'}</span>
+                                        </div>
+                                    `;
+                                });
+                                html += '</div>';
+                            }
+                            html += '</div>';
+                        });
+                        html += '</div>';
+                        container.innerHTML = html;
+                    });
+            } catch (e) {
+                console.error('Error processing skill levels:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading skill levels</p>';
+            }
+        }
+
+        function loadCompetencyAreas() {
+            const container = document.getElementById('competency-areas-container');
+            if (!container) return;
+
+            // Load from posteAttributeSelections (from attributs-part-deux-opm-id)
+            const posteData = localStorage.getItem('posteAttributeSelections');
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            
+            if (!posteData) {
+                container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No competency area averages available.</strong></p><p class="text-sm text-gray-500 mt-2">This data comes from Step 4 (attributs-part-deux-opm-id). Once you complete that step, average levels for each competency area will be calculated and displayed here.</p></div>';
+                return;
+            }
+
+            try {
+                const attributeData = JSON.parse(posteData);
+                let workRolesMap = {};
+                
+                if (step0Data) {
+                    const data = JSON.parse(step0Data);
+                    (data.selectedWorkRoles || []).forEach(role => {
+                        workRolesMap[role.opm_code] = role.ncwf_work_role || role.dcwf_work_role || `OPM-ID ${role.opm_code}`;
+                    });
+                }
+
+                // Define attribute display names and colors
+                const attributeInfo = {
+                    'connaissance': { name: 'Knowledge', color: '#3b82f6' },
+                    'competence': { name: 'Competence', color: '#22c55e' },
+                    'aptitude': { name: 'Aptitude', color: '#f97316' },
+                    'tache': { name: 'Task', color: '#8b5cf6' }
+                };
+
+                let html = '<div class="space-y-6">';
+                
+                // Calculate and display averages for each Poste
+                Object.entries(attributeData).forEach(([poste, attributes]) => {
+                    const roleName = workRolesMap[poste] || `Poste ${poste}`;
+                    
+                    // Calculate overall average
+                    const levels = Object.values(attributes);
+                    const totalAverage = levels.length > 0 ? (levels.reduce((a, b) => a + b, 0) / levels.length).toFixed(1) : 0;
+                    const percentage = Math.round((totalAverage / 7) * 100);
+                    
+                    html += `
+                        <div class="border-2 border-purple-300 rounded-lg p-5 bg-gradient-to-br from-purple-50 to-pink-50">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-purple-900">Poste: ${poste}</h3>
+                                    <p class="text-sm text-purple-700">${roleName}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-purple-600">${totalAverage}/7</div>
+                                    <div class="text-xs text-purple-500">Overall Average</div>
+                                    <div class="w-32 bg-gray-200 rounded-full h-3 mt-2">
+                                        <div class="bg-purple-600 h-3 rounded-full transition-all" style="width: ${percentage}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    `;
+
+                    // Display each attribute with its level
+                    Object.entries(attributes).forEach(([attrKey, attrValue]) => {
+                        const attrLower = attrKey.toLowerCase();
+                        const info = attributeInfo[attrLower] || { name: attrKey, color: '#6b7280' };
+                        const attrPercentage = Math.round((attrValue / 7) * 100);
+                        
+                        html += `
+                            <div class="bg-white rounded-lg p-4 border-2 shadow-sm" style="border-color: ${info.color}">
+                                <div class="text-center">
+                                    <div class="text-sm font-semibold mb-2" style="color: ${info.color}">${info.name}</div>
+                                    <div class="text-3xl font-bold mb-2" style="color: ${info.color}">${attrValue}</div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="h-2 rounded-full transition-all" style="width: ${attrPercentage}%; background-color: ${info.color}"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">${attrPercentage}%</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div></div>';
+                });
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Error processing competency area data:', e);
+                container.innerHTML = '<p class="text-red-500">Error loading competency area averages</p>';
+            }
+        }
+
+        function loadGlobalStats() {
+            const container = document.getElementById('global-stats-container');
+            if (!container) return;
+
+            const levelSelections = localStorage.getItem('wizardLevelSelections');
+            const posteData = localStorage.getItem('posteAttributeSelections');
+            const step0Data = localStorage.getItem('step0_baseline_data');
+            const ksatData = sessionStorage.getItem('ksatLastSavedState');
+            const selectedNFDomains = localStorage.getItem('selectedNFDomains');
+
+            let totalSkills = 0;
+            let totalKSAT = 0;
+            let avgAttributeLevel = 0;
+            let totalNFCom = 0;
+            let totalEmergingRoles = 0;
+
+            // Count skills from wizard only (summary_chart_full.html AND summary_mil.html wizards)
+            if (levelSelections) {
+                try {
+                    const selections = JSON.parse(levelSelections);
+                    Object.values(selections).forEach(skills => {
+                        totalSkills += Object.keys(skills).length;
+                    });
+                } catch (e) {}
+            }
+
+            // Calculate average attribute level from Step 4 (required)
+            if (posteData) {
+                try {
+                    const attributes = JSON.parse(posteData);
+                    let totalSum = 0;
+                    let totalCount = 0;
+                    Object.values(attributes).forEach(opmAttrs => {
+                        Object.values(opmAttrs).forEach(level => {
+                            totalSum += level;
+                            totalCount++;
+                        });
+                    });
+                    if (totalCount > 0) {
+                        avgAttributeLevel = (totalSum / totalCount).toFixed(1);
+                    }
+                } catch (e) {}
+            }
+
+            // Count KSATs (only those associated with selected OPM-IDs)
+            if (ksatData) {
+                try {
+                    const ksat = JSON.parse(ksatData);
+                    const ksatObj = ksat.ksatData || ksat;
+                    const roles = ksat.roles || [];
+                    const allSelectValues = ksat.allSelectValues || {};
+                    
+                    // Get OPM-IDs from step0
+                    let selectedOpmIds = [];
+                    if (step0Data) {
+                        try {
+                            const step0 = JSON.parse(step0Data);
+                            selectedOpmIds = (step0.selectedWorkRoles || []).map(r => String(r.opm_code));
+                        } catch (e) {}
+                    }
+                    
+                    // Count KSATs that are associated with selected OPM-IDs (order: Tasks, Knowledge, Skills, Abilities)
+                    // Only count KSATs with checked checkbox
+                    const countedKsatIds = new Set();
+                    ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+                        if (Array.isArray(ksatObj[category])) {
+                            ksatObj[category].forEach(ksatItem => {
+                                if (!ksatItem) return;
+                                
+                                // Check if checkbox is checked using allSelectValues or checked property
+                                let isChecked = true; // Default to true for backward compatibility
+                                
+                                // Check if allSelectValues exists and has data for this category
+                                if (allSelectValues && allSelectValues[category] && Object.keys(allSelectValues[category]).length > 0) {
+                                    // allSelectValues exists and has entries - use it to determine checked state
+                                    isChecked = !!allSelectValues[category][ksatItem.id];
+                                } else if (ksatItem.hasOwnProperty('checked')) {
+                                    // Use checked property if allSelectValues is not available or empty
+                                    isChecked = ksatItem.checked !== false;
+                                }
+                                // Otherwise, default to true (for old saves without checked info)
+                                
+                                if (!isChecked) return;
+                                
+                                // Check if this KSAT is associated with any selected OPM-ID
+                                roles.forEach(role => {
+                                    const opmId = String(role.opmId || role.opm_id || '');
+                                    if (selectedOpmIds.includes(opmId)) {
+                                        let isAssociated = false;
+                                        
+                                        if (ksatItem.roleStatuses && ksatItem.roleStatuses[role.title] === true) {
+                                            isAssociated = true;
+                                        } else if (!ksatItem.roleStatuses || Object.keys(ksatItem.roleStatuses).length === 0) {
+                                            // If no roleStatuses, assume associated (backward compatibility)
+                                            isAssociated = true;
+                                        }
+                                        
+                                        if (isAssociated) {
+                                            const ksatId = ksatItem.id || '';
+                                            if (ksatId && !countedKsatIds.has(`${category}-${ksatId}-${opmId}`)) {
+                                                countedKsatIds.add(`${category}-${ksatId}-${opmId}`);
+                                                totalKSAT++;
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error counting KSAT:', e);
+                }
+            }
+
+            // Count NF-COM domains (optional)
+            if (selectedNFDomains) {
+                try {
+                    const domains = JSON.parse(selectedNFDomains);
+                    totalNFCom = domains.length;
+                } catch (e) {}
+            }
+
+            // Count work roles
+            let workRolesCount = 0;
+            if (step0Data) {
+                try {
+                    const data = JSON.parse(step0Data);
+                    workRolesCount = (data.selectedWorkRoles || []).length;
+                    // Count emerging roles
+                    totalEmergingRoles = (data.selectedSansRoles || []).length + (data.selectedCemaRoles || []).length;
+                } catch (e) {}
+            }
+
+            container.innerHTML = `
+                <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-blue-600">${workRolesCount}</div>
+                    <div class="text-sm font-semibold text-blue-700 mt-1">Work Roles</div>
+                </div>
+                <div class="bg-indigo-50 p-4 rounded-lg border-2 border-indigo-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-indigo-600">${totalEmergingRoles}</div>
+                    <div class="text-sm font-semibold text-indigo-700 mt-1">Emerging Roles</div>
+                    <div class="text-xs text-indigo-600 mt-1">(Optional)</div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg border-2 border-purple-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-purple-600">${totalKSAT}</div>
+                    <div class="text-sm font-semibold text-purple-700 mt-1">Selected KSATs</div>
+                </div>
+                <div class="bg-teal-50 p-4 rounded-lg border-2 border-teal-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-teal-600">${totalNFCom}</div>
+                    <div class="text-sm font-semibold text-teal-700 mt-1">NF-COM Areas</div>
+                    <div class="text-xs text-teal-600 mt-1">(Optional)</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border-2 border-green-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-green-600">${totalSkills}</div>
+                    <div class="text-sm font-semibold text-green-700 mt-1">Military Skills</div>
+                    <div class="text-xs text-green-600 mt-1">(Optional)</div>
+                </div>
+                <div class="bg-orange-50 p-4 rounded-lg border-2 border-orange-200 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-4xl font-bold text-orange-600">${avgAttributeLevel || '0'}/7</div>
+                    <div class="text-sm font-semibold text-orange-700 mt-1">Avg Attribute</div>
+                    <div class="text-xs text-orange-600 mt-1">(Step 4)</div>
+                </div>
+            `;
+        }
+        
+        // Function to export to PDF
+        async function exportToPDF() {
+            try {
+                // Check if libraries are loaded
+                if (typeof html2canvas === 'undefined') {
+                    alert('PDF library not loaded. Please refresh the page and try again.');
+                    return;
+                }
+                
+                // Show loading message
+                const loadingMsg = document.createElement('div');
+                loadingMsg.className = 'fixed top-20 right-5 bg-blue-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+                loadingMsg.textContent = 'Generating PDF...';
+                document.body.appendChild(loadingMsg);
+                
+                // Hide navigation and buttons for PDF
+                const nav = document.querySelector('nav');
+                const buttons = document.querySelector('.print-button');
+                const originalNavDisplay = nav ? nav.style.display : '';
+                const originalButtonsDisplay = buttons ? buttons.style.display : '';
+                
+                if (nav) nav.style.display = 'none';
+                if (buttons) buttons.style.display = 'none';
+                
+                // Wait a bit for DOM to update
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Get the main content area
+                const content = document.querySelector('.max-w-7xl');
+                
+                if (!content) {
+                    throw new Error('Content area not found');
+                }
+                
+                // Use html2canvas to capture the content with better options
+                const canvas = await html2canvas(content, {
+                    scale: 1.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    width: content.scrollWidth,
+                    height: content.scrollHeight,
+                    scrollX: 0,
+                    scrollY: 0
+                });
+                
+                // Restore navigation and buttons
+                if (nav) nav.style.display = originalNavDisplay;
+                if (buttons) buttons.style.display = originalButtonsDisplay;
+                
+                // Verify canvas is valid
+                if (!canvas || canvas.width === 0 || canvas.height === 0) {
+                    throw new Error('Failed to capture page content');
+                }
+                
+                // Check if jsPDF is available
+                if (typeof window.jspdf === 'undefined') {
+                    throw new Error('jsPDF library not loaded');
+                }
+                
+                // Create PDF - handle both UMD and global versions
+                let jsPDF;
+                if (window.jspdf.jsPDF) {
+                    jsPDF = window.jspdf.jsPDF;
+                } else if (window.jspdf.default) {
+                    jsPDF = window.jspdf.default;
+                } else {
+                    jsPDF = window.jspdf;
+                }
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                // Convert canvas to image with error handling
+                let imgData;
+                try {
+                    imgData = canvas.toDataURL('image/jpeg', 0.95); // Use JPEG instead of PNG for better compatibility
+                } catch (e) {
+                    // Fallback to PNG if JPEG fails
+                    imgData = canvas.toDataURL('image/png');
+                }
+                
+                // Verify image data is valid
+                if (!imgData || imgData.length < 100) {
+                    throw new Error('Failed to convert canvas to image');
+                }
+                
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                // Add first page
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+                heightLeft -= pageHeight;
+                
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+                    heightLeft -= pageHeight;
+                }
+                
+                // Generate filename with timestamp
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const filename = `Project_Recap_${timestamp}.pdf`;
+                
+                // Save PDF
+                pdf.save(filename);
+                
+                // Remove loading message
+                loadingMsg.remove();
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'fixed top-20 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+                successMsg.textContent = 'PDF downloaded successfully!';
+                document.body.appendChild(successMsg);
+                setTimeout(() => successMsg.remove(), 3000);
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF: ' + error.message + '\nPlease check the browser console for details.');
+            }
+        }
+        
+        // Function to export to Excel
+        function exportToExcel() {
+            try {
+                // Show loading message
+                const loadingMsg = document.createElement('div');
+                loadingMsg.className = 'fixed top-20 right-5 bg-blue-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+                loadingMsg.textContent = 'Generating Excel file...';
+                document.body.appendChild(loadingMsg);
+                
+                // Create workbook
+                const wb = XLSX.utils.book_new();
+                
+                // Get all data from localStorage
+                const step0Data = localStorage.getItem('step0_baseline_data');
+                const ksatData = sessionStorage.getItem('ksatLastSavedState');
+                const levelSelections = localStorage.getItem('wizardLevelSelections');
+                const posteData = localStorage.getItem('posteAttributeSelections');
+                const selectedNFDomains = localStorage.getItem('selectedNFDomains');
+                const nfcomAttributeSelections = localStorage.getItem('nfcomAttributeSelections');
+                
+                // Sheet 1: Job Position Information
+                const jobInfoData = [];
+                if (step0Data) {
+                    try {
+                        const data = JSON.parse(step0Data);
+                        jobInfoData.push(['Field', 'Value']);
+                        if (data.jobNumber) jobInfoData.push(['Job Number', data.jobNumber]);
+                        if (data.jobTitle) jobInfoData.push(['Job Title', data.jobTitle]);
+                        if (data.selectedWorkRoles) {
+                            jobInfoData.push(['Number of Work Roles', data.selectedWorkRoles.length]);
+                        }
+                    } catch (e) {}
+                }
+                if (jobInfoData.length > 0) {
+                    const ws1 = XLSX.utils.aoa_to_sheet(jobInfoData);
+                    XLSX.utils.book_append_sheet(wb, ws1, 'Job Info');
+                }
+                
+                // Sheet 2: Selected Work Roles
+                const workRolesData = [['OPM-ID', 'Work Role Name', 'Framework', 'Element']];
+                if (step0Data) {
+                    try {
+                        const data = JSON.parse(step0Data);
+                        (data.selectedWorkRoles || []).forEach(role => {
+                            workRolesData.push([
+                                role.opm_code || role.opm_id || '',
+                                role.ncwf_work_role || role.dcwf_work_role || '',
+                                role.dcwf_work_role ? 'DCWF' : 'NCWF',
+                                role.dcwf_element || role.ncwf_element || ''
+                            ]);
+                        });
+                    } catch (e) {}
+                }
+                if (workRolesData.length > 1) {
+                    const ws2 = XLSX.utils.aoa_to_sheet(workRolesData);
+                    XLSX.utils.book_append_sheet(wb, ws2, 'Work Roles');
+                }
+                
+                // Sheet 2b: Emerging Work Roles (SANS & CEMA)
+                const emergingRolesData = [['Source', 'Index', 'Title', 'Description']];
+                if (step0Data) {
+                    try {
+                        const data = JSON.parse(step0Data);
+                        // Add SANS roles
+                        (data.selectedSansRoles || []).forEach(role => {
+                            emergingRolesData.push([
+                                'SANS',
+                                role.index + 1,
+                                role.title || '',
+                                role.description || ''
+                            ]);
+                        });
+                        // Add CEMA roles
+                        (data.selectedCemaRoles || []).forEach(role => {
+                            emergingRolesData.push([
+                                'CEMA FM 3-12',
+                                role.index + 1,
+                                role.title || '',
+                                role.description || ''
+                            ]);
+                        });
+                    } catch (e) {}
+                }
+                if (emergingRolesData.length > 1) {
+                    const ws2b = XLSX.utils.aoa_to_sheet(emergingRolesData);
+                    XLSX.utils.book_append_sheet(wb, ws2b, 'Emerging Roles');
+                }
+                
+                // Sheet 3: Selected KSAT
+                const ksatDataArray = [['OPM-ID', 'Framework', 'Category', 'KSAT ID', 'Description']];
+                if (ksatData) {
+                    try {
+                        const ksat = JSON.parse(ksatData);
+                        const ksatObj = ksat.ksatData || ksat;
+                        const roles = ksat.roles || [];
+                        const allSelectValues = ksat.allSelectValues || {};
+                        
+                        // Get OPM-IDs from step0
+                        let selectedOpmIds = [];
+                        if (step0Data) {
+                            try {
+                                const step0 = JSON.parse(step0Data);
+                                selectedOpmIds = (step0.selectedWorkRoles || []).map(r => String(r.opm_code));
+                            } catch (e) {}
+                        }
+                        
+                        // Process KSATs by category
+                        ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+                            if (Array.isArray(ksatObj[category])) {
+                                ksatObj[category].forEach(ksatItem => {
+                                    if (!ksatItem) return;
+                                    
+                                    // Check if checked
+                                    let isChecked = true;
+                                    if (allSelectValues && allSelectValues[category] && Object.keys(allSelectValues[category]).length > 0) {
+                                        isChecked = !!allSelectValues[category][ksatItem.id];
+                                    } else if (ksatItem.hasOwnProperty('checked')) {
+                                        isChecked = ksatItem.checked !== false;
+                                    }
+                                    
+                                    if (!isChecked) return;
+                                    
+                                    // Find associated roles
+                                    roles.forEach(role => {
+                                        const opmId = String(role.opmId || role.opm_id || '');
+                                        if (selectedOpmIds.includes(opmId)) {
+                                            let isAssociated = false;
+                                            if (ksatItem.roleStatuses && ksatItem.roleStatuses[role.title] === true) {
+                                                isAssociated = true;
+                                            } else if (!ksatItem.roleStatuses || Object.keys(ksatItem.roleStatuses).length === 0) {
+                                                isAssociated = true;
+                                            }
+                                            
+                                            if (isAssociated) {
+                                                const categoryName = category === 'task' ? 'Task' : 
+                                                                    category === 'knowledge' ? 'Knowledge' :
+                                                                    category === 'skill' ? 'Skill' : 'Ability';
+                                                ksatDataArray.push([
+                                                    opmId,
+                                                    role.framework || '',
+                                                    categoryName,
+                                                    ksatItem.id || '',
+                                                    ksatItem.description || ''
+                                                ]);
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Error processing KSAT data:', e);
+                    }
+                }
+                if (ksatDataArray.length > 1) {
+                    const ws3 = XLSX.utils.aoa_to_sheet(ksatDataArray);
+                    XLSX.utils.book_append_sheet(wb, ws3, 'KSAT');
+                }
+                
+                // Sheet 4: Skill Code Levels
+                const skillLevelsData = [['OPM-ID', 'Skill Code', 'Skill Name', 'Level', 'Source']];
+                if (levelSelections) {
+                    try {
+                        const selections = JSON.parse(levelSelections);
+                        Object.entries(selections).forEach(([opmId, skills]) => {
+                            Object.entries(skills).forEach(([skillCode, level]) => {
+                                // Determine source (military or SFIA based on skill code length/pattern)
+                                const source = skillCode.length === 4 ? 'SFIA' : 'Military';
+                                skillLevelsData.push([opmId, skillCode, '', level, source]);
+                            });
+                        });
+                    } catch (e) {}
+                }
+                if (skillLevelsData.length > 1) {
+                    const ws4 = XLSX.utils.aoa_to_sheet(skillLevelsData);
+                    XLSX.utils.book_append_sheet(wb, ws4, 'Skill Levels');
+                }
+                
+                // Sheet 5: Generic Attributes
+                const attributesData = [['OPM-ID', 'Attribute', 'Level']];
+                if (posteData) {
+                    try {
+                        const attributes = JSON.parse(posteData);
+                        Object.entries(attributes).forEach(([opmId, opmAttrs]) => {
+                            Object.entries(opmAttrs).forEach(([attr, level]) => {
+                                attributesData.push([opmId, attr, level]);
+                            });
+                        });
+                    } catch (e) {}
+                }
+                if (attributesData.length > 1) {
+                    const ws5 = XLSX.utils.aoa_to_sheet(attributesData);
+                    XLSX.utils.book_append_sheet(wb, ws5, 'Attributes');
+                }
+                
+                // Sheet 6: NF-COM Competency Areas
+                const nfcomData = [['NF-COM Code', 'Name', 'Description']];
+                if (selectedNFDomains) {
+                    try {
+                        const domains = JSON.parse(selectedNFDomains);
+                        domains.forEach(domain => {
+                            nfcomData.push([
+                                domain.code || '',
+                                domain.name || '',
+                                domain.description || ''
+                            ]);
+                        });
+                    } catch (e) {}
+                }
+                if (nfcomData.length > 1) {
+                    const ws6 = XLSX.utils.aoa_to_sheet(nfcomData);
+                    XLSX.utils.book_append_sheet(wb, ws6, 'NF-COM');
+                }
+                
+                // Sheet 7: NF-COM Generic Attributes
+                const nfcomAttrData = [['NF-COM Code', 'Attribute', 'Level']];
+                if (nfcomAttributeSelections) {
+                    try {
+                        const nfcomAttrs = JSON.parse(nfcomAttributeSelections);
+                        Object.entries(nfcomAttrs).forEach(([nfcomCode, attrs]) => {
+                            Object.entries(attrs).forEach(([attr, level]) => {
+                                nfcomAttrData.push([nfcomCode, attr, level]);
+                            });
+                        });
+                    } catch (e) {}
+                }
+                if (nfcomAttrData.length > 1) {
+                    const ws7 = XLSX.utils.aoa_to_sheet(nfcomAttrData);
+                    XLSX.utils.book_append_sheet(wb, ws7, 'NF-COM Attributes');
+                }
+                
+                // Generate filename with timestamp
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const filename = `Project_Recap_${timestamp}.xlsx`;
+                
+                // Save Excel file
+                XLSX.writeFile(wb, filename);
+                
+                // Remove loading message
+                loadingMsg.remove();
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'fixed top-20 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+                successMsg.textContent = 'Excel file downloaded successfully!';
+                document.body.appendChild(successMsg);
+                setTimeout(() => successMsg.remove(), 3000);
+                
+            } catch (error) {
+                console.error('Error generating Excel:', error);
+                alert('Error generating Excel file. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
+

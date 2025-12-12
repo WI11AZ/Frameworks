@@ -1,0 +1,4312 @@
+{
+  "work_roles": [
+    {
+      "id": "OG-WRL-001",
+      "number": 723,
+      "name": "Communications Security (COMSEC) Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "37.5%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "35.59%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "31.86%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "31.67%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "31.25%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Systems Security Management"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Security Management",
+            "percentage": "12.9%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "12.1%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "12.1%"
+          },
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "5.65%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "5.24%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-002",
+      "number": 752,
+      "name": "Cybersecurity Policy and Planning",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "54.17%"
+          },
+          {
+            "name": "Cybersecurity Workforce Management",
+            "percentage": "46.97%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "37.5%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "32.2%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "30%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Legal Advice"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Authorization"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Authorization"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Program Management",
+            "percentage": "17.1%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "9.28%"
+          },
+          {
+            "name": "Cybersecurity Workforce Management",
+            "percentage": "8.24%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "8.03%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "6.47%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-003",
+      "number": 751,
+      "name": "Cybersecurity Workforce Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "91.18%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "64.58%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "45.31%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "43%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "38.83%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "34.51%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "21.77%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "5.84%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "5.84%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "3.89%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-004",
+      "number": 711,
+      "name": "Cybersecurity Curriculum Development",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Instruction",
+            "percentage": "55.9%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "36.76%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "36.67%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "33.9%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Communications Security (COMSEC) Management"
+          },
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Legal Advice"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Cybersecurity Instruction",
+            "percentage": "40.26%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "17.53%"
+          },
+          {
+            "name": "Cybersecurity Workforce Management",
+            "percentage": "11.69%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "7.79%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "3.25%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-005",
+      "number": 712,
+      "name": "Cybersecurity Instruction",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Curriculum Development",
+            "percentage": "89.11%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "41.67%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "37.11%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "35.53%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Communications Security (COMSEC) Management"
+          },
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Legal Advice"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Cybersecurity Curriculum Development",
+            "percentage": "57.14%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "16.07%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "10.71%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "3.57%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "1.79%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-006",
+      "number": 731,
+      "name": "Cybersecurity Legal Advice",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Systems Authorization",
+            "percentage": "37.86%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "37.5%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "31.67%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "31%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "29.69%"
+          }
+        ],
+        "on_ramps": [],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Privacy Compliance"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Data Analysis",
+            "percentage": "34.29%"
+          },
+          {
+            "name": "Privacy Compliance",
+            "percentage": "20%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "15.71%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "7.14%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "5.71%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-007",
+      "number": 901,
+      "name": "Executive Cybersecurity Leadership",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "52.54%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "44.12%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "41.67%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "37.86%"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development",
+            "percentage": "32.67%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Legal Advice"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Systems Authorization"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Systems Authorization"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Program Management",
+            "percentage": "21.15%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "12.25%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "10.08%"
+          },
+          {
+            "name": "Cybersecurity Workforce Management",
+            "percentage": "8.3%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "7.31%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-008",
+      "number": 732,
+      "name": "Privacy Compliance",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "44.12%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "38.98%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "37.5%"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development",
+            "percentage": "35.64%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "33%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybersecurity Legal Advice"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Program Auditing"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "16.82%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "15.89%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "11.21%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "7.48%"
+          },
+          {
+            "name": "Cybersecurity Workforce Management",
+            "percentage": "4.67%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-009",
+      "number": 803,
+      "name": "Product Support Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "97.92%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "95.31%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "94.55%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "92.23%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "41.18%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "31.25%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "12.5%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "8.13%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "5.25%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "5.13%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-010",
+      "number": 801,
+      "name": "Program Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "100%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "91.82%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "90.63%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "83.33%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "38.24%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Systems Authorization"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Secure Project Management",
+            "percentage": "28.97%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "9.33%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "7.28%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "7.28%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "5.94%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-011",
+      "number": 802,
+      "name": "Secure Project Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "100%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "98.44%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "98.06%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "91.23%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "41.18%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Communications Security (COMSEC) Management"
+          },
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "29.24%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "13.53%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "8.48%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "8%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "5.2%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-012",
+      "number": 612,
+      "name": "Security Control Assessment",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Systems Authorization",
+            "percentage": "91.26%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "66.1%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "66.02%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "64.95%"
+          },
+          {
+            "name": "Technology Research and Development",
+            "percentage": "61.02%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "18.94%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "14.55%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "7.85%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "7.74%"
+          },
+          {
+            "name": "Software Security Assessment",
+            "percentage": "6.81%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-013",
+      "number": 611,
+      "name": "Systems Authorization",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "66.1%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "47.92%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "42.65%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "39.47%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "39.06%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Program Management"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Program Management",
+            "percentage": "21.07%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "9.92%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "9.5%"
+          },
+          {
+            "name": "Security Control Assessment",
+            "percentage": "8.68%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "7.44%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-014",
+      "number": 722,
+      "name": "Systems Security Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "82.28%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "60.42%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "56.31%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "55%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "50%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Communications Security (COMSEC) Management"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Communications Security (COMSEC) Management"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Security Control Assessment"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Security Control Assessment",
+            "percentage": "16.61%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "11.75%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "9.47%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "8.61%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "5.67%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-015",
+      "number": 804,
+      "name": "Technology Portfolio Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "60.94%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "46.6%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "43.64%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "41.23%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "38.24%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Technology Program Auditing"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Program Management",
+            "percentage": "24.08%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "13.79%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "10.65%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "10.3%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "7.16%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "OG-WRL-016",
+      "number": 805,
+      "name": "Technology Program Auditing",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "81.25%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "57.27%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "56.31%"
+          },
+          {
+            "name": "Product Support Management",
+            "percentage": "53.51%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "35.29%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Program Management"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Technology Portfolio Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Security Control Assessment",
+            "percentage": "15.72%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "14.41%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "10.48%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "8.73%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "6.55%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-001",
+      "number": 652,
+      "name": "Cybersecurity Architecture",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "90.38%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "58%"
+          },
+          {
+            "name": "Secure Systems Development",
+            "percentage": "52.59%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "51.45%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "49.18%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Program Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "632-Secure Systems Development",
+            "percentage": "8.06%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "12.8%"
+          },
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "8.53%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "5.69%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-002",
+      "number": 651,
+      "name": "Enterprise Architecture",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "64.38%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "49.33%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "46.6%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "44.2%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "43.3%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership"
+          },
+          {
+            "name": "Program Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "18.52%"
+          },
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "9.32%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "8.3%"
+          },
+          {
+            "name": "632-Secure Systems Development",
+            "percentage": "8.07%"
+          },
+          {
+            "name": "Technology Research and Development",
+            "percentage": "7.95%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-009",
+      "number": "TBD-B",
+      "name": "Operational Technology (OT) Cybersecurity Engineering",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "25%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "18.75%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "18.64%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "16.5%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "16.49%"
+          }
+        ],
+        "on_ramps": [],
+        "off_ramps": []
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": []
+      }
+    },
+    {
+      "id": "DD-WRL-003",
+      "number": 621,
+      "name": "Secure Software Development",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Software Security Assessment",
+            "percentage": "88.73%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "47.92%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "44.66%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "39.06%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "37.86%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "632-Secure Systems Development",
+            "percentage": "44.2%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "9.12%"
+          },
+          {
+            "name": "Data Analysis",
+            "percentage": "5.8%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "5.14%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "5.11%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-004",
+      "number": 631,
+      "name": "Secure Systems Development",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "61.54%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "60.67%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "57.28%"
+          },
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "55.71%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "65.22%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Software Security Assessment",
+            "percentage": "32.18%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "20.17%"
+          },
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "8.83%"
+          },
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "8.44%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "8.44%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-004",
+      "number": 632,
+      "name": "Secure Systems Development",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "61.54%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "60.67%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "57.28%"
+          },
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "55.71%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "65.22%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Software Security Assessment",
+            "percentage": "32.18%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "20.17%"
+          },
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "8.83%"
+          },
+          {
+            "name": "Cybersecurity Architecture",
+            "percentage": "8.44%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "8.44%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-005",
+      "number": 622,
+      "name": "Software Security Assessment",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Secure Software Development",
+            "percentage": "78.26%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "47.92%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "44.66%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "40%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "35.94%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Secure Software Development",
+            "percentage": "48.48%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "19.7%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "5.05%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "3.54%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "3.03%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-006",
+      "number": 641,
+      "name": "Systems Requirements Planning",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "53.16%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "47.57%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "45.83%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "45.76%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "42.19%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Systems Administration"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "37.99%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "11.36%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "10.24%"
+          },
+          {
+            "name": "Secure Systems Development",
+            "percentage": "4.3%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "3.91%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-007",
+      "number": 671,
+      "name": "Systems Testing and Evaluation",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "43.75%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "41.8%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "40.79%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "40.21%"
+          },
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "39.24%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Technical Support"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Technology Research and Development"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Administration",
+            "percentage": "16.63%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "11.82%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "10.1%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "8.99%"
+          },
+          {
+            "name": "632-Secure Systems Development",
+            "percentage": "7.51%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "DD-WRL-008",
+      "number": 661,
+      "name": "Technology Research and Development",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "43.75%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "43.3%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "41.75%"
+          },
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "40.51%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "38.98%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Architecture"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Enterprise Architecture"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Software Security Assessment"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "17.06%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "11.04%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "10.37%"
+          },
+          {
+            "name": "Secure Software Development",
+            "percentage": "8.7%"
+          },
+          {
+            "name": "Secure Project Management",
+            "percentage": "7.69%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-001",
+      "number": 422,
+      "name": "Data Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Database Administration",
+            "percentage": "63.53%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "38.33%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "28.95%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Technical Support"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Technology Research and Development"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Knowledge Management",
+            "percentage": "22.42%"
+          },
+          {
+            "name": "Database Administration",
+            "percentage": "14.32%"
+          },
+          {
+            "name": "Secure Software Development",
+            "percentage": "9.59%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "7.85%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "7.1%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-002",
+      "number": 421,
+      "name": "Database Administration",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Knowledge Management",
+            "percentage": "43.33%"
+          },
+          {
+            "name": "Data Analysis",
+            "percentage": "42.19%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "30.26%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Technical Support"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Data Analysis",
+            "percentage": "23.49%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "22.65%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "15.32%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "5.73%"
+          },
+          {
+            "name": "Secure Software Development",
+            "percentage": "5.21%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-003",
+      "number": 431,
+      "name": "Knowledge Management",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "32.2%"
+          },
+          {
+            "name": "Database Administration",
+            "percentage": "30.59%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "26.47%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "25.26%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Technical Support"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Technical Support",
+            "percentage": "21.69%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "13.59%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "7.99%"
+          },
+          {
+            "name": "Data Analysis",
+            "percentage": "7.15%"
+          },
+          {
+            "name": "Database Administration",
+            "percentage": "5.13%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-004",
+      "number": 441,
+      "name": "Network Operations",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "49.51%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "48.68%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "43.07%"
+          },
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "43.04%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "38.98%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Technical Support"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Systems Development"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Technical Support",
+            "percentage": "32.97%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "25.67%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "6.49%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "4.6%"
+          },
+          {
+            "name": "Program Management",
+            "percentage": "3.85%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-005",
+      "number": 451,
+      "name": "Systems Administration",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Infrastructure Support",
+            "percentage": "53.95%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "48.36%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "46.32%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "42.37%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "41.75%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Technical Support"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Systems Requirements Planning"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Technical Support",
+            "percentage": "41.3%"
+          },
+          {
+            "name": "Database Administration",
+            "percentage": "10.26%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "9.48%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "8.39%"
+          },
+          {
+            "name": "Systems Requirements Planning",
+            "percentage": "3.81%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-006",
+      "number": 461,
+      "name": "Systems Security Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Communications Security (COMSEC) Management",
+            "percentage": "50.63%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "50.49%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "47.57%"
+          },
+          {
+            "name": "Enterprise Architecture",
+            "percentage": "47.44%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "46.39%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Secure Software Development"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Technical Support",
+            "percentage": "13.56%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "12.1%"
+          },
+          {
+            "name": "Security Control Assessment",
+            "percentage": "10.32%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "8.13%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "7.61%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IO-WRL-007",
+      "number": 411,
+      "name": "Technical Support",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "40.68%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "40%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "35.53%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "35.42%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "32.12%"
+          }
+        ],
+        "on_ramps": [],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Database Administration"
+          },
+          {
+            "name": "Knowledge Management"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Systems Administration",
+            "percentage": "43.69%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "17.16%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "5.85%"
+          },
+          {
+            "name": "Data Analysis",
+            "percentage": "4.29%"
+          },
+          {
+            "name": "Database Administration",
+            "percentage": "4.23%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-001",
+      "number": 511,
+      "name": "Defensive Cybersecurity",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "61.86%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "59.21%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "57.94%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "55.33%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "51.46%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Data Analysis"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Security Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Threat Analysis"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Incident Response",
+            "percentage": "38.59%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "21.77%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "8.71%"
+          },
+          {
+            "name": "Digital Forensics",
+            "percentage": "2.4%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-002",
+      "number": 212,
+      "name": "Digital Forensics",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Digital Evidence Analysis",
+            "percentage": "77.71%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "49.51%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "45.79%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "36.84%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "35.05%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Secure Software Development"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Defensive Cybersecurity",
+            "percentage": "31.11%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "21.11%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "14.44%"
+          },
+          {
+            "name": "Digital Evidence Analysis",
+            "percentage": "11.11%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "4.44%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-003",
+      "number": 531,
+      "name": "Incident Response",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Infrastructure Support",
+            "percentage": "52.63%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "50.52%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "34.74%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Systems Security Analysis"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Privacy Compliance"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Defensive Cybersecurity",
+            "percentage": "56.42%"
+          },
+          {
+            "name": "Digital Forensics",
+            "percentage": "6.33%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "5.97%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "5.24%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "4.7%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-004",
+      "number": 521,
+      "name": "Infrastructure Support",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Incident Response",
+            "percentage": "37.38%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "35.42%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "35.05%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "30.33%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Product Support Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Systems Security Management"
+          },
+          {
+            "name": "Vulnerability Analysis"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "15.09%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "12.58%"
+          },
+          {
+            "name": "Technical Support",
+            "percentage": "12.26%"
+          },
+          {
+            "name": "Systems Administration",
+            "percentage": "11.64%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "10.06%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-005",
+      "number": "TBD-A",
+      "name": "Insider Threat Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "35.42%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "30.1%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "25.42%"
+          },
+          {
+            "name": "Technology Program Auditing",
+            "percentage": "23.44%"
+          },
+          {
+            "name": "Executive Cybersecurity Leadership",
+            "percentage": "23%"
+          }
+        ],
+        "on_ramps": [],
+        "off_ramps": []
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": []
+      }
+    },
+    {
+      "id": "PD-WRL-006",
+      "number": 141,
+      "name": "Threat Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "32.35%"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development",
+            "percentage": "31.68%"
+          },
+          {
+            "name": "Knowledge Management",
+            "percentage": "31.67%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "28.81%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Defensive Cybersecurity"
+          }
+        ],
+        "off_ramps": []
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Defensive Cybersecurity",
+            "percentage": "25%"
+          },
+          {
+            "name": "Vulnerability Analysis",
+            "percentage": "20.65%"
+          },
+          {
+            "name": "Network Operations",
+            "percentage": "9.78%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PD-WRL-007",
+      "number": 541,
+      "name": "Vulnerability Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Incident Response",
+            "percentage": "45.79%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "44.74%"
+          },
+          {
+            "name": "Systems Testing and Evaluation",
+            "percentage": "37.86%"
+          },
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "37.29%"
+          },
+          {
+            "name": "Systems Authorization",
+            "percentage": "35.92%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Defensive Cybersecurity"
+          },
+          {
+            "name": "Incident Response"
+          },
+          {
+            "name": "Infrastructure Support"
+          },
+          {
+            "name": "Network Operations"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Administration"
+          },
+          {
+            "name": "Systems Security Analysis"
+          },
+          {
+            "name": "Systems Testing and Evaluation"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Secure Project Management"
+          },
+          {
+            "name": "Security Control Assessment"
+          },
+          {
+            "name": "Systems Security Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Infrastructure Support",
+            "percentage": "15.04%"
+          },
+          {
+            "name": "Security Control Assessment",
+            "percentage": "9.13%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "8.87%"
+          },
+          {
+            "name": "Systems Security Management",
+            "percentage": "8.61%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "6.81%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IN-WRL-001",
+      "number": 221,
+      "name": "Cybercrime Investigation",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Cybersecurity Legal Advice",
+            "percentage": "38.98%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "33.33%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "31.78%"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning",
+            "percentage": "30.88%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "28.95%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Incident Response"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Digital Evidence Analysis"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Digital Evidence Analysis",
+            "percentage": "0.84%"
+          },
+          {
+            "name": "Cybersecurity Instruction",
+            "percentage": "0.27%"
+          }
+        ]
+      }
+    },
+    {
+      "id": "IN-WRL-002",
+      "number": 211,
+      "name": "Digital Evidence Analysis",
+      "common_relationships": {
+        "related_roles_by_tks": [
+          {
+            "name": "Digital Forensics",
+            "percentage": "74.73%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "48.54%"
+          },
+          {
+            "name": "Incident Response",
+            "percentage": "36.45%"
+          },
+          {
+            "name": "Infrastructure Support",
+            "percentage": "35.53%"
+          },
+          {
+            "name": "Technology Portfolio Management",
+            "percentage": "31.25%"
+          }
+        ],
+        "on_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Incident Response"
+          }
+        ],
+        "off_ramps": [
+          {
+            "name": "Cybercrime Investigation"
+          },
+          {
+            "name": "Cybersecurity Curriculum Development"
+          },
+          {
+            "name": "Cybersecurity Instruction"
+          },
+          {
+            "name": "Cybersecurity Policy and Planning"
+          },
+          {
+            "name": "Cybersecurity Workforce Management"
+          },
+          {
+            "name": "Digital Forensics"
+          },
+          {
+            "name": "Secure Project Management"
+          }
+        ]
+      },
+      "federal_data": {
+        "top_5_secondary_work_roles": [
+          {
+            "name": "Digital Forensics",
+            "percentage": "13.71%"
+          },
+          {
+            "name": "Cybercrime Investigation",
+            "percentage": "4.18%"
+          },
+          {
+            "name": "Data Analysis",
+            "percentage": "0.57%"
+          },
+          {
+            "name": "Systems Security Analysis",
+            "percentage": "0.46%"
+          }
+        ]
+      }
+    }
+  ]
+}

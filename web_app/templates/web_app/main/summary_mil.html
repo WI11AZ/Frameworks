@@ -1,15 +1,46 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadre de Compétences Cyber Militaire</title>
+    <title>Parsed from Cyber commanders Handbook 2</title>
     <!-- Chosen Palette: Command & Control (Derived from previous analysis) -->
     <!-- Application Structure Plan: Reverting to the user's preferred multi-column grid layout. Each column represents a major competency domain. The structure is static but allows deep interaction within each skill row via clickable level boxes. This design is excellent for a comprehensive overview and detailed profile creation simultaneously. A header provides global controls and feedback (selection count). -->
     <!-- Visualization & Content Choices: Primary Interaction: Clickable level boxes within each skill row. Goal: Define/Select. Justification: This is the core user task - building a competency profile. Feedback: A persistent counter in the header. Goal: Inform. Justification: Gives immediate feedback on the profile complexity. Completion: A modal confirmation to finalize the selection. Goal: Control. Justification: Prevents accidental finalization and summarizes the action. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @keyframes holographic {
+            0% { 
+                opacity: 0.85; 
+                transform: scale(1) perspective(500px) rotateY(-3deg);
+                text-shadow: 0 0 6px #00ffff, 0 0 10px #00ffff, 0 0 14px rgba(183, 0, 255, 0.6);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), inset 0 0 5px rgba(0, 255, 255, 0.4);
+                filter: brightness(0.9) contrast(1.1);
+            }
+            33% {
+                opacity: 0.95;
+                transform: scale(1.03) perspective(500px) rotateY(-1deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.7), inset 0 0 8px rgba(0, 255, 255, 0.5);
+                filter: brightness(1.1) contrast(1.2);
+            }
+            66% { 
+                opacity: 1; 
+                transform: scale(1.05) perspective(500px) rotateY(1deg);
+                text-shadow: 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px rgba(183, 0, 255, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), inset 0 0 12px rgba(0, 255, 255, 0.6);
+                filter: brightness(1.2) contrast(1.3);
+            }
+            100% { 
+                opacity: 0.9; 
+                transform: scale(1) perspective(500px) rotateY(3deg);
+                text-shadow: 0 0 8px #00ffff, 0 0 12px #00ffff, 0 0 16px rgba(183, 0, 255, 0.7);
+                box-shadow: 0 0 12px rgba(0, 255, 255, 0.7), inset 0 0 7px rgba(0, 255, 255, 0.5);
+                filter: brightness(1) contrast(1.2);
+            }
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 12px;
@@ -17,6 +48,8 @@
             background-color: #f8fafc;
             color: #1f2937;
             transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
         }
         body.dark-mode {
             background-color: #1a202c;
@@ -79,6 +112,11 @@
             --cat-rrc-main: #f97316; --cat-rrc-dark: #ea580c; --cat-rrc-text: #9a3412; --cat-rrc-light-bg: rgba(255, 237, 213, 0.6);
             --cat-issc-main: #8b5cf6; --cat-issc-dark: #7c3aed; --cat-issc-text: #5b21b6; --cat-issc-light-bg: rgba(233, 213, 255, 0.6);
             --cat-dfa-main: #14b8a6; --cat-dfa-dark: #0d9488; --cat-dfa-text: #134e4a; --cat-dfa-light-bg: rgba(204, 251, 241, 0.6);
+            --cat-ops-main: #c53030; --cat-ops-dark: #9b2c2c; --cat-ops-text: #742a2a; --cat-ops-light-bg: rgba(254, 215, 215, 0.6);
+            --cat-integ-main: #2b6cb0; --cat-integ-dark: #2c5282; --cat-integ-text: #1a365d; --cat-integ-light-bg: rgba(190, 227, 248, 0.4);
+            --cat-spec-main: #805ad5; --cat-spec-dark: #6b46c1; --cat-spec-text: #44337a; --cat-spec-light-bg: rgba(233, 213, 255, 0.6);
+            --cat-legal-main: #b7791f; --cat-legal-dark: #975a16; --cat-legal-text: #78350f; --cat-legal-light-bg: rgba(254, 235, 200, 0.6);
+            --cat-lead-main: #4a5568; --cat-lead-dark: #2d3748; --cat-lead-text: #1a202c; --cat-lead-light-bg: rgba(226, 232, 240, 0.6);
         }
         .category-container { --cat-main: #666; --cat-dark: #555; --cat-text: #444; --cat-light-bg: #f0f0f0; }
         .csgc { --cat-main: var(--cat-csgc-main); --cat-dark: var(--cat-csgc-dark); --cat-text: var(--cat-csgc-text); --cat-light-bg: var(--cat-csgc-light-bg); }
@@ -87,6 +125,11 @@
         .rrc { --cat-main: var(--cat-rrc-main); --cat-dark: var(--cat-rrc-dark); --cat-text: var(--cat-rrc-text); --cat-light-bg: var(--cat-rrc-light-bg); }
         .issc { --cat-main: var(--cat-issc-main); --cat-dark: var(--cat-issc-dark); --cat-text: var(--cat-issc-text); --cat-light-bg: var(--cat-issc-light-bg); }
         .dfa { --cat-main: var(--cat-dfa-main); --cat-dark: var(--cat-dfa-dark); --cat-text: var(--cat-dfa-text); --cat-light-bg: var(--cat-dfa-light-bg); }
+        .cyberspace-operations { --cat-main: var(--cat-ops-main); --cat-dark: var(--cat-ops-dark); --cat-text: var(--cat-ops-text); --cat-light-bg: var(--cat-ops-light-bg); }
+        .multi-domain-integration { --cat-main: var(--cat-integ-main); --cat-dark: var(--cat-integ-dark); --cat-text: var(--cat-integ-text); --cat-light-bg: var(--cat-integ-light-bg); }
+        .specialized-capabilities { --cat-main: var(--cat-spec-main); --cat-dark: var(--cat-spec-dark); --cat-text: var(--cat-spec-text); --cat-light-bg: var(--cat-spec-light-bg); }
+        .legal-compliance { --cat-main: var(--cat-legal-main); --cat-dark: var(--cat-legal-dark); --cat-text: var(--cat-legal-text); --cat-light-bg: var(--cat-legal-light-bg); }
+        .strategic-leadership { --cat-main: var(--cat-lead-main); --cat-dark: var(--cat-lead-dark); --cat-text: var(--cat-lead-text); --cat-light-bg: var(--cat-lead-light-bg); }
 
         .category-header { background: linear-gradient(135deg, var(--cat-main), var(--cat-dark)); }
         .level-header { background: color-mix(in srgb, var(--cat-main) 8%, transparent); border-color: color-mix(in srgb, var(--cat-dark) 15%, transparent); }
@@ -100,19 +143,623 @@
 
         #modal-backdrop { transition: opacity 0.3s ease-in-out; }
         #modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        
+        /* Styles pour les cartes de rôles sélectionnés depuis Step0 */
+        #step0-selected-roles {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #step0-selected-roles h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        #selected-roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        #step0-selected-roles .selected-role-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            transition: all 0.3s ease;
+            min-width: 280px;
+            max-width: 320px;
+            flex: 0 0 auto;
+        }
+
+        #step0-selected-roles .selected-role-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #step0-selected-roles .selected-role-card.primary {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%);
+            border: 2px solid rgba(255, 193, 7, 0.8);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+
+        #step0-selected-roles .selected-role-card.primary::before {
+            content: '⭐ Principal';
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffc107;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        #step0-selected-roles .selected-role-card .role-opm {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        #step0-selected-roles .selected-role-card .role-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        #step0-selected-roles .selected-role-card .role-element {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+            font-weight: 500;
+            text-align: left;
+        }
+        
+        #step0-selected-roles .selected-role-card .role-checkboxes {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        #step0-selected-roles .selected-role-card .role-checkboxes label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        #step0-selected-roles .selected-role-card .role-checkboxes input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: rgba(59, 130, 246, 0.9);
+        }
+        
+        #step0-selected-roles .selected-role-card .role-competences {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.75rem;
+        }
+        
+        #step0-selected-roles .selected-role-card .role-graduation {
+            text-align: center;
+        }
+        
+        #step0-selected-roles .selected-role-card .graduation-circle {
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        #step0-selected-roles .selected-role-card .graduation-circle:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        
+        /* Styles pour le wizard de sélection de niveaux */
+        .wizard-active .level-box {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .wizard-active .level-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        .wizard-active .level-box.selected {
+            background-color: #6366f1 !important;
+            color: white !important;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+            border: 2px solid #4f46e5;
+        }
+        
+        .skill-code.has-level-selected::after {
+            content: '✓';
+            display: inline-block;
+            margin-left: 8px;
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 16px;
+            animation: checkmarkAppear 0.3s ease-out;
+        }
+        
+        @keyframes checkmarkAppear {
+            0% { opacity: 0; transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .wizard-active .level-box.selected {
+            animation: levelSelected 0.3s ease-out;
+        }
+        
+        @keyframes levelSelected {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .wizard-active .skill-row {
+            opacity: 1;
+        }
+        
+        /* Styles pour la jauge OPM-ID du wizard */
+        #wizard-opm-scale {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 0.5rem;
+        }
+        
+        .wizard-opm-item {
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            background-color: #e5e7eb;
+            color: #6b7280;
+            border: 2px solid transparent;
+        }
+        
+        .wizard-opm-item.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .wizard-opm-item.completed {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-color: #10b981;
+        }
+        
+        .wizard-opm-item::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+        
+        .wizard-opm-item.active::after {
+            width: 80%;
+        }
     </style>
 </head>
-<body class="p-6">
+<body>
+    <!-- Barre de navigation -->
+    <nav class="bg-gray-800 sticky top-0 z-50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <!-- Logo -->
+                    <div class="shrink-0 flex items-center">
+                        <!-- Info Button -->
+                        <button type="button" id="info-button" 
+                                class="mr-3 px-3 py-1.5 text-sm font-medium text-white hover:text-blue-100 bg-blue-600 hover:bg-blue-700 rounded-lg border border-blue-500 transition-all duration-200 flex items-center shadow-md"
+                                title="Version Information">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Info
+                        </button>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.2.0</span>
+                        <span class="text-2xl font-bold text-white">Cyber Align</span>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <div class="flex items-baseline space-x-4">
+                        <a href="{% url 'main' %}"
+                           class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'main' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                            Home
+                        </a>
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'saved_ksat_selections' %}"
+                           class="rounded-md px-3 py-2 text-sm font-medium {% if request.resolver_match.url_name == 'saved_ksat_selections' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                            Sauvegardes
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Right side elements -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button type="button" id="darkModeToggleNav"
+                            class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span class="sr-only">Toggle Dark Mode</span>
+                        <svg id="moonIcon" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                        </svg>
+                        <svg id="sunIcon" class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Authentication Information -->
+                    {% if user.is_authenticated %}
+                    <div class="flex items-center">
+                        <span class="text-sm text-white mr-2">
+                            <span class="font-semibold">Matricule:</span> {{ user.matricule }}
+                        </span>
+                        <a href="{% url 'logout' %}" class="text-red-300 hover:text-red-100 text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Déconnexion
+                        </a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'main' %}" class="text-green-300 hover:text-green-100 text-sm font-medium flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        Connexion
+                    </a>
+                    {% endif %}
+                    
+                    <!-- Mobile menu button -->
+                    <button type="button" id="mobile-menu-button" 
+                            class="md:hidden relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                            aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu open: "hidden", Menu closed: "block" -->
+                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                        </svg>
+                        <!-- Menu open: "block", Menu closed: "hidden" -->
+                        <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" data-slot="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <a href="{% url 'main' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium {% if request.resolver_match.url_name == 'main' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                    Home
+                </a>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'saved_ksat_selections' %}"
+                   class="block rounded-md px-3 py-2 text-base font-medium {% if request.resolver_match.url_name == 'saved_ksat_selections' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} flex items-center">
+                    Sauvegardes
+                </a>
+                {% endif %}
+            </div>
+            {% if user.is_authenticated %}
+            <div class="border-t border-gray-700 pb-3 pt-4">
+                <div class="flex items-center px-5">
+                    <div class="ml-3">
+                        <div class="text-base font-medium text-white">{{ user.matricule }}</div>
+                        <div class="text-sm font-medium text-gray-400">{{ user.first_name }} {{ user.last_name }}</div>
+                    </div>
+                </div>
+                <div class="mt-3 space-y-1 px-2">
+                    <a href="{% url 'logout' %}"
+                       class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+                        Déconnexion
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="border-t border-gray-700 pb-3 pt-4">
+                <div class="mt-3 space-y-1 px-2">
+                    <a href="{% url 'main' %}"
+                       class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+                        Connexion
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-xl mx-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out relative z-[10000]">
+            <div class="p-3">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-bold text-gray-800">Beta v0.1.2 - What's New</h2>
+                    <button class="info-modal-close text-gray-400 hover:text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-2 text-gray-700">
+                    <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400">
+                        <h3 class="font-semibold text-blue-800 mb-1 text-sm">🆕 New Features</h3>
+                        <ul class="space-y-1 text-xs">
+                            <li class="flex items-start">
+                                <span class="text-blue-600 mr-2">•</span>
+                                <span><strong>Added KSAT for 2025 models</strong> - New knowledge, skills, abilities, and tasks for the latest frameworks</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-600 mr-2">•</span>
+                                <span><strong>2025 KSAT comparison available</strong> - Compare KSAT data across different 2025 models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-600 mr-2">•</span>
+                                <span><strong>NICE Framework Competency Areas Explorer</strong> - New interactive tool in Step 2 to explore competency areas</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-2 rounded-lg border-l-4 border-green-400">
+                        <h3 class="font-semibold text-green-800 mb-1 text-sm">🔧 Improvements</h3>
+                        <ul class="space-y-1 text-xs">
+                            <li class="flex items-start">
+                                <span class="text-green-600 mr-2">•</span>
+                                <span><strong>Fixed color codes for 2025 models</strong> - Corrected color coding system for better visual consistency</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-600 mr-2">•</span>
+                                <span><strong>Updated titles and texts</strong> - Improved clarity and accuracy of interface elements</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-600 mr-2">•</span>
+                                <span><strong>Removed "Under Development" message</strong> - Cleaner interface once connected</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-orange-50 p-2 rounded-lg border-l-4 border-orange-400">
+                        <h3 class="font-semibold text-orange-800 mb-1 text-sm">🐛 Bug Fixes</h3>
+                        <ul class="space-y-1 text-xs">
+                            <li class="flex items-start">
+                                <span class="text-orange-600 mr-2">•</span>
+                                <span><strong>Fixed OPM ID display in heatmap</strong> - Corrected display issues in the heatmap visualization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-600 mr-2">•</span>
+                                <span><strong>Fixed saved data display in Step 3</strong> - Resolved issues with saved OPM ID data not showing correctly</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-2 rounded-lg border-l-4 border-gray-400">
+                        <h3 class="font-semibold text-gray-800 mb-1 text-sm">📋 Technical Notes</h3>
+                        <p class="text-xs text-gray-600">
+                            This beta version includes significant improvements to the data models and user interface. 
+                            The new KSAT data for 2025 models provides more comprehensive coverage of cybersecurity competencies.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-3 flex justify-end">
+                    <button class="info-modal-close bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors">
+                        Got it!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenu principal avec padding pour la navbar -->
+    <div class="pt-6 px-6 pb-6">
+        <!-- Affichage des work roles sélectionnés depuis Step0 -->
+        <div id="step0-selected-roles" class="w-full mb-6" style="display: none;">
+            <h3 class="text-xl font-semibold mb-3 text-white">Work Roles Selected from Baseline:</h3>
+            <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center"></div>
+            
+            <!-- Boutons en bas -->
+            <div class="flex justify-between items-center mt-6">
+                <!-- Bouton gauche : Go to Project Recap -->
+                <button id="go-to-recap-btn" class="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Go to Project Recap</span>
+                </button>
+                
+                <!-- Bouton droite : Start Level Selection (Optional) -->
+                <button id="start-level-selection-btn" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-bold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <span>Start Level Selection <span class="text-xs font-normal">(Optional)</span></span>
+                </button>
+            </div>
+            
+            <!-- Contrôles du wizard (masqués par défaut) -->
+            <div id="wizard-controls" class="mt-6 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl border-2 border-indigo-400 shadow-lg" style="display: none;">
+                <!-- Ligne supérieure : Exit button -->
+                <div class="flex justify-between items-center mb-4 pb-4 border-b-2 border-indigo-200">
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <h3 class="text-lg font-bold text-black">Level Selection Wizard</h3>
+                    </div>
+                    <button id="wizard-exit-btn" class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition-all shadow-md flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Exit Wizard
+                    </button>
+                </div>
+                
+                <!-- Section OPM-ID et Statistiques -->
+                <div class="mb-6 p-4 bg-white rounded-lg border border-indigo-200 shadow-sm">
+                    <div class="text-center mb-4">
+                        <div class="text-2xl font-bold text-indigo-800 mb-3">
+                            OPM-ID: <span id="wizard-current-opm-id" class="text-indigo-600 text-3xl">-</span>
+                        </div>
+                        
+                        <!-- Jauge/Échelle des OPM-IDs -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-center gap-2 flex-wrap" id="wizard-opm-scale">
+                                <!-- Les OPM-IDs seront ajoutés ici dynamiquement -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques en cards -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
+                            <div class="text-xs font-medium text-blue-700 mb-1">Proposed</div>
+                            <div class="text-2xl font-bold text-blue-600" id="wizard-proposed-count">0</div>
+                        </div>
+                        <div class="bg-green-50 border-2 border-green-200 rounded-lg p-3 text-center">
+                            <div class="text-xs font-medium text-green-700 mb-1">Selected</div>
+                            <div class="text-2xl font-bold text-green-600" id="wizard-selected-count">0</div>
+                        </div>
+                        <div class="bg-orange-50 border-2 border-orange-200 rounded-lg p-3 text-center">
+                            <div class="text-xs font-medium text-orange-700 mb-1">Other</div>
+                            <div class="text-2xl font-bold text-orange-600" id="wizard-other-count">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ligne principale : Navigation -->
+                <div class="flex justify-between items-center gap-4">
+                    <button id="wizard-prev-btn" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-all shadow-md flex items-center gap-2 min-w-[120px] justify-center" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                        </svg>
+                        <span>Previous</span>
+                    </button>
+                    
+                    <div class="flex-1"></div>
+                    
+                    <button id="wizard-next-btn" class="px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-bold rounded-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg flex items-center gap-2 min-w-[140px] justify-center">
+                        <span id="wizard-btn-text">Next</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- View Mode Container (masqué par défaut, affiché uniquement pendant le wizard) -->
+            <div id="view-mode-container" class="mt-6 p-4 bg-white rounded-lg border-2 border-indigo-200 shadow-sm" style="display: none;">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <div class="font-semibold text-indigo-900 mb-1 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Display Mode
+                        </div>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <div class="flex items-start">
+                                <span class="mr-2">🎯</span>
+                                <div><strong>Focus Mode</strong>: Affiche uniquement les compétences liées à l'OPM-ID actuel. Recommandé pour une évaluation ciblée.</div>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="mr-2">🌐</span>
+                                <div><strong>Full View</strong>: Affiche toutes les compétences. Utilisez ce mode pour sélectionner des niveaux pour des compétences supplémentaires en dehors du scope de l'OPM-ID actuel.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Toggle switch -->
+                    <div class="flex items-center gap-3 ml-6 px-4 py-3 bg-indigo-50 rounded-lg">
+                        <span class="text-sm font-medium text-gray-700">View Mode:</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="wizard-view-toggle" class="sr-only peer">
+                            <div class="w-14 h-7 bg-indigo-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-purple-600"></div>
+                            <span id="wizard-view-label" class="ml-3 text-base font-bold text-indigo-900">Focus</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de récapitulatif du wizard -->
+        <div id="wizard-summary-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+            <div id="wizard-summary-backdrop" class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 p-6 relative z-10">
+                <h2 class="text-2xl font-bold text-indigo-900 mb-4">Wizard Summary</h2>
+                <div id="wizard-summary-content" class="mb-6"></div>
+                <div class="flex justify-end gap-3">
+                    <button id="wizard-summary-cancel" class="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-all">
+                        Cancel
+                    </button>
+                    <button id="wizard-summary-confirm" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg">
+                        Confirm & Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        
     <header class="bg-white shadow-sm mb-6 border-b border-gray-200 rounded-lg">
         <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center flex-wrap gap-4">
-            <h1 class="text-xl font-bold tracking-tight text-gray-900">Cadre de Compétences Cyber Militaire</h1>
+                <h1 class="text-xl font-bold tracking-tight text-gray-900">Parsed from Cyber commanders Handbook 2</h1>
             <div class="flex items-center space-x-4">
                 <div class="text-sm font-medium text-gray-600">
                     Compétences sélectionnées : <span id="selected-count" class="font-bold text-blue-600 text-base bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded-full">0</span>
                 </div>
-                 <button type="button" id="darkModeToggle" class="relative rounded-full bg-gray-200 dark:bg-gray-700 p-1.5 text-gray-500 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none">
-                    🌙/☀️
-                </button>
             </div>
         </div>
     </header>
@@ -124,6 +771,7 @@
             <button id="complete-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
                 Terminer la Définition du Poste
             </button>
+        </div>
         </div>
     </div>
 
@@ -141,140 +789,591 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Variable globale pour stocker les données du JSON militaire
+    window.militarySkillsData = null;
+    
+    // Fonction pour charger le JSON militaire
+    async function loadMilitarySkillsData() {
+        try {
+            // Utiliser une vue Django pour servir le fichier JSON
+            const response = await fetch('{% url "military_skills_json" %}');
+            if (!response.ok) {
+                console.error('Erreur lors du chargement de military_skills_data.json:', response.statusText);
+                return;
+            }
+            const data = await response.json();
+            window.militarySkillsData = data;
+            console.log('Données military_skills_data.json chargées:', data);
+        } catch (error) {
+            console.error('Erreur lors du chargement de military_skills_data.json:', error);
+        }
+    }
+    
+    // Fonction pour charger et afficher les sélections de Step0
+    function loadAndDisplayStep0Selections() {
+        return new Promise((resolve, reject) => {
+            try {
+                const step0Data = localStorage.getItem('step0_baseline_data');
+                if (!step0Data) {
+                    console.log('Aucune donnée Step0 trouvée');
+                    resolve();
+                    return;
+                }
+                
+                const data = JSON.parse(step0Data);
+                console.log('Données Step0 chargées:', data);
+                
+                if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+                    resolve();
+                    return;
+                }
+                
+                const container = document.getElementById('selected-roles-container');
+                const sectionDiv = document.getElementById('step0-selected-roles');
+                
+                if (!container || !sectionDiv) {
+                    console.error('Conteneur non trouvé');
+                    resolve();
+                    return;
+                }
+                
+                // Afficher la section
+                sectionDiv.style.display = 'block';
+                
+                // Créer les cartes pour chaque work role
+                data.selectedWorkRoles.forEach(role => {
+                    const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                    const roleCard = document.createElement('div');
+                    roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                    roleCard.setAttribute('data-opm-code', role.opm_code);
+                    
+                    const roleName = role.ncwf_work_role || role.dcwf_work_role || 'N/A';
+                    const roleElement = role.dcwf_element || role.ncwf_element || '';
+                    
+                    roleCard.innerHTML = `
+                        <div class="role-opm">OPM-ID: ${role.opm_code}</div>
+                        <div class="role-name">${roleName}</div>
+                        ${roleElement ? `<div class="role-element">${roleElement}</div>` : ''}
+                        <div class="role-checkboxes">
+                            <label title="LOW: cross-functional awareness purposes">
+                                <input type="checkbox" class="role-low-checkbox" data-opm-id="${role.opm_code}" checked>
+                                <span>Low</span>
+                            </label>
+                            <label title="MEDIUM: advanced proficiency curriculum">
+                                <input type="checkbox" class="role-medium-checkbox" data-opm-id="${role.opm_code}" checked>
+                                <span>Medium</span>
+                            </label>
+                            <label title="HIGH: foundation for mandatory training programs">
+                                <input type="checkbox" class="role-high-checkbox" data-opm-id="${role.opm_code}" checked>
+                                <span>High</span>
+                            </label>
+                        </div>
+                        <div class="role-competences mt-3" data-opm-id="${role.opm_code}">
+                            <!-- Les badges de compétences seront ajoutés ici -->
+                        </div>
+                        <div class="role-graduation mt-3" data-opm-id="${role.opm_code}">
+                            <div class="text-xs text-white mb-1 font-semibold">Level:</div>
+                            <div class="flex items-center justify-center space-x-1">
+                                ${[1,2,3,4,5,6,7].map(i => `
+                                    <div class="graduation-circle w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white" style="background-color: rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.7);">
+                                        ${i}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(roleCard);
+                });
+                
+                // Charger les données militaires et configurer les checkboxes
+                loadMilitarySkillsData().then(() => {
+                    setupRoleCheckboxes();
+                    resolve();
+                }).catch((e) => {
+                    console.error('Erreur lors du chargement des données militaires:', e);
+                    resolve();
+                });
+                
+            } catch (e) {
+                console.error('Erreur lors du chargement des données Step0:', e);
+                reject(e);
+            }
+        });
+    }
+    
+    // Fonction pour configurer les checkboxes Low/Medium/High
+    function setupRoleCheckboxes() {
+        if (!window.militarySkillsData) {
+            console.log('Données militaires non chargées, réessayez plus tard');
+            setTimeout(setupRoleCheckboxes, 500);
+            return;
+        }
+        
+        // Créer un mapping OPM-ID -> compétences par niveau (Low/Medium/High)
+        const opmCompetencesMap = {};
+        
+        window.militarySkillsData.forEach(item => {
+            const opmId = item['OPM-ID'].toString();
+            if (!opmCompetencesMap[opmId]) {
+                opmCompetencesMap[opmId] = {
+                    low: [],
+                    medium: [],
+                    high: []
+                };
+            }
+            
+            const skillLvl = item['Skill-lvl'];
+            const competence = {
+                code: item['Skill-code'],
+                name: item['Skill-name'],
+                category: item['Skill-cat'],
+                source: item['Source']
+            };
+            
+            if (skillLvl === 'L') {
+                opmCompetencesMap[opmId].low.push(competence);
+            } else if (skillLvl === 'M') {
+                opmCompetencesMap[opmId].medium.push(competence);
+            } else if (skillLvl === 'H') {
+                opmCompetencesMap[opmId].high.push(competence);
+            }
+        });
+        
+        window.opmCompetencesMap = opmCompetencesMap;
+        console.log('Mapping OPM -> Compétences créé:', opmCompetencesMap);
+        
+        // Ajouter les event listeners aux checkboxes
+        setTimeout(() => {
+            document.querySelectorAll('.role-low-checkbox, .role-medium-checkbox, .role-high-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const opmId = this.dataset.opmId;
+                    const isLow = this.classList.contains('role-low-checkbox');
+                    const isMedium = this.classList.contains('role-medium-checkbox');
+                    const isHigh = this.classList.contains('role-high-checkbox');
+                    const isChecked = this.checked;
+                    
+                    const levelType = isLow ? 'low' : (isMedium ? 'medium' : 'high');
+                    console.log(`Checkbox ${levelType} pour OPM ID ${opmId}: ${isChecked ? 'cochée' : 'décochée'}`);
+                    
+                    // Mettre à jour les badges pour cet OPM-ID
+                    updateRoleCompetencesBadges(opmId);
+                    
+                    // Si le wizard est actif et que c'est l'OPM-ID en cours, réappliquer le filtrage
+                    if (wizardActive && currentWizardOpmId === opmId) {
+                        applySkillRowsFiltering();
+                        updateAverageDisplay(opmId);
+                    }
+                });
+            });
+            
+            // Initialiser les badges pour tous les OPM-IDs
+            const allOpmIds = [];
+            document.querySelectorAll('.selected-role-card[data-opm-code]').forEach(card => {
+                allOpmIds.push(card.dataset.opmCode);
+            });
+            
+            allOpmIds.forEach((opmId, index) => {
+                setTimeout(() => {
+                    updateRoleCompetencesBadges(opmId);
+                }, index * 100);
+            });
+        }, 500);
+    }
+    
+    // Mapping des classes CSS aux couleurs (basé sur les variables CSS définies)
+    const cssClassColorMap = {
+        'csgc': '#3b82f6', // Command, Strategy & Governance - bleu
+        'ocd': '#22c55e', // Defensive Cyber Operations - vert
+        'oco': '#ef4444', // Offensive Cyber Operations - rouge
+        'rrc': '#f97316', // Intelligence & Cyber Reconnaissance - orange
+        'issc': '#8b5cf6', // Engineering & Systems Support - violet
+        'dfa': '#14b8a6', // Force Development & Alliances - turquoise
+        'cyberspace-operations': '#c53030', // Military Cyberspace Operations - rouge foncé
+        'multi-domain-integration': '#2b6cb0', // Multi-Domain Cyber Integration - bleu
+        'specialized-capabilities': '#805ad5', // Specialized Military Cyber Capabilities - violet
+        'legal-compliance': '#b7791f', // Legal and Compliance Operations - jaune/orange
+        'strategic-leadership': '#4a5568' // Strategic Cyber Leadership - gris
+    };
+    
+    // Mapping Skill-code → couleur (construit dynamiquement depuis militaryFrameworkData)
+    let skillCodeColorMap = {};
+    
+    // Fonction pour construire le mapping Skill-code → couleur
+    function buildSkillCodeColorMap() {
+        skillCodeColorMap = {};
+        militaryFrameworkData.forEach(category => {
+            const cssClass = category.cssClass;
+            const color = cssClassColorMap[cssClass] || '#6c757d';
+            
+            category.subcategories.forEach(subcategory => {
+                subcategory.skills.forEach(skill => {
+                    skillCodeColorMap[skill.code] = color;
+                });
+            });
+        });
+        console.log('Mapping Skill-code → couleur construit:', skillCodeColorMap);
+    }
+    
+    // Fonction pour obtenir la couleur d'un code de compétence
+    function getCategoryColor(skillCode) {
+        // Si le mapping n'est pas encore construit, le construire
+        if (Object.keys(skillCodeColorMap).length === 0) {
+            buildSkillCodeColorMap();
+        }
+        
+        const color = skillCodeColorMap[skillCode];
+        if (!color) {
+            console.warn('Code de compétence non trouvé dans le mapping:', skillCode);
+            return '#6c757d'; // Couleur par défaut si non trouvée
+        }
+        return color;
+    }
+    
+    // Fonction pour mettre à jour les badges de compétences
+    function updateRoleCompetencesBadges(opmId) {
+        if (!window.opmCompetencesMap || !window.opmCompetencesMap[opmId]) {
+            return;
+        }
+        
+        const roleCard = document.querySelector(`.selected-role-card[data-opm-code="${opmId}"]`);
+        if (!roleCard) return;
+        
+        const competencesContainer = roleCard.querySelector(`.role-competences[data-opm-id="${opmId}"]`);
+        if (!competencesContainer) return;
+        
+        // Récupérer les états des checkboxes
+        const lowCheckbox = document.querySelector(`.role-low-checkbox[data-opm-id="${opmId}"]`);
+        const mediumCheckbox = document.querySelector(`.role-medium-checkbox[data-opm-id="${opmId}"]`);
+        const highCheckbox = document.querySelector(`.role-high-checkbox[data-opm-id="${opmId}"]`);
+        
+        const isLowChecked = lowCheckbox ? lowCheckbox.checked : false;
+        const isMediumChecked = mediumCheckbox ? mediumCheckbox.checked : false;
+        const isHighChecked = highCheckbox ? highCheckbox.checked : false;
+        
+        // Récupérer les compétences à afficher
+        const competencesToShow = [];
+        if (isLowChecked && window.opmCompetencesMap[opmId].low) {
+            competencesToShow.push(...window.opmCompetencesMap[opmId].low.map(c => ({...c, type: 'low'})));
+        }
+        if (isMediumChecked && window.opmCompetencesMap[opmId].medium) {
+            competencesToShow.push(...window.opmCompetencesMap[opmId].medium.map(c => ({...c, type: 'medium'})));
+        }
+        if (isHighChecked && window.opmCompetencesMap[opmId].high) {
+            competencesToShow.push(...window.opmCompetencesMap[opmId].high.map(c => ({...c, type: 'high'})));
+        }
+        
+        // Vider le conteneur
+        competencesContainer.innerHTML = '';
+        
+        // Créer les badges pour chaque compétence
+        competencesToShow.forEach(comp => {
+            const badge = document.createElement('span');
+            badge.className = 'inline-block text-white px-2.5 py-1 rounded-md text-xs font-semibold';
+            // Utiliser la couleur basée sur le code de compétence (qui correspond à la catégorie CSS)
+            const categoryColor = getCategoryColor(comp.code);
+            badge.style.backgroundColor = categoryColor;
+            badge.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+            badge.style.border = '1px solid rgba(255,255,255,0.2)';
+            badge.style.cursor = 'help';
+            badge.textContent = comp.code;
+            badge.title = `${comp.name} (${comp.code})\nCatégorie: ${comp.category}\nNiveau: ${comp.type.toUpperCase()}\nSource: ${comp.source}`;
+            
+            competencesContainer.appendChild(badge);
+        });
+    }
+    
+    // Charger les sélections Step0 au chargement de la page
+    loadAndDisplayStep0Selections();
+    
     const militaryFrameworkData = [
         {
-            name: "Commandement, Stratégie & Gouvernance",
+            name: "Command, Strategy & Governance",
             cssClass: "csgc",
             subcategories: [
-                { name: "Planification Stratégique et Doctrinale", skills: [
-                    { name: "Planification Stratégique des Opérations Cyber", code: "PSOC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Développement de la Doctrine Cyber Militaire", code: "DDCM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse Géopolitique et des Menaces Stratégiques", code: "AGMS", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Alignement sur les Objectifs de l'Alliance", code: "AOAL", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion du Risque Opérationnel", code: "GRIO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Strategic and Doctrinal Planning", skills: [
+                    { name: "Strategic Cyber Operations Planning", code: "PSOC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Military Cyber Doctrine Development", code: "DDCM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Geopolitical and Strategic Threat Analysis", code: "AGMS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Alliance Objectives Alignment", code: "AOAL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Operational Risk Management", code: "GRIO", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Cadre Légal et Éthique des Opérations", skills: [
-                    { name: "Maîtrise du Droit des Conflits Armés (DCA) appliqué au Cyber", code: "DCAC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Élaboration et Application des Règles d'Engagement", code: "ROEN", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse de Proportionnalité et de Distinction", code: "APDI", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Supervision Éthique de l'IA en contexte militaire", code: "SEIA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion de la Conformité et des Accords Internationaux", code: "GCAI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Legal and Ethical Framework for Operations", skills: [
+                    { name: "Law of Armed Conflict (LOAC) Applied to Cyber", code: "DCAC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Rules of Engagement Development and Application", code: "ROEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Proportionality and Distinction Analysis", code: "APDI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Ethical AI Supervision in Military Context", code: "SEIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Compliance and International Agreements Management", code: "GCAI", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
             ]
         },
         {
-            name: "Opérations Cyber Défensives",
+            name: "Defensive Cyber Operations",
             cssClass: "ocd",
             subcategories: [
-                { name: "Sécurisation des Infrastructures et des Systèmes", skills: [
-                    { name: "Architecture de Sécurité \"Zero Trust\"", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Durcissement des Systèmes d'Armes et Industriels (OT/SCADA)", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Cryptographie et Gestion des Clés", code: "CRGC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Sécurité des Infrastructures Physiques et Logiques", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Développement Sécurisé d'Applications (DevSecOps)", code: "DVSA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Infrastructure and Systems Security", skills: [
+                    { name: "Zero Trust Security Architecture", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Weapon Systems and Industrial (OT/SCADA) Hardening", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Cryptography and Key Management", code: "CRGC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Physical and Logical Infrastructure Security", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Secure Application Development (DevSecOps)", code: "DVSA", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Détection et Réponse aux Incidents", skills: [
-                    { name: "Détection de Menaces par IA/ML", code: "DMIA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse Forensique Multi-couches", code: "AFML", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion de Crise et Réponse aux Incidents Majeurs", code: "GCRI", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Chasse aux Menaces (\"Threat Hunting\") Active", code: "CTHA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse Comportementale des Entités et Utilisateurs", code: "ACEU", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Incident Detection and Response", skills: [
+                    { name: "AI/ML Threat Detection", code: "DMIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Multi-Layer Forensic Analysis", code: "AFML", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Crisis Management and Major Incident Response", code: "GCRI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Active Threat Hunting", code: "CTHA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Entity and User Behavioral Analysis", code: "ACEU", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
             ]
         },
         {
-            name: "Opérations Cyber Défensives",
-            cssClass: "ocd",
-            subcategories: [
-                { name: "Sécurisation des Infrastructures et des Systèmes", skills: [
-                    { name: "Architecture de Sécurité \"Zero Trust\"", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Durcissement des Systèmes d'Armes et Industriels (OT/SCADA)", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Cryptographie et Gestion des Clés", code: "CGC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Sécurité des Infrastructures Physiques et Logiques", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Développement Sécurisé d'Applications (DevSecOps)", code: "DSA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                ]},
-                { name: "Détection et Réponse aux Incidents", skills: [
-                    { name: "Détection de Menaces par IA/ML", code: "DMIA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse Forensique Multi-couches", code: "AFM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion de Crise et Réponse aux Incidents Majeurs", code: "GCRI", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Chasse aux Menaces (\"Threat Hunting\") Active", code: "CTA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Analyse Comportementale des Entités et Utilisateurs", code: "UEBA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                ]}
-            ]
-        },
-        {
-            name: "Opérations Cyber Offensives",
+            name: "Offensive Cyber Operations",
             cssClass: "oco",
             subcategories: [
-                 { name: "Développement et Analyse de Cibles", skills: [
-                    { name: "Analyse des Systèmes Cibles", code: "ASC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Recherche de Vulnérabilités et Développement d'Exploits", code: "RVDE", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Ingénierie des charges utiles (Malware)", code: "ICPM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Estimation des Effets et Dommages Collatéraux", code: "EEDC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Cartographie des Réseaux Adversaires", code: "CRA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                 { name: "Target Development and Analysis", skills: [
+                    { name: "Target System Analysis", code: "ASCT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Vulnerability Research and Exploit Development", code: "RVDE", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Payload Engineering (Malware)", code: "ICPM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Effects and Collateral Damage Estimation", code: "EEDC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Adversary Network Mapping", code: "CRAN", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Conduite des Opérations d'Effets", skills: [
-                    { name: "Développement et Maintien d'Accès", code: "DAMA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Conduite d'Opérations d'Effets", code: "COEN", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Opérations d'Influence (Virtuel/Social)", code: "OIVS", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Dissimulation et Maintien de l'Anonymat", code: "DIMA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Désengagement et Nettoyage Post-Opération", code: "DNPO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Effects Operations Conduct", skills: [
+                    { name: "Access Development and Maintenance", code: "DAMA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Effects Operations Conduct", code: "COEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Influence Operations (Virtual/Social)", code: "OIVS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Concealment and Anonymity Maintenance", code: "DIMA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Post-Operation Disengagement and Cleanup", code: "DNPO", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
             ]
         },
         {
-            name: "Renseignement & Reconnaissance Cyber",
+            name: "Intelligence & Cyber Reconnaissance",
             cssClass: "rrc",
             subcategories: [
-                { name: "Collecte et Exploitation", skills: [
-                    { name: "Interception et Analyse de Signaux (SIGINT)", code: "IASC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Renseignement en Sources Ouvertes (OSINT/SOCMINT)", code: "RSOS", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Exploitation des Données et \"Data Mining\"", code: "EDDM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Reconnaissance Active et Passive", code: "REAP", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Ingénierie Sociale pour la Collecte", code: "ISCO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Collection and Exploitation", skills: [
+                    { name: "Signal Interception and Analysis (SIGINT)", code: "IASC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Open Source Intelligence (OSINT/SOCMINT)", code: "RSOS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Data Exploitation and Data Mining", code: "EDDM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Active and Passive Reconnaissance", code: "REAP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Social Engineering for Collection", code: "ISCO", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Analyse et Production de Renseignement", skills: [
-                    { name: "Analyse de la Menace Cyber (Threat Intelligence)", code: "AMCY", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Attribution des Attaques", code: "ATAS", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Modélisation de l'Adversaire (TTPs)", code: "MDAD", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Fusion de Renseignement Multi-sources", code: "FRMS", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Production de Renseignement Actionnable", code: "PDRA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Intelligence Analysis and Production", skills: [
+                    { name: "Cyber Threat Analysis (Threat Intelligence)", code: "AMCY", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Attack Attribution", code: "ATAS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Adversary Modeling (TTPs)", code: "MDAD", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Multi-Source Intelligence Fusion", code: "FRMS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Actionable Intelligence Production", code: "PDRA", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
             ]
         },
         {
-            name: "Ingénierie & Soutien des Systèmes",
+            name: "Engineering & Systems Support",
             cssClass: "issc",
             subcategories: [
-                { name: "Développement d'Outils et Plateformes", skills: [
-                    { name: "Développement d'Outils sur Mesure", code: "DEOM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion de l'Infrastructure de C2", code: "GIC2", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Ingénierie des \"Cyber Ranges\"", code: "ICRE", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Intégration de l'IA dans les outils", code: "IIAO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Tools and Platforms Development", skills: [
+                    { name: "Custom Tools Development", code: "DEOM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "C2 Infrastructure Management", code: "GIC2", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Cyber Ranges Engineering", code: "ICRE", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "AI Integration in Tools", code: "IIAO", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Administration des Systèmes Opérationnels", skills: [
-                    { name: "Gestion des Infrastructures Classifiées", code: "GICL", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Administration des plateformes Big Data", code: "APBD", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Maintien en Condition Opérationnelle des Outils", code: "MCOO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Operational Systems Administration", skills: [
+                    { name: "Classified Infrastructure Management", code: "GICL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Big Data Platform Administration", code: "APBD", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Tools Operational Readiness Maintenance", code: "MCOO", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
             ]
         },
         {
-            name: "Développement de la Force & Alliances",
+            name: "Force Development & Alliances",
             cssClass: "dfa",
             subcategories: [
-                { name: "Formation et Entraînement", skills: [
-                    { name: "Conception de Cursus de Formation Cyber", code: "CCFC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Qualification et Certification des Opérateurs", code: "QCOC", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Organisation d'Exercices (NAT/OTAN)", code: "OEEN", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Évaluation et Gestion des Compétences", code: "EVGC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Training and Exercises", skills: [
+                    { name: "Cyber Training Curriculum Design", code: "CCFC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Operator Qualification and Certification", code: "QCOC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Exercise Organization (NATO)", code: "OEEN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Competency Assessment and Management", code: "EVGC", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]},
-                { name: "Coopération et Intégration", skills: [
-                    { name: "Intégration des Effets Cyber (Multi-Domaines)", code: "IECM", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Coopération et Partage avec les Alliés", code: "CPIA", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Partenariats (Privé/Recherche)", code: "PSPR", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Gestion des Talents et Planification Carrière", code: "GTPC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                { name: "Cooperation and Integration", skills: [
+                    { name: "Cyber Effects Integration (Multi-Domain)", code: "IECM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Allied Cooperation and Sharing", code: "CPIA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Partnerships (Private/Research)", code: "PSPR", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Talent Management and Career Planning", code: "GTPC", levels: [1, 2, 3, 4, 5, 6, 7] },
                 ]}
+            ]
+        },
+        {
+            name: "Military Cyberspace Operations",
+            cssClass: "cyberspace-operations",
+            subcategories: [
+                {
+                    name: "Offensive Cyber Operations",
+                    skills: [
+                        { name: "Military Cyber Targeting", code: "MCYT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Cyber Electronic Warfare", code: "CEWF", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Cross-Domain Attack Coordination", code: "CDAC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Strategic Cyber Effects Assessment", code: "SCEA", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Defensive Cyber Operations",
+                    skills: [
+                        { name: "Military Network Defense", code: "MFND", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Critical Infrastructure Protection", code: "CIPX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Cyber Threat Intelligence Fusion", code: "CTIF", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Mission Assurance Operations", code: "MAOP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Information Operations Support",
+                    skills: [
+                        { name: "Cyber-Enabled Information Operations", code: "CEIO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Virtual Layer Operations", code: "VLOP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Psychological Operations Integration", code: "PSYT", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Information Environment Assessment", code: "IEAS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Multi-Domain Cyber Integration",
+            cssClass: "multi-domain-integration",
+            subcategories: [
+                {
+                    name: "Air Domain Cyber Support",
+                    skills: [
+                        { name: "Air Defense Cyber Integration", code: "ADCI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Aviation Cybersecurity", code: "AVCS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Air-Launched Cyber Operations", code: "ALCO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Aerospace Ground Equipment Security", code: "AGES", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Land Domain Cyber Support",
+                    skills: [
+                        { name: "Tactical Network Operations", code: "TNOP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Ground Vehicle Cybersecurity", code: "GVCS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Forward Operating Base Security", code: "FOBS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Battlefield Cyber Effects", code: "BFCE", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Naval Domain Cyber Support",
+                    skills: [
+                        { name: "Maritime Cyber Operations", code: "MCOP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Naval Combat System Security", code: "NCSS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Port and Harbor Cybersecurity", code: "PHCS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Undersea Cable Protection", code: "UCPR", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                 {
+                    name: "Space Domain Cyber Support",
+                    skills: [
+                        { name: "Satellite Cybersecurity", code: "SACS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Space Situational Awareness", code: "SSAX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Space-Based Cyber Operations", code: "SBCO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Ground Station Security", code: "GSSX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Specialized Military Cyber Capabilities",
+            cssClass: "specialized-capabilities",
+            subcategories: [
+                {
+                    name: "Physical Layer Operations",
+                    skills: [
+                        { name: "Signal Intelligence Cyber Integration", code: "SICI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Hardware Exploitation Operations", code: "HEOP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Infrastructure Targeting", code: "INTG", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Electromagnetic Warfare Integration", code: "EMWI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Advanced Persistent Operations",
+                    skills: [
+                        { name: "Long-Term Access Maintenance", code: "LTAM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Covert Channel Management", code: "CCMG", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Attribution Avoidance", code: "ATAV", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Deep Target Penetration", code: "DTPN", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Emerging Technology Integration",
+                    skills: [
+                        { name: "Artificial Intelligence Cyber Operations", code: "AICO", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Quantum-Resistant Operations", code: "QROP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Autonomous System Security", code: "ASYS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Biotechnology Cybersecurity", code: "BTCS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Legal and Compliance Operations",
+            cssClass: "legal-compliance",
+            subcategories: [
+                {
+                    name: "Military Cyber Law",
+                    skills: [
+                        { name: "International Humanitarian Law Compliance", code: "IHLC", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Rules of Engagement Development", code: "ROED", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Targeting Legal Assessment", code: "TLAG", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Cyber Warfare Law Integration", code: "CWLI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Operational Security and Ethics",
+                    skills: [
+                        { name: "Military Cyber Ethics", code: "MCET", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Operational Security Planning", code: "OSPL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Classification and Compartmentalization", code: "CACM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Collateral Damage Assessment", code: "CDAS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Procurement and Acquisition",
+                    skills: [
+                        { name: "Military Cyber Procurement", code: "MCPR", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Vendor Security Assessment", code: "VSAS", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Technology Transfer Control", code: "TTCX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Supply Chain Risk Management", code: "SCRM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                }
+            ]
+        },
+        {
+            name: "Strategic Cyber Leadership",
+            cssClass: "strategic-leadership",
+            subcategories: [
+                {
+                    name: "Cyber Command and Control",
+                    skills: [
+                        { name: "Strategic Cyber Planning", code: "SCPL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Cyber Mission Command", code: "CMCM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Inter-Agency Coordination", code: "IACX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Crisis Decision Making", code: "CRDM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Force Development",
+                    skills: [
+                        { name: "Cyber Force Structure Planning", code: "CFSP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Capability Development", code: "CADV", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Training and Education Management", code: "TEMG", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Doctrine Development", code: "DOCD", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                },
+                {
+                    name: "Strategic Partnership Management",
+                    skills: [
+                        { name: "Alliance Cyber Coordination", code: "ACCX", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Public-Private Partnership", code: "PPPM", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "International Cyber Diplomacy", code: "ICDP", levels: [1, 2, 3, 4, 5, 6, 7] },
+                        { name: "Academic Research Collaboration", code: "ARCL", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    ]
+                }
             ]
         }
     ];
@@ -356,20 +1455,97 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedCount();
     }
     
-    // Dark Mode
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    // Dark Mode - Synchronisé entre navbar et header
+    const darkModeToggleNav = document.getElementById('darkModeToggleNav');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+    
     const updateDarkMode = () => {
-        if (localStorage.getItem('darkMode') === 'true') {
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        if (isDark) {
             document.body.classList.add('dark-mode');
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
         } else {
             document.body.classList.remove('dark-mode');
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
         }
     };
-    darkModeToggle.addEventListener('click', () => {
+    
+    const toggleDarkMode = () => {
         const isDark = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', !isDark);
         updateDarkMode();
-    });
+    };
+    
+    if (darkModeToggleNav) {
+        darkModeToggleNav.addEventListener('click', toggleDarkMode);
+    }
+    
+    // Initialiser le dark mode au chargement
+    updateDarkMode();
+    
+    // Menu mobile
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+    
+    // Info Modal
+    const infoButton = document.getElementById('info-button');
+    const infoModal = document.getElementById('info-modal');
+    const closeButtons = document.querySelectorAll('.info-modal-close');
+    
+    if (infoButton && infoModal) {
+        infoButton.addEventListener('click', function() {
+            infoModal.classList.remove('hidden');
+            infoModal.classList.add('flex');
+            
+            setTimeout(() => {
+                const modalContent = infoModal.querySelector('div > div');
+                if (modalContent) {
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                }
+            }, 10);
+        });
+        
+        function closeInfoModal() {
+            const modalContent = infoModal.querySelector('div > div');
+            if (modalContent) {
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+            }
+            
+            setTimeout(() => {
+                infoModal.classList.add('hidden');
+                infoModal.classList.remove('flex');
+            }, 300);
+        }
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', closeInfoModal);
+        });
+        
+        infoModal.addEventListener('click', function(e) {
+            if (e.target === infoModal) {
+                closeInfoModal();
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !infoModal.classList.contains('hidden')) {
+                closeInfoModal();
+            }
+        });
+    }
 
     // Modal
     const completeButton = document.getElementById('complete-button');
@@ -396,6 +1572,8 @@ document.addEventListener('DOMContentLoaded', function() {
     cancelBtn.addEventListener('click', closeModal);
     confirmBtn.addEventListener('click', () => {
         console.log('Profil de poste confirmé et enregistré:', selectedSkills);
+        // Sauvegarder selectedSkills dans localStorage
+        localStorage.setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
         closeModal();
         const notif = document.createElement('div');
         notif.className = 'fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-xl animate-pulse';
@@ -403,6 +1581,667 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(notif);
         setTimeout(() => notif.remove(), 3000);
     });
+
+    // ========== WIZARD DE SÉLECTION DE NIVEAUX ==========
+    // Variables globales pour le wizard
+    let wizardActive = false;
+    let wizardOpmIds = [];
+    let currentWizardIndex = 0;
+    let currentWizardOpmId = null;
+    let wizardFullViewMode = false; // false = Focus Mode (filtré), true = Full View (tout afficher)
+    let levelSelections = {}; // Structure: { opmId: { skillCode: level } }
+    let opmAverages = {}; // Structure: { opmId: averageLevel }
+    
+    // Fonction pour obtenir les compétences proposées pour un OPM-ID (basé sur Low/Medium/High)
+    function getProposedSkillsForOpmId(opmId) {
+        if (!window.opmCompetencesMap || !window.opmCompetencesMap[opmId]) {
+            return new Set();
+        }
+        
+        const proposedSkillCodes = new Set();
+        const lowCheckbox = document.querySelector(`.role-low-checkbox[data-opm-id="${opmId}"]`);
+        const mediumCheckbox = document.querySelector(`.role-medium-checkbox[data-opm-id="${opmId}"]`);
+        const highCheckbox = document.querySelector(`.role-high-checkbox[data-opm-id="${opmId}"]`);
+        
+        const isLowChecked = lowCheckbox ? lowCheckbox.checked : false;
+        const isMediumChecked = mediumCheckbox ? mediumCheckbox.checked : false;
+        const isHighChecked = highCheckbox ? highCheckbox.checked : false;
+        
+        if (isLowChecked && window.opmCompetencesMap[opmId].low) {
+            window.opmCompetencesMap[opmId].low.forEach(comp => proposedSkillCodes.add(comp.code));
+        }
+        if (isMediumChecked && window.opmCompetencesMap[opmId].medium) {
+            window.opmCompetencesMap[opmId].medium.forEach(comp => proposedSkillCodes.add(comp.code));
+        }
+        if (isHighChecked && window.opmCompetencesMap[opmId].high) {
+            window.opmCompetencesMap[opmId].high.forEach(comp => proposedSkillCodes.add(comp.code));
+        }
+        
+        return proposedSkillCodes;
+    }
+    
+    // Fonction pour filtrer les lignes de compétences selon les checkboxes Low/Medium/High
+    function applySkillRowsFiltering() {
+        if (!wizardActive || !currentWizardOpmId) {
+            // Mode normal : afficher toutes les compétences et toutes les catégories
+            document.querySelectorAll('.skill-row').forEach(row => {
+                row.style.display = '';
+            });
+            document.querySelectorAll('.category-container').forEach(container => {
+                container.style.display = '';
+            });
+            return;
+        }
+        
+        // Si le mode Full View est actif, afficher toutes les compétences et toutes les catégories
+        if (wizardFullViewMode) {
+            document.querySelectorAll('.skill-row').forEach(row => {
+                row.style.display = '';
+            });
+            document.querySelectorAll('.category-container').forEach(container => {
+                container.style.display = '';
+            });
+            return;
+        }
+        
+        // Mode Focus : filtrer selon les compétences proposées
+        const proposedSkills = getProposedSkillsForOpmId(currentWizardOpmId);
+        
+        // Parcourir toutes les catégories
+        document.querySelectorAll('.category-container').forEach(categoryContainer => {
+            let hasVisibleSkills = false;
+            
+            // Vérifier toutes les compétences dans cette catégorie
+            const skillRows = categoryContainer.querySelectorAll('.skill-row');
+            skillRows.forEach(row => {
+                const codeElement = row.querySelector('.skill-code');
+                if (!codeElement) return;
+                
+                const skillCode = codeElement.textContent.trim().replace('✓', '').trim();
+                const shouldShow = proposedSkills.has(skillCode);
+                
+                if (shouldShow) {
+                    hasVisibleSkills = true;
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Masquer la catégorie entière si aucune compétence n'est visible
+            if (hasVisibleSkills) {
+                categoryContainer.style.display = '';
+            } else {
+                categoryContainer.style.display = 'none';
+            }
+        });
+    }
+    
+    // Fonction pour démarrer le wizard
+    function startLevelSelectionWizard() {
+        console.log('Démarrage du wizard de sélection de niveaux');
+        
+        const roleCards = document.querySelectorAll('.selected-role-card[data-opm-code]');
+        wizardOpmIds = Array.from(roleCards).map(card => card.dataset.opmCode);
+        
+        if (wizardOpmIds.length === 0) {
+            alert('Aucun OPM-ID trouvé. Veuillez vous assurer que les work roles sont chargés.');
+            return;
+        }
+        
+        // Réinitialiser les sélections
+        levelSelections = {};
+        opmAverages = {};
+        wizardOpmIds.forEach(opmId => {
+            levelSelections[opmId] = {};
+            opmAverages[opmId] = 0;
+            updateMainGraduationScale(opmId, 0);
+        });
+        
+        wizardActive = true;
+        currentWizardIndex = 0;
+        wizardFullViewMode = false; // Démarrer en Focus Mode par défaut
+        
+        // Réinitialiser le toggle au démarrage
+        const viewToggle = document.getElementById('wizard-view-toggle');
+        const viewLabel = document.getElementById('wizard-view-label');
+        if (viewToggle) viewToggle.checked = false;
+        if (viewLabel) viewLabel.textContent = 'Focus';
+        
+        document.getElementById('wizard-controls').style.display = 'block';
+        document.getElementById('view-mode-container').style.display = 'block';
+        // Cacher les deux boutons pendant le wizard
+        const startBtn = document.getElementById('start-level-selection-btn');
+        const recapBtn = document.getElementById('go-to-recap-btn');
+        if (startBtn) startBtn.style.display = 'none';
+        if (recapBtn) recapBtn.style.display = 'none';
+        document.getElementById('competency-grid').classList.add('wizard-active');
+        
+        // Initialiser la jauge OPM-ID
+        updateWizardOpmScale();
+        
+        loadWizardOpmId(currentWizardIndex);
+    }
+    
+    // Fonction pour mettre à jour la jauge OPM-ID
+    function updateWizardOpmScale() {
+        const scaleContainer = document.getElementById('wizard-opm-scale');
+        if (!scaleContainer) return;
+        
+        // Vider le conteneur
+        scaleContainer.innerHTML = '';
+        
+        // Créer un élément pour chaque OPM-ID
+        wizardOpmIds.forEach((opmId, idx) => {
+            const opmItem = document.createElement('div');
+            opmItem.className = 'wizard-opm-item';
+            opmItem.textContent = opmId;
+            opmItem.setAttribute('data-opm-id', opmId);
+            
+            // Marquer comme actif si c'est l'OPM-ID en cours
+            if (idx === currentWizardIndex) {
+                opmItem.classList.add('active');
+            }
+            // Marquer comme complété si c'est un OPM-ID précédent
+            else if (idx < currentWizardIndex) {
+                opmItem.classList.add('completed');
+            }
+            
+            scaleContainer.appendChild(opmItem);
+        });
+    }
+    
+    // Fonction pour charger un OPM ID dans le wizard
+    function loadWizardOpmId(index) {
+        if (index < 0 || index >= wizardOpmIds.length) return;
+        
+        const opmId = wizardOpmIds[index];
+        currentWizardOpmId = opmId;
+        
+        const btnText = document.getElementById('wizard-btn-text');
+        btnText.textContent = index === wizardOpmIds.length - 1 ? 'Complete' : 'Next';
+        
+        // Mettre à jour la jauge OPM-ID
+        updateWizardOpmScale();
+        
+        const prevBtn = document.getElementById('wizard-prev-btn');
+        prevBtn.style.display = index > 0 ? 'flex' : 'none';
+        
+        // Surbrillancer la card
+        document.querySelectorAll('.selected-role-card').forEach(card => {
+            card.style.outline = '';
+            card.style.transform = '';
+        });
+        
+        const currentCard = document.querySelector(`.selected-role-card[data-opm-code="${opmId}"]`);
+        if (currentCard) {
+            currentCard.style.outline = '4px solid #6366f1';
+            currentCard.style.transform = 'scale(1.05)';
+            currentCard.style.transition = 'all 0.3s ease';
+        }
+        
+        applySkillRowsFiltering();
+        
+        // Réinitialiser visuellement
+        document.querySelectorAll('.skill-row').forEach(row => {
+            row.classList.remove('has-level-selected');
+            const codeElement = row.querySelector('.skill-code');
+            if (codeElement) codeElement.classList.remove('has-level-selected');
+            row.querySelectorAll('.level-box').forEach(box => box.classList.remove('selected'));
+        });
+        
+        restoreLevelSelections(opmId);
+        updateAverageDisplay(opmId);
+        activateLevelBoxClicks();
+    }
+    
+    // Fonction pour activer les clics sur les level-boxes
+    function activateLevelBoxClicks() {
+        document.querySelectorAll('.level-box').forEach(box => {
+            const newBox = box.cloneNode(true);
+            box.parentNode.replaceChild(newBox, box);
+        });
+        
+        document.querySelectorAll('.level-box').forEach(box => {
+            box.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (!wizardActive) return;
+                
+                const skillRow = this.closest('.skill-row');
+                if (!skillRow) return;
+                
+                const skillCodeElement = skillRow.querySelector('.skill-code');
+                if (!skillCodeElement) return;
+                
+                const skillCode = skillCodeElement.textContent.trim().replace('✓', '').trim();
+                const level = this.textContent.trim();
+                const currentOpmId = wizardOpmIds[currentWizardIndex];
+                
+                skillRow.querySelectorAll('.level-box').forEach(lb => lb.classList.remove('selected'));
+                
+                if (levelSelections[currentOpmId][skillCode] === level) {
+                    delete levelSelections[currentOpmId][skillCode];
+                    skillRow.classList.remove('has-level-selected');
+                    skillCodeElement.classList.remove('has-level-selected');
+                } else {
+                    this.classList.add('selected');
+                    levelSelections[currentOpmId][skillCode] = level;
+                    skillRow.classList.add('has-level-selected');
+                    skillCodeElement.classList.add('has-level-selected');
+                }
+                
+                updateAverageDisplay(currentOpmId);
+            });
+        });
+    }
+    
+    // Fonction pour restaurer les sélections
+    function restoreLevelSelections(opmId) {
+        if (!levelSelections[opmId]) return;
+        
+        Object.keys(levelSelections[opmId]).forEach(skillCode => {
+            const level = levelSelections[opmId][skillCode];
+            document.querySelectorAll('.skill-row').forEach(row => {
+                const codeElement = row.querySelector('.skill-code');
+                if (codeElement && codeElement.textContent.trim().replace('✓', '').trim() === skillCode) {
+                    row.querySelectorAll('.level-box').forEach(box => {
+                        if (box.textContent.trim() === level) {
+                            box.classList.add('selected');
+                        }
+                    });
+                    row.classList.add('has-level-selected');
+                    codeElement.classList.add('has-level-selected');
+                }
+            });
+        });
+    }
+    
+    // Fonction pour calculer et afficher la moyenne
+    function updateAverageDisplay(opmId) {
+        const selections = levelSelections[opmId] || {};
+        const selectedSkillCodes = Object.keys(selections);
+        const levels = Object.values(selections).map(l => parseInt(l)).filter(l => !isNaN(l));
+        
+        let average = 0;
+        if (levels.length > 0) {
+            const sum = levels.reduce((a, b) => a + b, 0);
+            average = Math.round(sum / levels.length);
+        }
+        
+        opmAverages[opmId] = average;
+        
+        const proposedSkills = getProposedSkillsForOpmId(opmId);
+        const otherSkills = selectedSkillCodes.filter(code => !proposedSkills.has(code));
+        
+        document.getElementById('wizard-current-opm-id').textContent = opmId;
+        document.getElementById('wizard-proposed-count').textContent = proposedSkills.size;
+        document.getElementById('wizard-selected-count').textContent = selectedSkillCodes.length;
+        document.getElementById('wizard-other-count').textContent = otherSkills.length;
+        
+        updateMainGraduationScale(opmId, average);
+    }
+    
+    // Fonction pour mettre à jour l'échelle de graduation
+    function updateMainGraduationScale(opmId, level) {
+        const roleCard = document.querySelector(`.selected-role-card[data-opm-code="${opmId}"]`);
+        if (!roleCard) return;
+        
+        const graduationContainer = roleCard.querySelector(`.role-graduation[data-opm-id="${opmId}"]`);
+        if (!graduationContainer) return;
+        
+        const circles = graduationContainer.querySelectorAll('.graduation-circle');
+        circles.forEach(circle => {
+            circle.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            circle.style.color = 'rgba(255, 255, 255, 0.7)';
+            circle.style.boxShadow = '';
+            circle.style.transform = '';
+        });
+        
+        if (level > 0 && level <= circles.length) {
+            const targetCircle = circles[level - 1];
+            if (targetCircle) {
+                targetCircle.style.backgroundColor = '#6366f1';
+                targetCircle.style.color = 'white';
+                targetCircle.style.boxShadow = '0 0 15px rgba(99, 102, 241, 0.8)';
+                targetCircle.style.transform = 'scale(1.15)';
+                targetCircle.style.transition = 'all 0.3s ease';
+            }
+        }
+    }
+    
+    // Fonction pour passer à l'OPM ID suivant
+    function nextWizardStep() {
+        if (currentWizardIndex === wizardOpmIds.length - 1) {
+            completeWizard();
+        } else {
+            currentWizardIndex++;
+            loadWizardOpmId(currentWizardIndex);
+        }
+    }
+    
+    // Fonction pour revenir à l'OPM ID précédent
+    function previousWizardStep() {
+        if (currentWizardIndex > 0) {
+            currentWizardIndex--;
+            loadWizardOpmId(currentWizardIndex);
+        }
+    }
+    
+    // Fonction pour terminer le wizard
+    function completeWizard() {
+        const totalSkillsSelected = Object.values(levelSelections).reduce((total, opmSelections) => {
+            return total + Object.keys(opmSelections).length;
+        }, 0);
+        
+        let summaryHTML = `
+            <div class="bg-indigo-50 p-4 rounded-lg mb-4">
+                <div class="text-center mb-3">
+                    <div class="text-3xl font-bold text-indigo-600">${totalSkillsSelected}</div>
+                    <div class="text-sm text-gray-600">Total Skills Selected</div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600">${wizardOpmIds.length}</div>
+                        <div class="text-xs text-gray-600">OPM-IDs Processed</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-green-600">${Object.values(opmAverages).filter(avg => avg > 0).length}</div>
+                        <div class="text-xs text-gray-600">With Averages</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-purple-600">${Math.round(Object.values(opmAverages).filter(avg => avg > 0).reduce((sum, avg) => sum + avg, 0) / Math.max(1, Object.values(opmAverages).filter(avg => avg > 0).length))}</div>
+                        <div class="text-xs text-gray-600">Overall Average</div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-3 max-h-96 overflow-y-auto">
+        `;
+        
+        wizardOpmIds.forEach(opmId => {
+            const selections = levelSelections[opmId] || {};
+            const skillCount = Object.keys(selections).length;
+            const average = opmAverages[opmId] || 0;
+            
+            const roleCard = document.querySelector(`.selected-role-card[data-opm-code="${opmId}"]`);
+            let roleName = 'Unknown Role';
+            if (roleCard) {
+                const roleNameElement = roleCard.querySelector('.role-name');
+                if (roleNameElement) roleName = roleNameElement.textContent.trim();
+            }
+            
+            summaryHTML += `
+                <div class="border border-indigo-200 rounded-lg p-3 bg-white">
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <span class="font-bold text-indigo-900">OPM-ID ${opmId}</span>
+                            <div class="text-xs text-gray-600">${roleName}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold text-indigo-600">${average > 0 ? average + '/7' : 'N/A'}</div>
+                            <div class="text-xs text-gray-500">${skillCount} skills</div>
+                        </div>
+                    </div>
+                    ${skillCount > 0 ? `
+                        <div class="text-xs text-gray-600">
+                            <strong>Selected skills:</strong> ${Object.keys(selections).join(', ')}
+                        </div>
+                    ` : '<div class="text-xs text-gray-500 italic">No skills selected</div>'}
+                </div>
+            `;
+        });
+        
+        summaryHTML += `</div>`;
+        document.getElementById('wizard-summary-content').innerHTML = summaryHTML;
+        document.getElementById('wizard-summary-modal').classList.remove('hidden');
+    }
+    
+    // Fonction pour confirmer et sauvegarder
+    function confirmAndSaveWizard() {
+        // Load existing data to merge (don't overwrite data from summary_chart_full.html)
+        const existingData = localStorage.getItem('wizardLevelSelections');
+        let mergedSelections = {};
+        
+        if (existingData) {
+            try {
+                mergedSelections = JSON.parse(existingData);
+                console.log('Existing wizardLevelSelections found, merging...');
+            } catch (e) {
+                console.error('Error parsing existing wizardLevelSelections:', e);
+                mergedSelections = {};
+            }
+        }
+        
+        // Merge: for each OPM-ID, combine skills (military skills from this page)
+        // We need to check if skill codes are military skills using the military data
+        if (window.militarySkillsData) {
+            const militarySkillCodes = new Set();
+            window.militarySkillsData.forEach(item => {
+                militarySkillCodes.add(item['Skill-code']);
+            });
+            
+            Object.entries(levelSelections).forEach(([opmId, skills]) => {
+                if (!mergedSelections[opmId]) {
+                    mergedSelections[opmId] = {};
+                }
+                // Add only military skills from this page (preserve SFIA skills from summary_chart_full.html)
+                Object.entries(skills).forEach(([skillCode, level]) => {
+                    // Only add if it's a military skill (exists in military data)
+                    // This preserves SFIA skills (4-letter codes) from summary_chart_full.html
+                    if (militarySkillCodes.has(skillCode)) {
+                        mergedSelections[opmId][skillCode] = level;
+                    }
+                });
+            });
+        } else {
+            // Fallback: if military data not loaded, add all skills (will be determined by project_recap)
+            Object.entries(levelSelections).forEach(([opmId, skills]) => {
+                if (!mergedSelections[opmId]) {
+                    mergedSelections[opmId] = {};
+                }
+                Object.entries(skills).forEach(([skillCode, level]) => {
+                    mergedSelections[opmId][skillCode] = level;
+                });
+            });
+        }
+        
+        // Sauvegarder les données (même si vides, car cette étape est optionnelle)
+        localStorage.setItem('wizardLevelSelections', JSON.stringify(mergedSelections));
+        localStorage.setItem('wizardOpmAverages', JSON.stringify(opmAverages));
+        console.log('Merged wizardLevelSelections saved:', mergedSelections);
+        
+        const summary = {
+            opmIds: wizardOpmIds,
+            levelSelections: levelSelections,
+            opmAverages: opmAverages,
+            completedAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('wizardSummary', JSON.stringify(summary));
+        console.log('Données sauvegardées:', summary);
+        
+        // Sauvegarder aussi selectedSkills si disponible
+        if (typeof selectedSkills !== 'undefined' && Object.keys(selectedSkills).length > 0) {
+            localStorage.setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
+        }
+        
+        // Sauvegarder les compétences affichées dans les cartes de rôles
+        const roleCompetences = {};
+        document.querySelectorAll('.selected-role-card[data-opm-code]').forEach(card => {
+            const opmId = card.dataset.opmCode;
+            const competencesContainer = card.querySelector(`.role-competences[data-opm-id="${opmId}"]`);
+            if (competencesContainer) {
+                const badges = competencesContainer.querySelectorAll('[class*="inline-block"]');
+                const competences = [];
+                badges.forEach(badge => {
+                    const code = badge.textContent.trim();
+                    const title = badge.getAttribute('title');
+                    if (title && code) {
+                        // Extract level from title: "Niveau: LOW" or "Niveau: L"
+                        const match = title.match(/Niveau:\s*(\w+)/i);
+                        if (match) {
+                            const level = match[1].toUpperCase();
+                            competences.push({ code, level });
+                        }
+                    }
+                });
+                if (competences.length > 0) {
+                    roleCompetences[opmId] = competences;
+                }
+            }
+        });
+        if (Object.keys(roleCompetences).length > 0) {
+            localStorage.setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
+            console.log('Compétences des rôles sauvegardées:', roleCompetences);
+        }
+        
+        // Fermer le modal et rediriger vers la page de récapitulatif
+        document.getElementById('wizard-summary-modal').classList.add('hidden');
+        exitWizard();
+        
+        // Afficher un message de confirmation
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-20 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+        notification.innerHTML = '<strong>Success!</strong> Redirecting to project recap...';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+            // Rediriger vers la page de récapitulatif
+            window.location.href = '{% url "project_recap" %}';
+        }, 1500);
+    }
+    
+    // Fonction pour fermer le modal
+    function cancelWizardSummary() {
+        document.getElementById('wizard-summary-modal').classList.add('hidden');
+    }
+    
+    // Fonction pour quitter le wizard
+    function exitWizard() {
+        if (confirm('Êtes-vous sûr de vouloir quitter le wizard ? Tous les progrès seront perdus.')) {
+            wizardActive = false;
+            currentWizardOpmId = null;
+            wizardFullViewMode = false; // Réinitialiser le mode Full View
+            
+            levelSelections = {};
+            opmAverages = {};
+            wizardOpmIds.forEach(opmId => {
+                levelSelections[opmId] = {};
+                updateMainGraduationScale(opmId, 0);
+            });
+            
+            // Réinitialiser le toggle
+            const viewToggle = document.getElementById('wizard-view-toggle');
+            const viewLabel = document.getElementById('wizard-view-label');
+            if (viewToggle) viewToggle.checked = false;
+            if (viewLabel) viewLabel.textContent = 'Focus';
+            
+            document.getElementById('wizard-controls').style.display = 'none';
+            document.getElementById('view-mode-container').style.display = 'none';
+            // Réafficher les deux boutons après le wizard
+            const startBtn = document.getElementById('start-level-selection-btn');
+            const recapBtn = document.getElementById('go-to-recap-btn');
+            if (startBtn) startBtn.style.display = 'flex';
+            if (recapBtn) recapBtn.style.display = 'flex';
+            document.getElementById('competency-grid').classList.remove('wizard-active');
+            
+            document.querySelectorAll('.selected-role-card').forEach(card => {
+                card.style.outline = '';
+                card.style.transform = '';
+            });
+            
+            applySkillRowsFiltering();
+            
+            document.querySelectorAll('.level-box.selected').forEach(box => box.classList.remove('selected'));
+            document.querySelectorAll('.skill-row').forEach(row => {
+                row.classList.remove('has-level-selected');
+                const codeElement = row.querySelector('.skill-code');
+                if (codeElement) codeElement.classList.remove('has-level-selected');
+            });
+        }
+    }
+    
+    // Initialisation des événements du wizard
+    const startBtn = document.getElementById('start-level-selection-btn');
+    if (startBtn) startBtn.addEventListener('click', startLevelSelectionWizard);
+    
+    // Bouton pour aller directement au project recap (optionnel, peut y aller sans faire le wizard)
+    const goToRecapBtn = document.getElementById('go-to-recap-btn');
+    if (goToRecapBtn) {
+        goToRecapBtn.addEventListener('click', function() {
+            // Sauvegarder les données actuelles même si le wizard n'a pas été complété
+            const roleCompetences = {};
+            document.querySelectorAll('.selected-role-card[data-opm-code]').forEach(card => {
+                const opmId = card.dataset.opmCode;
+                const competencesContainer = card.querySelector(`.role-competences[data-opm-id="${opmId}"]`);
+                if (competencesContainer) {
+                    const badges = competencesContainer.querySelectorAll('[class*="inline-block"]');
+                    const competences = [];
+                    badges.forEach(badge => {
+                        const code = badge.textContent.trim();
+                        const title = badge.getAttribute('title');
+                        if (title && code) {
+                            const match = title.match(/Niveau:\s*(\w+)/i);
+                            if (match) {
+                                const level = match[1].toUpperCase();
+                                competences.push({ code, level });
+                            }
+                        }
+                    });
+                    if (competences.length > 0) {
+                        roleCompetences[opmId] = competences;
+                    }
+                }
+            });
+            if (Object.keys(roleCompetences).length > 0) {
+                localStorage.setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
+            }
+            
+            // Rediriger directement vers project recap
+            window.location.href = '{% url "project_recap" %}';
+        });
+    }
+    
+    const nextBtn = document.getElementById('wizard-next-btn');
+    if (nextBtn) nextBtn.addEventListener('click', nextWizardStep);
+    
+    const prevBtn = document.getElementById('wizard-prev-btn');
+    if (prevBtn) prevBtn.addEventListener('click', previousWizardStep);
+    
+    const exitBtn = document.getElementById('wizard-exit-btn');
+    if (exitBtn) exitBtn.addEventListener('click', exitWizard);
+    
+    const summaryCancel = document.getElementById('wizard-summary-cancel');
+    if (summaryCancel) summaryCancel.addEventListener('click', cancelWizardSummary);
+    
+    const summaryConfirm = document.getElementById('wizard-summary-confirm');
+    if (summaryConfirm) summaryConfirm.addEventListener('click', confirmAndSaveWizard);
+    
+    const summaryBackdrop = document.getElementById('wizard-summary-backdrop');
+    if (summaryBackdrop) summaryBackdrop.addEventListener('click', cancelWizardSummary);
+    
+    // Toggle View Mode (Focus / Full View)
+    const viewToggle = document.getElementById('wizard-view-toggle');
+    const viewLabel = document.getElementById('wizard-view-label');
+    if (viewToggle && viewLabel) {
+        viewToggle.addEventListener('change', function() {
+            wizardFullViewMode = this.checked;
+            
+            // Mettre à jour le label
+            if (wizardFullViewMode) {
+                viewLabel.textContent = 'Full';
+                console.log('Basculé en Full View Mode - tous les skills visibles');
+            } else {
+                viewLabel.textContent = 'Focus';
+                console.log('Basculé en Focus Mode - filtrage actif');
+            }
+            
+            // Réappliquer le filtrage (ou l'absence de filtrage)
+            applySkillRowsFiltering();
+        });
+    }
+    
+    // ========== FIN WIZARD ==========
 
     // Initialisation
     renderGrid();

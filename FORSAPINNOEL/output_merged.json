@@ -1,0 +1,7889 @@
+[
+  {
+    "OPM_ID": "411",
+    "Primaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "HSIN",
+        "category_type": "technical",
+        "domain": "Installation systèmes",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "CSMG",
+        "category_type": "transversal",
+        "domain": "Support client",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 9,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 0,
+      "total_skills": 14
+    }
+  },
+  {
+    "OPM_ID": "421",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DBAD",
+        "category_type": "technical",
+        "domain": "Administration BD",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "STMG",
+        "category_type": "technical",
+        "domain": "Gestion du stockage",
+        "source": "original"
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "DBDS",
+        "category_type": "technical",
+        "domain": "Conception BD",
+        "source": "added"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "CPMG",
+        "category_type": "technical",
+        "domain": "Gestion de capacité",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 2,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "431",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "ICPM",
+        "category_type": "transversal",
+        "domain": "Publication de contenu",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "added"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ANCC",
+        "category_type": "transversal",
+        "domain": "Classification analytique",
+        "source": "original"
+      },
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 2,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "441",
+    "Primaires": [
+      {
+        "code": "HSIN",
+        "category_type": "technical",
+        "domain": "Installation systèmes",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "added"
+      },
+      {
+        "code": "CPMG",
+        "category_type": "technical",
+        "domain": "Gestion de capacité",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 3,
+      "total_skills": 17
+    }
+  },
+  {
+    "OPM_ID": "451",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "HSIN",
+        "category_type": "technical",
+        "domain": "Installation systèmes",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "STMG",
+        "category_type": "technical",
+        "domain": "Gestion du stockage",
+        "source": "original"
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "added"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "CHMG",
+        "category_type": "technical",
+        "domain": "Gestion du changement",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "original"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 10,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 2,
+      "total_skills": 19
+    }
+  },
+  {
+    "OPM_ID": "632",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "HWDE",
+        "category_type": "technical",
+        "domain": "Conception matérielle",
+        "source": "original"
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RESD",
+        "category_type": "technical",
+        "domain": "Systèmes temps réel/embarqués",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SWDN",
+        "category_type": "technical",
+        "domain": "Conception logicielle",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "PORT",
+        "category_type": "technical",
+        "domain": "Configuration logicielle",
+        "source": "added"
+      },
+      {
+        "code": "SINT",
+        "category_type": "technical",
+        "domain": "Intégration systèmes",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "original"
+      },
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 12,
+      "original_secondaires_count": 9,
+      "added_from_analysis": 2,
+      "total_skills": 23
+    }
+  },
+  {
+    "OPM_ID": "641",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      },
+      {
+        "code": "BSMO",
+        "category_type": "transversal",
+        "domain": "Modélisation métier",
+        "source": "added"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "added"
+      },
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "added"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BPRE",
+        "category_type": "technical",
+        "domain": "Réingénierie processus",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "SORC",
+        "category_type": "technical",
+        "domain": "Sourcing",
+        "source": "original"
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 4,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "651",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BPRE",
+        "category_type": "technical",
+        "domain": "Réingénierie processus",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "original"
+      },
+      {
+        "code": "EMRG",
+        "category_type": "technical",
+        "domain": "Veille technologique",
+        "source": "original"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 8,
+      "added_from_analysis": 1,
+      "total_skills": 17
+    }
+  },
+  {
+    "OPM_ID": "661",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "EMRG",
+        "category_type": "technical",
+        "domain": "Veille technologique",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "added"
+      },
+      {
+        "code": "INOV",
+        "category_type": "technical",
+        "domain": "Gestion de l'innovation",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 2,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "671",
+    "Primaires": [
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "USEV",
+        "category_type": "technical",
+        "domain": "Évaluation expérience utilisateur",
+        "source": "original"
+      },
+      {
+        "code": "BPTS",
+        "category_type": "technical",
+        "domain": "Tests d'acceptation",
+        "source": "added"
+      },
+      {
+        "code": "SEAC",
+        "category_type": "technical",
+        "domain": "Acceptation service",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PRTS",
+        "category_type": "technical",
+        "domain": "Tests de processus",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 2,
+      "total_skills": 14
+    }
+  },
+  {
+    "OPM_ID": "141",
+    "Primaires": [
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 2,
+      "added_from_analysis": 4,
+      "total_skills": 9
+    }
+  },
+  {
+    "OPM_ID": "212",
+    "Primaires": [
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "CRIM",
+        "category_type": "technical",
+        "domain": "Investigation cybercriminalité",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "RMGT",
+        "category_type": "technical",
+        "domain": "Gestion des enregistrements",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 5,
+      "total_skills": 17
+    }
+  },
+  {
+    "OPM_ID": "462",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      },
+      {
+        "code": "RESD",
+        "category_type": "technical",
+        "domain": "Systèmes temps réel/embarqués",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 9,
+      "added_from_analysis": 3,
+      "total_skills": 18
+    }
+  },
+  {
+    "OPM_ID": "511",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 3,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "521",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "HSIN",
+        "category_type": "technical",
+        "domain": "Installation systèmes",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "added"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "original"
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 2,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "531",
+    "Primaires": [
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      },
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "PBMG",
+        "category_type": "technical",
+        "domain": "Gestion des problèmes",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 4,
+      "total_skills": 18
+    }
+  },
+  {
+    "OPM_ID": "541",
+    "Primaires": [
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 3,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "611",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 3,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "612",
+    "Primaires": [
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 2,
+      "added_from_analysis": 2,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "631",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "HWDE",
+        "category_type": "technical",
+        "domain": "Conception matérielle",
+        "source": "original"
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RESD",
+        "category_type": "technical",
+        "domain": "Systèmes temps réel/embarqués",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SWDN",
+        "category_type": "technical",
+        "domain": "Conception logicielle",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "SINT",
+        "category_type": "technical",
+        "domain": "Intégration systèmes",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "original"
+      },
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 12,
+      "original_secondaires_count": 9,
+      "added_from_analysis": 1,
+      "total_skills": 22
+    }
+  },
+  {
+    "OPM_ID": "652",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 2,
+      "total_skills": 14
+    }
+  },
+  {
+    "OPM_ID": "722",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "ITMG",
+        "category_type": "technical",
+        "domain": "Gestion des services IT",
+        "source": "added"
+      },
+      {
+        "code": "PEMT",
+        "category_type": "technical",
+        "domain": "Gestion de la performance",
+        "source": "added"
+      },
+      {
+        "code": "SLMO",
+        "category_type": "technical",
+        "domain": "Gestion des niveaux de service",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 3,
+      "added_from_analysis": 4,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "723",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "original"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "RFEN",
+        "category_type": "technical",
+        "domain": "Ingénierie RF",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "SFAS",
+        "category_type": "technical",
+        "domain": "Évaluation sécurité fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "SORC",
+        "category_type": "technical",
+        "domain": "Sourcing",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 10,
+      "added_from_analysis": 1,
+      "total_skills": 18
+    }
+  },
+  {
+    "OPM_ID": "211",
+    "Primaires": [
+      {
+        "code": "CRIM",
+        "category_type": "technical",
+        "domain": "Investigation cybercriminalité",
+        "source": "original"
+      },
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "RMGT",
+        "category_type": "technical",
+        "domain": "Gestion des enregistrements",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 4,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "221",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "CRIM",
+        "category_type": "technical",
+        "domain": "Investigation cybercriminalité",
+        "source": "original"
+      },
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 4,
+      "total_skills": 14
+    }
+  },
+  {
+    "OPM_ID": "711",
+    "Primaires": [
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "LEDA",
+        "category_type": "technical",
+        "domain": "Développement du leadership",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SUBF",
+        "category_type": "technical",
+        "domain": "Conception de formation",
+        "source": "original"
+      },
+      {
+        "code": "TMCR",
+        "category_type": "technical",
+        "domain": "Création de curriculum",
+        "source": "original"
+      },
+      {
+        "code": "ETMG",
+        "category_type": "technical",
+        "domain": "Gestion de formation",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CSOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber",
+        "source": "original"
+      },
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 1,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "712",
+    "Primaires": [
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEAC",
+        "category_type": "technical",
+        "domain": "Enseignement",
+        "source": "original"
+      },
+      {
+        "code": "TMCR",
+        "category_type": "technical",
+        "domain": "Création de curriculum",
+        "source": "original"
+      },
+      {
+        "code": "OFCL",
+        "category_type": "technical",
+        "domain": "Facilitation",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "LEDA",
+        "category_type": "technical",
+        "domain": "Développement du leadership",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PDSV",
+        "category_type": "technical",
+        "domain": "Développement professionnel",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 2,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "731",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITCM",
+        "category_type": "technical",
+        "domain": "Gestion contrats IT",
+        "source": "original"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 1,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "732",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 3,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "751",
+    "Primaires": [
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "ETMG",
+        "category_type": "technical",
+        "domain": "Gestion de formation",
+        "source": "original"
+      },
+      {
+        "code": "JADN",
+        "category_type": "technical",
+        "domain": "Définition des emplois",
+        "source": "original"
+      },
+      {
+        "code": "ORDI",
+        "category_type": "technical",
+        "domain": "Conception organisationnelle",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "PDSV",
+        "category_type": "technical",
+        "domain": "Développement professionnel",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "WFPL",
+        "category_type": "technical",
+        "domain": "Planification RH",
+        "source": "original"
+      },
+      {
+        "code": "LEDA",
+        "category_type": "technical",
+        "domain": "Développement du leadership",
+        "source": "added"
+      },
+      {
+        "code": "PEMT",
+        "category_type": "technical",
+        "domain": "Gestion de la performance",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "original"
+      },
+      {
+        "code": "OCEN",
+        "category_type": "technical",
+        "domain": "Facilitation changement org.",
+        "source": "original"
+      },
+      {
+        "code": "RESC",
+        "category_type": "technical",
+        "domain": "Recrutement",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 2,
+      "total_skills": 17
+    }
+  },
+  {
+    "OPM_ID": "752",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "WFPL",
+        "category_type": "technical",
+        "domain": "Planification RH",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "added"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "original"
+      },
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 2,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "801",
+    "Primaires": [
+      {
+        "code": "BENM",
+        "category_type": "technical",
+        "domain": "Gestion des bénéfices",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "PGMG",
+        "category_type": "technical",
+        "domain": "Gestion de programme",
+        "source": "original"
+      },
+      {
+        "code": "POMG",
+        "category_type": "technical",
+        "domain": "Gestion de portefeuille",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "FMIT",
+        "category_type": "technical",
+        "domain": "Gestion financière IT",
+        "source": "added"
+      },
+      {
+        "code": "PRMG",
+        "category_type": "technical",
+        "domain": "Gestion de projet",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 2,
+      "total_skills": 14
+    }
+  },
+  {
+    "OPM_ID": "802",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "original"
+      },
+      {
+        "code": "PRMG",
+        "category_type": "technical",
+        "domain": "Gestion de projet",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "CHMG",
+        "category_type": "technical",
+        "domain": "Gestion du changement",
+        "source": "added"
+      },
+      {
+        "code": "FMIT",
+        "category_type": "technical",
+        "domain": "Gestion financière IT",
+        "source": "added"
+      },
+      {
+        "code": "PROF",
+        "category_type": "technical",
+        "domain": "Prévision de projet",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "DLMG",
+        "category_type": "technical",
+        "domain": "Gestion du développement",
+        "source": "original"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "SLMO",
+        "category_type": "technical",
+        "domain": "Gestion des niveaux de service",
+        "source": "original"
+      },
+      {
+        "code": "DEMG",
+        "category_type": "technical",
+        "domain": "Gestion des livrables",
+        "source": "original"
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 3,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "803",
+    "Primaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "original"
+      },
+      {
+        "code": "FEAS",
+        "category_type": "transversal",
+        "domain": "Étude de faisabilité",
+        "source": "original"
+      },
+      {
+        "code": "PROD",
+        "category_type": "technical",
+        "domain": "Gestion de produit",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SCMG",
+        "category_type": "technical",
+        "domain": "Gestion chaîne d'approvisionnement",
+        "source": "original"
+      },
+      {
+        "code": "SLMO",
+        "category_type": "technical",
+        "domain": "Gestion des niveaux de service",
+        "source": "original"
+      },
+      {
+        "code": "DEMG",
+        "category_type": "technical",
+        "domain": "Gestion des livrables",
+        "source": "added"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "CSMG",
+        "category_type": "transversal",
+        "domain": "Support client",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 2,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "804",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "INVA",
+        "category_type": "technical",
+        "domain": "Analyse d'investissement",
+        "source": "original"
+      },
+      {
+        "code": "POMG",
+        "category_type": "technical",
+        "domain": "Gestion de portefeuille",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "FMIT",
+        "category_type": "technical",
+        "domain": "Gestion financière IT",
+        "source": "added"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BENM",
+        "category_type": "technical",
+        "domain": "Gestion des bénéfices",
+        "source": "original"
+      },
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "EMRG",
+        "category_type": "technical",
+        "domain": "Veille technologique",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 2,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "805",
+    "Primaires": [
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "FIAN",
+        "category_type": "technical",
+        "domain": "Analyse financière",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "SFAS",
+        "category_type": "technical",
+        "domain": "Évaluation sécurité fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 3,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "901",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "PEMT",
+        "category_type": "technical",
+        "domain": "Gestion de la performance",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BUDF",
+        "category_type": "transversal",
+        "domain": "Développement métier",
+        "source": "original"
+      },
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "original"
+      },
+      {
+        "code": "ORDI",
+        "category_type": "technical",
+        "domain": "Conception organisationnelle",
+        "source": "original"
+      },
+      {
+        "code": "RESC",
+        "category_type": "technical",
+        "domain": "Recrutement",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 8,
+      "added_from_analysis": 1,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "112",
+    "Primaires": [
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 0,
+      "added_from_analysis": 4,
+      "total_skills": 8
+    }
+  },
+  {
+    "OPM_ID": "121",
+    "Primaires": [
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "added"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "added"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [],
+    "metadata": {
+      "original_primaires_count": 0,
+      "original_secondaires_count": 0,
+      "added_from_analysis": 7,
+      "total_skills": 7
+    }
+  },
+  {
+    "OPM_ID": "122",
+    "Primaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "added"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "added"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 7,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "131",
+    "Primaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 6,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "132",
+    "Primaires": [
+      {
+        "code": "DATS",
+        "category_type": "technical",
+        "domain": "Science des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 5,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "133",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "321",
+    "Primaires": [
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "added"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 5,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "322",
+    "Primaires": [
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "added"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "DENG",
+        "category_type": "technical",
+        "domain": "Ingénierie des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 8,
+      "added_from_analysis": 3,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "332",
+    "Primaires": [
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      },
+      {
+        "code": "SUPP",
+        "category_type": "technical",
+        "domain": "Gestion des fournisseurs",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "COPL",
+        "category_type": "technical",
+        "domain": "Gestion de continuité",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 1,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "333",
+    "Primaires": [
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "added"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "added"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "added"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "OFCL",
+        "category_type": "technical",
+        "domain": "Facilitation",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 2,
+      "added_from_analysis": 4,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "341",
+    "Primaires": [
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "EMRG",
+        "category_type": "technical",
+        "domain": "Veille technologique",
+        "source": "added"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "added"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "added"
+      },
+      {
+        "code": "SWDN",
+        "category_type": "technical",
+        "domain": "Conception logicielle",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "442",
+    "Primaires": [
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "HSIN",
+        "category_type": "technical",
+        "domain": "Installation systèmes",
+        "source": "added"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 3,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "443",
+    "Primaires": [
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 3,
+      "added_from_analysis": 5,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "463",
+    "Primaires": [
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "551",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "added"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 2,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 6,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "111",
+    "Primaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VURE",
+        "category_type": "technical",
+        "domain": "Recherche de vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 7,
+      "added_from_analysis": 4,
+      "total_skills": 16
+    }
+  },
+  {
+    "OPM_ID": "151",
+    "Primaires": [
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "ANCC",
+        "category_type": "transversal",
+        "domain": "Classification analytique",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "INCA",
+        "category_type": "transversal",
+        "domain": "Documentation et contenu",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 3,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "311",
+    "Primaires": [
+      {
+        "code": "BPRE",
+        "category_type": "technical",
+        "domain": "Réingénierie processus",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "added"
+      },
+      {
+        "code": "PEMT",
+        "category_type": "technical",
+        "domain": "Gestion de la performance",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "ICPM",
+        "category_type": "transversal",
+        "domain": "Publication de contenu",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "RMGT",
+        "category_type": "technical",
+        "domain": "Gestion des enregistrements",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 4,
+      "original_secondaires_count": 10,
+      "added_from_analysis": 4,
+      "total_skills": 18
+    }
+  },
+  {
+    "OPM_ID": "312",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "added"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 8,
+      "added_from_analysis": 2,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "331",
+    "Primaires": [
+      {
+        "code": "DEMM",
+        "category_type": "technical",
+        "domain": "Gestion de la demande",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "original"
+      },
+      {
+        "code": "OCOP",
+        "category_type": "technical",
+        "domain": "Opérations cyber offensives",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "ISCO",
+        "category_type": "technical",
+        "domain": "Coordination SI",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "NTAS",
+        "category_type": "technical",
+        "domain": "Support réseau",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 6,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 3,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "422",
+    "Primaires": [
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DENG",
+        "category_type": "technical",
+        "domain": "Ingénierie des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "DBDS",
+        "category_type": "technical",
+        "domain": "Conception BD",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CPMG",
+        "category_type": "technical",
+        "domain": "Gestion de capacité",
+        "source": "original"
+      },
+      {
+        "code": "DATS",
+        "category_type": "technical",
+        "domain": "Science des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 6,
+      "added_from_analysis": 1,
+      "total_skills": 15
+    }
+  },
+  {
+    "OPM_ID": "423",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "DATS",
+        "category_type": "technical",
+        "domain": "Science des données",
+        "source": "added"
+      },
+      {
+        "code": "NUAN",
+        "category_type": "technical",
+        "domain": "Analyse numérique",
+        "source": "added"
+      },
+      {
+        "code": "SCMO",
+        "category_type": "technical",
+        "domain": "Modélisation scientifique",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 4,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "424",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "added"
+      },
+      {
+        "code": "RMGT",
+        "category_type": "technical",
+        "domain": "Gestion des enregistrements",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 4,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "623",
+    "Primaires": [
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "AIDE",
+        "category_type": "technical",
+        "domain": "Éthique IA",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "DATS",
+        "category_type": "technical",
+        "domain": "Science des données",
+        "source": "added"
+      },
+      {
+        "code": "NUAN",
+        "category_type": "technical",
+        "domain": "Analyse numérique",
+        "source": "added"
+      },
+      {
+        "code": "SCMO",
+        "category_type": "technical",
+        "domain": "Modélisation scientifique",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "624",
+    "Primaires": [
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "AVMT",
+        "category_type": "technical",
+        "domain": "Gestion de disponibilité",
+        "source": "added"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "added"
+      },
+      {
+        "code": "DENG",
+        "category_type": "technical",
+        "domain": "Ingénierie des données",
+        "source": "added"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "DBAD",
+        "category_type": "technical",
+        "domain": "Administration BD",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 4,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "653",
+    "Primaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "DBDS",
+        "category_type": "technical",
+        "domain": "Conception BD",
+        "source": "added"
+      },
+      {
+        "code": "DENG",
+        "category_type": "technical",
+        "domain": "Ingénierie des données",
+        "source": "added"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "DBAD",
+        "category_type": "technical",
+        "domain": "Administration BD",
+        "source": "original"
+      },
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 3,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "672",
+    "Primaires": [
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "AIDE",
+        "category_type": "technical",
+        "domain": "Éthique IA",
+        "source": "added"
+      },
+      {
+        "code": "DATS",
+        "category_type": "technical",
+        "domain": "Science des données",
+        "source": "added"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "added"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 4,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "733",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "AIDE",
+        "category_type": "technical",
+        "domain": "Éthique IA",
+        "source": "added"
+      },
+      {
+        "code": "AUDT",
+        "category_type": "technical",
+        "domain": "Audit",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      },
+      {
+        "code": "QUMG",
+        "category_type": "technical",
+        "domain": "Gestion qualité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 4,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "753",
+    "Primaires": [
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "ETDL",
+        "category_type": "technical",
+        "domain": "Livraison de formation",
+        "source": "original"
+      },
+      {
+        "code": "USUP",
+        "category_type": "technical",
+        "domain": "Gestion des incidents",
+        "source": "original"
+      },
+      {
+        "code": "AIDE",
+        "category_type": "technical",
+        "domain": "Éthique IA",
+        "source": "added"
+      },
+      {
+        "code": "OCDV",
+        "category_type": "technical",
+        "domain": "Développement organisationnel",
+        "source": "added"
+      },
+      {
+        "code": "OCEN",
+        "category_type": "technical",
+        "domain": "Facilitation changement org.",
+        "source": "added"
+      },
+      {
+        "code": "TECH",
+        "category_type": "transversal",
+        "domain": "Conseil spécialisé",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "KNOW",
+        "category_type": "transversal",
+        "domain": "Gestion des connaissances",
+        "source": "original"
+      },
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 4,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "902",
+    "Primaires": [
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      },
+      {
+        "code": "AIDE",
+        "category_type": "technical",
+        "domain": "Éthique IA",
+        "source": "added"
+      },
+      {
+        "code": "EMRG",
+        "category_type": "technical",
+        "domain": "Veille technologique",
+        "source": "added"
+      },
+      {
+        "code": "INOV",
+        "category_type": "technical",
+        "domain": "Gestion de l'innovation",
+        "source": "added"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "MLNG",
+        "category_type": "technical",
+        "domain": "Machine Learning",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 4,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "903",
+    "Primaires": [
+      {
+        "code": "GOVN",
+        "category_type": "technical",
+        "domain": "Gouvernance",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITSP",
+        "category_type": "technical",
+        "domain": "Planification stratégique IT",
+        "source": "original"
+      },
+      {
+        "code": "DTAN",
+        "category_type": "technical",
+        "domain": "Modélisation des données",
+        "source": "added"
+      },
+      {
+        "code": "PEDP",
+        "category_type": "technical",
+        "domain": "Conformité données",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "DATM",
+        "category_type": "technical",
+        "domain": "Gestion des données",
+        "source": "original"
+      },
+      {
+        "code": "ORDI",
+        "category_type": "technical",
+        "domain": "Conception organisationnelle",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 2,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "461",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 7,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 0,
+      "total_skills": 12
+    }
+  },
+  {
+    "OPM_ID": "621",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "PORT",
+        "category_type": "technical",
+        "domain": "Configuration logicielle",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original",
+        "levels": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "code": "RESD",
+        "category_type": "technical",
+        "domain": "Systèmes temps réel/embarqués",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SWDN",
+        "category_type": "technical",
+        "domain": "Conception logicielle",
+        "source": "original"
+      },
+      {
+        "code": "SYSP",
+        "category_type": "technical",
+        "domain": "Administration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ADEV",
+        "category_type": "technical",
+        "domain": "Développement agile",
+        "source": "original"
+      },
+      {
+        "code": "ASUP",
+        "category_type": "technical",
+        "domain": "Support applicatif",
+        "source": "original"
+      },
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SINT",
+        "category_type": "technical",
+        "domain": "Intégration systèmes",
+        "source": "original"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 8,
+      "original_secondaires_count": 9,
+      "added_from_analysis": 0,
+      "total_skills": 17
+    }
+  },
+  {
+    "OPM_ID": "622",
+    "Primaires": [
+      {
+        "code": "PENT",
+        "category_type": "technical",
+        "domain": "Tests de pénétration",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original",
+        "levels": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original",
+        "levels": [
+          4,
+          5
+        ]
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "original"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "added"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 5,
+      "original_secondaires_count": 3,
+      "added_from_analysis": 2,
+      "total_skills": 10
+    }
+  },
+  {
+    "OPM_ID": "625",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original"
+      },
+      {
+        "code": "HCEV",
+        "category_type": "technical",
+        "domain": "Conception centrée humain",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      },
+      {
+        "code": "ACIN",
+        "category_type": "technical",
+        "domain": "Conception accessible/inclusive",
+        "source": "added"
+      },
+      {
+        "code": "CEXP",
+        "category_type": "technical",
+        "domain": "Expérience client",
+        "source": "added"
+      },
+      {
+        "code": "GRDN",
+        "category_type": "technical",
+        "domain": "Conception graphique",
+        "source": "added"
+      },
+      {
+        "code": "PROD",
+        "category_type": "technical",
+        "domain": "Gestion de produit",
+        "source": "added"
+      },
+      {
+        "code": "URCH",
+        "category_type": "technical",
+        "domain": "Recherche utilisateur",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ADEV",
+        "category_type": "technical",
+        "domain": "Développement agile",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "626",
+    "Primaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original"
+      },
+      {
+        "code": "HCEV",
+        "category_type": "technical",
+        "domain": "Conception centrée humain",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      },
+      {
+        "code": "ACIN",
+        "category_type": "technical",
+        "domain": "Conception accessible/inclusive",
+        "source": "added"
+      },
+      {
+        "code": "BSMO",
+        "category_type": "transversal",
+        "domain": "Modélisation métier",
+        "source": "added"
+      },
+      {
+        "code": "CEXP",
+        "category_type": "technical",
+        "domain": "Expérience client",
+        "source": "added"
+      },
+      {
+        "code": "URCH",
+        "category_type": "technical",
+        "domain": "Recherche utilisateur",
+        "source": "added"
+      },
+      {
+        "code": "USEV",
+        "category_type": "technical",
+        "domain": "Évaluation expérience utilisateur",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "CNSL",
+        "category_type": "transversal",
+        "domain": "Conseil",
+        "source": "original"
+      },
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "RSCH",
+        "category_type": "technical",
+        "domain": "Recherche formelle",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "627",
+    "Primaires": [
+      {
+        "code": "CFMG",
+        "category_type": "technical",
+        "domain": "Gestion de configuration",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      },
+      {
+        "code": "DEPL",
+        "category_type": "technical",
+        "domain": "Déploiement",
+        "source": "added"
+      },
+      {
+        "code": "SLEN",
+        "category_type": "technical",
+        "domain": "Cycle de vie logiciel",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 2,
+      "total_skills": 9
+    }
+  },
+  {
+    "OPM_ID": "628",
+    "Primaires": [
+      {
+        "code": "ADEV",
+        "category_type": "technical",
+        "domain": "Développement agile",
+        "source": "original"
+      },
+      {
+        "code": "ARCH",
+        "category_type": "technical",
+        "domain": "Architecture solution",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      },
+      {
+        "code": "IFDN",
+        "category_type": "technical",
+        "domain": "Conception infrastructure",
+        "source": "added"
+      },
+      {
+        "code": "NTDS",
+        "category_type": "technical",
+        "domain": "Conception réseau",
+        "source": "added"
+      },
+      {
+        "code": "SWDN",
+        "category_type": "technical",
+        "domain": "Conception logicielle",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "DESN",
+        "category_type": "technical",
+        "domain": "Conception systèmes",
+        "source": "original"
+      },
+      {
+        "code": "IRMG",
+        "category_type": "technical",
+        "domain": "Gestion de l'information",
+        "source": "original"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 3,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "673",
+    "Primaires": [
+      {
+        "code": "METL",
+        "category_type": "transversal",
+        "domain": "Méthodologie et outils",
+        "source": "original"
+      },
+      {
+        "code": "QUAS",
+        "category_type": "technical",
+        "domain": "Assurance qualité",
+        "source": "original"
+      },
+      {
+        "code": "TEST",
+        "category_type": "technical",
+        "domain": "Tests fonctionnels",
+        "source": "original"
+      },
+      {
+        "code": "BPTS",
+        "category_type": "technical",
+        "domain": "Tests d'acceptation",
+        "source": "added"
+      },
+      {
+        "code": "NFTS",
+        "category_type": "technical",
+        "domain": "Tests non-fonctionnels",
+        "source": "added"
+      },
+      {
+        "code": "PRTS",
+        "category_type": "technical",
+        "domain": "Tests de processus",
+        "source": "added"
+      },
+      {
+        "code": "SEAC",
+        "category_type": "technical",
+        "domain": "Acceptation service",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "PROG",
+        "category_type": "technical",
+        "domain": "Développement logiciel",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "original"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 4,
+      "added_from_analysis": 4,
+      "total_skills": 11
+    }
+  },
+  {
+    "OPM_ID": "806",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "original"
+      },
+      {
+        "code": "PROD",
+        "category_type": "technical",
+        "domain": "Gestion de produit",
+        "source": "original"
+      },
+      {
+        "code": "REQM",
+        "category_type": "transversal",
+        "domain": "Gestion des exigences",
+        "source": "original"
+      },
+      {
+        "code": "BUSA",
+        "category_type": "transversal",
+        "domain": "Analyse métier",
+        "source": "added"
+      },
+      {
+        "code": "CEXP",
+        "category_type": "technical",
+        "domain": "Expérience client",
+        "source": "added"
+      },
+      {
+        "code": "DEMG",
+        "category_type": "technical",
+        "domain": "Gestion des livrables",
+        "source": "added"
+      },
+      {
+        "code": "MEAS",
+        "category_type": "transversal",
+        "domain": "Mesure et métriques",
+        "source": "added"
+      },
+      {
+        "code": "RLMT",
+        "category_type": "transversal",
+        "domain": "Relations parties prenantes",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [
+      {
+        "code": "BINT",
+        "category_type": "technical",
+        "domain": "Business Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "CIPM",
+        "category_type": "technical",
+        "domain": "Amélioration continue",
+        "source": "original"
+      },
+      {
+        "code": "RELM",
+        "category_type": "technical",
+        "domain": "Gestion des releases",
+        "source": "original"
+      },
+      {
+        "code": "STPL",
+        "category_type": "technical",
+        "domain": "Architecture d'entreprise",
+        "source": "original"
+      },
+      {
+        "code": "UNAN",
+        "category_type": "technical",
+        "domain": "Analyse utilisateur",
+        "source": "original"
+      }
+    ],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 5,
+      "added_from_analysis": 5,
+      "total_skills": 13
+    }
+  },
+  {
+    "OPM_ID": "TBD-A",
+    "Primaires": [
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "original"
+      },
+      {
+        "code": "THIN",
+        "category_type": "technical",
+        "domain": "Threat Intelligence",
+        "source": "original"
+      },
+      {
+        "code": "VISL",
+        "category_type": "transversal",
+        "domain": "Visualisation de données",
+        "source": "original"
+      },
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "added"
+      },
+      {
+        "code": "DAAN",
+        "category_type": "technical",
+        "domain": "Analyse de données",
+        "source": "added"
+      },
+      {
+        "code": "DGFS",
+        "category_type": "technical",
+        "domain": "Forensics numériques",
+        "source": "added"
+      },
+      {
+        "code": "IAMT",
+        "category_type": "technical",
+        "domain": "Gestion des identités et accès",
+        "source": "added"
+      },
+      {
+        "code": "PEMT",
+        "category_type": "technical",
+        "domain": "Gestion de la performance",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [],
+    "metadata": {
+      "original_primaires_count": 3,
+      "original_secondaires_count": 0,
+      "added_from_analysis": 5,
+      "total_skills": 8
+    }
+  },
+  {
+    "OPM_ID": "TBD-B",
+    "Primaires": [
+      {
+        "code": "BURM",
+        "category_type": "technical",
+        "domain": "Gestion des risques",
+        "source": "added"
+      },
+      {
+        "code": "INAS",
+        "category_type": "technical",
+        "domain": "Assurance de l'information",
+        "source": "added"
+      },
+      {
+        "code": "ITOP",
+        "category_type": "technical",
+        "domain": "Opérations infrastructure",
+        "source": "added"
+      },
+      {
+        "code": "RESD",
+        "category_type": "technical",
+        "domain": "Systèmes temps réel/embarqués",
+        "source": "added"
+      },
+      {
+        "code": "SCAD",
+        "category_type": "technical",
+        "domain": "Opérations de sécurité",
+        "source": "added"
+      },
+      {
+        "code": "SCTY",
+        "category_type": "technical",
+        "domain": "Sécurité de l'information",
+        "source": "added"
+      },
+      {
+        "code": "SFEN",
+        "category_type": "technical",
+        "domain": "Ingénierie sécurité fonctionnelle",
+        "source": "added"
+      },
+      {
+        "code": "VUAS",
+        "category_type": "technical",
+        "domain": "Évaluation des vulnérabilités",
+        "source": "added"
+      }
+    ],
+    "Secondaires": [],
+    "metadata": {
+      "original_primaires_count": 0,
+      "original_secondaires_count": 0,
+      "added_from_analysis": 8,
+      "total_skills": 8
+    }
+  }
+]

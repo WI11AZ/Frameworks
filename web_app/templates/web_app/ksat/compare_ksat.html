@@ -142,6 +142,95 @@
 {% endblock script %}
 
 {% block content %}
+<style>
+  /* Styles pour les cartes de rôles sélectionnés */
+  #step0-selected-roles {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border-radius: 0.75rem !important;
+    padding: 1.5rem !important;
+    margin-bottom: 2rem !important;
+    margin-top: 1.5rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  #step0-selected-roles h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+  }
+
+  #selected-roles-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    justify-content: center !important;
+  }
+
+  #step0-selected-roles .selected-role-card {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.25rem !important;
+    transition: all 0.3s ease !important;
+    min-width: 280px !important;
+    max-width: 320px !important;
+    flex: 0 0 auto !important;
+  }
+
+  #step0-selected-roles .selected-role-card:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  #step0-selected-roles .selected-role-card.primary {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%) !important;
+    border: 2px solid rgba(255, 193, 7, 0.8) !important;
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.4) !important;
+  }
+
+  #step0-selected-roles .selected-role-card.primary::before {
+    content: '⭐ Principal' !important;
+    display: block !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: #ffc107 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 0.5rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  #step0-selected-roles .selected-role-card .role-opm {
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    margin-bottom: 0.5rem !important;
+    text-align: left !important;
+  }
+
+  #step0-selected-roles .selected-role-card .role-name {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    line-height: 1.3 !important;
+    text-align: left !important;
+  }
+
+  #step0-selected-roles .selected-role-card .role-element {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin-top: 0.5rem !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+  }
+</style>
+
 <!-- Overlay de chargement (visible par défaut) -->
 <div id="loading-overlay" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
   <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-md">
@@ -163,12 +252,35 @@
 </div>
 
 <main class="mx-auto max-w-7xl p-6">
-  <h1 class="text-3xl font-bold mb-6">
-  Comparison of KSATs for
-  {% for role in formatted_roles %}
-    <span class="font-medium">{{ role.title }} <span class="text-gray-500">({{ role.framework }})</span></span>{% if not forloop.last %}, {% endif %}
-  {% endfor %}
-  </h1>
+  <!-- Affichage des work roles sélectionnés depuis Step0 -->
+  <div id="step0-selected-roles" class="mt-6" style="display: none;">
+    <h3 class="text-xl font-semibold mb-3 text-white">Actual selected workroles (Step 2)</h3>
+    <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center"></div>
+    <div class="flex justify-between items-center mt-4 relative">
+      <a href="http://127.0.0.1:8000/home/" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+        ← Step 2
+      </a>
+      <div class="relative">
+        <button id="etape2-button" 
+                onclick="checkAndGoToEtape2()"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled>
+          Step 3 →
+        </button>
+        <!-- Tooltip pour expliquer pourquoi le bouton est désactivé -->
+        <div id="etape2-tooltip" class="absolute bottom-full right-0 mb-2 hidden bg-gray-800 text-white text-sm rounded-lg px-3 py-2 whitespace-nowrap z-50">
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Sauvegardez d'abord votre sélection</span>
+          </div>
+          <!-- Flèche du tooltip -->
+          <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- Onglets -->
   <div class="flex justify-between items-center mb-4">
     <div id="tab-buttons" class="flex border-b">
@@ -181,13 +293,6 @@
     </div>
     
     <div class="flex items-center space-x-5">
-      <!-- Bouton retour au menu -->
-      <a href="{% url 'main' %}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
-        Retour au menu
-      </a>
-      
-      
-      
       <button id="compare-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
         Comparer
       </button>
@@ -195,73 +300,31 @@
       <button id="save-selection-button" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
         Sauvegarder
       </button>
-      
-      <button id="etape2-button" 
-              onclick="checkAndGoToEtape2()"
-              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled>
-        <div class="flex items-center space-x-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-          <span>Étape 2</span>
-        </div>
-      </button>
-      
-      <!-- Tooltip pour expliquer pourquoi le bouton est désactivé -->
-      <div id="etape2-tooltip" class="absolute bottom-full right-0 mb-2 hidden bg-gray-800 text-white text-sm rounded-lg px-3 py-2 whitespace-nowrap z-50">
-        <div class="flex items-center space-x-2">
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Sauvegardez d'abord votre sélection</span>
-        </div>
-        <!-- Flèche du tooltip -->
-        <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-      </div>
     </div>
   </div>
 
-  <!-- Conteneur pour les contrôles globaux (déplacé par JS) -->
-  <div id="global-controls-wrapper" style="display: none;">
-    <div id="global-controls-content" class="flex items-center space-x-4 p-2 bg-blue-50 border border-blue-200 rounded-lg ml-4">
-      <!-- P - Pertinence -->
-                        <div class="flex flex-col items-center">
-        <div class="flex items-center space-x-1 mb-1">
-          <span class="text-sm text-blue-700 font-medium">P</span>
-          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Pertinence : Indique l'importance de cette compétence pour le poste" onclick="showLevelInfoModal('pertinence')">?</button>
-                        </div>
-        <select id="global-pertinence-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('primary', this.value); handleGlobalPertinenceChange(this.value);" title="Modifier toutes les valeurs de pertinence">
-          <option value="">--</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-        </select>
-                        </div>
-      <!-- A - Niveau attendu -->
-                        <div class="flex flex-col items-center">
-        <div class="flex items-center space-x-1 mb-1">
-          <span class="text-sm text-blue-700 font-medium">A</span>
-          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Niveau normalement attendu" onclick="showLevelInfoModal('niveau-attendu')">?</button>
-                        </div>
-        <select id="global-niveau-attendu-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('secondary', this.value); updateGlobalTolereOptions(this.value);" title="Modifier toutes les valeurs de niveau attendu">
-                            <option value="">--</option>
-                          </select>
-                        </div>
-      <!-- T - Niveau toléré -->
-      <div class="flex flex-col items-center">
-        <div class="flex items-center space-x-1 mb-1">
-          <span class="text-sm text-blue-700 font-medium">T</span>
-          <button type="button" class="bg-blue-500 text-white rounded-full w-4 h-4 flex items-center justify-center hover:bg-blue-600 transition-colors text-xs" title="Niveau toléré au recrutement" onclick="showLevelInfoModal('niveau-tolere')">?</button>
-                        </div>
-        <select id="global-niveau-tolere-select" class="text-sm border border-blue-300 rounded px-2 py-1 w-16 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="updateAllSelects('tertiary', this.value)" title="Modifier toutes les valeurs de niveau toléré">
-                            <option value="">--</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
 
   <!-- Contenus -->
   <div id="tab-contents">
     {% for key, ksats in ksat_dict.items %}
       <div id="{{ key }}" class="tab-content hidden">
+        <!-- Legend for C, A, and * symbols -->
+        <div class="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+          <div class="text-sm text-gray-700 space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 text-xs rounded bg-blue-100 text-blue-800 font-semibold">C</span>
+              <span>= KSAT or KSA Core</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 text-xs rounded bg-green-100 text-green-800 font-semibold">A</span>
+              <span>= KSAT or KSA Additional</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-red-600 font-bold text-lg">*</span>
+              <span>= KSAT DCWF 25 Common to all DCWF 25 work roles</span>
+            </div>
+          </div>
+        </div>
         <table class="min-w-full table-fixed border-collapse mb-6" style="table-layout: fixed;">
           <thead>
 
@@ -269,67 +332,132 @@
             <!-- Ligne principale du tableau -->
             <tr class="bg-gray-100 sticky top-16 z-50">
               <th class="px-3 py-2 border text-left bg-white" style="width: 300px;">
-                <span class="font-medium">Description / ID</span>
+                <div class="flex items-center space-x-2">
+                  <input type="checkbox" 
+                         id="check-all-{{ key }}" 
+                         class="check-all-ksat w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                         data-category="{{ key }}"
+                         checked
+                         onchange="toggleAllKSATs('{{ key }}', this.checked)">
+                  <label for="check-all-{{ key }}" class="font-medium cursor-pointer">
+                    (UN)SELECT ALL {{ key|title|slice:":1" }}{{ key|title|slice:"1:" }}{% if key != 'knowledge' %}s{% endif %}
+                  </label>
+                </div>
               </th>
               {% for role in formatted_roles %}
-                <th class="px-3 py-2 border {% if role.group_id %}{{ role.group_id }} work-role-group{% endif %}" 
+                <th class="px-3 py-3 border {% if role.group_id %}{{ role.group_id }} work-role-group{% endif %}" 
                     data-framework="{{ role.framework }}" 
                     data-role-id="{{ role.id }}"
+                    data-opm-id="{{ role.opm_id|default:'' }}"
                     data-model-type="{{ role.model_type }}"
                     data-group-id="{{ role.group_id }}"
                     data-category-color="{{ role.category_color }}"
-                    style="width: 126px;">
+                    style="width: 140px; text-align: left; vertical-align: top;">
                   
-                  <!-- Compteur T/K/S/A pour ce work role -->
-                  <div class="mb-3">
-                    <div class="grid text-xs" style="width: 100px; grid-template-columns: repeat(4, 1fr);">
-                      <!-- En-tête -->
-                      <div class="bg-blue-600 text-white text-center py-1 font-bold">Total</div>
-                      <div class="bg-blue-600 text-white text-center py-1 font-bold" id="total-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-green-600 text-white text-center py-1">✓</div>
-                      <div class="bg-red-600 text-white text-center py-1">✗</div>
-                      
-                      <!-- T (Tasks) - ligne de données -->
-                      <div class="bg-gray-200 text-gray-700 text-center py-1">T</div>
-                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="task-total-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="task-selected-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="task-unselected-{{ key }}-{{ role.id }}">0</div>
-                      
-                      <!-- K -->
-                      <div class="bg-gray-200 text-gray-700 text-center py-1">K</div>
-                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="knowledge-total-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="knowledge-selected-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="knowledge-unselected-{{ key }}-{{ role.id }}">0</div>
-                      
-                      <!-- S -->
-                      <div class="bg-gray-200 text-gray-700 text-center py-1">S</div>
-                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="skill-total-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="skill-selected-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="skill-unselected-{{ key }}-{{ role.id }}">0</div>
-                      
-                      <!-- A -->
-                      <div class="bg-gray-200 text-gray-700 text-center py-1">A</div>
-                      <div class="bg-gray-200 text-gray-700 text-center py-1" id="ability-total-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="ability-selected-{{ key }}-{{ role.id }}">0</div>
-                      <div class="bg-white text-gray-700 text-center py-1" id="ability-unselected-{{ key }}-{{ role.id }}">0</div>
-                    </div>
-                  </div>
-
-                  <!-- Informations du work role -->
-                  <div>
-                    <div class="text-xs text-center mb-1 font-normal">
-                      {% if role.opm_id %}{{ role.opm_id }}{% else %}&nbsp;{% endif %}
-                    </div>
-                    <div class="text-center">
-                      {{ role.title }}
-                    </div>
-                    <div class="text-center">
-                      <span class="text-xs text-gray-600">({{ role.framework }})</span>
-                      {% if role.model_type == 'ncwf_2017' or role.model_type == 'ncwf_2024' or role.model_type == 'ncwf_2025' %}
-                        {% if role.nist_id %}
-                          <br><span class="text-xs text-blue-600">{{ role.nist_id }}</span>
+                  <!-- Structure avec hauteurs fixes pour alignement -->
+                  <div class="flex flex-col" style="height: 100%; min-height: 280px;">
+                    <!-- Informations du work role - Section principale avec hauteurs fixes -->
+                    <div class="flex-shrink-0 mb-4">
+                      <!-- OPM ID - Mis en valeur avec hauteur fixe -->
+                      <div class="text-center mb-2" style="height: 48px; display: flex; align-items: center; justify-content: center;">
+                        {% if role.opm_id %}
+                          <div class="text-3xl font-bold text-gray-900 leading-none" style="font-weight: 700; letter-spacing: -0.5px;">
+                            {{ role.opm_id }}
+                          </div>
+                        {% else %}
+                          <div class="text-3xl font-bold text-gray-400 leading-none">&nbsp;</div>
                         {% endif %}
+                      </div>
+                      
+                      <!-- Titre du work role avec hauteur fixe -->
+                      <div class="text-center mb-2" style="height: 56px; display: flex; align-items: center; justify-content: center;">
+                        <div class="text-sm font-semibold text-gray-800 leading-tight" style="line-height: 1.3;">
+                          {{ role.title }}
+                        </div>
+                      </div>
+                      
+                      <!-- Framework et code NCWF avec hauteur fixe -->
+                      <div class="text-center" style="height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span class="text-xs text-gray-500 font-medium">{{ role.framework }}</span>
+                        {% if role.model_type == 'ncwf_2017' or role.model_type == 'ncwf_2024' or role.model_type == 'ncwf_2025' %}
+                          {% if role.nist_id %}
+                            <div class="mt-1">
+                              <span class="text-xs text-blue-600 font-medium">{{ role.nist_id }}</span>
+                            </div>
+                          {% else %}
+                            <div style="height: 16px;"></div>
+                          {% endif %}
+                        {% else %}
+                          <div style="height: 16px;"></div>
+                        {% endif %}
+                      </div>
+                    </div>
+
+                    <!-- Compteurs T/K/S/A - Deux cases séparées, alignés en bas avec hauteur fixe -->
+                    <div class="mt-auto" style="margin-top: auto; padding-top: 8px;">
+                      <div class="space-y-2">
+                      {% if key == 'task' %}
+                        <!-- Case Existing -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-gray-600">T Existing</span>
+                            <span id="task-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-gray-900 tabular-nums">0</span>
+                          </div>
+                        </div>
+                        <!-- Case Existing Selected -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-blue-700">T Selected</span>
+                            <span id="task-selected-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-blue-600 tabular-nums">0</span>
+                          </div>
+                        </div>
+                      {% elif key == 'knowledge' %}
+                        <!-- Case Existing -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-gray-600">K Existing</span>
+                            <span id="knowledge-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-gray-900 tabular-nums">0</span>
+                          </div>
+                        </div>
+                        <!-- Case Existing Selected -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-blue-700">K Selected</span>
+                            <span id="knowledge-selected-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-blue-600 tabular-nums">0</span>
+                          </div>
+                        </div>
+                      {% elif key == 'skill' %}
+                        <!-- Case Existing -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-gray-600">S Existing</span>
+                            <span id="skill-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-gray-900 tabular-nums">0</span>
+                          </div>
+                        </div>
+                        <!-- Case Existing Selected -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-blue-700">S Selected</span>
+                            <span id="skill-selected-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-blue-600 tabular-nums">0</span>
+                          </div>
+                        </div>
+                      {% elif key == 'abilitie' %}
+                        <!-- Case Existing -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-gray-600">A Existing</span>
+                            <span id="ability-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-gray-900 tabular-nums">0</span>
+                          </div>
+                        </div>
+                        <!-- Case Existing Selected -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-md px-2 py-1.5">
+                          <div class="flex items-center justify-between">
+                            <span class="text-xs font-medium text-blue-700">A Selected</span>
+                            <span id="ability-selected-count-{{ key }}-{{ role.id }}" class="text-sm font-bold text-blue-600 tabular-nums">0</span>
+                          </div>
+                        </div>
                       {% endif %}
+                      </div>
                     </div>
                   </div>
                 </th>
@@ -340,91 +468,44 @@
             {% for ksat in ksats %}
               <tr class="hover:bg-gray-50">
                 <td class="px-3 py-2 border align-top" style="width: 300px;">
-                  <p class="font-medium">{{ ksat.description }}</p>
-                  <div class="mt-1 text-sm text-gray-600 space-x-2">
-                      {% dcwf_url ksat %}
-                      {% ncwf_2017_url ksat %}
-                      {% ncwf_2025_url ksat %}
-                      <div class="mt-2 text-xs text-gray-500">
-                        ID: {{ ksat.id }}
-                        {% if ksat.core_or_additional %}
-                          <span class="ml-2 px-1 py-0.5 text-xs rounded {% if ksat.core_or_additional == 'C' %}bg-blue-100 text-blue-800{% else %}bg-green-100 text-green-800{% endif %}">
-                            {{ ksat.core_or_additional }}
-                          </span>
-                        {% endif %}
+                  <div class="flex items-start space-x-2">
+                    <input type="checkbox" 
+                           class="ksat-checkbox w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1" 
+                           data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
+                           data-category="{{ key }}"
+                           data-ksat-description="{{ ksat.description|escape }}"
+                           checked
+                           onchange="handleKSATCheckboxChange(this, '{{ key }}')">
+                    <div class="flex-1">
+                      <p class="font-medium">{{ ksat.description }}</p>
+                      <div class="mt-1 text-sm text-gray-600 space-x-2">
+                          {% dcwf_url ksat %}
+                          {% ncwf_2017_url ksat %}
+                          {% ncwf_2025_url ksat %}
+                          <div class="mt-2 text-xs text-gray-500">
+                            ID: {% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}
+                            {% if ksat.core_or_additional %}
+                              <span class="ml-2 px-1 py-0.5 text-xs rounded {% if ksat.core_or_additional == 'C' %}bg-blue-100 text-blue-800{% else %}bg-green-100 text-green-800{% endif %}">
+                                {{ ksat.core_or_additional }}
+                              </span>
+                            {% endif %}
+                          </div>
                       </div>
-                  {% if key == 'skill' %}
-                  <!-- DÉBUT DES SELECTS POUR SKILLS -->
-                  <div class="mt-2 flex space-x-2 select-group">
-                    <!-- Premier select pour Skills -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Skill' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSkillSelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Deuxième select pour Skills -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Skill' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSkillSecondarySelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Troisième select pour Skills -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Skill' 'Type de maîtrise 3' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
                     </div>
                   </div>
-                  <!-- FIN DES SELECTS POUR SKILLS -->
-                  
-                  {% elif key == 'abilitie' %}
-                  <!-- DÉBUT DES SELECTS POUR ABILITIES -->
-                  <div class="mt-2 flex space-x-2 select-group">
-                    <!-- Premier select pour Abilities -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Ability' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleAbilitySelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Deuxième select pour Abilities -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Ability' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleAbilitySecondarySelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Troisième select pour Abilities -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Ability' 'Type de maîtrise 3' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
-                    </div>
-                  </div>
-                  <!-- FIN DES SELECTS POUR ABILITIES -->
-                  
-                  {% elif key == 'task' %}
-                  <!-- DÉBUT DES SELECTS POUR TASK -->
-                  <div class="mt-2 flex space-x-2 select-group">
-                    <!-- Premier select pour Task -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Task' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select' 'handleSelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Deuxième select pour Task -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Task' 'Type de maîtrise 1' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleSecondarySelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <!-- Troisième select pour Task -->
-                    <div class="relative select-container">
-                      {% render_select_options 'Task' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' %}
-                    </div>
-                  </div>
-                  <!-- FIN DES SELECTS POUR TASK -->
-                  {% endif %}
-                  
-                  {% if key == 'knowledge' %}
-                  <div class="mt-2 flex space-x-2 select-group">
-                    <div class="relative select-container">
-                      {% render_select_options 'Knowledge' 'Importance' 'text-sm border rounded px-1 py-0.5 primary-select knowledge-select' 'handleKnowledgeSelectChange(this); showInfoTooltip(this);' %}
-                    </div>
-                    <div class="relative select-container">
-                      {% render_select_options 'Knowledge' 'Type de maîtrise 1' 'text-sm border rounded px-1 py-0.5 secondary-select' 'handleKnowledgeSecondarySelectChange(this); showInfoTooltip(this);' "knowledge-second-select" %}
-                    </div>
-                    <div class="relative select-container">
-                      {% render_select_options 'Knowledge' 'Type de maîtrise 2' 'text-sm border rounded px-1 py-0.5 secondary-select' 'showInfoTooltip(this);' "knowledge-third-select" %}
-                    </div>
-                  </div>
-                  {% endif %}
                 </td>
                 {% for role in formatted_roles %}
-                  <td class="px-3 py-2 border text-center align-middle" style="width: 126px;">
-                    {% if role.model_obj|has_ksat:ksat %}✅{% else %}❌{% endif %}
+                  <td class="px-3 py-2 border text-center align-middle" style="width: 126px; position: relative;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+                      {% if role.model_obj|has_ksat:ksat %}✅{% else %}❌{% endif %}
+                      <span class="skills-alignment-indicator" 
+                            data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
+                            data-role-opm-id="{{ role.opm_id|default:'' }}"
+                            data-role-wrl-id="{% if role.nist_id %}{{ role.nist_id }}{% elif role.ncwf_id %}{{ role.ncwf_id }}{% else %}{% endif %}"
+                            style="display: none; cursor: pointer; color: #f59e0b; font-size: 16px; font-weight: bold;"
+                            onclick="event.stopPropagation(); showSkillsAlignment(this)"
+                            title="Skills Alignment disponible">⚠️</span>
+                    </div>
                   </td>
                 {% endfor %}
               </tr>
@@ -438,7 +519,12 @@
 
 <script>
 // Variables qui seront initialisées au chargement pour éviter le hardcoding
-let allSelectValues = {};
+let allSelectValues = {
+    task: {},
+    knowledge: {},
+    skill: {},
+    abilitie: {}
+};
 
 // Stockage des compteurs de sélection pour chaque onglet
 let selectionCounters = {
@@ -1547,6 +1633,14 @@ function loadModalData() {
   }
 }
 
+// Fonction pour extraire l'OPM ID (les 3 premiers chiffres) d'un OPM ID complet
+function extractOpmId(opmIdString) {
+  if (!opmIdString) return null;
+  // Extraire les 3 premiers chiffres de l'OPM ID
+  const match = opmIdString.toString().match(/^(\d{3})/);
+  return match ? match[1] : null;
+}
+
 // Fonction pour regrouper visuellement les colonnes du même work_role selon la couleur de leur catégorie
 function colorizeColumns() {
   console.log('Application des styles aux colonnes selon la couleur de la catégorie...');
@@ -1575,6 +1669,10 @@ function colorizeColumns() {
         // Récupérer les attributs data pour déterminer le work_role
         const roleId = header.getAttribute('data-role-id');
         const groupId = header.getAttribute('data-group-id');
+        const opmId = header.getAttribute('data-opm-id');
+        
+        // Extraire l'OPM ID (les 3 premiers chiffres)
+        const opmIdBase = extractOpmId(opmId);
         
         // Récupérer la couleur de la catégorie via un attribut data
         const categoryColor = header.getAttribute('data-category-color');
@@ -1584,17 +1682,47 @@ function colorizeColumns() {
           const bgColor = `rgba(${categoryColor}, 0.15)`;
           const borderColor = `rgba(${categoryColor}, 1)`;
           
+          // Déterminer si c'est la première colonne du groupe OPM ID
+          let isFirstInOpmGroup = false;
+          let isLastInOpmGroup = false;
+          
+          if (opmIdBase) {
+            // Vérifier la colonne précédente
+            const prevHeader = headers[i - 1];
+            const prevOpmId = prevHeader ? prevHeader.getAttribute('data-opm-id') : null;
+            const prevOpmIdBase = extractOpmId(prevOpmId);
+            
+            // Vérifier la colonne suivante
+            const nextHeader = headers[i + 1];
+            const nextOpmId = nextHeader ? nextHeader.getAttribute('data-opm-id') : null;
+            const nextOpmIdBase = extractOpmId(nextOpmId);
+            
+            // C'est la première colonne du groupe si l'OPM ID est différent de la précédente
+            isFirstInOpmGroup = (prevOpmIdBase !== opmIdBase);
+            
+            // C'est la dernière colonne du groupe si l'OPM ID est différent de la suivante ou si c'est la dernière colonne
+            isLastInOpmGroup = (nextOpmIdBase !== opmIdBase || i === numColumns);
+          } else {
+            // Si pas d'OPM ID, traiter comme un groupe solo
+            isFirstInOpmGroup = true;
+            isLastInOpmGroup = true;
+          }
+          
           // Appliquer un style à l'en-tête
           header.style.backgroundColor = bgColor;
           header.style.borderTop = `3px solid ${borderColor}`;
           
-          // Si c'est la première colonne du groupe ou qu'il n'y a pas de groupe
-          if (!groupId || i % 2 === 1) {
+          // Appliquer les bordures gauche et droite selon le groupement OPM ID
+          if (isFirstInOpmGroup) {
             header.style.borderLeft = `3px solid ${borderColor}`;
+          } else {
+            header.style.borderLeft = '';
           }
-          // Si c'est la dernière colonne du groupe ou la dernière colonne du tableau
-          if (!groupId || i % 2 === 0 || i === numColumns) {
+          
+          if (isLastInOpmGroup) {
             header.style.borderRight = `3px solid ${borderColor}`;
+          } else {
+            header.style.borderRight = '';
           }
           
           // Appliquer le même style à toutes les cellules de cette colonne
@@ -1606,13 +1734,17 @@ function colorizeColumns() {
             if (cell) {
               cell.style.backgroundColor = `rgba(${categoryColor}, 0.05)`; // Plus léger pour les cellules
               
-              // Si c'est la première colonne du groupe ou qu'il n'y a pas de groupe
-              if (!groupId || i % 2 === 1) {
+              // Appliquer les bordures gauche et droite selon le groupement OPM ID
+              if (isFirstInOpmGroup) {
                 cell.style.borderLeft = `3px solid ${borderColor}`;
+              } else {
+                cell.style.borderLeft = '';
               }
-              // Si c'est la dernière colonne du groupe ou la dernière colonne du tableau
-              if (!groupId || i % 2 === 0 || i === numColumns) {
+              
+              if (isLastInOpmGroup) {
                 cell.style.borderRight = `3px solid ${borderColor}`;
+              } else {
+                cell.style.borderRight = '';
               }
             }
           });
@@ -1631,6 +1763,9 @@ function colorizeColumns() {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log('DOM chargé, initialisation de l\'interface...');
+  
+  // Charger les données KSAT pour les Skills Alignment
+  loadKsatData();
   
   // Initialiser les données modales via AJAX (asynchrone)
   initModalData()
@@ -1715,6 +1850,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // S'assurer que les compteurs sont à jour pour cet onglet
     updateSelectionCountersForTab(btn.dataset.tab);
     updateSelectionCounter(btn.dataset.tab);
+    
+    // Mettre à jour l'état de la checkbox "Check All" pour cet onglet
+    updateCheckAllState(btn.dataset.tab);
     
     // RESTAURATION CRITIQUE DES OPTIONS DES SELECTS POUR LE NOUVEL ONGLET ACTIF
     console.log(`Restauration des options pour l'onglet ${btn.dataset.tab}`);
@@ -2099,8 +2237,68 @@ function updateIndividualRoleCounters() {
   // Récupérer tous les onglets (catégories)
   const categories = ['task', 'knowledge', 'skill', 'abilitie'];
   
+  // Récupérer tous les work roles uniques depuis tous les onglets
+  const allRoleIds = new Set();
   categories.forEach(category => {
-    // Récupérer tous les work roles depuis les headers de cette catégorie
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    const roleHeaders = tabContent.querySelectorAll('thead th[data-role-id]');
+    roleHeaders.forEach(header => {
+      const roleId = header.getAttribute('data-role-id');
+      if (roleId) allRoleIds.add(roleId);
+    });
+  });
+  
+  // Pour chaque work role, compter les KSAT cochés par type
+  allRoleIds.forEach(roleId => {
+    const counts = countSelectedKSATByType(roleId);
+    const selectedCounts = countSelectedKSATWithCheckmarkByType(roleId);
+    
+    // Récupérer l'OPM ID du work role pour utiliser les données JSON
+    let opmId = null;
+    const firstTab = document.getElementById('task') || document.getElementById('knowledge') || document.getElementById('skill') || document.getElementById('abilitie');
+    if (firstTab) {
+      const roleHeader = firstTab.querySelector(`th[data-role-id="${roleId}"]`);
+      if (roleHeader) {
+        opmId = roleHeader.getAttribute('data-opm-id');
+      }
+    }
+    
+    // Pour les abilities, utiliser les données du fichier JSON si disponibles
+    let abilityCount = counts.A || 0;
+    if (opmId && ksatDataLoaded && dcwfKsatData) {
+      const dcwfCounts = countDCWFKsat(opmId);
+      abilityCount = dcwfCounts.A || 0;
+    }
+    
+    // Mettre à jour uniquement le compteur correspondant à chaque catégorie
+    categories.forEach(category => {
+      if (category === 'task') {
+        const taskCountEl = document.getElementById(`task-count-${category}-${roleId}`);
+        if (taskCountEl) taskCountEl.textContent = counts.T || 0;
+        const taskSelectedCountEl = document.getElementById(`task-selected-count-${category}-${roleId}`);
+        if (taskSelectedCountEl) taskSelectedCountEl.textContent = selectedCounts.T || 0;
+      } else if (category === 'knowledge') {
+        const knowledgeCountEl = document.getElementById(`knowledge-count-${category}-${roleId}`);
+        if (knowledgeCountEl) knowledgeCountEl.textContent = counts.K || 0;
+        const knowledgeSelectedCountEl = document.getElementById(`knowledge-selected-count-${category}-${roleId}`);
+        if (knowledgeSelectedCountEl) knowledgeSelectedCountEl.textContent = selectedCounts.K || 0;
+      } else if (category === 'skill') {
+        const skillCountEl = document.getElementById(`skill-count-${category}-${roleId}`);
+        if (skillCountEl) skillCountEl.textContent = counts.S || 0;
+        const skillSelectedCountEl = document.getElementById(`skill-selected-count-${category}-${roleId}`);
+        if (skillSelectedCountEl) skillSelectedCountEl.textContent = selectedCounts.S || 0;
+      } else if (category === 'abilitie') {
+        const abilityCountEl = document.getElementById(`ability-count-${category}-${roleId}`);
+        if (abilityCountEl) abilityCountEl.textContent = abilityCount; // Utiliser le compte depuis le JSON
+        const abilitySelectedCountEl = document.getElementById(`ability-selected-count-${category}-${roleId}`);
+        if (abilitySelectedCountEl) abilitySelectedCountEl.textContent = selectedCounts.A || 0;
+      }
+    });
+  });
+  
+  // Garder l'ancienne logique pour les autres éléments si nécessaire
+  categories.forEach(category => {
     const tabContent = document.getElementById(category);
     if (!tabContent) return;
     
@@ -2167,6 +2365,95 @@ function updateIndividualRoleCounters() {
       if (abilityUnselectedElement) abilityUnselectedElement.textContent = abilityStats.unselected;
     });
   });
+}
+
+// Fonction pour compter les ✅ (checkmarks) par type (T, K, S, A) dans la colonne d'un work role
+function countSelectedKSATByType(roleId) {
+  const counts = { T: 0, K: 0, S: 0, A: 0 };
+  
+  // Parcourir tous les onglets (task, knowledge, skill, abilitie)
+  const tabs = [
+    { id: 'task', type: 'T' },
+    { id: 'knowledge', type: 'K' },
+    { id: 'skill', type: 'S' },
+    { id: 'abilitie', type: 'A' }
+  ];
+  
+  tabs.forEach(tab => {
+    const tabContent = document.getElementById(tab.id);
+    if (!tabContent) return;
+    
+    // Trouver la colonne correspondant à ce work role
+    const roleHeader = tabContent.querySelector(`th[data-role-id="${roleId}"]`);
+    if (!roleHeader) return;
+    
+    const headerIndex = Array.from(roleHeader.parentNode.children).indexOf(roleHeader);
+    
+    // Parcourir toutes les lignes et compter les ✅ dans cette colonne
+    const rows = tabContent.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      if (cells.length > headerIndex) {
+        const roleCell = cells[headerIndex];
+        if (roleCell) {
+          const cellContent = roleCell.textContent || roleCell.innerHTML;
+          // Compter les ✅ (checkmarks) dans cette cellule
+          if (cellContent.includes('✅') || cellContent.includes('✓')) {
+            counts[tab.type] = (counts[tab.type] || 0) + 1;
+          }
+        }
+      }
+    });
+  });
+  
+  return counts;
+}
+
+// Fonction pour compter les KSAT cochés qui ont un ✅ pour le work role en question
+function countSelectedKSATWithCheckmarkByType(roleId) {
+  const counts = { T: 0, K: 0, S: 0, A: 0 };
+  
+  // Parcourir tous les onglets (task, knowledge, skill, abilitie)
+  const tabs = [
+    { id: 'task', type: 'T' },
+    { id: 'knowledge', type: 'K' },
+    { id: 'skill', type: 'S' },
+    { id: 'abilitie', type: 'A' }
+  ];
+  
+  tabs.forEach(tab => {
+    const tabContent = document.getElementById(tab.id);
+    if (!tabContent) return;
+    
+    // Trouver la colonne correspondant à ce work role
+    const roleHeader = tabContent.querySelector(`th[data-role-id="${roleId}"]`);
+    if (!roleHeader) return;
+    
+    const headerIndex = Array.from(roleHeader.parentNode.children).indexOf(roleHeader);
+    
+    // Parcourir toutes les lignes et compter les KSAT cochés qui ont un ✅
+    const rows = tabContent.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      // Vérifier si la checkbox KSAT est cochée
+      const checkbox = row.querySelector('.ksat-checkbox');
+      if (!checkbox || !checkbox.checked) return;
+      
+      // Vérifier si la cellule du work role contient un ✅
+      const cells = row.querySelectorAll('td');
+      if (cells.length > headerIndex) {
+        const roleCell = cells[headerIndex];
+        if (roleCell) {
+          const cellContent = roleCell.textContent || roleCell.innerHTML;
+          // Compter seulement si la cellule contient un ✅
+          if (cellContent.includes('✅') || cellContent.includes('✓')) {
+            counts[tab.type] = (counts[tab.type] || 0) + 1;
+          }
+        }
+      }
+    });
+  });
+  
+  return counts;
 }
 
 // Fonction pour calculer les statistiques KSAT pour un work role spécifique
@@ -2858,12 +3145,17 @@ function saveCurrentSelection() {
         };
       });
       
-      // Collecter les statuts () pour chaque rôle
+      // Vérifier si la checkbox est cochée
+      const checkbox = firstCell.querySelector('.ksat-checkbox');
+      const isChecked = checkbox ? checkbox.checked : true; // Par défaut, considérer comme cochée si pas trouvée
+      
+      // Collecter les statuts (✅ ou ❌) pour chaque rôle
       const roleStatuses = {};
       const roleCells = row.querySelectorAll('td:not(:first-child)');
       roleCells.forEach((cell, idx) => {
         if (roles[idx]) {
-          roleStatuses[roles[idx].title] = cell.textContent.includes('');
+          // Check if cell contains ✅ (KSAT is associated with this role)
+          roleStatuses[roles[idx].title] = cell.textContent.includes('✅');
         }
       });
       
@@ -2874,7 +3166,8 @@ function saveCurrentSelection() {
         dcwfUrl: dcwfUrl ? { href: dcwfUrl.href, text: dcwfUrl.textContent.trim() } : null,
         ncwfUrl: ncwfUrl ? { href: ncwfUrl.href, text: ncwfUrl.textContent.trim() } : null,
         selects: lineSelects,
-        roleStatuses: roleStatuses
+        roleStatuses: roleStatuses,
+        checked: isChecked  // Sauvegarder l'état de la checkbox
       };
       
       // Ajouter à la liste des KSAT pour cet onglet
@@ -2909,6 +3202,7 @@ function saveCurrentSelection() {
     timestamp: new Date().toISOString(),
     jobNumber: currentJobNumber,  // Ajouter le numéro de poste
     selectValues: selectValues,
+    allSelectValues: allSelectValues,  // Ajouter les valeurs des checkboxes
     activeTab: activeTabId,
     roles: roles,
     ksatData: ksatData,  // Ajouter les données complètes des KSAT
@@ -4146,33 +4440,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // --- NOUVELLE FONCTION DE RESTAURATION AU CHARGEMENT ---
 function restoreStateOnLoad() {
-    serverStorage.getItem('currentOpeningSelection').then(explicitLoadDataJSON => {
-        const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
-        let dataToRestoreJSON = null;
+    // Essayer d'abord avec serverStorage, puis fallback vers localStorage
+    Promise.resolve(serverStorage.getItem('currentOpeningSelection'))
+        .then(explicitLoadDataJSON => {
+            // Si serverStorage retourne null, essayer localStorage directement
+            if (!explicitLoadDataJSON) {
+                explicitLoadDataJSON = localStorage.getItem('currentOpeningSelection');
+            }
+            
+            const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
+            let dataToRestoreJSON = null;
 
-        if (explicitLoadDataJSON) {
-            console.log("Chargement d'une sélection explicite...");
-            dataToRestoreJSON = explicitLoadDataJSON;
-            serverStorage.removeItem('currentOpeningSelection'); // Utiliser une seule fois
-            sessionStorage.setItem('ksatLastSavedState', explicitLoadDataJSON); // Devient le nouvel état de session
-        } else if (sessionStateJSON) {
-            console.log("Restauration de l'état de la session (F5)...");
-            dataToRestoreJSON = sessionStateJSON;
-        }
+            if (explicitLoadDataJSON) {
+                console.log("Chargement d'une sélection explicite...");
+                dataToRestoreJSON = explicitLoadDataJSON;
+                serverStorage.removeItem('currentOpeningSelection'); // Utiliser une seule fois
+                localStorage.removeItem('currentOpeningSelection'); // Nettoyer aussi localStorage
+                sessionStorage.setItem('ksatLastSavedState', dataToRestoreJSON); // Devient le nouvel état de session
+            } else if (sessionStateJSON) {
+                console.log("Restauration de l'état de la session (F5)...");
+                dataToRestoreJSON = sessionStateJSON;
+            }
 
-        if (dataToRestoreJSON) {
-            performRestoration(JSON.parse(dataToRestoreJSON));
-        } else {
-            console.log("Aucun état à restaurer.");
-        }
-    }).catch(error => {
-        console.error("Erreur lors de la récupération de la sélection à charger:", error);
-        const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
-        if (sessionStateJSON) {
-            console.log("Restauration de l'état de session (F5) en fallback...");
-            performRestoration(JSON.parse(sessionStateJSON));
-        }
-    });
+            if (dataToRestoreJSON) {
+                const restoreData = typeof dataToRestoreJSON === 'string' ? JSON.parse(dataToRestoreJSON) : dataToRestoreJSON;
+                // Restaurer allSelectValues si présent
+                if (restoreData.allSelectValues) {
+                    Object.keys(restoreData.allSelectValues).forEach(category => {
+                        allSelectValues[category] = restoreData.allSelectValues[category];
+                    });
+                }
+                performRestoration(restoreData);
+            } else {
+                console.log("Aucun état à restaurer.");
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la récupération de la sélection à charger:", error);
+            // Fallback vers localStorage
+            const localStorageData = localStorage.getItem('currentOpeningSelection');
+            const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
+            
+            if (localStorageData) {
+                console.log("Restauration depuis localStorage (fallback)...");
+                const restoreData = JSON.parse(localStorageData);
+                if (restoreData.allSelectValues) {
+                    Object.keys(restoreData.allSelectValues).forEach(category => {
+                        allSelectValues[category] = restoreData.allSelectValues[category];
+                    });
+                }
+                performRestoration(restoreData);
+                localStorage.removeItem('currentOpeningSelection');
+            } else if (sessionStateJSON) {
+                console.log("Restauration de l'état de session (F5) en fallback...");
+                const restoreData = JSON.parse(sessionStateJSON);
+                // Restaurer allSelectValues si présent
+                if (restoreData.allSelectValues) {
+                    Object.keys(restoreData.allSelectValues).forEach(category => {
+                        allSelectValues[category] = restoreData.allSelectValues[category];
+                    });
+                }
+                performRestoration(restoreData);
+            }
+        });
 }
 
 function performRestoration(data) {
@@ -4243,8 +4573,27 @@ function performRestoration(data) {
             handleGlobalPertinenceChange(globalPertinenceSelect.value);
         }
 
-        // ÉTAPE 3: Mettre à jour les compteurs
-        initializeSelectionCounters();
+        // Restaurer allSelectValues et les checkboxes
+        if (data.allSelectValues) {
+            // Restaurer allSelectValues
+            Object.keys(data.allSelectValues).forEach(category => {
+                allSelectValues[category] = data.allSelectValues[category];
+            });
+            
+            // Restaurer les checkboxes avec un délai pour s'assurer que le DOM est prêt
+            setTimeout(() => {
+                restoreCheckboxesFromAllSelectValues();
+                // Mettre à jour les compteurs après la restauration des checkboxes
+                initializeSelectionCounters();
+                // Mettre à jour les compteurs pour chaque onglet
+                ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+                    updateSelectionCountersForTab(category);
+                });
+            }, 100);
+        } else {
+            // ÉTAPE 3: Mettre à jour les compteurs si pas de restauration de checkboxes
+            initializeSelectionCounters();
+        }
 
         // ÉTAPE 4: Attacher les listeners de sauvegarde de session
         document.querySelectorAll('#global-pertinence-select, #global-niveau-attendu-select, #global-niveau-tolere-select').forEach(el => {
@@ -4376,7 +4725,8 @@ function saveStateToSession() {
             attendu: document.getElementById('global-niveau-attendu-select')?.value || '',
             tolere: document.getElementById('global-niveau-tolere-select')?.value || ''
         },
-        selectValues: {}
+        selectValues: {},
+        allSelectValues: allSelectValues  // Sauvegarder les valeurs des checkboxes
     };
 
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -4413,6 +4763,51 @@ document.querySelectorAll('.tab-button').forEach(button => {
 console.log("Restauration de l'état terminée.");
 
 
+// Fonction pour initialiser toutes les checkboxes comme cochées par défaut
+function initializeDefaultCheckboxes() {
+    const categories = ['task', 'knowledge', 'skill', 'abilitie'];
+    
+    categories.forEach(category => {
+        const tabContent = document.getElementById(category);
+        if (!tabContent) return;
+        
+        // Initialiser allSelectValues pour cette catégorie
+        if (!allSelectValues[category]) {
+            allSelectValues[category] = {};
+        }
+        
+        // Trouver toutes les checkboxes de KSAT dans cette catégorie
+        const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"]');
+        
+        // Cocher toutes les checkboxes et initialiser allSelectValues
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+            const ksatId = checkbox.getAttribute('data-ksat-id');
+            
+            // Initialiser la sélection (équivalent à "1")
+            allSelectValues[category][ksatId] = {
+                primary: '1',
+                secondary: '',
+                tertiary: ''
+            };
+        });
+        
+        // Cocher la checkbox "Check All"
+        const checkAllCheckbox = document.getElementById('check-all-' + category);
+        if (checkAllCheckbox) {
+            checkAllCheckbox.checked = true;
+        }
+    });
+    
+    // Mettre à jour les compteurs
+    initializeSelectionCounters();
+    
+    // Sauvegarder l'état initial
+    setTimeout(() => {
+        saveStateToSession();
+    }, 100);
+}
+
 // ... (dans restoreStateOnLoad)
 // Remplacer l'ancienne logique par une qui utilise le nouvel état de session
 function restoreStateOnLoad() {
@@ -4432,60 +4827,106 @@ function restoreStateOnLoad() {
         }
 
         if (dataToRestoreJSON) {
-            performRestoration(JSON.parse(dataToRestoreJSON));
+            const restoreData = JSON.parse(dataToRestoreJSON);
+            // Restaurer allSelectValues si présent
+            if (restoreData.allSelectValues) {
+                Object.keys(restoreData.allSelectValues).forEach(category => {
+                    allSelectValues[category] = restoreData.allSelectValues[category];
+                });
+            }
+            performRestoration(restoreData);
         } else {
-            console.log("Aucun état à restaurer.");
+            console.log("Aucun état à restaurer. Initialisation par défaut : toutes les checkboxes sont cochées.");
+            // Initialiser toutes les checkboxes comme cochées par défaut
+            initializeDefaultCheckboxes();
         }
     }).catch(error => {
         console.error("Erreur lors de la récupération de la sélection à charger:", error);
         const sessionStateJSON = sessionStorage.getItem('ksatFullPageState');
         if (sessionStateJSON) {
              console.log("Restauration de l'état de session (F5) en fallback...");
-            performRestoration(JSON.parse(sessionStateJSON));
+            const restoreData = JSON.parse(sessionStateJSON);
+            // Restaurer allSelectValues si présent
+            if (restoreData.allSelectValues) {
+                Object.keys(restoreData.allSelectValues).forEach(category => {
+                    allSelectValues[category] = restoreData.allSelectValues[category];
+                });
+            }
+            performRestoration(restoreData);
+        } else {
+            console.log("Aucun état trouvé. Initialisation par défaut : toutes les checkboxes sont cochées.");
+            initializeDefaultCheckboxes();
         }
     });
 }
 
-// Fonctionnalités pour le bouton Étape 2
+// Fonctionnalités pour le bouton Step 3
 function checkSavedSelections() {
-    // Vérifier dans localStorage s'il y a des sélections
+    const button = document.getElementById('etape2-button');
+    const tooltip = document.getElementById('etape2-tooltip');
+    
+    if (!button) return;
+    
+    // Vérifier si des work roles sont sélectionnés depuis Step0
+    const step0Data = localStorage.getItem('step0_baseline_data');
+    let hasWorkRoles = false;
+    
+    if (step0Data) {
+        try {
+            const data = JSON.parse(step0Data);
+            hasWorkRoles = data.selectedWorkRoles && data.selectedWorkRoles.length > 0;
+        } catch (e) {
+            console.error('Error parsing step0_baseline_data:', e);
+        }
+    }
+    
+    // Vérifier dans localStorage s'il y a des sélections sauvegardées
     const savedSelections = localStorage.getItem('ksatSavedSelections');
     const hasSelections = savedSelections && JSON.parse(savedSelections).length > 0;
     
-    // Vérifier aussi côté serveur via AJAX
+    // Activer le bouton si des work roles sont sélectionnés OU s'il y a des sauvegardes
+    if (hasWorkRoles) {
+        // Des work roles sont sélectionnés, activer le bouton
+        button.disabled = false;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
+        tooltip.classList.add('hidden');
+        console.log('[BUTTON] Step 3 button enabled: work roles selected');
+        return;
+    }
+    
+    // Sinon, vérifier côté serveur via AJAX
     fetch('/check-saved-selections/', {
         method: 'GET',
         headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
             'Content-Type': 'application/json',
         },
     })
     .then(response => response.json())
     .then(data => {
-        const button = document.getElementById('etape2-button');
-        const tooltip = document.getElementById('etape2-tooltip');
-        
         if (data.has_saved_selections || hasSelections) {
             // L'utilisateur a des sauvegardes, activer le bouton
             button.disabled = false;
             button.classList.remove('opacity-50', 'cursor-not-allowed');
             tooltip.classList.add('hidden');
+            console.log('[BUTTON] Step 3 button enabled: saved selections found');
         } else {
-            // Pas de sauvegardes, garder le bouton désactivé
+            // Pas de sauvegardes et pas de work roles, garder le bouton désactivé
             button.disabled = true;
             button.classList.add('opacity-50', 'cursor-not-allowed');
+            console.log('[BUTTON] Step 3 button disabled: no work roles and no saved selections');
         }
     })
     .catch(error => {
         console.log('Erreur lors de la vérification des sauvegardes:', error);
         // En cas d'erreur, utiliser la vérification localStorage
-        const button = document.getElementById('etape2-button');
-        const tooltip = document.getElementById('etape2-tooltip');
-        
         if (hasSelections) {
             button.disabled = false;
             button.classList.remove('opacity-50', 'cursor-not-allowed');
             tooltip.classList.add('hidden');
+        } else {
+            button.disabled = true;
+            button.classList.add('opacity-50', 'cursor-not-allowed');
         }
     });
 }
@@ -4506,8 +4947,73 @@ function checkAndGoToEtape2() {
         return;
     }
     
-    // Rediriger vers l'étape 2
-    window.location.href = "{% url 'etape2_first_step' %}";
+    // SAUVEGARDER les données KSAT AVANT de rediriger (comme dans summary_mil.html)
+    console.log('[STEP 3] ===== CLICKED STEP 3 BUTTON =====');
+    
+    // Désactiver le bouton pour éviter les double-clics
+    button.disabled = true;
+    button.textContent = 'Saving...';
+    
+    // Afficher un message de sauvegarde
+    const saveMessage = document.createElement('div');
+    saveMessage.id = 'ksat-save-message';
+    saveMessage.className = 'fixed top-20 right-5 bg-blue-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+    saveMessage.innerHTML = '<strong>Saving KSAT data...</strong>';
+    document.body.appendChild(saveMessage);
+    
+    console.log('[STEP 3] Saving KSAT data before redirecting...');
+    console.log('[STEP 3] allSelectValues type:', typeof allSelectValues);
+    console.log('[STEP 3] allSelectValues:', allSelectValues);
+    
+    // S'assurer que allSelectValues est initialisé
+    if (!allSelectValues || Object.keys(allSelectValues).length === 0) {
+        console.warn('[STEP 3] allSelectValues is empty, initializing...');
+        if (typeof initializeAllSelectValues === 'function') {
+            initializeAllSelectValues();
+            console.log('[STEP 3] allSelectValues initialized');
+        }
+    }
+    
+    try {
+        saveKsatDataForRecap();
+        console.log('[STEP 3] KSAT data saved successfully');
+        
+        // Vérifier que les données sont bien sauvegardées
+        const verify = sessionStorage.getItem('ksatLastSavedState');
+        if (!verify) {
+            throw new Error('Data was not saved to sessionStorage');
+        }
+        
+        // Mettre à jour le message de succès
+        saveMessage.className = 'fixed top-20 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+        saveMessage.innerHTML = '<strong>✓ KSAT data saved successfully!</strong><br><small>Redirecting...</small>';
+        
+        // Attendre un peu pour que l'utilisateur voie le message, puis rediriger
+        setTimeout(() => {
+            console.log('[STEP 3] Redirecting to etape2_first_step...');
+            window.location.href = "{% url 'etape2_first_step' %}";
+        }, 1000);
+        
+    } catch (error) {
+        console.error('[STEP 3] ERROR saving KSAT data:', error);
+        console.error('[STEP 3] Error stack:', error.stack);
+        
+        // Réactiver le bouton
+        button.disabled = false;
+        button.textContent = 'Step 3 →';
+        
+        // Afficher un message d'erreur
+        saveMessage.className = 'fixed top-20 right-5 bg-red-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
+        saveMessage.innerHTML = '<strong>✗ Error saving KSAT data!</strong><br><small>Check console for details</small>';
+        
+        // Supprimer le message après 5 secondes
+        setTimeout(() => {
+            saveMessage.remove();
+        }, 5000);
+        
+        // Ne pas rediriger si la sauvegarde échoue
+        alert('Erreur lors de la sauvegarde des données KSAT. Vérifiez la console (F12) pour plus de détails.');
+    }
 }
 
 // Vérifier les sauvegardes au chargement de la page
@@ -4557,5 +5063,912 @@ saveCurrentSelection = function() {
   color: #333;
 }
 </style>
+
+<script>
+// Cache pour les données KSAT
+let dcwfKsatData = null;
+let ncwfKsatData = null;
+let ksatDataLoaded = false;
+
+// Fonction pour charger les données KSAT
+async function loadKsatData() {
+    if (ksatDataLoaded) {
+        return Promise.resolve();
+    }
+    
+    try {
+        const [dcwfResponse, ncwfResponse] = await Promise.all([
+            fetch('/api/ksat-data/dcwf/'),
+            fetch('/api/ksat-data/ncwf/')
+        ]);
+        
+        if (dcwfResponse.ok && ncwfResponse.ok) {
+            dcwfKsatData = await dcwfResponse.json();
+            ncwfKsatData = await ncwfResponse.json();
+            ksatDataLoaded = true;
+            console.log('Données KSAT chargées avec succès');
+            console.log('DCWF KSATs chargés:', dcwfKsatData ? dcwfKsatData.length : 0);
+            // Compter les abilities dans les données chargées
+            if (dcwfKsatData) {
+                const abilityCount = dcwfKsatData.filter(item => {
+                    const ksat = (item.ksat || '').trim();
+                    return ksat.charAt(0).toUpperCase() === 'A';
+                }).length;
+                console.log('Abilities trouvées dans dcwf_data.json:', abilityCount);
+            }
+            // Mettre à jour les compteurs après le chargement des données
+            if (typeof updateIndividualRoleCounters === 'function') {
+                updateIndividualRoleCounters();
+            }
+            // Afficher les indicateurs Skills Alignment
+            updateSkillsAlignmentIndicators();
+        } else {
+            console.error('Erreur lors du chargement des données KSAT:', dcwfResponse.status, ncwfResponse.status);
+        }
+    } catch (e) {
+        console.error('Erreur lors du chargement des données KSAT:', e);
+    }
+}
+
+// Fonction pour trouver le Skills Alignment d'un KSAT
+function getSkillsAlignment(ksatId, wrlId) {
+    if (!ncwfKsatData || !ksatId) {
+        return null;
+    }
+    
+    // Chercher le KSAT dans les données NCWF
+    // Si on a un WRL-ID, chercher avec le WRL-ID aussi pour être plus précis
+    let ksatEntry = null;
+    
+    if (wrlId) {
+        // Chercher avec le WRL-ID et l'ID du KSAT
+        ksatEntry = ncwfKsatData.find(item => {
+            const itemId = (item.ID || item.id || '').trim();
+            const itemWrlId = (item['WRL-ID'] || '').trim();
+            return itemId === ksatId && itemWrlId === wrlId;
+        });
+    }
+    
+    // Si pas trouvé avec WRL-ID, chercher juste par ID
+    if (!ksatEntry) {
+        ksatEntry = ncwfKsatData.find(item => {
+            const itemId = (item.ID || item.id || '').trim();
+            return itemId === ksatId;
+        });
+    }
+    
+    // Retourner le Skills Alignment s'il existe
+    if (ksatEntry && ksatEntry['Skills Alignment']) {
+        return ksatEntry['Skills Alignment'];
+    }
+    
+    return null;
+}
+
+// Fonction pour mettre à jour les indicateurs Skills Alignment
+function updateSkillsAlignmentIndicators() {
+    if (!ncwfKsatData) {
+        // Réessayer après un court délai si les données ne sont pas encore chargées
+        setTimeout(updateSkillsAlignmentIndicators, 500);
+        return;
+    }
+    
+    document.querySelectorAll('.skills-alignment-indicator').forEach(indicator => {
+        const ksatId = indicator.getAttribute('data-ksat-id');
+        const wrlId = indicator.getAttribute('data-role-wrl-id');
+        
+        if (ksatId) {
+            const skillsAlignment = getSkillsAlignment(ksatId, wrlId);
+            if (skillsAlignment) {
+                indicator.style.display = 'inline-block';
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+    });
+}
+
+// Fonction pour afficher le Skills Alignment dans une modal
+function showSkillsAlignment(element) {
+    const ksatId = element.getAttribute('data-ksat-id');
+    const wrlId = element.getAttribute('data-role-wrl-id');
+    
+    if (!ksatId) {
+        return;
+    }
+    
+    const skillsAlignment = getSkillsAlignment(ksatId, wrlId);
+    
+    if (!skillsAlignment) {
+        alert('Aucun Skills Alignment trouvé pour ce KSAT');
+        return;
+    }
+    
+    // Créer ou récupérer la modal
+    let modal = document.getElementById('skills-alignment-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'skills-alignment-modal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+        modal.style.display = 'none';
+        modal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+                <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Skills Alignment</h3>
+                    <button onclick="closeSkillsAlignmentModal()" class="text-white hover:text-gray-200 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1" id="skills-alignment-content">
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Fermer en cliquant sur le fond
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeSkillsAlignmentModal();
+            }
+        });
+    }
+    
+    // Formater le contenu Skills Alignment
+    const content = document.getElementById('skills-alignment-content');
+    const lines = skillsAlignment.split('\n').filter(line => line.trim());
+    
+    // Séparer les Knowledge (K) et Skills (S)
+    const knowledgeItems = [];
+    const skillItems = [];
+    
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        
+        if (trimmed.startsWith('K')) {
+            knowledgeItems.push(trimmed);
+        } else if (trimmed.startsWith('S')) {
+            skillItems.push(trimmed);
+        }
+    });
+    
+    let html = '<div class="space-y-4">';
+    
+    // Section Knowledge
+    if (knowledgeItems.length > 0) {
+        html += '<div>';
+        html += '<h4 class="text-lg font-bold text-blue-700 mb-3">Knowledge (K)</h4>';
+        html += '<div class="space-y-2">';
+        knowledgeItems.forEach(item => {
+            // Extraire l'ID et la description
+            const match = item.match(/^(K\d+):\s*(.+)$/);
+            if (match) {
+                const [, ksatId, description] = match;
+                html += `<div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded hover:bg-blue-100 transition-colors">
+                    <span class="font-semibold text-blue-700">${ksatId}:</span>
+                    <span class="text-blue-800 ml-2">${description}</span>
+                </div>`;
+            } else {
+                html += `<div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                    <span class="font-semibold text-blue-700">${item}</span>
+                </div>`;
+            }
+        });
+        html += '</div></div>';
+    }
+    
+    // Section Skills
+    if (skillItems.length > 0) {
+        html += '<div>';
+        html += '<h4 class="text-lg font-bold text-green-700 mb-3">Skills (S)</h4>';
+        html += '<div class="space-y-2">';
+        skillItems.forEach(item => {
+            // Extraire l'ID et la description
+            const match = item.match(/^(S\d+):\s*(.+)$/);
+            if (match) {
+                const [, ksatId, description] = match;
+                html += `<div class="p-3 bg-green-50 border-l-4 border-green-500 rounded hover:bg-green-100 transition-colors">
+                    <span class="font-semibold text-green-700">${ksatId}:</span>
+                    <span class="text-green-800 ml-2">${description}</span>
+                </div>`;
+            } else {
+                html += `<div class="p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                    <span class="font-semibold text-green-700">${item}</span>
+                </div>`;
+            }
+        });
+        html += '</div></div>';
+    }
+    
+    html += '</div>';
+    
+    content.innerHTML = html;
+    modal.style.display = 'flex';
+}
+
+// Fonction pour fermer la modal
+function closeSkillsAlignmentModal() {
+    const modal = document.getElementById('skills-alignment-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Fonction pour normaliser un OPM ID pour la comparaison
+function normalizeOpmId(opmId) {
+    if (!opmId) return '';
+    // Retirer les parenthèses et espaces, et convertir en string
+    return String(opmId).replace(/[()\s]/g, '').trim();
+}
+
+// Fonction pour compter les KSAT DCWF pour un OPM ID (T, K, S, A séparément)
+function countDCWFKsat(opmId) {
+    if (!dcwfKsatData || !opmId) {
+        return { T: 0, K: 0, S: 0, A: 0 };
+    }
+    
+    // Normaliser l'OPM ID : extraire uniquement les chiffres
+    const normalizedOpmId = String(opmId).replace(/[^\d]/g, '');
+    const counts = { T: 0, K: 0, S: 0, A: 0 };
+    
+    dcwfKsatData.forEach(item => {
+        // Le nouveau format a opm_id comme string de chiffres (ex: "411")
+        const itemOpmId = String(item.opm_id || '').trim();
+        
+        // Vérifier que la description n'est pas null ou vide
+        const description = item.description;
+        if (description === null || description === undefined || description === '') {
+            return; // Ignorer les entrées sans description
+        }
+        
+        if (itemOpmId === normalizedOpmId) {
+            const ksat = (item.ksat || '').trim();
+            // Gérer les cas comme "K*" ou "K"
+            const ksatType = ksat.charAt(0).toUpperCase();
+            if (ksatType === 'T' || ksatType === 'K' || ksatType === 'S' || ksatType === 'A') {
+                counts[ksatType] = (counts[ksatType] || 0) + 1;
+            }
+        }
+    });
+    
+    return counts;
+}
+
+// Fonction pour compter les TKS NCWF pour un OPM ID (T, K, S séparément)
+function countNCWFTks(opmId) {
+    if (!ncwfKsatData || !opmId) {
+        return { T: 0, K: 0, S: 0 };
+    }
+    
+    const normalizedOpmId = normalizeOpmId(opmId);
+    const counts = { T: 0, K: 0, S: 0 };
+    
+    ncwfKsatData.forEach(item => {
+        const itemOpmId = item['OPM-ID'] || item.opm_id || '';
+        const normalizedItemOpmId = normalizeOpmId(itemOpmId);
+        const ksat = (item.KSAT || item.ksat || '').trim().toUpperCase();
+        
+        // Vérifier que la description n'est pas null ou vide
+        const description = item.Description || item.description;
+        if (description === null || description === undefined || description === '') {
+            return; // Ignorer les entrées sans description
+        }
+        
+        if (normalizedItemOpmId === normalizedOpmId && (ksat === 'T' || ksat === 'K' || ksat === 'S')) {
+            counts[ksat] = (counts[ksat] || 0) + 1;
+        }
+    });
+    
+    return counts;
+}
+
+// Fonction pour extraire l'abréviation d'un élément
+function getElementAbbreviation(element) {
+    if (!element) return '';
+    const normalized = element.replace(/\s+/g, ' ').trim();
+    
+    // Map pour DCWF
+    const dcwfMap = {
+        'Information Technology (IT)': 'IT',
+        'Information Technology  (IT)': 'IT',
+        'Cybersecurity (CS)': 'CS',
+        'Cyber Enablers (EN)': 'EN',
+        'Cyber Effects (CE)': 'CE',
+        'Intel (Cyber) (CI)': 'CI',
+        'Data/AI (DA)': 'DA',
+        'Software Engineering (SE)': 'SE'
+    };
+    
+    // Map pour NCWF
+    const ncwfMap = {
+        'Oversight & Governance': 'OG',
+        'Implementation & Operation': 'IO',
+        'Design & Development': 'DD',
+        'Protection & Defense': 'PD',
+        'Protection and Defense': 'PD',
+        'Investigation': 'IN'
+    };
+    
+    // Essayer DCWF d'abord
+    if (dcwfMap[normalized]) {
+        return dcwfMap[normalized];
+    }
+    
+    // Essayer NCWF
+    if (ncwfMap[normalized]) {
+        return ncwfMap[normalized];
+    }
+    
+    // Sinon, essayer d'extraire depuis les parenthèses
+    const match = normalized.match(/\(([A-Z]+)\)/);
+    return match ? match[1] : '';
+}
+
+// Fonction pour charger et afficher les sélections de Step0
+function loadAndDisplayStep0Selections() {
+    try {
+        const step0Data = localStorage.getItem('step0_baseline_data');
+        if (!step0Data) {
+            console.log('Aucune donnée Step0 trouvée');
+            return;
+        }
+        
+        const data = JSON.parse(step0Data);
+        console.log('Données Step0 chargées:', data);
+        
+        if (!data.selectedWorkRoles || data.selectedWorkRoles.length === 0) {
+            return;
+        }
+        
+        const container = document.getElementById('selected-roles-container');
+        const sectionDiv = document.getElementById('step0-selected-roles');
+        
+        if (!container || !sectionDiv) {
+            console.error('Conteneur non trouvé');
+            return;
+        }
+        
+        // Afficher la section
+        sectionDiv.style.display = 'block';
+        
+        // Charger les données KSAT d'abord
+        loadKsatData().then(() => {
+            console.log('Données KSAT chargées:', { 
+                dcwfLoaded: !!dcwfKsatData, 
+                dcwfLength: dcwfKsatData ? dcwfKsatData.length : 0,
+                ncwfLoaded: !!ncwfKsatData,
+                ncwfLength: ncwfKsatData ? ncwfKsatData.length : 0
+            });
+            
+            // Créer les cartes pour chaque work role
+            data.selectedWorkRoles.forEach(role => {
+                const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                const roleCard = document.createElement('div');
+                roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                
+                const dcwfName = role.dcwf_work_role || '';
+                const ncwfName = role.ncwf_work_role || '';
+                const dcwfElement = role.dcwf_element || '';
+                const ncwfElement = role.ncwf_element || '';
+                const opmId = role.opm_code || '';
+                
+                const dcwfAbbr = getElementAbbreviation(dcwfElement);
+                const ncwfAbbr = getElementAbbreviation(ncwfElement);
+                
+                // Compter les KSAT
+                const dcwfCounts = countDCWFKsat(opmId);
+                const ncwfCounts = countNCWFTks(opmId);
+                
+                
+                // Formater les compteurs DCWF (T, K, S, A) - toujours afficher A même si 0
+                const dcwfCountsText = [];
+                if (dcwfCounts.T > 0) dcwfCountsText.push(`T:${dcwfCounts.T}`);
+                if (dcwfCounts.K > 0) dcwfCountsText.push(`K:${dcwfCounts.K}`);
+                if (dcwfCounts.S > 0) dcwfCountsText.push(`S:${dcwfCounts.S}`);
+                // Toujours afficher A même si 0
+                dcwfCountsText.push(`A:${dcwfCounts.A}`);
+                const dcwfCountsDisplay = dcwfCountsText.length > 0 ? dcwfCountsText.join(' ') : '';
+                
+                // Formater les compteurs NCWF (T, K, S)
+                const ncwfCountsText = [];
+                if (ncwfCounts.T > 0) ncwfCountsText.push(`T:${ncwfCounts.T}`);
+                if (ncwfCounts.K > 0) ncwfCountsText.push(`K:${ncwfCounts.K}`);
+                if (ncwfCounts.S > 0) ncwfCountsText.push(`S:${ncwfCounts.S}`);
+                const ncwfCountsDisplay = ncwfCountsText.length > 0 ? ncwfCountsText.join(' ') : '';
+                
+                roleCard.innerHTML = `
+                    <div class="role-opm">OPM-ID: ${opmId}</div>
+                    ${dcwfName ? `<div class="role-name" style="font-weight: 500; color: rgba(255, 255, 255, 0.9); font-size: 14px; margin-bottom: 2px;">${dcwfName}${dcwfAbbr ? ` (${dcwfAbbr})` : ''}</div>` : ''}
+                    ${dcwfCountsDisplay ? `<div style="font-size: 11px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">${dcwfCountsDisplay}</div>` : ''}
+                    ${ncwfName ? `<div class="role-name" style="font-weight: 600; color: rgba(255, 255, 255, 0.95); font-size: 14px; margin-bottom: 2px;">${ncwfName}${ncwfAbbr ? ` (${ncwfAbbr})` : ''}</div>` : ''}
+                    ${ncwfCountsDisplay ? `<div style="font-size: 11px; color: rgba(255, 255, 255, 0.7);">${ncwfCountsDisplay}</div>` : ''}
+                `;
+                
+                container.appendChild(roleCard);
+            });
+        }).catch(() => {
+            // Si le chargement échoue, afficher les cartes sans les compteurs
+            data.selectedWorkRoles.forEach(role => {
+                const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                const roleCard = document.createElement('div');
+                roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                
+                const dcwfName = role.dcwf_work_role || '';
+                const ncwfName = role.ncwf_work_role || '';
+                const dcwfElement = role.dcwf_element || '';
+                const ncwfElement = role.ncwf_element || '';
+                
+                const dcwfAbbr = getElementAbbreviation(dcwfElement);
+                const ncwfAbbr = getElementAbbreviation(ncwfElement);
+                
+                roleCard.innerHTML = `
+                    <div class="role-opm">OPM-ID: ${role.opm_code}</div>
+                    ${dcwfName ? `<div class="role-name" style="font-weight: 500; color: rgba(255, 255, 255, 0.9); font-size: 14px; margin-bottom: 4px;">${dcwfName}${dcwfAbbr ? ` (${dcwfAbbr})` : ''}</div>` : ''}
+                    ${ncwfName ? `<div class="role-name" style="font-weight: 600; color: rgba(255, 255, 255, 0.95); font-size: 14px;">${ncwfName}${ncwfAbbr ? ` (${ncwfAbbr})` : ''}</div>` : ''}
+                `;
+                
+                container.appendChild(roleCard);
+            });
+            
+            // Activer le bouton même si le chargement des KSAT a échoué
+            const button = document.getElementById('etape2-button');
+            if (button) {
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+                const tooltip = document.getElementById('etape2-tooltip');
+                if (tooltip) {
+                    tooltip.classList.add('hidden');
+                }
+                console.log('[BUTTON] Step 3 button enabled (work roles loaded, KSAT load failed)');
+            }
+        });
+        
+        // Activer le bouton Step 3 après le chargement des work roles
+        const button = document.getElementById('etape2-button');
+        if (button && data.selectedWorkRoles && data.selectedWorkRoles.length > 0) {
+            button.disabled = false;
+            button.classList.remove('opacity-50', 'cursor-not-allowed');
+            const tooltip = document.getElementById('etape2-tooltip');
+            if (tooltip) {
+                tooltip.classList.add('hidden');
+            }
+            console.log('[BUTTON] Step 3 button enabled: work roles found');
+        }
+    } catch (e) {
+        console.error('Erreur lors du chargement des données Step0:', e);
+    }
+}
+
+// Charger les sélections Step0 au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    loadAndDisplayStep0Selections();
+    
+    // Vérifier aussi si des work roles sont dans l'URL (paramètres GET)
+    // Si oui, activer le bouton Step 3
+    setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasDcwfIds = urlParams.has('dcwf_ids') || urlParams.has('dcwf_2025_ids');
+        const hasNcwfIds = urlParams.has('ncwf_2017_ids') || urlParams.has('ncwf_2024_ids') || urlParams.has('ncwf_2025_ids');
+        
+        if (hasDcwfIds || hasNcwfIds) {
+            const button = document.getElementById('etape2-button');
+            if (button) {
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+                const tooltip = document.getElementById('etape2-tooltip');
+                if (tooltip) {
+                    tooltip.classList.add('hidden');
+                }
+                console.log('[BUTTON] Step 3 button enabled: work roles in URL parameters');
+            }
+        }
+        
+        // Vérifier aussi les sauvegardes (fonction existante)
+        checkSavedSelections();
+    }, 500);
+    
+    // Restaurer l'état des checkboxes depuis allSelectValues
+    restoreCheckboxesState();
+});
+
+// Fonction pour restaurer l'état des checkboxes depuis allSelectValues
+function restoreCheckboxesState() {
+    restoreCheckboxesFromAllSelectValues();
+}
+
+// Fonction pour restaurer les checkboxes depuis allSelectValues
+function restoreCheckboxesFromAllSelectValues() {
+    // Parcourir toutes les catégories
+    ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+        if (allSelectValues[category]) {
+            const tabContent = document.getElementById(category);
+            if (!tabContent) {
+                // Si le tabContent n'existe pas encore, réessayer après un délai
+                setTimeout(() => restoreCheckboxesFromAllSelectValues(), 200);
+                return;
+            }
+            
+            // Parcourir tous les KSAT sélectionnés pour cette catégorie
+            Object.keys(allSelectValues[category]).forEach(ksatId => {
+                // Essayer plusieurs sélecteurs possibles pour trouver la checkbox
+                let checkbox = tabContent.querySelector(`.ksat-checkbox[data-ksat-id="${ksatId}"]`);
+                
+                // Si pas trouvé, essayer sans guillemets dans l'attribut
+                if (!checkbox) {
+                    checkbox = tabContent.querySelector(`.ksat-checkbox[data-ksat-id='${ksatId}']`);
+                }
+                
+                // Si toujours pas trouvé, chercher par ID partiel
+                if (!checkbox && ksatId) {
+                    const allCheckboxes = tabContent.querySelectorAll('.ksat-checkbox');
+                    allCheckboxes.forEach(cb => {
+                        if (cb.getAttribute('data-ksat-id') === ksatId) {
+                            checkbox = cb;
+                        }
+                    });
+                }
+                
+                if (checkbox) {
+                    checkbox.checked = true;
+                } else {
+                    console.warn(`Checkbox non trouvée pour KSAT ID: ${ksatId} dans la catégorie: ${category}`);
+                }
+            });
+            
+            // Mettre à jour l'état de "Check All"
+            updateCheckAllState(category);
+        }
+    });
+}
+
+// Fonction pour gérer le changement d'une checkbox KSAT individuelle
+function handleKSATCheckboxChange(checkbox, category) {
+    const ksatId = checkbox.getAttribute('data-ksat-id');
+    const isChecked = checkbox.checked;
+    
+    // Stocker la sélection dans allSelectValues (équivalent à "1" dans le select)
+    if (!allSelectValues[category]) {
+        allSelectValues[category] = {};
+    }
+    
+    if (isChecked) {
+        // Sélectionner le KSAT (équivalent à "1")
+        allSelectValues[category][ksatId] = {
+            primary: '1',
+            secondary: '',
+            tertiary: ''
+        };
+    } else {
+        // Désélectionner le KSAT
+        delete allSelectValues[category][ksatId];
+    }
+    
+    // Mettre à jour les compteurs
+    updateSelectionCountersForTab(category);
+    
+    // Mettre à jour l'état de la checkbox "Check All"
+    updateCheckAllState(category);
+    
+    // Mettre à jour les compteurs T/K/S/A dans div.mb-3
+    updateIndividualRoleCounters();
+    
+    // Sauvegarder l'état dans la session
+    saveStateToSession();
+}
+
+// Fonction pour gérer la checkbox "Check All"
+function toggleAllKSATs(category, isChecked) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    // Trouver toutes les checkboxes de KSAT dans cette catégorie
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"]');
+    
+    // Initialiser allSelectValues pour cette catégorie si nécessaire
+    if (!allSelectValues[category]) {
+        allSelectValues[category] = {};
+    }
+    
+    // Cocher ou décocher toutes les checkboxes et mettre à jour allSelectValues
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+        const ksatId = checkbox.getAttribute('data-ksat-id');
+        
+        if (isChecked) {
+            // Sélectionner le KSAT (équivalent à "1")
+            allSelectValues[category][ksatId] = {
+                primary: '1',
+                secondary: '',
+                tertiary: ''
+            };
+        } else {
+            // Désélectionner le KSAT
+            delete allSelectValues[category][ksatId];
+        }
+    });
+    
+    // Mettre à jour les compteurs une seule fois
+    updateSelectionCountersForTab(category);
+    
+    // Mettre à jour l'état de la checkbox "Check All"
+    updateCheckAllState(category);
+    
+    // Mettre à jour les compteurs T/K/S/A dans div.mb-3
+    updateIndividualRoleCounters();
+    
+    // Sauvegarder l'état dans la session
+    saveStateToSession();
+}
+
+// Fonction pour mettre à jour l'état de la checkbox "Check All"
+function updateCheckAllState(category) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"]');
+    const checkAllCheckbox = document.getElementById('check-all-' + category);
+    
+    if (!checkAllCheckbox || checkboxes.length === 0) return;
+    
+    // Vérifier si toutes les checkboxes sont cochées
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+    
+    // Mettre à jour l'état de la checkbox "Check All"
+    checkAllCheckbox.checked = allChecked;
+    checkAllCheckbox.indeterminate = someChecked && !allChecked;
+}
+
+// Fonction pour sauvegarder l'état actuel des KSAT dans sessionStorage (appelée au clic sur Step 3)
+function saveKsatDataForRecap() {
+    console.log('[SAVE] ===== SAVING KSAT DATA FOR RECAP =====');
+    console.log('[SAVE] Function called from checkAndGoToEtape2 (Step 3)');
+    
+    // Vérifier que allSelectValues existe
+    if (typeof allSelectValues === 'undefined') {
+        console.error('[SAVE] ERROR: allSelectValues is not defined! Initializing it...');
+        // Initialiser allSelectValues si nécessaire
+        if (typeof allSelectValues === 'undefined') {
+            window.allSelectValues = {
+                task: {},
+                knowledge: {},
+                skill: {},
+                abilitie: {}
+            };
+        }
+        // Réinitialiser depuis les checkboxes
+        initializeAllSelectValues();
+    }
+    
+    console.log('[SAVE] allSelectValues exists:', typeof allSelectValues !== 'undefined');
+    console.log('[SAVE] allSelectValues content:', allSelectValues);
+    
+    // Récupérer les informations sur les work roles depuis les attributs data-* du <th>
+    const roles = [];
+    document.querySelectorAll('thead tr:first-of-type th:not(:first-child)').forEach(th => {
+        // Récupérer depuis les attributs data-* (plus fiable)
+        const opmId = th.getAttribute('data-opm-id') || '';
+        const framework = th.getAttribute('data-framework') || '';
+        const modelType = th.getAttribute('data-model-type') || '';
+        const roleId = th.getAttribute('data-role-id') || '';
+        
+        // Fallback: récupérer depuis le DOM si les attributs ne sont pas disponibles
+        const opmIdDiv = th.querySelector('div div.text-xs.text-center.mb-1.font-normal');
+        const titleDiv = th.querySelector('div div.text-center');
+        const frameworkSpan = th.querySelector('div div.text-center span');
+        
+        const opmIdFromDom = opmIdDiv ? opmIdDiv.textContent.trim() : '';
+        const title = titleDiv ? titleDiv.textContent.trim() : '';
+        const frameworkFromDom = frameworkSpan ? frameworkSpan.textContent.replace(/[\(\)]/g, '').trim() : '';
+        
+        // Utiliser les attributs data-* en priorité, sinon le DOM
+        const finalOpmId = opmId || opmIdFromDom;
+        const finalFramework = framework || frameworkFromDom;
+        
+        if (finalOpmId && finalOpmId !== '&nbsp;' && finalOpmId !== '') {
+            roles.push({
+                title: title,
+                framework: finalFramework,
+                opmId: finalOpmId,
+                modelType: modelType,
+                roleId: roleId
+            });
+        }
+    });
+    
+    // Collecter les données KSAT pour chaque onglet
+    const ksatData = {};
+    
+    document.querySelectorAll('.tab-content').forEach(tabContent => {
+        const tabId = tabContent.id;
+        ksatData[tabId] = [];
+        
+        tabContent.querySelectorAll('tbody tr').forEach(row => {
+            const firstCell = row.querySelector('td:first-child');
+            if (!firstCell) return;
+            
+            const checkbox = firstCell.querySelector('.ksat-checkbox');
+            if (!checkbox) return; // Skip if no checkbox found
+            
+            // CRITICAL: Use data-ksat-id from checkbox (same as allSelectValues keys)
+            const ksatIdFromCheckbox = checkbox.getAttribute('data-ksat-id') || '';
+            const isChecked = checkbox.checked;
+            
+            const description = firstCell.querySelector('p.font-medium')?.textContent.trim() || '';
+            
+            // Fallback: extract from text if data-ksat-id is not available
+            const ksatIdFromText = firstCell.querySelector('.text-xs.text-gray-500')?.textContent.trim() || '';
+            const normalizedKsatIdFromText = ksatIdFromText.replace('ID: ', '').trim().replace(/\n/g, '');
+            
+            // Use checkbox ID first (matches allSelectValues), fallback to text ID
+            const finalKsatId = ksatIdFromCheckbox || normalizedKsatIdFromText;
+            
+            if (!finalKsatId) {
+                console.warn('[SAVE] Skipping KSAT row - no ID found');
+                return;
+            }
+            
+            const roleStatuses = {};
+            const roleCells = row.querySelectorAll('td:not(:first-child)');
+            roleCells.forEach((cell, idx) => {
+                if (roles[idx]) {
+                    const role = roles[idx];
+                    // Sauvegarder avec plusieurs clés pour faciliter la recherche
+                    const hasCheckmark = cell.textContent.includes('✅');
+                    roleStatuses[role.title] = hasCheckmark;
+                    // Ajouter aussi une clé combinée OPM-ID + Framework pour faciliter le groupement
+                    roleStatuses[`${role.opmId}_${role.framework}`] = hasCheckmark;
+                }
+            });
+            
+            ksatData[tabId].push({
+                description: description,
+                id: finalKsatId, // Use the same ID as in allSelectValues
+                roleStatuses: roleStatuses,
+                checked: isChecked
+            });
+        });
+    });
+    
+    // Log allSelectValues before saving
+    console.log('[SAVE] allSelectValues:', allSelectValues);
+    console.log('[SAVE] allSelectValues summary:', {
+        task: Object.keys(allSelectValues.task || {}).length,
+        knowledge: Object.keys(allSelectValues.knowledge || {}).length,
+        skill: Object.keys(allSelectValues.skill || {}).length,
+        abilitie: Object.keys(allSelectValues.abilitie || {}).length,
+        total: Object.values(allSelectValues).reduce((sum, cat) => sum + Object.keys(cat || {}).length, 0)
+    });
+    
+    console.log('[SAVE] Roles found:', roles.length);
+    console.log('[SAVE] KSAT data categories:', Object.keys(ksatData));
+    Object.keys(ksatData).forEach(cat => {
+        console.log(`[SAVE] ${cat}: ${ksatData[cat].length} items`);
+    });
+    
+    // Récupérer l'URL actuelle avec tous les paramètres
+    const currentUrl = window.location.href;
+    
+    // Créer l'objet de sauvegarde
+    const autoSaveData = {
+        timestamp: new Date().toISOString(),
+        roles: roles,
+        ksatData: ksatData,
+        allSelectValues: allSelectValues,
+        currentUrl: currentUrl  // Sauvegarder l'URL complète avec les paramètres
+    };
+    
+    // Sauvegarder dans sessionStorage
+    sessionStorage.setItem('ksatLastSavedState', JSON.stringify(autoSaveData));
+    console.log('[SAVE] ===== SAVE COMPLETE =====');
+    console.log('[SAVE] Saved to sessionStorage: ksatLastSavedState');
+    console.log('[SAVE] Current URL saved:', currentUrl);
+    console.log('[SAVE] Roles count:', roles.length);
+    console.log('[SAVE] KSAT data categories:', Object.keys(ksatData));
+    console.log('[SAVE] allSelectValues total:', Object.values(allSelectValues).reduce((sum, cat) => sum + Object.keys(cat || {}).length, 0));
+    
+    // Vérifier que les données sont bien sauvegardées
+    const verify = sessionStorage.getItem('ksatLastSavedState');
+    if (verify) {
+        const parsed = JSON.parse(verify);
+        console.log('[SAVE] VERIFICATION - Saved data structure:', {
+            hasRoles: !!(parsed.roles && parsed.roles.length > 0),
+            hasKsatData: !!(parsed.ksatData),
+            hasAllSelectValues: !!(parsed.allSelectValues),
+            rolesCount: parsed.roles ? parsed.roles.length : 0,
+            ksatDataKeys: parsed.ksatData ? Object.keys(parsed.ksatData) : []
+        });
+    } else {
+        console.error('[SAVE] ERROR: Data was not saved to sessionStorage!');
+    }
+    console.log('[AUTO-SAVE] Total KSATs:', Object.values(ksatData).reduce((sum, arr) => sum + arr.length, 0));
+    console.log('[AUTO-SAVE] Total selected KSATs:', Object.values(allSelectValues).reduce((sum, cat) => sum + Object.keys(cat || {}).length, 0));
+}
+
+// Initialize allSelectValues from all checked checkboxes on page load
+function initializeAllSelectValues() {
+    console.log('[INIT] Initializing allSelectValues from checkboxes...');
+    
+    // Clear existing allSelectValues
+    allSelectValues = {
+        task: {},
+        knowledge: {},
+        skill: {},
+        abilitie: {}
+    };
+    
+    // For each category, find all checkboxes and add checked ones to allSelectValues
+    ['task', 'knowledge', 'skill', 'abilitie'].forEach(category => {
+        const tabContent = document.getElementById(category);
+        if (!tabContent) {
+            console.warn(`[INIT] Tab content not found for category: ${category}`);
+            return;
+        }
+        
+        const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"]');
+        console.log(`[INIT] Found ${checkboxes.length} checkboxes in ${category}`);
+        
+        let checkedCount = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const ksatId = checkbox.getAttribute('data-ksat-id');
+                if (ksatId) {
+                    allSelectValues[category][ksatId] = {
+                        primary: '1',
+                        secondary: '',
+                        tertiary: ''
+                    };
+                    checkedCount++;
+                }
+            }
+        });
+        
+        console.log(`[INIT] Added ${checkedCount} checked KSATs to allSelectValues[${category}]`);
+    });
+    
+    console.log('[INIT] allSelectValues initialized:', allSelectValues);
+    console.log('[INIT] Total KSATs selected:', 
+        Object.values(allSelectValues).reduce((sum, cat) => sum + Object.keys(cat).length, 0));
+}
+
+// Déclencher la sauvegarde automatique au chargement de la page (après un délai pour laisser le temps au DOM de se charger)
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize allSelectValues first, then auto-save
+    // Use multiple attempts to ensure DOM is ready
+    let attempts = 0;
+    const maxAttempts = 5;
+    
+    function tryInitializeAndSave() {
+        attempts++;
+        console.log(`[INIT] Attempt ${attempts} to initialize allSelectValues...`);
+        
+        // Check if tab contents exist
+        const taskTab = document.getElementById('task');
+        const knowledgeTab = document.getElementById('knowledge');
+        
+        if (taskTab && knowledgeTab) {
+            // DOM is ready, initialize and save
+            console.log('[INIT] DOM ready, initializing allSelectValues...');
+            initializeAllSelectValues();
+            
+            // Initialize allSelectValues (no auto-save, will be saved when clicking Step 3)
+            console.log('[INIT] allSelectValues initialized');
+        } else if (attempts < maxAttempts) {
+            // DOM not ready yet, try again
+            console.log(`[INIT] DOM not ready yet, retrying in 500ms... (attempt ${attempts}/${maxAttempts})`);
+            setTimeout(tryInitializeAndSave, 500);
+        } else {
+            // Max attempts reached, try anyway
+            console.warn('[INIT] Max attempts reached, initializing anyway...');
+            initializeAllSelectValues();
+            console.log('[INIT] allSelectValues initialized (max attempts)');
+        }
+    }
+    
+    // Start the initialization process
+    setTimeout(tryInitializeAndSave, 500);
+});
+
+// Note: KSAT data is now saved only when clicking "Step 3" button (in checkAndGoToEtape2 function)
+// No auto-save on checkbox changes
+</script>
 {% endblock %}
 

@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛡️ Exploreur Pro</title>
+  <style>
+    :root {
+      /* Primitive Color Tokens */
+      --color-white: rgba(255, 255, 255, 1);
+      --color-black: rgba(0, 0, 0, 1);
+      --color-cream-50: rgba(252, 252, 249, 1);
+      --color-cream-100: rgba(255, 255, 253, 1);
+      --color-gray-200: rgba(245, 245, 245, 1);
+      --color-gray-300: rgba(167, 169, 169, 1);
+      --color-gray-400: rgba(119, 124, 124, 1);
+      --color-slate-500: rgba(98, 108, 113, 1);
+      --color-brown-600: rgba(94, 82, 64, 1);
+      --color-charcoal-700: rgba(31, 33, 33, 1);
+      --color-charcoal-800: rgba(38, 40, 40, 1);
+      --color-slate-900: rgba(19, 52, 59, 1);
+      --color-teal-300: rgba(50, 184, 198, 1);
+      --color-teal-400: rgba(45, 166, 178, 1);
+      --color-teal-500: rgba(33, 128, 141, 1);
+      --color-teal-600: rgba(29, 116, 128, 1);
+      --color-teal-700: rgba(26, 104, 115, 1);
+      --color-teal-800: rgba(41, 150, 161, 1);
+      --color-red-400: rgba(255, 84, 89, 1);
+      --color-red-500: rgba(192, 21, 47, 1);
+      --color-orange-400: rgba(230, 129, 97, 1);
+      --color-orange-500: rgba(168, 75, 47, 1);
+
+      /* RGB versions for opacity control */
+      --color-brown-600-rgb: 94, 82, 64;
+      --color-teal-500-rgb: 33, 128, 141;
+      --color-slate-900-rgb: 19, 52, 59;
+      --color-slate-500-rgb: 98, 108, 113;
+      --color-red-500-rgb: 192, 21, 47;
+      --color-red-400-rgb: 255, 84, 89;
+      --color-orange-500-rgb: 168, 75, 47;
+      --color-orange-400-rgb: 230, 129, 97;
+
+      /* Background color tokens (Light Mode) */
+      --color-bg-1: rgba(59, 130, 246, 0.08);
+      --color-bg-2: rgba(245, 158, 11, 0.08);
+      --color-bg-3: rgba(34, 197, 94, 0.08);
+      --color-bg-4: rgba(239, 68, 68, 0.08);
+      --color-bg-5: rgba(147, 51, 234, 0.08);
+      --color-bg-6: rgba(249, 115, 22, 0.08);
+      --color-bg-7: rgba(236, 72, 153, 0.08);
+      --color-bg-8: rgba(6, 182, 212, 0.08);
+
+      /* Semantic Color Tokens (Light Mode) */
+      --color-background: var(--color-cream-50);
+      --color-surface: var(--color-cream-100);
+      --color-text: var(--color-slate-900);
+      --color-text-secondary: var(--color-slate-500);
+      --color-primary: var(--color-teal-500);
+      --color-primary-hover: var(--color-teal-600);
+      --color-primary-active: var(--color-teal-700);
+      --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+      --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+      --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+      --color-btn-primary-text: var(--color-cream-50);
+      --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+      --color-error: var(--color-red-500);
+      --color-success: var(--color-teal-500);
+      --color-warning: var(--color-orange-500);
+      --color-info: var(--color-slate-500);
+      --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+      --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+      /* Common style patterns */
+      --focus-ring: 0 0 0 3px var(--color-focus-ring);
+      --focus-outline: 2px solid var(--color-primary);
+      --status-bg-opacity: 0.15;
+      --status-border-opacity: 0.25;
+      --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+      /* RGB versions for opacity control */
+      --color-success-rgb: 33, 128, 141;
+      --color-error-rgb: 192, 21, 47;
+      --color-warning-rgb: 168, 75, 47;
+      --color-info-rgb: 98, 108, 113;
+
+      /* Typography */
+      --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-size-xs: 11px;
+      --font-size-sm: 12px;
+      --font-size-base: 14px;
+      --font-size-md: 14px;
+      --font-size-lg: 16px;
+      --font-size-xl: 18px;
+      --font-size-2xl: 20px;
+      --font-size-3xl: 24px;
+      --font-size-4xl: 30px;
+      --font-weight-normal: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 550;
+      --font-weight-bold: 600;
+      --line-height-tight: 1.2;
+      --line-height-normal: 1.5;
+      --letter-spacing-tight: -0.01em;
+
+      /* Spacing */
+      --space-0: 0;
+      --space-1: 1px;
+      --space-2: 2px;
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+
+      /* Border Radius */
+      --radius-sm: 6px;
+      --radius-base: 8px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+      /* Animation */
+      --duration-fast: 150ms;
+      --duration-normal: 250ms;
+      --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Layout */
+      --container-sm: 640px;
+      --container-md: 768px;
+      --container-lg: 1024px;
+      --container-xl: 1280px;
+
+      /* Community Colors */
+      --color-community-it: #3B82F6;
+      --color-community-cs: #EF4444;
+      --color-community-cs-green: #10B981;
+      /* Green for CS OPM IDs 141-723 */
+      --color-community-en: #8B5CF6;
+      --color-community-ce: #8B4513;
+      /* Brown */
+      --color-community-ci: #F59E0B;
+      --color-community-da: #06B6D4;
+      --color-community-se: #EF4444;
+      /* Red */
+      --color-community-cx: #6B7280;
+    }
+
+    /* Dark mode colors */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-gray-400-rgb: 119, 124, 124;
+        --color-teal-300-rgb: 50, 184, 198;
+        --color-gray-300-rgb: 167, 169, 169;
+        --color-gray-200-rgb: 245, 245, 245;
+
+        --color-bg-1: rgba(29, 78, 216, 0.15);
+        --color-bg-2: rgba(180, 83, 9, 0.15);
+        --color-bg-3: rgba(21, 128, 61, 0.15);
+        --color-bg-4: rgba(185, 28, 28, 0.15);
+        --color-bg-5: rgba(107, 33, 168, 0.15);
+        --color-bg-6: rgba(194, 65, 12, 0.15);
+        --color-bg-7: rgba(190, 24, 93, 0.15);
+        --color-bg-8: rgba(8, 145, 178, 0.15);
+
+        --color-background: var(--color-charcoal-700);
+        --color-surface: var(--color-charcoal-800);
+        --color-text: var(--color-gray-200);
+        --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+        --color-primary: var(--color-teal-300);
+        --color-primary-hover: var(--color-teal-400);
+        --color-primary-active: var(--color-teal-800);
+        --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+        --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+        --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+        --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+        --color-error: var(--color-red-400);
+        --color-success: var(--color-teal-300);
+        --color-warning: var(--color-orange-400);
+        --color-info: var(--color-gray-300);
+        --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+        --color-btn-primary-text: var(--color-slate-900);
+        --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+        --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+        --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+        --color-success-rgb: var(--color-teal-300-rgb);
+        --color-error-rgb: var(--color-red-400-rgb);
+        --color-warning-rgb: var(--color-orange-400-rgb);
+        --color-info-rgb: var(--color-gray-300-rgb);
+      }
+
+      select.form-control {
+        background-image: var(--select-caret-dark);
+      }
+    }
+
+    /* Base styles */
+    html {
+      font-size: var(--font-size-base);
+      font-family: var(--font-family-base);
+      line-height: var(--line-height-normal);
+      color: var(--color-text);
+      background-color: var(--color-background);
+      -webkit-font-smoothing: antialiased;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    /* App Layout */
+    .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-24);
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: var(--space-32);
+    }
+
+    .header h1 {
+      font-size: var(--font-size-4xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-8);
+      color: var(--color-text);
+    }
+
+    .header p {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    /* Info Boxes */
+    .info-boxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-16);
+      margin-bottom: var(--space-32);
+    }
+
+    .info-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .info-box-header {
+      padding: var(--space-16);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background var(--duration-fast);
+    }
+
+    .info-box-header:hover {
+      background: var(--color-secondary);
+    }
+
+    .info-box-title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+    }
+
+    .chevron {
+      transition: transform var(--duration-normal) var(--ease-standard);
+      color: var(--color-text-secondary);
+    }
+
+    .chevron.open {
+      transform: rotate(180deg);
+    }
+
+    .info-box-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--duration-normal) var(--ease-standard);
+    }
+
+    .info-box-content.open {
+      max-height: 500px;
+    }
+
+    .info-box-body {
+      padding: var(--space-16);
+      border-top: 1px solid var(--color-card-border-inner);
+      font-size: var(--font-size-sm);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+
+    /* Stats Dashboard */
+    .stats-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-16);
+      margin-bottom: var(--space-32);
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-20);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: var(--font-size-4xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary);
+      margin-bottom: var(--space-8);
+    }
+
+    .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Filters */
+    .filters-container {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-20);
+      margin-bottom: var(--space-24);
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-16);
+      margin-bottom: var(--space-16);
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: var(--space-8) var(--space-12);
+      font-size: var(--font-size-md);
+      line-height: 1.5;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-base);
+      transition: border-color var(--duration-fast) var(--ease-standard);
+    }
+
+    .form-control:focus {
+      border-color: var(--color-primary);
+      outline: var(--focus-outline);
+    }
+
+    select.form-control {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: var(--select-caret-light);
+      background-repeat: no-repeat;
+      background-position: right var(--space-12) center;
+      background-size: 16px;
+      padding-right: var(--space-32);
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: var(--space-8);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+
+    /* View Toggle */
+    .view-toggle {
+      display: flex;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .view-btn {
+      padding: var(--space-8) var(--space-16);
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-base);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-standard);
+    }
+
+    .view-btn:hover {
+      background: var(--color-secondary);
+    }
+
+    .view-btn.active {
+      background: var(--color-primary);
+      color: var(--color-btn-primary-text);
+      border-color: var(--color-primary);
+    }
+
+    /* Grid View */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-16);
+    }
+
+    .role-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-16);
+      cursor: pointer;
+      transition: all var(--duration-normal) var(--ease-standard);
+      border-top: 3px solid transparent;
+    }
+
+    .role-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .role-opm {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-8);
+    }
+
+    .role-name {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      margin-bottom: var(--space-12);
+      line-height: 1.3;
+    }
+
+    .role-badges {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      border: 1px solid;
+    }
+
+    .workforce-badge {
+      background: var(--color-bg-1);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .role-specialty {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      font-style: italic;
+      margin-bottom: var(--space-8);
+    }
+
+    .role-dcwf-name {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-8);
+      line-height: 1.3;
+    }
+
+    .role-sfia-levels {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-top: var(--space-8);
+    }
+
+    /* Grouped Views */
+    .grouped-section {
+      margin-bottom: var(--space-32);
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-12);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .group-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+    }
+
+    .group-count {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      background: var(--color-secondary);
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-full);
+    }
+
+    .group-roles {
+      display: grid;
+      gap: var(--space-12);
+    }
+
+    .group-role-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-base);
+      padding: var(--space-16);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-standard);
+      border-left: 3px solid transparent;
+    }
+
+    .group-role-item:hover {
+      background: var(--color-secondary);
+      transform: translateX(2px);
+    }
+
+    .group-role-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-12);
+      margin-bottom: var(--space-8);
+    }
+
+    .group-role-opm {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+    }
+
+    .group-role-name {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text);
+      flex: 1;
+    }
+
+    .group-role-meta {
+      display: flex;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    /* Table View */
+    .table-container {
+      overflow-x: auto;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .roles-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .roles-table th,
+    .roles-table td {
+      padding: var(--space-12);
+      text-align: left;
+      border-bottom: 1px solid var(--color-card-border-inner);
+    }
+
+    .roles-table th {
+      background: var(--color-secondary);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .roles-table th:hover {
+      background: var(--color-secondary-hover);
+    }
+
+    .roles-table tbody tr {
+      cursor: pointer;
+      transition: background var(--duration-fast);
+    }
+
+    .roles-table tbody tr:hover {
+      background: var(--color-secondary);
+    }
+
+    .roles-table td {
+      font-size: var(--font-size-sm);
+    }
+
+    .table-opm {
+      font-weight: var(--font-weight-bold);
+    }
+
+    .table-specialty {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-xs);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: var(--space-20);
+      opacity: 0;
+      transition: opacity var(--duration-normal) var(--ease-standard);
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+    }
+
+    .modal {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform var(--duration-normal) var(--ease-standard);
+    }
+
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: var(--space-24);
+      border-bottom: 1px solid var(--color-card-border-inner);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: var(--space-20);
+      right: var(--space-20);
+      background: var(--color-secondary);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-base);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--duration-fast);
+      color: var(--color-text);
+      font-size: var(--font-size-xl);
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--color-secondary-hover);
+    }
+
+    .modal-opm {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-8);
+    }
+
+    .modal-name {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      margin-bottom: var(--space-12);
+    }
+
+    .modal-body {
+      padding: var(--space-24);
+    }
+
+    .modal-section {
+      margin-bottom: var(--space-24);
+    }
+
+    .modal-section-title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text);
+      margin-bottom: var(--space-12);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .modal-description {
+      font-size: var(--font-size-md);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+
+    .modal-info-grid {
+      display: grid;
+      gap: var(--space-12);
+    }
+
+    .modal-info-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--space-12);
+      padding: var(--space-12);
+      background: var(--color-background);
+      border-radius: var(--radius-base);
+    }
+
+    .modal-info-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+    }
+
+    .modal-info-value {
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+
+    /* Community colors */
+    .community-it {
+      color: var(--color-community-it);
+    }
+
+    .community-cs {
+      color: var(--color-community-cs);
+    }
+
+    .community-cs-green {
+      color: var(--color-community-cs-green);
+    }
+
+    .community-en {
+      color: var(--color-community-en);
+    }
+
+    .community-ce {
+      color: var(--color-community-ce);
+    }
+
+    .community-ci {
+      color: var(--color-community-ci);
+    }
+
+    .community-da {
+      color: var(--color-community-da);
+    }
+
+    .community-se {
+      color: var(--color-community-se);
+    }
+
+    .community-cx {
+      color: var(--color-community-cx);
+    }
+
+    .border-community-it {
+      border-top-color: var(--color-community-it);
+    }
+
+    .border-community-cs {
+      border-top-color: var(--color-community-cs);
+    }
+
+    .border-community-cs-green {
+      border-top-color: var(--color-community-cs-green);
+    }
+
+    .border-community-en {
+      border-top-color: var(--color-community-en);
+    }
+
+    .border-community-ce {
+      border-top-color: var(--color-community-ce);
+    }
+
+    .border-community-ci {
+      border-top-color: var(--color-community-ci);
+    }
+
+    .border-community-da {
+      border-top-color: var(--color-community-da);
+    }
+
+    .border-community-se {
+      border-top-color: var(--color-community-se);
+    }
+
+    .border-community-cx {
+      border-top-color: var(--color-community-cx);
+    }
+
+    .border-left-community-it {
+      border-left-color: var(--color-community-it);
+    }
+
+    .border-left-community-cs {
+      border-left-color: var(--color-community-cs);
+    }
+
+    .border-left-community-cs-green {
+      border-left-color: var(--color-community-cs-green);
+    }
+
+    .border-left-community-en {
+      border-left-color: var(--color-community-en);
+    }
+
+    .border-left-community-ce {
+      border-left-color: var(--color-community-ce);
+    }
+
+    .border-left-community-ci {
+      border-left-color: var(--color-community-ci);
+    }
+
+    .border-left-community-da {
+      border-left-color: var(--color-community-da);
+    }
+
+    .border-left-community-se {
+      border-left-color: var(--color-community-se);
+    }
+
+    .border-left-community-cx {
+      border-left-color: var(--color-community-cx);
+    }
+
+    .community-badge {
+      background: rgba(var(--color-brown-600-rgb), 0.1);
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      border: 1px solid;
+    }
+
+    .sfia-level {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-2) var(--space-6);
+      background: var(--color-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text);
+    }
+
+    .posture-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-4) var(--space-8);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      border: 1px solid;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .sfia-checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-6) var(--space-10);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-base);
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+      transition: all var(--duration-fast) var(--ease-standard);
+      user-select: none;
+    }
+
+    .sfia-checkbox-label:hover {
+      background: var(--color-secondary);
+      border-color: var(--color-primary);
+    }
+
+    .sfia-checkbox-label input[type="checkbox"] {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .sfia-checkbox-label input[type="checkbox"]:checked {
+      accent-color: var(--color-primary);
+    }
+
+    .no-mapping {
+      color: var(--color-warning);
+      font-size: var(--font-size-xs);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Venn Diagram Section */
+    .venn-section {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
+      margin-bottom: var(--space-32);
+    }
+
+    .venn-header {
+      text-align: center;
+      margin-bottom: var(--space-24);
+    }
+
+    .venn-header h2 {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text);
+      margin-bottom: var(--space-8);
+    }
+
+    .venn-header p {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .venn-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 600px;
+      overflow: visible;
+    }
+
+    .venn-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+    }
+
+    .venn-circle {
+      cursor: pointer;
+      transition: all var(--duration-normal) var(--ease-standard);
+      opacity: 0.6;
+    }
+
+    .venn-circle:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .venn-circle.active {
+      opacity: 1;
+      stroke-width: 3;
+    }
+
+    .venn-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      pointer-events: none;
+      text-anchor: middle;
+      fill: var(--color-text);
+    }
+
+    .venn-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-16);
+      margin-top: var(--space-24);
+      padding-top: var(--space-24);
+      border-top: 1px solid var(--color-card-border-inner);
+    }
+
+    .venn-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-8);
+      border-radius: var(--radius-base);
+      cursor: pointer;
+      transition: background var(--duration-fast);
+    }
+
+    .venn-legend-item:hover {
+      background: var(--color-secondary);
+    }
+
+    .venn-legend-color {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .venn-legend-text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+
+    .venn-legend-count {
+      margin-left: auto;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      background: var(--color-secondary);
+      padding: var(--space-2) var(--space-6);
+      border-radius: var(--radius-full);
+    }
+
+    .venn-tooltip {
+      position: absolute;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-base);
+      padding: var(--space-12);
+      font-size: var(--font-size-sm);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--duration-fast);
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      max-width: 300px;
+    }
+
+    .venn-tooltip.show {
+      opacity: 1;
+    }
+
+    .venn-tooltip-title {
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-4);
+      color: var(--color-text);
+    }
+
+    .venn-tooltip-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .venn-tooltip-list li {
+      padding: var(--space-2) 0;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-container {
+        padding: var(--space-16);
+      }
+
+      .header h1 {
+        font-size: var(--font-size-2xl);
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .modal-info-item {
+        grid-template-columns: 1fr;
+      }
+
+      .venn-container {
+        min-height: 400px;
+      }
+
+      .venn-svg {
+        min-height: 400px;
+      }
+
+      .venn-legend {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <h1>🛡️ Explorer Pro</h1>
+      <p>79 Work Roles - DCWF Communities &amp; NCWF Categories - SFIA 9 Levels</p>
+    </header>
+
+    <!-- Info Boxes -->
+    <div class="info-boxes">
+      <div class="info-box">
+        <div class="info-box-header" onclick="toggleInfoBox(0)">
+          <span class="info-box-title">📊 #7+1 Communauties DCWF</span>
+          <span class="chevron" id="chevron-0">▼</span>
+        </div>
+        <div class="info-box-content" id="info-content-0">
+          <div class="info-box-body" id="community-list">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-box-header" onclick="toggleInfoBox(1)">
+          <span class="info-box-title">🎯 #5+2 NCWF Categories and #33 (legacy) Specialty Areas</span>
+          <span class="chevron" id="chevron-1">▼</span>
+        </div>
+        <div class="info-box-content" id="info-content-1">
+          <div class="info-box-body" id="category-list">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-box-header" onclick="toggleInfoBox(2)">
+          <span class="info-box-title">📚 #7 SFIA 9 Levels</span>
+          <span class="chevron" id="chevron-2">▼</span>
+        </div>
+        <div class="info-box-content" id="info-content-2">
+          <div class="info-box-body">
+            <strong>Level 1</strong> - Foundation / Follow<br>
+            <strong>Level 2</strong> - Associate / Assist<br>
+            <strong>Level 3</strong> - Practitioner / Apply<br>
+            <strong>Level 4</strong> - Senior Practitioner / Enable<br>
+            <strong>Level 5</strong> - Expert / Ensure, advise<br>
+            <strong>Level 6</strong> - Senior Expert / Initiate, influence<br>
+            <strong>Level 7</strong> - Master / Set strategy, inspire, mobilise
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="stats-dashboard">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-total">#79</div>
+        <div class="stat-label">Work Roles Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">#7+1</div>
+        <div class="stat-label">DCWF Communities</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-mapped">-</div>
+        <div class="stat-label">WRL With NCWF Mapping</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-displayed">#79</div>
+        <div class="stat-label">Listed WRL</div>
+      </div>
+    </div>
+
+    <!-- Venn Diagram Infographic -->
+    <div class="venn-section">
+      <div class="venn-header">
+        <h2>🎯 Diagramme de Venn - Catégorisations Multiples</h2>
+        <p>Visualisation interactive des intersections entre Communautés DCWF, Catégories NCWF, Postures Stratégiques et Specialty Areas</p>
+      </div>
+      <div class="venn-container" id="venn-container">
+        <svg class="venn-svg" id="venn-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
+          <!-- Circles will be drawn here by JavaScript -->
+        </svg>
+        <div class="venn-tooltip" id="venn-tooltip"></div>
+      </div>
+      <div class="venn-legend" id="venn-legend">
+        <!-- Legend will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-container">
+      <div class="filters-grid">
+        <div>
+          <label class="form-label" for="community-filter">DCWF Community</label>
+          <select class="form-control" id="community-filter">
+            <option value="">Toutes les communautés</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="ncwf-category-filter">NCWF Category 2024</label>
+          <select class="form-control" id="ncwf-category-filter">
+            <option value="">Toutes les catégories</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="specialty-filter">NCWF Specialty Area (2017)</label>
+          <select class="form-control" id="specialty-filter">
+            <option value="">Toutes les specialty areas</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="mapping-filter">NCWF Status</label>
+          <select class="form-control" id="mapping-filter">
+            <option value="">Tous</option>
+            <option value="mapped">Mappés (NCWF 2024)</option>
+            <option value="unmapped">Sans mapping NCWF</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="posture-filter">Posture (LoD/LoA)</label>
+          <select class="form-control" id="posture-filter">
+            <option value="">Toutes les postures</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="search-input">Search</label>
+          <input type="text" class="form-control" id="search-input" placeholder="OPM-ID, WRL-ID, nom...">
+        </div>
+      </div>
+      <div style="margin-top: var(--space-16);">
+        <label class="form-label">Filter by SFIA Levels</label>
+        <div style="display: flex; gap: var(--space-8); flex-wrap: wrap;" id="sfia-checkboxes">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="grid">Raster View</button>
+        <button class="view-btn" data-view="community">Per DCWF Community View</button>
+        <button class="view-btn" data-view="category">Per NCWF Category View</button>
+        <button class="view-btn" data-view="table">Table View</button>
+      </div>
+    </div>
+
+    <!-- Content Views -->
+    <div id="roles-container">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()" aria-label="Fermer">×</button>
+        <div class="modal-opm" id="modal-opm"></div>
+        <div class="modal-name" id="modal-name"></div>
+        <div class="role-badges" id="modal-badges"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <div class="modal-section-title">📋 Description</div>
+          <div class="modal-description" id="modal-description"></div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">💡 Informations Clés</div>
+          <div class="modal-info-grid" id="modal-info"></div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">📚 Contexte</div>
+          <div class="modal-description">
+            Le <strong>DCWF (DoD Cyber Workforce Framework)</strong> et le <strong>NICE Framework (NIST SP 800-181
+              r1)</strong> sont des cadres complémentaires qui définissent les rôles, compétences et tâches de la
+            main-d'œuvre cybersécurité. Le DCWF adapte le NICE Framework aux besoins spécifiques du Département de la
+            Défense américain.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Posture mapping (LoD/LoA) - Line of Defense / Line of Attack classification
+    const postureMapping = {
+      '411': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '421': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '431': { code: 'DATA', nom: 'Data & AI' },
+      '441': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '451': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '632 (631)': { code: 'DEV', nom: 'Development & Engineering' },
+      '631 (632)': { code: 'DEV', nom: 'Development & Engineering' },
+      '641': { code: 'DEV', nom: 'Development & Engineering' },
+      '651': { code: 'DEV', nom: 'Development & Engineering' },
+      '661': { code: 'DEV', nom: 'Development & Engineering' },
+      '671': { code: 'DEV', nom: 'Development & Engineering' },
+      '141': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '212': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '462': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '511': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '521': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '531': { code: 'LoD-1', nom: 'First Line of Defense' },
+      '541': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '611': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '612': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '622': { code: 'DEV', nom: 'Development & Engineering' },
+      '652': { code: 'DEV', nom: 'Development & Engineering' },
+      '722': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '723': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '211': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '221': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '711': { code: 'TRN', nom: 'Training & Workforce Development' },
+      '712': { code: 'TRN', nom: 'Training & Workforce Development' },
+      '731': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '732': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '751': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '752': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '801': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '802': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '803': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '804': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '805': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '901': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      '112': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '121': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '122': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '131': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '132': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '133': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '321': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '322': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '332': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '333': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '341': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '442': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '443': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '463': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '551': { code: 'LoA-2', nom: 'Cyber Effects / Offensive Operations' },
+      '111': { code: 'LoA-1', nom: 'Cyber Intelligence' },
+      '151': { code: 'LoA-1', nom: 'Cyber Intelligence' },
+      '311': { code: 'LoA-1', nom: 'Cyber Intelligence' },
+      '312': { code: 'LoA-1', nom: 'Cyber Intelligence' },
+      '331': { code: 'LoA-1', nom: 'Cyber Intelligence' },
+      '422': { code: 'DATA', nom: 'Data & AI' },
+      '423': { code: 'DATA', nom: 'Data & AI' },
+      '424': { code: 'DATA', nom: 'Data & AI' },
+      '623': { code: 'DATA', nom: 'Data & AI' },
+      '624': { code: 'DATA', nom: 'Data & AI' },
+      '653': { code: 'DATA', nom: 'Data & AI' },
+      '672': { code: 'DATA', nom: 'Data & AI' },
+      '733': { code: 'DATA', nom: 'Data & AI' },
+      '753': { code: 'DATA', nom: 'Data & AI' },
+      '902': { code: 'DATA', nom: 'Data & AI' },
+      '903': { code: 'DATA', nom: 'Data & AI' },
+      '461': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      '621': { code: 'DEV', nom: 'Development & Engineering' },
+      '625': { code: 'DEV', nom: 'Development & Engineering' },
+      '626': { code: 'DEV', nom: 'Development & Engineering' },
+      '627': { code: 'DEV', nom: 'Development & Engineering' },
+      '628': { code: 'DEV', nom: 'Development & Engineering' },
+      '673': { code: 'DEV', nom: 'Development & Engineering' },
+      '806': { code: 'LoD-3', nom: 'Third Line of Defense' },
+      'TBD-A': { code: 'LoD-2', nom: 'Second Line of Defense' },
+      'TBD-B': { code: 'LoD-1', nom: 'First Line of Defense' }
+    };
+
+    // Posture names and colors
+    const postureInfo = {
+      'LoD-1': { name: 'First Line of Defense', color: '#10B981', bgColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.3)' },
+      'LoD-2': { name: 'Second Line of Defense', color: '#3B82F6', bgColor: 'rgba(59, 130, 246, 0.1)', borderColor: 'rgba(59, 130, 246, 0.3)' },
+      'LoD-3': { name: 'Third Line of Defense', color: '#8B5CF6', bgColor: 'rgba(139, 92, 246, 0.1)', borderColor: 'rgba(139, 92, 246, 0.3)' },
+      'LoA-1': { name: 'Cyber Intelligence', color: '#F59E0B', bgColor: 'rgba(245, 158, 11, 0.1)', borderColor: 'rgba(245, 158, 11, 0.3)' },
+      'LoA-2': { name: 'Cyber Effects / Offensive Operations', color: '#EF4444', bgColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.3)' },
+      'DATA': { name: 'Data & AI', color: '#06B6D4', bgColor: 'rgba(6, 182, 212, 0.1)', borderColor: 'rgba(6, 182, 212, 0.3)' },
+      'DEV': { name: 'Development & Engineering', color: '#EC4899', bgColor: 'rgba(236, 72, 153, 0.1)', borderColor: 'rgba(236, 72, 153, 0.3)' },
+      'TRN': { name: 'Training & Workforce Development', color: '#14B8A6', bgColor: 'rgba(20, 184, 166, 0.1)', borderColor: 'rgba(20, 184, 166, 0.3)' }
+    };
+
+    // Complete Data - 79 Work Roles with corrected structure
+    // ncwf_category_2024: extracted from WRL-ID 2024 (first 2 letters)
+    // specialty_acronym: extracted from WRL-ID 2017 (middle 3 letters)
+    const workRoles = [
+      { opm_id: '411', community: 'IT', wrl_id_2024: 'IO-WRL-007', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-STS-001', specialty_acronym: 'STS', ncwf_name: 'Technical Support', dcwf_name: 'Technical Support Specialist', sfia_levels: [2, 3, 4] },
+      { opm_id: '421', community: 'IT', wrl_id_2024: 'IO-WRL-002', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-DTA-001', specialty_acronym: 'DTA', ncwf_name: 'Database Administration', dcwf_name: 'Database Administrator', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '431', community: 'IT', wrl_id_2024: 'IO-WRL-003', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-KMG-001', specialty_acronym: 'KMG', ncwf_name: 'Knowledge Management', dcwf_name: 'Knowledge Manager', sfia_levels: [2, 3, 4, 5, 6] },
+      { opm_id: '441', community: 'IT', wrl_id_2024: 'IO-WRL-004', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-NET-001', specialty_acronym: 'NET', ncwf_name: 'Network Operations', dcwf_name: 'Network Operations Specialist', sfia_levels: [2, 3, 4] },
+      { opm_id: '451', community: 'IT', wrl_id_2024: 'IO-WRL-005', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-ADM-001', specialty_acronym: 'ADM', ncwf_name: 'Systems Administration', dcwf_name: 'System Administrator', sfia_levels: [1, 2, 3, 4] },
+      { opm_id: '632 (631)', community: 'IT', wrl_id_2024: 'DD-WRL-004', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-SYS-002', specialty_acronym: 'SYS', ncwf_name: 'Secure Systems Development', dcwf_name: 'Systems Developer', sfia_levels: [3, 4, 5] },
+      { opm_id: '641', community: 'IT', wrl_id_2024: 'DD-WRL-006', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-SRP-001', specialty_acronym: 'SRP', ncwf_name: 'Systems Requirements Planning', dcwf_name: 'Systems Requirements Planner', sfia_levels: [3, 4, 5] },
+      { opm_id: '651', community: 'IT', wrl_id_2024: 'DD-WRL-002', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-ARC-001', specialty_acronym: 'ARC', ncwf_name: 'Enterprise Architecture', dcwf_name: 'Enterprise Architect', sfia_levels: [5, 6] },
+      { opm_id: '661', community: 'IT', wrl_id_2024: 'DD-WRL-008', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-TRD-001', specialty_acronym: 'TRD', ncwf_name: 'Technology Research and Development', dcwf_name: 'Research &amp; Development Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '671', community: 'IT', wrl_id_2024: 'DD-WRL-007', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-TST-001', specialty_acronym: 'TST', ncwf_name: 'Systems Testing and Evaluation', dcwf_name: 'System Testing and Evaluation Specialist', sfia_levels: [3, 4] },
+      { opm_id: '141', community: 'CS', wrl_id_2024: 'PD-WRL-006', ncwf_category_2024: 'PD', wrl_id_2017: 'AN-TWA-001', specialty_acronym: 'TWA', ncwf_name: 'Threat Analysis', dcwf_name: 'Threat Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '212', community: 'CS', wrl_id_2024: 'PD-WRL-002', ncwf_category_2024: 'PD', wrl_id_2017: 'IN-FOR-002', specialty_acronym: 'FOR', ncwf_name: 'Digital Forensics', dcwf_name: 'Digital Forensics Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '462', community: 'CS', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Control Systems Security', dcwf_name: 'Control Systems Security Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '511', community: 'CS', wrl_id_2024: 'PD-WRL-001', ncwf_category_2024: 'PD', wrl_id_2017: 'AN-CDA-001', specialty_acronym: 'CDA', ncwf_name: 'Defensive Cybersecurity', dcwf_name: 'Cyber Defense Analyst', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '521', community: 'CS', wrl_id_2024: 'PD-WRL-004', ncwf_category_2024: 'PD', wrl_id_2017: 'PR-INF-001', specialty_acronym: 'INF', ncwf_name: 'Infrastructure Support', dcwf_name: 'Cyber Defense Infrastructure Support Specialist', sfia_levels: [1, 2, 3, 4, 5] },
+      { opm_id: '531', community: 'CS', wrl_id_2024: 'PD-WRL-003', ncwf_category_2024: 'PD', wrl_id_2017: 'PR-CIR-001', specialty_acronym: 'CIR', ncwf_name: 'Incident Response', dcwf_name: 'Cyber Defense Incident Responder', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '541', community: 'CS', wrl_id_2024: 'PD-WRL-007', ncwf_category_2024: 'PD', wrl_id_2017: 'PR-VAM-001', specialty_acronym: 'VAM', ncwf_name: 'Vulnerability Analysis', dcwf_name: 'Vulnerability Assessment Analyst', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '611', community: 'CS', wrl_id_2024: 'OG-WRL-013', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-RSK-002', specialty_acronym: 'RSK', ncwf_name: 'Systems Authorization', dcwf_name: 'Authorizing Official/Designated Representative', sfia_levels: [6, 7] },
+      { opm_id: '612', community: 'CS', wrl_id_2024: 'OG-WRL-012', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-ASA-002', specialty_acronym: 'ASA', ncwf_name: 'Security Control Assessment', dcwf_name: 'Security Control Assessor', sfia_levels: [3, 4, 5] },
+      { opm_id: '622', community: 'CS', wrl_id_2024: 'DD-WRL-005', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-DEV-002', specialty_acronym: 'DEV', ncwf_name: 'Software Security Assessment', dcwf_name: 'Software Security Assessment Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '631 (632)', community: 'CS', wrl_id_2024: 'DD-WRL-004', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-SYS-001', specialty_acronym: 'SYS', ncwf_name: 'Secure Systems Development', dcwf_name: 'Information Systems Security Developer', sfia_levels: [3, 4, 5] },
+      { opm_id: '652', community: 'CS', wrl_id_2024: 'DD-WRL-001', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-ARC-002', specialty_acronym: 'ARC', ncwf_name: 'Cybersecurity Architecture', dcwf_name: 'Security Architect', sfia_levels: [4, 5, 6] },
+      { opm_id: '722', community: 'CS', wrl_id_2024: 'OG-WRL-014', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-MGT-001', specialty_acronym: 'MGT', ncwf_name: 'Systems Security Management', dcwf_name: 'Information Systems Security Manager', sfia_levels: [5, 6] },
+      { opm_id: '723', community: 'CS', wrl_id_2024: 'OG-WRL-001', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-COMSEC-002', specialty_acronym: null, ncwf_name: 'Communications Security (COMSEC) Management', dcwf_name: 'COMSEC Manager', sfia_levels: [5, 6] },
+      { opm_id: '211', community: 'EN', wrl_id_2024: 'IN-WRL-002', ncwf_category_2024: 'IN', wrl_id_2017: 'IN-FOR-001', specialty_acronym: 'FOR', ncwf_name: 'Digital Evidence Analysis', dcwf_name: 'Forensics Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '221', community: 'EN', wrl_id_2024: 'IN-WRL-001', ncwf_category_2024: 'IN', wrl_id_2017: 'IN-INV-001', specialty_acronym: 'INV', ncwf_name: 'Cybercrime Investigation', dcwf_name: 'Cyber Crime Investigator', sfia_levels: [3, 4, 5] },
+      { opm_id: '711', community: 'EN', wrl_id_2024: 'OG-WRL-004', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-TEA-002', specialty_acronym: 'TEA', ncwf_name: 'Cybersecurity Curriculum Development', dcwf_name: 'Cyber Instructional Curriculum Developer', sfia_levels: [4, 5] },
+      { opm_id: '712', community: 'EN', wrl_id_2024: 'OG-WRL-005', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-TEA-001', specialty_acronym: 'TEA', ncwf_name: 'Cybersecurity Instruction', dcwf_name: 'Cyber Instructor', sfia_levels: [3, 4, 5] },
+      { opm_id: '731', community: 'EN', wrl_id_2024: 'OG-WRL-006', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-LGA-001', specialty_acronym: 'LGA', ncwf_name: 'Cybersecurity Legal Advice', dcwf_name: 'Cyber Legal Advisor', sfia_levels: [4, 5] },
+      { opm_id: '732', community: 'EN', wrl_id_2024: 'OG-WRL-008', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-RSK-001', specialty_acronym: 'RSK', ncwf_name: 'Privacy Compliance', dcwf_name: 'Privacy Compliance Manager', sfia_levels: [4, 5, 6] },
+      { opm_id: '751', community: 'EN', wrl_id_2024: 'OG-WRL-003', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-SPP-001', specialty_acronym: 'SPP', ncwf_name: 'Cybersecurity Workforce Management', dcwf_name: 'Cyber Workforce Developer and Manager', sfia_levels: [4, 5, 6] },
+      { opm_id: '752', community: 'EN', wrl_id_2024: 'OG-WRL-002', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-SPP-002', specialty_acronym: 'SPP', ncwf_name: 'Cybersecurity Policy and Planning', dcwf_name: 'Cyber Policy and Strategy Planner', sfia_levels: [6] },
+      { opm_id: '801', community: 'EN', wrl_id_2024: 'OG-WRL-010', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-PMA-001', specialty_acronym: 'PMA', ncwf_name: 'Program Management', dcwf_name: 'Program Manager', sfia_levels: [6] },
+      { opm_id: '802', community: 'EN', wrl_id_2024: 'OG-WRL-011', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-PMA-002', specialty_acronym: 'PMA', ncwf_name: 'Secure Project Management', dcwf_name: 'IT Project Manager', sfia_levels: [4, 5, 6] },
+      { opm_id: '803', community: 'EN', wrl_id_2024: 'OG-WRL-009', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-PMA-003', specialty_acronym: 'PMA', ncwf_name: 'Product Support Management', dcwf_name: 'Product Support Manager', sfia_levels: [3, 4, 5] },
+      { opm_id: '804', community: 'EN', wrl_id_2024: 'OG-WRL-015', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-PMA-004', specialty_acronym: 'PMA', ncwf_name: 'Technology Portfolio Management', dcwf_name: 'IT Investment/Portfolio Manager', sfia_levels: [5, 6] },
+      { opm_id: '805', community: 'EN', wrl_id_2024: 'OG-WRL-016', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-PMA-005', specialty_acronym: 'PMA', ncwf_name: 'Technology Program Auditing', dcwf_name: 'IT Program Auditor', sfia_levels: [3, 4, 5] },
+      { opm_id: '901', community: 'EN', wrl_id_2024: 'OG-WRL-007', ncwf_category_2024: 'OG', wrl_id_2017: 'OV-EXL-001', specialty_acronym: 'EXL', ncwf_name: 'Executive Cybersecurity Leadership', dcwf_name: 'Executive Cyber Leader', sfia_levels: [7] },
+      { opm_id: '112', community: 'CE', wrl_id_2024: 'CE-WRL-004', ncwf_category_2024: 'CE', wrl_id_2017: 'AN-OPL-001', specialty_acronym: 'OPL', ncwf_name: 'Mission Assessment', dcwf_name: 'Mission Assessment Specialist', sfia_levels: [4, 5] },
+      { opm_id: '121', community: 'CE', wrl_id_2024: 'CE-WRL-003', ncwf_category_2024: 'CE', wrl_id_2017: 'AN-EXP-001', specialty_acronym: 'EXP', ncwf_name: 'Exploitation Analysis', dcwf_name: 'Exploitation Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '122', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: 'AN-EXP-002', specialty_acronym: 'EXP', ncwf_name: 'Digital Network Exploitation Analysis', dcwf_name: 'Digital Network Exploitation Analyst', sfia_levels: [4, 5, 6] },
+      { opm_id: '131', community: 'CE', wrl_id_2024: 'CE-WRL-006', ncwf_category_2024: 'CE', wrl_id_2017: 'AN-TGT-001', specialty_acronym: 'TGT', ncwf_name: 'Target Analysis', dcwf_name: 'Joint Targeting Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '132', community: 'CE', wrl_id_2024: 'CE-WRL-007', ncwf_category_2024: 'CE', wrl_id_2017: 'AN-TGT-002', specialty_acronym: 'TGT', ncwf_name: 'Target Network Analysis', dcwf_name: 'Target Digital Network Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '133', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: 'AN-TGT-003', specialty_acronym: 'TGT', ncwf_name: 'Target Reporting Analysis', dcwf_name: 'Target Analyst Reporter', sfia_levels: [4, 5, 6] },
+      { opm_id: '321', community: 'CE', wrl_id_2024: 'CE-WRL-001', ncwf_category_2024: 'CE', wrl_id_2017: 'CO-OPS-001', specialty_acronym: 'OPS', ncwf_name: 'Cyberspace Network Operations', dcwf_name: '(CyberSpace) Access Network Operator', sfia_levels: [3, 4, 5] },
+      { opm_id: '322', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: 'CO-OPS-002', specialty_acronym: 'OPS', ncwf_name: 'Cyberspace Operations', dcwf_name: 'Cyberspace Operator', sfia_levels: [3, 4, 5] },
+      { opm_id: '332', community: 'CE', wrl_id_2024: 'CE-WRL-002', ncwf_category_2024: 'CE', wrl_id_2017: 'CO-OPL-001', specialty_acronym: 'OPL', ncwf_name: 'Cyber Operations Planning', dcwf_name: 'Cyber Operations Planner', sfia_levels: [5, 6] },
+      { opm_id: '333', community: 'CE', wrl_id_2024: 'CE-WRL-005', ncwf_category_2024: 'CE', wrl_id_2017: 'CO-OPL-002', specialty_acronym: 'OPL', ncwf_name: 'Partner Integration Planning', dcwf_name: 'Partner Integration Planner', sfia_levels: [5, 6] },
+      { opm_id: '341', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Cyberspace Capability Development', dcwf_name: 'Cyberspace Capability Developer', sfia_levels: [4, 5, 6] },
+      { opm_id: '442', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Network Technics', dcwf_name: 'Network Technician', sfia_levels: [3, 4, 5] },
+      { opm_id: '443', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Network Analysis', dcwf_name: 'Network Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '463', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Hosting Analysis', dcwf_name: 'Host Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '551', community: 'CE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Red Teaming', dcwf_name: 'Red Team Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '111', community: 'CI', wrl_id_2024: 'CI-WRL-001', ncwf_category_2024: 'CI', wrl_id_2017: 'AN-ASA-001', specialty_acronym: 'ASA', ncwf_name: 'All-Source Analysis', dcwf_name: 'All-Source Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '151', community: 'CI', wrl_id_2024: 'CI-WRL-005', ncwf_category_2024: 'CI', wrl_id_2017: 'AN-LNG-001', specialty_acronym: 'LNG', ncwf_name: 'Multi-Disciplined Language Analysis', dcwf_name: 'Multi-Disciplined Language Analyst', sfia_levels: [4, 5] },
+      { opm_id: '311', community: 'CI', wrl_id_2024: 'CI-WRL-002', ncwf_category_2024: 'CI', wrl_id_2017: 'CO-CLO-001', specialty_acronym: 'CLO', ncwf_name: 'All-Source Collection Management', dcwf_name: 'All-Source Collection Manager', sfia_levels: [5, 6] },
+      { opm_id: '312', community: 'CI', wrl_id_2024: 'CI-WRL-003', ncwf_category_2024: 'CI', wrl_id_2017: 'CO-CLO-002', specialty_acronym: 'CLO', ncwf_name: 'All-Source Collection Requirements Management', dcwf_name: 'All-Source Collection Requirements Manager', sfia_levels: [5, 6] },
+      { opm_id: '331', community: 'CI', wrl_id_2024: 'CI-WRL-004', ncwf_category_2024: 'CI', wrl_id_2017: 'CO-OPL-003', specialty_acronym: 'OPL', ncwf_name: 'Cyber Intelligence Planning', dcwf_name: 'Cyber Intelligence Planner', sfia_levels: [5, 6] },
+      { opm_id: '422', community: 'DA', wrl_id_2024: 'IO-WRL-001', ncwf_category_2024: 'IO', wrl_id_2017: 'OM-DTA-002', specialty_acronym: 'DTA', ncwf_name: 'Data Analysis', dcwf_name: 'Data Analyst', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '423', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Data Science', dcwf_name: 'Data Scientist', sfia_levels: [3, 4, 5] },
+      { opm_id: '424', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Data Management', dcwf_name: 'Data Steward', sfia_levels: [4, 5, 6] },
+      { opm_id: '623', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'AI/ML Design', dcwf_name: 'AI/ML Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '624', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Data Operations', dcwf_name: 'Data Operations Specialist', sfia_levels: [4, 5, 6] },
+      { opm_id: '653', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Data Architecture', dcwf_name: 'Data Architect', sfia_levels: [5, 6, 7] },
+      { opm_id: '672', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'AI Test &amp; Evaluation', dcwf_name: 'AI Test &amp; Evaluation Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '733', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'AI Risk and Ethics', dcwf_name: 'AI Risk and Ethics Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '753', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'AI Adoption', dcwf_name: 'AI Adoption Specialist', sfia_levels: [4, 5, 6] },
+      { opm_id: '902', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'AI Innovation Leadership', dcwf_name: 'AI Innovation Leader', sfia_levels: [6, 7] },
+      { opm_id: '903', community: 'DA', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Data Governance', dcwf_name: 'Data Officer', sfia_levels: [6, 7] },
+      { opm_id: '461', community: 'SE', wrl_id_2024: 'OI-WRL-006', ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Systems Security Analysis', dcwf_name: 'Systems Security Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: '621', community: 'SE', wrl_id_2024: 'DD-WRL-003', ncwf_category_2024: 'DD', wrl_id_2017: 'SP-DEV-001', specialty_acronym: 'DEV', ncwf_name: 'Secure Software Development', dcwf_name: 'Software Developer', sfia_levels: [2, 3, 4, 5] },
+      { opm_id: '625', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Product &amp; User Interface Design (UI)', dcwf_name: 'Product Designer User Interface (UI)', sfia_levels: [5, 6, 7] },
+      { opm_id: '626', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Service &amp; User Experience Design (UX)', dcwf_name: 'Service Designer User Experience (UX)', sfia_levels: [5, 6, 7] },
+      { opm_id: '627', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'DevSecOps', dcwf_name: 'DevSecOps Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '628', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Software/Cloud Architecture', dcwf_name: 'Software/Cloud Architect', sfia_levels: [5, 6, 7] },
+      { opm_id: '673', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Software Test &amp; Evaluation', dcwf_name: 'Software Test &amp; Evaluation Specialist', sfia_levels: [3, 4, 5] },
+      { opm_id: '806', community: 'SE', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Product Management', dcwf_name: 'Product Manager', sfia_levels: [6, 7] },
+      { opm_id: 'TBD-A', community: 'Cx', wrl_id_2024: 'PD-WRL-005', ncwf_category_2024: 'PD', wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Insider Threat Analysis', dcwf_name: 'Insider Threat Analyst', sfia_levels: [3, 4, 5] },
+      { opm_id: 'TBD-B', community: 'Cx', wrl_id_2024: null, ncwf_category_2024: null, wrl_id_2017: null, specialty_acronym: null, ncwf_name: 'Operational Technology (OT) Cybersecurity Engi...', dcwf_name: 'Operational Technology (OT) Cybersecurity Engi...', sfia_levels: [3, 4, 5] }
+    ];
+
+    // Enrich workRoles with posture data
+    workRoles.forEach(role => {
+      const posture = postureMapping[role.opm_id];
+      if (posture) {
+        role.posture_code = posture.code;
+        role.posture_nom = posture.nom;
+      } else {
+        role.posture_code = null;
+        role.posture_nom = null;
+      }
+    });
+
+    // Community names
+    const communityNames = {
+      'IT': 'Cyber-IT',
+      'CS': 'Cyber Security',
+      'EN': 'Enablers',
+      'CE': 'Cyber Effects',
+      'CI': 'Cyber Intelligence',
+      'DA': 'Data / AI',
+      'SE': 'Software Engineering',
+      'Cx': 'TBD'
+    };
+
+    // SFIA Level descriptions
+    const sfiaDescriptions = {
+      1: 'Foundation',
+      2: 'Associate',
+      3: 'Practitioner',
+      4: 'Senior Practitioner',
+      5: 'Expert',
+      6: 'Senior Expert',
+      7: 'Master'
+    };
+
+    // State
+    let currentView = 'grid';
+    let filteredRoles = [...workRoles];
+    let selectedRole = null;
+    let selectedSfiaLevels = [];
+
+    // Venn Diagram Functions
+    function initVennDiagram() {
+      const svg = document.getElementById('venn-svg');
+      const legend = document.getElementById('venn-legend');
+      const tooltip = document.getElementById('venn-tooltip');
+      
+      if (!svg) return;
+
+      // Clear previous content
+      svg.innerHTML = '';
+      legend.innerHTML = '';
+
+      // Calculate intersections and statistics
+      const stats = calculateVennStats();
+      
+      // Create a multi-dimensional visualization
+      // We'll create circles for each major category and show intersections
+      const centerX = 600;
+      const centerY = 300;
+      const baseRadius = 120;
+
+      // Draw circles for Communities DCWF (main circles)
+      const communityCircles = [];
+      const communities = Object.keys(communityNames).filter(c => c !== 'Cx');
+      const angleStep = (2 * Math.PI) / communities.length;
+      
+      communities.forEach((comm, index) => {
+        const angle = index * angleStep - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * 180;
+        const y = centerY + Math.sin(angle) * 180;
+        const radius = Math.sqrt(stats.communities[comm] || 1) * 8 + 40;
+        
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', radius);
+        circle.setAttribute('fill', getCommunityColor(comm));
+        circle.setAttribute('opacity', '0.4');
+        circle.setAttribute('stroke', getCommunityColor(comm));
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('class', 'venn-circle');
+        circle.setAttribute('data-type', 'community');
+        circle.setAttribute('data-value', comm);
+        circle.addEventListener('mouseenter', (e) => showVennTooltip(e, comm, 'community', stats.communities[comm] || 0));
+        circle.addEventListener('mouseleave', hideVennTooltip);
+        circle.addEventListener('click', () => filterByVennCategory('community', comm));
+        svg.appendChild(circle);
+
+        // Add label
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', x);
+        label.setAttribute('y', y + 5);
+        label.setAttribute('class', 'venn-label');
+        label.setAttribute('font-size', '14');
+        label.setAttribute('font-weight', 'bold');
+        label.setAttribute('fill', getCommunityColor(comm));
+        label.textContent = `${comm} (${stats.communities[comm] || 0})`;
+        svg.appendChild(label);
+
+        communityCircles.push({ comm, x, y, radius });
+      });
+
+      // Draw circles for NCWF Categories (overlapping with communities)
+      const ncwfCategories = ['IO', 'PD', 'DD', 'OG', 'CE', 'CI', 'IN'];
+      const ncwfAngleStep = (2 * Math.PI) / ncwfCategories.length;
+      
+      ncwfCategories.forEach((cat, index) => {
+        const angle = index * ncwfAngleStep - Math.PI / 2 + Math.PI / 7;
+        const x = centerX + Math.cos(angle) * 140;
+        const y = centerY + Math.sin(angle) * 140;
+        const radius = Math.sqrt(stats.ncwfCategories[cat] || 1) * 6 + 30;
+        
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', radius);
+        circle.setAttribute('fill', getNcwfCategoryColor(cat));
+        circle.setAttribute('opacity', '0.35');
+        circle.setAttribute('stroke', getNcwfCategoryColor(cat));
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('stroke-dasharray', '5,5');
+        circle.setAttribute('class', 'venn-circle');
+        circle.setAttribute('data-type', 'ncwf');
+        circle.setAttribute('data-value', cat);
+        circle.addEventListener('mouseenter', (e) => showVennTooltip(e, cat, 'ncwf', stats.ncwfCategories[cat] || 0));
+        circle.addEventListener('mouseleave', hideVennTooltip);
+        circle.addEventListener('click', () => filterByVennCategory('ncwf', cat));
+        svg.appendChild(circle);
+
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', x);
+        label.setAttribute('y', y + 4);
+        label.setAttribute('class', 'venn-label');
+        label.setAttribute('font-size', '11');
+        label.setAttribute('fill', getNcwfCategoryColor(cat));
+        label.textContent = `${cat} (${stats.ncwfCategories[cat] || 0})`;
+        svg.appendChild(label);
+      });
+
+      // Draw circles for Postures (inner circles)
+      const postures = Object.keys(postureInfo);
+      const postureAngleStep = (2 * Math.PI) / postures.length;
+      
+      postures.forEach((posture, index) => {
+        const angle = index * postureAngleStep - Math.PI / 2 + Math.PI / 5;
+        const x = centerX + Math.cos(angle) * 100;
+        const y = centerY + Math.sin(angle) * 100;
+        const radius = Math.sqrt(stats.postures[posture] || 1) * 5 + 25;
+        
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', radius);
+        circle.setAttribute('fill', postureInfo[posture].color);
+        circle.setAttribute('opacity', '0.3');
+        circle.setAttribute('stroke', postureInfo[posture].color);
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('stroke-dasharray', '3,3');
+        circle.setAttribute('class', 'venn-circle');
+        circle.setAttribute('data-type', 'posture');
+        circle.setAttribute('data-value', posture);
+        circle.addEventListener('mouseenter', (e) => showVennTooltip(e, posture, 'posture', stats.postures[posture] || 0));
+        circle.addEventListener('mouseleave', hideVennTooltip);
+        circle.addEventListener('click', () => filterByVennCategory('posture', posture));
+        svg.appendChild(circle);
+      });
+
+      // Create legend
+      createVennLegend(legend, stats);
+    }
+
+    function calculateVennStats() {
+      const stats = {
+        communities: {},
+        ncwfCategories: {},
+        postures: {},
+        specialties: {}
+      };
+
+      workRoles.forEach(role => {
+        if (role.community) stats.communities[role.community] = (stats.communities[role.community] || 0) + 1;
+        if (role.ncwf_category_2024) stats.ncwfCategories[role.ncwf_category_2024] = (stats.ncwfCategories[role.ncwf_category_2024] || 0) + 1;
+        if (role.posture_code) stats.postures[role.posture_code] = (stats.postures[role.posture_code] || 0) + 1;
+        if (role.specialty_acronym) stats.specialties[role.specialty_acronym] = (stats.specialties[role.specialty_acronym] || 0) + 1;
+      });
+
+      return stats;
+    }
+
+    function getCommunityColor(comm) {
+      const colors = {
+        'IT': '#3B82F6',
+        'CS': '#EF4444',
+        'EN': '#8B5CF6',
+        'CE': '#8B4513',
+        'CI': '#F59E0B',
+        'DA': '#06B6D4',
+        'SE': '#EF4444',
+        'Cx': '#6B7280'
+      };
+      return colors[comm] || '#6B7280';
+    }
+
+    function getNcwfCategoryColor(cat) {
+      const colors = {
+        'IO': '#3B82F6',
+        'PD': '#EF4444',
+        'DD': '#8B5CF6',
+        'OG': '#F59E0B',
+        'CE': '#EC4899',
+        'CI': '#06B6D4',
+        'IN': '#10B981'
+      };
+      return colors[cat] || '#6B7280';
+    }
+
+    function showVennTooltip(event, value, type, count) {
+      const tooltip = document.getElementById('venn-tooltip');
+      if (!tooltip) return;
+
+      let title = '';
+      let description = '';
+
+      if (type === 'community') {
+        title = `${value} - ${communityNames[value]}`;
+        description = `Communauté DCWF<br>${count} rôles`;
+      } else if (type === 'ncwf') {
+        const ncwfCategoryNames = {
+          'IO': 'Implementation and Operation',
+          'CI': 'Cyberspace Intelligence',
+          'CE': 'Cyberspace Effects',
+          'PD': 'Protection and Defense',
+          'OG': 'Oversight and Governance',
+          'IN': 'Investigation',
+          'DD': 'Design and Development'
+        };
+        title = `${value} - ${ncwfCategoryNames[value] || value}`;
+        description = `Catégorie NCWF 2024<br>${count} rôles`;
+      } else if (type === 'posture') {
+        title = `${value} - ${postureInfo[value].name}`;
+        description = `Posture Stratégique<br>${count} rôles`;
+      }
+
+      tooltip.innerHTML = `
+        <div class="venn-tooltip-title">${title}</div>
+        <div>${description}</div>
+      `;
+      tooltip.classList.add('show');
+      
+      const rect = event.target.getBoundingClientRect();
+      const containerRect = document.getElementById('venn-container').getBoundingClientRect();
+      tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - containerRect.top - 10) + 'px';
+      tooltip.style.transform = 'translate(-50%, -100%)';
+    }
+
+    function hideVennTooltip() {
+      const tooltip = document.getElementById('venn-tooltip');
+      if (tooltip) {
+        tooltip.classList.remove('show');
+      }
+    }
+
+    function filterByVennCategory(type, value) {
+      if (type === 'community') {
+        document.getElementById('community-filter').value = value;
+      } else if (type === 'ncwf') {
+        document.getElementById('ncwf-category-filter').value = value;
+      } else if (type === 'posture') {
+        document.getElementById('posture-filter').value = value;
+      }
+      filterRoles();
+    }
+
+    function createVennLegend(legendContainer, stats) {
+      // Communities
+      Object.keys(communityNames).filter(c => c !== 'Cx').forEach(comm => {
+        const item = document.createElement('div');
+        item.className = 'venn-legend-item';
+        item.onclick = () => filterByVennCategory('community', comm);
+        item.innerHTML = `
+          <div class="venn-legend-color" style="background: ${getCommunityColor(comm)};"></div>
+          <div class="venn-legend-text">${comm} - ${communityNames[comm]}</div>
+          <div class="venn-legend-count">${stats.communities[comm] || 0}</div>
+        `;
+        legendContainer.appendChild(item);
+      });
+
+      // Postures
+      Object.keys(postureInfo).forEach(posture => {
+        const item = document.createElement('div');
+        item.className = 'venn-legend-item';
+        item.onclick = () => filterByVennCategory('posture', posture);
+        item.innerHTML = `
+          <div class="venn-legend-color" style="background: ${postureInfo[posture].color}; border-style: dashed;"></div>
+          <div class="venn-legend-text">${posture} - ${postureInfo[posture].name}</div>
+          <div class="venn-legend-count">${stats.postures[posture] || 0}</div>
+        `;
+        legendContainer.appendChild(item);
+      });
+    }
+
+    // Initialize
+    function init() {
+      populateCommunityList();
+      populateCategoryList();
+      populateFilters();
+      populateSfiaCheckboxes();
+      attachEventListeners();
+      updateStatistics();
+      renderView();
+      initVennDiagram();
+    }
+
+    function populateCommunityList() {
+      const communities = Object.keys(communityNames).sort();
+      const counts = {};
+      workRoles.forEach(r => {
+        counts[r.community] = (counts[r.community] || 0) + 1;
+      });
+      const html = communities.map(code =>
+        `<strong>${code}</strong> - ${communityNames[code]} (${counts[code] || 0} rôles)`
+      ).join('<br>');
+      document.getElementById('community-list').innerHTML = html;
+    }
+
+    function populateCategoryList() {
+      const specialtyAreas = [...new Set(workRoles.filter(r => r.specialty_acronym).map(r => r.specialty_acronym))].sort();
+      const ncwfCategories = [...new Set(workRoles.filter(r => r.ncwf_category_2024).map(r => r.ncwf_category_2024))].sort();
+      const html = `<strong>7 NCWF Categories 2024:</strong> ${ncwfCategories.join(', ')}<br><br><strong>33 Specialty Areas (Legacy 2017):</strong><br>${specialtyAreas.join(', ')}`;
+      document.getElementById('category-list').innerHTML = html;
+    }
+
+    function populateFilters() {
+      const communities = Object.keys(communityNames).sort();
+      const communitySelect = document.getElementById('community-filter');
+      communities.forEach(code => {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = `${code} - ${communityNames[code]}`;
+        communitySelect.appendChild(option);
+      });
+
+      // Populate NCWF Category 2024 filter with full names from NCWF 2024
+      // Mapping from t1.html - NCWF 2024 Category codes to full names
+      const ncwfCategoryNames = {
+        'IO': 'Implementation and Operation',
+        'CI': 'Cyberspace Intelligence',
+        'CE': 'Cyberspace Effects',
+        'PD': 'Protection and Defense',
+        'OG': 'Oversight and Governance',
+        'IN': 'Investigation',
+        'DD': 'Design and Development'
+      };
+
+      const ncwfCategories = [...new Set(workRoles.filter(r => r.ncwf_category_2024).map(r => r.ncwf_category_2024))].sort();
+      const categorySelect = document.getElementById('ncwf-category-filter');
+      ncwfCategories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        const fullName = ncwfCategoryNames[cat] || cat;
+        option.textContent = `${fullName} (${cat})`;
+        categorySelect.appendChild(option);
+      });
+
+      // Populate Specialty Area filter with full names from NCWF 2017
+      // Mapping from t1.html - Specialty Area codes to full names
+      const specialtyAreaNames = {
+        'RSK': 'Risk Management',
+        'DEV': 'Software Development',
+        'ARC': 'Systems Architecture',
+        'TRD': 'Technology R&D',
+        'SRP': 'Systems Requirements Planning',
+        'TST': 'Test and Evaluation',
+        'SYS': 'Systems Development',
+        'DTA': 'Data Administration',
+        'KMG': 'Knowledge Management',
+        'STS': 'Customer Service and Technical Support',
+        'NET': 'Network Services',
+        'ADM': 'Systems Administration',
+        'ANA': 'Systems Analysis',
+        'LGA': 'Legal Advice and Advocacy',
+        'TEA': 'Training, Education, and Awareness',
+        'MGT': 'Cybersecurity Management',
+        'SPP': 'Strategic Planning and Policy',
+        'EXL': 'Executive Cyber Leadership',
+        'PMA': 'Program/Project Management',
+        'CDA': 'Cybersecurity Defense Analysis',
+        'INF': 'Cybersecurity Defense Infrastructure Support',
+        'CIR': 'Incident Response',
+        'VAM': 'Vulnerability Assessment and Management',
+        'TWA': 'Threat Analysis',
+        'EXP': 'Exploitation Analysis',
+        'ASA': 'All-Source Analysis',
+        'TGT': 'Targets',
+        'LNG': 'Language Analysis',
+        'CLO': 'Collection Operations',
+        'OPL': 'Cyber Operational Planning',
+        'OPS': 'Cyber Operations',
+        'INV': 'Cyber Investigation',
+        'FOR': 'Digital Forensics'
+      };
+
+      const specialtyAreas = [...new Set(workRoles.filter(r => r.specialty_acronym).map(r => r.specialty_acronym))].sort();
+      const specialtySelect = document.getElementById('specialty-filter');
+      specialtyAreas.forEach(spec => {
+        const option = document.createElement('option');
+        option.value = spec;
+        const fullName = specialtyAreaNames[spec] || spec;
+        option.textContent = `${fullName} (${spec})`;
+        specialtySelect.appendChild(option);
+      });
+
+      // Populate Posture filter
+      const postureSelect = document.getElementById('posture-filter');
+      Object.keys(postureInfo).sort().forEach(code => {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = `${code} - ${postureInfo[code].name}`;
+        postureSelect.appendChild(option);
+      });
+    }
+
+    function populateSfiaCheckboxes() {
+      const container = document.getElementById('sfia-checkboxes');
+      for (let i = 1; i <= 7; i++) {
+        const label = document.createElement('label');
+        label.className = 'sfia-checkbox-label';
+        label.innerHTML = `
+          <input type="checkbox" value="${i}" onchange="handleSfiaChange()">
+          <span>L${i}</span>
+        `;
+        container.appendChild(label);
+      }
+    }
+
+    function updateStatistics() {
+      const mapped = workRoles.filter(r => r.wrl_id_2024 !== null).length;
+      document.getElementById('stat-mapped').textContent = mapped;
+    }
+
+    function attachEventListeners() {
+      document.getElementById('community-filter').addEventListener('change', filterRoles);
+      document.getElementById('ncwf-category-filter').addEventListener('change', filterRoles);
+      document.getElementById('specialty-filter').addEventListener('change', filterRoles);
+      document.getElementById('posture-filter').addEventListener('change', filterRoles);
+      document.getElementById('mapping-filter').addEventListener('change', filterRoles);
+      document.getElementById('search-input').addEventListener('input', filterRoles);
+
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentView = btn.dataset.view;
+          document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderView();
+        });
+      });
+    }
+
+    function handleSfiaChange() {
+      const checkboxes = document.querySelectorAll('#sfia-checkboxes input[type="checkbox"]:checked');
+      selectedSfiaLevels = Array.from(checkboxes).map(cb => parseInt(cb.value));
+      filterRoles();
+    }
+
+    // Helper function to check if OPM ID is in range 141-723 and community is CS
+    function isGreenCsOpmId(opmId, community) {
+      if (community !== 'CS') return false;
+      // Extract the numeric part from OPM ID (handles formats like "141", "632 (631)", etc.)
+      const numMatch = String(opmId).match(/^(\d+)/);
+      if (!numMatch) return false;
+      const num = parseInt(numMatch[1], 10);
+      return num >= 141 && num <= 723;
+    }
+
+    // Helper function to get the color class for OPM ID
+    function getOpmColorClass(opmId, community) {
+      if (isGreenCsOpmId(opmId, community)) {
+        return 'community-cs-green';
+      }
+      return `community-${(community || 'cx').toLowerCase()}`;
+    }
+
+    // Helper function to get the border class for OPM ID
+    function getOpmBorderClass(opmId, community) {
+      if (isGreenCsOpmId(opmId, community)) {
+        return 'border-community-cs-green';
+      }
+      return `border-community-${(community || 'cx').toLowerCase()}`;
+    }
+
+    // Helper function to get the left border class for OPM ID
+    function getOpmLeftBorderClass(opmId, community) {
+      if (isGreenCsOpmId(opmId, community)) {
+        return 'border-left-community-cs-green';
+      }
+      return `border-left-community-${(community || 'cx').toLowerCase()}`;
+    }
+
+    // Helper function to get posture badge HTML
+    function getPostureBadge(role) {
+      if (!role.posture_code || !postureInfo[role.posture_code]) {
+        return '';
+      }
+      const info = postureInfo[role.posture_code];
+      return `<span class="posture-badge" style="background: ${info.bgColor}; color: ${info.color}; border-color: ${info.borderColor};">${role.posture_code}</span>`;
+    }
+
+    function filterRoles() {
+      const communityFilter = document.getElementById('community-filter').value;
+      const ncwfCategoryFilter = document.getElementById('ncwf-category-filter').value;
+      const specialtyFilter = document.getElementById('specialty-filter').value;
+      const postureFilter = document.getElementById('posture-filter').value;
+      const mappingFilter = document.getElementById('mapping-filter').value;
+      const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+      filteredRoles = workRoles.filter(role => {
+        const matchesCommunity = !communityFilter || role.community === communityFilter;
+        const matchesNcwfCategory = !ncwfCategoryFilter || role.ncwf_category_2024 === ncwfCategoryFilter;
+        const matchesSpecialty = !specialtyFilter || role.specialty_acronym === specialtyFilter;
+        const matchesPosture = !postureFilter || role.posture_code === postureFilter;
+
+        let matchesMapping = true;
+        if (mappingFilter === 'mapped') {
+          matchesMapping = role.wrl_id_2024 !== null;
+        } else if (mappingFilter === 'unmapped') {
+          matchesMapping = role.wrl_id_2024 === null;
+        }
+
+        const matchesSearch = !searchQuery ||
+          role.opm_id.toLowerCase().includes(searchQuery) ||
+          (role.wrl_id_2024 && role.wrl_id_2024.toLowerCase().includes(searchQuery)) ||
+          (role.wrl_id_2017 && role.wrl_id_2017.toLowerCase().includes(searchQuery)) ||
+          role.ncwf_name.toLowerCase().includes(searchQuery) ||
+          role.dcwf_name.toLowerCase().includes(searchQuery);
+
+        let matchesSfia = true;
+        if (selectedSfiaLevels.length > 0) {
+          matchesSfia = selectedSfiaLevels.some(level => role.sfia_levels.includes(level));
+        }
+
+        return matchesCommunity && matchesNcwfCategory && matchesSpecialty && matchesPosture && matchesMapping && matchesSearch && matchesSfia;
+      });
+
+      document.getElementById('stat-displayed').textContent = filteredRoles.length;
+      renderView();
+    }
+
+    function renderView() {
+      const container = document.getElementById('roles-container');
+
+      switch (currentView) {
+        case 'grid':
+          renderGridView(container);
+          break;
+        case 'community':
+          renderCommunityView(container);
+          break;
+        case 'category':
+          renderCategoryView(container);
+          break;
+        case 'table':
+          renderTableView(container);
+          break;
+      }
+    }
+
+    function renderGridView(container) {
+      container.innerHTML = `<div class="roles-grid">${filteredRoles.map(role => {
+        const colorClass = getOpmColorClass(role.opm_id, role.community);
+        const borderClass = getOpmBorderClass(role.opm_id, role.community);
+        return `
+        <div class="role-card ${borderClass}" onclick="openModal('${role.opm_id}')">
+          <div class="role-opm ${colorClass}">${role.opm_id}</div>
+          <div class="role-name">${role.ncwf_name}</div>
+          <div class="role-dcwf-name">${role.dcwf_name}</div>
+          <div class="role-badges">
+            <span class="badge community-badge">${role.community}</span>
+            ${role.ncwf_category_2024 ? `<span class="badge" style="background: var(--color-bg-1); color: var(--color-primary); border-color: var(--color-primary);">${role.ncwf_category_2024}</span>` : ''}
+            ${getPostureBadge(role)}
+            ${role.wrl_id_2024 ? '' : '<span class="no-mapping">⚠️ No NCWF</span>'}
+          </div>
+          ${role.specialty_acronym ? `<div class="role-specialty">Specialty: ${role.specialty_acronym}</div>` : ''}
+          ${role.posture_nom ? `<div class="role-specialty" style="font-weight: var(--font-weight-medium);">${role.posture_nom}</div>` : ''}
+          <div class="role-sfia-levels">
+            ${role.sfia_levels.map(l => `<span class="sfia-level">L${l}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      }).join('')}</div>`;
+    }
+
+    function renderCommunityView(container) {
+      const grouped = {};
+      filteredRoles.forEach(role => {
+        if (!grouped[role.community]) grouped[role.community] = [];
+        grouped[role.community].push(role);
+      });
+
+      container.innerHTML = Object.keys(grouped).sort().map(comm => {
+        const roles = grouped[comm];
+        const sfiaLevels = [...new Set(roles.flatMap(r => r.sfia_levels))].sort((a, b) => a - b);
+        return `
+          <div class="grouped-section">
+            <div class="group-header">
+              <div class="group-title community-${comm.toLowerCase()}">${comm} - ${communityNames[comm]}</div>
+              <div class="group-count">${roles.length} rôles</div>
+              <div class="group-count">SFIA: ${sfiaLevels.join(', ')}</div>
+            </div>
+            <div class="group-roles">
+              ${roles.map(role => {
+          const colorClass = getOpmColorClass(role.opm_id, role.community);
+          const leftBorderClass = getOpmLeftBorderClass(role.opm_id, role.community);
+          return `
+                <div class="group-role-item ${leftBorderClass}" onclick="openModal('${role.opm_id}')">
+                  <div class="group-role-header">
+                    <span class="group-role-opm ${colorClass}">${role.opm_id}</span>
+                    <span class="group-role-name">${role.dcwf_name}</span>
+                    ${role.wrl_id_2024 ? '' : '<span class="no-mapping">⚠️</span>'}
+                  </div>
+                  <div class="group-role-meta">
+                    ${role.ncwf_category_2024 ? `<span class="badge" style="background: var(--color-bg-1); color: var(--color-primary); border-color: var(--color-primary); font-size: var(--font-size-xs);">${role.ncwf_category_2024}</span>` : ''}
+                    ${getPostureBadge(role)}
+                    ${role.specialty_acronym ? `<span class="role-specialty">Specialty: ${role.specialty_acronym}</span>` : ''}
+                    ${role.posture_nom ? `<span class="role-specialty" style="font-weight: var(--font-weight-medium);">${role.posture_nom}</span>` : ''}
+                    ${role.sfia_levels.map(l => `<span class="sfia-level">L${l}</span>`).join('')}
+                  </div>
+                </div>
+              `;
+        }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTableView(container) {
+      container.innerHTML = `
+        <div class="table-container">
+          <table class="roles-table">
+            <thead>
+              <tr>
+                <th style="width: 100px">OPM-ID</th>
+                <th style="width: 60px; text-align: center;">Comm.</th>
+                <th style="width: 80px; text-align: center;">Posture</th>
+                <th style="width: 70px; text-align: center;">Cat. 2024</th>
+                <th style="width: 70px; text-align: center;">Spec. 2017</th>
+                <th style="width: 200px">NCWF Title</th>
+                <th style="width: 200px">DCWF Title</th>
+                <th style="width: 110px">WRL-ID 2024</th>
+                <th style="width: 110px">WRL-ID 2017</th>
+                <th style="width: 100px; text-align: center;">SFIA</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filteredRoles.map(role => {
+        const colorClass = getOpmColorClass(role.opm_id, role.community);
+        return `
+                <tr onclick="openModal('${role.opm_id}')">
+                  <td class="table-opm ${colorClass}" style="text-align: center; font-weight: bold;">${role.opm_id}</td>
+                  <td style="text-align: center;"><span class="badge community-badge">${role.community}</span></td>
+                  <td style="text-align: center;">${getPostureBadge(role) || '-'}</td>
+                  <td style="text-align: center; font-size: var(--font-size-xs);">${role.ncwf_category_2024 || '-'}</td>
+                  <td style="text-align: center; font-size: var(--font-size-xs);" class="table-specialty">${role.specialty_acronym || '-'}</td>
+                  <td>${role.ncwf_name}</td>
+                  <td>${role.dcwf_name}</td>
+                  <td style="font-family: var(--font-family-mono); font-size: var(--font-size-xs);">${role.wrl_id_2024 || '-'}</td>
+                  <td style="font-family: var(--font-family-mono); font-size: var(--font-size-xs);">${role.wrl_id_2017 || '-'}</td>
+                  <td style="text-align: center;">${role.sfia_levels.map(l => `<span class="sfia-level">L${l}</span>`).join(' ')}</td>
+                </tr>
+              `;
+      }).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function openModal(opmId) {
+      const role = workRoles.find(r => r.opm_id === opmId);
+      if (!role) return;
+
+      selectedRole = role;
+
+      const colorClass = getOpmColorClass(role.opm_id, role.community);
+      document.getElementById('modal-opm').innerHTML = `<span class="${colorClass}">${role.opm_id}</span>`;
+      document.getElementById('modal-name').textContent = role.dcwf_name;
+      document.getElementById('modal-badges').innerHTML = `
+        <span class="badge community-badge">${role.community} - ${communityNames[role.community]}</span>
+        ${getPostureBadge(role)}
+        ${role.ncwf_category_2024 ? `<span class="badge" style="background: var(--color-bg-1); color: var(--color-primary); border-color: var(--color-primary);">NCWF 2024: ${role.ncwf_category_2024}</span>` : ''}
+        ${role.specialty_acronym ? `<span class="badge" style="background: var(--color-bg-2); color: var(--color-warning); border-color: var(--color-warning);">Specialty: ${role.specialty_acronym}</span>` : ''}
+        ${role.wrl_id_2024 ? '<span class="badge" style="background: var(--color-bg-3); color: var(--color-success);">✓ NCWF Mapped</span>' : '<span class="badge" style="background: var(--color-bg-4); color: var(--color-warning);">⚠️ No NCWF</span>'}
+      `;
+      document.getElementById('modal-description').innerHTML = `
+        <strong>NCWF Title:</strong> ${role.ncwf_name}<br>
+        <strong>DCWF Title:</strong> ${role.dcwf_name}
+      `;
+
+      document.getElementById('modal-info').innerHTML = `
+        <div class="modal-info-item">
+          <div class="modal-info-label">OPM-ID</div>
+          <div class="modal-info-value">${role.opm_id}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">DCWF Community</div>
+          <div class="modal-info-value">${role.community} - ${communityNames[role.community]}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">NCWF Category 2024</div>
+          <div class="modal-info-value">${role.ncwf_category_2024 || 'N/A'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">WRL-ID 2024 (NCWF)</div>
+          <div class="modal-info-value" style="font-family: var(--font-family-mono);">${role.wrl_id_2024 || 'Not mapped'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Specialty Area (Legacy 2017)</div>
+          <div class="modal-info-value">${role.specialty_acronym || 'N/A'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">WRL-ID 2017 (Legacy)</div>
+          <div class="modal-info-value" style="font-family: var(--font-family-mono);">${role.wrl_id_2017 || 'Not mapped'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">SFIA 9 Levels Available</div>
+          <div class="modal-info-value">
+            ${role.sfia_levels.map(l => `<span class="sfia-level">Level ${l} - ${sfiaDescriptions[l]}</span>`).join(' ')}
+          </div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Posture (LoD/LoA)</div>
+          <div class="modal-info-value">${role.posture_code ? `<span style="font-weight: var(--font-weight-semibold);">${role.posture_code} - ${role.posture_nom}</span>` : 'N/A'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">NCWF Mapping Status</div>
+          <div class="modal-info-value">${role.wrl_id_2024 ? '<span style="color: var(--color-success);">✓ Mapped to NCWF v1.0.0 (2024)</span>' : '<span style="color: var(--color-warning);">⚠️ No NCWF mapping</span>'}</div>
+        </div>
+      `;
+
+      const overlay = document.getElementById('modal-overlay');
+      overlay.classList.remove('hidden');
+      setTimeout(() => overlay.classList.add('show'), 10);
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('modal-overlay');
+      overlay.classList.remove('show');
+      setTimeout(() => overlay.classList.add('hidden'), 250);
+    }
+
+    function closeModalOnOverlay(event) {
+      if (event.target.id === 'modal-overlay') {
+        closeModal();
+      }
+    }
+
+    function toggleInfoBox(index) {
+      const content = document.getElementById(`info-content-${index}`);
+      const chevron = document.getElementById(`chevron-${index}`);
+
+      content.classList.toggle('open');
+      chevron.classList.toggle('open');
+    }
+
+    // ---- NCWF Category Grouped View ----
+    // NCWF Categories and their colors and descriptions
+    const NCWF_CATEGORIES = [
+      { code: 'IO', name: 'Input/Output Operations', color: '#3B82F6' },
+      { code: 'PD', name: 'Protection & Defense', color: '#EF4444' },
+      { code: 'DD', name: 'Design & Development', color: '#8B5CF6' },
+      { code: 'OG', name: 'Oversight & Governance', color: '#F59E0B' },
+      { code: 'CE', name: 'Cyber Effects', color: '#EC4899' },
+      { code: 'CI', name: 'Cyber Intelligence', color: '#06B6D4' },
+      { code: 'IN', name: 'Investigation', color: '#10B981' }
+    ];
+    const UNMAPPED_CATEGORY = { code: 'N/A', name: 'Non catégorisé', color: '#6B7280' };
+
+    function renderCategoryView(container) {
+      // Prepare grouped data
+      const categoryMap = {};
+      NCWF_CATEGORIES.forEach(cat => categoryMap[cat.code] = []);
+      categoryMap['N/A'] = [];
+      filteredRoles.forEach(role => {
+        const catKey = role.ncwf_category_2024 ? role.ncwf_category_2024 : 'N/A';
+        if (!categoryMap[catKey]) categoryMap[catKey] = [];
+        categoryMap[catKey].push(role);
+      });
+
+      // Section rendering
+      let html = '';
+      [...NCWF_CATEGORIES, UNMAPPED_CATEGORY].forEach(cat => {
+        const roles = (categoryMap[cat.code] || []).slice();
+        if (roles.length === 0) return;
+        // Sort by opm_id (sort by number then lex)
+        roles.sort((a, b) => {
+          // numeric compare if possible
+          const getNum = v => {
+            let n = (v.opm_id || '').replace(/[^\d]/g, '');
+            return n ? parseInt(n) : 9999;
+          };
+          return getNum(a) - getNum(b) || a.opm_id.localeCompare(b.opm_id);
+        });
+        html += `
+        <section class="grouped-section">
+          <div class="group-header" style="border-left: 8px solid ${cat.color}; border-bottom: 2px solid ${cat.color};">
+            <div class="group-title" style="color: ${cat.color}">${cat.code} - ${cat.name}</div>
+            <div class="group-count">${roles.length} rôle${roles.length > 1 ? 's' : ''}</div>
+          </div>
+          <div class="group-roles">
+            ${roles.map(role => {
+          const colorClass = getOpmColorClass(role.opm_id, role.community);
+          return `<div class="group-role-item" onclick="openModal('${role.opm_id}')" style="border-left: 8px solid ${cat.color};">
+                  <div class="group-role-header">
+                    <span class="group-role-opm ${colorClass}">${role.opm_id}</span>
+                    <span class="badge community-badge" style="border-color: inherit;">${role.community || 'TBD'}</span>
+                    <span class="group-role-name" style="font-weight: bold;">${role.dcwf_name}</span>
+                  </div>
+                  <div class="group-role-meta">
+                    <span class="role-dcwf-name" style="font-size: var(--font-size-sm); color: var(--color-text-secondary);">${role.ncwf_name}</span>
+                    ${getPostureBadge(role)}
+                    ${role.posture_nom ? `<span class="role-specialty" style="font-weight: var(--font-weight-medium);">${role.posture_nom}</span>` : ''}
+                    ${role.specialty_acronym ? `<span class="role-specialty">Specialty: ${role.specialty_acronym}</span>` : ''}
+                    <span>${role.sfia_levels.map(l => `<span class="sfia-level">L${l}</span>`).join(' ')}</span>
+                    ${role.wrl_id_2024 ? '<span style="margin-left:8px; color:var(--color-success);">✓</span>' : '<span style="margin-left:8px; color:var(--color-warning);">⚠️</span>'}
+                  </div>
+                </div>`;
+        }).join('')}
+          </div>
+        </section>
+        `;
+      });
+      container.innerHTML = html;
+    }
+    // Initialize app
+    init();
+  </script>
+</body>
+
+</html>

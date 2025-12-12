@@ -683,31 +683,56 @@
 
     <header class="bg-white shadow">
         <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
+            <div class="flex items-center justify-between gap-6">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900">Cyber Align Dashboard</h1>
                 
                 <!-- Informations utilisateur et numéro de poste -->
-                <div class="flex items-start space-x-6 max-w-2xl">
+                <div class="flex items-center gap-6">
+                    {% if user.is_authenticated %}
                     <!-- Section Numéro de poste -->
-                    <div class="flex flex-col space-y-2">
-                        <div class="flex items-center space-x-2">
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <!-- Input pour le nom -->
+                            <div class="flex items-center gap-1">
+                                <label class="text-sm font-medium text-gray-700 whitespace-nowrap">Nom:</label>
+                                <input type="text" id="header-job-nom-input" 
+                                       class="px-2 py-1 border border-gray-300 rounded-md text-sm w-24 focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                       placeholder="Nom">
+                            </div>
+                            
+                            <!-- Select pour la couleur (toutes les couleurs disponibles) -->
+                            <div class="flex items-center gap-1">
+                                <label class="text-sm font-medium text-gray-700 whitespace-nowrap">Couleur:</label>
+                                <select id="header-job-couleur-select" 
+                                        class="px-2 py-1 border border-gray-300 rounded-md text-sm w-28 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Sélectionner</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Input pour le numéro de poste -->
+                            <div class="flex items-center gap-1">
+                                <label class="text-sm font-medium text-gray-700 whitespace-nowrap">Poste:</label>
                             <input type="text" id="header-job-number-input" 
-                                   class="px-3 py-1 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-                                   placeholder="Numéro de poste">
+                                       class="px-2 py-1 border border-gray-300 rounded-md text-sm w-20 focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                                       placeholder="Numéro">
+                            </div>
+                            
                             <button id="header-save-job-number" 
-                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm whitespace-nowrap">
                                 Valider
                             </button>
                         </div>
                         
+                        <!-- Messages d'erreur -->
+                        <div id="header-job-error" class="text-xs text-red-500 mt-1 text-right hidden"></div>
+                        
                         <!-- Affichage du numéro de poste -->
-                        <div id="header-job-number" class="text-sm font-medium text-gray-700 hidden">
-                            Numéro de poste: <span id="header-job-number-value" class="font-bold text-blue-600"></span>
+                        <div id="header-job-number" class="text-xs font-medium text-gray-700 mt-1 text-right hidden">
+                            Poste: <span id="header-job-number-value" class="font-bold text-blue-600"></span>
                         </div>
                     </div>
                     
                     <!-- Section Informations utilisateur -->
-                    {% if user.is_authenticated %}
                     <div class="flex flex-col space-y-2">
                         <div class="text-left">
                             <h3 class="text-lg font-semibold text-gray-800">{{ user.last_name }}</h3>
@@ -768,42 +793,204 @@
 </div>
 
 <script>
-    // Synchronisation du numéro de poste dans le header
+    // Synchronisation du numéro de poste dans le header avec validation
     document.addEventListener('DOMContentLoaded', function() {
+        // Vérifier si l'utilisateur est authentifié avant d'initialiser
+        const isAuthenticated = document.getElementById('user-authenticated')?.dataset.authenticated === 'True';
+        if (!isAuthenticated) {
+            return; // Ne pas initialiser si l'utilisateur n'est pas connecté
+        }
+        
         const headerJobNumber = document.getElementById('header-job-number');
         const headerJobNumberValue = document.getElementById('header-job-number-value');
         const headerJobNumberInput = document.getElementById('header-job-number-input');
+        const headerJobNomInput = document.getElementById('header-job-nom-input');
+        const headerJobCouleurSelect = document.getElementById('header-job-couleur-select');
         const headerSaveJobNumber = document.getElementById('header-save-job-number');
+        const headerJobError = document.getElementById('header-job-error');
         
-        // Charger le numéro de poste depuis localStorage
+        // Vérifier que tous les éléments existent
+        if (!headerJobNumber || !headerJobNumberValue || !headerJobNumberInput || 
+            !headerJobNomInput || !headerJobCouleurSelect || !headerSaveJobNumber || !headerJobError) {
+            return; // Les éléments n'existent pas (utilisateur non connecté)
+        }
+        
+        let idfData = [];
+        
+        // Charger les données IDF.json
+        async function loadIdfData() {
+            try {
+                const response = await fetch('{% url "idf_json" %}');
+                if (!response.ok) {
+                    console.error('Erreur lors du chargement de IDF.json');
+                    return;
+                }
+                idfData = await response.json();
+                console.log('Données IDF chargées:', idfData);
+                
+                // Remplir le select des couleurs (toutes les couleurs uniques)
+                const couleursUniques = [...new Set(idfData.map(item => item.couleur))];
+                couleursUniques.forEach(couleur => {
+                    const option = document.createElement('option');
+                    option.value = couleur;
+                    option.textContent = couleur;
+                    headerJobCouleurSelect.appendChild(option);
+                });
+                
+                // Restaurer la sélection depuis localStorage si disponible
+                const savedSelection = localStorage.getItem('currentJobSelection');
+                if (savedSelection) {
+                    try {
+                        const selection = JSON.parse(savedSelection);
+                        if (selection.nom) {
+                            headerJobNomInput.value = selection.nom;
+                        }
+                        if (selection.couleur) {
+                            headerJobCouleurSelect.value = selection.couleur;
+                        }
+                        if (selection.poste) {
+                            headerJobNumberInput.value = selection.poste;
+                        }
+                    } catch (e) {
+                        console.error('Erreur lors de la restauration de la sélection:', e);
+                    }
+                }
+                
+                // Restaurer aussi le numéro de poste depuis localStorage
         const currentJobNumber = localStorage.getItem('currentJobNumber');
         if (currentJobNumber) {
             headerJobNumberValue.textContent = currentJobNumber;
             headerJobNumber.classList.remove('hidden');
-            headerJobNumberInput.value = currentJobNumber;
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement de IDF.json:', error);
+            }
         }
         
-        // Sauvegarder le numéro de poste
-        headerSaveJobNumber.addEventListener('click', function() {
-            const jobNumber = headerJobNumberInput.value.trim();
-            if (jobNumber) {
-                localStorage.setItem('currentJobNumber', jobNumber);
-                headerJobNumberValue.textContent = jobNumber;
-                headerJobNumber.classList.remove('hidden');
-                alert(`Numéro de poste ${jobNumber} enregistré avec succès.`);
-            } else {
-                alert('Veuillez entrer un numéro de poste valide.');
+        // Fonction de validation
+        function validateSelection() {
+            const nom = headerJobNomInput.value.trim();
+            const couleur = headerJobCouleurSelect.value.trim();
+            const poste = headerJobNumberInput.value.trim();
+            
+            // Cacher les erreurs précédentes
+            headerJobError.classList.add('hidden');
+            headerJobError.textContent = '';
+            
+            // Si le nom est "JOKER", on accepte tout sans validation
+            if (nom.toUpperCase() === 'JOKER') {
+                return true;
             }
+            
+            // Vérifier si le nom existe
+            const nomsExistant = [...new Set(idfData.map(item => item.nom))];
+            if (nom && !nomsExistant.includes(nom)) {
+                headerJobError.textContent = 'Wrong Name';
+                headerJobError.classList.remove('hidden');
+                return false;
+            }
+            
+            // Vérifier si la couleur est valide pour le nom
+            if (nom && couleur) {
+                const couleursValides = [...new Set(
+                    idfData
+                        .filter(item => item.nom === nom)
+                        .map(item => item.couleur)
+                )];
+                if (!couleursValides.includes(couleur)) {
+                    headerJobError.textContent = 'Wrong Color';
+                    headerJobError.classList.remove('hidden');
+                    return false;
+                }
+            }
+            
+            // Vérifier si le numéro de poste existe pour le nom et la couleur
+            if (nom && couleur && poste) {
+                const entry = idfData.find(item => 
+                    item.nom === nom && item.couleur === couleur
+                );
+                
+                if (!entry || !entry.postes) {
+                    headerJobError.textContent = 'Wrong Number';
+                    headerJobError.classList.remove('hidden');
+                    return false;
+                }
+                
+                // Convertir le poste en nombre pour la comparaison
+                const posteNum = parseInt(poste);
+                const postesValides = entry.postes.map(p => typeof p === 'number' ? p : parseInt(p));
+                
+                if (!postesValides.includes(posteNum)) {
+                    headerJobError.textContent = 'Wrong Number';
+                    headerJobError.classList.remove('hidden');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        // Événements de validation en temps réel
+        headerJobNomInput.addEventListener('input', function() {
+            validateSelection();
+        });
+        
+        headerJobCouleurSelect.addEventListener('change', function() {
+            validateSelection();
+        });
+        
+        headerJobNumberInput.addEventListener('input', function() {
+            validateSelection();
         });
         
         // Permettre de valider avec la touche Entrée
+        headerJobNomInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                headerSaveJobNumber.click();
+            }
+        });
+        
         headerJobNumberInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 headerSaveJobNumber.click();
             }
         });
         
-        // Écouter les changements de numéro de poste
+        // Sauvegarder la sélection complète
+        headerSaveJobNumber.addEventListener('click', function() {
+            const nom = headerJobNomInput.value.trim();
+            const couleur = headerJobCouleurSelect.value.trim();
+            const poste = headerJobNumberInput.value.trim();
+            
+            if (!nom || !couleur || !poste) {
+                headerJobError.textContent = 'Veuillez remplir tous les champs.';
+                headerJobError.classList.remove('hidden');
+                return;
+            }
+            
+            // Valider la sélection
+            if (!validateSelection()) {
+                return;
+            }
+            
+            // Sauvegarder la sélection complète
+            const selection = { nom, couleur, poste };
+            localStorage.setItem('currentJobSelection', JSON.stringify(selection));
+            localStorage.setItem('currentJobNumber', poste);
+            
+            // Afficher le numéro de poste
+            headerJobNumberValue.textContent = poste;
+            headerJobNumber.classList.remove('hidden');
+            
+            // Cacher l'erreur et afficher un message de succès
+            headerJobError.classList.add('hidden');
+            alert(`Numéro de poste ${poste} (${nom} - ${couleur}) enregistré avec succès.`);
+        });
+        
+        // Charger les données au démarrage
+        loadIdfData();
+        
+        // Écouter les changements de numéro de poste depuis d'autres onglets
         window.addEventListener('storage', function(event) {
             if (event.key === 'currentJobNumber') {
                 if (event.newValue) {
@@ -1089,27 +1276,40 @@
       if (!compareContainer) {
         compareContainer = document.createElement('div');
         compareContainer.id = 'external-compare-container';
-        compareContainer.style.cssText = `
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          z-index: 1000;
-          transition: all 0.3s ease;
-        `;
         document.body.appendChild(compareContainer);
       }
+      
+      // Appliquer les styles à chaque fois pour s'assurer qu'ils sont toujours présents
+      compareContainer.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        max-width: 320px;
+        text-align: right;
+      `;
       
       // Compter toutes les cases cochées sur la page
       const allCheckedBoxes = document.querySelectorAll('.work-role input[type="checkbox"]:checked');
       const checkedCount = allCheckedBoxes.length;
       
       if (checkedCount > 0) {
-        compareContainer.innerHTML = `
-          <button onclick="compareAllSelected()" 
-                  class="bg-green-500 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors shadow-lg border-2 border-green-600">
-            🔍 Comparer (${checkedCount} sélection${checkedCount > 1 ? 's' : ''})
-          </button>
-        `;
+        // Créer d'abord le paragraphe avec la note
+        const noteParagraph = document.createElement('p');
+        noteParagraph.style.cssText = 'font-size: 12px; color: #374151; margin: 0 0 10px 0; line-height: 1.5; text-align: right; background-color: #ffffff; padding: 8px 12px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 1px solid #e5e7eb; display: block;';
+        noteParagraph.innerHTML = '<span style="color: #ef4444; font-weight: bold; font-size: 14px; margin-right: 4px;">*</span>Only OPM IDs selected at baseline will proceed to the next step.';
+        
+        // Créer le bouton
+        const compareButton = document.createElement('button');
+        compareButton.onclick = compareAllSelected;
+        compareButton.className = 'bg-green-500 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors shadow-lg border-2 border-green-600';
+        compareButton.textContent = `🔍 Comparer (${checkedCount} sélection${checkedCount > 1 ? 's' : ''})`;
+        
+        // Vider le conteneur et ajouter les éléments
+        compareContainer.innerHTML = '';
+        compareContainer.appendChild(noteParagraph);
+        compareContainer.appendChild(compareButton);
         compareContainer.style.display = 'block';
       } else {
         compareContainer.style.display = 'none';

@@ -1,0 +1,1370 @@
+[
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Database Administrator",
+      "dcwf_code": 421,
+      "work_role_definition": "Administers databases and/or data management systems that allow for the storage, query, and utilization of data."
+    },
+    "nice_role": {
+      "work_role": "Database Administration",
+      "work_role_description": "Responsible for administering databases and data management systems that allow for the secure storage, query, protection, and utilization of data.",
+      "work_role_id": "IO-WRL-002",
+      "link_to_tks_list": "Click to view IO-WRL-002 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-002",
+    "opm_code": 421,
+    "dcwf_code": 421
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Knowledge Manager",
+      "dcwf_code": 431,
+      "work_role_definition": "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content."
+    },
+    "nice_role": {
+      "work_role": "Knowledge Management",
+      "work_role_description": "Responsible for managing and administering processes and tools to identify, document, and access an organization’s intellectual capital.",
+      "work_role_id": "IO-WRL-003",
+      "link_to_tks_list": "Click to view IO-WRL-003 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-003",
+    "opm_code": 431,
+    "dcwf_code": 431
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Network Operations Specialist",
+      "dcwf_code": 441,
+      "work_role_definition": "Plans, implements, and operates network services/systems, to include hardware and virtual environments."
+    },
+    "nice_role": {
+      "work_role": "Network Operations",
+      "work_role_description": "Responsible for planning, implementing, and operating network services and systems, including hardware and virtual environments.",
+      "work_role_id": "IO-WRL-004",
+      "link_to_tks_list": "Click to view IO-WRL-004 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-004",
+    "opm_code": 441,
+    "dcwf_code": 441
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "System Administrator",
+      "dcwf_code": 451,
+      "work_role_definition": "Installs, configures, troubleshoots, and maintains hardware, software, and administers system accounts."
+    },
+    "nice_role": {
+      "work_role": "Systems Administration",
+      "work_role_description": "Responsible for setting up and maintaining a system or specific components of a system in adherence with organizational security policies and procedures. Includes hardware and software installation, configuration, and updates; user account management; backup and recovery management; and security control implementation.",
+      "work_role_id": "IO-WRL-005",
+      "link_to_tks_list": "Click to view IO-WRL-005 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-005",
+    "opm_code": 451,
+    "dcwf_code": 451
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Systems Developer ",
+      "dcwf_code": 632,
+      "work_role_definition": "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle."
+    },
+    "nice_role": {
+      "work_role": "Secure Systems Development",
+      "work_role_description": "Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.",
+      "work_role_id": "DD-WRL-004",
+      "link_to_tks_list": "Click to view DD-WRL-004 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-004",
+    "opm_code": "631 and 632",
+    "dcwf_code": 632
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Systems Requirements Planner ",
+      "dcwf_code": 641,
+      "work_role_definition": "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions."
+    },
+    "nice_role": {
+      "work_role": "Systems Requirements Planning ",
+      "work_role_description": "Responsible for consulting with internal and external customers to evaluate and translate functional requirements and integrating security policies into technical solutions. ",
+      "work_role_id": "DD-WRL-006",
+      "link_to_tks_list": "Click to view DD-WRL-006 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-006",
+    "opm_code": 641,
+    "dcwf_code": 641
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Enterprise Architect",
+      "dcwf_code": 651,
+      "work_role_definition": "Develops and maintains business, systems, and information processes to support enterprise mission needs; develops information technology (IT) rules and requirements that describe baseline and target architectures. "
+    },
+    "nice_role": {
+      "work_role": "Enterprise Architecture ",
+      "work_role_description": "Responsible for developing and maintaining business, systems, and information processes to support enterprise mission needs. Develops technology rules and requirements that describe baseline and target architectures. ",
+      "work_role_id": "DD-WRL-002",
+      "link_to_tks_list": "Click to view DD-WRL-002 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-002",
+    "opm_code": 651,
+    "dcwf_code": 651
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Research & Development Specialist",
+      "dcwf_code": 661,
+      "work_role_definition": "Conducts software and systems engineering and software systems research in order to develop new capabilities, ensuring cybersecurity is fully integrated. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems."
+    },
+    "nice_role": {
+      "work_role": "Technology Research and Development",
+      "work_role_description": "Responsible for conducting software and systems engineering and software systems research to develop new capabilities with fully integrated cybersecurity. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems. ",
+      "work_role_id": "DD-WRL-008",
+      "link_to_tks_list": "Click to view DD-WRL-008 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-008",
+    "opm_code": 661,
+    "dcwf_code": 661
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "System Testing and Evaluation Specialist",
+      "dcwf_code": 671,
+      "work_role_definition": "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements as well as analyze/report test results."
+    },
+    "nice_role": {
+      "work_role": "Systems Testing and Evaluation",
+      "work_role_description": "Responsible for planning, preparing, and executing system tests; evaluating test results against specifications and requirements; and reporting test results and findings.",
+      "work_role_id": "DD-WRL-007",
+      "link_to_tks_list": "Click to view DD-WRL-007 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-007",
+    "opm_code": 671,
+    "dcwf_code": 671
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Control Systems Security Specialist",
+      "dcwf_code": 462,
+      "work_role_definition": "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems, including security monitoring and maintenance along with stakeholder coordination to ensure the system and its interconnections are secure in support of mission operations."
+    },
+    "nice_role": {
+      "work_role": "Control Systems Security",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Protection & Defense"
+    },
+    "ncwf_id": null,
+    "opm_code": 462,
+    "dcwf_code": 462
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Cyber Defense Analyst",
+      "dcwf_code": 511,
+      "work_role_definition": "Uses data collected from a variety of cyber defense tools (e.g., IDS alerts, firewalls, network traffic logs.) to analyze events that occur within their environments for the purposes of mitigating threats."
+    },
+    "nice_role": {
+      "work_role": "Defensive Cybersecurity",
+      "work_role_description": "Responsible for analyzing data collected from various cybersecurity defense tools to mitigate risks.",
+      "work_role_id": "PD-WRL-001",
+      "link_to_tks_list": "Click to view PD-WRL-001 TKS List",
+      "element": "Protection & Defense"
+    },
+    "ncwf_id": "PD-WRL-001",
+    "opm_code": 511,
+    "dcwf_code": 511
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Cyber Defense Infrastructure Support Specialist",
+      "dcwf_code": 521,
+      "work_role_definition": "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software. "
+    },
+    "nice_role": {
+      "work_role": "Infrastructure Support",
+      "work_role_description": "Responsible for testing, implementing, deploying, maintaining, and administering infrastructure hardware and software for cybersecurity. ",
+      "work_role_id": "PD-WRL-004",
+      "link_to_tks_list": "Click to view PD-WRL-004 TKS List",
+      "element": "Protection & Defense"
+    },
+    "ncwf_id": "PD-WRL-004",
+    "opm_code": 521,
+    "dcwf_code": 521
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Cyber Defense Incident Responder",
+      "dcwf_code": 531,
+      "work_role_definition": "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave."
+    },
+    "nice_role": {
+      "work_role": "Incident Response",
+      "work_role_description": "Responsible for investigating, analyzing, and responding to network cybersecurity incidents.",
+      "work_role_id": "PD-WRL-003",
+      "link_to_tks_list": "Click to view PD-WRL-003 TKS List",
+      "element": "Protection & Defense"
+    },
+    "ncwf_id": "PD-WRL-003",
+    "opm_code": 531,
+    "dcwf_code": 531
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Vulnerability Assessment Analyst",
+      "dcwf_code": 541,
+      "work_role_definition": "Performs assessments of systems and networks within the NE or enclave and identifies where those systems/networks deviate from acceptable configurations, enclave policy, or local policy. Measures effectiveness of defense-in-depth architecture against known vulnerabilities."
+    },
+    "nice_role": {
+      "work_role": "Vulnerability Analysis",
+      "work_role_description": "Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy. Measure effectiveness of defense-in-depth architecture against known vulnerabilities.",
+      "work_role_id": "PD-WRL-007",
+      "link_to_tks_list": "Click to view PD-WRL-007 TKS List",
+      "element": "Protection & Defense"
+    },
+    "ncwf_id": "PD-WRL-007",
+    "opm_code": 541,
+    "dcwf_code": 541
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Authorizing Official/Designated Representative ",
+      "dcwf_code": 611,
+      "work_role_definition": "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations (including mission, functions, image, or reputation), organizational assets, individuals, other organizations, and the Nation (CNSSI 4009)."
+    },
+    "nice_role": {
+      "work_role": "Systems Authorization",
+      "work_role_description": "Responsible for operating an information system at an acceptable level of risk to organizational operations, organizational assets, individuals, other organizations, and the nation.",
+      "work_role_id": "OG-WRL-013",
+      "link_to_tks_list": "Click to view OG-WRL-013 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-013",
+    "opm_code": 611,
+    "dcwf_code": 611
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Security Control Assessor",
+      "dcwf_code": 612,
+      "work_role_definition": "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system to determine the overall effectiveness of the controls (as defined in NIST 800-37). "
+    },
+    "nice_role": {
+      "work_role": "Security Control Assessment",
+      "work_role_description": "Responsible for conducting independent comprehensive assessments of management, operational, and technical security controls and control enhancements employed within or inherited by a system to determine their overall effectiveness. ",
+      "work_role_id": "OG-WRL-012",
+      "link_to_tks_list": "Click to view OG-WRL-012 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-012",
+    "opm_code": 612,
+    "dcwf_code": 612
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Secure Software Assessor",
+      "dcwf_code": 622,
+      "work_role_definition": "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results."
+    },
+    "nice_role": {
+      "work_role": "Software Security Assessment",
+      "work_role_description": "Responsible for analyzing the security of new or existing computer applications, software, or specialized utility programs and delivering actionable results.",
+      "work_role_id": "DD-WRL-005",
+      "link_to_tks_list": "Click to view DD-WRL-005 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-005",
+    "opm_code": 622,
+    "dcwf_code": 622
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Information Systems Security Developer",
+      "dcwf_code": 631,
+      "work_role_definition": "Designs, develops, tests, and evaluates information system security throughout the systems development lifecycle."
+    },
+    "nice_role": {
+      "work_role": "Secure Systems Development",
+      "work_role_description": "Responsible for the secure design, development, and testing of systems and the evaluation of system security throughout the systems development life cycle.",
+      "work_role_id": "DD-WRL-004",
+      "link_to_tks_list": "Click to view DD-WRL-004 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-004",
+    "opm_code": "631 and 632",
+    "dcwf_code": 631
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Security Architect",
+      "dcwf_code": 652,
+      "work_role_definition": "Designs enterprise and systems security throughout the development lifecycle; translates technology and environmental conditions (e.g., law and regulation) into security designs and processes."
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Architecture ",
+      "work_role_description": "Responsible for ensuring that security requirements are adequately addressed in all aspects of enterprise architecture, including reference models, segment and solution architectures, and the resulting systems that protect and support organizational mission and business processes.",
+      "work_role_id": "DD-WRL-001",
+      "link_to_tks_list": "Click to view DD-WRL-001 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-001",
+    "opm_code": 652,
+    "dcwf_code": 652
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Information Systems Security Manager",
+      "dcwf_code": 722,
+      "work_role_definition": "Responsible for the cybersecurity of a program, organization, system, or enclave. "
+    },
+    "nice_role": {
+      "work_role": "Systems Security Management",
+      "work_role_description": "Responsible for managing the cybersecurity of a program, organization, system, or enclave. ",
+      "work_role_id": "OG-WRL-014",
+      "link_to_tks_list": "Click to view OG-WRL-014 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-014",
+    "opm_code": 722,
+    "dcwf_code": 722
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "COMSEC Manager ",
+      "dcwf_code": 723,
+      "work_role_definition": "Manages the Communications Security (COMSEC) resources of an organization (CNSSI No. 4009)."
+    },
+    "nice_role": {
+      "work_role": "Communications Security (COMSEC) Management",
+      "work_role_description": "Responsible for managing the Communications Security (COMSEC) resources of an organization.",
+      "work_role_id": "OG-WRL-001",
+      "link_to_tks_list": "Click to view OG-WRL-001 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-001",
+    "opm_code": 723,
+    "dcwf_code": 723
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Workforce Developer and Manager",
+      "dcwf_code": 751,
+      "work_role_definition": "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements. "
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Workforce Management",
+      "work_role_description": "Responsible for developing cybersecurity workforce plans, assessments, strategies, and guidance, including cybersecurity-related staff training, education, and hiring processes. Makes adjustments in response to or in anticipation of changes to cybersecurity-related policy, technology, and staffing needs and requirements. Authors mandated workforce planning strategies to maintain compliance with legislation, regulation, and policy.",
+      "work_role_id": "OG-WRL-003",
+      "link_to_tks_list": "Click to view OG-WRL-003 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-003",
+    "opm_code": 751,
+    "dcwf_code": 751
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Policy and Strategy Planner",
+      "dcwf_code": 752,
+      "work_role_definition": "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives. "
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Policy and Planning",
+      "work_role_description": "Responsible for developing and maintaining cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.",
+      "work_role_id": "OG-WRL-002",
+      "link_to_tks_list": "Click to view OG-WRL-002 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-002",
+    "opm_code": 752,
+    "dcwf_code": 752
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Executive Cyber Leader",
+      "dcwf_code": 901,
+      "work_role_definition": "Executes decision-making authorities and establishes vision and direction for an organization's cyber and cyber-related policies, resources, and/or operations, while maintaining responsibility for risk-related decisions affecting mission success."
+    },
+    "nice_role": {
+      "work_role": "Executive Cybersecurity Leadership",
+      "work_role_description": "Responsible for establishing vision and direction for an organization's cybersecurity operations and resources and their impact on digital and physical spaces. Possesses authority to make and execute decisions that impact an organization broadly, including policy approval and stakeholder engagement.",
+      "work_role_id": "OG-WRL-007",
+      "link_to_tks_list": "Click to view OG-WRL-007 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-007",
+    "opm_code": 901,
+    "dcwf_code": 901
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Instructional Curriculum Developer",
+      "dcwf_code": 711,
+      "work_role_definition": "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs."
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Curriculum Development",
+      "work_role_description": "Responsible for developing, planning, coordinating, and evaluating cybersecurity awareness, training, or education content, methods, and techniques based on instructional needs and requirements.",
+      "work_role_id": "OG-WRL-004",
+      "link_to_tks_list": "Click to view OG-WRL-004 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-004",
+    "opm_code": 711,
+    "dcwf_code": 711
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Instructor",
+      "dcwf_code": 712,
+      "work_role_definition": "Develops and conducts training or education of personnel within cyber domain. "
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Instruction",
+      "work_role_description": "Responsible for developing and conducting cybersecurity awareness, training, or education. ",
+      "work_role_id": "OG-WRL-005",
+      "link_to_tks_list": "Click to view OG-WRL-005 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-005",
+    "opm_code": 712,
+    "dcwf_code": 712
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Forensics Analyst",
+      "dcwf_code": 211,
+      "work_role_definition": "Conducts deep-dive investigations on computer-based crimes establishing documentary or physical evidence, to include digital media and logs associated with cyber intrusion incidents."
+    },
+    "nice_role": {
+      "work_role": "Digital Evidence Analysis",
+      "work_role_description": "Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.",
+      "work_role_id": "IN-WRL-002",
+      "link_to_tks_list": "Click to view IN-WRL-002 TKS List",
+      "element": "Investigation"
+    },
+    "ncwf_id": "IN-WRL-002",
+    "opm_code": 211,
+    "dcwf_code": 211
+  },
+  {
+    "dcwf_role": {
+      "element": "Cybersecurity\n(CS)",
+      "element_description": "Personnel who secure, defend, and preserve data, networks, net-centric capabilities, and other designated systems by ensuring appropriate security controls and measures are in place, and taking internal defense actions. This includes access to system controls, monitoring, administration, and integration of cybersecurity into all aspects of engineering and acquisition of cyberspace capabilities.",
+      "work_role": "Digital Forensics",
+      "dcwf_code": 212,
+      "work_role_definition": "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation."
+    },
+    "nice_role": {
+      "work_role": "Digital Forensics",
+      "work_role_description": "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation.",
+      "work_role_id": "PD-WRL-002",
+      "link_to_tks_list": "Click to view PD-WRL-002 TKS List",
+      "element": "Protection and Defense"
+    },
+    "ncwf_id": "PD-WRL-002",
+    "opm_code": 212,
+    "dcwf_code": 212
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Crime Investigator",
+      "dcwf_code": 221,
+      "work_role_definition": "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques."
+    },
+    "nice_role": {
+      "work_role": "Cybercrime Investigation",
+      "work_role_description": "Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes and appropriately balances the benefits of prosecution versus intelligence gathering.",
+      "work_role_id": "IN-WRL-001",
+      "link_to_tks_list": "Click to view IN-WRL-001 TKS List",
+      "element": "Investigation"
+    },
+    "ncwf_id": "IN-WRL-001",
+    "opm_code": 221,
+    "dcwf_code": 221
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Cyber Legal Advisor",
+      "dcwf_code": 731,
+      "work_role_definition": "Provides legal advice and recommendations on relevant topics related to cyber law. "
+    },
+    "nice_role": {
+      "work_role": "Cybersecurity Legal Advice",
+      "work_role_description": "Responsible for providing cybersecurity legal advice and recommendations, including monitoring related legislation and regulations.",
+      "work_role_id": "OG-WRL-006",
+      "link_to_tks_list": "Click to view OG-WRL-006 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-006",
+    "opm_code": 731,
+    "dcwf_code": 731
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Program Manager",
+      "dcwf_code": 801,
+      "work_role_definition": "Leads, coordinates, communicates, integrates and is accountable for the overall success of the program, ensuring alignment with critical agency priorities."
+    },
+    "nice_role": {
+      "work_role": "Program Management ",
+      "work_role_description": "Responsible for leading, coordinating, and the overall success of a defined program. Includes communicating about the program and ensuring alignment with agency or organizational  priorities.",
+      "work_role_id": "OG-WRL-010",
+      "link_to_tks_list": "Click to view OG-WRL-010 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-010",
+    "opm_code": 801,
+    "dcwf_code": 801
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "IT Project Manager",
+      "dcwf_code": 802,
+      "work_role_definition": "Work that involves directly managing information technology projects to provide a unique service or product."
+    },
+    "nice_role": {
+      "work_role": "Secure Project Management",
+      "work_role_description": "Responsible for overseeing and directly managing technology projects. Ensures cybersecurity is built into projects to protect the organization’s critical infrastructure and assets, reduce risk, and meet organizational goals. Tracks and communicates project status and demonstrates project value to the organization.",
+      "work_role_id": "OG-WRL-011",
+      "link_to_tks_list": "Click to view OG-WRL-011 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-011",
+    "opm_code": 802,
+    "dcwf_code": 802
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Product Support Manager ",
+      "dcwf_code": 803,
+      "work_role_definition": "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components. "
+    },
+    "nice_role": {
+      "work_role": "Product Support Management",
+      "work_role_description": "Responsible for planning, estimating costs, budgeting, developing, implementing, and managing product support strategies in order to field and maintain the readiness and operational capability of systems and components.",
+      "work_role_id": "OG-WRL-009",
+      "link_to_tks_list": "Click to view OG-WRL-009 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-009",
+    "opm_code": 803,
+    "dcwf_code": 803
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "IT Investment/Portfolio Manager",
+      "dcwf_code": 804,
+      "work_role_definition": "Manages a portfolio of IT capabilities that align with the overall needs of mission and business enterprise priorities."
+    },
+    "nice_role": {
+      "work_role": "Technology Portfolio Management",
+      "work_role_description": "Responsible for managing a portfolio of technology investments that align with the overall needs of mission and enterprise priorities.",
+      "work_role_id": "OG-WRL-015",
+      "link_to_tks_list": "Click to view OG-WRL-015 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-015",
+    "opm_code": 804,
+    "dcwf_code": 804
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "IT Program Auditor",
+      "dcwf_code": 805,
+      "work_role_definition": "Conducts evaluations of an IT program or its individual components, to determine compliance with published standards. "
+    },
+    "nice_role": {
+      "work_role": "Technology Program Auditing",
+      "work_role_description": "Responsible for conducting evaluations of technology programs or their individual components to determine compliance with published standards. ",
+      "work_role_id": "OG-WRL-016",
+      "link_to_tks_list": "Click to view OG-WRL-016 TKS List",
+      "element": "Oversight & Governance"
+    },
+    "ncwf_id": "OG-WRL-016",
+    "opm_code": 805,
+    "dcwf_code": 805
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Digital Network Exploitation Analyst",
+      "dcwf_code": 122,
+      "work_role_definition": "The DNEA analyzes intercepted intelligence information for metadata and content. They use this data to reconstruct and document target networks to judge the intelligence value and maintain target continuity. DNEAs understand and analyze target implementation of communication technologies and digital network systems. They discover methods and suggest strategies to exploit specific target networks, computer systems, or specific hardware and/or software."
+    },
+    "nice_role": {
+      "work_role": "Digital Network Exploitation Analysis",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 122,
+    "dcwf_code": 122
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Joint Targeting Analyst",
+      "dcwf_code": 131,
+      "work_role_definition": "Joint Targeting Analyst conduct target development at the system, component and entity levels. Builds and maintains Electronic Target Folders (ETFs), to include inputs from JIPOE, Target System Analysis (TSA), GMI and other IC sources. Senior analysts run collaborative target working groups across Geographic Combatant Commands (GCCs) and IC members, and present candidate targets for IC vetting and commander’s approval for inclusion on target lists. JTAs assess damage resulting from the application of lethal or non-lethal military force, and write Battle Damage Assessment (BDA) reports and coordinate federated support as required."
+    },
+    "nice_role": {
+      "work_role": "Target Analysis",
+      "work_role_description": null,
+      "work_role_id": "CE-WRL-006",
+      "link_to_tks_list": "Click to view CE-WRL-006 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CE-WRL-006",
+    "opm_code": 131,
+    "dcwf_code": 131
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Target Digital Network Analyst",
+      "dcwf_code": 132,
+      "work_role_definition": "The TDNA conducts advanced analysis of collection and open-source data to ensure target continuity, profile targets and their activities, and develop techniques to gain more target cyberspace operations related information. They possess knowledge of target cyberspace technologies and apply skills and knowledge of cyberspace networks and the applications on them to determine how targets communicate, move, operate, and live within the cyberspace domain. TDNAs apply analytical techniques to review relevant content carried in target cyberspace communications. The TDNA uses data from networks of all forms for target development. TDNAs are technology savvy and can be flexible enough to rapidly shift from one target to another."
+    },
+    "nice_role": {
+      "work_role": "Target Network Analysis",
+      "work_role_description": null,
+      "work_role_id": "CE-WRL-007",
+      "link_to_tks_list": "Click to view CE-WRL-007 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CE-WRL-007",
+    "opm_code": 132,
+    "dcwf_code": 132
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Target Analyst Reporter",
+      "dcwf_code": 133,
+      "work_role_definition": "The Target Analyst Reporter (TAR) provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles in response to customer requirements and IAW missions of SIGINT, cybersecurity, and cyberspace operations. They prioritize, assess, evaluate, and report information obtained from SIGINT collection, cyber surveillance, and reconnaissance operations sources. The TAR enhances reporting with collateral information as required, maintains awareness of internal and external customer requirements, and collaborates with other collectors and analysts to refine collection and reporting requirements. The TAR shares target-related information and provides feedback to customers as appropriate. The TAR develops working aids and provides database updates on target activity to enhance and build target knowledge and improve collection. The TAR performs quality control and product-release functions."
+    },
+    "nice_role": {
+      "work_role": "Target Reporting Analysis",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 133,
+    "dcwf_code": 133
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Cyberspace Operator",
+      "dcwf_code": 322,
+      "work_role_definition": "Cyberspace Operators use a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance, and executing on-net operations in support of offensive cyberspace operations when directed."
+    },
+    "nice_role": {
+      "work_role": "Cyberspace Operations",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 322,
+    "dcwf_code": 322
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Network Technician",
+      "dcwf_code": 442,
+      "work_role_definition": "The Network Technician provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT).  The Network Technician supports CPT elements by understanding of network technologies, defining mission scope, and identifying terrain."
+    },
+    "nice_role": {
+      "work_role": "Network Technics",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 442,
+    "dcwf_code": 442
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Network Analyst",
+      "dcwf_code": 443,
+      "work_role_definition": "The Network Analyst will understand network traffic signatures and discover anomalies through network traffic and packet capture (PCAP) analysis. The Network Analyst will identify, assess, and mitigate intrusions into networks that are vital to cyberspace operations security. Network Analysts also use GUI or command-line based tools and assist in developing network mapping and signatures. Network Analysts will develop advanced network detection rules and alerts, queries and dashboards to gain a holistic view of the network."
+    },
+    "nice_role": {
+      "work_role": "Network Analysis",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 443,
+    "dcwf_code": 443
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Host Analyst",
+      "dcwf_code": 463,
+      "work_role_definition": "A Host Analyst (HA) will have knowledge of various system configurations encountered. This work role also performs analysis using built-in tools and capabilities. A Host Analyst will have knowledge of system services and the security and configuration of them, as well as knowledge of file systems, permissions, and operation system configurations. The Host Analyst conducts analysis using built-in tools and capabilities."
+    },
+    "nice_role": {
+      "work_role": "Hosting Analysis",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": null
+    },
+    "ncwf_id": null,
+    "opm_code": 463,
+    "dcwf_code": 463
+  },
+  {
+    "dcwf_role": {
+      "element": "Intel (Cyber)\n(CI)",
+      "element_description": "Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors’ cyberspace programs, intentions, capabilities, research and development, and operational activities.",
+      "work_role": "Multi-Disciplined Language Analyst",
+      "dcwf_code": 151,
+      "work_role_definition": "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information derived from language, voice and/or graphic material.  Creates, and maintains language specific databases and working aids to support cyber action execution and ensure critical knowledge sharing.  Provides subject matter expertise in foreign language-intensive or interdisciplinary projects.  "
+    },
+    "nice_role": {
+      "work_role": "Multi-Disciplined Language Analysis",
+      "work_role_description": null,
+      "work_role_id": "CI-WRL-005",
+      "link_to_tks_list": "Click to view CI-WRL-005 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CI-WRL-005",
+    "opm_code": 151,
+    "dcwf_code": 151
+  },
+  {
+    "dcwf_role": {
+      "element": "Intel (Cyber)\n(CI)",
+      "element_description": "Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors’ cyberspace programs, intentions, capabilities, research and development, and operational activities.",
+      "work_role": "All-Source Collection Manager",
+      "dcwf_code": 311,
+      "work_role_definition": "Identifies collection authorities and environment; incorporates priority information requirements into collection management; develops concepts to meet leadership's intent. Determines capabilities of available collection assets, identifies new collection capabilities; and constructs and disseminates collection plans.  Monitors execution of tasked collection to ensure effective execution of the collection plan."
+    },
+    "nice_role": {
+      "work_role": "All-Source Collection Management",
+      "work_role_description": null,
+      "work_role_id": "CI-WRL-002",
+      "link_to_tks_list": "Click to view CI-WRL-002 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CI-WRL-002",
+    "opm_code": 311,
+    "dcwf_code": 311
+  },
+  {
+    "dcwf_role": {
+      "element": "Intel (Cyber)\n(CI)",
+      "element_description": "Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors’ cyberspace programs, intentions, capabilities, research and development, and operational activities.",
+      "work_role": "All-Source Collection Requirements Manager",
+      "dcwf_code": 312,
+      "work_role_definition": "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods to improve collection.  Develops, processes, validates, and coordinates submission of collection requirements.  Evaluates performance of collection assets and collection operations."
+    },
+    "nice_role": {
+      "work_role": "All-Source Collection Requirements Management",
+      "work_role_description": null,
+      "work_role_id": "CI-WRL-003",
+      "link_to_tks_list": "Click to view CI-WRL-003 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CI-WRL-003",
+    "opm_code": 312,
+    "dcwf_code": 312
+  },
+  {
+    "dcwf_role": {
+      "element": "Intel (Cyber)\n(CI)",
+      "element_description": "Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors’ cyberspace programs, intentions, capabilities, research and development, and operational activities.",
+      "work_role": "Cyber Intelligence Planner",
+      "dcwf_code": 331,
+      "work_role_definition": "Develops detailed intelligence plans to satisfy cyber operations requirements.  Collaborates with cyber operations planners to identify, validate, and levy requirements for collection and analysis.  Participates in targeting selection, validation, synchronization, and execution of cyber actions.  Synchronizes intelligence activities to support organization objectives in cyberspace."
+    },
+    "nice_role": {
+      "work_role": "Cyber Intelligence Planning",
+      "work_role_description": null,
+      "work_role_id": "CI-WRL-004",
+      "link_to_tks_list": "Click to view CI-WRL-004 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CI-WRL-004",
+    "opm_code": 331,
+    "dcwf_code": 331
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Scientist",
+      "dcwf_code": 423,
+      "work_role_definition": "Uncovers and explains actionable insights from data by combining scientific method, math and statistics, specialized programming, advanced analytics, AI, and storytelling.\t"
+    },
+    "nice_role": {
+      "work_role": "Data Science",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 423,
+    "dcwf_code": 423
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Steward",
+      "dcwf_code": 424,
+      "work_role_definition": "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal. "
+    },
+    "nice_role": {
+      "work_role": "Data Management",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 424,
+    "dcwf_code": 424
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "AI/ML Specialist",
+      "dcwf_code": 623,
+      "work_role_definition": "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives."
+    },
+    "nice_role": {
+      "work_role": "AI/ML Design",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 623,
+    "dcwf_code": 623
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Operations Specialist",
+      "dcwf_code": 624,
+      "work_role_definition": "Builds, manages, and operationalizes data pipelines."
+    },
+    "nice_role": {
+      "work_role": "Data Operations",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 624,
+    "dcwf_code": 624
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Architect",
+      "dcwf_code": 653,
+      "work_role_definition": "Designs a system's data models, data flow, interfaces, and infrastructure to meet the information requirements of a business or mission."
+    },
+    "nice_role": {
+      "work_role": "Data Architure",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 653,
+    "dcwf_code": 653
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "AI Test & Evaluation Specialist",
+      "dcwf_code": 672,
+      "work_role_definition": "Performs testing, evaluation, verification, and validation on AI solutions to ensure they are developed to be and remain robust, resilient, responsible, secure, and trustworthy; and communicates results and concerns to leadership."
+    },
+    "nice_role": {
+      "work_role": "AI Test & Evaluation",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 672,
+    "dcwf_code": 672
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "AI Risk and Ethics Specialist",
+      "dcwf_code": 733,
+      "work_role_definition": "Educates those involved in the development of AI and conducts assessments on the technical and societal risks across the lifecycle of AI solutions from acquisition or design to deployment and use."
+    },
+    "nice_role": {
+      "work_role": "AI Risk and Ethics",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 733,
+    "dcwf_code": 733
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "AI Adoption Specialist",
+      "dcwf_code": 753,
+      "work_role_definition": "Facilitates AI adoption by supporting the users of AI-enabled solutions."
+    },
+    "nice_role": {
+      "work_role": "AI Adoption",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 753,
+    "dcwf_code": 753
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "AI Innovation Leader",
+      "dcwf_code": 902,
+      "work_role_definition": "Builds the organization’s AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."
+    },
+    "nice_role": {
+      "work_role": "AI Innovation Leadship",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 902,
+    "dcwf_code": 902
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Officer",
+      "dcwf_code": 903,
+      "work_role_definition": "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance."
+    },
+    "nice_role": {
+      "work_role": "Data Governance",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": null,
+    "opm_code": 903,
+    "dcwf_code": 903
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Software Developer ",
+      "dcwf_code": 621,
+      "work_role_definition": "Executes software planning, requirements, risk management, design, development, architecture, modeling, estimation, configuration management, quality, security, and tests using software development methodologies, architectural structures, viewpoints, styles, design decisions, and frameworks across all lifecycle phases. "
+    },
+    "nice_role": {
+      "work_role": "Secure Software Development",
+      "work_role_description": "Responsible for developing, creating, modifying, and maintaining computer applications, software, or specialized utility programs.",
+      "work_role_id": "DD-WRL-003",
+      "link_to_tks_list": "Click to view DD-WRL-003 TKS List",
+      "element": "Design & Development"
+    },
+    "ncwf_id": "DD-WRL-003",
+    "opm_code": 621,
+    "dcwf_code": 621
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Product Designer User Interface (UI)",
+      "dcwf_code": 625,
+      "work_role_definition": "Manages the user interface design portion of the design process of a product."
+    },
+    "nice_role": {
+      "work_role": "Product  & User Interface Design (UI)",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 625,
+    "dcwf_code": 625
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Service Designer User Experience (UX)",
+      "dcwf_code": 626,
+      "work_role_definition": "Manages the user experience of a product focused on human factors by making products intuitive and maximizing usability, accessibility, and simplicity."
+    },
+    "nice_role": {
+      "work_role": "Service & User Experience Design (UX)",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 626,
+    "dcwf_code": 626
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "DevSecOps Specialist",
+      "dcwf_code": 627,
+      "work_role_definition": "Selects/Deploys/Maintains the set of Continuous Integration/Continuous Deployment (CI/CD) tools and processes used by the development team and/or maintains the deployed software product and ensures observability and security across the lifecycle."
+    },
+    "nice_role": {
+      "work_role": "DevSecOps",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 627,
+    "dcwf_code": 627
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Software/Cloud Architect",
+      "dcwf_code": 628,
+      "work_role_definition": "Manages and identifies program high-level technical specifications, which may include application design, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements."
+    },
+    "nice_role": {
+      "work_role": "Software/Cloud Architecture",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 628,
+    "dcwf_code": 628
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Software Test & Evaluation Specialist",
+      "dcwf_code": 673,
+      "work_role_definition": "Plans, prepares, and performs testing, evaluation, verification, and validation of software to evaluate results against specifications, requirements, and operational need."
+    },
+    "nice_role": {
+      "work_role": "Software Test & Evaluation",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 673,
+    "dcwf_code": 673
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Product Manager",
+      "dcwf_code": 806,
+      "work_role_definition": "Manages the development of products including the resource management, product strategy (physical or digital), functional requirements, and releases. Coordinate work done by functions (like software engineers, data scientists, and product designers). "
+    },
+    "nice_role": {
+      "work_role": "Product Management",
+      "work_role_description": null,
+      "work_role_id": null,
+      "link_to_tks_list": null,
+      "element": "Design & Development"
+    },
+    "ncwf_id": null,
+    "opm_code": 806,
+    "dcwf_code": 806
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Enablers\n(EN)",
+      "element_description": "Personnel who perform work roles to support or facilitate the functions of cyber IT, cybersecurity, cyberspace effects, or intelligence workforce (cyberspace) work roles. This includes actions to support acquisition, training and leadership activities.",
+      "work_role": "Privacy Compliance Manager",
+      "dcwf_code": 732,
+      "work_role_definition": "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance needs of privacy and security executives and their teams."
+    },
+    "nice_role": {
+      "work_role": "Privacy Compliance ",
+      "work_role_description": "Responsible for developing and overseeing an organization’s privacy compliance program and staff, including establishing and managing privacy-related governance, policy, and incident response needs.",
+      "work_role_id": "OG-WRL-008",
+      "link_to_tks_list": "Click to view OG-WRL-008 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "OG-WRL-008",
+    "opm_code": 732,
+    "dcwf_code": 732
+  },
+  {
+    "dcwf_role": {
+      "element": "Cyber Effects\n(CE)",
+      "element_description": "Personnel who plan, support, and execute cyberspace capabilities where the primary purpose is to externally defend or conduct force projection in or through cyberspace.",
+      "work_role": "Exploitation Analyst",
+      "dcwf_code": 121,
+      "work_role_definition": "Partners with cyberspace operations customers to identify access and collection gaps that can be satisfied through cyberspace exploitation. Develops detailed plans that are executed by cyber operators. Functions as navigator in cyber operations. Uses all source data to understand cyberspace targets. Employs all available techniques against targeted networks. Identifies capability gaps and submits cyberspace capability requirements to capability development organizations."
+    },
+    "nice_role": {
+      "work_role": "Exploitation Analysis",
+      "work_role_description": null,
+      "work_role_id": "CE-WRL-003",
+      "link_to_tks_list": "Click to view CE-WRL-003 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CE-WRL-003",
+    "opm_code": 121,
+    "dcwf_code": 121
+  },
+  {
+    "dcwf_role": {
+      "element": "Information Technology\n(IT)",
+      "element_description": "Personnel who design, build, configure, operate, and maintain IT, networks, and capabilities. This includes actions to prioritize implement, evaluate, and dispose of IT as well as information resource management; and the management, storage, transmission, and display of data and information.",
+      "work_role": "Technical Support Specialist",
+      "dcwf_code": 411,
+      "work_role_definition": "Provides technical support to customers who need assistance utilizing client level hardware and software in accordance with established or approved organizational process components. (i.e., Master Incident Management Plan, when applicable)."
+    },
+    "nice_role": {
+      "work_role": "Technical Support ",
+      "work_role_description": "Responsible for providing technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational policies and processes.",
+      "work_role_id": "IO-WRL-007",
+      "link_to_tks_list": "Click to view IO-WRL-007 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-007",
+    "opm_code": 411,
+    "dcwf_code": 411
+  },
+  {
+    "dcwf_role": {
+      "element": "Intel (Cyber)\n(CI)",
+      "element_description": "Personnel who collect, process, analyze, and disseminate information from all sources of intelligence on foreign actors’ cyberspace programs, intentions, capabilities, research and development, and operational activities.",
+      "work_role": "All-Source Analyst ",
+      "dcwf_code": 111,
+      "work_role_definition": "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations. "
+    },
+    "nice_role": {
+      "work_role": "All-Source Analysis",
+      "work_role_description": null,
+      "work_role_id": "CI-WRL-001",
+      "link_to_tks_list": "Click to view CI-WRL-001 TKS List",
+      "element": null
+    },
+    "ncwf_id": "CI-WRL-001",
+    "opm_code": 111,
+    "dcwf_code": 111
+  },
+  {
+    "dcwf_role": {
+      "element": "Data/AI\n(DA)",
+      "element_description": "Personnel who drive and support data, analytic, and AI-enabled capabilities that harness information for decision-advantage.",
+      "work_role": "Data Analyst",
+      "dcwf_code": 422,
+      "work_role_definition": "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights."
+    },
+    "nice_role": {
+      "work_role": "Data Analysis ",
+      "work_role_description": "Responsible for analyzing data from multiple disparate sources to provide cybersecurity and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets used for modeling, data mining, and research purposes.",
+      "work_role_id": "IO-WRL-001",
+      "link_to_tks_list": "Click to view IO-WRL-001 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-001",
+    "opm_code": 422,
+    "dcwf_code": 422
+  },
+  {
+    "dcwf_role": {
+      "element": "Software Engineering\n(SE)",
+      "element_description": "Personnel who manages and identifies program high-level technical specifications, which may include, application design, development, testing, deployment, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+      "work_role": "Systems Security Analyst",
+      "dcwf_code": 461,
+      "work_role_definition": "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance."
+    },
+    "nice_role": {
+      "work_role": "Systems Security Analysis",
+      "work_role_description": "Responsible for developing and analyzing the integration, testing, operations, and maintenance of systems security. Prepares, performs, and manages the security aspects of implementing and operating a system.",
+      "work_role_id": "IO-WRL-006",
+      "link_to_tks_list": "Click to view IO-WRL-006 TKS List",
+      "element": "Implementation & Operation"
+    },
+    "ncwf_id": "IO-WRL-006",
+    "opm_code": 461,
+    "dcwf_code": 461
+  },
+  {
+    "dcwf_role": {
+      "element": "Sans Communauté\n(CX)",
+      "element_description": "Work roles not yet assigned to a DCWF workforce element",
+      "work_role": "Insider Threat Analysis",
+      "dcwf_code": "TBD-A",
+      "work_role_definition": "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations."
+    },
+    "nice_role": {
+      "work_role": "Insider Threat Analysis",
+      "work_role_description": "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.",
+      "work_role_id": "TBD-A",
+      "link_to_tks_list": "Click to view TBD-A TKS List",
+      "element": "Protection and Defense"
+    },
+    "ncwf_id": "PD-WRL-005",
+    "opm_code": "TBD-A",
+    "dcwf_code": "TBD-A"
+  },
+  {
+    "dcwf_role": {
+      "element": "Sans Communauté\n(CX)",
+      "element_description": "Work roles not yet assigned to a DCWF workforce element",
+      "work_role": "Operational Technology (OT) Cybersecurity Engineering",
+      "dcwf_code": "TBD-B",
+      "work_role_definition": "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians."
+    },
+    "nice_role": {
+      "work_role": "Operational Technology (OT) Cybersecurity Engineering",
+      "work_role_description": "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.",
+      "work_role_id": "TBD-B",
+      "link_to_tks_list": "Click to view TBD-B TKS List",
+      "element": "Design and Development"
+    },
+    "ncwf_id": "DD-WRL-009",
+    "opm_code": "TBD-B",
+    "dcwf_code": "TBD-B"
+  }
+]

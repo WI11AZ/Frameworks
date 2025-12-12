@@ -82,6 +82,10 @@
     .dark-mode .etape-text-light-purple {
         color: #7c2d12 !important; /* Violet très foncé pour l'étape 3 */
     }
+    
+    .dark-mode .etape-text-light-gray {
+        color: #374151 !important; /* Gris foncé pour l'étape 0 */
+    }
 </style>
 {% if not user.is_authenticated %}
 <!-- Beta Warning Modal -->
@@ -205,8 +209,8 @@
       <!-- Section Framework des Trois Étapes -->
       <div class="mb-8">
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">Framework de Définition des Rôles et Compétences</h2>
-          <p class="text-base text-gray-600">Processus en trois étapes pour définir les rôles professionnels et les compétences</p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Framework for Defining Roles and Competencies</h2>
+          <p class="text-base text-gray-600">Four-step process to define professional roles and competencies</p>
         </div>
         
         <!-- Accès spécial pour Super Users -->
@@ -216,7 +220,7 @@
             <svg class="w-5 h-5 text-purple-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span class="text-sm font-medium text-purple-800">Accès Super User : Toutes les étapes disponibles</span>
+            <span class="text-sm font-medium text-purple-800">Super User Access: All steps available</span>
           </div>
         </div>
         {% endif %}
@@ -236,71 +240,96 @@
         {% if not user.is_authenticated %}
         <p class="text-sm text-gray-500 mb-6 text-center">Connectez-vous pour accéder aux étapes du processus.</p>
         {% elif user.is_super_user %}
-        <p class="text-sm text-purple-600 mb-6 text-center">Super User : Accès complet à toutes les étapes du processus.</p>
+        <p class="text-sm text-purple-600 mb-6 text-center">Super User: Full access to all process steps.</p>
         <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% elif user.is_beta_tester %}
         <p class="text-sm text-orange-600 mb-6 text-center">Bêta testeur : Accès étendu aux fonctionnalités.</p>
         <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% else %}
-        <p class="text-sm text-blue-500 mb-6 text-center">Étape 1 disponible, poursuivez le processus.</p>
+        <p class="text-sm text-blue-500 mb-6 text-center">Étape 1 (Baseline) disponible, commencez par cette étape avant de poursuivre.</p>
         <p id="jobNumberRequired" class="text-sm text-red-500 mb-6 text-center hidden">Un numéro de poste est requis avant de commencer les étapes.</p>
         {% endif %}
         
-        <!-- Grille des trois étapes cliquables -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Grille des quatre étapes cliquables -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
           
-          <!-- Étape 1 - Bleu -->
+          <!-- Étape 1 - Baseline - Gris -->
+          <div id="etape0-panel" class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed{% endif %}" 
+               onclick="{% if user.is_authenticated %}handleEtape0Click(){% endif %}">
+            <div class="text-center mb-4">
+              <div class="bg-gray-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
+                Step 1<br>
+                <span class="text-sm font-normal">Explore Baseline</span>
+              </div>
+            </div>
+            <div class="space-y-2 text-gray-700">
+              <p class="font-bold text-gray-800">STEP 1</p>
+              <p><strong class="text-gray-600">Baseline</strong></p>
+              <p class="font-bold text-gray-600">Initial Setup</p>
+              <p class="etape-text-light-gray">• Select Max. 03 Work Roles that fit to the selected Job/Position.</p>
+              <p class="etape-text-light-gray">• Select extra CEMA FM 3-12 and/or SANS emerging work roles, if needed.</p>
+              <p class="etape-text-light-gray">• Select Master Work Role (OPM-ID).</p>
+
+            </div>
+          </div>
+          
+          <!-- Étape 2 - Bleu -->
           <div id="etape1-panel" class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed{% endif %}" 
                onclick="{% if user.is_authenticated %}handleEtape1Click(){% endif %}">
             <div class="text-center mb-4">
               <div class="bg-blue-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
-                Etape 1<br>
-                <span class="text-sm font-normal">T-K-S-(A)</span>
+                Step 2<br>
+                <span class="text-sm font-normal">WRL + T-K-S-(A)</span>
               </div>
             </div>
             <div class="space-y-2 text-gray-700">
-              <p class="font-bold text-blue-800">STEP 1</p>
-              <p><strong class="text-blue-600">DCWF / NCWF</strong></p>
-              <p class="font-bold text-blue-600">Work Roles</p>
-              <p class="etape-text-light-blue">OPM-ID / WRL-ID</p>
-              <p class="etape-text-light-blue">T-K-S-(A)</p>
+              <p class="font-bold text-blue-800">STEP 2</p>
+              <p><strong class="text-blue-600">Canonical DCWF/NCWF</strong></p>
+              <p class="font-bold text-blue-600"></p>
+              <p class="etape-text-light-blue">• (De)Select Canonical DCWF/NCWF Framework(s).</p>
+              <p class="etape-text-light-blue">• (De)Select the TKSA (By OPM-ID) that fit to the selected Job/Position.</p>
+              <p class="etape-text-light-blue">• REM : To (De)Select the WRL from Step 1, Please return to Step 1.</p>
+
             </div>
           </div>
           
-          <!-- Étape 2 - Vert -->
+          <!-- Étape 3 - Vert -->
           <div id="etape2-panel" class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
                onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape2Click(){% endif %}" 
                data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}">
             <div class="text-center mb-4">
               <div class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
-                Etape 2<br>
+                Step 3<br>
                 <span class="text-sm font-normal">Competency Areas</span>
               </div>
             </div>
             <div class="space-y-2 text-gray-700">
-              <p class="font-bold text-green-800">STEP 2</p>
-              <p><strong class="text-green-600">NICE</strong></p>
-              <p class="font-bold text-green-600">Competency Areas</p>
-              <p class="etape-text-light-green">NF-COM-xxx</p>
-              <p class="etape-text-light-green">Additional ad hoc K-S</p>
+              <p class="font-bold text-green-800">STEP 3</p>
+              <p><strong class="text-green-600">Competency Areas</strong></p>
+              <p class="font-bold text-green-600">NF-COM-xxx</p>
+              <p class="etape-text-light-green">• Select Competency Areas, as needed.</p>
+              <p class="etape-text-light-green"><s>• Select additional ad hoc K-S</s></p>
+              <p class="etape-text-light-green">• Select Generic Attribute levels related to each selected NF-COM-xxx .</p>
             </div>
           </div>
           
-          <!-- Étape 3 - Violet -->
+          <!-- Étape 4 - Violet -->
           <div id="etape3-panel" class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
                onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape3Click(){% endif %}">
             <div class="text-center mb-4">
               <div class="bg-purple-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
-                Etape 3<br>
-                <span class="text-sm font-normal">SFIA 9</span>
+                Step 4<br>
+                <span class="text-sm font-normal">SFIA 9 Skills</span>
               </div>
             </div>
             <div class="space-y-2 text-gray-700">
-              <p class="font-bold text-purple-800">STEP 3</p>
-              <p><strong class="text-purple-600">SFIA 9</strong></p>
-              <p class="font-bold text-purple-600">SFIA Skills</p>
-              <p class="etape-text-light-purple">Competency Levels</p>
-              <p class="etape-text-light-purple">Bodies of Knowledge</p>
+              <p class="font-bold text-purple-800">STEP 4</p>
+              <p><strong class="text-purple-600">SFIA 9 Skills</strong></p>
+              <p class="font-bold text-purple-600"></p>
+              <p class="etape-text-light-purple">• Select level for the Generic Attributes, Business Skills & Behavioural Factors related to the selected Job/Position.</p>
+              <p class="etape-text-light-purple">• Select level for chosen SFIA 9 Skills.</p>
+              <p class="etape-text-light-purple">• Experimental Bonus.</p>
+              <p class="etape-text-light-purple">• WRAP-UP.</p>
             </div>
           </div>
           
@@ -315,44 +344,16 @@
         </div>
       </div>
       
-      <!-- Section Outils d'Analyse -->
+      <!-- Bouton Explorateur DCWF Pro v3 -->
       {% if user.is_authenticated %}
-      <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-        <h3 class="text-lg font-medium text-gray-700 mb-3 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          Exploration Tool: Become familiar with the Work Roles
-        </h3>
-        
-        <!-- Programme DCWF Finder -->
-        <button onclick="openDCWFFinder()"
-           class="w-full flex justify-center items-center py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg shadow-sm transition mb-2">
+      <div class="bg-white p-4 rounded-lg shadow-lg border border-gray-200 mt-6">
+        <button id="dcwf-explorer-btn"
+           class="w-full flex justify-center items-center py-3 px-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg shadow-sm transition mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m0 0l-3-3m3 3l3-3" />
           </svg>
-          DCWF (2025) / NCWF (v2.0.0) Work Role Finder Tool
-          <span class="ml-2 px-2 py-1 bg-purple-100 text-purple-600 text-xs font-semibold rounded-full">
-            🔍
-          </span>
+          Explorateur DCWF Pro v3
         </button>
-        
-        <!-- Visualisateur NCWF -->
-        <button onclick="openNCWFVisualizer()"
-           class="w-full flex justify-center items-center py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-sm transition mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-          NCWF Visualisateur de Rôles avec DCWF
-          <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
-            📊
-          </span>
-        </button>
-        
-        <p class="text-sm text-gray-500 mt-2 text-center">
-          <strong>NEW:</strong> Explore, Discover, and Identify the DCWF / NCWF Work Roles<br>
-          <strong>ENHANCED:</strong> Visualisateur NCWF avec OPM-ID DCWF et pourcentages des rampes
-        </p>
       </div>
       {% endif %}
       
@@ -366,33 +367,21 @@
           Downloads
         </h3>
         
-        <!-- Fichier Markdown -->
-        <a href="{% url 'download_file' 'NCWF-DCWF_2025_Workroles+++.md' %}" 
-           class="w-full flex justify-center items-center py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-sm transition mb-2">
+        <!-- Fichier PDF -->
+        <a href="{% url 'download_file' 'Handout.drawio.pdf' %}" 
+           class="w-full flex justify-center items-center py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-sm transition mb-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          NCWF-DCWF 2025 Workroles
-          <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
-            .md
-          </span>
-        </a>
-        
-        <!-- Fichier FreeMind -->
-        <a href="{% url 'download_file' 'DCWF-NCWF_2025_Workroles+++.mm' %}" 
-           class="w-full flex justify-center items-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-sm transition mb-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          DCWF-NCWF 2025 Workroles
-          <span class="ml-2 px-2 py-1 bg-green-100 text-green-600 text-xs font-semibold rounded-full">
-            .mm
+          Handout.drawio
+          <span class="ml-2 px-2 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
+            .pdf
           </span>
         </a>
         
         
         <p class="text-sm text-gray-500 mt-2 text-center">
-          For informational purposes : NCWF-DCWF 2025 in "Markdown" & "FreeMind" formats
+          For informational purposes : Handout document
         </p>
         
       </div>
@@ -880,38 +869,6 @@
     }
   });
   
-  // Fonction pour ouvrir le DCWF Finder dans une fenêtre popup détachée
-  function openDCWFFinder() {
-    const popup = window.open(
-      '{% url "dcwf_finder" %}',
-      'DCWFFinder',
-      'width=1200,height=800,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,left=100,top=100'
-    );
-    
-    // S'assurer que la fenêtre popup est au premier plan
-    if (popup) {
-      popup.focus();
-    } else {
-      alert('Veuillez autoriser les fenêtres popup pour ce site pour utiliser le DCWF Finder.');
-    }
-  }
-  
-  // Fonction pour ouvrir le Visualisateur NCWF dans une fenêtre popup détachée
-  function openNCWFVisualizer() {
-    const popup = window.open(
-      '{% static "ncwf-visualizer/index.html" %}',
-      'NCWFVisualizer',
-      'width=1400,height=900,scrollbars=yes,resizable=yes,toolbar=no,menubar=no,location=no,status=no,left=50,top=50'
-    );
-    
-    // S'assurer que la fenêtre popup est au premier plan
-    if (popup) {
-      popup.focus();
-    } else {
-      alert('Veuillez autoriser les fenêtres popup pour ce site pour utiliser le Visualisateur NCWF.');
-    }
-  }
-  
   // Fonction pour basculer la visibilité du mot de passe
   function togglePasswordVisibility(inputId, eyeButtonId) {
     const input = document.getElementById(inputId);
@@ -935,6 +892,17 @@
   }
   
   // Fonctions pour gérer les clics sur les panneaux d'étapes
+  function handleEtape0Click() {
+    // Vérifier si un numéro de poste a été entré
+    const jobNumber = localStorage.getItem('currentJobNumber');
+    if (!jobNumber) {
+      showJobNumberRequiredMessage();
+    } else {
+      // Rediriger vers la page Step0 Baseline
+      window.location.href = '{% url "step0_baseline" %}';
+    }
+  }
+  
   function handleEtape1Click() {
     // Vérifier si un numéro de poste a été entré
     const jobNumber = localStorage.getItem('currentJobNumber');
@@ -1030,6 +998,46 @@
                 e.stopPropagation();
             }
         });
+    });
+    
+    // Gestion du bouton Explorateur DCWF Pro v3 avec audio
+    document.addEventListener('DOMContentLoaded', function() {
+        const explorerBtn = document.getElementById('dcwf-explorer-btn');
+        if (explorerBtn) {
+            explorerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Créer un élément audio
+                const audio = new Audio("{% url 'technologia_song' %}");
+                
+                // Générer un temps aléatoire entre 5 et 7 secondes
+                const randomTime = Math.random() * 2 + 5; // Entre 5 et 7 secondes
+                
+                // Attendre que les métadonnées soient chargées avant de définir currentTime
+                audio.addEventListener('loadedmetadata', function() {
+                    // S'assurer que le temps demandé ne dépasse pas la durée totale
+                    if (randomTime < audio.duration) {
+                        audio.currentTime = randomTime;
+                    } else {
+                        // Si le temps aléatoire dépasse la durée, utiliser un temps plus bas
+                        audio.currentTime = Math.min(randomTime, audio.duration - 1);
+                    }
+                    
+                    // Une fois que currentTime est défini, jouer l'audio
+                    audio.play().catch(function(error) {
+                        console.log("Erreur lors de la lecture de l'audio:", error);
+                    });
+                });
+                
+                // Charger l'audio (nécessaire pour que loadedmetadata se déclenche)
+                audio.load();
+                
+                // Ouvrir le lien dans un nouvel onglet après un court délai
+                setTimeout(function() {
+                    window.open("{% url 'dcwf_explorer' %}", '_blank');
+                }, 100);
+            });
+        }
     });
 </script>
 {% endblock %}

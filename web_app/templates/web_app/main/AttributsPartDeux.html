@@ -1,121 +1,340 @@
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadre de Compétences Interactif SFIA</title>
+    <title>Attributs Part Deux</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; padding: 0; }
+        .step-indicator { 
+            display: none; 
         }
-        .attribute-block {
-            border-left: 3px solid #e5e7eb;
-            padding-left: 1rem;
-            margin-top: 1rem;
+        .step-item { padding: 10px 20px; border-bottom: 3px solid #e5e7eb; color: #9ca3af; font-weight: 500; transition: all 0.3s; position: relative; }
+        .step-item.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 700; }
+        .step-item.completed { border-bottom-color: #10b981; color: #10b981; }
+        .step-item.completed::after { content: ' ✓'; }
+        .step-item-level { 
+            font-size: 11px; 
+            color: #10b981; 
+            font-weight: 600; 
+            margin-top: 4px; 
+            display: block;
         }
-        .content-section {
-            display: none; /* Caché par défaut */
+        .level-scale-container { 
+            margin: 30px 0 20px 0; 
+            background: #f3f4f6;
         }
-        /* Styles pour la fenêtre modale */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+        .level-preview-container {
+            min-height: 120px;
+            margin: 15px 0 20px 0;
+            position: relative;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 12px 16px;
+        }
+        .level-preview { 
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+        .level-preview.hidden { 
+            opacity: 0; 
+        }
+        .level-preview-number { 
+            font-size: 15px; 
+            font-weight: bold; 
+            color: #3b82f6; 
+            margin-bottom: 6px; 
+        }
+        .level-preview-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-bottom: 6px; 
+        }
+        .level-preview-description { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            font-size: 12px; 
+        }
+        .level-scale-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .level-scale { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 12px; 
+            margin: 0; 
+        }
+        .level-scale-item { 
+            flex: 1; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 2px solid #d1d5db; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            background: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            color: #6b7280;
+            position: relative;
+        }
+        .level-scale-item:hover { 
+            border-color: #9ca3af; 
+            background: #f9fafb; 
+            color: #6b7280;
+        }
+        .level-scale-item.selected { 
+            border-color: #6b7280; 
+            background: #6b7280; 
+            color: white;
+            box-shadow: none;
+        }
+        .previous-choices { background: #f9fafb; border-radius: 8px; padding: 10px; margin: 10px 0; border-left: 4px solid #10b981; }
+        .previous-choice-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+        .previous-choice-item:last-child { border-bottom: none; }
+        .navigation-buttons { 
+            display: flex; 
+            justify-content: flex-end; 
+            margin-top: 20px; 
+            padding: 0; 
+        }
+        .btn { 
+            padding: 8px 24px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            border: none; 
+            font-size: 13px;
+        }
+        .btn-primary { 
+            background: #9ca3af; 
+            color: white; 
+        }
+        .btn-primary:hover:not(:disabled) { 
+            background: #4b5563; 
+        }
+        .btn-primary:disabled { 
+            background: #d1d5db; 
+            cursor: not-allowed; 
+            color: #9ca3af;
+        }
+        .btn-secondary { 
+            background: #6b7280; 
+            color: white; 
+        }
+        .btn-secondary:hover { 
+            background: #4b5563; 
+        }
+        .main-container { 
+            background: #ffffff;
+            min-height: calc(100vh - 64px);
+            padding: 15px;
+            position: relative;
+        }
+        .attributes-table-container { 
+            width: 480px; 
+            float: left;
+            margin-right: 25px;
+            margin-bottom: 15px;
+        }
+        #nfcomSelector {
             width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
         }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 85%;
-            max-width: 1000px;
-            border-radius: 10px;
-            max-height: 85vh;
-            overflow-y: auto;
+        #nfcomSelector .bg-white {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+        .category-container { 
+            border-radius: 15px; 
+            overflow: visible; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
+            min-width: auto; 
+            margin-bottom: 0; 
+            height: fit-content;
+            background-color: #2d2d2d; 
+            border: 1px solid #404040;
+        }
+        .category-header { 
+            color: #e5e5e5; 
+            background: linear-gradient(135deg, #404040, #2d2d2d); 
+            padding: 10px 12px; 
+            font-weight: bold; 
+            font-size: 14px; 
+            text-align: center; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            border-radius: 12px 12px 0 0; 
+            border-bottom: 2px solid #555; 
+        }
+        .level-header { 
+            display: flex; 
+            padding: 8px 10px; 
+            font-weight: bold; 
+            background-color: #333; 
+            border-bottom: 1px solid #555; 
+            color: #e5e5e5; 
+            align-items: center;
+            font-size: 11px;
+        }
+        .subcategory-header { 
+            padding: 8px 10px; 
+            font-weight: 600; 
+            border-bottom-width: 1px; 
+            font-size: 12px; 
+            background-color: #363636; 
+            border-bottom: 1px solid #555; 
+            color: #d5d5d5; 
+        }
+        .skill-row { 
+            display: flex; 
+            align-items: center; 
+            padding: 6px 10px; 
+            border-bottom: 1px solid #404040; 
+            font-size: 10px; 
+            border-radius: 6px; 
+            margin: 2px 6px; 
+            background-color: #2d2d2d; 
+        }
+        .skill-row:last-child { 
+            border-bottom: none; 
+        }
+        .skill-row:hover { 
+            background-color: #363636; 
+        }
+        .skill-name { 
+            flex: 3; 
+            padding-right: 8px; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap; 
+            color: #e5e5e5; 
+            cursor: help; 
+        }
+        .skill-pm { 
+            flex: 0 0 50px; 
+            font-weight: normal; 
+            color: #a0a0a0; 
+            text-align: right;
+            padding-right: 8px;
+        }
+        .skill-pm.red {
+            color: #ef4444;
+        }
+        .skill-code { 
+            flex: 1; 
+            font-weight: bold; 
+            color: #a0a0a0; 
+        }
+        .level-boxes { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 3px; 
+            align-items: center;
+        }
+        .level-number, .level-box { 
+            width: 20px; 
+            height: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0; 
+            font-size: 10px; 
+            border-radius: 3px; 
+            transition: all 0.2s ease; 
+            background-color: #404040; 
+            border: 1px solid #555; 
+            color: #a0a0a0; 
+            text-align: center; 
+            line-height: 20px; 
+            position: relative; 
+            cursor: pointer; 
+        }
+        .level-box:hover { 
+            transform: translateY(-1px); 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+        }
+        .level-box.filled { 
+            background: #ffffff; 
+            border: 2px solid #ffffff; 
+            color: #2d2d2d; 
+            box-shadow: none; 
             font-weight: bold;
         }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .level-box.clear-btn {
+            color: #ef4444;
+            border-color: #ef4444;
+            font-weight: bold;
         }
-        .nf-selector {
+        .level-box.clear-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+        .flex-grow { 
+            flex-grow: 1; 
+        }
+        .right-content-wrapper {
+            margin-left: 505px;
+            background: #f3f4f6;
+            padding: 20px 35px;
+            height: fit-content;
+            border-radius: 8px;
+        }
+        .content-section { 
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f0f9ff;
-            border-radius: 8px;
+            flex-direction: column;
         }
-        .nf-button {
-            padding: 8px 12px;
-            background-color: #e2e8f0;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
+        .definition-section { 
+            background: #ffffff; 
+            border-radius: 8px; 
+            padding: 12px 16px; 
+            margin: 15px 0; 
+            max-height: 320px; 
+            overflow-y: auto;
+            box-shadow: none;
+            border: 1px solid #e5e7eb;
         }
-        .nf-button.active {
-            background-color: #3b82f6;
-            color: white;
+        .definition-title { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-bottom: 10px; 
         }
-        .level-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+        .definition-text { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            margin-bottom: 12px; 
+            font-size: 12px; 
         }
-        .level-card {
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.2s;
+        .guidance-title { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-top: 8px; 
+            margin-bottom: 10px; 
         }
-        .level-card.selectable {
-            opacity: 1;
-            background-color: #f0f9ff;
-            border-color: #93c5fd;
+        .guidance-text { 
+            color: #4b5563; 
+            line-height: 1.5; 
+            font-size: 12px; 
         }
-        .level-card.selected {
-            background-color: #dbeafe;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px #3b82f6;
-        }
-        .validation-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #3b82f6;
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            opacity: 0.5;
-        }
-        .validation-button.active {
-            opacity: 1;
-        }
+        .summary-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 20px 0; }
+        .summary-title { font-size: 24px; font-weight: bold; color: #1f2937; margin-bottom: 20px; text-align: center; }
+        .summary-item { display: flex; justify-content: space-between; padding: 15px; margin: 10px 0; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-    
-    <!-- Barre de navigation -->
-    <nav class="bg-gray-800 mb-6 -mx-0 -mt-0 px-4">
+<body>
+    <nav class="bg-gray-800 mb-0 -mx-0 -mt-0 px-4" style="margin-top: 0 !important; margin-bottom: 0 !important;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
@@ -126,625 +345,826 @@
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
                             <a href="{% url 'main' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-                            <a href="{% url 'summary_chart' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                                Tableau des compétences
-                            </a>
+                            <a href="{% url 'summary_chart' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Tableau des compétences</a>
                             <a href="{% url 'attributs_part_deux' %}" class="rounded-md px-3 py-2 text-sm font-medium bg-gray-900 text-white">PARTIE 2</a>
                         </div>
                     </div>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <button type="button" id="darkModeToggle" class="relative rounded-full bg-gray-700 p-1.5 text-gray-300 hover:bg-gray-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mr-3">
-                            <span class="sr-only">Basculer en mode sombre</span>
-                            <svg id="moonIcon" class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
-                            <svg id="sunIcon" class="hidden size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" id="mobile-menu-button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-                        <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                <a href="{% url 'main' %}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-                <a href="{% url 'summary_chart' %}" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                    Tableau des compétences
-                </a>
-                <a href="{% url 'attributs_part_deux' %}" class="block rounded-md px-3 py-2 text-base font-medium bg-gray-900 text-white">PARTIE 2</a>
             </div>
         </div>
     </nav>
-    
-    <!-- La fenêtre modale pour la sélection P2 -->
-    <div id="p2-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="text-2xl font-bold text-blue-800 mb-4">Sélection pour <span id="selected-attribute">Attribut</span></h2>
-            
-            <!-- Section des NF cliquables -->
-            <div class="mt-4 mb-8">
-                <h3 class="text-lg font-semibold mb-2">Sélectionnez un domaine NF:</h3>
-                <div id="nf-selector" class="nf-selector">
-                    <!-- Les boutons NF seront ajoutés dynamiquement ici -->
-                </div>
-            </div>
-            
-            <!-- Section des 7 niveaux -->
-            <div class="mt-8">
-                <h3 class="text-lg font-semibold mb-2">Niveaux SFIA:</h3>
-                <div class="level-grid">
-                    <div class="level-card" data-level="1">
-                        <h4 class="font-bold">Level 1: Follow</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level1-content"></p>
-                    </div>
-                    <div class="level-card" data-level="2">
-                        <h4 class="font-bold">Level 2: Assist</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level2-content"></p>
-                    </div>
-                    <div class="level-card" data-level="3">
-                        <h4 class="font-bold">Level 3: Apply</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level3-content"></p>
-                    </div>
-                    <div class="level-card" data-level="4">
-                        <h4 class="font-bold">Level 4: Enable</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level4-content"></p>
-                    </div>
-                    <div class="level-card" data-level="5">
-                        <h4 class="font-bold">Level 5: Ensure, advise</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level5-content"></p>
-                    </div>
-                    <div class="level-card" data-level="6">
-                        <h4 class="font-bold">Level 6: Initiate, influence</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level6-content"></p>
-                    </div>
-                    <div class="level-card" data-level="7">
-                        <h4 class="font-bold">Level 7: Set strategy, inspire, mobilise</h4>
-                        <p class="mt-2 text-sm text-gray-600" id="level7-content"></p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Bouton de validation -->
-            <button id="validate-selection" class="validation-button">Valider la sélection</button>
-        </div>
-    </div>
-    
-    <!-- La fenêtre modale pour afficher les sélections en cours -->
-    <div id="selections-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="text-2xl font-bold text-blue-800 mb-4">Sélections en cours</h2>
-            
-            <div class="mb-4">
-                <h3 class="text-lg font-semibold mb-2 text-gray-700">Par domaine NF:</h3>
-                <div id="selections-by-nf" class="bg-gray-50 p-4 rounded-lg">
-                    <!-- Les sélections par NF seront ajoutées ici -->
-                </div>
-            </div>
-            
-            <div class="mb-4">
-                <h3 class="text-lg font-semibold mb-2 text-gray-700">Par catégorie d'attribut:</h3>
-                <div id="selections-by-attribute" class="bg-gray-50 p-4 rounded-lg">
-                    <!-- Les sélections par attribut seront ajoutées ici -->
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <!-- En-tête Principal -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900">Attributs Génériques SFIA</h1>
-            <p class="mt-4 text-lg text-gray-600 max-w-4xl mx-auto">
-                Cliquez sur "Définition" pour explorer chaque attribut en détail.
-            </p>
-            <div class="mt-6">
-                <button id="view-selections-btn" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all">
-                    Voir les sélections en cours
-                </button>
+    <div class="main-container">
+        <!-- Tableau noir des attributs génériques SFIA à gauche -->
+        <div class="attributes-table-container">
+            <div id="sfiaAttributesTable" class="category-container">
+                <!-- Will be populated by JavaScript -->
             </div>
-        </header>
-
-        <!-- Section des Attributs Simplifiée -->
-        <div id="attribute-selectors" class="max-w-2xl mx-auto space-y-4">
-            <!-- Autonomy -->
-            <div class="bg-white p-6 rounded-xl shadow-md flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-blue-800">Autonomy</h2>
-                <div class="space-x-2">
-                    <button data-target="autonomy-details" class="definition-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Définition</button>
-                    <button class="selection-p2-btn bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" data-attribute="autonomy">Sélection P2</button>
-                </div>
-            </div>
-            <!-- Influence -->
-            <div class="bg-white p-6 rounded-xl shadow-md flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-blue-800">Influence</h2>
-                <div class="space-x-2">
-                    <button data-target="influence-details" class="definition-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Définition</button>
-                    <button class="selection-p2-btn bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" data-attribute="influence">Sélection P2</button>
-                </div>
-            </div>
-            <!-- Complexity -->
-            <div class="bg-white p-6 rounded-xl shadow-md flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-blue-800">Complexity</h2>
-                <div class="space-x-2">
-                    <button data-target="complexity-details" class="definition-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Définition</button>
-                    <button class="selection-p2-btn bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" data-attribute="complexity">Sélection P2</button>
-                </div>
-            </div>
-            <!-- Knowledge -->
-            <div class="bg-white p-6 rounded-xl shadow-md flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-blue-800">Knowledge</h2>
-                <div class="space-x-2">
-                    <button data-target="knowledge-details" class="definition-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Définition</button>
-                    <button class="selection-p2-btn bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" data-attribute="knowledge">Sélection P2</button>
-                </div>
-            </div>
-            <!-- Business skills -->
-            <div class="bg-white p-6 rounded-xl shadow-md flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-blue-800">Business skills</h2>
-                <div class="space-x-2">
-                    <button data-target="business-skills-details" class="definition-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Définition</button>
-                    <button class="selection-p2-btn bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition" data-attribute="business-skills">Sélection P2</button>
+            
+            <!-- NF-COM Selector - Below the black table -->
+            <div id="nfcomSelector" class="mt-3" style="display: none;">
+                <div class="bg-white border border-gray-300 rounded-lg p-3">
+                    <h3 class="text-base font-semibold mb-2 text-gray-800">Selected Competency Areas (NF-COM)</h3>
+                    <div id="nfcomList" class="flex flex-wrap gap-2 mb-2"></div>
+                    <div class="flex gap-2 mt-2">
+                        <button id="copySelectionsBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="showCopySelectionsModal()">Copy Selections</button>
+                        <button id="resetCurrentBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="resetCurrentNFCOM()">Reset Current</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Conteneur pour le contenu dynamique -->
-        <div id="definitions-container" class="mt-12">
-
-            <!-- Détails pour Autonomy -->
-            <div id="autonomy-details" class="content-section bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 pb-4">Autonomy</h2>
-                <div class="bg-blue-50 p-4 rounded-lg mb-6"><p class="text-lg text-blue-900 font-semibold">The extent of personal responsibility and discretion in performing work.</p></div>
-                <div class="space-y-4">
-                    <div><h4 class="font-bold">Level 1:</h4><p>Works under close supervision. Uses little discretion. Is expected to seek guidance in unexpected situations.</p></div>
-                    <div><h4 class="font-bold">Level 2:</h4><p>Works under routine supervision. Uses minor discretion in resolving problems or enquiries. Works without frequent reference to others.</p></div>
-                    <div><h4 class="font-bold">Level 3:</h4><p>Works under general direction. Uses discretion in identifying and responding to complex issues and assignments. Receives specific direction, accepts guidance and has work reviewed at agreed milestones.</p></div>
-                    <div><h4 class="font-bold">Level 4:</h4><p>Works under general direction within a clear framework of accountability. Exercises substantial personal responsibility and autonomy. Plans own work to meet given objectives and processes.</p></div>
-                    <div><h4 class="font-bold">Level 5:</h4><p>Works under broad direction. Work is often self-initiated. Is fully accountable for meeting allocated technical and/or project/supervisory objectives. Establishes milestones and has a significant role in the assignment of tasks and/or responsibilities.</p></div>
-                    <div><h4 class="font-bold">Level 6:</h4><p>Has defined authority and responsibility for a significant area of work, including technical, financial and quality aspects. Establishes organisational objectives and delegates responsibilities. Is accountable for actions and decisions taken by self and subordinates.</p></div>
-                    <div><h4 class="font-bold">Level 7:</h4><p>Has authority and is accountable for the strategic direction and all operations of a significant organisation or business area. Is accountable to a board of directors or other equivalent authority.</p></div>
-                </div>
+        <!-- Contenu principal à droite -->
+        <div class="right-content-wrapper">
+            <!-- Page Title -->
+            <div class="mb-3">
+                <h1 class="text-xl font-bold text-gray-800" style="margin-bottom: 15px;" id="pageTitle">Attributs Part Deux</h1>
             </div>
             
-            <!-- Détails pour Influence -->
-            <div id="influence-details" class="content-section bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 pb-4">Influence</h2>
-                <div class="bg-blue-50 p-4 rounded-lg mb-6"><p class="text-lg text-blue-900 font-semibold">The level of impact and communication on stakeholders.</p></div>
-                 <div class="space-y-4">
-                    <div><h4 class="font-bold">Level 1:</h4><p>Interacts with immediate colleagues. May have some external contact with customers, suppliers and partners. Understands and can identify own stakeholders.</p></div>
-                    <div><h4 class="font-bold">Level 2:</h4><p>Interacts with and may influence immediate colleagues. May have external contact with customers, suppliers and partners. May have more influence in own domain.</p></div>
-                    <div><h4 class="font-bold">Level 3:</h4><p>Interacts with and influences department/project team members. May have working level contact with customers and suppliers. In predictable situations may supervise others. Makes decisions which may impact on the work assigned to individuals or phases of projects.</p></div>
-                    <div><h4 class="font-bold">Level 4:</h4><p>Influences team and specialist peers internally. Influences customers at account level and suppliers. Has some responsibility for the work of others and for the allocation of resources. Participates in external activities related to own specialism. Makes decisions which influence the success of projects and team objectives.</p></div>
-                    <div><h4 class="font-bold">Level 5:</h4><p>Influences organisation, customers, suppliers, partners and peers on the contribution of own specialism. Builds appropriate and effective business relationships. Makes decisions which impact the success of assigned projects, i.e. results, deadlines and budget. Has significant influence over the allocation and management of resources appropriate to given assignments.</p></div>
-                    <div><h4 class="font-bold">Level 6:</h4><p>Influences policy and strategy formation. Initiates influential relationships with internal and external customers, suppliers and partners at senior management level, including industry leaders. Makes decisions which impact the work of employing organisations, achievement of organisational objectives and financial performance.</p></div>
-                    <div><h4 class="font-bold">Level 7:</h4><p>Leads the organisation, inspires staff and communicates a compelling vision. Is a primary figure in representing the organisation to the outside world. Makes a significant contribution to the development of policy and strategy for the industry.</p></div>
-                </div>
+            <!-- Main Content Area -->
+            <div id="mainContent">
+                <!-- Content will be dynamically loaded here -->
             </div>
 
-            <!-- Détails pour Complexity -->
-            <div id="complexity-details" class="content-section bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 pb-4">Complexity</h2>
-                <div class="bg-blue-50 p-4 rounded-lg mb-6"><p class="text-lg text-blue-900 font-semibold">The intricacy of the work, from routine tasks to strategic challenges.</p></div>
-                 <div class="space-y-4">
-                    <div><h4 class="font-bold">Level 1:</h4><p>Performs routine activities in a structured environment. Requires assistance in resolving unexpected problems.</p></div>
-                    <div><h4 class="font-bold">Level 2:</h4><p>Performs a range of work activities in varied environments. May contribute to routine issue resolution.</p></div>
-                    <div><h4 class="font-bold">Level 3:</h4><p>Performs a range of work, sometimes complex and non-routine, in a variety of environments. Applies methodical approach to issue definition and resolution.</p></div>
-                    <div><h4 class="font-bold">Level 4:</h4><p>Performs a broad range of complex technical or professional work activities, in a variety of contexts. Investigates, defines and resolves complex issues.</p></div>
-                    <div><h4 class="font-bold">Level 5:</h4><p>Performs a challenging range and variety of complex technical or professional work activities. Undertakes work which requires the application of fundamental principles in a wide and often unpredictable range of contexts. Understands the relationship between own specialism and wider customer/organisational requirements.</p></div>
-                    <div><h4 class="font-bold">Level 6:</h4><p>Leads on the formulation and application of strategy. Applies the highest level of management and leadership skills. Has a deep understanding of the industry and the implications of emerging technologies for the wider business environment.</p></div>
-                    <div><h4 class="font-bold">Level 7:</h4><p>Leads on the formulation and application of strategy. Applies the highest level of management and leadership skills. Has a deep understanding of the industry and the implications of emerging technologies for the wider business environment.</p></div>
-                </div>
-            </div>
-
-            <!-- Détails pour Knowledge -->
-            <div id="knowledge-details" class="content-section bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 pb-4">Knowledge</h2>
-                <div class="bg-blue-50 p-4 rounded-lg mb-6"><p class="text-lg text-blue-900 font-semibold">The depth and breadth of understanding required to perform and influence work effectively.</p></div>
-                <div class="space-y-4">
-                    <div><h4 class="font-bold">Level 1:</h4><p>Has a basic generic knowledge appropriate to area of work. Applies newly acquired knowledge to develop new skills.</p></div>
-                    <div><h4 class="font-bold">Level 2:</h4><p>Demonstrates application of knowledge. Has gained a basic domain knowledge. Absorbs new information when it is presented systematically and applies it effectively.</p></div>
-                    <div><h4 class="font-bold">Level 3:</h4><p>Has a sound generic, domain and specialist knowledge necessary to perform effectively in the organisation. Has an appreciation of the wider business context. Demonstrates effective application of knowledge. Able to absorb and apply new technical information. Works to required standards.</p></div>
-                    <div><h4 class="font-bold">Level 4:</h4><p>Has a thorough understanding of recognised generic industry bodies of knowledge and specialist bodies of knowledge as necessary. Has gained a thorough knowledge of the domain of the organisation. Is able to apply the knowledge effectively in unfamiliar situations and actively maintains own knowledge and shares with others.</p></div>
-                    <div><h4 class="font-bold">Level 5:</h4><p>Is fully familiar with recognised industry bodies of knowledge both generic and specific. Has a comprehensive knowledge of at least one specific domain and an appreciation of the wider business context. Actively seeks out new knowledge for own personal development and the mentoring or coaching of others. Develops a wider breadth of knowledge across the industry or business. Applies knowledge to help define the standards which others will apply.</p></div>
-                    <div><h4 class="font-bold">Level 6:</h4><p>Has a full range of strategic management and leadership skills. Understands, explains and presents complex technical ideas to both technical and non-technical audiences. Has a broad and deep knowledge of the technology and the business. Communicates the potential impact of emerging practices and technologies on organisations and individuals and assesses the risks of using or not using such practices and technologies.</p></div>
-                    <div><h4 class="font-bold">Level 7:</h4><p>Has a full range of strategic management and leadership skills. Understands, explains and presents complex technical ideas to both technical and non-technical audiences. Has a broad and deep knowledge of the technology and the business. Communicates the potential impact of emerging practices and technologies on organisations and individuals and assesses the risks of using or not using such practices and technologies.</p></div>
-                </div>
-            </div>
-
-            <!-- Détails pour Business skills (Partie 2) -->
-            <div id="business-skills-details" class="content-section">
-                <section id="transversal-skills">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 border-b-2 pb-4">Compétences Transversales & Comportementales</h2>
-                    <div class="space-y-8">
-                        <!-- Compétence: Decision-making -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Decision-making</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Prend des décisions guidées sous supervision fréquente sur des questions de sécurité de routine. Suit des arbres de décision prédéfinis pour les situations standard. Escalade les décisions complexes vers les niveaux supérieurs selon les procédures établies.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Évalue de manière autonome les risques et prend des décisions éclairées dans des situations variées. Utilise des frameworks de décision structurés pour analyser les options. Balance efficacement les considérations techniques, business et de sécurité.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Formule des stratégies décisionnelles organisationnelles en matière de cybersécurité. Prend des décisions stratégiques complexes sous incertitude. Influence et guide les processus de décision à l'échelle de l'entreprise et du secteur.</p></div></div></div></div>
-                        <!-- Compétence: Planning -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Planning</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Participe à la planification de tâches de sécurité sous guidance. Suit des plans de projet établis et respecte les échéances assignées. Contribue à la documentation des activités de planification selon les templates fournis.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Planifie de manière autonome des projets de sécurité complexes et gère les ressources. Développe des roadmaps techniques et des plans de déploiement. Anticipe les risques et intègre des plans de contingence.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Élabore des stratégies de planification cybersécurité à long terme pour l'organisation. Aligne les initiatives de sécurité avec les objectifs business globaux. Influence les décisions d'investissement en sécurité.</p></div></div></div></div>
-                        <!-- Compétence: Collaboration -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Collaboration</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Collabore efficacement au sein de son équipe immédiate. Partage l'information pertinente et demande de l'aide lorsque nécessaire. Participe activement aux réunions d'équipe et aux discussions techniques.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Initie et maintient des collaborations inter-fonctionnelles. Facilite la communication entre les équipes techniques et non-techniques. Négocie des solutions mutuellement bénéfiques avec les parties prenantes.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Établit et dirige des partenariats stratégiques internes et externes. Crée une culture de collaboration à l'échelle de l'organisation. Influence les standards de collaboration et de partage d'information dans l'industrie.</p></div></div></div></div>
-                        <!-- Compétence: Problem-solving -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Problem-solving</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Identifie et résout des problèmes techniques de routine en utilisant des procédures établies. Applique des techniques de diagnostic de base. Documente les solutions pour référence future.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Analyse des problèmes complexes et ambigus, et développe des solutions innovantes. Utilise des méthodologies de résolution de problèmes structurées. Évalue l'impact à long terme des solutions proposées.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Anticipe et résout des problèmes systémiques à l'échelle de l'organisation. Développe des frameworks de résolution de problèmes pour l'ensemble de l'entreprise. Influence l'approche de l'industrie face aux défis de sécurité émergents.</p></div></div></div></div>
-                        <!-- Compétence: Improvement mindset -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Improvement mindset</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Identifie des opportunités d'amélioration dans ses propres tâches et processus. Est ouvert aux feedbacks et cherche activement à améliorer ses performances. Applique les leçons apprises des erreurs passées.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Propose et met en œuvre des améliorations de processus significatives. Utilise des métriques pour mesurer l'efficacité et identifier les domaines à améliorer. Encourage une culture d'amélioration continue au sein de son équipe.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Dirige des initiatives de transformation et d'amélioration à l'échelle de l'organisation. Établit des benchmarks de performance et des objectifs d'amélioration stratégiques. Influence la culture d'innovation et d'excellence de l'entreprise.</p></div></div></div></div>
-                        <!-- Compétence: Creativity -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Creativity</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Applique des solutions connues à de nouveaux problèmes de manière imaginative. Propose des idées pour améliorer les outils et processus existants. Participe à des sessions de brainstorming de manière constructive.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Développe des approches non conventionnelles pour résoudre des problèmes de sécurité complexes. Combine des concepts de différents domaines pour créer des solutions innovantes. Prend des risques calculés pour tester de nouvelles idées.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Inspire et cultive la créativité à l'échelle de l'organisation. Anticipe les tendances futures et développe des stratégies de sécurité visionnaires. Remet en question le statu quo et pilote l'innovation disruptive.</p></div></div></div></div>
-                        <!-- Compétence: Communication -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Communication</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Communique des informations techniques de manière claire et concise à ses pairs. Rédige des rapports et de la documentation technique compréhensibles. Pratique l'écoute active pour comprendre les besoins des autres.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Adapte son style de communication à des audiences variées (techniques et non-techniques). Présente des concepts complexes de manière persuasive. Gère les communications en situation de crise de manière efficace.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Définit et met en œuvre la stratégie de communication de la cybersécurité pour l'organisation. Représente l'entreprise en tant qu'expert du domaine lors d'événements publics. Influence les décideurs clés par une communication stratégique.</p></div></div></div></div>
-                        <!-- Compétence: Leadership -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Leadership</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Fait preuve de fiabilité et de responsabilité dans ses propres tâches. Prend des initiatives pour aider ses collègues. Montre l'exemple en respectant les politiques et les meilleures pratiques.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Motive et guide les membres de son équipe pour atteindre les objectifs. Dédie du temps au mentorat des collègues juniors. Prend la direction de projets ou d'initiatives spécifiques.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Définit une vision stratégique et inspire les autres à la suivre. Développe les futurs leaders de l'organisation. Influence la culture et les valeurs de l'entreprise.</p></div></div></div></div>
-                        <!-- Compétence: Adaptability -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Adaptability</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Ajuste ses actions face à des changements mineurs dans les menaces ou les technologies. Reste efficace lors de changements de priorités simples. Apprend et applique de nouvelles procédures sous supervision.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Gère l'ambiguïté et s'adapte aux changements technologiques majeurs. Modifie son approche pour répondre aux nouvelles menaces. Propose des ajustements aux processus existants en réponse à l'évolution du contexte.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Anticipe et dirige la réponse organisationnelle aux changements de paradigme en cybersécurité. Transforme l'incertitude en opportunité stratégique. Influence la culture d'adaptabilité de l'organisation.</p></div></div></div></div>
-                        <!-- Compétence: Learning and development -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Learning and development</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Recherche activement des opportunités d'apprentissage pour développer ses compétences. Applique les nouvelles connaissances à son travail. Partage ses apprentissages avec ses pairs.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Identifie les besoins en compétences de son équipe et crée des plans de développement. Agit en tant que mentor pour les collègues. Se tient à jour sur les dernières tendances et technologies de l'industrie.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Établit la stratégie de développement des compétences en cybersécurité pour l'organisation. Crée une culture d'apprentissage continu. Influence les standards de développement professionnel sectoriels.</p></div></div></div></div>
-                        <!-- Compétence: Digital mindset -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Digital mindset</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Comprend les implications de base de la transformation numérique pour la cybersécurité. Utilise efficacement les outils digitaux cybersécurité sous guidance. Adopte les pratiques digitales sécurisées établies.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Intègre de manière autonome la pensée digitale dans les stratégies cybersécurité. Exploite les technologies émergentes pour améliorer la posture sécuritaire. Facilite l'adoption sécurisée des innovations digitales.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Visionne et dirige la transformation numérique cybersécurité organisationnelle. Influence les tendances de digitalisation sécurisée sectorielle. Façonne l'avenir du digital sécurisé dans l'industrie.</p></div></div></div></div>
-                        <!-- Compétence: Security, privacy and ethics -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden"><div class="p-6 md:p-8"><h3 class="text-2xl font-bold text-blue-800">Security, privacy and ethics</h3><div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6"><div class="border-l-4 border-blue-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Fondation / Novice (SFIA 1-2)</h4><p class="mt-2 text-gray-700">Applique les principes éthiques fondamentaux dans les activités cybersécurité quotidiennes. Respecte les politiques de confidentialité et protection des données établies. Identifie et escalade les dilemmes éthiques selon les procédures.</p></div><div class="border-l-4 border-green-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Compétent / Advanced (SFIA 3-4)</h4><p class="mt-2 text-gray-700">Intègre de manière autonome les considérations éthiques dans les décisions cybersécurité complexes. Développe et implémente des frameworks de privacy-by-design. Balance efficacement sécurité, privacy et utilisabilité.</p></div><div class="border-l-4 border-yellow-300 pl-4"><h4 class="text-lg font-semibold text-gray-800">Expert (SFIA 5-7)</h4><p class="mt-2 text-gray-700">Dirige l'innovation éthique en cybersécurité et protection de la vie privée organisationnelle. Influence les standards éthiques sectoriels et réglementaires. Façonne l'avenir de l'éthique cybersécurité dans l'industrie.</p></div></div></div></div>
-                    </div>
-                </section>
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons" id="navigationButtons" style="display: none;">
+                <button class="btn btn-secondary" id="backButton" onclick="goToPreviousStep()">Back</button>
+                <button class="btn btn-primary" id="nextButton" onclick="goToNextStep()" disabled>Next</button>
             </div>
         </div>
+
+        <!-- Copy Selections Modal -->
+        <div id="copyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
+                <h3 class="text-xl font-bold mb-4 text-gray-800">Copy Selections</h3>
+                <p class="mb-4 text-gray-600">Select source NF-COM to copy from:</p>
+                <div id="copySourceList" class="mb-4"></div>
+                <div class="flex justify-end gap-2">
+                    <button class="btn btn-secondary" onclick="closeCopyModal()">Cancel</button>
+                    <button class="btn btn-primary" id="confirmCopyBtn" onclick="confirmCopySelections()" disabled>Copy</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Clear float -->
+        <div style="clear: both;"></div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Gestion du menu mobile
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (mobileMenuButton) {
-                mobileMenuButton.addEventListener('click', function() {
-                    const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-                    mobileMenuButton.setAttribute('aria-expanded', !expanded);
-                    mobileMenu.classList.toggle('hidden');
-                    
-                    // Toggle entre les icônes de menu et de fermeture
-                    const menuIcon = mobileMenuButton.querySelector('.block');
-                    const closeIcon = mobileMenuButton.querySelector('.hidden');
-                    menuIcon.classList.toggle('hidden');
-                    menuIcon.classList.toggle('block');
-                    closeIcon.classList.toggle('hidden');
-                    closeIcon.classList.toggle('block');
-                });
-            }
-            
-            // Gestion du mode sombre
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const htmlElement = document.documentElement;
-            const moonIcon = document.getElementById('moonIcon');
-            const sunIcon = document.getElementById('sunIcon');
-            
-            // Vérifier le mode sombre enregistré
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                htmlElement.classList.add('dark-mode');
-                moonIcon.classList.add('hidden');
-                sunIcon.classList.remove('hidden');
-            }
-            
-            // Gestionnaire d'événement pour le bouton mode sombre
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', function() {
-                    htmlElement.classList.toggle('dark-mode');
-                    const isDark = htmlElement.classList.contains('dark-mode');
-                    localStorage.setItem('darkMode', isDark);
-                    
-                    // Basculer les icônes
-                    moonIcon.classList.toggle('hidden');
-                    sunIcon.classList.toggle('hidden');
-                });
-            }
-            
-            // Gestion des sections de définition
-            const definitionButtons = document.querySelectorAll('.definition-btn');
-            const contentSections = document.querySelectorAll('.content-section');
-            
-            // Charger les sélections sauvegardées au démarrage
-            loadSavedSelections();
-            
-            // Récupérer les domaines NF sélectionnés depuis le localStorage
-            let selectedNFDomains = [];
+        let genericAttributesData = [];
+        let selectedLevels = {}; // Structure: { 'NF-COM-003': { 'AUTO': 2, 'INFL': 3, ... }, ... }
+        let currentStep = 0;
+        let selectedNFCOMs = []; // Array of NF-COM codes like ['NF-COM-003', 'NF-COM-004']
+        let currentNFCOM = null; // Current NF-COM being processed
+        let copySourceNFCOM = null; // NF-COM selected as source for copying
+        const requiredAttributes = ['AUTO', 'INFL', 'COMP', 'KNGE'];
+        const attributeNames = {
+            'AUTO': 'Autonomy',
+            'INFL': 'Influence',
+            'COMP': 'Complexity',
+            'KNGE': 'Knowledge'
+        };
+
+        // NF-COM data mapping
+        const nfcomData = {
+            'NF-COM-001': 'Access Controls',
+            'NF-COM-002': 'Artificial Intelligence (AI) Security',
+            'NF-COM-003': 'Asset Management',
+            'NF-COM-004': 'Cloud Security',
+            'NF-COM-005': 'Communications Security',
+            'NF-COM-006': 'Cryptography',
+            'NF-COM-007': 'Cyber Resiliency',
+            'NF-COM-008': 'DevSecOps',
+            'NF-COM-009': 'Operating Systems (OS) Security',
+            'NF-COM-010': 'Operational Technology (OT) Security',
+            'NF-COM-011': 'Supply Chain Security',
+            'NF-COM-012': 'Cybersecurity Fundamentals',
+            'NF-COM-013': 'Cybersecurity Leadership',
+            'NF-COM-014': 'Data Security',
+            'NF-COM-015': 'Secure Programming'
+        };
+
+        // Load selected NF-COMs from etape2_first_step
+        async function loadSelectedNFCOMs() {
             try {
-                selectedNFDomains = JSON.parse(localStorage.getItem('selectedNFDomains') || '[]');
-                console.log('Domaines NF récupérés:', selectedNFDomains);
-            } catch(e) {
-                console.error('Erreur lors de la récupération des domaines NF:', e);
-            }
-            
-            // Variables pour la sélection P2
-            const modal = document.getElementById('p2-modal');
-            const closeBtn = document.querySelector('#p2-modal .close');
-            const selectionP2Buttons = document.querySelectorAll('.selection-p2-btn');
-            const attributeTitle = document.getElementById('selected-attribute');
-            const nfSelector = document.getElementById('nf-selector');
-            const validateButton = document.getElementById('validate-selection');
-            const levelCards = document.querySelectorAll('.level-card');
-            
-            // Variables pour la fenêtre modale des sélections en cours
-            const selectionsModal = document.getElementById('selections-modal');
-            const selectionsCloseBtn = document.querySelector('#selections-modal .close');
-            const viewSelectionsBtn = document.getElementById('view-selections-btn');
-            const selectionsByNfDiv = document.getElementById('selections-by-nf');
-            const selectionsByAttributeDiv = document.getElementById('selections-by-attribute');
-            
-            // Objet pour stocker les sélections
-            let currentSelections = {};
-            
-            // Créer les boutons NF dans le sélecteur
-            function populateNFButtons() {
-                nfSelector.innerHTML = '';  // Vider le conteneur
+                // Try to get from localStorage first (from etape2_first_step)
+                // The key used in etape2_first_step is 'selectedNFDomains'
+                let storedData = localStorage.getItem('selectedNFDomains');
                 
-                if (selectedNFDomains.length === 0) {
-                    // Aucun domaine NF sélectionné
-                    const message = document.createElement('p');
-                    message.textContent = 'Aucun domaine NF sélectionné. Veuillez retourner à l\'étape précédente pour sélectionner des domaines.';
-                    message.className = 'text-yellow-600';
-                    nfSelector.appendChild(message);
-                } else {
-                    // Créer un bouton pour chaque domaine NF
-                    selectedNFDomains.forEach(nf => {
-                        const button = document.createElement('button');
-                        button.textContent = nf;
-                        button.className = 'nf-button';
-                        button.dataset.nf = nf;
-                        
-                        button.addEventListener('click', function() {
-                            // Désélectionner tous les boutons NF
-                            document.querySelectorAll('.nf-button').forEach(btn => {
-                                btn.classList.remove('active');
-                            });
-                            
-                            // Sélectionner ce bouton
-                            this.classList.add('active');
-                            
-                            // Rendre les niveaux cliquables
-                            enableLevelSelection();
-                        });
-                        
-                        nfSelector.appendChild(button);
-                    });
+                if (storedData) {
+                    try {
+                        const parsed = JSON.parse(storedData);
+                        if (Array.isArray(parsed)) {
+                            selectedNFCOMs = parsed.filter(d => d && (d.startsWith('NF-COM-') || d.match(/^NF-COM-\d+$/)));
+                        }
+                    } catch (e) {
+                        console.error('Error parsing selectedNFDomains:', e);
+                    }
                 }
-            }
-            
-            // Activer la sélection des niveaux
-            function enableLevelSelection() {
-                // Rendre tous les niveaux cliquables
-                levelCards.forEach(card => {
-                    card.classList.add('selectable');
-                    
-                    // Ajouter l'événement de clic s'il n'existe pas déjà
-                    if (!card.dataset.hasListener) {
-                        card.addEventListener('click', function() {
-                            if (card.classList.contains('selectable')) {
-                                // Désélectionner tous les niveaux
-                                levelCards.forEach(c => c.classList.remove('selected'));
-                                
-                                // Sélectionner ce niveau
-                                card.classList.add('selected');
-                                
-                                // Activer le bouton de validation
-                                validateButton.classList.add('active');
+
+                // Also try other possible keys
+                if (selectedNFCOMs.length === 0) {
+                    storedData = localStorage.getItem('selectedDomains') || localStorage.getItem('nfcomSelections');
+                    if (storedData) {
+                        try {
+                            const parsed = JSON.parse(storedData);
+                            if (Array.isArray(parsed)) {
+                                selectedNFCOMs = parsed.filter(d => d && (d.startsWith('NF-COM-') || d.match(/^NF-COM-\d+$/)));
+                            } else if (parsed.selectedDomains) {
+                                selectedNFCOMs = parsed.selectedDomains.filter(d => d && (d.startsWith('NF-COM-') || d.match(/^NF-COM-\d+$/)));
+                            }
+                        } catch (e) {
+                            console.error('Error parsing stored data:', e);
+                        }
+                    }
+                }
+
+                // Also try serverStorage if available
+                if (typeof serverStorage !== 'undefined' && selectedNFCOMs.length === 0) {
+                    try {
+                        const serverData = await serverStorage.getItem('selectedNFDomains');
+                        if (serverData) {
+                            const parsed = typeof serverData === 'string' ? JSON.parse(serverData) : serverData;
+                            if (Array.isArray(parsed)) {
+                                selectedNFCOMs = parsed.filter(d => d && (d.startsWith('NF-COM-') || d.match(/^NF-COM-\d+$/)));
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error loading from serverStorage:', e);
+                    }
+                }
+
+                // If still no NF-COMs, check for currentKsatSelection
+                if (selectedNFCOMs.length === 0) {
+                    const ksatData = localStorage.getItem('currentKsatSelection');
+                    if (ksatData) {
+                        try {
+                            const parsed = JSON.parse(ksatData);
+                            if (parsed.selectedDomains && Array.isArray(parsed.selectedDomains)) {
+                                selectedNFCOMs = parsed.selectedDomains.filter(d => d && (d.startsWith('NF-COM-') || d.match(/^NF-COM-\d+$/)));
+                            }
+                        } catch (e) {
+                            console.error('Error parsing currentKsatSelection:', e);
+                        }
+                    }
+                }
+
+                console.log('Loaded NF-COMs:', selectedNFCOMs);
+
+                // Initialize selectedLevels structure for each NF-COM
+                selectedNFCOMs.forEach(nfcom => {
+                    if (!selectedLevels[nfcom]) {
+                        selectedLevels[nfcom] = {};
+                    }
+                });
+
+                // Don't load saved selections automatically - start fresh each time
+                // This prevents old selections from persisting when restarting the process
+                // If you want to load saved selections, uncomment the code below:
+                /*
+                const savedSelections = localStorage.getItem('nfcomAttributeSelections');
+                if (savedSelections) {
+                    try {
+                        const parsed = JSON.parse(savedSelections);
+                        // Merge saved selections with current structure
+                        Object.keys(parsed).forEach(nfcom => {
+                            if (selectedNFCOMs.includes(nfcom)) {
+                                selectedLevels[nfcom] = parsed[nfcom];
                             }
                         });
-                        
-                        // Marquer comme ayant un écouteur
-                        card.dataset.hasListener = 'true';
+                    } catch (e) {
+                        console.error('Error loading saved selections:', e);
                     }
-                });
+                }
+                */
+
+                if (selectedNFCOMs.length > 0) {
+                    currentNFCOM = selectedNFCOMs[0];
+                    renderNFCOMSelector();
+                } else {
+                    // No NF-COMs selected, show message
+                    document.getElementById('mainContent').innerHTML = 
+                        '<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6"><p class="text-yellow-800">No Competency Areas (NF-COM) selected. Please go back to Step 2 and select at least one NF-COM using the "Simplify Heatmap" feature.</p></div>';
+                }
+            } catch (error) {
+                console.error('Error loading selected NF-COMs:', error);
+            }
+        }
+
+        // Render NF-COM selector UI
+        function renderNFCOMSelector() {
+            const selector = document.getElementById('nfcomSelector');
+            const list = document.getElementById('nfcomList');
+            
+            if (selectedNFCOMs.length === 0) {
+                selector.style.display = 'none';
+                return;
+            }
+
+            selector.style.display = 'block';
+            list.innerHTML = '';
+
+            selectedNFCOMs.forEach((nfcom, index) => {
+                const isCurrent = nfcom === currentNFCOM;
+                const isComplete = isNFCOMComplete(nfcom);
+                const badge = document.createElement('div');
+                badge.className = `px-3 py-1.5 rounded-lg cursor-pointer transition-all text-sm ${
+                    isCurrent 
+                        ? 'bg-blue-600 text-white font-semibold' 
+                        : isComplete 
+                            ? 'bg-green-100 text-green-800 border border-green-300' 
+                            : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'
+                }`;
+                badge.textContent = `${nfcom} - ${nfcomData[nfcom] || nfcom}`;
+                badge.onclick = () => switchToNFCOM(nfcom);
+                
+                if (isComplete) {
+                    const checkmark = document.createElement('span');
+                    checkmark.className = 'ml-2';
+                    checkmark.textContent = '✓';
+                    badge.appendChild(checkmark);
+                }
+                
+                list.appendChild(badge);
+            });
+
+            // Show/hide action buttons
+            document.getElementById('copySelectionsBtn').style.display = selectedNFCOMs.length > 1 ? 'block' : 'none';
+            document.getElementById('resetCurrentBtn').style.display = currentNFCOM ? 'block' : 'none';
+        }
+
+        // Check if NF-COM selection is complete
+        function isNFCOMComplete(nfcom) {
+            if (!selectedLevels[nfcom]) return false;
+            const levels = selectedLevels[nfcom];
+            return requiredAttributes.every(attr => levels[attr] !== undefined && levels[attr] !== null);
+        }
+
+        // Switch to a different NF-COM
+        function switchToNFCOM(nfcom) {
+            if (nfcom === currentNFCOM) return;
+            
+            // Save current state
+            saveCurrentNFCOMState();
+            
+            // Switch to new NF-COM
+            currentNFCOM = nfcom;
+            currentStep = 0;
+            
+            // Load state for new NF-COM
+            loadNFCOMState(nfcom);
+            
+            // Update UI
+            renderNFCOMSelector();
+            renderCurrentStep();
+            updateNavigationButtons();
+        }
+
+        // Save current NF-COM state
+        function saveCurrentNFCOMState() {
+            if (!currentNFCOM) return;
+            if (!selectedLevels[currentNFCOM]) {
+                selectedLevels[currentNFCOM] = {};
+            }
+            // State is already in selectedLevels[currentNFCOM] through selectLevel function
+        }
+
+        // Load NF-COM state
+        function loadNFCOMState(nfcom) {
+            if (!selectedLevels[nfcom]) {
+                selectedLevels[nfcom] = {};
+            }
+            // State is already loaded in selectedLevels[nfcom]
+        }
+
+        // Reset current NF-COM
+        function resetCurrentNFCOM() {
+            if (!currentNFCOM) return;
+            if (confirm(`Are you sure you want to reset all selections for ${currentNFCOM}?`)) {
+                selectedLevels[currentNFCOM] = {};
+                currentStep = 0;
+                renderCurrentStep();
+                updateNavigationButtons();
+                renderNFCOMSelector();
+            }
+        }
+
+        // Show copy selections modal
+        function showCopySelectionsModal() {
+            const modal = document.getElementById('copyModal');
+            const list = document.getElementById('copySourceList');
+            
+            list.innerHTML = '';
+            copySourceNFCOM = null;
+            document.getElementById('confirmCopyBtn').disabled = true;
+
+            selectedNFCOMs.forEach(nfcom => {
+                if (nfcom === currentNFCOM) return; // Skip current NF-COM
+                
+                const isComplete = isNFCOMComplete(nfcom);
+                if (!isComplete) return; // Only show complete NF-COMs
+
+                const item = document.createElement('div');
+                item.className = `p-3 mb-2 border rounded-lg cursor-pointer transition-all ${
+                    copySourceNFCOM === nfcom 
+                        ? 'bg-blue-100 border-blue-500' 
+                        : 'bg-gray-50 border-gray-300 hover:bg-gray-100'
+                }`;
+                item.innerHTML = `<strong>${nfcom}</strong> - ${nfcomData[nfcom] || nfcom}`;
+                item.onclick = () => {
+                    copySourceNFCOM = nfcom;
+                    document.querySelectorAll('#copySourceList > div').forEach(el => {
+                        el.className = el.className.replace('bg-blue-100 border-blue-500', 'bg-gray-50 border-gray-300');
+                    });
+                    item.className = 'p-3 mb-2 border rounded-lg cursor-pointer transition-all bg-blue-100 border-blue-500';
+                    document.getElementById('confirmCopyBtn').disabled = false;
+                };
+                list.appendChild(item);
+            });
+
+            if (list.children.length === 0) {
+                list.innerHTML = '<p class="text-gray-500">No completed NF-COM selections available to copy.</p>';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Close copy modal
+        function closeCopyModal() {
+            document.getElementById('copyModal').classList.add('hidden');
+            copySourceNFCOM = null;
+        }
+
+        // Confirm and copy selections
+        function confirmCopySelections() {
+            if (!copySourceNFCOM || !currentNFCOM) return;
+
+            if (confirm(`Copy all selections from ${copySourceNFCOM} to ${currentNFCOM}? This will overwrite any existing selections.`)) {
+                selectedLevels[currentNFCOM] = JSON.parse(JSON.stringify(selectedLevels[copySourceNFCOM]));
+                currentStep = 0;
+                renderCurrentStep();
+                updateNavigationButtons();
+                renderNFCOMSelector();
+                closeCopyModal();
+            }
+        }
+
+        async function loadGenericAttributes() {
+            try {
+                const response = await fetch('/api/sfia-generic-attributes/');
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+                genericAttributesData = await response.json();
+                
+                // Load NF-COMs first, then initialize
+                await loadSelectedNFCOMs();
+                if (selectedNFCOMs.length > 0) {
+                    initializeSteps();
+                }
+            } catch (error) {
+                console.error('Error loading generic attributes:', error);
+                document.getElementById('mainContent').innerHTML = '<p style="color: red; padding: 20px;">Error loading data: ' + error.message + '</p>';
+            }
+        }
+
+        function createLevelBoxes(attribute) {
+            if (!currentNFCOM || !selectedLevels[currentNFCOM]) return '';
+            let levelBoxesHtml = '';
+            const nfcomLevels = selectedLevels[currentNFCOM];
+            const selectedLevel = nfcomLevels[attribute.four_letters];
+            
+            for (let level = 1; level <= 7; level++) {
+                const isFilled = selectedLevel === level ? 'filled' : '';
+                // Ajouter un espace après le niveau 2 et après le niveau 4
+                const spacer = (level === 2 || level === 4) ? '<div style="width: 8px;"></div>' : '';
+                levelBoxesHtml += `<div class="level-box ${isFilled}" data-attribute-code="${attribute.four_letters}" data-level="${level}" onclick="toggleAttributeLevel('${attribute.four_letters}', ${level})">${level}</div>${spacer}`;
             }
             
-            // Ouvrir la fenêtre modale
-            selectionP2Buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const attribute = this.dataset.attribute;
-                    attributeTitle.textContent = this.parentElement.previousElementSibling.textContent;
-                    
-                    // Réinitialiser la fenêtre modale
-                    document.querySelectorAll('.nf-button').forEach(btn => btn.classList.remove('active'));
-                    levelCards.forEach(card => {
-                        card.classList.remove('selectable', 'selected');
-                    });
-                    validateButton.classList.remove('active');
-                    
-                    // Populer les boutons NF
-                    populateNFButtons();
-                    
-                    // Afficher la fenêtre modale
-                    modal.style.display = 'block';
-                });
-            });
+            return levelBoxesHtml;
+        }
+
+        function createSkillRow(attribute) {
+            const levelBoxesHtml = createLevelBoxes(attribute);
+            // Ajouter "p.m." avant le code à partir de Collaboration (COLL) inclus
+            const collIndex = genericAttributesData.findIndex(a => a.four_letters === 'COLL');
+            const currentIndex = genericAttributesData.findIndex(a => a.four_letters === attribute.four_letters);
+            const shouldAddPM = collIndex !== -1 && currentIndex >= collIndex;
+            const pmDisplay = shouldAddPM ? '<div class="skill-pm">p.m.</div>' : '<div class="skill-pm"></div>';
+            return `<div class="skill-row" data-skill-row-code="${attribute.four_letters}"><div class="skill-name">${attribute.h1}</div>${pmDisplay}<div class="skill-code">${attribute.four_letters}</div><div class="level-boxes">${levelBoxesHtml}</div></div>`;
+        }
+
+        function createLevelHeader() {
+            let levelNumbersHtml = '';
+            for (let i = 1; i <= 7; i++) {
+                levelNumbersHtml += `<div class="level-number">${i}</div>`;
+            }
+            return `<div class="level-header"><div class="flex-grow">Generic Attribute:</div><div class="skill-pm"></div><div class="level-boxes">${levelNumbersHtml}</div></div>`;
+        }
+
+        function toggleAttributeLevel(attributeCode, level) {
+            if (!currentNFCOM) return;
             
-            // Charger les sélections précédentes au démarrage
-            function loadSavedSelections() {
-                try {
-                    const savedSelections = localStorage.getItem('p2Selections');
-                    if (savedSelections) {
-                        currentSelections = JSON.parse(savedSelections);
-                        console.log('Sélections chargées:', currentSelections);
-                    }
-                } catch (e) {
-                    console.error('Erreur lors du chargement des sélections:', e);
+            // Initialize NF-COM levels if needed
+            if (!selectedLevels[currentNFCOM]) {
+                selectedLevels[currentNFCOM] = {};
+            }
+            
+            const nfcomLevels = selectedLevels[currentNFCOM];
+            // If same level clicked, deselect, otherwise select new level
+            if (nfcomLevels[attributeCode] === level) {
+                delete nfcomLevels[attributeCode];
+            } else {
+                nfcomLevels[attributeCode] = level;
+            }
+            populateSfiaAttributesTable();
+            renderNFCOMSelector(); // Update NF-COM selector
+            // If it's the current attribute, update display
+            const currentAttribute = getCurrentAttribute();
+            if (currentAttribute && currentAttribute.four_letters === attributeCode) {
+                renderCurrentStep();
+                updateNavigationButtons();
+            }
+        }
+
+        function createBusinessSkillsRow() {
+            // Créer une ligne vide pour "BUSINESS SKILLS BEHAVIOURAL FACTORS"
+            const emptyBoxes = '<div class="level-boxes"></div>';
+            return `<div class="skill-row"><div class="skill-name">BUSINESS SKILLS BEHAVIOURAL FACTORS</div><div class="skill-pm red">p.m.</div><div class="skill-code"></div>${emptyBoxes}</div>`;
+        }
+
+        function populateSfiaAttributesTable() {
+            const container = document.getElementById('sfiaAttributesTable');
+            if (!container || !genericAttributesData.length) return;
+
+            // Filtrer les attributs jusqu'à Knowledge (KNGE) inclus
+            const kngeIndex = genericAttributesData.findIndex(a => a.four_letters === 'KNGE');
+            const filteredAttributes = kngeIndex !== -1 
+                ? genericAttributesData.slice(0, kngeIndex + 1)
+                : genericAttributesData;
+
+            const skillsHtml = filteredAttributes.map(createSkillRow).join('');
+            const businessSkillsRow = createBusinessSkillsRow();
+            let html = '<div class="category-header">(SFIA 9) GENERIC ATTRIBUTES, BUSINESS SKILLS BEHAVIOURAL FACTORS</div>';
+            html += `<div class="subcategory"><div class="subcategory-header">Generic Attribute :</div>${skillsHtml}${businessSkillsRow}</div>`;
+            
+            container.innerHTML = html;
+        }
+
+        function initializeSteps() {
+            populateSfiaAttributesTable();
+            renderCurrentStep();
+            updateStepIndicator();
+            updateNavigationButtons();
+        }
+
+        function getCurrentAttribute() {
+            const attributeCode = requiredAttributes[currentStep];
+            return genericAttributesData.find(attr => attr.four_letters === attributeCode);
+        }
+
+        function renderCurrentStep() {
+            const attribute = getCurrentAttribute();
+            if (!attribute) {
+                if (currentStep === requiredAttributes.length) {
+                    renderSummary();
+                    return;
+                }
+                return;
+            }
+
+            let html = '';
+
+            // Update title with attribute name and current NF-COM
+            const pageTitle = document.getElementById('pageTitle');
+            if (pageTitle) {
+                const nfcomName = currentNFCOM ? `${currentNFCOM} - ${nfcomData[currentNFCOM] || currentNFCOM}` : '';
+                pageTitle.textContent = `${attribute.h1}${nfcomName ? ` (${nfcomName})` : ''}`;
+            }
+
+            // Nettoyer le texte guidance_notes pour supprimer "Guidance notes" au début
+            let guidanceText = attribute.guidance_notes || '';
+            // Supprimer "Guidance notes" au début (insensible à la casse)
+            guidanceText = guidanceText.replace(/^Guidance notes/i, '').trim();
+
+            // Definition & Guidance - En haut
+            html += '<div class="definition-section">';
+            html += '<div class="definition-title"><strong>Definition & guidance note</strong></div>';
+            html += `<div class="definition-text">${attribute.lead}</div>`;
+            html += '<div class="guidance-title"><strong>Guidance Notes</strong></div>';
+            html += `<div class="guidance-text">${guidanceText}</div>`;
+            html += '</div>';
+
+            // Level Preview Area - Zone pour afficher la définition du niveau au survol
+            html += '<div class="level-preview-container">';
+            html += '<div class="level-preview hidden" id="levelPreview">';
+            html += '<div class="level-preview-number" id="previewNumber"></div>';
+            html += '<div class="level-preview-title" id="previewTitle"></div>';
+            html += '<div class="level-preview-description" id="previewDescription"></div>';
+            html += '</div>';
+            html += '</div>';
+
+            // Level Scale - Fixe en bas
+            html += '<div class="level-scale-container">';
+            html += '<div class="level-scale-label"><strong>Select Level</strong></div>';
+            html += '<div class="level-scale">';
+            
+            // Create scale items 1-7
+            const nfcomLevels = currentNFCOM && selectedLevels[currentNFCOM] ? selectedLevels[currentNFCOM] : {};
+            for (let i = 1; i <= 7; i++) {
+                const isSelected = nfcomLevels[attribute.four_letters] === i;
+                html += `<div class="level-scale-item ${isSelected ? 'selected' : ''}" 
+                             onclick="selectLevel(${i})" 
+                             onmouseenter="showLevelPreview(${i})" 
+                             onmouseleave="hideLevelPreview()"
+                             data-level="${i}">${i}</div>`;
+            }
+            
+            html += '</div>';
+            html += '</div>';
+
+            document.getElementById('mainContent').innerHTML = html;
+            document.getElementById('navigationButtons').style.display = 'flex';
+            
+            // Show selected level if one is selected
+            const selectedLevel = nfcomLevels[attribute.four_letters];
+            if (selectedLevel) {
+                setTimeout(() => showLevelPreview(selectedLevel, true), 100);
+            }
+        }
+
+        function selectLevel(level) {
+            const attribute = getCurrentAttribute();
+            if (!attribute || !currentNFCOM) return;
+
+            // Initialize NF-COM levels if needed
+            if (!selectedLevels[currentNFCOM]) {
+                selectedLevels[currentNFCOM] = {};
+            }
+            
+            selectedLevels[currentNFCOM][attribute.four_letters] = level;
+            populateSfiaAttributesTable(); // Update left list
+            renderCurrentStep();
+            updateNavigationButtons();
+            renderNFCOMSelector(); // Update NF-COM selector to show progress
+            // Show selected level preview
+            showLevelPreview(level, true);
+        }
+
+        function showLevelPreview(level, persist = false) {
+            const attribute = getCurrentAttribute();
+            if (!attribute) return;
+
+            const levelData = attribute.skill_levels[level - 1];
+            if (!levelData) return;
+
+            const preview = document.getElementById('levelPreview');
+            const previewNumber = document.getElementById('previewNumber');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewDescription = document.getElementById('previewDescription');
+
+            if (preview && previewNumber && previewTitle && previewDescription) {
+                previewNumber.textContent = `Level ${level}`;
+                previewTitle.textContent = levelData.level;
+                previewDescription.textContent = levelData.description;
+                
+                // Toujours visible, juste changer l'opacité
+                preview.classList.remove('hidden');
+                preview.style.opacity = '1';
+                
+                if (persist) {
+                    preview.dataset.persist = 'true';
+                } else {
+                    delete preview.dataset.persist;
                 }
             }
+        }
+
+        function hideLevelPreview() {
+            const preview = document.getElementById('levelPreview');
+            if (preview) {
+                // Don't hide if a level is selected
+                const attribute = getCurrentAttribute();
+                const nfcomLevels = currentNFCOM && selectedLevels[currentNFCOM] ? selectedLevels[currentNFCOM] : {};
+                if (attribute && nfcomLevels[attribute.four_letters]) {
+                    const selectedLevel = nfcomLevels[attribute.four_letters];
+                    showLevelPreview(selectedLevel, true);
+                    return;
+                }
+                // Only hide content if not persisted
+                if (!preview.dataset.persist) {
+                    preview.classList.add('hidden');
+                    preview.style.opacity = '0';
+                }
+            }
+        }
+
+        function updateStepIndicator() {
+            const indicators = document.querySelectorAll('.step-item');
+            const nfcomLevels = currentNFCOM && selectedLevels[currentNFCOM] ? selectedLevels[currentNFCOM] : {};
             
-            // Fonction pour afficher les sélections dans la fenêtre modale
-            function displaySelections() {
-                // Vider les conteneurs
-                selectionsByNfDiv.innerHTML = '';
-                selectionsByAttributeDiv.innerHTML = '';
+            indicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
                 
-                // Vérifier si nous avons des sélections
-                if (Object.keys(currentSelections).length === 0) {
-                    selectionsByNfDiv.innerHTML = '<p class="text-gray-500">Aucune sélection effectuée.</p>';
-                    selectionsByAttributeDiv.innerHTML = '<p class="text-gray-500">Aucune sélection effectuée.</p>';
+                // Remove previous level display if exists
+                const existingLevel = indicator.querySelector('.step-item-level');
+                if (existingLevel) {
+                    existingLevel.remove();
+                }
+                
+                if (index < currentStep) {
+                    indicator.classList.add('completed');
+                    // Display selected level for completed steps
+                    const attributeCode = requiredAttributes[index];
+                    const level = nfcomLevels[attributeCode];
+                    if (level) {
+                        const levelSpan = document.createElement('span');
+                        levelSpan.className = 'step-item-level';
+                        levelSpan.textContent = `Level ${level}`;
+                        indicator.appendChild(levelSpan);
+                    }
+                } else if (index === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        function updateNavigationButtons() {
+            const attribute = getCurrentAttribute();
+            const nfcomLevels = currentNFCOM && selectedLevels[currentNFCOM] ? selectedLevels[currentNFCOM] : {};
+            const hasSelection = attribute && nfcomLevels[attribute.four_letters];
+            
+            document.getElementById('backButton').style.display = currentStep === 0 ? 'none' : 'block';
+            document.getElementById('nextButton').disabled = !hasSelection && currentStep < requiredAttributes.length;
+            
+            if (currentStep === requiredAttributes.length) {
+                // Check if current NF-COM is complete
+                const isCurrentNFCOMComplete = isNFCOMComplete(currentNFCOM);
+                
+                // Check if there are more NF-COMs to process
+                const currentIndex = selectedNFCOMs.indexOf(currentNFCOM);
+                const hasMoreNFCOMs = currentIndex < selectedNFCOMs.length - 1;
+                
+                // Only show "Next NF-COM" or "Finish" if current NF-COM is complete
+                if (isCurrentNFCOMComplete) {
+                    document.getElementById('nextButton').textContent = hasMoreNFCOMs ? 'Next NF-COM' : 'Finish';
+                    document.getElementById('nextButton').disabled = false;
+                } else {
+                    // Current NF-COM not complete, stay on review but disable finish
+                    document.getElementById('nextButton').textContent = 'Review';
+                    document.getElementById('nextButton').disabled = true;
+                }
+            } else if (currentStep === requiredAttributes.length - 1) {
+                document.getElementById('nextButton').textContent = 'Review';
+            } else {
+                document.getElementById('nextButton').textContent = 'Next';
+            }
+        }
+
+        function goToNextStep() {
+            const nfcomLevels = currentNFCOM && selectedLevels[currentNFCOM] ? selectedLevels[currentNFCOM] : {};
+            
+            if (currentStep < requiredAttributes.length) {
+                const attribute = getCurrentAttribute();
+                if (!nfcomLevels[attribute.four_letters]) {
+                    alert('Please select a level before continuing.');
+                    return;
+                }
+                currentStep++;
+            } else if (currentStep === requiredAttributes.length) {
+                // Check if current NF-COM is complete before proceeding
+                const isCurrentNFCOMComplete = isNFCOMComplete(currentNFCOM);
+                
+                if (!isCurrentNFCOMComplete) {
+                    alert('Please complete all attribute selections for the current Competency Area before proceeding.');
                     return;
                 }
                 
-                // Organiser les sélections par NF
-                const nfListElement = document.createElement('div');
-                nfListElement.className = 'space-y-4';
+                // Current NF-COM is complete, move to next NF-COM or finish
+                const currentIndex = selectedNFCOMs.indexOf(currentNFCOM);
+                const nextIndex = currentIndex + 1;
                 
-                Object.keys(currentSelections).forEach(nf => {
-                    const nfCard = document.createElement('div');
-                    nfCard.className = 'bg-white p-4 rounded-lg shadow-sm';
+                if (nextIndex < selectedNFCOMs.length) {
+                    // Switch to next NF-COM
+                    switchToNFCOM(selectedNFCOMs[nextIndex]);
+                    return;
+                } else {
+                    // Check if all NF-COMs are complete before finishing
+                    const allNFCOMsComplete = selectedNFCOMs.every(nfcom => isNFCOMComplete(nfcom));
                     
-                    const nfTitle = document.createElement('h4');
-                    nfTitle.className = 'font-bold text-blue-700';
-                    nfTitle.textContent = nf;
-                    nfCard.appendChild(nfTitle);
-                    
-                    const attributesList = document.createElement('ul');
-                    attributesList.className = 'mt-2 space-y-1';
-                    
-                    Object.entries(currentSelections[nf]).forEach(([attribute, data]) => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'flex justify-between';
-                        listItem.innerHTML = `
-                            <span>${attribute}</span>
-                            <span class="font-medium">Niveau ${data.level}</span>
-                        `;
-                        attributesList.appendChild(listItem);
-                    });
-                    
-                    nfCard.appendChild(attributesList);
-                    nfListElement.appendChild(nfCard);
+                    if (allNFCOMsComplete) {
+                        // All NF-COMs complete, finish
+                        confirmSelections();
+                        return;
+                    } else {
+                        alert('Please complete all Competency Areas before finishing.');
+                        return;
+                    }
+                }
+            }
+            renderCurrentStep();
+            updateStepIndicator();
+            updateNavigationButtons();
+        }
+
+        function goToPreviousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderCurrentStep();
+                updateStepIndicator();
+                updateNavigationButtons();
+            }
+        }
+
+        function renderSummary() {
+            if (!currentNFCOM) return;
+            
+            const nfcomLevels = selectedLevels[currentNFCOM] || {};
+            const nfcomName = `${currentNFCOM} - ${nfcomData[currentNFCOM] || currentNFCOM}`;
+            
+            let html = '<div class="summary-card">';
+            html += `<div class="summary-title">Summary for ${nfcomName}</div>`;
+            
+            requiredAttributes.forEach(code => {
+                const attr = genericAttributesData.find(a => a.four_letters === code);
+                const level = nfcomLevels[code];
+                if (!level) return;
+                
+                const levelData = attr.skill_levels.find(sl => {
+                    const match = sl.level.match(/Level (\d+)/);
+                    return match && parseInt(match[1]) === level;
                 });
                 
-                selectionsByNfDiv.appendChild(nfListElement);
-                
-                // Organiser les sélections par attribut
-                const attributeListElement = document.createElement('div');
-                attributeListElement.className = 'space-y-4';
-                
-                // Collecter tous les attributs uniques
-                const allAttributes = new Set();
-                Object.values(currentSelections).forEach(attributeObj => {
-                    Object.keys(attributeObj).forEach(attr => allAttributes.add(attr));
-                });
-                
-                allAttributes.forEach(attribute => {
-                    const attributeCard = document.createElement('div');
-                    attributeCard.className = 'bg-white p-4 rounded-lg shadow-sm';
-                    
-                    const attributeTitle = document.createElement('h4');
-                    attributeTitle.className = 'font-bold text-green-700';
-                    attributeTitle.textContent = attribute;
-                    attributeCard.appendChild(attributeTitle);
-                    
-                    const nfList = document.createElement('ul');
-                    nfList.className = 'mt-2 space-y-1';
-                    
-                    // Trouver tous les NF qui ont une sélection pour cet attribut
-                    Object.entries(currentSelections).forEach(([nf, attrs]) => {
-                        if (attrs[attribute]) {
-                            const listItem = document.createElement('li');
-                            listItem.className = 'flex justify-between';
-                            listItem.innerHTML = `
-                                <span>${nf}</span>
-                                <span class="font-medium">Niveau ${attrs[attribute].level}</span>
-                            `;
-                            nfList.appendChild(listItem);
-                        }
-                    });
-                    
-                    attributeCard.appendChild(nfList);
-                    attributeListElement.appendChild(attributeCard);
-                });
-                
-                selectionsByAttributeDiv.appendChild(attributeListElement);
+                html += '<div class="summary-item">';
+                html += `<div><strong>${attributeNames[code]}</strong><br><span style="color: #6b7280; font-size: 14px;">${attr.lead}</span></div>`;
+                html += `<div style="text-align: right;"><strong>${levelData ? levelData.level : 'Level ' + level}</strong><br><span style="color: #6b7280; font-size: 12px;">${levelData ? levelData.description : ''}</span></div>`;
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            
+            document.getElementById('mainContent').innerHTML = html;
+            document.getElementById('navigationButtons').style.display = 'flex';
+            document.getElementById('backButton').style.display = 'block';
+        }
+
+        function confirmSelections() {
+            // Save all NF-COM selections
+            console.log('All NF-COM selections:', selectedLevels);
+            
+            // Save to localStorage (for potential future use, but we'll reset after)
+            localStorage.setItem('nfcomAttributeSelections', JSON.stringify(selectedLevels));
+            
+            // Save to serverStorage if available
+            if (typeof serverStorage !== 'undefined') {
+                serverStorage.setItem('nfcomAttributeSelections', JSON.stringify(selectedLevels))
+                    .then(() => console.log('Selections saved to server'))
+                    .catch(err => console.error('Error saving to server:', err));
             }
             
-            // Fermer la fenêtre modale de sélection
-            closeBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
+            // Afficher un message de confirmation
+            alert(`All selections for ${selectedNFCOMs.length} Competency Area(s) have been saved successfully! Returning to Step 2...`);
             
-            // Fermer la fenêtre modale de sélection en cliquant à l'extérieur
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-            
-            // Fermer la fenêtre modale des sélections
-            selectionsCloseBtn.addEventListener('click', function() {
-                selectionsModal.style.display = 'none';
-            });
-            
-            // Fermer la fenêtre modale des sélections en cliquant à l'extérieur
-            window.addEventListener('click', function(event) {
-                if (event.target === selectionsModal) {
-                    selectionsModal.style.display = 'none';
-                }
-            });
-            
-            // Valider la sélection
-            validateButton.addEventListener('click', function() {
-                if (validateButton.classList.contains('active')) {
-                    const selectedNF = document.querySelector('.nf-button.active').dataset.nf;
-                    const selectedLevel = document.querySelector('.level-card.selected').dataset.level;
-                    
-                    // Récupérer les informations de la sélection
-                    const attribute = attributeTitle.textContent;
-                    
-                    // Sauvegarder la sélection dans notre objet
-                    if (!currentSelections[selectedNF]) {
-                        currentSelections[selectedNF] = {};
-                    }
-                    
-                    currentSelections[selectedNF][attribute] = {
-                        level: selectedLevel,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    console.log('Sélections mises à jour:', currentSelections);
-                    
-                    // Sauvegarder dans localStorage pour persistance
-                    localStorage.setItem('p2Selections', JSON.stringify(currentSelections));
-                    
-                    // Fermer la fenêtre modale
-                    modal.style.display = 'none';
-                    
-                    // Afficher un message de succès
-                    alert(`Sélection enregistrée pour ${attribute} avec le domaine ${selectedNF} et le niveau ${selectedLevel}`);
-                }
-            });
-            
-            // Événement pour le bouton "Voir les sélections en cours"
-            viewSelectionsBtn.addEventListener('click', function() {
-                // Afficher les sélections
-                displaySelections();
-                
-                // Afficher la fenêtre modale
-                selectionsModal.style.display = 'block';
-            });
-            
-            // Événements pour les boutons de définition (existant)
-            definitionButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Cacher toutes les sections de contenu
-                    contentSections.forEach(section => {
-                        section.style.display = 'none';
-                    });
+            // Rediriger vers etape2_first_step.html
+            window.location.href = "{% url 'etape2_first_step' %}";
+        }
 
-                    // Afficher la section cible
-                    const targetId = this.getAttribute('data-target');
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.style.display = 'block';
-                    }
-                });
+        // Reset all NF-COM selections
+        function resetAllSelections() {
+            // Clear all selections
+            selectedLevels = {};
+            
+            // Reinitialize structure for each NF-COM (empty)
+            selectedNFCOMs.forEach(nfcom => {
+                selectedLevels[nfcom] = {};
             });
+            
+            // Reset current state
+            currentNFCOM = selectedNFCOMs.length > 0 ? selectedNFCOMs[0] : null;
+            currentStep = 0;
+            
+            // Clear saved selections from localStorage
+            localStorage.removeItem('nfcomAttributeSelections');
+            
+            // Clear from serverStorage if available
+            if (typeof serverStorage !== 'undefined') {
+                serverStorage.removeItem('nfcomAttributeSelections')
+                    .catch(err => console.error('Error removing from serverStorage:', err));
+            }
+            
+            // Update UI
+            renderNFCOMSelector();
+            renderCurrentStep();
+            updateNavigationButtons();
+            populateSfiaAttributesTable();
+            
+            console.log('All selections have been reset');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Attributs Part Deux: DOM loaded, starting initialization...');
+            loadGenericAttributes();
         });
     </script>
-
 </body>
 </html>
+
+ 

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthèse Complète du Projet - CyberRoles ATLAS</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .title-page {
+            text-align: center;
+            padding: 50px 0;
+            page-break-after: always;
+        }
+        .title-page h1 {
+            font-size: 28px;
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+        .title-page h2 {
+            font-size: 22px;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .title-page .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-top: 30px;
+        }
+        .title-page .date {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #1e40af;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+        h2 {
+            color: #3b82f6;
+            font-size: 16px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #60a5fa;
+            font-size: 14px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+        p {
+            text-align: justify;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .toc {
+            page-break-after: always;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin-bottom: 8px;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        strong {
+            color: #1e3a8a;
+        }
+        @media print {
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title-page">
+        <h1>SYNTHÈSE COMPLÈTE DU PROJET</h1>
+        <h2>CyberRoles - ATLAS</h2>
+        <p class="subtitle">Framework de Gestion des Compétences Cybersécurité</p>
+        <p class="date">Document généré le 10/12/2025 à 10:55</p>
+    </div>
+    
+    <div class="toc page-break">
+        <h1>TABLE DES MATIÈRES</h1>
+        <ul>
+            <li>1. Vue d'ensemble du projet</li>
+            <li>2. Architecture technique</li>
+            <li>3. Frameworks gérés</li>
+            <li>4. Modèles de données</li>
+            <li>5. Fonctionnalités principales</li>
+            <li>6. Technologies utilisées</li>
+            <li>7. Justification des choix techniques</li>
+            <li>8. Structure du projet</li>
+            <li>9. Système d'authentification et rôles</li>
+            <li>10. Déploiement</li>
+            <li>11. Conclusion</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>1. VUE D'ENSEMBLE DU PROJET</h1>
+        
+        <p><strong>CyberRoles - ATLAS</strong> est une application web Django conçue pour supporter les organisations 
+        dans le mapping systématique de leurs exigences spécifiques—couvrant les connaissances, compétences 
+        techniques et compétences comportementales—associées à chaque poste au sein de la structure organisationnelle.</p>
+        
+        <p>Ce processus de mapping facilite l'alignement avec les frameworks de référence établis pour la main-d'œuvre 
+        afin d'assurer à la fois l'adéquation des rôles et l'exécution efficace des tâches.</p>
+        
+        <h2>Objectifs principaux :</h2>
+        <ul>
+            <li>Cartographier les compétences requises pour chaque poste</li>
+            <li>Comparer et aligner les frameworks DCWF, NCWF et NICE Framework</li>
+            <li>Faciliter l'identification des rôles de travail (work roles) appropriés</li>
+            <li>Gérer les compétences KSAT (Knowledge, Skills, Abilities, Tasks)</li>
+            <li>Fournir des outils d'exploration et de recherche avancés</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>2. ARCHITECTURE TECHNIQUE</h1>
+        
+        <p>Le projet suit une architecture <strong>MVC (Model-View-Controller)</strong> typique de Django, 
+        avec une séparation claire entre les modèles de données, les vues et les templates.</p>
+        
+        <h2>Structure principale :</h2>
+        <ul>
+            <li><strong>Backend :</strong> Django 5.1.6 - Framework web Python robuste et mature</li>
+            <li><strong>Base de données :</strong> SQLite3 pour le développement et la production</li>
+            <li><strong>Frontend :</strong> HTML5, CSS3, JavaScript avec Tailwind CSS pour le styling</li>
+            <li><strong>Authentification :</strong> Système personnalisé basé sur les matricules</li>
+            <li><strong>API REST :</strong> Endpoints JSON pour les données dynamiques</li>
+        </ul>
+        
+        <h2>Organisation du code :</h2>
+        <ul>
+            <li><strong>dcwf/</strong> : Configuration principale Django (settings, urls, wsgi)</li>
+            <li><strong>web_app/</strong> : Application principale contenant :
+                <ul>
+                    <li>models/ : Modèles de données (19 fichiers de modèles)</li>
+                    <li>views.py, views_auth.py, views_saved_data.py : Logique métier</li>
+                    <li>templates/ : Templates HTML organisés par fonctionnalité</li>
+                    <li>static/ : Fichiers statiques (CSS, JS, images)</li>
+                    <li>management/ : Commandes Django personnalisées</li>
+                    <li>helpers/ : Fonctions utilitaires</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>3. FRAMEWORKS GÉRÉS</h1>
+        
+        <p>L'application gère plusieurs frameworks de compétences cybersécurité, permettant leur comparaison 
+        et leur alignement.</p>
+        
+        <h2>3.1 DCWF (DoD Cyberspace Workforce Framework)</h2>
+        <p>Framework du Département de la Défense américain pour la main-d'œuvre cybersécurité. 
+        Le projet gère deux versions :</p>
+        <ul>
+            <li><strong>DCWF 2017 :</strong> Version originale avec 79 work roles</li>
+            <li><strong>DCWF 2025 :</strong> Version mise à jour avec nouvelles catégories et rôles</li>
+        </ul>
+        
+        <h2>3.2 NCWF (NICE Cybersecurity Workforce Framework)</h2>
+        <p>Framework NICE (National Initiative for Cybersecurity Education) pour la main-d'œuvre cybersécurité civile. 
+        Le projet gère trois versions :</p>
+        <ul>
+            <li><strong>NCWF 2017 :</strong> Version initiale du framework NICE</li>
+            <li><strong>NCWF 2024 :</strong> Version intermédiaire avec améliorations</li>
+            <li><strong>NCWF 2025 :</strong> Version la plus récente avec alignement DCWF 2025</li>
+        </ul>
+        
+        <h2>3.3 NICE Framework</h2>
+        <p>Framework NICE standard pour les compétences et rôles cybersécurité, intégré dans les modèles 2025.</p>
+        
+        <h2>3.4 Mapping entre frameworks</h2>
+        <p>Le système maintient des relations entre les work roles des différents frameworks via les OPM IDs 
+        (Occupational Position Matrices), permettant :</p>
+        <ul>
+            <li>Correspondance automatique entre DCWF et NCWF</li>
+            <li>Regroupement par OPM ID pour affichage cohérent</li>
+            <li>Comparaison des KSATs entre frameworks</li>
+            <li>Visualisation des différences et similitudes</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>4. MODÈLES DE DONNÉES</h1>
+        
+        <p>Le projet utilise 19 modèles Django pour représenter la structure complexe des frameworks.</p>
+        
+        <h2>4.1 Modèles principaux</h2>
+        <ul>
+            <li><strong>DcwfWorkRole :</strong> Rôles de travail DCWF 2017 avec relations OPM</li>
+            <li><strong>Dcwf2025WorkRole :</strong> Rôles de travail DCWF 2025</li>
+            <li><strong>Ncwf2017WorkRole :</strong> Rôles de travail NCWF 2017</li>
+            <li><strong>Ncwf2024WorkRole :</strong> Rôles de travail NCWF 2024</li>
+            <li><strong>Ncwf2025WorkRole :</strong> Rôles de travail NCWF 2025</li>
+            <li><strong>NiceFrameworkWorkRole :</strong> Rôles du framework NICE</li>
+            <li><strong>AIWorkRole :</strong> Rôles spécialisés en Intelligence Artificielle</li>
+        </ul>
+        
+        <h2>4.2 Modèles KSAT</h2>
+        <p>Les KSATs (Knowledge, Skills, Abilities, Tasks) sont les compétences associées aux work roles :</p>
+        <ul>
+            <li><strong>DcwfKsat :</strong> KSATs DCWF avec catégories (knowledge, skill, ability, task)</li>
+            <li><strong>Dcwf2025Ksat :</strong> KSATs DCWF 2025</li>
+            <li><strong>Ncwf2017Ksat :</strong> KSATs NCWF 2017</li>
+            <li><strong>Ncwf2024Tks :</strong> TKS (Tasks, Knowledge, Skills) NCWF 2024</li>
+            <li><strong>Ncwf2025Ksat :</strong> KSATs NCWF 2025</li>
+        </ul>
+        
+        <h2>4.3 Modèles de relations</h2>
+        <p>Les relations Many-to-Many sont gérées via des modèles intermédiaires :</p>
+        <ul>
+            <li><strong>DcwfWorkRoleKsatRelation :</strong> Relation entre work roles DCWF et KSATs</li>
+            <li><strong>Dcwf2025WorkRoleKsatRelation :</strong> Relations pour DCWF 2025</li>
+            <li><strong>Ncwf2025WorkRoleKsatRelation :</strong> Relations pour NCWF 2025</li>
+            <li><strong>Opm :</strong> Occupational Position Matrix - Point de correspondance entre frameworks</li>
+        </ul>
+        
+        <h2>4.4 Modèles utilisateur</h2>
+        <ul>
+            <li><strong>User :</strong> Modèle utilisateur personnalisé avec matricule et rôle</li>
+            <li><strong>UserSavedData :</strong> Données sauvegardées par utilisateur (sélections KSAT, etc.)</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>5. FONCTIONNALITÉS PRINCIPALES</h1>
+        
+        <h2>5.1 Exploration des Work Roles</h2>
+        <ul>
+            <li><strong>Page d'accueil (t1.html) :</strong> Vue d'ensemble de tous les work roles organisés par catégories</li>
+            <li><strong>Modèles 2025 :</strong> Interface dédiée aux frameworks 2025 avec séparation DCWF/NCWF</li>
+            <li><strong>Détails work role :</strong> Affichage détaillé d'un work role avec ses KSATs</li>
+            <li><strong>DCWF Finder :</strong> Outil interactif avec questionnaire guidé, catalogue complet et recherche rapide</li>
+        </ul>
+        
+        <h2>5.2 Comparaison de frameworks</h2>
+        <ul>
+            <li><strong>Sélection multi-frameworks :</strong> Choix de work roles depuis DCWF 2017, DCWF 2025, NCWF 2017, NCWF 2024, NCWF 2025</li>
+            <li><strong>Comparaison KSAT :</strong> Affichage côte à côte des KSATs avec regroupement par OPM ID</li>
+            <li><strong>Visualisation par catégories :</strong> Organisation par Knowledge, Skills, Abilities, Tasks</li>
+            <li><strong>Détails de compétences :</strong> Pages dédiées pour NF-COM-002 (Sécurité IA) et NF-COM-007 (Cyber Resiliency)</li>
+        </ul>
+        
+        <h2>5.3 Gestion des compétences (Étape 2)</h2>
+        <ul>
+            <li><strong>Saisie de poste :</strong> Interface pour saisir un numéro de poste</li>
+            <li><strong>Cadres de niveaux :</strong> Affichage des cadres de niveaux de maîtrise</li>
+            <li><strong>Domaines de compétence :</strong> Exploration des domaines de compétence NICE Framework (NF-COM)</li>
+            <li><strong>Sauvegarde :</strong> Possibilité de sauvegarder les sélections pour reprise ultérieure</li>
+            <li><strong>Étape2Plus :</strong> Explorateur interactif des domaines de compétence</li>
+        </ul>
+        
+        <h2>5.4 Outils d'analyse</h2>
+        <ul>
+            <li><strong>Summary Chart :</strong> Visualisation graphique des compétences</li>
+            <li><strong>Summary MIL :</strong> Analyse des compétences militaires</li>
+            <li><strong>Project Recap :</strong> Récapitulatif complet du projet</li>
+            <li><strong>Step0 Baseline :</strong> Outil de baseline pour l'analyse initiale</li>
+        </ul>
+        
+        <h2>5.5 API et données</h2>
+        <ul>
+            <li><strong>API JSON :</strong> Endpoints pour récupérer les données KSAT, work roles, etc.</li>
+            <li><strong>Données externes :</strong> Intégration de données SFIA, compétences militaires, postes IDF</li>
+            <li><strong>Export :</strong> Téléchargement de fichiers .md et .mm (FreeMind)</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>6. TECHNOLOGIES UTILISÉES</h1>
+        
+        <h2>6.1 Backend</h2>
+        <ul>
+            <li><strong>Django 5.1.6 :</strong> Framework web Python - Choix justifié par sa maturité, sa sécurité et sa communauté</li>
+            <li><strong>Python 3.10+ :</strong> Langage de programmation principal</li>
+            <li><strong>SQLite3 :</strong> Base de données relationnelle - Simple, portable, suffisante pour ce projet</li>
+        </ul>
+        
+        <h2>6.2 Frontend</h2>
+        <ul>
+            <li><strong>HTML5 :</strong> Structure sémantique moderne</li>
+            <li><strong>CSS3 + Tailwind CSS :</strong> Framework CSS utilitaire pour un développement rapide et cohérent</li>
+            <li><strong>JavaScript (Vanilla) :</strong> Pas de framework JS lourd - Performance et simplicité</li>
+            <li><strong>Google Fonts (Inter) :</strong> Typographie moderne et lisible</li>
+        </ul>
+        
+        <h2>6.3 Outils et bibliothèques</h2>
+        <ul>
+            <li><strong>Django Admin :</strong> Interface d'administration intégrée</li>
+            <li><strong>Django Management Commands :</strong> Commandes personnalisées pour la gestion</li>
+            <li><strong>JSON :</strong> Format de données pour les APIs et exports</li>
+            <li><strong>Excel/CSV :</strong> Import/export de données depuis fichiers Excel</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>7. JUSTIFICATION DES CHOIX TECHNIQUES</h1>
+        
+        <h2>7.1 Django vs autres frameworks</h2>
+        <p><strong>Pourquoi Django ?</strong></p>
+        <ul>
+            <li><strong>ORM puissant :</strong> Facilite la gestion des relations complexes entre frameworks</li>
+            <li><strong>Admin intégré :</strong> Interface d'administration sans développement supplémentaire</li>
+            <li><strong>Sécurité :</strong> Protection CSRF, XSS, SQL injection intégrées</li>
+            <li><strong>Écosystème :</strong> Nombreuses bibliothèques et extensions disponibles</li>
+            <li><strong>Documentation :</strong> Excellente documentation et communauté active</li>
+            <li><strong>Maturité :</strong> Framework stable et éprouvé en production</li>
+        </ul>
+        
+        <h2>7.2 SQLite vs PostgreSQL/MySQL</h2>
+        <p><strong>Pourquoi SQLite ?</strong></p>
+        <ul>
+            <li><strong>Simplicité :</strong> Pas de serveur de base de données à configurer</li>
+            <li><strong>Portabilité :</strong> Fichier unique, facile à déplacer et sauvegarder</li>
+            <li><strong>Suffisance :</strong> Volume de données gérable (work roles, KSATs)</li>
+            <li><strong>Performance :</strong> Excellente pour les lectures, suffisante pour ce projet</li>
+            <li><strong>Déploiement :</strong> Simplifie le déploiement sur PythonAnywhere</li>
+        </ul>
+        
+        <h2>7.3 Tailwind CSS vs Bootstrap/CSS custom</h2>
+        <p><strong>Pourquoi Tailwind CSS ?</strong></p>
+        <ul>
+            <li><strong>Développement rapide :</strong> Classes utilitaires pour styling immédiat</li>
+            <li><strong>Cohérence :</strong> Design system intégré pour une interface uniforme</li>
+            <li><strong>Personnalisation :</strong> Facile à personnaliser via configuration</li>
+            <li><strong>Performance :</strong> Purge CSS pour réduire la taille finale</li>
+            <li><strong>Modernité :</strong> Approche moderne du styling CSS</li>
+        </ul>
+        
+        <h2>7.4 Architecture modulaire</h2>
+        <p>Le projet utilise une architecture modulaire avec séparation des responsabilités :</p>
+        <ul>
+            <li><strong>Modèles séparés :</strong> Un fichier par modèle pour maintenabilité</li>
+            <li><strong>Vues spécialisées :</strong> views.py, views_auth.py, views_saved_data.py</li>
+            <li><strong>Templates organisés :</strong> Par fonctionnalité (main/, ksat/, work_role/, etc.)</li>
+            <li><strong>Helpers :</strong> Fonctions utilitaires réutilisables</li>
+            <li><strong>Management commands :</strong> Scripts CLI pour administration</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>8. STRUCTURE DU PROJET</h1>
+        
+        <h2>8.1 Organisation des répertoires</h2>
+        <ul>
+            <li><strong>dcwf/</strong> : Configuration Django (settings.py, urls.py, wsgi.py, asgi.py)</li>
+            <li><strong>web_app/</strong> : Application principale
+                <ul>
+                    <li>models/ : 19 modèles de données</li>
+                    <li>templates/ : Templates HTML organisés par fonctionnalité</li>
+                    <li>static/ : Fichiers statiques (CSS, JS, images, outils)</li>
+                    <li>management/ : Commandes Django personnalisées</li>
+                    <li>helpers/ : Fonctions utilitaires</li>
+                    <li>templatetags/ : Tags de template personnalisés</li>
+                    <li>migrations/ : Migrations de base de données</li>
+                </ul>
+            </li>
+            <li><strong>static/</strong> : Fichiers statiques racine</li>
+            <li><strong>staticfiles/</strong> : Fichiers statiques collectés pour production</li>
+            <li><strong>KSAT 2025 FINAL/</strong> : Données JSON des frameworks 2025</li>
+            <li><strong>Step0/</strong> : Outil Baseline</li>
+            <li><strong>FORSAPINNOEL/</strong> : Données SFIA</li>
+            <li><strong>SUMAARYMIL/</strong> : Données compétences militaires</li>
+        </ul>
+        
+        <h2>8.2 Fichiers de configuration</h2>
+        <ul>
+            <li><strong>manage.py :</strong> Point d'entrée Django</li>
+            <li><strong>requirements.txt :</strong> Dépendances Python (Django ~= 5.1.6)</li>
+            <li><strong>db.sqlite3 :</strong> Base de données SQLite</li>
+            <li><strong>pythonanywhere_wsgi.py :</strong> Configuration WSGI pour PythonAnywhere</li>
+            <li><strong>deploy_*.py :</strong> Scripts de déploiement</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>9. SYSTÈME D'AUTHENTIFICATION ET RÔLES</h1>
+        
+        <h2>9.1 Authentification par matricule</h2>
+        <p>Le système utilise une authentification personnalisée basée sur les <strong>matricules</strong> (7 chiffres) 
+        plutôt que les emails traditionnels, adapté au contexte organisationnel.</p>
+        
+        <h2>9.2 Système de rôles</h2>
+        <p>Trois niveaux de rôles sont définis avec détection automatique :</p>
+        <ul>
+            <li><strong>Super User :</strong> Accès complet, accès direct aux étapes 2 et 3, interface spéciale (bordure violette)</li>
+            <li><strong>Bêta testeur :</strong> Accès étendu, fonctionnalités avancées, interface spéciale (bordure orange)</li>
+            <li><strong>User Normal :</strong> Accès standard, progression normale, interface standard (bordure bleue)</li>
+        </ul>
+        
+        <h2>9.3 Gestion des données utilisateur</h2>
+        <p>Le modèle <strong>UserSavedData</strong> permet de sauvegarder :</p>
+        <ul>
+            <li>Sélections KSAT (ksat_selection_*)</li>
+            <li>Données générales utilisateur</li>
+            <li>Sélections de work roles</li>
+            <li>Configurations personnalisées</li>
+        </ul>
+        
+        <h2>9.4 Commandes de gestion</h2>
+        <p>Commande Django personnalisée <strong>manage_user_roles</strong> pour :</p>
+        <ul>
+            <li>Lister tous les rôles</li>
+            <li>Ajouter/Supprimer des Super Users</li>
+            <li>Ajouter/Supprimer des Bêta testeurs</li>
+            <li>Mettre à jour tous les utilisateurs</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>10. DÉPLOIEMENT</h1>
+        
+        <h2>10.1 Plateforme : PythonAnywhere</h2>
+        <p>Le projet est déployé sur <strong>PythonAnywhere</strong>, une plateforme d'hébergement Python 
+        qui simplifie le déploiement Django.</p>
+        
+        <h2>10.2 Configuration de déploiement</h2>
+        <ul>
+            <li><strong>URL de production :</strong> willaz.pythonanywhere.com</li>
+            <li><strong>STATIC_ROOT :</strong> Configuration spécifique pour PythonAnywhere</li>
+            <li><strong>ALLOWED_HOSTS :</strong> Configuration des hôtes autorisés</li>
+            <li><strong>WSGI :</strong> Configuration WSGI pour servir l'application</li>
+            <li><strong>Static files :</strong> Collecte et configuration des fichiers statiques</li>
+        </ul>
+        
+        <h2>10.3 Scripts de déploiement</h2>
+        <ul>
+            <li><strong>deploy_willaz.py :</strong> Script de déploiement spécifique</li>
+            <li><strong>deploy_pythonanywhere.py :</strong> Script générique PythonAnywhere</li>
+            <li><strong>deploy_simple.py :</strong> Script de déploiement simplifié</li>
+            <li><strong>deploy_static.py :</strong> Script pour fichiers statiques uniquement</li>
+        </ul>
+        
+        <h2>10.4 Documentation de déploiement</h2>
+        <p>Plusieurs fichiers de documentation guident le déploiement :</p>
+        <ul>
+            <li><strong>DEPLOYMENT_GUIDE.md :</strong> Guide général de déploiement</li>
+            <li><strong>PYTHONANYWHERE_DEPLOYMENT.md :</strong> Guide spécifique PythonAnywhere</li>
+            <li><strong>PYTHONANYWHERE_DEPLOYMENT_COMPLETE.md :</strong> Guide complet</li>
+            <li><strong>CONFIGURATION_WILLAZ.md :</strong> Configuration spécifique utilisateur</li>
+            <li><strong>ETAPE2PLUS_PYTHONANYWHERE_DEPLOYMENT.md :</strong> Déploiement outil Étape2Plus</li>
+        </ul>
+    </div>
+    
+    <div class="page-break">
+        <h1>11. CONCLUSION</h1>
+        
+        <p>Le projet <strong>CyberRoles - ATLAS</strong> représente une solution complète et sophistiquée pour la gestion 
+        et l'alignement des frameworks de compétences cybersécurité.</p>
+        
+        <h2>Points forts du projet :</h2>
+        <ul>
+            <li><strong>Architecture solide :</strong> Django offre une base robuste et maintenable</li>
+            <li><strong>Gestion multi-frameworks :</strong> Support de DCWF, NCWF et NICE Framework avec versions multiples</li>
+            <li><strong>Interface utilisateur moderne :</strong> Tailwind CSS pour une expérience utilisateur agréable</li>
+            <li><strong>Fonctionnalités complètes :</strong> Exploration, comparaison, analyse et sauvegarde</li>
+            <li><strong>Extensibilité :</strong> Architecture modulaire facilitant l'ajout de nouvelles fonctionnalités</li>
+            <li><strong>Documentation :</strong> Documentation complète pour déploiement et utilisation</li>
+        </ul>
+        
+        <h2>Utilisations potentielles :</h2>
+        <ul>
+            <li>Cartographie des compétences organisationnelles</li>
+            <li>Alignement avec les frameworks de référence</li>
+            <li>Planification de carrière et développement professionnel</li>
+            <li>Recrutement et évaluation des compétences</li>
+            <li>Formation et certification</li>
+        </ul>
+        
+        <p>Ce projet démontre une compréhension approfondie des frameworks de compétences cybersécurité 
+        et offre une plateforme puissante pour leur gestion et leur alignement.</p>
+    </div>
+</body>
+</html>

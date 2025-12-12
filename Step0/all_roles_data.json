@@ -1,0 +1,76 @@
+{
+  "ncwf_id": "IO-WRL-003",
+  "opm_code": 431,
+  "dcwf": {
+    "work_role": "Knowledge Manager",
+    "code": 431,
+    "element": "Information Technology (IT)",
+    "definition": "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content."
+  },
+  "nice": {
+    "work_role": "Knowledge Management",
+    "id": "IO-WRL-003",
+    "description": "Responsible for managing and administering processes and tools to identify, document, and access an organization’s intellectual capital.",
+    "element": "Implementation & Operation",
+    "related_roles_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "32.2%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "30.59%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "26.47%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "25.26%"
+      }
+    ],
+    "on_ramps": [
+      "Data Analysis",
+      "Systems Requirements Planning",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management"
+    ],
+    "top_5_secondary": [
+      {
+        "name": "Technical Support",
+        "percentage": "21.69%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "13.59%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "7.99%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "7.15%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "5.13%"
+      }
+    ]
+  }
+}
