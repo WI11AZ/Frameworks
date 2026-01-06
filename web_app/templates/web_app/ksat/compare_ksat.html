@@ -491,6 +491,25 @@
                             {% endif %}
                           </div>
                       </div>
+                      <!-- Indicateur Skills Alignment dans le td align-top -->
+                      <div class="mt-2">
+                        <span class="skills-alignment-indicator-top" 
+                              data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
+                              data-category="{{ key }}"
+                              style="display: none; cursor: pointer; color: #f59e0b; font-size: 12px; font-weight: bold;"
+                              onclick="event.stopPropagation(); showTaskAlignment(this)"
+                              title="Click to see linked tasks">
+                          <span style="font-size: 14px;">⚠️</span> <span>Linked to tasks</span>
+                        </span>
+                        <span class="task-skills-alignment-indicator-top" 
+                              data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
+                              data-category="{{ key }}"
+                              style="display: none; cursor: pointer; color: #3b82f6; font-size: 12px; font-weight: bold;"
+                              onclick="event.stopPropagation(); showTaskSkillsAlignment(this)"
+                              title="Click to see linked Knowledge and Skills">
+                          <span style="font-size: 14px;">ℹ️</span> <span>Contains K/S</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -498,13 +517,6 @@
                   <td class="px-3 py-2 border text-center align-middle" style="width: 126px; position: relative;">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
                       {% if role.model_obj|has_ksat:ksat %}✅{% else %}❌{% endif %}
-                      <span class="skills-alignment-indicator" 
-                            data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
-                            data-role-opm-id="{{ role.opm_id|default:'' }}"
-                            data-role-wrl-id="{% if role.nist_id %}{{ role.nist_id }}{% elif role.ncwf_id %}{{ role.ncwf_id }}{% else %}{% endif %}"
-                            style="display: none; cursor: pointer; color: #f59e0b; font-size: 16px; font-weight: bold;"
-                            onclick="event.stopPropagation(); showSkillsAlignment(this)"
-                            title="Skills Alignment disponible">⚠️</span>
                     </div>
                   </td>
                 {% endfor %}
@@ -5145,6 +5157,139 @@ function getSkillsAlignment(ksatId, wrlId) {
     return null;
 }
 
+// Fonction pour vérifier si un KSAT correspond aux critères OPM-ID/WRL-ID
+function isKsatAllowed(ksatEntry) {
+    if (!ksatEntry) return false;
+    
+    const allowedOpmIds = ['TBD-A', 'TBD-B'];
+    const allowedWrlIds = ['IN-WRL-001', 'IN-WRL-002'];
+    
+    const opmId = (ksatEntry['OPM-ID'] || ksatEntry.opm_id || '').trim();
+    const wrlId = (ksatEntry['WRL-ID'] || ksatEntry.wrl_id || '').trim();
+    
+    return allowedOpmIds.includes(opmId) || allowedWrlIds.includes(wrlId);
+}
+
+// Fonction pour trouver les tâches qui contiennent un K ou S donné dans leur Skills Alignment
+// Filtrée pour les OPM-ID: TBD-A, TBD-B et WRL-ID: IN-WRL-001, IN-WRL-002
+function findTasksContainingKsat(ksatId, category) {
+    if (!ncwfKsatData || !ksatId) {
+        return [];
+    }
+    
+    // Vérifier que c'est un K ou S (pas une tâche)
+    const ksatType = ksatId.charAt(0).toUpperCase();
+    if (ksatType !== 'K' && ksatType !== 'S') {
+        return [];
+    }
+    
+    const tasks = [];
+    const allowedOpmIds = ['TBD-A', 'TBD-B'];
+    const allowedWrlIds = ['IN-WRL-001', 'IN-WRL-002'];
+    
+    // Parcourir toutes les tâches (T) dans les données
+    ncwfKsatData.forEach(item => {
+        const itemKsat = (item.KSAT || item.ksat || '').trim().toUpperCase();
+        const itemOpmId = (item['OPM-ID'] || item.opm_id || '').trim();
+        const itemWrlId = (item['WRL-ID'] || item.wrl_id || '').trim();
+        
+        // Vérifier que l'OPM-ID ou WRL-ID est autorisé
+        const isAllowedOpmId = allowedOpmIds.includes(itemOpmId);
+        const isAllowedWrlId = allowedWrlIds.includes(itemWrlId);
+        
+        // Si c'est une tâche, qu'elle a un Skills Alignment, et qu'elle correspond aux critères
+        if (itemKsat === 'T' && item['Skills Alignment'] && (isAllowedOpmId || isAllowedWrlId)) {
+            const skillsAlignment = item['Skills Alignment'];
+            
+            // Vérifier si le K ou S est dans le Skills Alignment
+            // Le format est "K1290: Description\nK1291: Description\n..."
+            const lines = skillsAlignment.split('\n').filter(line => line.trim());
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                // Extraire l'ID du KSAT (ex: "K1290" ou "S0806")
+                const match = trimmed.match(/^([KS]\d+):/);
+                if (match) {
+                    const alignedKsatId = match[1];
+                    if (alignedKsatId === ksatId) {
+                        // Cette tâche contient le K ou S
+                        tasks.push({
+                            id: item.ID || item.id,
+                            description: item.Description || item.description,
+                            wrlId: item['WRL-ID'] || item.wrl_id,
+                            opmId: item['OPM-ID'] || item.opm_id
+                        });
+                    }
+                }
+            });
+        }
+    });
+    
+    return tasks;
+}
+
+// Fonction pour trouver les K et S contenus dans une tâche (T)
+// Filtrée pour les OPM-ID: TBD-A, TBD-B et WRL-ID: IN-WRL-001, IN-WRL-002
+function findKsatInTask(taskId) {
+    if (!ncwfKsatData || !taskId) {
+        return { knowledge: [], skills: [] };
+    }
+    
+    // Vérifier que c'est une tâche (T)
+    const ksatType = taskId.charAt(0).toUpperCase();
+    if (ksatType !== 'T') {
+        return { knowledge: [], skills: [] };
+    }
+    
+    const knowledge = [];
+    const skills = [];
+    const allowedOpmIds = ['TBD-A', 'TBD-B'];
+    const allowedWrlIds = ['IN-WRL-001', 'IN-WRL-002'];
+    
+    // Chercher la tâche dans les données
+    const task = ncwfKsatData.find(item => {
+        const itemId = (item.ID || item.id || '').trim();
+        return itemId === taskId;
+    });
+    
+    if (task && task['Skills Alignment']) {
+        const taskOpmId = (task['OPM-ID'] || task.opm_id || '').trim();
+        const taskWrlId = (task['WRL-ID'] || task.wrl_id || '').trim();
+        
+        // Vérifier que l'OPM-ID ou WRL-ID est autorisé
+        const isAllowedOpmId = allowedOpmIds.includes(taskOpmId);
+        const isAllowedWrlId = allowedWrlIds.includes(taskWrlId);
+        
+        // Ne traiter que si la tâche correspond aux critères
+        if (isAllowedOpmId || isAllowedWrlId) {
+            const skillsAlignment = task['Skills Alignment'];
+            const lines = skillsAlignment.split('\n').filter(line => line.trim());
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                // Extraire l'ID et la description (ex: "K1290: Description" ou "S0806: Description")
+                const match = trimmed.match(/^([KS])(\d+):\s*(.+)$/);
+                if (match) {
+                    const [, type, id, description] = match;
+                    const ksatId = type + id;
+                    const ksatInfo = {
+                        id: ksatId,
+                        description: description.trim()
+                    };
+                    
+                    if (type === 'K') {
+                        knowledge.push(ksatInfo);
+                    } else if (type === 'S') {
+                        skills.push(ksatInfo);
+                    }
+                }
+            });
+        }
+    }
+    
+    return { knowledge, skills };
+}
+
 // Fonction pour mettre à jour les indicateurs Skills Alignment
 function updateSkillsAlignmentIndicators() {
     if (!ncwfKsatData) {
@@ -5153,14 +5298,37 @@ function updateSkillsAlignmentIndicators() {
         return;
     }
     
-    document.querySelectorAll('.skills-alignment-indicator').forEach(indicator => {
+    // Mettre à jour les indicateurs pour les K/S (qui sont liés à des tâches)
+    document.querySelectorAll('.skills-alignment-indicator-top').forEach(indicator => {
         const ksatId = indicator.getAttribute('data-ksat-id');
-        const wrlId = indicator.getAttribute('data-role-wrl-id');
+        const category = indicator.getAttribute('data-category');
         
         if (ksatId) {
-            const skillsAlignment = getSkillsAlignment(ksatId, wrlId);
-            if (skillsAlignment) {
+            // Trouver les tâches qui contiennent ce K ou S (déjà filtrées par OPM-ID/WRL-ID)
+            const tasks = findTasksContainingKsat(ksatId, category);
+            if (tasks.length > 0) {
                 indicator.style.display = 'inline-block';
+                // Stocker les tâches dans un attribut data pour utilisation ultérieure
+                indicator.setAttribute('data-tasks', JSON.stringify(tasks));
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+    });
+    
+    // Mettre à jour les indicateurs pour les tâches (T) qui contiennent des K/S
+    document.querySelectorAll('.task-skills-alignment-indicator-top').forEach(indicator => {
+        const ksatId = indicator.getAttribute('data-ksat-id');
+        const category = indicator.getAttribute('data-category');
+        
+        if (ksatId) {
+            // Trouver les K et S contenus dans cette tâche
+            const { knowledge, skills } = findKsatInTask(ksatId);
+            if (knowledge.length > 0 || skills.length > 0) {
+                indicator.style.display = 'inline-block';
+                // Stocker les K/S dans un attribut data pour utilisation ultérieure
+                indicator.setAttribute('data-knowledge', JSON.stringify(knowledge));
+                indicator.setAttribute('data-skills', JSON.stringify(skills));
             } else {
                 indicator.style.display = 'none';
             }
@@ -5287,6 +5455,168 @@ function showSkillsAlignment(element) {
 // Fonction pour fermer la modal
 function closeSkillsAlignmentModal() {
     const modal = document.getElementById('skills-alignment-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Fonction pour afficher les tâches liées à un K ou S
+function showTaskAlignment(element) {
+    const ksatId = element.getAttribute('data-ksat-id');
+    const tasksJson = element.getAttribute('data-tasks');
+    
+    if (!tasksJson) {
+        alert('No linked tasks found for this KSAT');
+        return;
+    }
+    
+    const tasks = JSON.parse(tasksJson);
+    
+    if (tasks.length === 0) {
+        alert('No linked tasks found for this KSAT');
+        return;
+    }
+    
+    // Créer ou récupérer la modal
+    let modal = document.getElementById('task-alignment-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'task-alignment-modal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+        modal.style.display = 'none';
+        modal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+                <div class="bg-orange-600 text-white px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Linked Tasks</h3>
+                    <button onclick="closeTaskAlignmentModal()" class="text-white hover:text-gray-200 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1" id="task-alignment-content">
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Fermer en cliquant sur le fond
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeTaskAlignmentModal();
+            }
+        });
+    }
+    
+    // Formater le contenu
+    const content = document.getElementById('task-alignment-content');
+    let html = '<div class="space-y-4">';
+    html += `<p class="text-gray-700 mb-4">The KSAT <strong>${ksatId}</strong> is linked to the following tasks:</p>`;
+    
+    tasks.forEach(task => {
+        html += `<div class="p-4 bg-orange-50 border-l-4 border-orange-500 rounded hover:bg-orange-100 transition-colors">
+            <div class="font-semibold text-orange-700 mb-1">${task.id}</div>
+            <div class="text-orange-800">${task.description || 'Pas de description'}</div>
+            ${task.wrlId ? `<div class="text-xs text-gray-600 mt-1">WRL-ID: ${task.wrlId}</div>` : ''}
+        </div>`;
+    });
+    
+    html += '</div>';
+    content.innerHTML = html;
+    modal.style.display = 'flex';
+}
+
+// Fonction pour fermer la modal des tâches
+function closeTaskAlignmentModal() {
+    const modal = document.getElementById('task-alignment-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Fonction pour afficher les K/S contenus dans une tâche
+function showTaskSkillsAlignment(element) {
+    const taskId = element.getAttribute('data-ksat-id');
+    const knowledgeJson = element.getAttribute('data-knowledge');
+    const skillsJson = element.getAttribute('data-skills');
+    
+    if (!knowledgeJson && !skillsJson) {
+        alert('No Knowledge or Skill found for this task');
+        return;
+    }
+    
+    const knowledge = knowledgeJson ? JSON.parse(knowledgeJson) : [];
+    const skills = skillsJson ? JSON.parse(skillsJson) : [];
+    
+    if (knowledge.length === 0 && skills.length === 0) {
+        alert('No Knowledge or Skill found for this task');
+        return;
+    }
+    
+    // Créer ou récupérer la modal
+    let modal = document.getElementById('task-skills-alignment-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'task-skills-alignment-modal';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+        modal.style.display = 'none';
+        modal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+                <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Linked Knowledge and Skills</h3>
+                    <button onclick="closeTaskSkillsAlignmentModal()" class="text-white hover:text-gray-200 text-2xl font-bold">&times;</button>
+                </div>
+                <div class="p-6 overflow-y-auto flex-1" id="task-skills-alignment-content">
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Fermer en cliquant sur le fond
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeTaskSkillsAlignmentModal();
+            }
+        });
+    }
+    
+    // Formater le contenu
+    const content = document.getElementById('task-skills-alignment-content');
+    let html = '<div class="space-y-4">';
+    html += `<p class="text-gray-700 mb-4">The task <strong>${taskId}</strong> contains the following Knowledge and Skills:</p>`;
+    
+    // Section Knowledge
+    if (knowledge.length > 0) {
+        html += '<div>';
+        html += '<h4 class="text-lg font-bold text-blue-700 mb-3">Knowledge (K)</h4>';
+        html += '<div class="space-y-2">';
+        knowledge.forEach(ksat => {
+            html += `<div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded hover:bg-blue-100 transition-colors">
+                <span class="font-semibold text-blue-700">${ksat.id}:</span>
+                <span class="text-blue-800 ml-2">${ksat.description}</span>
+            </div>`;
+        });
+        html += '</div></div>';
+    }
+    
+    // Section Skills
+    if (skills.length > 0) {
+        html += '<div>';
+        html += '<h4 class="text-lg font-bold text-green-700 mb-3">Skills (S)</h4>';
+        html += '<div class="space-y-2">';
+        skills.forEach(ksat => {
+            html += `<div class="p-3 bg-green-50 border-l-4 border-green-500 rounded hover:bg-green-100 transition-colors">
+                <span class="font-semibold text-green-700">${ksat.id}:</span>
+                <span class="text-green-800 ml-2">${ksat.description}</span>
+            </div>`;
+        });
+        html += '</div></div>';
+    }
+    
+    html += '</div>';
+    content.innerHTML = html;
+    modal.style.display = 'flex';
+}
+
+// Fonction pour fermer la modal des K/S d'une tâche
+function closeTaskSkillsAlignmentModal() {
+    const modal = document.getElementById('task-skills-alignment-modal');
     if (modal) {
         modal.style.display = 'none';
     }

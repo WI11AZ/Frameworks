@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dcwf-ingress
+  annotations:
+    # Pour nginx-ingress (le plus courant)
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Pour activer HTTPS (nécessite un certificat SSL)
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx  # Change selon ton ingress controller
+  rules:
+    - host: dcwf.example.com  # REMPLACE par ton domaine
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dcwf-service
+                port:
+                  number: 80
+  # Décommente pour activer HTTPS
+  # tls:
+  #   - hosts:
+  #       - dcwf.example.com
+  #     secretName: dcwf-tls-secret
+---

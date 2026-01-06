@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    container_name: dcwf_web
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "True"              # Mode debug pour servir les fichiers statiques en local
+      DJANGO_ALLOWED_HOSTS: "127.0.0.1,localhost"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+

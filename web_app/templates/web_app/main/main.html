@@ -191,7 +191,7 @@
           <div class="text-center mb-4">
             <h3 class="text-xl font-bold text-blue-800 mb-1 welcome-text-dark">Welcome to:</h3>
             <h4 class="text-2xl font-bold text-blue-600 mb-1 atlas-title-dark">CyberRoles - ATLAS</h4>
-            <span class="inline-block bg-red-100 text-red-600 text-sm font-semibold px-2 py-1 rounded-full beta-tag-dark">(bêta v0.1.2)</span>
+            <span class="inline-block bg-red-100 text-red-600 text-sm font-semibold px-2 py-1 rounded-full beta-tag-dark">(Bêta v0.2.5)</span>
           </div>
           
           <div class="space-y-3 text-gray-700 description-text-dark">
@@ -353,6 +353,13 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m0 0l-3-3m3 3l3-3" />
           </svg>
           Explorateur DCWF Pro v3
+        </button>
+        <button id="atlas-explorer-btn"
+           class="w-full flex justify-center items-center py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-sm transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m0 0l-3-3m3 3l3-3" />
+          </svg>
+          Explorateur ATLAS
         </button>
       </div>
       {% endif %}
@@ -1036,6 +1043,17 @@
                 setTimeout(function() {
                     window.open("{% url 'dcwf_explorer' %}", '_blank');
                 }, 100);
+            });
+        }
+        
+        // Gestion du bouton Explorateur ATLAS
+        const atlasExplorerBtn = document.getElementById('atlas-explorer-btn');
+        if (atlasExplorerBtn) {
+            atlasExplorerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Ouvrir le lien dans un nouvel onglet
+                // Note: Vous devrez créer la vue et l'URL correspondante dans urls.py
+                window.open('/atlas-explorer/', '_blank');
             });
         }
     });

@@ -1,0 +1,23 @@
+# Fichier Kustomize pour gérer tous les ressources Kubernetes ensemble
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dcwf
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+commonLabels:
+  app: dcwf
+  managed-by: kustomize
+
+images:
+  - name: your-dockerhub-username/dcwf
+    newName: your-dockerhub-username/dcwf
+    newTag: latest
+---

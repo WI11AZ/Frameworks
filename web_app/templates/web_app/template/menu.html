@@ -48,7 +48,7 @@
                         </svg>
                         Info
                     </button>
-                    <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.2.0</span>
+                    <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.2.5</span>
                     <span class="text-2xl font-bold text-white">Cyber Align</span>
                 </div>
                 
@@ -177,7 +177,7 @@
     <div class="bg-white rounded-lg shadow-xl w-full max-w-xl mx-4 transform scale-95 opacity-0 transition-all duration-300 ease-in-out relative z-[10000]">
         <div class="p-3">
             <div class="flex justify-between items-center mb-3">
-                <h2 class="text-lg font-bold text-gray-800">Beta v0.1.2 - What's New</h2>
+                <h2 class="text-lg font-bold text-gray-800">What's New</h2>
                 <button class="info-modal-close text-gray-400 hover:text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -186,62 +186,209 @@
             </div>
             
             <div class="space-y-2 text-gray-700">
-                <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400">
-                    <h3 class="font-semibold text-blue-800 mb-1 text-sm">🆕 New Features</h3>
-                    <ul class="space-y-1 text-xs">
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2">•</span>
-                            <span><strong>Added KSAT for 2025 models</strong> - New knowledge, skills, abilities, and tasks for the latest frameworks</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2">•</span>
-                            <span><strong>2025 KSAT comparison available</strong> - Compare KSAT data across different 2025 models</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-600 mr-2">•</span>
-                            <span><strong>NICE Framework Competency Areas Explorer</strong> - New interactive tool in Step 2 to explore competency areas</span>
-                        </li>
-                    </ul>
+                <!-- v0.2.5 Section - Collapsible -->
+                <div class="bg-cyan-50 rounded-lg border-l-4 border-cyan-500 overflow-hidden">
+                    <div class="p-2 cursor-pointer hover:bg-cyan-100 transition-colors flex justify-between items-center" onclick="toggleVersionSection('v025-content')">
+                        <h3 class="font-semibold text-cyan-800 text-sm">✨ Bêta v0.2.5 - Latest Updates</h3>
+                        <svg id="v025-chevron" class="w-5 h-5 text-cyan-600 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div id="v025-content">
+                        <div class="p-2 pt-0">
+                            <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400 mt-2">
+                                <h4 class="font-semibold text-blue-800 mb-1 text-xs">🆕 New Features</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Level selection for competency areas</strong> - Select your levels for competency areas with N positions</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Generic Attributes, Business Skills & Behavioural Factors</strong> - Available skills for work roles from SFIA 9 and parsed from Cyber Commanders Handbook 2</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Position numbers</strong> - Added position numbers for better tracking</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Total summary at the end of the process</strong> - Added comprehensive totals summary at the end of the workflow</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="bg-green-50 p-2 rounded-lg border-l-4 border-green-400">
-                    <h3 class="font-semibold text-green-800 mb-1 text-sm">🔧 Improvements</h3>
-                    <ul class="space-y-1 text-xs">
-                        <li class="flex items-start">
-                            <span class="text-green-600 mr-2">•</span>
-                            <span><strong>Fixed color codes for 2025 models</strong> - Corrected color coding system for better visual consistency</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-green-600 mr-2">•</span>
-                            <span><strong>Updated titles and texts</strong> - Improved clarity and accuracy of interface elements</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-green-600 mr-2">•</span>
-                            <span><strong>Removed "Under Development" message</strong> - Cleaner interface once connected</span>
-                        </li>
-                    </ul>
+                <!-- v2.0.0 Section - Collapsible -->
+                <div class="bg-indigo-50 rounded-lg border-l-4 border-indigo-500 overflow-hidden">
+                    <div class="p-2 cursor-pointer hover:bg-indigo-100 transition-colors flex justify-between items-center" onclick="toggleVersionSection('v2-content')">
+                        <h3 class="font-semibold text-indigo-800 text-sm">🚀 v2.0.0 - Major Update</h3>
+                        <svg id="v2-chevron" class="w-5 h-5 text-indigo-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div id="v2-content" class="hidden">
+                        <div class="p-2 pt-0">
+                            <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400 mt-2">
+                                <h4 class="font-semibold text-blue-800 mb-1 text-xs">🆕 Major Update - New Visual Layout</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Complete visual redesign</strong> - Major update with new visual layout and improved user experience</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Baseline feature (Step 1)</strong> - New baseline functionality added to the workflow</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Canonical work roles visualization</strong> - View all existing work roles in their canonical state</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Primary work role selection</strong> - Select a primary work role and visualize network relationships</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Network visualization with KSAT relations</strong> - View relationships based on KSAT percentages, on-ramps, off-ramps, and Top 5 secondary work roles</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-green-50 p-2 rounded-lg border-l-4 border-green-400 mt-2">
+                                <h4 class="font-semibold text-green-800 mb-1 text-xs">🔧 Improvements & Simplifications</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Model selection limited to latest models</strong> - Selection now focuses only on the most recent models, not all historical models</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Visual simplification across the application</strong> - Streamlined interface for better usability</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Usage improvements</strong> - Enhanced user experience throughout the application</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Simplified OPM ID visualization</strong> - Improved display of selected OPM IDs during the process</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-purple-50 p-2 rounded-lg border-l-4 border-purple-400 mt-2">
+                                <h4 class="font-semibold text-purple-800 mb-1 text-xs">📊 Data Updates</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-purple-600 mr-2">•</span>
+                                        <span><strong>KSAT updates for DCWF 2025</strong> - Latest knowledge, skills, abilities, and tasks for DCWF 2025</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-600 mr-2">•</span>
+                                        <span><strong>KSAT updates for NCWF 2025</strong> - Updated KSAT data for NCWF 2025 framework</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-teal-50 p-2 rounded-lg border-l-4 border-teal-400 mt-2">
+                                <h4 class="font-semibold text-teal-800 mb-1 text-xs">🛠️ New Tools</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2">•</span>
+                                        <span><strong>DCWF Explorer Pro V3</strong> - New professional explorer tool added to the suite</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-teal-600 mr-2">•</span>
+                                        <span><strong>Removed unused tools</strong> - Cleaned up interface by removing obsolete functionality</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-orange-50 p-2 rounded-lg border-l-4 border-orange-400 mt-2">
+                                <h4 class="font-semibold text-orange-800 mb-1 text-xs">🐛 Bug Fixes</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-orange-600 mr-2">•</span>
+                                        <span><strong>Various bug corrections</strong> - Multiple stability and functionality improvements</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="bg-orange-50 p-2 rounded-lg border-l-4 border-orange-400">
-                    <h3 class="font-semibold text-orange-800 mb-1 text-sm">🐛 Bug Fixes</h3>
-                    <ul class="space-y-1 text-xs">
-                        <li class="flex items-start">
-                            <span class="text-orange-600 mr-2">•</span>
-                            <span><strong>Fixed OPM ID display in heatmap</strong> - Corrected display issues in the heatmap visualization</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-600 mr-2">•</span>
-                            <span><strong>Fixed saved data display in Step 3</strong> - Resolved issues with saved OPM ID data not showing correctly</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-gray-50 p-2 rounded-lg border-l-4 border-gray-400">
-                    <h3 class="font-semibold text-gray-800 mb-1 text-sm">📋 Technical Notes</h3>
-                    <p class="text-xs text-gray-600">
-                        This beta version includes significant improvements to the data models and user interface. 
-                        The new KSAT data for 2025 models provides more comprehensive coverage of cybersecurity competencies.
-                    </p>
+                <!-- v0.1.2 Section (Previous Version) - Collapsible -->
+                <div class="bg-gray-50 rounded-lg border-l-4 border-gray-400 overflow-hidden">
+                    <div class="p-2 cursor-pointer hover:bg-gray-100 transition-colors flex justify-between items-center" onclick="toggleVersionSection('v012-content')">
+                        <h3 class="font-semibold text-gray-800 text-sm">📋 Beta v0.1.2 - Previous Updates</h3>
+                        <svg id="v012-chevron" class="w-5 h-5 text-gray-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div id="v012-content">
+                        <div class="p-2 pt-0">
+                            <div class="bg-blue-50 p-2 rounded-lg border-l-4 border-blue-400 mt-2">
+                                <h4 class="font-semibold text-blue-800 mb-1 text-xs">🆕 New Features</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>Added KSAT for 2025 models</strong> - New knowledge, skills, abilities, and tasks for the latest frameworks</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>2025 KSAT comparison available</strong> - Compare KSAT data across different 2025 models</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span><strong>NICE Framework Competency Areas Explorer</strong> - New interactive tool in Step 2 to explore competency areas</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-green-50 p-2 rounded-lg border-l-4 border-green-400 mt-2">
+                                <h4 class="font-semibold text-green-800 mb-1 text-xs">🔧 Improvements</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Fixed color codes for 2025 models</strong> - Corrected color coding system for better visual consistency</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Updated titles and texts</strong> - Improved clarity and accuracy of interface elements</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-600 mr-2">•</span>
+                                        <span><strong>Removed "Under Development" message</strong> - Cleaner interface once connected</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-orange-50 p-2 rounded-lg border-l-4 border-orange-400 mt-2">
+                                <h4 class="font-semibold text-orange-800 mb-1 text-xs">🐛 Bug Fixes</h4>
+                                <ul class="space-y-1 text-xs">
+                                    <li class="flex items-start">
+                                        <span class="text-orange-600 mr-2">•</span>
+                                        <span><strong>Fixed OPM ID display in heatmap</strong> - Corrected display issues in the heatmap visualization</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-orange-600 mr-2">•</span>
+                                        <span><strong>Fixed saved data display in Step 3</strong> - Resolved issues with saved OPM ID data not showing correctly</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-2 rounded-lg border-l-4 border-gray-400 mt-2">
+                                <h4 class="font-semibold text-gray-800 mb-1 text-xs">📋 Technical Notes</h4>
+                                <p class="text-xs text-gray-600">
+                                    This beta version includes significant improvements to the data models and user interface. 
+                                    The new KSAT data for 2025 models provides more comprehensive coverage of cybersecurity competencies.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -303,4 +450,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Toggle version sections
+function toggleVersionSection(contentId) {
+    const content = document.getElementById(contentId);
+    let chevronId;
+    
+    if (contentId === 'v025-content') {
+        chevronId = 'v025-chevron';
+    } else if (contentId === 'v2-content') {
+        chevronId = 'v2-chevron';
+    } else if (contentId === 'v012-content') {
+        chevronId = 'v012-chevron';
+    }
+    
+    const chevron = document.getElementById(chevronId);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        chevron.classList.remove('rotate-180');
+        chevron.classList.add('rotate-0');
+    } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('rotate-0');
+        chevron.classList.add('rotate-180');
+    }
+}
 </script>
