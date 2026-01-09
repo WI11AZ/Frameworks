@@ -1,0 +1,12 @@
+======================================================================
+COMPARAISON DES WORK ROLES
+======================================================================
+
+Fichier 1: web_app\templates\web_app\main\t1.html
+Fichier 2: Carl 7 Jan 2026\viz2_workroles_to_ecsf_REV+.html
+
+OPM-ID dans t1.html: 79
+OPM-ID dans fichier Carl: 79
+OPM-ID communs: 79
+
+OK: Tous les OPM-ID de t1.html sont presents dans le fichier Carl!
