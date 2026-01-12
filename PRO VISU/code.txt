@@ -1,0 +1,503 @@
+chart = {
+  // Specify the chart’s dimensions.
+  const width = 640;
+  const step = 14;
+  const marginTop = 20;
+  const marginRight = 20;
+  const marginBottom = 20;
+  const marginLeft = 130;
+  const height = (nodes.length - 1) * step + marginTop + marginBottom;
+  const y = d3.scalePoint(orders.get("by name"), [marginTop, height - marginBottom]);
+
+  // A color scale for the nodes and links.
+  const color = d3.scaleOrdinal()
+    .domain(nodes.map(d => d.group).sort(d3.ascending))
+    .range(d3.schemeCategory10)
+    .unknown("#aaa");
+
+  // A function of a link, that checks that source and target have the same group and returns
+  // the group; otherwise null. Used to color the links.
+  const groups = new Map(nodes.map(d => [d.id, d.group]));
+  function samegroup({ source, target }) {
+    return groups.get(source) === groups.get(target) ? groups.get(source) : null;
+  }
+
+  // Create the SVG container.
+  const svg = d3.create("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", [0, 0, width, height])
+      .attr("style", "max-width: 100%; height: auto;");
+
+  // The current position, indexed by id. Will be interpolated.
+  const Y = new Map(nodes.map(({id}) => [id, y(id)]));
+  
+  // Add an arc for each link.
+  function arc(d) {
+    const y1 = Y.get(d.source);
+    const y2 = Y.get(d.target);
+    const r = Math.abs(y2 - y1) / 2;
+    return `M${marginLeft},${y1}A${r},${r} 0,0,${y1 < y2 ? 1 : 0} ${marginLeft},${y2}`;
+  }
+  const path = svg.insert("g", "*")
+      .attr("fill", "none")
+      .attr("stroke-opacity", 0.6)
+      .attr("stroke-width", 1.5)
+    .selectAll("path")
+    .data(links)
+    .join("path")
+      .attr("stroke", d => color(samegroup(d)))
+      .attr("d", arc);
+
+  // Add a text label and a dot for each node.
+  const label = svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(nodes)
+    .join("g")
+      .attr("transform", d => `translate(${marginLeft},${Y.get(d.id)})`)
+      .call(g => g.append("text")
+          .attr("x", -6)
+          .attr("dy", "0.35em")
+          .attr("fill", d => d3.lab(color(d.group)).darker(2))
+          .text(d => d.id))
+      .call(g => g.append("circle")
+          .attr("r", 3)
+          .attr("fill", d => color(d.group)));
+
+  // Add invisible rects that update the class of the elements on mouseover.
+  label.append("rect")
+      .attr("fill", "none")
+      .attr("width", marginLeft + 40)
+      .attr("height", step)
+      .attr("x", -marginLeft)
+      .attr("y", -step / 2)
+      .attr("fill", "none")
+      .attr("pointer-events", "all")
+      .on("pointerenter", (event, d) => {
+        svg.classed("hover", true);
+        label.classed("primary", n => n === d);
+        label.classed("secondary", n => links.some(({source, target}) => (
+          n.id === source && d.id == target || n.id === target && d.id === source
+        )));
+        path.classed("primary", l => l.source === d.id || l.target === d.id).filter(".primary").raise();
+      })
+      .on("pointerout", () => {
+        svg.classed("hover", false);
+        label.classed("primary", false);
+        label.classed("secondary", false);
+        path.classed("primary", false).order();
+      });
+
+  // Add styles for the hover interaction.
+  svg.append("style").text(`
+    .hover text { fill: #aaa; }
+    .hover g.primary text { font-weight: bold; fill: #333; }
+    .hover g.secondary text { fill: #333; }
+    .hover path { stroke: #ccc; }
+    .hover path.primary { stroke: #333; }
+  `);
+
+  // A function that updates the positions of the labels and recomputes the arcs
+  // when passed a new order.
+  function update(order) {
+    y.domain(order);
+
+    label
+        .sort((a, b) => d3.ascending(Y.get(a.id), Y.get(b.id)))
+        .transition()
+        .duration(750)
+        .delay((d, i) => i * 20) // Make the movement start from the top.
+        .attrTween("transform", d => {
+          const i = d3.interpolateNumber(Y.get(d.id), y(d.id));
+          return t => {
+            const y = i(t);
+            Y.set(d.id, y);
+            return `translate(${marginLeft},${y})`;
+          }
+        });
+
+    path.transition()
+        .duration(750 + nodes.length * 20) // Cover the maximum delay of the label transition.
+        .attrTween("d", d => () => arc(d));
+  }
+
+  return Object.assign(svg.node(), {update});
+}
+
+miserables = Object {
+  nodes: Array(77) [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, …]
+  links: Array(254) [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, …]
+}
+
+
+miserables = FileAttachment("miserables.json").json()
+
+nodes = Array(77) [
+  0: Object {id: "Myriel", group: 1}
+  1: Object {id: "Napoleon", group: 1}
+  2: Object {id: "Mlle.Baptistine", group: 1}
+  3: Object {id: "Mme.Magloire", group: 1}
+  4: Object {id: "CountessdeLo", group: 1}
+  5: Object {id: "Geborand", group: 1}
+  6: Object {id: "Champtercier", group: 1}
+  7: Object {id: "Cravatte", group: 1}
+  8: Object {id: "Count", group: 1}
+  9: Object {id: "OldMan", group: 1}
+  10: Object {id: "Labarre", group: 2}
+  11: Object {id: "Valjean", group: 2}
+  12: Object {id: "Marguerite", group: 3}
+  13: Object {id: "Mme.deR", group: 2}
+  14: Object {id: "Isabeau", group: 2}
+  15: Object {id: "Gervais", group: 2}
+  16: Object {id: "Tholomyes", group: 3}
+  17: Object {id: "Listolier", group: 3}
+  18: Object {id: "Fameuil", group: 3}
+  19: Object {id: "Blacheville", group: 3}
+  20: Object {id: "Favourite", group: 3}
+  21: Object {id: "Dahlia", group: 3}
+  22: Object {id: "Zephine", group: 3}
+  23: Object {id: "Fantine", group: 3}
+  24: Object {id: "Mme.Thenardier", group: 4}
+  25: Object {id: "Thenardier", group: 4}
+  26: Object {id: "Cosette", group: 5}
+  27: Object {id: "Javert", group: 4}
+  28: Object {id: "Fauchelevent", group: 0}
+  29: Object {id: "Bamatabois", group: 2}
+  30: Object {id: "Perpetue", group: 3}
+  31: Object {id: "Simplice", group: 2}
+  32: Object {id: "Scaufflaire", group: 2}
+  33: Object {id: "Woman1", group: 2}
+  34: Object {id: "Judge", group: 2}
+  35: Object {id: "Champmathieu", group: 2}
+  36: Object {id: "Brevet", group: 2}
+  37: Object {id: "Chenildieu", group: 2}
+  38: Object {id: "Cochepaille", group: 2}
+  39: Object {id: "Pontmercy", group: 4}
+  40: Object {id: "Boulatruelle", group: 6}
+  41: Object {id: "Eponine", group: 4}
+  42: Object {id: "Anzelma", group: 4}
+  43: Object {id: "Woman2", group: 5}
+  44: Object {id: "MotherInnocent", group: 0}
+  45: Object {id: "Gribier", group: 0}
+  46: Object {id: "Jondrette", group: 7}
+  47: Object {id: "Mme.Burgon", group: 7}
+  48: Object {id: "Gavroche", group: 8}
+  49: Object {id: "Gillenormand", group: 5}
+  50: Object {id: "Magnon", group: 5}
+  51: Object {id: "Mlle.Gillenormand", group: 5}
+  52: Object {id: "Mme.Pontmercy", group: 5}
+  53: Object {id: "Mlle.Vaubois", group: 5}
+  54: Object {id: "Lt.Gillenormand", group: 5}
+  55: Object {id: "Marius", group: 8}
+  56: Object {id: "BaronessT", group: 5}
+  57: Object {id: "Mabeuf", group: 8}
+  58: Object {id: "Enjolras", group: 8}
+  59: Object {id: "Combeferre", group: 8}
+  60: Object {id: "Prouvaire", group: 8}
+  61: Object {id: "Feuilly", group: 8}
+  62: Object {id: "Courfeyrac", group: 8}
+  63: Object {id: "Bahorel", group: 8}
+  64: Object {id: "Bossuet", group: 8}
+  65: Object {id: "Joly", group: 8}
+  66: Object {id: "Grantaire", group: 8}
+  67: Object {id: "MotherPlutarch", group: 9}
+  68: Object {id: "Gueulemer", group: 4}
+  69: Object {id: "Babet", group: 4}
+  70: Object {id: "Claquesous", group: 4}
+  71: Object {id: "Montparnasse", group: 4}
+  72: Object {id: "Toussaint", group: 5}
+  73: Object {id: "Child1", group: 10}
+  74: Object {id: "Child2", group: 10}
+  75: Object {id: "Brujon", group: 4}
+  76: Object {id: "Mme.Hucheloup", group: 8}
+]
+
+nodes = miserables.nodes
+
+
+
+links = Array(254) [
+  0: Object {source: "Napoleon", target: "Myriel", value: 1}
+  1: Object {source: "Mlle.Baptistine", target: "Myriel", value: 8}
+  2: Object {source: "Mme.Magloire", target: "Myriel", value: 10}
+  3: Object {source: "Mme.Magloire", target: "Mlle.Baptistine", value: 6}
+  4: Object {source: "CountessdeLo", target: "Myriel", value: 1}
+  5: Object {source: "Geborand", target: "Myriel", value: 1}
+  6: Object {source: "Champtercier", target: "Myriel", value: 1}
+  7: Object {source: "Cravatte", target: "Myriel", value: 1}
+  8: Object {source: "Count", target: "Myriel", value: 2}
+  9: Object {source: "OldMan", target: "Myriel", value: 1}
+  10: Object {source: "Valjean", target: "Labarre", value: 1}
+  11: Object {source: "Valjean", target: "Mme.Magloire", value: 3}
+  12: Object {source: "Valjean", target: "Mlle.Baptistine", value: 3}
+  13: Object {source: "Valjean", target: "Myriel", value: 5}
+  14: Object {source: "Marguerite", target: "Valjean", value: 1}
+  15: Object {source: "Mme.deR", target: "Valjean", value: 1}
+  16: Object {source: "Isabeau", target: "Valjean", value: 1}
+  17: Object {source: "Gervais", target: "Valjean", value: 1}
+  18: Object {source: "Listolier", target: "Tholomyes", value: 4}
+  19: Object {source: "Fameuil", target: "Tholomyes", value: 4}
+  20: Object {source: "Fameuil", target: "Listolier", value: 4}
+  21: Object {source: "Blacheville", target: "Tholomyes", value: 4}
+  22: Object {source: "Blacheville", target: "Listolier", value: 4}
+  23: Object {source: "Blacheville", target: "Fameuil", value: 4}
+  24: Object {source: "Favourite", target: "Tholomyes", value: 3}
+  25: Object {source: "Favourite", target: "Listolier", value: 3}
+  26: Object {source: "Favourite", target: "Fameuil", value: 3}
+  27: Object {source: "Favourite", target: "Blacheville", value: 4}
+  28: Object {source: "Dahlia", target: "Tholomyes", value: 3}
+  29: Object {source: "Dahlia", target: "Listolier", value: 3}
+  30: Object {source: "Dahlia", target: "Fameuil", value: 3}
+  31: Object {source: "Dahlia", target: "Blacheville", value: 3}
+  32: Object {source: "Dahlia", target: "Favourite", value: 5}
+  33: Object {source: "Zephine", target: "Tholomyes", value: 3}
+  34: Object {source: "Zephine", target: "Listolier", value: 3}
+  35: Object {source: "Zephine", target: "Fameuil", value: 3}
+  36: Object {source: "Zephine", target: "Blacheville", value: 3}
+  37: Object {source: "Zephine", target: "Favourite", value: 4}
+  38: Object {source: "Zephine", target: "Dahlia", value: 4}
+  39: Object {source: "Fantine", target: "Tholomyes", value: 3}
+  40: Object {source: "Fantine", target: "Listolier", value: 3}
+  41: Object {source: "Fantine", target: "Fameuil", value: 3}
+  42: Object {source: "Fantine", target: "Blacheville", value: 3}
+  43: Object {source: "Fantine", target: "Favourite", value: 4}
+  44: Object {source: "Fantine", target: "Dahlia", value: 4}
+  45: Object {source: "Fantine", target: "Zephine", value: 4}
+  46: Object {source: "Fantine", target: "Marguerite", value: 2}
+  47: Object {source: "Fantine", target: "Valjean", value: 9}
+  48: Object {source: "Mme.Thenardier", target: "Fantine", value: 2}
+  49: Object {source: "Mme.Thenardier", target: "Valjean", value: 7}
+  50: Object {source: "Thenardier", target: "Mme.Thenardier", value: 13}
+  51: Object {source: "Thenardier", target: "Fantine", value: 1}
+  52: Object {source: "Thenardier", target: "Valjean", value: 12}
+  53: Object {source: "Cosette", target: "Mme.Thenardier", value: 4}
+  54: Object {source: "Cosette", target: "Valjean", value: 31}
+  55: Object {source: "Cosette", target: "Tholomyes", value: 1}
+  56: Object {source: "Cosette", target: "Thenardier", value: 1}
+  57: Object {source: "Javert", target: "Valjean", value: 17}
+  58: Object {source: "Javert", target: "Fantine", value: 5}
+  59: Object {source: "Javert", target: "Thenardier", value: 5}
+  60: Object {source: "Javert", target: "Mme.Thenardier", value: 1}
+  61: Object {source: "Javert", target: "Cosette", value: 1}
+  62: Object {source: "Fauchelevent", target: "Valjean", value: 8}
+  63: Object {source: "Fauchelevent", target: "Javert", value: 1}
+  64: Object {source: "Bamatabois", target: "Fantine", value: 1}
+  65: Object {source: "Bamatabois", target: "Javert", value: 1}
+  66: Object {source: "Bamatabois", target: "Valjean", value: 2}
+  67: Object {source: "Perpetue", target: "Fantine", value: 1}
+  68: Object {source: "Simplice", target: "Perpetue", value: 2}
+  69: Object {source: "Simplice", target: "Valjean", value: 3}
+  70: Object {source: "Simplice", target: "Fantine", value: 2}
+  71: Object {source: "Simplice", target: "Javert", value: 1}
+  72: Object {source: "Scaufflaire", target: "Valjean", value: 1}
+  73: Object {source: "Woman1", target: "Valjean", value: 2}
+  74: Object {source: "Woman1", target: "Javert", value: 1}
+  75: Object {source: "Judge", target: "Valjean", value: 3}
+  76: Object {source: "Judge", target: "Bamatabois", value: 2}
+  77: Object {source: "Champmathieu", target: "Valjean", value: 3}
+  78: Object {source: "Champmathieu", target: "Judge", value: 3}
+  79: Object {source: "Champmathieu", target: "Bamatabois", value: 2}
+  80: Object {source: "Brevet", target: "Judge", value: 2}
+  81: Object {source: "Brevet", target: "Champmathieu", value: 2}
+  82: Object {source: "Brevet", target: "Valjean", value: 2}
+  83: Object {source: "Brevet", target: "Bamatabois", value: 1}
+  84: Object {source: "Chenildieu", target: "Judge", value: 2}
+  85: Object {source: "Chenildieu", target: "Champmathieu", value: 2}
+  86: Object {source: "Chenildieu", target: "Brevet", value: 2}
+  87: Object {source: "Chenildieu", target: "Valjean", value: 2}
+  88: Object {source: "Chenildieu", target: "Bamatabois", value: 1}
+  89: Object {source: "Cochepaille", target: "Judge", value: 2}
+  90: Object {source: "Cochepaille", target: "Champmathieu", value: 2}
+  91: Object {source: "Cochepaille", target: "Brevet", value: 2}
+  92: Object {source: "Cochepaille", target: "Chenildieu", value: 2}
+  93: Object {source: "Cochepaille", target: "Valjean", value: 2}
+  94: Object {source: "Cochepaille", target: "Bamatabois", value: 1}
+  95: Object {source: "Pontmercy", target: "Thenardier", value: 1}
+  96: Object {source: "Boulatruelle", target: "Thenardier", value: 1}
+  97: Object {source: "Eponine", target: "Mme.Thenardier", value: 2}
+  98: Object {source: "Eponine", target: "Thenardier", value: 3}
+  99: Object {source: "Anzelma", target: "Eponine", value: 2}
+  100: Object {source: "Anzelma", target: "Thenardier", value: 2}
+  101: Object {source: "Anzelma", target: "Mme.Thenardier", value: 1}
+  102: Object {source: "Woman2", target: "Valjean", value: 3}
+  103: Object {source: "Woman2", target: "Cosette", value: 1}
+  104: Object {source: "Woman2", target: "Javert", value: 1}
+  105: Object {source: "MotherInnocent", target: "Fauchelevent", value: 3}
+  106: Object {source: "MotherInnocent", target: "Valjean", value: 1}
+  107: Object {source: "Gribier", target: "Fauchelevent", value: 2}
+  108: Object {source: "Mme.Burgon", target: "Jondrette", value: 1}
+  109: Object {source: "Gavroche", target: "Mme.Burgon", value: 2}
+  110: Object {source: "Gavroche", target: "Thenardier", value: 1}
+  111: Object {source: "Gavroche", target: "Javert", value: 1}
+  112: Object {source: "Gavroche", target: "Valjean", value: 1}
+  113: Object {source: "Gillenormand", target: "Cosette", value: 3}
+  114: Object {source: "Gillenormand", target: "Valjean", value: 2}
+  115: Object {source: "Magnon", target: "Gillenormand", value: 1}
+  116: Object {source: "Magnon", target: "Mme.Thenardier", value: 1}
+  117: Object {source: "Mlle.Gillenormand", target: "Gillenormand", value: 9}
+  118: Object {source: "Mlle.Gillenormand", target: "Cosette", value: 2}
+  119: Object {source: "Mlle.Gillenormand", target: "Valjean", value: 2}
+  120: Object {source: "Mme.Pontmercy", target: "Mlle.Gillenormand", value: 1}
+  121: Object {source: "Mme.Pontmercy", target: "Pontmercy", value: 1}
+  122: Object {source: "Mlle.Vaubois", target: "Mlle.Gillenormand", value: 1}
+  123: Object {source: "Lt.Gillenormand", target: "Mlle.Gillenormand", value: 2}
+  124: Object {source: "Lt.Gillenormand", target: "Gillenormand", value: 1}
+  125: Object {source: "Lt.Gillenormand", target: "Cosette", value: 1}
+  126: Object {source: "Marius", target: "Mlle.Gillenormand", value: 6}
+  127: Object {source: "Marius", target: "Gillenormand", value: 12}
+  128: Object {source: "Marius", target: "Pontmercy", value: 1}
+  129: Object {source: "Marius", target: "Lt.Gillenormand", value: 1}
+  130: Object {source: "Marius", target: "Cosette", value: 21}
+  131: Object {source: "Marius", target: "Valjean", value: 19}
+  132: Object {source: "Marius", target: "Tholomyes", value: 1}
+  133: Object {source: "Marius", target: "Thenardier", value: 2}
+  134: Object {source: "Marius", target: "Eponine", value: 5}
+  135: Object {source: "Marius", target: "Gavroche", value: 4}
+  136: Object {source: "BaronessT", target: "Gillenormand", value: 1}
+  137: Object {source: "BaronessT", target: "Marius", value: 1}
+  138: Object {source: "Mabeuf", target: "Marius", value: 1}
+  139: Object {source: "Mabeuf", target: "Eponine", value: 1}
+  140: Object {source: "Mabeuf", target: "Gavroche", value: 1}
+  141: Object {source: "Enjolras", target: "Marius", value: 7}
+  142: Object {source: "Enjolras", target: "Gavroche", value: 7}
+  143: Object {source: "Enjolras", target: "Javert", value: 6}
+  144: Object {source: "Enjolras", target: "Mabeuf", value: 1}
+  145: Object {source: "Enjolras", target: "Valjean", value: 4}
+  146: Object {source: "Combeferre", target: "Enjolras", value: 15}
+  147: Object {source: "Combeferre", target: "Marius", value: 5}
+  148: Object {source: "Combeferre", target: "Gavroche", value: 6}
+  149: Object {source: "Combeferre", target: "Mabeuf", value: 2}
+  150: Object {source: "Prouvaire", target: "Gavroche", value: 1}
+  151: Object {source: "Prouvaire", target: "Enjolras", value: 4}
+  152: Object {source: "Prouvaire", target: "Combeferre", value: 2}
+  153: Object {source: "Feuilly", target: "Gavroche", value: 2}
+  154: Object {source: "Feuilly", target: "Enjolras", value: 6}
+  155: Object {source: "Feuilly", target: "Prouvaire", value: 2}
+  156: Object {source: "Feuilly", target: "Combeferre", value: 5}
+  157: Object {source: "Feuilly", target: "Mabeuf", value: 1}
+  158: Object {source: "Feuilly", target: "Marius", value: 1}
+  159: Object {source: "Courfeyrac", target: "Marius", value: 9}
+  160: Object {source: "Courfeyrac", target: "Enjolras", value: 17}
+  161: Object {source: "Courfeyrac", target: "Combeferre", value: 13}
+  162: Object {source: "Courfeyrac", target: "Gavroche", value: 7}
+  163: Object {source: "Courfeyrac", target: "Mabeuf", value: 2}
+  164: Object {source: "Courfeyrac", target: "Eponine", value: 1}
+  165: Object {source: "Courfeyrac", target: "Feuilly", value: 6}
+  166: Object {source: "Courfeyrac", target: "Prouvaire", value: 3}
+  167: Object {source: "Bahorel", target: "Combeferre", value: 5}
+  168: Object {source: "Bahorel", target: "Gavroche", value: 5}
+  169: Object {source: "Bahorel", target: "Courfeyrac", value: 6}
+  170: Object {source: "Bahorel", target: "Mabeuf", value: 2}
+  171: Object {source: "Bahorel", target: "Enjolras", value: 4}
+  172: Object {source: "Bahorel", target: "Feuilly", value: 3}
+  173: Object {source: "Bahorel", target: "Prouvaire", value: 2}
+  174: Object {source: "Bahorel", target: "Marius", value: 1}
+  175: Object {source: "Bossuet", target: "Marius", value: 5}
+  176: Object {source: "Bossuet", target: "Courfeyrac", value: 12}
+  177: Object {source: "Bossuet", target: "Gavroche", value: 5}
+  178: Object {source: "Bossuet", target: "Bahorel", value: 4}
+  179: Object {source: "Bossuet", target: "Enjolras", value: 10}
+  180: Object {source: "Bossuet", target: "Feuilly", value: 6}
+  181: Object {source: "Bossuet", target: "Prouvaire", value: 2}
+  182: Object {source: "Bossuet", target: "Combeferre", value: 9}
+  183: Object {source: "Bossuet", target: "Mabeuf", value: 1}
+  184: Object {source: "Bossuet", target: "Valjean", value: 1}
+  185: Object {source: "Joly", target: "Bahorel", value: 5}
+  186: Object {source: "Joly", target: "Bossuet", value: 7}
+  187: Object {source: "Joly", target: "Gavroche", value: 3}
+  188: Object {source: "Joly", target: "Courfeyrac", value: 5}
+  189: Object {source: "Joly", target: "Enjolras", value: 5}
+  190: Object {source: "Joly", target: "Feuilly", value: 5}
+  191: Object {source: "Joly", target: "Prouvaire", value: 2}
+  192: Object {source: "Joly", target: "Combeferre", value: 5}
+  193: Object {source: "Joly", target: "Mabeuf", value: 1}
+  194: Object {source: "Joly", target: "Marius", value: 2}
+  195: Object {source: "Grantaire", target: "Bossuet", value: 3}
+  196: Object {source: "Grantaire", target: "Enjolras", value: 3}
+  197: Object {source: "Grantaire", target: "Combeferre", value: 1}
+  198: Object {source: "Grantaire", target: "Courfeyrac", value: 2}
+  199: Object {source: "Grantaire", target: "Joly", value: 2}
+  200: Object {source: "Grantaire", target: "Gavroche", value: 1}
+  201: Object {source: "Grantaire", target: "Bahorel", value: 1}
+  202: Object {source: "Grantaire", target: "Feuilly", value: 1}
+  203: Object {source: "Grantaire", target: "Prouvaire", value: 1}
+  204: Object {source: "MotherPlutarch", target: "Mabeuf", value: 3}
+  205: Object {source: "Gueulemer", target: "Thenardier", value: 5}
+  206: Object {source: "Gueulemer", target: "Valjean", value: 1}
+  207: Object {source: "Gueulemer", target: "Mme.Thenardier", value: 1}
+  208: Object {source: "Gueulemer", target: "Javert", value: 1}
+  209: Object {source: "Gueulemer", target: "Gavroche", value: 1}
+  210: Object {source: "Gueulemer", target: "Eponine", value: 1}
+  211: Object {source: "Babet", target: "Thenardier", value: 6}
+  212: Object {source: "Babet", target: "Gueulemer", value: 6}
+  213: Object {source: "Babet", target: "Valjean", value: 1}
+  214: Object {source: "Babet", target: "Mme.Thenardier", value: 1}
+  215: Object {source: "Babet", target: "Javert", value: 2}
+  216: Object {source: "Babet", target: "Gavroche", value: 1}
+  217: Object {source: "Babet", target: "Eponine", value: 1}
+  218: Object {source: "Claquesous", target: "Thenardier", value: 4}
+  219: Object {source: "Claquesous", target: "Babet", value: 4}
+  220: Object {source: "Claquesous", target: "Gueulemer", value: 4}
+  221: Object {source: "Claquesous", target: "Valjean", value: 1}
+  222: Object {source: "Claquesous", target: "Mme.Thenardier", value: 1}
+  223: Object {source: "Claquesous", target: "Javert", value: 1}
+  224: Object {source: "Claquesous", target: "Eponine", value: 1}
+  225: Object {source: "Claquesous", target: "Enjolras", value: 1}
+  226: Object {source: "Montparnasse", target: "Javert", value: 1}
+  227: Object {source: "Montparnasse", target: "Babet", value: 2}
+  228: Object {source: "Montparnasse", target: "Gueulemer", value: 2}
+  229: Object {source: "Montparnasse", target: "Claquesous", value: 2}
+  230: Object {source: "Montparnasse", target: "Valjean", value: 1}
+  231: Object {source: "Montparnasse", target: "Gavroche", value: 1}
+  232: Object {source: "Montparnasse", target: "Eponine", value: 1}
+  233: Object {source: "Montparnasse", target: "Thenardier", value: 1}
+  234: Object {source: "Toussaint", target: "Cosette", value: 2}
+  235: Object {source: "Toussaint", target: "Javert", value: 1}
+  236: Object {source: "Toussaint", target: "Valjean", value: 1}
+  237: Object {source: "Child1", target: "Gavroche", value: 2}
+  238: Object {source: "Child2", target: "Gavroche", value: 2}
+  239: Object {source: "Child2", target: "Child1", value: 3}
+  240: Object {source: "Brujon", target: "Babet", value: 3}
+  241: Object {source: "Brujon", target: "Gueulemer", value: 3}
+  242: Object {source: "Brujon", target: "Thenardier", value: 3}
+  243: Object {source: "Brujon", target: "Gavroche", value: 1}
+  244: Object {source: "Brujon", target: "Eponine", value: 1}
+  245: Object {source: "Brujon", target: "Claquesous", value: 1}
+  246: Object {source: "Brujon", target: "Montparnasse", value: 1}
+  247: Object {source: "Mme.Hucheloup", target: "Bossuet", value: 1}
+  248: Object {source: "Mme.Hucheloup", target: "Joly", value: 1}
+  249: Object {source: "Mme.Hucheloup", target: "Grantaire", value: 1}
+  250: Object {source: "Mme.Hucheloup", target: "Bahorel", value: 1}
+  251: Object {source: "Mme.Hucheloup", target: "Courfeyrac", value: 1}
+  252: Object {source: "Mme.Hucheloup", target: "Gavroche", value: 1}
+  253: Object {source: "Mme.Hucheloup", target: "Enjolras", value: 1}
+]
+
+links = miserables.links
+
+orders = Map(3) {
+  "by name" => Array(77) ["Anzelma", "Babet", "Bahorel", "Bamatabois", "BaronessT", "Blacheville", "Bossuet", "Boulatruelle", "Brevet", "Brujon", "Champmathieu", "Champtercier", "Chenildieu", "Child1", "Child2", "Claquesous", "Cochepaille", "Combeferre", "Cosette", "Count", …]
+  "by group" => Array(77) ["Fauchelevent", "Gribier", "MotherInnocent", "Champtercier", "Count", "CountessdeLo", "Cravatte", "Geborand", "Mlle.Baptistine", "Mme.Magloire", "Myriel", "Napoleon", "OldMan", "Bamatabois", "Brevet", "Champmathieu", "Chenildieu", "Cochepaille", "Gervais", "Isabeau", …]
+  "by degree" => Array(77) ["Valjean", "Marius", "Enjolras", "Courfeyrac", "Cosette", "Combeferre", "Bossuet", "Thenardier", "Gavroche", "Javert", "Fantine", "Joly", "Bahorel", "Feuilly", "Mme.Thenardier", "Myriel", "Gillenormand", "Babet", "Tholomyes", "Favourite", …]
+  <prototype>: Map {Symbol(Symbol.toStringTag): "Map", Symbol(Symbol.iterator): ƒ()}
+}
+
+orders = {
+  const degree = d3.rollup(
+    links.flatMap(({ source, target, value }) => [
+      { node: source, value },
+      { node: target, value }
+    ]),
+    (v) => d3.sum(v, ({ value }) => value),
+    ({ node }) => node
+  );
+  return new Map([
+    ["by name", d3.sort(nodes.map((d) => d.id))],
+    ["by group", d3.sort(nodes, ({group}) => group, ({id}) => id).map(({id}) => id)],
+//    ["input", nodes.map(({id}) => id)],
+    ["by degree", d3.sort(nodes, ({id}) => degree.get(id), ({id}) => id).map(({id}) => id).reverse()]
+  ]);
+}

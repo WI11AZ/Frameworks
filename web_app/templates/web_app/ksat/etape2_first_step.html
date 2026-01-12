@@ -3459,10 +3459,32 @@
               });
               
               // Créer les cartes pour chaque work role
+              console.log('=== DEBUG Step0 Data ===');
+              console.log('primaryRoleOpmId:', data.primaryRoleOpmId, 'type:', typeof data.primaryRoleOpmId);
+              console.log('selectedWorkRoles:', data.selectedWorkRoles);
+              
               data.selectedWorkRoles.forEach(role => {
-                  const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                  // Normaliser role.opm_code en string
+                  const roleOpmCode = role.opm_code !== null && role.opm_code !== undefined 
+                      ? String(role.opm_code).trim() 
+                      : '';
+                  const primaryOpmId = data.primaryRoleOpmId !== null && data.primaryRoleOpmId !== undefined
+                      ? String(data.primaryRoleOpmId).trim()
+                      : '';
+                  
+                  // Comparaison directe après normalisation
+                  const isPrimary = roleOpmCode !== '' && primaryOpmId !== '' && roleOpmCode === primaryOpmId;
+                  
+                  console.log(`Role opm_code: "${roleOpmCode}" (type: ${typeof role.opm_code}) vs Primary: "${primaryOpmId}" (type: ${typeof data.primaryRoleOpmId}) -> isPrimary: ${isPrimary}`);
+                  
                   const roleCard = document.createElement('div');
                   roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                  
+                  // Ajouter un attribut data pour le débogage
+                  if (isPrimary) {
+                      roleCard.setAttribute('data-is-primary', 'true');
+                      console.log('✅ Carte principale créée pour:', roleOpmCode);
+                  }
                   
                   const dcwfName = role.dcwf_work_role || '';
                   const ncwfName = role.ncwf_work_role || '';
@@ -3513,9 +3535,24 @@
           }).catch(() => {
               // Si le chargement échoue, afficher les cartes sans les compteurs
               data.selectedWorkRoles.forEach(role => {
-                  const isPrimary = role.opm_code === data.primaryRoleOpmId;
+                  // Normaliser role.opm_code en string
+                  const roleOpmCode = role.opm_code !== null && role.opm_code !== undefined 
+                      ? String(role.opm_code).trim() 
+                      : '';
+                  const primaryOpmId = data.primaryRoleOpmId !== null && data.primaryRoleOpmId !== undefined
+                      ? String(data.primaryRoleOpmId).trim()
+                      : '';
+                  
+                  // Comparaison directe après normalisation
+                  const isPrimary = roleOpmCode !== '' && primaryOpmId !== '' && roleOpmCode === primaryOpmId;
+                  
                   const roleCard = document.createElement('div');
                   roleCard.className = `selected-role-card ${isPrimary ? 'primary' : ''}`;
+                  
+                  // Ajouter un attribut data pour le débogage
+                  if (isPrimary) {
+                      roleCard.setAttribute('data-is-primary', 'true');
+                  }
                   
                   const dcwfName = role.dcwf_work_role || '';
                   const ncwfName = role.ncwf_work_role || '';

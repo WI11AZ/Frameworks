@@ -23973,17 +23973,19 @@ const niceNameToWrlLookup = {
             // Empêcher l'ouverture du modal par défaut
             event.stopPropagation();
             
-            // Convertir en string pour la comparaison (gérer les TBD)
-            const opmIdStr = String(opmId);
-            const primaryStr = String(primaryRoleOpmId || '');
+            // Normaliser en string pour assurer la cohérence
+            const opmIdStr = String(opmId || '').trim();
+            const primaryStr = String(primaryRoleOpmId || '').trim();
             
             // If le même rôle est déjà principal, ne rien faire
-            if (primaryStr === opmIdStr) {
+            if (primaryStr === opmIdStr && opmIdStr !== '') {
                 return;
             }
             
-            // Définir le nouveau rôle principal (conserver le type original)
-            primaryRoleOpmId = opmId;
+            // Définir le nouveau rôle principal (normalisé en string)
+            primaryRoleOpmId = opmIdStr;
+            
+            console.log('Primary role set to:', primaryRoleOpmId);
             
             // Update l'affichage de la liste
             const nodes = networkInstance ? networkInstance.body.data.nodes.get() : [];
@@ -24072,9 +24074,14 @@ const niceNameToWrlLookup = {
             selectedRoles.forEach(idx => {
                 const role = allRolesData[idx];
                 if (role) {
+                    // Normaliser opm_code en string pour assurer la cohérence avec primaryRoleOpmId
+                    const normalizedOpmCode = role.opm_code !== null && role.opm_code !== undefined 
+                        ? String(role.opm_code).trim() 
+                        : '';
+                    
                     selectedWorkRoles.push({
                         index: idx,
-                        opm_code: role.opm_code,
+                        opm_code: normalizedOpmCode,
                         dcwf_work_role: role.dcwf?.work_role || '',
                         dcwf_element: role.dcwf?.element || '',
                         ncwf_work_role: role.nice?.work_role || '',
@@ -24154,9 +24161,12 @@ const niceNameToWrlLookup = {
             }
             
             // Save to localStorage
+            // Normaliser primaryRoleOpmId en string pour assurer la cohérence
+            const normalizedPrimaryRoleOpmId = primaryRoleOpmId !== null ? String(primaryRoleOpmId).trim() : null;
+            
             const step0Data = {
                 selectedWorkRoles: selectedWorkRoles,
-                primaryRoleOpmId: primaryRoleOpmId,
+                primaryRoleOpmId: normalizedPrimaryRoleOpmId,
                 selectedSansRoles: selectedSansRoles,
                 selectedCemaRoles: selectedCemaRoles,
                 timestamp: new Date().toISOString()
@@ -24165,6 +24175,7 @@ const niceNameToWrlLookup = {
             try {
                 localStorage.setItem('step0_baseline_data', JSON.stringify(step0Data));
                 console.log('Data saved:', step0Data);
+                console.log('Primary Role OPM ID (normalized):', normalizedPrimaryRoleOpmId);
             } catch (e) {
                 console.error('Error saving data:', e);
             }
@@ -24436,7 +24447,8 @@ const niceNameToWrlLookup = {
             if (sortedNodes.length === 1) {
                 const singleRole = sortedNodes[0].roleData;
                 if (singleRole && singleRole.opm_code !== null && singleRole.opm_code !== undefined) {
-                    primaryRoleOpmId = singleRole.opm_code;
+                    // Normaliser en string
+                    primaryRoleOpmId = String(singleRole.opm_code).trim();
                     updateNextStepButton(); // Mettre à jour le bouton
                 }
             } else if (sortedNodes.length === 0) {
@@ -24448,8 +24460,8 @@ const niceNameToWrlLookup = {
                 // Comparer en string pour gérer les TBD
                 const currentPrimaryExists = sortedNodes.some(node => {
                     if (!node.roleData) return false;
-                    const nodeOpmCode = String(node.roleData.opm_code || '');
-                    const primaryStr = String(primaryRoleOpmId || '');
+                    const nodeOpmCode = String(node.roleData.opm_code || '').trim();
+                    const primaryStr = String(primaryRoleOpmId || '').trim();
                     return nodeOpmCode === primaryStr;
                 });
                 if (!currentPrimaryExists && primaryRoleOpmId !== null) {

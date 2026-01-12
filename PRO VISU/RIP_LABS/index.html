@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réseau Cyberdéfense</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; overflow: hidden; }
+        
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .sidebar h3:first-child {
+            margin-top: 0;
+        }
+
+        .community-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .community-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .community-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .opm-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .opm-item {
+            padding: 6px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            font-size: 11px;
+            transition: background 0.2s;
+        }
+
+        .opm-item:hover {
+            background: #e8f4f8;
+        }
+
+        .opm-item.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .legend {
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .btn-zoom {
+            padding: 8px 12px;
+            margin: 3px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-zoom:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: 10px;
+            left: 310px;
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 300px;
+            font-size: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        #chart {
+            flex: 1;
+            background: white;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node {
+            stroke: white;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+
+        .node.faded {
+            opacity: 0.2;
+        }
+
+        .node.highlighted {
+            stroke-width: 3px;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+
+        .link {
+            stroke: #ccc;
+            stroke-opacity: 0.6;
+        }
+
+        .link.faded {
+            stroke-opacity: 0.1;
+        }
+
+        .link.highlighted {
+            stroke: #ff6b00;
+            stroke-opacity: 0.8;
+            stroke-width: 2px;
+        }
+
+        text {
+            font-size: 10px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>🔍 Filtrer par Communauté</h3>
+            <button class="community-btn" data-community="ALL">Tous</button>
+            <button class="community-btn" data-community="IT">IT (10)</button>
+            <button class="community-btn" data-community="CS">CS (13)</button>
+            <button class="community-btn" data-community="EN">EN (14)</button>
+            <button class="community-btn" data-community="CE">CE (15)</button>
+            <button class="community-btn" data-community="CI">CI (5)</button>
+            <button class="community-btn" data-community="DA">DA (11)</button>
+            <button class="community-btn" data-community="SE">SE (8)</button>
+            <button class="community-btn" data-community="Cx">Cx (2)</button>
+
+            <h3>🔎 Chercher OPM-ID</h3>
+            <input type="text" class="search-box" id="searchBox" placeholder="Ex: 752_EN">
+            <div class="opm-list" id="opmList"></div>
+
+            <h3>📋 Communautés</h3>
+            <div class="legend" id="legend"></div>
+
+            <h3>📊 Info Sélection</h3>
+            <div id="selectionInfo" style="font-size: 11px; color: #666;">Cliquez sur un nœud</div>
+        </div>
+
+        <div id="chart"></div>
+
+        <div class="controls">
+            <button class="btn-zoom" onclick="zoomIn()">➕ +</button>
+            <button class="btn-zoom" onclick="zoomOut()">➖ −</button>
+            <button class="btn-zoom" onclick="resetZoom()">⟲ 1:1</button>
+        </div>
+    </div>
+
+    <script>
+        const allNodes = [
+            {id: "411_IT", group: "IT"},
+            {id: "421_IT", group: "IT"},
+            {id: "431_IT", group: "IT"},
+            {id: "441_IT", group: "IT"},
+            {id: "451_IT", group: "IT"},
+            {id: "632_IT", group: "IT"},
+            {id: "641_IT", group: "IT"},
+            {id: "651_IT", group: "IT"},
+            {id: "661_IT", group: "IT"},
+            {id: "671_IT", group: "IT"},
+            {id: "141_CS", group: "CS"},
+            {id: "212_CS", group: "CS"},
+            {id: "462_CS", group: "CS"},
+            {id: "511_CS", group: "CS"},
+            {id: "521_CS", group: "CS"},
+            {id: "531_CS", group: "CS"},
+            {id: "541_CS", group: "CS"},
+            {id: "611_CS", group: "CS"},
+            {id: "612_CS", group: "CS"},
+            {id: "622_CS", group: "CS"},
+            {id: "631_CS", group: "CS"},
+            {id: "652_CS", group: "CS"},
+            {id: "722_CS", group: "CS"},
+            {id: "723_CS", group: "CS"},
+            {id: "211_EN", group: "EN"},
+            {id: "221_EN", group: "EN"},
+            {id: "711_EN", group: "EN"},
+            {id: "712_EN", group: "EN"},
+            {id: "731_EN", group: "EN"},
+            {id: "732_EN", group: "EN"},
+            {id: "751_EN", group: "EN"},
+            {id: "752_EN", group: "EN"},
+            {id: "801_EN", group: "EN"},
+            {id: "802_EN", group: "EN"},
+            {id: "803_EN", group: "EN"},
+            {id: "804_EN", group: "EN"},
+            {id: "805_EN", group: "EN"},
+            {id: "901_EN", group: "EN"},
+            {id: "112_CE", group: "CE"},
+            {id: "121_CE", group: "CE"},
+            {id: "122_CE", group: "CE"},
+            {id: "131_CE", group: "CE"},
+            {id: "132_CE", group: "CE"},
+            {id: "133_CE", group: "CE"},
+            {id: "321_CE", group: "CE"},
+            {id: "322_CE", group: "CE"},
+            {id: "332_CE", group: "CE"},
+            {id: "333_CE", group: "CE"},
+            {id: "341_CE", group: "CE"},
+            {id: "442_CE", group: "CE"},
+            {id: "443_CE", group: "CE"},
+            {id: "463_CE", group: "CE"},
+            {id: "551_CE", group: "CE"},
+            {id: "111_CI", group: "CI"},
+            {id: "151_CI", group: "CI"},
+            {id: "311_CI", group: "CI"},
+            {id: "312_CI", group: "CI"},
+            {id: "331_CI", group: "CI"},
+            {id: "422_DA", group: "DA"},
+            {id: "423_DA", group: "DA"},
+            {id: "424_DA", group: "DA"},
+            {id: "623_DA", group: "DA"},
+            {id: "624_DA", group: "DA"},
+            {id: "653_DA", group: "DA"},
+            {id: "672_DA", group: "DA"},
+            {id: "733_DA", group: "DA"},
+            {id: "753_DA", group: "DA"},
+            {id: "902_DA", group: "DA"},
+            {id: "903_DA", group: "DA"},
+            {id: "461_SE", group: "SE"},
+            {id: "621_SE", group: "SE"},
+            {id: "625_SE", group: "SE"},
+            {id: "626_SE", group: "SE"},
+            {id: "627_SE", group: "SE"},
+            {id: "628_SE", group: "SE"},
+            {id: "673_SE", group: "SE"},
+            {id: "806_SE", group: "SE"},
+            {id: "TBD-A_Cx", group: "Cx"},
+            {id: "TBD-B_Cx", group: "Cx"}
+        ];
+
+        const links = [
+            {source: "411_IT", target: "421_IT"},
+            {source: "421_IT", target: "431_IT"},
+            {source: "431_IT", target: "441_IT"},
+            {source: "441_IT", target: "451_IT"},
+            {source: "451_IT", target: "461_SE"},
+            {source: "461_SE", target: "621_SE"},
+            {source: "411_IT", target: "612_CS"},
+            {source: "421_IT", target: "622_CS"},
+            {source: "431_IT", target: "631_CS"},
+            {source: "441_IT", target: "641_IT"},
+            {source: "451_IT", target: "651_IT"},
+            {source: "612_CS", target: "631_CS"},
+            {source: "631_CS", target: "651_IT"},
+            {source: "651_IT", target: "661_IT"},
+            {source: "661_IT", target: "671_IT"}
+        ];
+
+        const colors = {
+            IT: "#3b82f6",
+            CS: "#8b5cf6",
+            EN: "#ec4899",
+            CE: "#f59e0b",
+            CI: "#06b6d4",
+            DA: "#10b981",
+            SE: "#ef4444",
+            Cx: "#6b7280"
+        };
+
+        let nodes = [...allNodes];
+        let currentFilter = "ALL";
+        let selectedNode = null;
+        let zoomLevel = 1;
+        const width = window.innerWidth - 300;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g");
+
+        let simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(100).strength(0.3))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(25));
+
+        let link = g.append("g").selectAll("line");
+        let node = g.append("g").selectAll("circle");
+        let labels = g.append("g").selectAll("text");
+
+        function updateGraph() {
+            link = link.data(links, d => `${d.source.id}-${d.target.id}`);
+            link.exit().remove();
+            link = link.enter()
+                .append("line")
+                .attr("class", "link")
+                .attr("stroke-width", 1.5)
+                .merge(link);
+
+            node = node.data(nodes, d => d.id);
+            node.exit().remove();
+            node = node.enter()
+                .append("circle")
+                .attr("class", "node")
+                .attr("r", 10)
+                .attr("fill", d => colors[d.group])
+                .on("click", selectNode)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
+                .merge(node);
+
+            labels = labels.data(nodes, d => d.id);
+            labels.exit().remove();
+            labels = labels.enter()
+                .append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", ".3em")
+                .attr("fill", "white")
+                .attr("font-weight", "bold")
+                .text(d => d.id.substring(0, 3))
+                .merge(labels);
+
+            simulation.nodes(nodes);
+            simulation.force("link").links(links);
+            simulation.alpha(1).restart();
+        }
+
+        function selectNode(event, d) {
+            selectedNode = d;
+            updateHighlight();
+            document.getElementById("selectionInfo").innerHTML = `
+                <strong>${d.id}</strong><br>
+                Communauté: ${d.group}<br>
+                Connexions: ${links.filter(l => l.source.id === d.id || l.target.id === d.id).length}
+            `;
+        }
+
+        function updateHighlight() {
+            if (!selectedNode) {
+                node.classed("highlighted faded", false);
+                link.classed("highlighted faded", false);
+                return;
+            }
+
+            const connected = new Set([selectedNode.id]);
+            links.forEach(l => {
+                if (l.source.id === selectedNode.id) connected.add(l.target.id);
+                if (l.target.id === selectedNode.id) connected.add(l.source.id);
+            });
+
+            node.classed("faded", d => !connected.has(d.id))
+                .classed("highlighted", d => d.id === selectedNode.id);
+
+            link.classed("faded", l => !((l.source.id === selectedNode.id || l.target.id === selectedNode.id) || (connected.has(l.source.id) && connected.has(l.target.id))))
+                .classed("highlighted", l => l.source.id === selectedNode.id || l.target.id === selectedNode.id);
+        }
+
+        function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+        }
+
+        function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+        }
+
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+
+            labels
+                .attr("x", d => d.x)
+                .attr("y", d => d.y);
+        });
+
+        function filterByCommunity(community) {
+            currentFilter = community;
+            if (community === "ALL") {
+                nodes = [...allNodes];
+            } else {
+                nodes = allNodes.filter(n => n.group === community);
+            }
+            selectedNode = null;
+            document.getElementById("selectionInfo").innerHTML = "Cliquez sur un nœud";
+            updateGraph();
+        }
+
+        function updateOPMList(filter = "") {
+            const list = document.getElementById("opmList");
+            list.innerHTML = "";
+            const filtered = filter ? allNodes.filter(n => n.id.toLowerCase().includes(filter.toLowerCase())) : allNodes;
+            filtered.forEach(node => {
+                const item = document.createElement("div");
+                item.className = "opm-item";
+                item.textContent = node.id;
+                item.onclick = () => {
+                    if (!nodes.find(n => n.id === node.id)) {
+                        filterByCommunity("ALL");
+                    }
+                    selectNode(null, node);
+                    const matchNode = nodes.find(n => n.id === node.id);
+                    if (matchNode) {
+                        svg.transition().duration(500)
+                            .attr("transform", `translate(${width/2 - matchNode.x * zoomLevel}, ${height/2 - matchNode.y * zoomLevel}) scale(${zoomLevel})`);
+                    }
+                };
+                list.appendChild(item);
+            });
+        }
+
+        function createLegend() {
+            const legend = document.getElementById("legend");
+            Object.keys(colors).forEach(community => {
+                const item = document.createElement("div");
+                item.className = "legend-item";
+                item.innerHTML = `<div class="legend-color" style="background: ${colors[community]}"></div> ${community}`;
+                legend.appendChild(item);
+            });
+        }
+
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel + 0.2, 3);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel - 0.2, 0.5);
+            applyZoom();
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            g.attr("transform", `scale(${zoomLevel})`);
+        }
+
+        document.querySelectorAll(".community-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".community-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                filterByCommunity(btn.dataset.community);
+            });
+        });
+
+        document.getElementById("searchBox").addEventListener("input", (e) => {
+            updateOPMList(e.target.value);
+        });
+
+        document.querySelector(".community-btn").classList.add("active");
+        createLegend();
+        updateOPMList();
+        updateGraph();
+    </script>
+</body>
+</html>

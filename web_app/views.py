@@ -164,6 +164,76 @@ def dcwf_explorer_view(request):
     
     return HttpResponse(content, content_type='text/html; charset=utf-8')
 
+def atlas_explorer_view(request):
+    """Vue pour servir le programme Explorateur ATLAS (PRO VISU)"""
+    # Vérifier que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
+    
+    # Servir le fichier index.html de PRO VISU
+    explorer_path = os.path.join(settings.BASE_DIR, 'PRO VISU', 'index.html')
+    
+    if not os.path.exists(explorer_path):
+        raise Http404("Programme Explorateur ATLAS non trouvé")
+    
+    with open(explorer_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Remplacer les chemins relatifs par des URLs Django
+    # Remplacer toutes les occurrences de E1.png
+    content = content.replace('src="E1.png"', 'src="/atlas-explorer/E1.png"')
+    content = content.replace("src='E1.png'", "src='/atlas-explorer/E1.png'")
+    
+    # Remplacer les références à flare.json
+    content = content.replace("fetch('flare.json')", "fetch('/atlas-explorer/flare.json')")
+    content = content.replace('fetch("flare.json")', 'fetch("/atlas-explorer/flare.json")')
+    content = content.replace("'flare.json'", "'/atlas-explorer/flare.json'")
+    content = content.replace('"flare.json"', '"/atlas-explorer/flare.json"')
+    
+    # Remplacer les références à miserables.json
+    content = content.replace("fetch('miserables.json')", "fetch('/atlas-explorer/miserables.json')")
+    content = content.replace('fetch("miserables.json")', 'fetch("/atlas-explorer/miserables.json")')
+    content = content.replace("'miserables.json'", "'/atlas-explorer/miserables.json'")
+    content = content.replace('"miserables.json"', '"/atlas-explorer/miserables.json"')
+    
+    return HttpResponse(content, content_type='text/html; charset=utf-8')
+
+def atlas_explorer_static(request, filename):
+    """Vue pour servir les fichiers statiques de l'Explorateur ATLAS (images, JSON, etc.)"""
+    # Vérifier que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        from django.shortcuts import redirect
+        return redirect('login')
+    
+    file_path = os.path.join(settings.BASE_DIR, 'PRO VISU', filename)
+    
+    if not os.path.exists(file_path):
+        raise Http404(f"Fichier {filename} non trouvé")
+    
+    # Déterminer le type MIME selon l'extension
+    if filename.lower().endswith('.json'):
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='application/json; charset=utf-8')
+    elif filename.lower().endswith('.png'):
+        with open(file_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='image/png')
+    elif filename.lower().endswith('.jpg') or filename.lower().endswith('.jpeg'):
+        with open(file_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='image/jpeg')
+    elif filename.lower().endswith('.svg'):
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='image/svg+xml')
+    elif filename.lower().endswith('.gif'):
+        with open(file_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='image/gif')
+    else:
+        # Type par défaut pour les autres fichiers
+        with open(file_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='application/octet-stream')
+
 def technologia_song_view(request):
     """Vue pour servir le fichier audio Technologia"""
     # Vérifier que l'utilisateur est connecté

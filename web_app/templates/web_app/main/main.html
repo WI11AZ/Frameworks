@@ -1052,8 +1052,7 @@
             atlasExplorerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Ouvrir le lien dans un nouvel onglet
-                // Note: Vous devrez créer la vue et l'URL correspondante dans urls.py
-                window.open('/atlas-explorer/', '_blank');
+                window.open("{% url 'atlas_explorer' %}", '_blank');
             });
         }
     });

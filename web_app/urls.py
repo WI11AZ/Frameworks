@@ -6,7 +6,7 @@ from .views import (
     nf_com_007_details, nf_com_002_details, models_2025, download_file, dcwf_finder_view,
     dcwf_finder_css, dcwf_finder_js, dcwf_finder_data, check_saved_selections, convert_t1_codes_to_ids,
     step0_baseline_view, step0_baseline_json, get_ksat_data_view, sfia_generic_attributes_json,
-    dcwf_explorer_view, technologia_song_view, output_json, sfia_skills_json, idf_json, military_skills_json
+    dcwf_explorer_view, atlas_explorer_view, atlas_explorer_static, technologia_song_view, output_json, sfia_skills_json, idf_json, military_skills_json
 )
 from .views_auth import main_view, login_view, signup_view, logout_view, account_options_view, change_password_view, delete_account_view
 from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
@@ -73,6 +73,9 @@ urlpatterns = [
     
     # Explorateur DCWF Pro v3
     path('dcwf-explorer/', dcwf_explorer_view, name='dcwf_explorer'),
+    # Explorateur ATLAS
+    path('atlas-explorer/', atlas_explorer_view, name='atlas_explorer'),
+    path('atlas-explorer/<str:filename>', atlas_explorer_static, name='atlas_explorer_static'),
     path('technologia-song/', technologia_song_view, name='technologia_song'),
     
     # Step0 Baseline
