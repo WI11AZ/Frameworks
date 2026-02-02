@@ -1,0 +1,1318 @@
+{
+  "work_roles": [
+    {
+      "opm_id": "411",
+      "work_role": "Technical Support Specialist",
+      "wrl_id": "IO-WRL-007",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "421",
+      "work_role": "Database Administrator",
+      "wrl_id": "IO-WRL-002",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "431",
+      "work_role": "Knowledge Manager",
+      "wrl_id": "IO-WRL-003",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "441",
+      "work_role": "Network Operations Specialist",
+      "wrl_id": "IO-WRL-004",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "451",
+      "work_role": "System Administrator",
+      "wrl_id": "IO-WRL-005",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "632",
+      "work_role": "Systems Developer",
+      "wrl_id": "DD-WRL-004",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "641",
+      "work_role": "Systems Requirements Planner",
+      "wrl_id": "DD-WRL-006",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "651",
+      "work_role": "Enterprise Architect",
+      "wrl_id": "DD-WRL-002",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "661",
+      "work_role": "Research & Development Specialist",
+      "wrl_id": "DD-WRL-008",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "671",
+      "work_role": "System Testing and Evaluation Specialist",
+      "wrl_id": "DD-WRL-007",
+      "family": "IT",
+      "family_name": "Information Technology (IT)",
+      "element": "Information Technology\\n(IT)"
+    },
+    {
+      "opm_id": "141",
+      "work_role": "Threat Analysis",
+      "wrl_id": "PD-WRL-006",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Protection and Defense (PD)"
+    },
+    {
+      "opm_id": "212",
+      "work_role": "Digital Forensics",
+      "wrl_id": "PD-WRL-002",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "462",
+      "work_role": "Control Systems Security Specialist",
+      "wrl_id": "N/A",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "511",
+      "work_role": "Cyber Defense Analyst",
+      "wrl_id": "PD-WRL-001",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "521",
+      "work_role": "Cyber Defense Infrastructure Support Specialist",
+      "wrl_id": "PD-WRL-004",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "531",
+      "work_role": "Cyber Defense Incident Responder",
+      "wrl_id": "PD-WRL-003",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "541",
+      "work_role": "Vulnerability Assessment Analyst",
+      "wrl_id": "PD-WRL-007",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "611",
+      "work_role": "Authorizing Official/Designated Representative",
+      "wrl_id": "OG-WRL-013",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "612",
+      "work_role": "Security Control Assessor",
+      "wrl_id": "OG-WRL-012",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "622",
+      "work_role": "Secure Software Assessor",
+      "wrl_id": "DD-WRL-005",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "631",
+      "work_role": "Information Systems Security Developer",
+      "wrl_id": "DD-WRL-004",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "652",
+      "work_role": "Security Architect",
+      "wrl_id": "DD-WRL-001",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "722",
+      "work_role": "Information Systems Security Manager",
+      "wrl_id": "OG-WRL-014",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "723",
+      "work_role": "COMSEC Manager",
+      "wrl_id": "OG-WRL-001",
+      "family": "CS",
+      "family_name": "Cybersecurity (CS)",
+      "element": "Cybersecurity\\n(CS)"
+    },
+    {
+      "opm_id": "211",
+      "work_role": "Forensics Analyst",
+      "wrl_id": "IN-WRL-002",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "221",
+      "work_role": "Cyber Crime Investigator",
+      "wrl_id": "IN-WRL-001",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "711",
+      "work_role": "Cyber Instructional Curriculum Developer",
+      "wrl_id": "OG-WRL-004",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "712",
+      "work_role": "Cyber Instructor",
+      "wrl_id": "OG-WRL-005",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "731",
+      "work_role": "Cyber Legal Advisor",
+      "wrl_id": "OG-WRL-006",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "732",
+      "work_role": "Privacy Compliance Manager",
+      "wrl_id": "OG-WRL-008",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "751",
+      "work_role": "Cyber Workforce Developer and Manager",
+      "wrl_id": "OG-WRL-003",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "752",
+      "work_role": "Cyber Policy and Strategy Planner",
+      "wrl_id": "OG-WRL-002",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "801",
+      "work_role": "Program Manager",
+      "wrl_id": "OG-WRL-010",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "802",
+      "work_role": "IT Project Manager",
+      "wrl_id": "OG-WRL-011",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "803",
+      "work_role": "Product Support Manager",
+      "wrl_id": "OG-WRL-009",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "804",
+      "work_role": "IT Investment/Portfolio Manager",
+      "wrl_id": "OG-WRL-015",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "805",
+      "work_role": "IT Program Auditor",
+      "wrl_id": "OG-WRL-016",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "901",
+      "work_role": "Executive Cyber Leader",
+      "wrl_id": "OG-WRL-007",
+      "family": "EN",
+      "family_name": "Cyber Enablers (EN)",
+      "element": "Cyber Enablers\\n(EN)"
+    },
+    {
+      "opm_id": "112",
+      "work_role": "Mission Assessment Specialist",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "121",
+      "work_role": "Exploitation Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "122",
+      "work_role": "Digital Network Exploitation Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "131",
+      "work_role": "Joint Targeting Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "132",
+      "work_role": "Target Digital Network Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "133",
+      "work_role": "Target Analyst Reporter",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "321",
+      "work_role": "Access Network Operator",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "322",
+      "work_role": "Cyberspace Operator",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "332",
+      "work_role": "Cyber Operations Planner",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "333",
+      "work_role": "Partner Integration Planner",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "341",
+      "work_role": "Cyberspace Capability Developer",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "442",
+      "work_role": "Network Technician",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "443",
+      "work_role": "Network Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "463",
+      "work_role": "Host Analyst",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "551",
+      "work_role": "Red Team Specialist",
+      "wrl_id": "N/A",
+      "family": "CE",
+      "family_name": "Cyber Effects (CE)",
+      "element": "Cyber Effects\\n(CE)"
+    },
+    {
+      "opm_id": "111",
+      "work_role": "All-Source Analyst",
+      "wrl_id": "N/A",
+      "family": "CI",
+      "family_name": "Intel (Cyber) (CI)",
+      "element": "Intel (Cyber)\\n(CI)"
+    },
+    {
+      "opm_id": "151",
+      "work_role": "Multi-Disciplined Language Analyst",
+      "wrl_id": "N/A",
+      "family": "CI",
+      "family_name": "Intel (Cyber) (CI)",
+      "element": "Intel (Cyber)\\n(CI)"
+    },
+    {
+      "opm_id": "311",
+      "work_role": "All-Source Collection Manager",
+      "wrl_id": "N/A",
+      "family": "CI",
+      "family_name": "Intel (Cyber) (CI)",
+      "element": "Intel (Cyber)\\n(CI)"
+    },
+    {
+      "opm_id": "312",
+      "work_role": "All-Source Collection Requirements Manager",
+      "wrl_id": "N/A",
+      "family": "CI",
+      "family_name": "Intel (Cyber) (CI)",
+      "element": "Intel (Cyber)\\n(CI)"
+    },
+    {
+      "opm_id": "331",
+      "work_role": "Cyber Intelligence Planner",
+      "wrl_id": "N/A",
+      "family": "CI",
+      "family_name": "Intel (Cyber) (CI)",
+      "element": "Intel (Cyber)\\n(CI)"
+    },
+    {
+      "opm_id": "422",
+      "work_role": "Data Analyst",
+      "wrl_id": "IO-WRL-001",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "423",
+      "work_role": "Data Scientist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "424",
+      "work_role": "Data Steward",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "623",
+      "work_role": "AI/ML Specialist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "624",
+      "work_role": "Data Operations Specialist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "653",
+      "work_role": "Data Architect",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "672",
+      "work_role": "AI Test & Evaluation Specialist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "733",
+      "work_role": "AI Risk and Ethics Specialist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "753",
+      "work_role": "AI Adoption Specialist",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "902",
+      "work_role": "AI Innovation Leader",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "903",
+      "work_role": "Data Officer",
+      "wrl_id": "N/A",
+      "family": "DA",
+      "family_name": "Data/AI (DA)",
+      "element": "Data/AI\\n(DA)"
+    },
+    {
+      "opm_id": "461",
+      "work_role": "Systems Security Analyst",
+      "wrl_id": "IO-WRL-006",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "621",
+      "work_role": "Software Developer",
+      "wrl_id": "DD-WRL-003",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "625",
+      "work_role": "Product Designer User Interface (UI)",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "626",
+      "work_role": "Service Designer User Experience (UX)",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "627",
+      "work_role": "DevSecOps Specialist",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "628",
+      "work_role": "Software/Cloud Architect",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "673",
+      "work_role": "Software Test & Evaluation Specialist",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "806",
+      "work_role": "Product Manager",
+      "wrl_id": "N/A",
+      "family": "SE",
+      "family_name": "Software Engineering (SE)",
+      "element": "Software Engineering\\n(SE)"
+    },
+    {
+      "opm_id": "TBD-A",
+      "work_role": "Insider Threat Analysis",
+      "wrl_id": "PD-WRL-005",
+      "family": "CX",
+      "family_name": "Not in any DCWF Community / Workforce Element (CX)",
+      "element": "Not in any DCWF Community / Workforce Element\\n(CX)"
+    },
+    {
+      "opm_id": "TBD-B",
+      "work_role": "Operational Technology (OT) Cybersecurity Engineering",
+      "wrl_id": "DD-WRL-009",
+      "family": "CX",
+      "family_name": "Not in any DCWF Community / Workforce Element (CX)",
+      "element": "Not in any DCWF Community / Workforce Element\\n(CX)"
+    }
+  ],
+  "by_family": {
+    "IT": {
+      "name": "Information Technology (IT)",
+      "count": 10,
+      "roles": [
+        {
+          "opm_id": "411",
+          "work_role": "Technical Support Specialist",
+          "wrl_id": "IO-WRL-007",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "421",
+          "work_role": "Database Administrator",
+          "wrl_id": "IO-WRL-002",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "431",
+          "work_role": "Knowledge Manager",
+          "wrl_id": "IO-WRL-003",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "441",
+          "work_role": "Network Operations Specialist",
+          "wrl_id": "IO-WRL-004",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "451",
+          "work_role": "System Administrator",
+          "wrl_id": "IO-WRL-005",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "632",
+          "work_role": "Systems Developer",
+          "wrl_id": "DD-WRL-004",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "641",
+          "work_role": "Systems Requirements Planner",
+          "wrl_id": "DD-WRL-006",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "651",
+          "work_role": "Enterprise Architect",
+          "wrl_id": "DD-WRL-002",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "661",
+          "work_role": "Research & Development Specialist",
+          "wrl_id": "DD-WRL-008",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        },
+        {
+          "opm_id": "671",
+          "work_role": "System Testing and Evaluation Specialist",
+          "wrl_id": "DD-WRL-007",
+          "family": "IT",
+          "family_name": "Information Technology (IT)",
+          "element": "Information Technology\\n(IT)"
+        }
+      ]
+    },
+    "CS": {
+      "name": "Cybersecurity (CS)",
+      "count": 14,
+      "roles": [
+        {
+          "opm_id": "141",
+          "work_role": "Threat Analysis",
+          "wrl_id": "PD-WRL-006",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Protection and Defense (PD)"
+        },
+        {
+          "opm_id": "212",
+          "work_role": "Digital Forensics",
+          "wrl_id": "PD-WRL-002",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "462",
+          "work_role": "Control Systems Security Specialist",
+          "wrl_id": "N/A",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "511",
+          "work_role": "Cyber Defense Analyst",
+          "wrl_id": "PD-WRL-001",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "521",
+          "work_role": "Cyber Defense Infrastructure Support Specialist",
+          "wrl_id": "PD-WRL-004",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "531",
+          "work_role": "Cyber Defense Incident Responder",
+          "wrl_id": "PD-WRL-003",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "541",
+          "work_role": "Vulnerability Assessment Analyst",
+          "wrl_id": "PD-WRL-007",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "611",
+          "work_role": "Authorizing Official/Designated Representative",
+          "wrl_id": "OG-WRL-013",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "612",
+          "work_role": "Security Control Assessor",
+          "wrl_id": "OG-WRL-012",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "622",
+          "work_role": "Secure Software Assessor",
+          "wrl_id": "DD-WRL-005",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "631",
+          "work_role": "Information Systems Security Developer",
+          "wrl_id": "DD-WRL-004",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "652",
+          "work_role": "Security Architect",
+          "wrl_id": "DD-WRL-001",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "722",
+          "work_role": "Information Systems Security Manager",
+          "wrl_id": "OG-WRL-014",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        },
+        {
+          "opm_id": "723",
+          "work_role": "COMSEC Manager",
+          "wrl_id": "OG-WRL-001",
+          "family": "CS",
+          "family_name": "Cybersecurity (CS)",
+          "element": "Cybersecurity\\n(CS)"
+        }
+      ]
+    },
+    "EN": {
+      "name": "Cyber Enablers (EN)",
+      "count": 14,
+      "roles": [
+        {
+          "opm_id": "211",
+          "work_role": "Forensics Analyst",
+          "wrl_id": "IN-WRL-002",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "221",
+          "work_role": "Cyber Crime Investigator",
+          "wrl_id": "IN-WRL-001",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "711",
+          "work_role": "Cyber Instructional Curriculum Developer",
+          "wrl_id": "OG-WRL-004",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "712",
+          "work_role": "Cyber Instructor",
+          "wrl_id": "OG-WRL-005",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "731",
+          "work_role": "Cyber Legal Advisor",
+          "wrl_id": "OG-WRL-006",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "732",
+          "work_role": "Privacy Compliance Manager",
+          "wrl_id": "OG-WRL-008",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "751",
+          "work_role": "Cyber Workforce Developer and Manager",
+          "wrl_id": "OG-WRL-003",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "752",
+          "work_role": "Cyber Policy and Strategy Planner",
+          "wrl_id": "OG-WRL-002",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "801",
+          "work_role": "Program Manager",
+          "wrl_id": "OG-WRL-010",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "802",
+          "work_role": "IT Project Manager",
+          "wrl_id": "OG-WRL-011",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "803",
+          "work_role": "Product Support Manager",
+          "wrl_id": "OG-WRL-009",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "804",
+          "work_role": "IT Investment/Portfolio Manager",
+          "wrl_id": "OG-WRL-015",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "805",
+          "work_role": "IT Program Auditor",
+          "wrl_id": "OG-WRL-016",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        },
+        {
+          "opm_id": "901",
+          "work_role": "Executive Cyber Leader",
+          "wrl_id": "OG-WRL-007",
+          "family": "EN",
+          "family_name": "Cyber Enablers (EN)",
+          "element": "Cyber Enablers\\n(EN)"
+        }
+      ]
+    },
+    "CE": {
+      "name": "Cyber Effects (CE)",
+      "count": 15,
+      "roles": [
+        {
+          "opm_id": "112",
+          "work_role": "Mission Assessment Specialist",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "121",
+          "work_role": "Exploitation Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "122",
+          "work_role": "Digital Network Exploitation Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "131",
+          "work_role": "Joint Targeting Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "132",
+          "work_role": "Target Digital Network Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "133",
+          "work_role": "Target Analyst Reporter",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "321",
+          "work_role": "Access Network Operator",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "322",
+          "work_role": "Cyberspace Operator",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "332",
+          "work_role": "Cyber Operations Planner",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "333",
+          "work_role": "Partner Integration Planner",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "341",
+          "work_role": "Cyberspace Capability Developer",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "442",
+          "work_role": "Network Technician",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "443",
+          "work_role": "Network Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "463",
+          "work_role": "Host Analyst",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        },
+        {
+          "opm_id": "551",
+          "work_role": "Red Team Specialist",
+          "wrl_id": "N/A",
+          "family": "CE",
+          "family_name": "Cyber Effects (CE)",
+          "element": "Cyber Effects\\n(CE)"
+        }
+      ]
+    },
+    "CI": {
+      "name": "Intel (Cyber) (CI)",
+      "count": 5,
+      "roles": [
+        {
+          "opm_id": "111",
+          "work_role": "All-Source Analyst",
+          "wrl_id": "N/A",
+          "family": "CI",
+          "family_name": "Intel (Cyber) (CI)",
+          "element": "Intel (Cyber)\\n(CI)"
+        },
+        {
+          "opm_id": "151",
+          "work_role": "Multi-Disciplined Language Analyst",
+          "wrl_id": "N/A",
+          "family": "CI",
+          "family_name": "Intel (Cyber) (CI)",
+          "element": "Intel (Cyber)\\n(CI)"
+        },
+        {
+          "opm_id": "311",
+          "work_role": "All-Source Collection Manager",
+          "wrl_id": "N/A",
+          "family": "CI",
+          "family_name": "Intel (Cyber) (CI)",
+          "element": "Intel (Cyber)\\n(CI)"
+        },
+        {
+          "opm_id": "312",
+          "work_role": "All-Source Collection Requirements Manager",
+          "wrl_id": "N/A",
+          "family": "CI",
+          "family_name": "Intel (Cyber) (CI)",
+          "element": "Intel (Cyber)\\n(CI)"
+        },
+        {
+          "opm_id": "331",
+          "work_role": "Cyber Intelligence Planner",
+          "wrl_id": "N/A",
+          "family": "CI",
+          "family_name": "Intel (Cyber) (CI)",
+          "element": "Intel (Cyber)\\n(CI)"
+        }
+      ]
+    },
+    "DA": {
+      "name": "Data/AI (DA)",
+      "count": 11,
+      "roles": [
+        {
+          "opm_id": "422",
+          "work_role": "Data Analyst",
+          "wrl_id": "IO-WRL-001",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "423",
+          "work_role": "Data Scientist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "424",
+          "work_role": "Data Steward",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "623",
+          "work_role": "AI/ML Specialist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "624",
+          "work_role": "Data Operations Specialist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "653",
+          "work_role": "Data Architect",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "672",
+          "work_role": "AI Test & Evaluation Specialist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "733",
+          "work_role": "AI Risk and Ethics Specialist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "753",
+          "work_role": "AI Adoption Specialist",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "902",
+          "work_role": "AI Innovation Leader",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        },
+        {
+          "opm_id": "903",
+          "work_role": "Data Officer",
+          "wrl_id": "N/A",
+          "family": "DA",
+          "family_name": "Data/AI (DA)",
+          "element": "Data/AI\\n(DA)"
+        }
+      ]
+    },
+    "SE": {
+      "name": "Software Engineering (SE)",
+      "count": 8,
+      "roles": [
+        {
+          "opm_id": "461",
+          "work_role": "Systems Security Analyst",
+          "wrl_id": "IO-WRL-006",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "621",
+          "work_role": "Software Developer",
+          "wrl_id": "DD-WRL-003",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "625",
+          "work_role": "Product Designer User Interface (UI)",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "626",
+          "work_role": "Service Designer User Experience (UX)",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "627",
+          "work_role": "DevSecOps Specialist",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "628",
+          "work_role": "Software/Cloud Architect",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "673",
+          "work_role": "Software Test & Evaluation Specialist",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        },
+        {
+          "opm_id": "806",
+          "work_role": "Product Manager",
+          "wrl_id": "N/A",
+          "family": "SE",
+          "family_name": "Software Engineering (SE)",
+          "element": "Software Engineering\\n(SE)"
+        }
+      ]
+    },
+    "CX": {
+      "name": "Not in any DCWF Community / Workforce Element (CX)",
+      "count": 2,
+      "roles": [
+        {
+          "opm_id": "TBD-A",
+          "work_role": "Insider Threat Analysis",
+          "wrl_id": "PD-WRL-005",
+          "family": "CX",
+          "family_name": "Not in any DCWF Community / Workforce Element (CX)",
+          "element": "Not in any DCWF Community / Workforce Element\\n(CX)"
+        },
+        {
+          "opm_id": "TBD-B",
+          "work_role": "Operational Technology (OT) Cybersecurity Engineering",
+          "wrl_id": "DD-WRL-009",
+          "family": "CX",
+          "family_name": "Not in any DCWF Community / Workforce Element (CX)",
+          "element": "Not in any DCWF Community / Workforce Element\\n(CX)"
+        }
+      ]
+    }
+  }
+}

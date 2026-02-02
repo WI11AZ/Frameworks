@@ -410,6 +410,18 @@
 
     <!-- Export Buttons -->
     <div class="print-button flex gap-3">
+        <button onclick="saveProjectRecapPage()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2" title="Sauvegarder cette page pour la retrouver dans Sauvegardes">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+            </svg>
+            Sauvegarder
+        </button>
+        <button onclick="openQFViewer()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            QF
+        </button>
         <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -431,6 +443,70 @@
     </div>
 
     <script>
+        // Function to open QF viewer
+        function openQFViewer() {
+            window.open('{% url "qf_viewer" %}', '_blank');
+        }
+
+        // Clés à capturer pour restaurer la page Project Recap à l'identique
+        const PROJECT_RECAP_SESSION_KEYS = ['ksatLastSavedState'];
+        const PROJECT_RECAP_LOCAL_KEYS = [
+            'step0_baseline_data', 'currentJobNumber', 'currentJobSelection',
+            'selectedNFDomains', 'nfcomAttributeSelections', 'posteAttributeSelections',
+            'wizardLevelSelections', 'wizardSummary', 'summaryMilRoleCompetences',
+            'summaryMilSelectedSkills', 'currentKsatSelection'
+        ];
+
+        function saveProjectRecapPage() {
+            const state = {};
+            PROJECT_RECAP_SESSION_KEYS.forEach(function(k) {
+                state[k] = sessionStorage.getItem(k);
+            });
+            PROJECT_RECAP_LOCAL_KEYS.forEach(function(k) {
+                state[k] = localStorage.getItem(k);
+            });
+            const saveId = 'save_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+            let saveName = prompt('Donnez un nom à cette sauvegarde Project Recap (optionnel) :', '');
+            if (saveName === null) return;
+            if (!saveName || !saveName.trim()) {
+                saveName = 'Project Recap du ' + new Date().toLocaleString('fr-FR');
+            }
+            const saveData = {
+                id: saveId,
+                name: saveName.trim(),
+                timestamp: new Date().toISOString(),
+                type: 'project_recap',
+                state: state
+            };
+            const key = 'project_recap_' + saveId;
+            fetch('/api/ksat-selections/save/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (document.querySelector('[name=csrfmiddlewaretoken]') || {}).value || '' },
+                body: JSON.stringify({ key: key, value: saveData })
+            })
+            .then(function(r) {
+                if (!r.ok) throw new Error(r.statusText || 'Erreur serveur');
+                return r.json();
+            })
+            .then(function(res) {
+                if (res.status !== 'success') throw new Error(res.message || 'Erreur');
+                var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
+                saveData._key = key;
+                arr.push(saveData);
+                if (arr.length > 50) arr = arr.slice(-50);
+                localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+                alert('Project Recap sauvegardé. Vous le retrouverez dans Sauvegardes.');
+            })
+            .catch(function(err) {
+                var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
+                saveData._key = key;
+                arr.push(saveData);
+                if (arr.length > 50) arr = arr.slice(-50);
+                localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+                alert('Project Recap sauvegardé localement. ' + (err.message || ''));
+            });
+        }
+        
         // Load and display all data
         document.addEventListener('DOMContentLoaded', function() {
             loadAllRecapData();
@@ -2254,8 +2330,30 @@
                 // Wait a bit for DOM to update
                 await new Promise(resolve => setTimeout(resolve, 500));
                 
-                // Get the main content area
-                const content = document.querySelector('.max-w-7xl');
+                // Get the main content area (exclude nav, use the main content div)
+                // Try multiple selectors to find the main content
+                let content = document.querySelector('body > div.max-w-7xl');
+                if (!content) {
+                    // Try to find the div that comes after nav
+                    const navElement = document.querySelector('nav');
+                    if (navElement && navElement.nextElementSibling) {
+                        content = navElement.nextElementSibling;
+                    }
+                }
+                if (!content) {
+                    // Fallback to any .max-w-7xl that's not in nav
+                    const allMaxW = document.querySelectorAll('.max-w-7xl');
+                    for (let el of allMaxW) {
+                        if (!el.closest('nav')) {
+                            content = el;
+                            break;
+                        }
+                    }
+                }
+                if (!content) {
+                    // Last resort: any .max-w-7xl
+                    content = document.querySelector('.max-w-7xl');
+                }
                 
                 if (!content) {
                     throw new Error('Content area not found');

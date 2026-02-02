@@ -87,7 +87,7 @@
 </style>
 
 <div class="container mx-auto py-8 px-4">
-  <h1 class="text-3xl font-bold text-blue-600 mb-8">Sélections KSAT sauvegardées</h1>
+  <h1 class="text-3xl font-bold text-blue-600 mb-8">Sauvegardes</h1>
   
   <div class="mb-6">
     <a href="{% url 'main' %}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition inline-block">
@@ -117,11 +117,15 @@
       <h2 class="text-2xl font-semibold mb-4">Sélections Poste de compétences</h2>
       <div id="step2-list" class="space-y-4"></div>
     </section>
+    <section id="project-recap-section" class="mt-8">
+      <h2 class="text-2xl font-semibold mb-4">Sauvegardes Project Recap</h2>
+      <div id="project-recap-list" class="space-y-4"></div>
+    </section>
   </div>
   
   <!-- Message si aucune sauvegarde -->
   <div id="no-saved-selections" class="hidden p-4 bg-gray-100 rounded-lg text-center">
-    <p class="text-gray-700">Aucune sélection KSAT sauvegardée.</p>
+    <p class="text-gray-700">Aucune sauvegarde (KSAT ou Project Recap).</p>
     <a href="{% url 'compare' %}" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block">
       Aller à la page de comparaison
     </a>
@@ -137,9 +141,11 @@
 </div>
 
 <script>
+  var PROJECT_RECAP_URL = "{% url 'project_recap' %}";
   // Variables globales
   let rawKsat = [];
   let rawStep2 = [];
+  let rawProjectRecap = [];
   
   // Fonction pour charger toutes les sélections (déplacée hors du document.ready)
   function loadAllSelections() {
@@ -147,9 +153,15 @@
       // Charger d'abord les données du localStorage pour un affichage rapide
       rawKsat = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
       rawStep2 = JSON.parse(localStorage.getItem('ksatSelections') || '[]');
+      var pr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
+      rawProjectRecap = pr.map(function(x) {
+        var o = Object.assign({}, x);
+        if (!o._key) o._key = 'project_recap_' + (o.id || '');
+        return o;
+      });
       
       // Afficher immédiatement les données du localStorage
-      renderSelections(rawKsat, rawStep2);
+      renderSelections(rawKsat, rawStep2, rawProjectRecap);
       
       // Ensuite charger les données du serveur
       fetch('/api/ksat-selections/')
@@ -164,31 +176,34 @@
             console.log('Sauvegardes chargées depuis le serveur:', data.data.length);
             
             if (data.data.length > 0) {
-              // Créer un ensemble d'IDs locaux pour éviter les doublons
-              const localIds = new Set(rawKsat.map(item => item.id));
-              
-              // Nombre d'éléments ajoutés
-              let addedCount = 0;
-              
-              // Ajouter les sauvegardes du serveur qui ne sont pas déjà présentes localement
+              // --- KSAT: uniquement les clés ksat_selection_*
+              const localKsatIds = new Set(rawKsat.map(item => item.id));
+              let ksatAdded = 0;
               data.data.forEach(serverItem => {
-                if (serverItem && serverItem.value && !localIds.has(serverItem.value.id)) {
+                if (serverItem && serverItem.key && serverItem.key.indexOf('ksat_selection_') === 0 && serverItem.value && !localKsatIds.has(serverItem.value.id)) {
                   rawKsat.push(serverItem.value);
-                  addedCount++;
+                  ksatAdded++;
                 }
               });
-              
-              if (addedCount > 0) {
-                // Trier par date
-                rawKsat.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                
-                // Mettre à jour le localStorage avec les données fusionnées
+              if (ksatAdded > 0) {
+                rawKsat.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
                 localStorage.setItem('ksatSavedSelections', JSON.stringify(rawKsat));
-                
-                // Réafficher avec les nouvelles données
-                renderSelections(rawKsat, rawStep2);
-                console.log('Affichage mis à jour avec les données du serveur');
               }
+              
+              // --- Project Recap: clés project_recap_*
+              data.data.forEach(serverItem => {
+                if (!serverItem || !serverItem.key || serverItem.key.indexOf('project_recap_') !== 0 || !serverItem.value) return;
+                var v = serverItem.value;
+                if (!rawProjectRecap.some(x => x.id === v.id)) {
+                  rawProjectRecap.push(Object.assign({ _key: serverItem.key }, v));
+                }
+              });
+              if (rawProjectRecap.length) {
+                rawProjectRecap.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+              }
+              
+              renderSelections(rawKsat, rawStep2, rawProjectRecap);
+              console.log('Affichage mis à jour avec les données du serveur');
             }
           } else {
             console.log('Aucune sauvegarde trouvée sur le serveur ou format de réponse incorrect');
@@ -198,31 +213,31 @@
           console.error('Erreur lors du chargement des sauvegardes depuis le serveur:', error);
         });
       
-      // Log pour le débogage
-      console.log(`Nombre de sauvegardes KSAT chargées du localStorage: ${rawKsat.length}`);
-      console.log(`Nombre de sauvegardes Étape 2 chargées: ${rawStep2.length}`);
+      console.log('Sauvegardes KSAT: ' + rawKsat.length + ', Étape 2: ' + rawStep2.length + ', Project Recap: ' + rawProjectRecap.length);
     } catch(e) { 
       console.error('Erreur lors du chargement des sélections:', e); 
-      // En cas d'erreur, initialiser les tableaux vides
       rawKsat = [];
       rawStep2 = [];
-      renderSelections([], []);
+      rawProjectRecap = [];
+      renderSelections([], [], []);
     }
   }
   
   // Fonction pour afficher les sélections (déplacée hors du document.ready)
-  function renderSelections(ksatSelections, step2Selections) {
-    // Récupérer les éléments DOM nécessaires
+  function renderSelections(ksatSelections, step2Selections, projectRecapSelections) {
+    if (!projectRecapSelections) projectRecapSelections = [];
     const ksatList = document.getElementById('ksat-list');
     const step2List = document.getElementById('step2-list');
+    const projectRecapList = document.getElementById('project-recap-list');
     const noMsg = document.getElementById('no-saved-selections');
     const noSearchResults = document.getElementById('no-search-results');
     
-    // Vider les conteneurs
     if (ksatList) ksatList.innerHTML = '';
     if (step2List) step2List.innerHTML = '';
+    if (projectRecapList) projectRecapList.innerHTML = '';
     
-    if (!ksatSelections.length && !step2Selections.length) {
+    const hasAny = ksatSelections.length || step2Selections.length || projectRecapSelections.length;
+    if (!hasAny) {
       document.getElementById('saved-selections-container').classList.add('hidden');
       noMsg.classList.remove('hidden');
       noSearchResults.classList.add('hidden');
@@ -232,9 +247,8 @@
     document.getElementById('saved-selections-container').classList.remove('hidden');
     noMsg.classList.add('hidden');
     
-    // Si les résultats sont vides après filtrage, afficher le message de recherche
     const searchInput = document.getElementById('searchJobNumber');
-    if (searchInput && searchInput.value && ksatSelections.length === 0 && step2Selections.length === 0) {
+    if (searchInput && searchInput.value && !ksatSelections.length && !step2Selections.length && !projectRecapSelections.length) {
       noSearchResults.classList.remove('hidden');
     } else {
       noSearchResults.classList.add('hidden');
@@ -287,13 +301,31 @@
         </div>`;
       step2List.appendChild(el);
     });
+    
+    // Render Project Recap items
+    projectRecapSelections.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = 'p-4 border rounded bg-white flex justify-between items-center';
+      const dateText = (item.timestamp && new Date(item.timestamp).toLocaleString()) || '-';
+      const displayName = item.name || ('Project Recap du ' + dateText);
+      el.innerHTML = `
+        <div>
+          <strong>${displayName}</strong>
+          <div class="text-xs text-gray-500">${dateText}</div>
+        </div>
+        <div class="space-x-2">
+          <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600" onclick="openProjectRecap(${i})">Ouvrir</button>
+          <button class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600" onclick="deleteProjectRecap(${i})">Supprimer</button>
+        </div>`;
+      projectRecapList.appendChild(el);
+    });
   }
   
-  // Filtrer les sélections par numéro de poste
+  // Filtrer les sélections par numéro de poste (KSAT et Step2 uniquement)
   function filterByJobNumber(number) {
     const filteredKsat = rawKsat.filter(item => item.jobNumber && item.jobNumber.includes(number));
     const filteredStep2 = rawStep2.filter(item => item.jobNumber && item.jobNumber.includes(number));
-    renderSelections(filteredKsat, filteredStep2);
+    renderSelections(filteredKsat, filteredStep2, rawProjectRecap);
   }
   
   document.addEventListener('DOMContentLoaded', function() {
@@ -534,6 +566,43 @@
       // Recharger la page pour refléter les changements
       loadAllSelections();
     }
+  }
+
+  function openProjectRecap(i) {
+    var item = rawProjectRecap[i];
+    if (!item || !item.state) {
+      alert('Impossible de restaurer cette sauvegarde Project Recap (données manquantes).');
+      return;
+    }
+    var st = item.state;
+    for (var k in st) {
+      if (!st.hasOwnProperty(k)) continue;
+      var v = st[k];
+      if (v === null || v === undefined) {
+        try { sessionStorage.removeItem(k); } catch(e) {}
+        try { localStorage.removeItem(k); } catch(e) {}
+      } else {
+        var s = (typeof v === 'string') ? v : JSON.stringify(v);
+        if (k === 'ksatLastSavedState') {
+          try { sessionStorage.setItem(k, s); } catch(e) {}
+        } else {
+          try { localStorage.setItem(k, s); } catch(e) {}
+        }
+      }
+    }
+    window.location.href = PROJECT_RECAP_URL || '/project_recap/';
+  }
+
+  function deleteProjectRecap(i) {
+    var item = rawProjectRecap[i];
+    if (!item || !confirm('Supprimer cette sauvegarde Project Recap ?')) return;
+    var key = item._key || ('project_recap_' + (item.id || ''));
+    rawProjectRecap.splice(i, 1);
+    var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]').filter(function(x) { return x.id !== item.id; });
+    localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+    fetch('/api/ksat-selections/delete/' + encodeURIComponent(key) + '/', { method: 'POST' })
+      .catch(function(e) { console.warn('Delete project recap on server:', e); });
+    renderSelections(rawKsat, rawStep2, rawProjectRecap);
   }
 </script>
 {% endblock %}

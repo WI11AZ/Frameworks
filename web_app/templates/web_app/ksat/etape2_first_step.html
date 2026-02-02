@@ -26,17 +26,6 @@
         font-size: 12px;
         z-index: 10;
       }
-      .saved-selection {
-        border: 1px solid #e5e7eb;
-        border-radius: 0.375rem;
-        padding: 1rem;
-        margin-bottom: 0.75rem;
-        background-color: #f9fafb;
-        transition: all 0.2s ease;
-      }
-      .saved-selection:hover {
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      }
       .selection-header {
         display: flex;
         justify-content: space-between;
@@ -152,15 +141,9 @@
       .dark-mode .bg-white,
       .dark-mode .bg-gray-50,
       .dark-mode .bg-gray-100,
-      .dark-mode .saved-selection,
       .dark-mode #app-container {
           background-color: #2d3748 !important;
           color: #e2e8f0;
-      }
-      
-      .dark-mode #saved-selections-container {
-          background-color: #1f2937 !important;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.35) !important;
       }
       
       .dark-mode h1, 
@@ -179,23 +162,13 @@
       /* Bordures */
       .dark-mode .border,
       .dark-mode .border-gray-200,
-      .dark-mode .border-gray-300,
-      .dark-mode .saved-selection {
+      .dark-mode .border-gray-300 {
           border-color: #4a5568 !important;
       }
       
       /* Ombres */
       .dark-mode .shadow {
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      }
-      
-      /* Message aucune sauvegarde */
-      .dark-mode #no-saved-selections {
-          background-color: #2d3748 !important;
-      }
-      
-      .dark-mode #no-saved-selections p {
-          color: #cbd5e0 !important;
       }
       
       /* Styles spécifiques à la heatmap pour le mode sombre */
@@ -677,35 +650,83 @@
         line-height: 1.5;
       }
       
-      /* Styles spécifiques pour le mode filtré */
+      /* Styles spécifiques pour le mode filtré - VERSION COMPACTE */
       .filtered-view {
         border: 2px solid #4d88ff !important;
         box-shadow: 0 0 10px rgba(77, 136, 255, 0.3) !important;
         transition: all 0.3s ease;
+        max-width: 95%;
+        margin: 0 auto;
       }
       
       .filtered-mode .heatmap-table {
         border-collapse: separate;
-        border-spacing: 2px;
+        border-spacing: 1px !important;
+        font-size: 9px !important;
+      }
+      
+      .filtered-mode .heatmap-table th,
+      .filtered-mode .heatmap-table td {
+        padding: 2px 1px !important;
+        font-size: 9px !important;
+        min-width: 18px !important;
+        max-width: 25px !important;
+        height: 20px !important;
+        line-height: 1 !important;
       }
       
       .filtered-mode .heatmap-table td.domain-name {
         background-color: rgba(0, 0, 0, 0.2);
-        font-size: 12px;
-        padding: 4px;
+        font-size: 9px !important;
+        padding: 2px 4px !important;
+        min-width: 90px !important;
+        max-width: 100px !important;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       
-      /* Style amélioré pour les OPM IDs en mode filtré */
+      /* Style compact pour les OPM IDs en mode filtré */
       .filtered-view .opm-id {
         background-color: rgba(20, 40, 80, 0.7);
-        min-height: 30px;
+        min-height: 20px !important;
+        height: 20px !important;
         width: auto !important;
-        padding: 4px 10px !important;
+        padding: 1px 4px !important;
+        font-size: 8px !important;
+      }
+      
+      .filtered-view .opm-digit {
+        font-size: 7px !important;
+        line-height: 1 !important;
       }
       
       .filtered-view .heatmap-cell {
-        font-size: 16px;
-        font-weight: bold;
+        font-size: 10px !important;
+        font-weight: normal;
+        min-height: 18px !important;
+        height: 18px !important;
+      }
+      
+      /* Réduire la hauteur des en-têtes en mode filtré */
+      .filtered-mode .heatmap-table th.rotate-header {
+        height: 60px !important;
+      }
+      
+      .filtered-mode .heatmap-table tfoot th {
+        height: 25px !important;
+        padding: 1px 2px !important;
+        font-size: 8px !important;
+      }
+      
+      /* Réduire l'espacement général */
+      .filtered-mode .heatmap-table tbody tr {
+        height: 20px !important;
+      }
+      
+      .filtered-mode .heatmap-table tbody td {
+        vertical-align: middle;
       }
       
       /* Styles pour la colonne de synthèse */
@@ -1174,8 +1195,8 @@
               </svg>
               Reset Heatmap
             </button>
-            <button id="simplify-heatmap-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">
-              Simplify Heatmap
+            <button id="focus-heatmap-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">
+              Focus
             </button>
             <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
               Select Level
@@ -1318,20 +1339,6 @@
            </div>
          </div>
        </div>
-
-      <!-- Liste des sauvegardes KSAT (déplacée en bas) -->
-      <div id="saved-selections-container" class="w-full max-w-7xl bg-gray-50 p-6 rounded-lg shadow-md mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-blue-600">Sélections sauvegardées</h2>
-        
-        <ul id="saved-selections-list" class="divide-y divide-gray-200">
-          <!-- La liste sera remplie dynamiquement par JavaScript -->
-        </ul>
-        
-        <!-- Message si aucune sauvegarde -->
-        <div id="no-saved-selections" class="p-4 bg-gray-100 rounded-lg text-center">
-          <p class="text-gray-600">Aucune sélection sauvegardée.</p>
-        </div>
-      </div>
 
       <footer class="mt-12 text-center text-gray-600 text-sm">
         <p>
@@ -1636,7 +1643,6 @@
             window.highlightSelectedRolesInHeatmap();
           }
         }, 200);
-        // Supprimer l'appel redondant à loadSavedSelections()
       }
       
       // Fonction pour ajuster la taille des cellules selon l'écran et le mode (filtré ou non)
@@ -1659,10 +1665,10 @@
         let domainWidth;
         
         if (isFiltered) {
-          // En mode filtré: donner plus d'espace aux colonnes des OPM IDs
-          domainWidth = Math.min(150, containerWidth * 0.26); // Max 26% de la largeur ou 150px
+          // En mode filtré: version compacte - réduire les tailles
+          domainWidth = Math.min(100, containerWidth * 0.20); // Max 20% de la largeur ou 100px
           const remainingWidth = containerWidth - domainWidth;
-          cellWidth = Math.max(40, Math.floor(remainingWidth / (numColumns - 1)));
+          cellWidth = Math.max(25, Math.floor(remainingWidth / (numColumns - 1))); // Cellules plus petites
         } else {
           // En mode normal: cellules très compactes pour tout voir
           domainWidth = 140; // Largeur élargie des domaines
@@ -1706,104 +1712,7 @@
         });
       }
       
-      // Fonction pour charger les sauvegardes depuis le localStorage et/ou le serveur
-      function loadSavedSelections() {
-        const savedSelectionsList = document.getElementById('saved-selections-list');
-        const noSavedSelectionsMsg = document.getElementById('no-saved-selections');
-        
-        // Essayer de récupérer les données du localStorage
-        const ksatSelections = JSON.parse(localStorage.getItem('ksatSelections') || '[]');
-        const savedKsat = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
-        
-        // Combiner et trier par date (les plus récentes en premier)
-        const allSelections = [...ksatSelections, ...savedKsat].sort((a, b) => {
-          return new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0);
-        });
-        
-        if (allSelections.length === 0) {
-          // Aucune sauvegarde trouvée
-          savedSelectionsList.classList.add('hidden');
-          noSavedSelectionsMsg.classList.remove('hidden');
-          return;
-        }
-        
-        // Des sauvegardes ont été trouvées
-        savedSelectionsList.classList.remove('hidden');
-        noSavedSelectionsMsg.classList.add('hidden');
-        
-        // Vider la liste existante
-        savedSelectionsList.innerHTML = '';
-        
-        // Ajouter chaque sauvegarde à la liste
-        allSelections.forEach(selection => {
-          const li = document.createElement('li');
-          li.className = 'py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-gray-200 last:border-none';
-          
-          // Créer le contenu de l'élément de liste
-          const dateFormatted = new Date(selection.timestamp || selection.date || Date.now()).toLocaleDateString('fr-FR', {
-            day: 'numeric',
-            month: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
-          
-          // Infos de la sauvegarde
-          const info = document.createElement('div');
-          info.className = 'mb-2 sm:mb-0';
-          
-          const title = document.createElement('h3');
-          title.className = 'text-lg font-medium text-gray-900';
-          title.textContent = selection.name || selection.title || `Sauvegarde du ${dateFormatted}`;
-          
-          const dateEl = document.createElement('p');
-          dateEl.className = 'text-sm text-gray-500';
-          dateEl.textContent = `Créée le ${dateFormatted}`;
-          
-          // Ajouter les infos
-          info.appendChild(title);
-          info.appendChild(dateEl);
-          
-          // Boutons d'action
-          const actions = document.createElement('div');
-          actions.className = 'flex space-x-2 mt-3 sm:mt-0';
-          
-          // Bouton Visualiser
-          const viewBtn = document.createElement('a');
-          viewBtn.href = `#${selection.id || ''}`;
-          viewBtn.className = 'px-3 py-1.5 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition';
-          viewBtn.textContent = 'Visualiser';
-          viewBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Fonction pour visualiser cette sauvegarde
-            visualizeSelection(selection);
-          });
-          
-          // Bouton Étape 3
-          const step3Btn = document.createElement('a');
-          step3Btn.href = "#";
-          step3Btn.className = 'px-3 py-1.5 bg-green-500 text-white text-sm font-medium rounded hover:bg-green-600 transition';
-          step3Btn.textContent = 'Étape 3';
-          step3Btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Appliquer la sélection et passer à l'étape summary_chart
-            applySelectionAndGoToSummary(selection);
-          });
-          
-          // Ajouter les boutons
-          actions.appendChild(viewBtn);
-          actions.appendChild(step3Btn);
-          
-          // Assembler l'élément
-          li.appendChild(info);
-          li.appendChild(actions);
-          
-          // Ajouter à la liste
-          savedSelectionsList.appendChild(li);
-        });
-      }
-      
-      // Fonction pour visualiser une sélection - cette fonction est utilisée par les événements des boutons de visualisation
+      // Fonction pour visualiser une sélection (utilisée par d'autres scripts)
       function visualizeSelection(selection) {
         console.log('Visualisation de la sélection:', selection);
         console.log('Structure de la sélection:', JSON.stringify(selection, null, 2));
@@ -2850,15 +2759,16 @@
         initializeHeatmap();
           console.log("DEBUG: Heatmap initialisée");
         
-        // Charger explicitement les sélections sauvegardées
-          console.log("DEBUG: Chargement des sauvegardes...");
-        loadSavedSelections();
-          console.log("DEBUG: Sauvegardes chargées");
-        
         // Ajuster la taille de la heatmap
           console.log("DEBUG: Ajustement de la taille...");
         adjustHeatmapSize();
           console.log("DEBUG: Taille ajustée");
+          
+          // Afficher la heatmap simplifiée par défaut (seulement les OPM-ID sélectionnés)
+          console.log("DEBUG: Affichage de la heatmap simplifiée par défaut...");
+          setTimeout(() => {
+            visualizeStep0Roles();
+          }, 500);
           
           // Mettre en surbrillance les OPM IDs des rôles sélectionnés
           console.log("DEBUG: Mise en surbrillance des OPM IDs sélectionnés...");
@@ -2926,9 +2836,6 @@
         
         // Vérifier l'état initial des boutons
         checkDomainSelection();
-        
-        // Rendre la section des sélections sauvegardées visible
-        document.getElementById('saved-selections-container').style.display = 'block';
         
         // Gérer le redimensionnement de la fenêtre
         window.addEventListener('resize', function() {
@@ -3606,15 +3513,41 @@
             });
           }
           
-          // Bouton Simplify Heatmap - maintenant dans le HTML statique, on connecte juste l'événement
-          const simplifyBtn = document.getElementById('simplify-heatmap-btn');
-          if (simplifyBtn) {
-            simplifyBtn.addEventListener('click', (e) => {
+          // Bouton Focus - toggle entre vue simplifiée et vue complète
+          let isFocusMode = true; // Par défaut en mode focus (simplifié)
+          const focusBtn = document.getElementById('focus-heatmap-btn');
+          if (focusBtn) {
+            focusBtn.addEventListener('click', (e) => {
               e.preventDefault();
-              if (window.openSimplifyModal) {
-                window.openSimplifyModal();
+              isFocusMode = !isFocusMode;
+              
+              if (isFocusMode) {
+                // Mode Focus : afficher seulement les OPM-ID sélectionnés
+                visualizeStep0Roles();
+                focusBtn.textContent = 'Focus';
               } else {
-                console.error('openSimplifyModal is not defined');
+                // Mode Full : afficher toute la heatmap
+                renderHeatmapTable(null, true);
+                resetAllOpmIdHighlights();
+                
+                // Retirer les classes de mode filtré
+                const heatmapContainer = document.getElementById('heatmap-container');
+                if (heatmapContainer) {
+                  heatmapContainer.classList.remove('filtered-view');
+                }
+                const heatmapMain = document.getElementById('heatmap-main');
+                if (heatmapMain) {
+                  heatmapMain.classList.remove('filtered-mode');
+                }
+                
+                // Restaurer le sous-titre original
+                const subtitle = document.getElementById('heatmap-subtitle');
+                if (subtitle) {
+                  subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align (2017, 2024, 2025)';
+                }
+                
+                adjustHeatmapSize();
+                focusBtn.textContent = 'Full View';
               }
             });
           }
@@ -3651,70 +3584,7 @@
       });
     </script>
 
-    <!-- Modal pour sélectionner les domaines NF-COM -->
-    <div id="simplify-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-      <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col">
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 class="text-2xl font-bold text-gray-800">Sélectionner les Competency Areas</h2>
-          <button id="close-simplify-modal" class="text-gray-500 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="px-6 py-4 overflow-y-auto flex-1">
-          <div id="domains-list" class="space-y-3">
-            <!-- Les domaines seront générés par JavaScript -->
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
-          <div class="text-sm text-gray-600">
-            <span id="selected-count">0</span> domaine(s) sélectionné(s)
-          </div>
-          <div class="flex gap-3">
-            <button id="cancel-simplify-modal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all">
-              Annuler
-            </button>
-            <button id="apply-simplify" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-semibold">
-              Simplify
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <style>
-      #simplify-modal .domain-item {
-        border: 2px solid #e5e7eb;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      #simplify-modal .domain-item:hover {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
-      }
-      #simplify-modal .domain-item.selected {
-        border-color: #3b82f6;
-        background-color: #dbeafe;
-      }
-      #simplify-modal .domain-item .domain-id {
-        font-weight: 600;
-        color: #1e40af;
-        margin-bottom: 0.25rem;
-      }
-      #simplify-modal .domain-item .domain-name {
-        font-weight: 600;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-      }
-      #simplify-modal .domain-item .domain-description {
-        color: #6b7280;
-        font-size: 0.875rem;
-        line-height: 1.5;
-      }
-    </style>
 
     <script>
       // Données des 15 domaines NF-COM
@@ -3796,111 +3666,6 @@
         }
       ];
 
-      // Variables pour gérer la sélection dans la modal
-      let modalSelectedDomains = [];
-
-      // Fonction pour ouvrir la modal (scope global)
-      window.openSimplifyModal = function() {
-        const modal = document.getElementById('simplify-modal');
-        if (!modal) return;
-        modal.classList.remove('hidden');
-        modalSelectedDomains = [...selectedDomains]; // Copier les domaines déjà sélectionnés
-        renderDomainsInModal();
-        updateSelectedCount();
-      };
-
-      // Fonction pour fermer la modal
-      function closeSimplifyModal() {
-        const modal = document.getElementById('simplify-modal');
-        modal.classList.add('hidden');
-      }
-
-      // Fonction pour rendre les domaines dans la modal
-      function renderDomainsInModal() {
-        const domainsList = document.getElementById('domains-list');
-        domainsList.innerHTML = '';
-
-        nfComDomains.forEach(domain => {
-          const domainItem = document.createElement('div');
-          domainItem.className = `domain-item ${modalSelectedDomains.includes(domain.id) ? 'selected' : ''}`;
-          domainItem.dataset.domainId = domain.id;
-          
-          domainItem.innerHTML = `
-            <div class="domain-id">${domain.id}</div>
-            <div class="domain-name">${domain.name}</div>
-            <div class="domain-description">${domain.description}</div>
-          `;
-
-          domainItem.addEventListener('click', function() {
-            const index = modalSelectedDomains.indexOf(domain.id);
-            if (index !== -1) {
-              modalSelectedDomains.splice(index, 1);
-              domainItem.classList.remove('selected');
-            } else {
-              modalSelectedDomains.push(domain.id);
-              domainItem.classList.add('selected');
-            }
-            updateSelectedCount();
-          });
-
-          domainsList.appendChild(domainItem);
-        });
-      }
-
-      // Fonction pour mettre à jour le compteur de sélection
-      function updateSelectedCount() {
-        const countElement = document.getElementById('selected-count');
-        if (countElement) {
-          countElement.textContent = modalSelectedDomains.length;
-        }
-      }
-
-      // Fonction pour appliquer la simplification
-      function applySimplify() {
-        // Mettre à jour selectedDomains avec les domaines sélectionnés dans la modal
-        selectedDomains = [...modalSelectedDomains];
-        console.log("DEBUG: applySimplify - selectedDomains mis à jour:", selectedDomains);
-        console.log("DEBUG: applySimplify - modalSelectedDomains:", modalSelectedDomains);
-        
-        // Fermer la modal
-        closeSimplifyModal();
-        
-        // Mettre à jour l'état des boutons
-        checkDomainSelection();
-        
-        // Exécuter visualizeStep0Roles d'abord (génère/filtre la heatmap)
-        visualizeStep0Roles();
-        
-        // Ensuite filtrer par domaines (après un court délai pour laisser la heatmap se générer)
-        setTimeout(() => {
-          filterHeatmapByDomains();
-        }, 300);
-      }
-
-      // Gestionnaires d'événements pour la modal
-      document.addEventListener('DOMContentLoaded', function() {
-        const closeBtn = document.getElementById('close-simplify-modal');
-        const cancelBtn = document.getElementById('cancel-simplify-modal');
-        const applyBtn = document.getElementById('apply-simplify');
-        const modal = document.getElementById('simplify-modal');
-
-        if (closeBtn) {
-          closeBtn.addEventListener('click', closeSimplifyModal);
-        }
-        if (cancelBtn) {
-          cancelBtn.addEventListener('click', closeSimplifyModal);
-        }
-        if (applyBtn) {
-          applyBtn.addEventListener('click', applySimplify);
-        }
-        if (modal) {
-          modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-              closeSimplifyModal();
-            }
-          });
-        }
-      });
     </script>
 </body>
 </html>

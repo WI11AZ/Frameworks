@@ -16,6 +16,7 @@ from .models.user_saved_data import UserSavedData
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from django.db.models import Q
 import json
 import os
 
@@ -1546,6 +1547,52 @@ def project_recap_view(request):
     """Vue pour la page de récapitulatif complet du projet"""
     return render(request, 'web_app/main/project_recap.html')
 
+def qf_viewer_view(request):
+    """Vue pour afficher la page QF avec les images"""
+    return render(request, 'web_app/main/qf_viewer.html')
+
+def qf_download_view(request, filename):
+    """Vue pour télécharger/afficher les fichiers du dossier QF (images ou XLSX)"""
+    import os
+    from django.conf import settings
+    from django.http import FileResponse, Http404
+    
+    # Chemin vers le dossier QF
+    qf_dir = os.path.join(settings.BASE_DIR, 'QF')
+    file_path = os.path.join(qf_dir, filename)
+    
+    # Normaliser le chemin pour la sécurité
+    qf_dir = os.path.normpath(qf_dir)
+    file_path = os.path.normpath(file_path)
+    
+    # Vérifier que le fichier existe et est dans le dossier QF (sécurité)
+    if not os.path.exists(file_path):
+        raise Http404("Fichier non trouvé")
+    
+    # Vérifier que le fichier est bien dans le dossier QF (protection contre directory traversal)
+    if not file_path.startswith(qf_dir):
+        raise Http404("Accès non autorisé")
+    
+    # Déterminer le type MIME
+    if filename.endswith('.xlsx'):
+        content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        # Pour les fichiers XLSX, forcer le téléchargement
+        disposition = 'attachment'
+    elif filename.endswith('.png'):
+        content_type = 'image/png'
+        # Pour les images, afficher dans le navigateur
+        disposition = 'inline'
+    else:
+        content_type = 'application/octet-stream'
+        disposition = 'attachment'
+    
+    try:
+        response = FileResponse(open(file_path, 'rb'), content_type=content_type)
+        response['Content-Disposition'] = f'{disposition}; filename="{filename}"'
+        return response
+    except Exception as e:
+        raise Http404(f"Erreur lors du téléchargement: {str(e)}")
+
 def military_skills_json(request):
     """Vue pour servir le fichier JSON des compétences militaires"""
     import json
@@ -1626,14 +1673,17 @@ def save_ksat_selection(request):
 @require_http_methods(["GET"])
 def list_ksat_selections(request):
     """
-    Liste toutes les sélections KSAT pour l'utilisateur.
+    Liste toutes les sélections KSAT et Project Recap pour l'utilisateur.
+    Inclut les clés ksat_selection_* et project_recap_*.
     """
     try:
         results = []
         
-        # Récupérer les données de l'utilisateur authentifié
+        # Récupérer les données de l'utilisateur authentifié (KSAT + Project Recap)
         if request.user.is_authenticated:
-            saved_data = UserSavedData.objects.filter(user=request.user, key__startswith='ksat_selection_')
+            saved_data = UserSavedData.objects.filter(user=request.user).filter(
+                Q(key__startswith='ksat_selection_') | Q(key__startswith='project_recap_')
+            )
             for item in saved_data:
                 results.append({
                     "key": item.key,
@@ -1644,7 +1694,7 @@ def list_ksat_selections(request):
         # Ajouter les données de session pour tous les utilisateurs
         session_data = request.session.get('saved_ksat_selections', {})
         for key, value in session_data.items():
-            if key.startswith('ksat_selection_'):
+            if key.startswith('ksat_selection_') or key.startswith('project_recap_'):
                 results.append({
                     "key": key,
                     "value": value,

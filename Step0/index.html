@@ -1442,7 +1442,7 @@
             </div>
             
             <div class="filter-group dcwf-filter-group">
-                <strong style="width: 100%; margin-bottom: 5px; color: #333;">🔵 Filter by DCWF Element:</strong>
+                <strong style="width: 100%; margin-bottom: 5px; color: #333;">🔵 Filter by DCWF Community:</strong>
                 <button class="filter-btn dcwf-filter dcwf-filter-all active" onclick="filterByDCWFElement('all', this)">All DCWF communities</button>
                 <button class="filter-btn dcwf-filter" style="background-color: #0078d4; color: white; border-color: #0078d4;" onclick="filterByDCWFElement('Information Technology (IT)', this)">Information Technology (IT)</button>
                 <button class="filter-btn dcwf-filter" style="background-color: #10b981; color: white; border-color: #10b981;" onclick="filterByDCWFElement('Cybersecurity (CS)', this)">Cybersecurity (CS)</button>
@@ -1455,7 +1455,7 @@
             </div>
             
             <div class="filter-group ncwf-filter-group">
-                <strong style="width: 100%; margin-bottom: 5px; color: #333;">🟢 Filter by NCWF Element:</strong>
+                <strong style="width: 100%; margin-bottom: 5px; color: #333;">🟢 Filter by NCWF Category:</strong>
                 <button class="filter-btn ncwf-filter ncwf-filter-all active" onclick="filterByElement('all', this)">All NCWF categories</button>
                 <button class="filter-btn ncwf-filter" style="background-color: #10b981; color: white; border-color: #10b981;" onclick="filterByElement('Implementation & Operation', this)">Implementation & Operation (IO)</button>
                 <button class="filter-btn ncwf-filter" style="background-color: #3b82f6; color: white; border-color: #3b82f6;" onclick="filterByElement('Oversight & Governance', this)">Oversight & Governance (OG)</button>
@@ -23180,10 +23180,18 @@ const niceNameToWrlLookup = {
                 // Récupérer les détails TKS si demandé
                 let tksDetailsText = '';
                 if (showTKSDetails && sourceOpmId && opmId) {
-                    const detailsKey = `${sourceOpmId}->${opmId}`;
-                    const tksBreakdown = tksDetailsIndex[detailsKey];
+                    // Essayer avec les deux directions possibles
+                    const detailsKey1 = `${sourceOpmId}->${opmId}`;
+                    const detailsKey2 = `${opmId}->${sourceOpmId}`;
+                    let tksBreakdown = tksDetailsIndex[detailsKey1];
+                    if (!tksBreakdown) {
+                        tksBreakdown = tksDetailsIndex[detailsKey2];
+                    }
                     if (tksBreakdown) {
                         tksDetailsText = `<span style="font-size: 11px; color: #6b7280; margin-left: 8px;">(${tksBreakdown})</span>`;
+                    } else {
+                        // Debug: log si les valeurs ne sont pas trouvées
+                        console.debug(`TKS details not found for ${detailsKey1} or ${detailsKey2}`);
                     }
                 }
                 

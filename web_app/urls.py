@@ -6,7 +6,8 @@ from .views import (
     nf_com_007_details, nf_com_002_details, models_2025, download_file, dcwf_finder_view,
     dcwf_finder_css, dcwf_finder_js, dcwf_finder_data, check_saved_selections, convert_t1_codes_to_ids,
     step0_baseline_view, step0_baseline_json, get_ksat_data_view, sfia_generic_attributes_json,
-    dcwf_explorer_view, atlas_explorer_view, atlas_explorer_static, technologia_song_view, output_json, sfia_skills_json, idf_json, military_skills_json
+    dcwf_explorer_view, atlas_explorer_view, atlas_explorer_static, technologia_song_view, output_json, sfia_skills_json, idf_json, military_skills_json,
+    qf_viewer_view, qf_download_view
 )
 from .views_auth import main_view, login_view, signup_view, logout_view, account_options_view, change_password_view, delete_account_view
 from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
@@ -91,4 +92,8 @@ urlpatterns = [
     path('api/sfia-skills/', sfia_skills_json, name='sfia_skills_json'),
     path('api/idf-json/', idf_json, name='idf_json'),
     path('api/military-skills/', military_skills_json, name='military_skills_json'),
+    
+    # QF Viewer
+    path('qf/', qf_viewer_view, name='qf_viewer'),
+    path('qf/download/<str:filename>/', qf_download_view, name='qf_download'),
 ]

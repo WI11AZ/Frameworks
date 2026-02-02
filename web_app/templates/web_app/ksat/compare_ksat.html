@@ -332,16 +332,40 @@
             <!-- Ligne principale du tableau -->
             <tr class="bg-gray-100 sticky top-16 z-50">
               <th class="px-3 py-2 border text-left bg-white" style="width: 300px;">
-                <div class="flex items-center space-x-2">
-                  <input type="checkbox" 
-                         id="check-all-{{ key }}" 
-                         class="check-all-ksat w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
-                         data-category="{{ key }}"
-                         checked
-                         onchange="toggleAllKSATs('{{ key }}', this.checked)">
-                  <label for="check-all-{{ key }}" class="font-medium cursor-pointer">
-                    (UN)SELECT ALL {{ key|title|slice:":1" }}{{ key|title|slice:"1:" }}{% if key != 'knowledge' %}s{% endif %}
-                  </label>
+                <div class="flex flex-col space-y-2">
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" 
+                           id="check-all-{{ key }}" 
+                           class="check-all-ksat w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                           data-category="{{ key }}"
+                           checked
+                           onchange="toggleAllKSATs('{{ key }}', this.checked)">
+                    <label for="check-all-{{ key }}" class="font-medium cursor-pointer">
+                      (UN)SELECT ALL {{ key|title|slice:":1" }}{{ key|title|slice:"1:" }}{% if key != 'knowledge' %}s{% endif %} <span id="header-counter-{{ key }}" class="font-normal text-gray-600">0/0</span>
+                    </label>
+                  </div>
+                  <div class="flex items-center space-x-2 ml-6">
+                    <input type="checkbox" 
+                           id="check-all-core-{{ key }}" 
+                           class="check-all-core-ksat w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                           data-category="{{ key }}"
+                           checked
+                           onchange="toggleAllCoreKSATs('{{ key }}', this.checked)">
+                    <label for="check-all-core-{{ key }}" class="text-sm font-medium cursor-pointer text-blue-800">
+                      (UN)SELECT ALL {{ key|title|slice:":1" }}{{ key|title|slice:"1:" }}{% if key != 'knowledge' %}s{% endif %} Core <span id="header-counter-core-{{ key }}" class="font-normal text-gray-600">0/0</span>
+                    </label>
+                  </div>
+                  <div class="flex items-center space-x-2 ml-6">
+                    <input type="checkbox" 
+                           id="check-all-additional-{{ key }}" 
+                           class="check-all-additional-ksat w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                           data-category="{{ key }}"
+                           checked
+                           onchange="toggleAllAdditionalKSATs('{{ key }}', this.checked)">
+                    <label for="check-all-additional-{{ key }}" class="text-sm font-medium cursor-pointer text-green-800">
+                      (UN)SELECT ALL {{ key|title|slice:":1" }}{{ key|title|slice:"1:" }}{% if key != 'knowledge' %}s{% endif %} Additional <span id="header-counter-additional-{{ key }}" class="font-normal text-gray-600">0/0</span>
+                    </label>
+                  </div>
                 </div>
               </th>
               {% for role in formatted_roles %}
@@ -474,6 +498,7 @@
                            data-ksat-id="{% if ksat.dcwf_id %}{{ ksat.dcwf_id }}{% elif ksat.ncwf_id %}{{ ksat.ncwf_id }}{% else %}{{ ksat.id }}{% endif %}"
                            data-category="{{ key }}"
                            data-ksat-description="{{ ksat.description|escape }}"
+                           data-core-or-additional="{% if ksat.core_or_additional %}{{ ksat.core_or_additional }}{% else %}{% endif %}"
                            checked
                            onchange="handleKSATCheckboxChange(this, '{{ key }}')">
                     <div class="flex-1">
@@ -2094,6 +2119,13 @@ function initializeSelectionCounters() {
   // Initialiser le compteur T/K/S/A (commence à 0)
   updateTKSACounter();
   
+  // Mettre à jour les compteurs dans les headers pour toutes les catégories
+  tabIds.forEach(tabId => {
+    updateHeaderCounter(tabId);
+    updateHeaderCounterCore(tabId);
+    updateHeaderCounterAdditional(tabId);
+  });
+  
   // Débug pour vérifier les compteurs
   console.log('Compteurs initialisés:', selectionCounters);
 }
@@ -2150,6 +2182,60 @@ function updateSelectionCountersForTab(tabId) {
   // Si c'est l'onglet actif, mettre à jour le compteur affiché
   if (tabId === currentActiveTab) {
     updateSelectionCounter(tabId);
+  }
+  
+  // Mettre à jour le compteur dans le header pour cette catégorie
+  updateHeaderCounter(tabId);
+}
+
+// Fonction pour mettre à jour le compteur dans le header pour chaque catégorie
+function updateHeaderCounter(category) {
+  const tabContent = document.getElementById(category);
+  if (!tabContent) return;
+  
+  // Compter les checkboxes totales et cochées pour cette catégorie
+  const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"]');
+  const total = checkboxes.length;
+  const selected = Array.from(checkboxes).filter(cb => cb.checked).length;
+  
+  // Mettre à jour le span dans le header
+  const headerCounter = document.getElementById('header-counter-' + category);
+  if (headerCounter) {
+    headerCounter.textContent = `${selected}/${total}`;
+  }
+}
+
+// Fonction pour mettre à jour le compteur Core dans le header pour chaque catégorie
+function updateHeaderCounterCore(category) {
+  const tabContent = document.getElementById(category);
+  if (!tabContent) return;
+  
+  // Compter les checkboxes Core totales et cochées pour cette catégorie
+  const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="C"]');
+  const total = checkboxes.length;
+  const selected = Array.from(checkboxes).filter(cb => cb.checked).length;
+  
+  // Mettre à jour le span dans le header
+  const headerCounter = document.getElementById('header-counter-core-' + category);
+  if (headerCounter) {
+    headerCounter.textContent = `${selected}/${total}`;
+  }
+}
+
+// Fonction pour mettre à jour le compteur Additional dans le header pour chaque catégorie
+function updateHeaderCounterAdditional(category) {
+  const tabContent = document.getElementById(category);
+  if (!tabContent) return;
+  
+  // Compter les checkboxes Additional totales et cochées pour cette catégorie
+  const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="A"]');
+  const total = checkboxes.length;
+  const selected = Array.from(checkboxes).filter(cb => cb.checked).length;
+  
+  // Mettre à jour le span dans le header
+  const headerCounter = document.getElementById('header-counter-additional-' + category);
+  if (headerCounter) {
+    headerCounter.textContent = `${selected}/${total}`;
   }
 }
 
@@ -6011,6 +6097,19 @@ function handleKSATCheckboxChange(checkbox, category) {
     // Mettre à jour les compteurs
     updateSelectionCountersForTab(category);
     
+    // Mettre à jour le compteur dans le header
+    updateHeaderCounter(category);
+    
+    // Mettre à jour les compteurs Core et Additional
+    const coreOrAdditional = checkbox.getAttribute('data-core-or-additional');
+    if (coreOrAdditional === 'C') {
+        updateHeaderCounterCore(category);
+        updateCheckAllCoreState(category);
+    } else if (coreOrAdditional === 'A') {
+        updateHeaderCounterAdditional(category);
+        updateCheckAllAdditionalState(category);
+    }
+    
     // Mettre à jour l'état de la checkbox "Check All"
     updateCheckAllState(category);
     
@@ -6055,8 +6154,113 @@ function toggleAllKSATs(category, isChecked) {
     // Mettre à jour les compteurs une seule fois
     updateSelectionCountersForTab(category);
     
+    // Mettre à jour le compteur dans le header
+    updateHeaderCounter(category);
+    updateHeaderCounterCore(category);
+    updateHeaderCounterAdditional(category);
+    
     // Mettre à jour l'état de la checkbox "Check All"
     updateCheckAllState(category);
+    updateCheckAllCoreState(category);
+    updateCheckAllAdditionalState(category);
+    
+    // Mettre à jour les compteurs T/K/S/A dans div.mb-3
+    updateIndividualRoleCounters();
+    
+    // Sauvegarder l'état dans la session
+    saveStateToSession();
+}
+
+// Fonction pour gérer la checkbox "Check All Core"
+function toggleAllCoreKSATs(category, isChecked) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    // Trouver toutes les checkboxes de KSAT Core (span 'C') dans cette catégorie
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="C"]');
+    
+    // Initialiser allSelectValues pour cette catégorie si nécessaire
+    if (!allSelectValues[category]) {
+        allSelectValues[category] = {};
+    }
+    
+    // Cocher ou décocher toutes les checkboxes Core et mettre à jour allSelectValues
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+        const ksatId = checkbox.getAttribute('data-ksat-id');
+        
+        if (isChecked) {
+            // Sélectionner le KSAT (équivalent à "1")
+            allSelectValues[category][ksatId] = {
+                primary: '1',
+                secondary: '',
+                tertiary: ''
+            };
+        } else {
+            // Désélectionner le KSAT
+            delete allSelectValues[category][ksatId];
+        }
+    });
+    
+    // Mettre à jour les compteurs
+    updateSelectionCountersForTab(category);
+    
+    // Mettre à jour le compteur dans le header
+    updateHeaderCounter(category);
+    updateHeaderCounterCore(category);
+    
+    // Mettre à jour l'état de la checkbox "Check All"
+    updateCheckAllState(category);
+    updateCheckAllCoreState(category);
+    
+    // Mettre à jour les compteurs T/K/S/A dans div.mb-3
+    updateIndividualRoleCounters();
+    
+    // Sauvegarder l'état dans la session
+    saveStateToSession();
+}
+
+// Fonction pour gérer la checkbox "Check All Additional"
+function toggleAllAdditionalKSATs(category, isChecked) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    // Trouver toutes les checkboxes de KSAT Additional (span 'A') dans cette catégorie
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="A"]');
+    
+    // Initialiser allSelectValues pour cette catégorie si nécessaire
+    if (!allSelectValues[category]) {
+        allSelectValues[category] = {};
+    }
+    
+    // Cocher ou décocher toutes les checkboxes Additional et mettre à jour allSelectValues
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+        const ksatId = checkbox.getAttribute('data-ksat-id');
+        
+        if (isChecked) {
+            // Sélectionner le KSAT (équivalent à "1")
+            allSelectValues[category][ksatId] = {
+                primary: '1',
+                secondary: '',
+                tertiary: ''
+            };
+        } else {
+            // Désélectionner le KSAT
+            delete allSelectValues[category][ksatId];
+        }
+    });
+    
+    // Mettre à jour les compteurs
+    updateSelectionCountersForTab(category);
+    
+    // Mettre à jour le compteur dans le header
+    updateHeaderCounter(category);
+    updateHeaderCounterAdditional(category);
+    
+    // Mettre à jour l'état de la checkbox "Check All"
+    updateCheckAllState(category);
+    updateCheckAllAdditionalState(category);
     
     // Mettre à jour les compteurs T/K/S/A dans div.mb-3
     updateIndividualRoleCounters();
@@ -6080,6 +6284,44 @@ function updateCheckAllState(category) {
     const someChecked = Array.from(checkboxes).some(cb => cb.checked);
     
     // Mettre à jour l'état de la checkbox "Check All"
+    checkAllCheckbox.checked = allChecked;
+    checkAllCheckbox.indeterminate = someChecked && !allChecked;
+}
+
+// Fonction pour mettre à jour l'état de la checkbox "Check All Core"
+function updateCheckAllCoreState(category) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="C"]');
+    const checkAllCheckbox = document.getElementById('check-all-core-' + category);
+    
+    if (!checkAllCheckbox || checkboxes.length === 0) return;
+    
+    // Vérifier si toutes les checkboxes Core sont cochées
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+    
+    // Mettre à jour l'état de la checkbox "Check All Core"
+    checkAllCheckbox.checked = allChecked;
+    checkAllCheckbox.indeterminate = someChecked && !allChecked;
+}
+
+// Fonction pour mettre à jour l'état de la checkbox "Check All Additional"
+function updateCheckAllAdditionalState(category) {
+    const tabContent = document.getElementById(category);
+    if (!tabContent) return;
+    
+    const checkboxes = tabContent.querySelectorAll('.ksat-checkbox[data-category="' + category + '"][data-core-or-additional="A"]');
+    const checkAllCheckbox = document.getElementById('check-all-additional-' + category);
+    
+    if (!checkAllCheckbox || checkboxes.length === 0) return;
+    
+    // Vérifier si toutes les checkboxes Additional sont cochées
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+    
+    // Mettre à jour l'état de la checkbox "Check All Additional"
     checkAllCheckbox.checked = allChecked;
     checkAllCheckbox.indeterminate = someChecked && !allChecked;
 }
@@ -6289,6 +6531,11 @@ function initializeAllSelectValues() {
         });
         
         console.log(`[INIT] Added ${checkedCount} checked KSATs to allSelectValues[${category}]`);
+        
+        // Mettre à jour le compteur dans le header pour cette catégorie
+        updateHeaderCounter(category);
+        updateHeaderCounterCore(category);
+        updateHeaderCounterAdditional(category);
     });
     
     console.log('[INIT] allSelectValues initialized:', allSelectValues);
