@@ -686,6 +686,27 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
+      /* Focus mode: centrer uniquement les libellés NF-COM-XXX (sans déplacer la checkbox) */
+      .filtered-mode .heatmap-table td.domain-name .domain-container {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0 !important;
+      }
+
+      .filtered-mode .heatmap-table td.domain-name .domain-container .domain-checkbox {
+        position: absolute;
+        left: 4px;
+      }
+
+      .filtered-mode .heatmap-table td.domain-name .domain-container .domain-text {
+        width: 100%;
+        text-align: center;
+        flex: 0 1 auto !important;
+      }
       
       /* Style compact pour les OPM IDs en mode filtré */
       .filtered-view .opm-id {
@@ -964,6 +985,40 @@
     </style>
 </head>
 <body>
+    <!-- Progression (dégruisement step2 sur main) : même logique que base.html -->
+    <div id="user-authenticated" data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}" data-username="{{ user.username|default:'' }}" style="display:none" aria-hidden="true"></div>
+    <script>
+    (function trackStep2Progress() {
+        var authEl = document.getElementById('user-authenticated');
+        if (!authEl || authEl.getAttribute('data-authenticated') !== 'True') return;
+        var username = (authEl.getAttribute('data-username') || '').trim();
+        if (!username) return;
+        function getJobKey() {
+            var raw = localStorage.getItem('currentJobSelection');
+            if (raw) {
+                try {
+                    var sel = JSON.parse(raw);
+                    var nom = (sel && sel.nom ? sel.nom : '').trim();
+                    var couleur = (sel && sel.couleur ? sel.couleur : '').trim();
+                    var poste = (sel && sel.poste != null ? String(sel.poste) : '').trim();
+                    if (nom && couleur && poste) return nom + ' ' + couleur + ' ' + poste;
+                } catch (e) {}
+            }
+            var num = (localStorage.getItem('currentJobNumber') || '').trim();
+            return num ? 'POSTE ' + num : null;
+        }
+        var jobKey = getJobKey();
+        if (!jobKey) return;
+        var storeKey = 'cyberalignProgress';
+        var store = {};
+        try { store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {}; } catch (e) {}
+        store[username] = store[username] || {};
+        store[username][jobKey] = store[username][jobKey] || {};
+        store[username][jobKey].step2 = true;
+        localStorage.setItem(storeKey, JSON.stringify(store));
+        localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+    })();
+    </script>
     <!-- Ajout de la navbar -->
     <nav class="bg-gray-800 fixed top-0 left-0 right-0 z-50">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -2001,6 +2056,7 @@
           
           // Créer un conteneur flex pour la checkbox et le texte
           const domainContainer = document.createElement('div');
+          domainContainer.className = 'domain-container';
           domainContainer.style.display = 'flex';
           domainContainer.style.alignItems = 'center';
           domainContainer.style.gap = '8px';
@@ -2035,6 +2091,7 @@
           
           // Créer le texte du domaine
           const domainText = document.createElement('span');
+          domainText.className = 'domain-text';
           domainText.textContent = domainCode || domain.replace(/\(NF-COM-\d+\)/g, '').trim();
           domainText.style.flex = '1';
           

@@ -985,6 +985,10 @@
             const selection = { nom, couleur, poste };
             localStorage.setItem('currentJobSelection', JSON.stringify(selection));
             localStorage.setItem('currentJobNumber', poste);
+            // Notifier les pages (même onglet) que le poste a changé
+            try { window.dispatchEvent(new Event('cyberalignJobChanged')); } catch (_) {}
+            // Notifier aussi les autres onglets (storage event)
+            localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
             
             // Afficher le numéro de poste
             headerJobNumberValue.textContent = poste;

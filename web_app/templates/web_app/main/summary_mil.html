@@ -1135,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', function() {
             subcategories: [
                 { name: "Infrastructure and Systems Security", skills: [
                     { name: "Zero Trust Security Architecture", code: "ASZT", levels: [1, 2, 3, 4, 5, 6, 7] },
-                    { name: "Weapon Systems and Industrial (OT/SCADA) Hardening", code: "DSASI", levels: [1, 2, 3, 4, 5, 6, 7] },
+                    { name: "Weapon Systems and Industrial (OT/SCADA) Hardening", code: "DSAS", levels: [1, 2, 3, 4, 5, 6, 7] },
                     { name: "Cryptography and Key Management", code: "CRGC", levels: [1, 2, 3, 4, 5, 6, 7] },
                     { name: "Physical and Logical Infrastructure Security", code: "SIPL", levels: [1, 2, 3, 4, 5, 6, 7] },
                     { name: "Secure Application Development (DevSecOps)", code: "DVSA", levels: [1, 2, 3, 4, 5, 6, 7] },
@@ -1414,7 +1414,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return `
             <div class="skill-row" data-skill-row-code="${skill.code}">
                 <div class="skill-name" title="${skill.name}">${skill.name}</div>
-                <div class="skill-code">${skill.code}</div>
+                <div class="skill-code">${(skill.code || '').slice(0, 4)}</div>
                 <div class="level-boxes">${levelBoxesHtml}</div>
             </div>`;
     }

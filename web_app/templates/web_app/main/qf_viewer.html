@@ -43,6 +43,30 @@
             margin: 30px 0;
             flex-wrap: wrap;
         }
+        .image-container img {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .image-container img:hover {
+            opacity: 0.9;
+        }
+        #zoom-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        #zoom-overlay.show { display: flex; }
+        #zoom-overlay img {
+            max-width: 95vw;
+            max-height: 95vh;
+            object-fit: contain;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -56,21 +80,25 @@
 
             <!-- Images -->
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Captures d'écran</h2>
-                
                 <div class="flex flex-wrap justify-center gap-4 mb-6">
                     <div class="image-container" style="max-width: 45%; flex: 1 1 300px;">
-                        <img src="{% url 'qf_download' 'Capture d\'écran 2026-01-13 111900.png' %}" 
-                             alt="Capture d'écran QF 1"
-                             style="max-width: 100%; height: auto;">
-                    </div>
-                    
-                    <div class="image-container" style="max-width: 45%; flex: 1 1 300px;">
                         <img src="{% url 'qf_download' 'Capture d\'écran 2026-01-13 111955.png' %}" 
-                             alt="Capture d'écran QF 2"
-                             style="max-width: 100%; height: auto;">
+                             alt="QF 2"
+                             style="max-width: 100%; height: auto;"
+                             onclick="openZoom(this.src)">
+                    </div>
+                    <div class="image-container" style="max-width: 45%; flex: 1 1 300px;">
+                        <img src="{% url 'qf_download' 'Capture d\'écran 2026-01-13 111900.png' %}" 
+                             alt="QF 1"
+                             style="max-width: 100%; height: auto;"
+                             onclick="openZoom(this.src)">
                     </div>
                 </div>
+            </div>
+
+            <!-- Overlay zoom -->
+            <div id="zoom-overlay" onclick="closeZoom()">
+                <img id="zoom-img" src="" alt="Zoom">
             </div>
 
             <!-- Download Buttons -->
@@ -99,6 +127,18 @@
     </div>
 
     <script>
+        function openZoom(src) {
+            document.getElementById('zoom-img').src = src;
+            document.getElementById('zoom-overlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeZoom() {
+            document.getElementById('zoom-overlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('zoom-overlay').classList.contains('show')) closeZoom();
+        });
         function downloadFile(type) {
             let filename;
             if (type === 'empty') {

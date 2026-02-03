@@ -334,6 +334,40 @@
     </style>
 </head>
 <body>
+    <!-- Progression (dégruisement step3 sur main) : même logique que base.html -->
+    <div id="user-authenticated" data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}" data-username="{{ user.username|default:'' }}" style="display:none" aria-hidden="true"></div>
+    <script>
+    (function trackStep3Progress() {
+        var authEl = document.getElementById('user-authenticated');
+        if (!authEl || authEl.getAttribute('data-authenticated') !== 'True') return;
+        var username = (authEl.getAttribute('data-username') || '').trim();
+        if (!username) return;
+        function getJobKey() {
+            var raw = localStorage.getItem('currentJobSelection');
+            if (raw) {
+                try {
+                    var sel = JSON.parse(raw);
+                    var nom = (sel && sel.nom ? sel.nom : '').trim();
+                    var couleur = (sel && sel.couleur ? sel.couleur : '').trim();
+                    var poste = (sel && sel.poste != null ? String(sel.poste) : '').trim();
+                    if (nom && couleur && poste) return nom + ' ' + couleur + ' ' + poste;
+                } catch (e) {}
+            }
+            var num = (localStorage.getItem('currentJobNumber') || '').trim();
+            return num ? 'POSTE ' + num : null;
+        }
+        var jobKey = getJobKey();
+        if (!jobKey) return;
+        var storeKey = 'cyberalignProgress';
+        var store = {};
+        try { store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {}; } catch (e) {}
+        store[username] = store[username] || {};
+        store[username][jobKey] = store[username][jobKey] || {};
+        store[username][jobKey].step3 = true;
+        localStorage.setItem(storeKey, JSON.stringify(store));
+        localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+    })();
+    </script>
     <nav class="bg-gray-800 mb-0 -mx-0 -mt-0 px-4" style="margin-top: 0 !important; margin-bottom: 0 !important;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">

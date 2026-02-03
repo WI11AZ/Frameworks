@@ -1029,7 +1029,7 @@
                         { name: "Data modelling and design", code: "DTAN", levels: [2, 3, 4, 5] },
                         { name: "Database design", code: "DBDS", levels: [2, 3, 4, 5] },
                         { name: "Data analytics", code: "DNAN", levels: [2, 3, 4, 5, 6, 7] },
-                        { name: "Data analytics", code: "DAAN", levels: [] },
+                        { name: "Data analytics", code: "DAAN", levels: [2, 3, 4, 5, 6, 7] },
                         { name: "Data science", code: "DATS", levels: [2, 3, 4, 5, 6] },
                         { name: "Machine learning", code: "MLNG", levels: [2, 3, 4, 5, 6] },
                         { name: "Business intelligence", code: "BINT", levels: [2, 3, 4, 5] },
@@ -5129,6 +5129,30 @@
                 opmAverages[opmId] = 0;
                 // Réinitialiser l'échelle de graduation dans la card
                 updateMainGraduationScale(opmId, 0);
+            });
+            
+            // Présélectionner DAAN à 5 (plage 2–7) pour les rôles qui ont cette compétence
+            wizardOpmIds.forEach(opmId => {
+                const roleCard = document.querySelector(`.selected-role-card[data-opm-code="${opmId}"]`);
+                if (!roleCard) return;
+                const competencesContainer = roleCard.querySelector(`.role-competences[data-opm-id="${opmId}"]`);
+                if (!competencesContainer) return;
+                const badges = competencesContainer.querySelectorAll('.competence-container span.inline-block');
+                badges.forEach(badge => {
+                    const inlineSpan = badge.querySelector('span.inline');
+                    let code = '';
+                    if (inlineSpan) {
+                        const fullText = badge.textContent.trim();
+                        const markerText = inlineSpan.textContent.trim();
+                        code = fullText.substring(fullText.indexOf(markerText) + markerText.length).trim();
+                    } else {
+                        code = badge.textContent.trim();
+                    }
+                    const codeMatch = code.match(/[A-Z]{2,5}/);
+                    if (codeMatch && codeMatch[0] === 'DAAN') {
+                        levelSelections[opmId]['DAAN'] = '5';
+                    }
+                });
             });
             
             // Activer le wizard

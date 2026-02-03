@@ -769,6 +769,11 @@
         return;
       }
 
+      // Repartir d'un état verrouillé pour refléter correctement le poste courant
+      lockPanel(panels.step1);
+      lockPanel(panels.step2);
+      lockPanel(panels.step3);
+
       const jobKey = getJobKey();
       const progress = readProgress(jobKey);
 
@@ -782,10 +787,15 @@
 
     // Mise à jour si autre onglet marque une étape
     window.addEventListener('storage', function (event) {
-      if (event.key === 'cyberalignProgressLastUpdate') {
+      if (event.key === 'cyberalignProgressLastUpdate' || event.key === 'currentJobNumber' || event.key === 'currentJobSelection') {
         applyUnlocking();
       }
     });
+
+    // Mise à jour temps réel dans le même onglet (un "storage" ne se déclenche pas sur l’onglet courant)
+    window.addEventListener('cyberalignJobChanged', applyUnlocking);
+    // Si l’utilisateur revient sur la page via back/forward cache, recalculer l’état
+    window.addEventListener('pageshow', applyUnlocking);
   });
   
   // Fonction pour afficher un message d'erreur sur le numéro de poste
