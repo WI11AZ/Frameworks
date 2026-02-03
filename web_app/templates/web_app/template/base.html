@@ -17,8 +17,12 @@
     <meta name="apple-mobile-web-app-title" content="Cyber Align"/>
     <title>{% block title %}Cyber Align{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Indicateur d'authentification pour serverStorage -->
-    <div id="user-authenticated" data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}" style="display:none;"></div>
+    <!-- Indicateur d'authentification pour serverStorage + progress tracking -->
+    <div id="user-authenticated"
+         data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}"
+         data-username="{% if user.is_authenticated %}{{ user.username }}{% endif %}"
+         data-is-super-user="{% if user.is_authenticated and user.is_super_user %}True{% else %}False{% endif %}"
+         style="display:none;"></div>
     <!-- Script serverStorage pour sauvegardes côté serveur -->
     <script src="{% static 'js/serverStorage.js' %}"></script>
     <style>
@@ -673,8 +677,12 @@
 
 <body class="h-full">
 <div class="min-h-full">
-    <!-- Élément caché pour indiquer l'état d'authentification de l'utilisateur pour serverStorage -->
-    <div id="user-authenticated" data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}" style="display: none;"></div>
+    <!-- Élément caché pour indiquer l'état d'authentification de l'utilisateur pour serverStorage + progress tracking -->
+    <div id="user-authenticated"
+         data-authenticated="{% if user.is_authenticated %}True{% else %}False{% endif %}"
+         data-username="{% if user.is_authenticated %}{{ user.username }}{% endif %}"
+         data-is-super-user="{% if user.is_authenticated and user.is_super_user %}True{% else %}False{% endif %}"
+         style="display: none;"></div>
     
     <!-- CSRF Token pour les requêtes AJAX -->
     {% csrf_token %}
@@ -986,6 +994,63 @@
             headerJobError.classList.add('hidden');
             alert(`Numéro de poste ${poste} (${nom} - ${couleur}) enregistré avec succès.`);
         });
+
+        // --- Progression (par utilisateur + poste) ---
+        // Stockage local : localStorage['cyberalignProgress'][username][jobKey] = { step1, step2, step3 }
+        // Déclencheurs :
+        // - /home/                       -> step1
+        // - /ksat/etape2_first_step      -> step2
+        // - /attributs-part-deux-opm-id/ -> step3
+        (function trackProgressByUrl() {
+            const authEl = document.getElementById('user-authenticated');
+            const isAuth = authEl?.dataset.authenticated === 'True';
+            if (!isAuth) return;
+
+            const username = (authEl?.dataset.username || '').trim();
+            if (!username) return;
+
+            // Clé stable "Nom COULEUR Poste" (ex: "Belisarius YELLOW 122")
+            function getJobKey() {
+                const raw = localStorage.getItem('currentJobSelection');
+                if (raw) {
+                    try {
+                        const sel = JSON.parse(raw);
+                        const nom = (sel?.nom || '').trim();
+                        const couleur = (sel?.couleur || '').trim();
+                        const poste = (sel?.poste ?? '').toString().trim();
+                        if (nom && couleur && poste) return `${nom} ${couleur} ${poste}`;
+                    } catch (_) {
+                        // ignore
+                    }
+                }
+                const num = (localStorage.getItem('currentJobNumber') || '').trim();
+                return num ? `POSTE ${num}` : null;
+            }
+
+            const jobKey = getJobKey();
+            if (!jobKey) return;
+
+            const path = window.location.pathname || '';
+            let step = null;
+            if (path === '/home/') step = 'step1';
+            else if (path.startsWith('/ksat/etape2_first_step')) step = 'step2';
+            else if (path === '/attributs-part-deux-opm-id/') step = 'step3';
+            if (!step) return;
+
+            const storeKey = 'cyberalignProgress';
+            let store = {};
+            try {
+                store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {};
+            } catch (_) {
+                store = {};
+            }
+
+            store[username] = store[username] || {};
+            store[username][jobKey] = store[username][jobKey] || {};
+            store[username][jobKey][step] = true;
+            localStorage.setItem(storeKey, JSON.stringify(store));
+            localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+        })();
         
         // Charger les données au démarrage
         loadIdfData();

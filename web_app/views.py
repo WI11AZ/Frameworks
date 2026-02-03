@@ -642,11 +642,13 @@ def get_category_from_opm_id(opm_id):
         return "Software Engineering (SE)"
     
     # Cybersecurity (CS)
-    if opm_id_str in ["212", "462", "511", "521", "531", "541", "611", "612", "622", "631", "632", "641", "651", "652", "661", "671", "722", "723"]:
+    # NOTE: 632 (Systems Developer) est classé IT dans l'application (cf. Step0/t1),
+    # donc il ne doit pas être ici.
+    if opm_id_str in ["212", "462", "511", "521", "531", "541", "611", "612", "622", "631", "641", "651", "652", "661", "671", "722", "723"]:
         return "Cybersecurity (CS)"
     
     # Information Technology (IT)
-    if opm_id_str in ["411", "421", "431", "441", "451"]:
+    if opm_id_str in ["411", "421", "431", "441", "451", "632"]:
         return "Information Technology (IT)"
     
     # Cyber Enablers (EN)
@@ -921,56 +923,53 @@ def compare(request):
     print(f"DEBUG: ncwf_2025_ids from GET: {ncwf_2025_ids}")
     print(f"DEBUG: ncwf_2025_work_roles found: {ncwf_2025_work_roles.count()}")
     
+    # Petit index pour retrouver vite la couleur par rôle DCWF 2025 sélectionné
+    dcwf_2025_color_by_id = {r['id']: r.get('category_color') for r in dcwf_2025_formatted_roles}
+
     for role in ncwf_2025_work_roles:
-        # Trouver le DCWF 2025 parent via le champ ncwf_id
-        parent_dcwf_2025_id = None
-        parent_opm_id = None
-        
-        # Chercher d'abord dans les work roles DCWF 2025 sélectionnés
-        for dcwf_2025_role in dcwf_2025_work_roles:
-            if dcwf_2025_role.ncwf_id == role.ncwf_id:
-                parent_dcwf_2025_id = dcwf_2025_role.id
-                parent_opm_id = dcwf_2025_role.dcwf_code  # Le dcwf_code est l'OPM ID
-                break
-        
-        # Si pas trouvé dans les sélectionnés, chercher dans toute la base de données
-        if not parent_opm_id:
+        # Un même rôle NCWF (ex: DD-WRL-004) peut correspondre à plusieurs DCWF 2025 (ex: 631 ET 632).
+        # On duplique la colonne NCWF par parent DCWF 2025 sélectionné pour éviter :
+        # - une seule colonne NCWF affichée avec OPM-ID du "premier" match
+        # - l'absence de colonne NCWF pour l'autre OPM (cas observé 631/632)
+        matching_selected_parents = [p for p in dcwf_2025_work_roles if p.ncwf_id == role.ncwf_id]
+
+        # Fallback si aucun parent n'est sélectionné : prendre le premier parent en base
+        fallback_parent = None
+        if not matching_selected_parents:
             from web_app.models.dcwf_2025_work_role import Dcwf2025WorkRole
-            dcwf_2025_parent = Dcwf2025WorkRole.objects.filter(ncwf_id=role.ncwf_id).first()
-            if dcwf_2025_parent:
-                parent_opm_id = dcwf_2025_parent.dcwf_code  # Le dcwf_code est l'OPM ID
-        
-        # Utiliser la couleur du parent DCWF 2025 si disponible
-        category_color = '29, 78, 216'  # Bleu par défaut pour 2025 (IT)
-        if parent_dcwf_2025_id:
-            for dcwf_2025_role in dcwf_2025_formatted_roles:
-                if dcwf_2025_role['id'] == parent_dcwf_2025_id:
-                    category_color = dcwf_2025_role.get('category_color', category_color)
-                    break
-        else:
-            # Si pas de parent sélectionné, essayer de récupérer la catégorie du rôle NCWF 2025
-            category_title = None
-            if hasattr(role, 'category') and role.category:
-                category_title = role.category.title
-            
-            # Si pas de catégorie, utiliser l'OPM ID pour déterminer la catégorie
-            if not category_title and parent_opm_id:
+            fallback_parent = Dcwf2025WorkRole.objects.filter(ncwf_id=role.ncwf_id).first()
+
+        parents_to_render = matching_selected_parents if matching_selected_parents else ([fallback_parent] if fallback_parent else [])
+
+        # Si plusieurs parents sélectionnés, générer une colonne NCWF par parent.
+        # Sinon, garder une seule colonne (id int).
+        multiple_parents = len(parents_to_render) > 1
+
+        for parent in parents_to_render:
+            if not parent:
+                continue
+
+            parent_dcwf_2025_id = parent.id if parent in matching_selected_parents else None
+            parent_opm_id = parent.dcwf_code
+
+            # Couleur : priorité au parent DCWF 2025 sélectionné, sinon fallback via OPM
+            category_color = dcwf_2025_color_by_id.get(parent_dcwf_2025_id) if parent_dcwf_2025_id else None
+            if not category_color:
                 category_title = get_category_from_opm_id(parent_opm_id)
-            
-            if category_title:
-                category_color = get_category_color_from_t1(category_title)
-        
-        ncwf_2025_formatted_roles.append({
-            'model_obj': role,
-            'title': role.name,
-            'framework': 'NCWF 2025',
-            'id': role.id,
-            'model_type': 'ncwf_2025',
-            'parent_dcwf_2025_id': parent_dcwf_2025_id,
-            'opm_id': parent_opm_id,  # Utiliser l'OPM ID du parent DCWF 2025 (même s'il n'est pas sélectionné)
-            'nist_id': role.ncwf_id,  # Code NCWF pour 2025
-            'category_color': category_color
-        })
+                category_color = get_category_color_from_t1(category_title) if category_title else '29, 78, 216'
+
+            ncwf_2025_formatted_roles.append({
+                'model_obj': role,
+                'title': role.name,
+                'framework': 'NCWF 2025',
+                # ID unique si plusieurs parents (évite collisions + permet une colonne par OPM)
+                'id': f"{role.id}__{parent_opm_id}" if multiple_parents else role.id,
+                'model_type': 'ncwf_2025',
+                'parent_dcwf_2025_id': parent_dcwf_2025_id,
+                'opm_id': parent_opm_id,
+                'nist_id': role.ncwf_id,
+                'category_color': category_color,
+            })
         
     # Organiser tous les rôles par work_role d'origine
     # 1. D'abord, regrouper par DCWF parent

@@ -86,6 +86,11 @@
     .dark-mode .etape-text-light-gray {
         color: #374151 !important; /* Gris foncé pour l'étape 0 */
     }
+    
+    /* Étape 2 verrouillée : grisée jusqu’à déblocage après Step 1 / poste sélectionné */
+    .step-locked {
+        filter: grayscale(0.4);
+    }
 </style>
 {% if not user.is_authenticated %}
 <!-- Beta Warning Modal -->
@@ -253,9 +258,10 @@
         <!-- Grille des quatre étapes cliquables -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
           
-          <!-- Étape 1 - Baseline - Gris -->
-          <div id="etape0-panel" class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-300 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed{% endif %}" 
-               onclick="{% if user.is_authenticated %}handleEtape0Click(){% endif %}">
+          <!-- Étape 0 (visible Step 1) - Baseline -->
+          <div id="etape0"
+               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
+               class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-300 shadow-md transition-all duration-200 {% if user.is_authenticated %}cursor-pointer hover:shadow-lg{% else %}opacity-50 cursor-not-allowed pointer-events-none{% endif %}">
             <div class="text-center mb-4">
               <div class="bg-gray-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
                 Step 1<br>
@@ -273,9 +279,11 @@
             </div>
           </div>
           
-          <!-- Étape 2 - Bleu -->
-          <div id="etape1-panel" class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed{% endif %}" 
-               onclick="{% if user.is_authenticated %}handleEtape1Click(){% endif %}">
+          <!-- Étape 1 (visible Step 2) - /home/ (grisée tant que non atteinte) -->
+          <div id="step1"
+               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
+               class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200 shadow-md transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed pointer-events-none{% elif user.is_super_user %}cursor-pointer hover:shadow-lg{% else %}opacity-50 cursor-not-allowed pointer-events-none step-locked{% endif %}"
+               title="{% if user.is_authenticated and not user.is_super_user %}Étape verrouillée. Elle se dégrise après être passé par /home/ (avec un poste défini).{% endif %}">
             <div class="text-center mb-4">
               <div class="bg-blue-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
                 Step 2<br>
@@ -293,10 +301,11 @@
             </div>
           </div>
           
-          <!-- Étape 3 - Vert -->
-          <div id="etape2-panel" class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
-               onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape2Click(){% endif %}" 
-               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}">
+          <!-- Étape 2 (visible Step 3) - /ksat/etape2_first_step (grisée tant que non atteinte) -->
+          <div id="step2"
+               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
+               class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200 shadow-md transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed pointer-events-none{% elif user.is_super_user %}cursor-pointer hover:shadow-lg{% else %}opacity-50 cursor-not-allowed pointer-events-none step-locked{% endif %}"
+               title="{% if user.is_authenticated and not user.is_super_user %}Étape verrouillée. Elle se dégrise après être passé par /ksat/etape2_first_step (avec un poste défini).{% endif %}">
             <div class="text-center mb-4">
               <div class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
                 Step 3<br>
@@ -313,9 +322,11 @@
             </div>
           </div>
           
-          <!-- Étape 4 - Violet -->
-          <div id="etape3-panel" class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200 shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 {% if not user.is_authenticated or not user.is_super_user %}opacity-50 cursor-not-allowed{% endif %}" 
-               onclick="{% if user.is_authenticated and user.is_super_user %}handleEtape3Click(){% endif %}">
+          <!-- Étape 3 (visible Step 4) - /attributs-part-deux-opm-id/ (grisée tant que non atteinte) -->
+          <div id="step3"
+               data-user-id="{% if user.is_authenticated %}{{ user.username }}{% else %}none{% endif %}"
+               class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200 shadow-md transition-all duration-200 {% if not user.is_authenticated %}opacity-50 cursor-not-allowed pointer-events-none{% elif user.is_super_user %}cursor-pointer hover:shadow-lg{% else %}opacity-50 cursor-not-allowed pointer-events-none step-locked{% endif %}"
+               title="{% if user.is_authenticated and not user.is_super_user %}Étape verrouillée. Elle se dégrise après être passé par /attributs-part-deux-opm-id/ (avec un poste défini).{% endif %}">
             <div class="text-center mb-4">
               <div class="bg-purple-500 text-white px-4 py-2 rounded-lg font-bold text-lg mb-2">
                 Step 4<br>
@@ -680,146 +691,102 @@
     // Le code de gestion de la modale Étape 1 a été supprimé car nous utilisons maintenant un lien direct
   });
 
-  // Fonction pour charger et afficher les sélections sauvegardées
-  document.addEventListener('DOMContentLoaded', function() {
-    // Le bouton Sauvegarde a été remplacé par un lien <a> qui redirige directement vers la page dédiée
-    // Vérifier et activer l'étape 2 si nécessaire
-    checkAndActivateEtape2();
-    
-    // Gérer le lien de l'étape 1
-    const etape1Link = document.getElementById('etape1-link');
-    if (etape1Link && djangoContext.isAuthenticated) {
-      etape1Link.addEventListener('click', function(e) {
-        // Vérifier si un numéro de poste a été entré
-        const jobNumber = localStorage.getItem('currentJobNumber');
-        if (!jobNumber) {
-          e.preventDefault();
-          showJobNumberRequiredMessage();
-        } else {
-          window.location.href = djangoContext.homeUrl;
-        }
-      });
-    } else if (etape1Link) {
-      // Si non authentifié
-      etape1Link.addEventListener('click', function(e) {
-        e.preventDefault();
-        alert('Veuillez vous connecter pour accéder à cette étape.');
-      });
-    }
-  });
-  
-  // Fonction pour vérifier si l'étape 2 doit être activée
-  function checkAndActivateEtape2() {
-    console.log('Checking Etape 2 activation status...');
-    
-    // Récupérer le bouton étape 2
-    const etape2Button = document.getElementById('etape2-button');
-    if (!etape2Button) {
-      console.log('Error: etape2-button not found');
-      return;
-    }
-    
-    // Vérifier si l'utilisateur est connecté en utilisant l'attribut data-user-id
-    const currentUserId = etape2Button.getAttribute('data-user-id');
-    console.log('Current user ID:', currentUserId);
-    
-    // Si l'utilisateur n'est pas connecté (currentUserId === 'none'), désactiver le bouton
-    if (currentUserId === 'none') {
-      console.log('User not authenticated, Etape 2 will not be activated');
-      return;
-    }
-    
-    // Vérifier si l'utilisateur est un Super User (accès direct à toutes les étapes)
-    const isSuperUser = djangoContext.isAuthenticated && 
-                       (document.querySelector('.bg-purple-50') !== null || 
-                        etape2Button.classList.contains('bg-green-500'));
-    
-    if (isSuperUser) {
-      console.log('Super User detected, activating Etape 2 directly');
-      activateEtape2Button(etape2Button);
-      return;
-    }
-    
-    // Récupérer les activations depuis localStorage
-    try {
-      // Vérifier uniquement l'activation spécifique à l'utilisateur
-      const etapeActivations = JSON.parse(localStorage.getItem('etapeActivations') || '{}');
-      console.log('Etape activations from localStorage:', etapeActivations);
-      console.log('Checking activation for user:', currentUserId);
-      
-      if (etapeActivations[currentUserId] && etapeActivations[currentUserId].etape2Activated) {
-        console.log('Etape 2 activation found for user:', currentUserId);
-        activateEtape2Button(etape2Button);
-      } else {
-        console.log('No activation found for current user');
+  // --- Déverrouillage des étapes (par utilisateur + poste) ---
+  // Règles demandées :
+  // - À la connexion : seule #etape0 est en clair
+  // - #step1 se dégrise après passage sur /home/
+  // - #step2 se dégrise après passage sur /ksat/etape2_first_step
+  // - #step3 se dégrise après passage sur /attributs-part-deux-opm-id/ (lié au poste)
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!djangoContext.isAuthenticated) return;
+
+    const authEl = document.getElementById('user-authenticated');
+    const username = (authEl?.dataset.username || '').trim();
+    const isSuperUser = authEl?.dataset.isSuperUser === 'True';
+
+    const panels = {
+      etape0: document.getElementById('etape0'),
+      step1: document.getElementById('step1'),
+      step2: document.getElementById('step2'),
+      step3: document.getElementById('step3'),
+    };
+
+    function getJobKey() {
+      const raw = localStorage.getItem('currentJobSelection');
+      if (raw) {
+        try {
+          const sel = JSON.parse(raw);
+          const nom = (sel?.nom || '').trim();
+          const couleur = (sel?.couleur || '').trim();
+          const poste = (sel?.poste ?? '').toString().trim();
+          if (nom && couleur && poste) return `${nom} ${couleur} ${poste}`;
+        } catch (_) {}
       }
-    } catch (error) {
-      console.error('Error checking etape activation:', error);
+      const num = (localStorage.getItem('currentJobNumber') || '').trim();
+      return num ? `POSTE ${num}` : null;
     }
-  }
-  
-  // Fonction pour activer le bouton étape 2
-  function activateEtape2Button(button) {
-    if (!button) return;
-    
-    console.log('Activating etape2-button...');
-    button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-    button.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
-    
-    // Ajouter l'événement de clic pour ouvrir la page étape deux dans une nouvelle fenêtre
-    button.addEventListener('click', function() {
-      // Vérifier si un numéro de poste a été entré
-      const jobNumber = localStorage.getItem('currentJobNumber');
-      if (!jobNumber) {
-        showJobNumberRequiredMessage();
+
+    function readProgress(jobKey) {
+      if (!username || !jobKey) return {};
+      try {
+        const store = JSON.parse(localStorage.getItem('cyberalignProgress') || '{}') || {};
+        return (store[username] && store[username][jobKey]) ? store[username][jobKey] : {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function unlockPanel(panel, onClick) {
+      if (!panel) return;
+      panel.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none', 'step-locked');
+      panel.classList.add('cursor-pointer', 'hover:shadow-lg');
+      panel.onclick = onClick || null;
+    }
+
+    function lockPanel(panel) {
+      if (!panel) return;
+      panel.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none', 'step-locked');
+      panel.classList.remove('cursor-pointer', 'hover:shadow-lg');
+      panel.onclick = null;
+    }
+
+    // #etape0 est toujours accessible une fois connecté
+    unlockPanel(panels.etape0, handleEtape0Click);
+
+    // Par défaut : tout le reste verrouillé (normal users)
+    if (!isSuperUser) {
+      lockPanel(panels.step1);
+      lockPanel(panels.step2);
+      lockPanel(panels.step3);
+    }
+
+    // Déverrouillage selon progression + poste
+    function applyUnlocking() {
+      if (isSuperUser) {
+        unlockPanel(panels.step1, handleEtape1Click);
+        unlockPanel(panels.step2, handleEtape2Click);
+        unlockPanel(panels.step3, handleEtape3Click);
         return;
       }
-      window.open('/ksat/etape2_first_step', '_blank');
-    });
-  }
-  
-  function activateStep3Button() {
-    const step3Button = document.getElementById('etape3-button');
-    if (step3Button && djangoContext.isAuthenticated) {
-      // Vérifier si l'utilisateur est un Super User
-      const isSuperUser = document.querySelector('.bg-purple-50') !== null || 
-                          step3Button.classList.contains('bg-purple-500');
-      
-      if (isSuperUser) {
-        console.log('Super User detected, activating Etape 3 directly');
-        step3Button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-        step3Button.classList.add('bg-purple-500', 'text-white', 'hover:bg-purple-600');
-        step3Button.disabled = false;
-        
-        // Ajouter la vérification du numéro de poste
-        step3Button.addEventListener('click', function(e) {
-          const jobNumber = localStorage.getItem('currentJobNumber');
-          if (!jobNumber) {
-            e.preventDefault();
-            showJobNumberRequiredMessage();
-            return;
-          }
-          window.open('{% url 'summary_chart' %}', '_blank');
-        });
-      } else {
-        // Logique existante pour les autres utilisateurs
-        step3Button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-        step3Button.classList.add('bg-blue-500', 'text-white', 'hover:bg-blue-600');
-        step3Button.disabled = false;
-        
-        // Ajouter la vérification du numéro de poste
-        step3Button.addEventListener('click', function(e) {
-          const jobNumber = localStorage.getItem('currentJobNumber');
-          if (!jobNumber) {
-            e.preventDefault();
-            showJobNumberRequiredMessage();
-            return;
-          }
-          window.open('{% url 'summary_chart' %}', '_blank');
-        });
-      }
+
+      const jobKey = getJobKey();
+      const progress = readProgress(jobKey);
+
+      // Déverrouillage séquentiel : step1 -> step2 -> step3
+      if (progress.step1) unlockPanel(panels.step1, handleEtape1Click);
+      if (progress.step1 && progress.step2) unlockPanel(panels.step2, handleEtape2Click);
+      if (progress.step1 && progress.step2 && progress.step3) unlockPanel(panels.step3, handleEtape3Click);
     }
-  }
+
+    applyUnlocking();
+
+    // Mise à jour si autre onglet marque une étape
+    window.addEventListener('storage', function (event) {
+      if (event.key === 'cyberalignProgressLastUpdate') {
+        applyUnlocking();
+      }
+    });
+  });
   
   // Fonction pour afficher un message d'erreur sur le numéro de poste
   function showJobNumberRequiredMessage() {
@@ -847,34 +814,8 @@
     }
   }
   
-  document.addEventListener('DOMContentLoaded', function() {
-    // Activer automatiquement les étapes pour les Super Users
-    if (djangoContext.isAuthenticated) {
-      const isSuperUser = document.querySelector('.bg-purple-50') !== null;
-      if (isSuperUser) {
-        console.log('Super User detected, activating all steps automatically');
-        // Activer l'étape 2
-        const etape2Button = document.getElementById('etape2-button');
-        if (etape2Button) {
-          activateEtape2Button(etape2Button);
-        }
-        // Activer l'étape 3
-        activateStep3Button();
-      }
-    }
-    
-    // Logique existante pour l'activation de l'étape 3
-    if (localStorage.getItem('activateStep3') === 'true' && djangoContext.isAuthenticated) {
-      activateStep3Button();
-    }
-  });
-  
-  // Listen for changes in localStorage from other tabs
-  window.addEventListener('storage', function(event) {
-    if (event.key === 'activateStep3' && event.newValue === 'true' && djangoContext.isAuthenticated) {
-      activateStep3Button();
-    }
-  });
+  // (Ancienne logique d'activation des étapes supprimée : remplacée par le déverrouillage
+  // par utilisateur + poste basé sur localStorage['cyberalignProgress'].)
   
   // Fonction pour basculer la visibilité du mot de passe
   function togglePasswordVisibility(inputId, eyeButtonId) {
@@ -916,7 +857,7 @@
     if (!jobNumber) {
       showJobNumberRequiredMessage();
     } else {
-      window.location.href = djangoContext.homeUrl;
+      window.location.href = '{% url "home" %}';
     }
   }
   
@@ -937,7 +878,7 @@
       showJobNumberRequiredMessage();
       return;
     }
-    window.open('{% url 'summary_chart' %}', '_blank');
+    window.open('{% url "attributs_part_deux_opm_id" %}', '_blank');
   }
   
 </script>

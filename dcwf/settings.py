@@ -32,7 +32,7 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS",
-    "willaz.pythonanywhere.com,127.0.0.1,localhost",
+    "willaz.pythonanywhere.com,127.0.0.1,localhost,cyberalign.cyber.mil.be,cyberalign.apps.kube.low.cert.mil.be",
 ).split(",")
 
 # Application definition
