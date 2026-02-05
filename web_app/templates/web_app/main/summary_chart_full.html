@@ -816,28 +816,9 @@
         <!-- Le conteneur de la grille sera rempli par JavaScript -->
         <div id="sfia-grid" class="categories-grid"></div>
 
-        <!-- Bouton pour terminer l'étape -->
-        <div class="flex justify-center my-8">
-            <button id="complete-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-                Terminer l'étape et ajouter un nouveau poste
-            </button>
-        </div>
     </div>
 
-    <!-- Fenêtre Modale de Confirmation -->
-    <div id="confirmation-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div id="modal-backdrop" class="absolute inset-0 bg-black opacity-50"></div>
-        <div id="modal-content" class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-6 m-4 max-w-sm w-full z-10 scale-95 opacity-0">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Confirmation requise</h3>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Voulez-vous vraiment terminer cette étape et démarrer un nouveau poste ?</p>
-            <div class="mt-6 flex justify-end space-x-3">
-                <button id="modal-cancel" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 transition">Annuler</button>
-                <button id="modal-confirm" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">Confirmer</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ajouter la fenêtre modale d'information avant la fermeture du body -->
+    <!-- Fenêtre modale d'information avant la fermeture du body -->
     <!-- Fenêtre Modale d'Information sur les Niveaux SFIA -->
     <div id="info-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
         <div class="absolute inset-0 bg-black opacity-50"></div>
@@ -3168,38 +3149,6 @@
         // Initialiser le mode sombre en fonction de la préférence stockée
         updateDarkMode();
 
-        // --- MODAL HANDLERS ---
-        const completeButton = document.getElementById('complete-button');
-        const confirmationModal = document.getElementById('confirmation-modal');
-        const modalBackdrop = document.getElementById('modal-backdrop');
-        const modalContent = document.getElementById('modal-content');
-        const modalCancel = document.getElementById('modal-cancel');
-        const modalConfirm = document.getElementById('modal-confirm');
-
-        completeButton.addEventListener('click', () => {
-            confirmationModal.classList.remove('hidden');
-            setTimeout(() => {
-                modalBackdrop.classList.add('opacity-50');
-                modalContent.classList.add('opacity-100', 'scale-100');
-                modalContent.classList.remove('opacity-0', 'scale-95');
-            }, 10);
-        });
-
-        function closeModal() {
-            modalBackdrop.classList.remove('opacity-50');
-            modalContent.classList.remove('opacity-100', 'scale-100');
-            modalContent.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                confirmationModal.classList.add('hidden');
-            }, 300);
-        }
-
-        modalBackdrop.addEventListener('click', closeModal);
-        modalCancel.addEventListener('click', closeModal);
-        modalConfirm.addEventListener('click', () => {
-            window.location.href = "/ksat/step2/"; // Retourner à l'étape 2
-        });
-        
         // --- HANDLE OPM ID 901 SPECIAL BEHAVIOR ---
         function handleSpecialOpmBehavior() {
             // Vérifier si l'OPM ID 901 ou 722 est présent

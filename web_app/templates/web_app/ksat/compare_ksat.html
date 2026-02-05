@@ -229,6 +229,69 @@
     font-weight: 500 !important;
     text-align: left !important;
   }
+
+  /* Zone flottante en bas à droite : Back + NEXT (comme step0_baseline) */
+  .compare-ksat-floating-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .compare-ksat-back-btn {
+    padding: 8px 20px;
+    background: #dc2626;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .compare-ksat-back-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+  }
+  .compare-ksat-save-btn {
+    padding: 8px 20px;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .compare-ksat-save-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+  }
+  .compare-ksat-next-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .compare-ksat-next-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.5);
+  }
+  .compare-ksat-next-btn:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 </style>
 
 <!-- Overlay de chargement (visible par défaut) -->
@@ -256,30 +319,6 @@
   <div id="step0-selected-roles" class="mt-6" style="display: none;">
     <h3 class="text-xl font-semibold mb-3 text-white">Actual selected workroles (Step 2)</h3>
     <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center"></div>
-    <div class="flex justify-between items-center mt-4 relative">
-      <a href="http://127.0.0.1:8000/home/" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
-        ← Step 2
-      </a>
-      <div class="relative">
-        <button id="etape2-button" 
-                onclick="checkAndGoToEtape2()"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled>
-          Step 3 →
-        </button>
-        <!-- Tooltip pour expliquer pourquoi le bouton est désactivé -->
-        <div id="etape2-tooltip" class="absolute bottom-full right-0 mb-2 hidden bg-gray-800 text-white text-sm rounded-lg px-3 py-2 whitespace-nowrap z-50">
-          <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-            </svg>
-            <span>Sauvegardez d'abord votre sélection</span>
-          </div>
-          <!-- Flèche du tooltip -->
-          <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-        </div>
-      </div>
-    </div>
   </div>
     <!-- Onglets -->
   <div class="flex justify-between items-center mb-4">
@@ -291,18 +330,7 @@
         </button>
       {% endfor %}
     </div>
-    
-    <div class="flex items-center space-x-5">
-      <button id="compare-button" class="px-4 py-2 bg-gray-400 text-gray-200 rounded cursor-not-allowed opacity-60 transition" disabled title="Comparer (désactivé)">
-        Comparer
-      </button>
-      
-      <button id="save-selection-button" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
-        Sauvegarder
-      </button>
-    </div>
   </div>
-
 
   <!-- Contenus -->
   <div id="tab-contents">
@@ -553,6 +581,24 @@
     {% endfor %}
   </div>
 </main>
+
+<!-- Zone flottante en bas à droite : Save + Back + NEXT (hors main) -->
+<div class="compare-ksat-floating-container">
+  <button id="save-selection-button" onclick="saveCurrentSelection()" class="compare-ksat-save-btn">Save</button>
+  <a href="{% url 'home' %}" class="compare-ksat-back-btn">Back</a>
+  <div class="relative">
+    <div id="etape2-tooltip" class="absolute bottom-full right-0 mb-2 hidden bg-gray-800 text-white text-sm rounded-lg px-3 py-2 whitespace-nowrap z-50">
+      <div class="flex items-center space-x-2">
+        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        <span>Sauvegardez d'abord votre sélection</span>
+      </div>
+      <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+    </div>
+    <button id="etape2-button" onclick="checkAndGoToEtape2()" class="compare-ksat-next-btn" disabled>NEXT</button>
+  </div>
+</div>
 
 <script>
 // Variables qui seront initialisées au chargement pour éviter le hardcoding
@@ -3406,12 +3452,6 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error("Erreur lors de la vérification de l'authentification:", error);
     });
   
-  const compareButton = document.getElementById('compare-button');
-  if (compareButton) {
-    compareButton.addEventListener('click', openComparisonWindow);
-  }
-  
-  
   const saveButton = document.getElementById('save-selection-button');
   if (saveButton) {
     saveButton.addEventListener('click', saveCurrentSelection);
@@ -5098,7 +5138,7 @@ function checkAndGoToEtape2() {
         
         // Réactiver le bouton
         button.disabled = false;
-        button.textContent = 'Step 3 →';
+        button.textContent = 'NEXT';
         
         // Afficher un message d'erreur
         saveMessage.className = 'fixed top-20 right-5 bg-red-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';

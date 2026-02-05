@@ -339,6 +339,39 @@
             opacity: 0;
         }
 
+        /* Zone flottante Back + NEXT */
+        .t1-floating-back {
+            padding: 8px 20px;
+            background: #dc2626;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .t1-floating-back:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+        .t1-floating-next {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .t1-floating-next:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(34, 197, 94, 0.5);
+        }
+
         /* =====================
            Styles d'impression
            ===================== */
@@ -489,15 +522,6 @@
             </div>
         </div>
 
-        <!-- Column Headers -->
-        <div class="grid grid-cols-5 gap-2 mb-6">
-            <div class="column-header dcwf-2025">DCWF 2025</div>
-            <div class="column-header ncwf-2025">NCWF 2025</div>
-            <div class="column-header ncwf-2024">NCWF 2024</div>
-            <div class="column-header dcwf-2017">DCWF 2017</div>
-            <div class="column-header ncwf-2017">NCWF 2017</div>
-        </div>
-
         <!-- Relations -->
         <div class="mb-8">
             <div id="relations-container">
@@ -547,18 +571,19 @@
             if (selectedSides.length > 0) {
                 console.log('Il y a des sélections, affichage du bouton vert');
                 compareContainer.innerHTML = `
-                    <div style="margin-bottom: 8px; font-size: 12px; color: #666; text-align: right; font-style: italic; max-width: 250px; line-height: 1.4;">
-                        <span style="color: #dc2626;">*</span> Only OPM IDs selected at<br>the baseline will proceed to the next step.
-                    </div>
+                    <a href="{% url 'step0_baseline' %}" class="t1-floating-back">Back</a>
                     <button onclick="window.compareSelectedSidesT1()" 
-                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg border-2 border-green-600 transition-colors">
-                        🔍 Comparer (${selectedSides.length} sélection${selectedSides.length > 1 ? 's' : ''})
+                            class="t1-floating-next">
+                        NEXT
                     </button>
                 `;
                 compareContainer.style.display = 'flex';
             } else {
                 console.log('Aucune sélection, affichage du bouton gris');
-                compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
+                compareContainer.innerHTML = `
+                    <a href="{% url 'step0_baseline' %}" class="t1-floating-back">Back</a>
+                    <button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>
+                `;
             }
             
             console.log('Bouton mis à jour');
@@ -896,6 +921,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: flex-end;
+                gap: 10px;
             `;
             compareContainer.innerHTML = '<button class="bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold border-2 border-gray-500" disabled>Sélectionnez des éléments</button>';
             document.body.appendChild(compareContainer);
@@ -1777,6 +1803,22 @@
                 ...ncwf2025Map.keys()
             ]);
 
+            // Filtrer pour n'afficher que les work roles sélectionnés dans Step0 (header section)
+            let step0SelectedOpmIds = new Set();
+            try {
+                const step0Str = localStorage.getItem('step0_baseline_data');
+                if (step0Str) {
+                    const step0Data = JSON.parse(step0Str);
+                    if (step0Data.selectedWorkRoles && Array.isArray(step0Data.selectedWorkRoles)) {
+                        step0Data.selectedWorkRoles.forEach(role => {
+                            const opm = role.opm_code != null ? String(role.opm_code).trim() : '';
+                            if (opm) step0SelectedOpmIds.add(opm);
+                        });
+                    }
+                }
+            } catch (e) { console.warn('step0_baseline_data parse:', e); }
+            const filterByStep0 = step0SelectedOpmIds.size > 0;
+
             // Mapping des éléments NCWF vers les familles DCWF
             const ncwfToDcwfMapping = {
                 'PD': 'CS', // Protection and Defense -> Cybersecurity
@@ -1894,24 +1936,21 @@
                         familySection.appendChild(familyHeader);
 
                         // Ajouter les cartes de cette famille (triées par ordre croissant des codes OPM, avec TBD à la fin)
-                        const sortedCodes = Array.from(familyData.codes).sort((a, b) => {
-                            // Si les deux sont des nombres, trier numériquement
-                            if (typeof a === 'number' && typeof b === 'number') {
-                                return a - b;
-                            }
-                            // Si l'un est TBD et l'autre non, TBD va à la fin
+                        let sortedCodes = Array.from(familyData.codes).sort((a, b) => {
+                            if (typeof a === 'number' && typeof b === 'number') return a - b;
                             if (typeof a === 'string' && a.startsWith('TBD')) return 1;
                             if (typeof b === 'string' && b.startsWith('TBD')) return -1;
-                            // Si les deux sont des strings, trier alphabétiquement
-                            if (typeof a === 'string' && typeof b === 'string') {
-                                return a.localeCompare(b);
-                            }
-                            // Si l'un est un nombre et l'autre une string, le nombre va avant
+                            if (typeof a === 'string' && typeof b === 'string') return a.localeCompare(b);
                             if (typeof a === 'number') return -1;
                             if (typeof b === 'number') return 1;
                             return 0;
                         });
+                        if (filterByStep0) {
+                            sortedCodes = sortedCodes.filter(code => step0SelectedOpmIds.has(String(code)));
+                        }
+                        if (sortedCodes.length === 0) return;
                         sortedCodes.forEach(code => {
+
                             const dcwf2017 = dcwf2017Map.get(code);
                             // Pour les OPM-ID 112 et 333, ne pas utiliser les données DCWF 2025 même si elles existent
                             let dcwf2025 = dcwf2025Map.get(code);
@@ -1936,12 +1975,11 @@
                 console.error('Erreur lors de l\'affichage:', error);
                 // Fallback: affichage simple sans organisation par famille
                 allCodes.forEach(code => {
+                    if (filterByStep0 && !step0SelectedOpmIds.has(String(code))) return;
+
                     const dcwf2017 = dcwf2017Map.get(code);
-                    // Pour les OPM-ID 112 et 333, ne pas utiliser les données DCWF 2025 même si elles existent
                     let dcwf2025 = dcwf2025Map.get(code);
-                    if (code === 112 || code === 333) {
-                        dcwf2025 = null;
-                    }
+                    if (code === 112 || code === 333) dcwf2025 = null;
                     const ncwf2017 = ncwf2017Map.get(code);
                     const ncwf2024 = ncwf2024Map.get(code);
                     const ncwf2025 = ncwf2025Map.get(code);

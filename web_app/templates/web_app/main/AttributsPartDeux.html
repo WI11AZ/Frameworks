@@ -1,4 +1,4 @@
-﻿{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1121,10 +1121,10 @@
             }
             
             // Afficher un message de confirmation
-            alert(`All selections for ${selectedNFCOMs.length} Competency Area(s) have been saved successfully! Returning to Step 2...`);
+            alert(`All selections for ${selectedNFCOMs.length} Competency Area(s) have been saved successfully!`);
             
-            // Rediriger vers etape2_first_step.html
-            window.location.href = "{% url 'etape2_first_step' %}";
+            // Rediriger vers attributs-part-deux-opm-id
+            window.location.href = "{% url 'attributs_part_deux_opm_id' %}";
         }
 
         // Reset all NF-COM selections

@@ -1,0 +1,20 @@
+{
+  "id": "save_1770110347302_gcitct6",
+  "name": "soso",
+  "timestamp": "2026-02-03T09:19:14.098Z",
+  "type": "project_recap",
+  "state": {
+    "ksatLastSavedState": null,
+    "step0_baseline_data": "{\"selectedWorkRoles\":[{\"index\":2,\"opm_code\":\"441\",\"dcwf_work_role\":\"Network Operations Specialist\",\"dcwf_element\":\"Information Technology (IT)\",\"ncwf_work_role\":\"Network Operations\",\"ncwf_id\":\"IO-WRL-004\",\"ncwf_element\":\"Implementation & Operation\"}],\"primaryRoleOpmId\":\"441\",\"selectedSansRoles\":[],\"selectedCemaRoles\":[],\"timestamp\":\"2026-02-03T08:55:50.311Z\"}",
+    "currentJobNumber": "122",
+    "currentJobSelection": "{\"nom\":\"Belisarius\",\"couleur\":\"YELLOW\",\"poste\":\"122\"}",
+    "selectedNFDomains": "[\"NF-COM-002\",\"NF-COM-007\"]",
+    "nfcomAttributeSelections": "{\"NF-COM-002\":{\"AUTO\":4,\"INFL\":4,\"COMP\":4,\"KNGE\":4},\"NF-COM-007\":{\"AUTO\":4,\"INFL\":4,\"COMP\":4,\"KNGE\":4}}",
+    "posteAttributeSelections": "{\"122\":{\"AUTO\":7,\"INFL\":7,\"COMP\":7,\"KNGE\":7,\"COLL\":7,\"COMM\":7,\"IMPM\":7,\"CRTY\":7,\"DECM\":7,\"DIGI\":7,\"LEAD\":7,\"LADV\":7,\"PLAN\":7,\"PROB\":7,\"ADAP\":7,\"SCPE\":7}}",
+    "wizardLevelSelections": "{\"221\":{},\"411\":{\"ASUP\":\"3\",\"CSMG\":\"2\",\"INCA\":\"2\",\"KNOW\":\"3\",\"DEOM\":\"1\",\"GIC2\":\"1\",\"ICRE\":\"1\",\"CCFC\":\"1\"},\"421\":{\"SCTY\":\"1\"},\"431\":{\"BINT\":\"2\",\"VISL\":\"2\",\"AMCY\":\"1\",\"ATAS\":\"7\"},\"441\":{},\"511\":{\"SCTY\":\"2\",\"INAS\":\"2\",\"DTAN\":\"2\",\"PROD\":\"3\",\"DAAN\":\"4\",\"USUP\":\"7\",\"DSASI\":\"4\",\"CRGC\":\"4\",\"SIPL\":\"4\"},\"531\":{\"PROD\":\"5\",\"SLEN\":\"4\",\"ISCO\":\"2\",\"DAAN\":\"4\",\"PSOC\":\"4\",\"ASZT\":\"2\"},\"711\":{\"SCTY\":\"1\"},\"723\":{\"SCTY\":\"1\"}}",
+    "wizardSummary": "{\"opmIds\":[\"441\"],\"levelSelections\":{\"441\":{}},\"opmAverages\":{\"441\":0},\"completedAt\":\"2026-02-03T09:19:00.503Z\"}",
+    "summaryMilRoleCompetences": "{\"441\":[{\"code\":\"MCET\",\"level\":\"LOW\"},{\"code\":\"OSPL\",\"level\":\"LOW\"},{\"code\":\"CACM\",\"level\":\"LOW\"},{\"code\":\"CDAS\",\"level\":\"LOW\"},{\"code\":\"MCPR\",\"level\":\"LOW\"},{\"code\":\"VSAS\",\"level\":\"LOW\"},{\"code\":\"TTCX\",\"level\":\"LOW\"},{\"code\":\"SCRM\",\"level\":\"LOW\"},{\"code\":\"DMIA\",\"level\":\"MEDIUM\"},{\"code\":\"AFML\",\"level\":\"MEDIUM\"},{\"code\":\"GCRI\",\"level\":\"MEDIUM\"},{\"code\":\"CTHA\",\"level\":\"MEDIUM\"},{\"code\":\"ACEU\",\"level\":\"MEDIUM\"},{\"code\":\"DMIA\",\"level\":\"MEDIUM\"},{\"code\":\"GCRI\",\"level\":\"MEDIUM\"},{\"code\":\"DEOM\",\"level\":\"MEDIUM\"},{\"code\":\"GIC2\",\"level\":\"MEDIUM\"},{\"code\":\"ICRE\",\"level\":\"MEDIUM\"},{\"code\":\"IIAO\",\"level\":\"MEDIUM\"},{\"code\":\"ADCI\",\"level\":\"MEDIUM\"},{\"code\":\"AVCS\",\"level\":\"MEDIUM\"},{\"code\":\"ALCO\",\"level\":\"MEDIUM\"},{\"code\":\"AGES\",\"level\":\"MEDIUM\"},{\"code\":\"TNOP\",\"level\":\"MEDIUM\"},{\"code\":\"GVCS\",\"level\":\"MEDIUM\"},{\"code\":\"FOBS\",\"level\":\"MEDIUM\"},{\"code\":\"BFCE\",\"level\":\"MEDIUM\"},{\"code\":\"ASZT\",\"level\":\"HIGH\"},{\"code\":\"DSASI\",\"level\":\"HIGH\"},{\"code\":\"CRGC\",\"level\":\"HIGH\"},{\"code\":\"SIPL\",\"level\":\"HIGH\"},{\"code\":\"DVSA\",\"level\":\"HIGH\"},{\"code\":\"ASZT\",\"level\":\"HIGH\"},{\"code\":\"DSASI\",\"level\":\"HIGH\"},{\"code\":\"SIPL\",\"level\":\"HIGH\"},{\"code\":\"GICL\",\"level\":\"HIGH\"},{\"code\":\"APBD\",\"level\":\"HIGH\"},{\"code\":\"MCOO\",\"level\":\"HIGH\"},{\"code\":\"MFND\",\"level\":\"HIGH\"},{\"code\":\"CIPX\",\"level\":\"HIGH\"},{\"code\":\"CTIF\",\"level\":\"HIGH\"},{\"code\":\"MAOP\",\"level\":\"HIGH\"}]}",
+    "summaryMilSelectedSkills": null,
+    "currentKsatSelection": null
+  }
+}

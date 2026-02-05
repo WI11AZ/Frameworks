@@ -986,9 +986,9 @@
             margin-left: auto;
         }
         
-        /* Vue réseau */
+        /* Vue réseau - masqué (Grid/Network View buttons) - code conservé */
         .view-toggle {
-            display: flex;
+            display: none; /* Masqué: Grid View / Network View buttons */
             gap: 10px;
             margin-bottom: 15px;
         }
@@ -1029,13 +1029,13 @@
         }
         
         .network-wrapper {
-            display: none;
+            display: none !important; /* Network View masqué - code conservé */
             gap: 15px;
             align-items: flex-start;
         }
         
         .network-wrapper.active {
-            display: flex;
+            display: none !important; /* Reste masqué même si active */
         }
         
         .network-roles-list {
@@ -1416,6 +1416,66 @@
             font-size: 11px;
             opacity: 0.8;
         }
+        
+        /* Zone flottante en bas à droite : infos sélection + Clear + NEXT (hors main) */
+        .floating-next-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .floating-selection-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .floating-clear-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .floating-clear-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        .floating-next-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .floating-next-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(34, 197, 94, 0.5);
+        }
+        .floating-next-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -1478,28 +1538,17 @@
             </div>
         </div>
         
-        <!-- Basculement de vue -->
+        <!-- Basculement de vue - masqué (code conservé pour réactivation) -->
+        <!--
         <div class="view-toggle">
             <button class="view-btn active" id="gridViewBtn" onclick="switchView('grid')">🗂️ Grid View</button>
             <button class="view-btn" id="networkViewBtn" onclick="switchView('network')">🌐 Network View</button>
         </div>
+        -->
         
-        <!-- Info sélection -->
-        <div class="selected-roles-info" id="selectedRolesInfo">
-            <span id="selectedRolesText">0 role(s) selected (max 3)</span>
-            <div>
-                <button class="visualize-btn" onclick="visualizeSelectedRoles()" id="visualizeBtn" disabled>
-                    Visualize Selection
-                </button>
-                <button class="visualize-btn" onclick="clearSelection()" style="background: #ef4444; margin-left: 10px;">
-                    Clear
-                </button>
-            </div>
-        </div>
-        
-        <!-- Info réseau -->
+        <!-- Info réseau - Network View masqué (code conservé) -->
         <!-- Sélecteur de type de réseau -->
-        <div class="network-type-selector" id="networkTypeSelector">
+        <div class="network-type-selector" id="networkTypeSelector" style="display: none;">
             <h3 style="margin-bottom: 5px;">🔀 Type of Relations to Display</h3>
             <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
                 Choose which type of connections you want to visualize in the network
@@ -1523,7 +1572,7 @@
             </div>
         </div>
         
-        <div class="network-info" id="networkInfo">
+        <div class="network-info" id="networkInfo" style="display: none;">
             <h3 style="margin-bottom: 10px;">🌐 Cyber Work Roles Mapping</h3>
             <p style="font-size: 13px; color: #666; margin-bottom: 5px;">
                 <strong>Node Size:</strong> The more connections a role has (high % TKS) and the more central it is, the larger it appears.
@@ -1553,8 +1602,8 @@
             </div>
         </div>
         
-        <!-- Wrapper réseau avec liste -->
-        <div class="network-wrapper" id="networkWrapper">
+        <!-- Wrapper réseau avec liste - masqué (code conservé) -->
+        <div class="network-wrapper" id="networkWrapper" style="display: none;">
             <div id="networkContainer"></div>
             <div class="network-roles-list" id="networkRolesList">
                 <div class="network-roles-list-header">
@@ -1612,23 +1661,35 @@
                     <strong>WARNING:</strong> Once you proceed to Step 1, modifying the selected work roles will be impossible. Are you sure you want to continue with this selection?
                 </p>
                 
-                <div style="background: #f3f4f6; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                <div style="background: #f3f4f6; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
                     <div style="font-weight: 600; color: #111827; margin-bottom: 12px; font-size: 0.95rem;">Selected OPM IDs:</div>
                     <div id="selectedOpmIdsList" style="display: flex; flex-wrap: wrap; gap: 8px;">
                         <!-- OPM IDs will be inserted here -->
                     </div>
                 </div>
                 
+                <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                    <div style="font-weight: 600; color: #92400e; margin-bottom: 8px; font-size: 0.95rem;">⭐ Select your primary role:</div>
+                    <p style="font-size: 0.9rem; color: #78350f; margin: 0; line-height: 1.5;">Click on an OPM-ID above to set it as your primary role. The primary role will be highlighted with a star.</p>
+                </div>
+                
                 <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
                     <button onclick="closeConfirmStep1Modal()" style="padding: 10px 24px; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s;">
                         No, Cancel
                     </button>
-                    <button onclick="confirmGoToStep1()" style="padding: 10px 24px; background: #0078d4; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s;">
+                    <button id="confirmStep1Btn" onclick="confirmGoToStep1()" style="padding: 10px 24px; background: #d1d5db; color: #6b7280; border: none; border-radius: 6px; cursor: not-allowed; font-weight: 600; transition: all 0.2s;" disabled>
                         Yes, Continue
                     </button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Zone flottante en bas à droite : infos + Clear + NEXT (hors main) -->
+    <div class="floating-next-container">
+        <span id="selectedRolesText" class="floating-selection-text">0 role(s) selected (max 3)</span>
+        <button class="floating-clear-btn" onclick="clearSelection()">Clear</button>
+        <button class="floating-next-btn" id="floatingNextBtn" onclick="visualizeSelectedRoles()" disabled>NEXT</button>
     </div>
 
     <script>
@@ -4446,6 +4507,17 @@
       "code": 133,
       "element": "Cyber Effects (CE)",
       "definition": "The Target Analyst Reporter (TAR) provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles in response to customer requirements and IAW missions of SIGINT, cybersecurity, and cyberspace operations. They prioritize, assess, evaluate, and report information obtained from SIGINT collection, cyber surveillance, and reconnaissance operations sources. The TAR enhances reporting with collateral information as required, maintains awareness of internal and external customer requirements, and collaborates with other collectors and analysts to refine collection and reporting requirements. The TAR shares target-related information and provides feedback to customers as appropriate. The TAR develops working aids and provides database updates on target activity to enhance and build target knowledge and improve collection. The TAR performs quality control and product-release functions."
+    },
+    "nice": null
+  },
+  {
+    "ncwf_id": "CE-WRL-001",
+    "opm_code": 321,
+    "dcwf": {
+      "work_role": "(CyberSpace) Access Network Operator",
+      "code": 321,
+      "element": "Cyber Effects (CE)",
+      "definition": "Access Network Operators conduct cyberspace network operations to gain access to target networks and systems. They apply technical expertise to enable access and support offensive cyberspace operations when directed."
     },
     "nice": null
   },
@@ -22962,19 +23034,14 @@ const niceNameToWrlLookup = {
         }
         
         function updateSelectionInfo() {
-            const infoDiv = document.getElementById('selectedRolesInfo');
             const textSpan = document.getElementById('selectedRolesText');
-            const visualizeBtn = document.getElementById('visualizeBtn');
+            const nextBtn = document.getElementById('floatingNextBtn');
             
             const count = selectedRoles.size;
-            textSpan.textContent = `${count} role(s) selected (max 3)`;
+            if (textSpan) textSpan.textContent = `${count} role(s) selected (max 3)`;
             
-            if (count > 0) {
-                infoDiv.classList.add('active');
-                visualizeBtn.disabled = false;
-            } else {
-                infoDiv.classList.remove('active');
-                visualizeBtn.disabled = true;
+            if (nextBtn) {
+                nextBtn.disabled = count === 0;
             }
             
             // Update aussi le compteur dans la modale si elle est ouverte
@@ -22992,15 +23059,21 @@ const niceNameToWrlLookup = {
         
         function visualizeSelectedRoles() {
             if (selectedRoles.size === 0) return;
-            
-            // Recreate the network with only selected roles
+            // Ouvre le modal de confirmation (même fonctionnalité que Go to Step 1)
+            // L'utilisateur choisit son rôle principal (primary) dans le popup
+            primaryRoleOpmId = null; // Sera défini par l'utilisateur dans le modal
+            showConfirmStep1Modal();
+        }
+        /* Ancienne fonctionnalité (Network View) - code conservé
+        function visualizeSelectedRolesOld() {
+            if (selectedRoles.size === 0) return;
             if (networkInstance) {
                 networkInstance.destroy();
                 networkInstance = null;
             }
-            
-            switchView('network', true); // true = mode sélection
+            switchView('network', true);
         }
+        */
         
         function refreshNetwork() {
             if (networkInstance) {
@@ -24018,36 +24091,56 @@ const niceNameToWrlLookup = {
             }
         }
         
-        // Fonction pour passer à l'étape 1 en sauvegardant les sélections
-        // Function to show confirmation modal
+        // Fonction pour passer à l'étape 1 (depuis Network View - code conservé)
         function goToStep1() {
-            if (selectedRoles.size === 0 || primaryRoleOpmId === null) {
-                return; // Should not happen as button is disabled
-            }
+            if (selectedRoles.size === 0 || primaryRoleOpmId === null) return;
+            showConfirmStep1Modal();
+        }
+        
+        // Affiche le modal de confirmation - l'utilisateur choisit son rôle principal (primary) dans le popup
+        function showConfirmStep1Modal() {
+            if (selectedRoles.size === 0) return;
+            
+            const primaryStr = String(primaryRoleOpmId || '').trim();
             
             // Collect selected OPM IDs
             const selectedOpmIds = [];
             selectedRoles.forEach(idx => {
                 const role = allRolesData[idx];
                 if (role && role.opm_code) {
-                    // Comparer en string pour gérer les TBD
                     const roleOpmStr = String(role.opm_code);
-                    const primaryStr = String(primaryRoleOpmId || '');
                     selectedOpmIds.push({
                         opmId: role.opm_code,
-                        isPrimary: roleOpmStr === primaryStr
+                        isPrimary: primaryStr !== '' && roleOpmStr === primaryStr
                     });
                 }
             });
             
-            // Display OPM IDs in the modal
+            // Display OPM IDs in the modal - cliquables pour sélectionner le primary
             const opmIdsList = document.getElementById('selectedOpmIdsList');
             if (opmIdsList) {
                 opmIdsList.innerHTML = selectedOpmIds.map(item => {
                     const starIcon = item.isPrimary ? '⭐ ' : '';
                     const primaryStyle = item.isPrimary ? 'background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); border: 2px solid #f59e0b; box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);' : 'background: #0078d4;';
-                    return `<span style="${primaryStyle} color: white; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">${starIcon}${item.opmId}</span>`;
+                    const opmIdEscaped = String(item.opmId).replace(/'/g, "\\'");
+                    return `<span onclick="setPrimaryInModal('${opmIdEscaped}')" style="${primaryStyle} color: white; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" title="Click to set as primary">${starIcon}${item.opmId}</span>`;
                 }).join('');
+            }
+            
+            // Mettre à jour l'état du bouton Yes, Continue
+            const confirmBtn = document.getElementById('confirmStep1Btn');
+            if (confirmBtn) {
+                if (primaryRoleOpmId !== null) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.style.background = '#0078d4';
+                    confirmBtn.style.color = 'white';
+                    confirmBtn.style.cursor = 'pointer';
+                } else {
+                    confirmBtn.disabled = true;
+                    confirmBtn.style.background = '#d1d5db';
+                    confirmBtn.style.color = '#6b7280';
+                    confirmBtn.style.cursor = 'not-allowed';
+                }
             }
             
             // Show confirmation modal
@@ -24055,10 +24148,14 @@ const niceNameToWrlLookup = {
             const modal = document.getElementById('confirmStep1Modal');
             if (backdrop && modal) {
                 backdrop.style.display = 'block';
-                setTimeout(() => {
-                    modal.classList.add('open');
-                }, 10);
+                setTimeout(() => modal.classList.add('open'), 10);
             }
+        }
+        
+        // Sélection du rôle principal depuis le modal (clic sur un OPM-ID)
+        function setPrimaryInModal(opmId) {
+            primaryRoleOpmId = String(opmId).trim();
+            showConfirmStep1Modal(); // Re-render pour mettre à jour l'affichage et activer le bouton
         }
         
         // Function to close confirmation modal

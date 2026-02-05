@@ -978,6 +978,69 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       }
+
+      /* Zone flottante en bas à droite : Back, Focus, NEXT */
+      .etape2-floating-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+      }
+      .etape2-floating-back {
+        padding: 8px 20px;
+        background: #dc2626;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .etape2-floating-back:hover {
+        background: #b91c1c;
+        color: white;
+        transform: translateY(-1px);
+      }
+      .etape2-floating-btn {
+        padding: 8px 20px;
+        background: #2563eb;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .etape2-floating-btn:hover:not(:disabled) {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+      }
+      .etape2-floating-btn:disabled {
+        background: #d1d5db;
+        cursor: not-allowed;
+      }
+      .etape2-floating-next {
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .etape2-floating-next:hover:not(:disabled) {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(34, 197, 94, 0.5);
+      }
     </style>
 
     <!-- Style inline pour forcer les textes sur fond jaune à être noirs -->
@@ -1234,36 +1297,6 @@
       <div id="step0-selected-roles" class="w-full max-w-7xl mt-6" style="display: none;">
         <h3 class="text-xl font-semibold mb-3 text-white">Work Roles selected from baseline:</h3>
         <div id="selected-roles-container" class="flex flex-wrap gap-3 justify-center mb-4"></div>
-        
-        <!-- Buttons: Step 1 on left, Reset Heatmap/Simplify Heatmap/Select Level in center, Step 3 on right -->
-        <div class="flex justify-between items-center gap-4 flex-wrap">
-          <button id="step1-btn" class="px-6 py-3 bg-gray-500 text-white text-lg font-bold rounded-lg hover:bg-gray-600 transition-all shadow-md flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            <span>Step 2</span>
-          </button>
-          <div class="flex items-center gap-4">
-            <button id="reset-view-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 shadow-md">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
-              </svg>
-              Reset Heatmap
-            </button>
-            <button id="focus-heatmap-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">
-              Focus
-            </button>
-            <button id="p2-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all opacity-50 cursor-not-allowed disabled" disabled>
-              Select Level
-            </button>
-          </div>
-          <button id="step3-btn" class="px-6 py-3 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition-all shadow-md flex items-center gap-2">
-            <span>Step 4</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
       </div>
       
       <!-- Section texte et bouton -->
@@ -2454,24 +2487,8 @@
         }, 200);
       }
       
-      // Fonction pour vérifier si au moins un domaine est sélectionné
+      // Fonction pour vérifier si au moins un domaine est sélectionné (NEXT toujours actif)
       function checkDomainSelection() {
-        const p2Button = document.getElementById('p2-btn');
-        
-        if (selectedDomains.length > 0) {
-          // Activer le bouton si au moins un domaine est sélectionné
-          if (p2Button) {
-            p2Button.classList.remove('opacity-50', 'cursor-not-allowed');
-            p2Button.disabled = false;
-          }
-        } else {
-          // Désactiver le bouton si aucun domaine n'est sélectionné
-          if (p2Button) {
-            p2Button.classList.add('opacity-50', 'cursor-not-allowed');
-            p2Button.disabled = true;
-          }
-        }
-        
         // Ajouter les événements de surlignage après la génération du tableau
         setupHeatmapHighlighting();
       }
@@ -2840,59 +2857,33 @@
           console.error("DEBUG: Erreur lors de l'initialisation:", error);
         }
         
-        // Gestionnaire d'événement pour le bouton de réinitialisation de la vue
-        document.getElementById('reset-view-btn').addEventListener('click', function() {
-          // Réinitialiser la sélection avec resetView = true pour garantir une réinitialisation complète
-          renderHeatmapTable(null, true);
-          resetAllOpmIdHighlights();
-          
-          // Retirer les classes de mode filtré
-          const heatmapContainer = document.getElementById('heatmap-container');
-          if (heatmapContainer) {
-            heatmapContainer.classList.remove('filtered-view');
-          }
-          const heatmapMain = document.getElementById('heatmap-main');
-          if (heatmapMain) {
-            heatmapMain.classList.remove('filtered-mode');
-          }
-          
-          // Restaurer le sous-titre original
-          const subtitle = document.getElementById('heatmap-subtitle');
-          if (subtitle) {
-            subtitle.textContent = 'Visualisation de l\'importance des 15 domaines de compétence du NCWF v2.0.0 pour les rôles professionnels Cyber Align (2017, 2024, 2025)';
-          }
-          
-          adjustHeatmapSize(); // Réajuster après reset
-          hideDomainTooltip(); // Cacher le tooltip s'il est visible
-          
-          // Réinitialiser également le filtre de domaines
-          resetDomainFilter();
-          
-          // Remettre en surbrillance les OPM IDs des rôles sélectionnés après le reset
-          setTimeout(() => {
-            if (window.highlightSelectedRolesInHeatmap) {
-              window.highlightSelectedRolesInHeatmap();
-            }
-          }, 200);
-        });
-        
         // Gestionnaire d'événement pour le bouton retour en arrière
         document.getElementById('back-to-all-btn').addEventListener('click', function() {
           showAllDomains();
         });
 
-        // Gestionnaire d'événement pour le bouton Select Level
-        document.getElementById('p2-btn').addEventListener('click', function() {
-          if (selectedDomains.length > 0) {
-            // Sauvegarder les domaines sélectionnés dans le localStorage
-            localStorage.setItem('selectedNFDomains', JSON.stringify(selectedDomains));
-          }
-          // Rediriger vers AttributsPartDeux.html (même sans domaines sélectionnés)
-          window.location.href = "{% url 'attributs_part_deux' %}";
-        });
-        
         // Vérifier l'état initial des boutons
         checkDomainSelection();
+        
+        // Bouton NEXT : si NF-COM sélectionnés -> attributs_part_deux, sinon -> attributs_part_deux_opm_id (toujours actif)
+        const step3Btn = document.getElementById('step3-btn');
+        if (step3Btn) {
+          step3Btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (selectedDomains.length > 0) {
+              localStorage.setItem('selectedNFDomains', JSON.stringify(selectedDomains));
+              window.location.href = "{% url 'attributs_part_deux' %}";
+            } else {
+              const currentJobNumber = localStorage.getItem('currentJobNumber');
+              if (currentJobNumber) {
+                const posteParam = encodeURIComponent(currentJobNumber);
+                window.location.href = `{% url 'attributs_part_deux_opm_id' %}?postes=${posteParam}`;
+              } else {
+                window.location.href = "{% url 'attributs_part_deux_opm_id' %}";
+              }
+            }
+          });
+        }
         
         // Gérer le redimensionnement de la fenêtre
         window.addEventListener('resize', function() {
@@ -3609,27 +3600,6 @@
             });
           }
           
-          // Bouton Step 3
-          const step3Btn = document.getElementById('step3-btn');
-          if (step3Btn) {
-            step3Btn.addEventListener('click', (e) => {
-              e.preventDefault();
-              // Récupérer le numéro de poste depuis localStorage
-              const currentJobNumber = localStorage.getItem('currentJobNumber');
-              const currentJobSelection = localStorage.getItem('currentJobSelection');
-              
-              if (currentJobNumber) {
-                // Rediriger vers la nouvelle page avec le numéro de poste
-                const posteParam = encodeURIComponent(currentJobNumber);
-                window.location.href = `{% url 'attributs_part_deux_opm_id' %}?postes=${posteParam}`;
-                return;
-              }
-              
-              // Fallback: rediriger sans paramètres (la page essaiera de charger depuis localStorage)
-              window.location.href = "{% url 'attributs_part_deux_opm_id' %}";
-            });
-          }
-          
         } catch (e) {
           console.error('Erreur lors du chargement des données Step0:', e);
         }
@@ -3724,5 +3694,12 @@
       ];
 
     </script>
+
+    <!-- Zone flottante en bas à droite : Back, Focus, NEXT -->
+    <div class="etape2-floating-container">
+      <a href="{% url 'compare' %}" class="etape2-floating-back">Back</a>
+      <button id="focus-heatmap-btn" class="etape2-floating-btn">Focus</button>
+      <button id="step3-btn" class="etape2-floating-next">NEXT</button>
+    </div>
 </body>
 </html>
