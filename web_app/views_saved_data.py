@@ -32,6 +32,18 @@ def list_saved_data(request):
 
 
 @login_required
+@require_http_methods(["GET"])
+def get_all_saved_data(request):
+    """
+    Récupère toutes les données sauvegardées de l'utilisateur (clé-valeur).
+    Utilisé pour précharger le cache côté client.
+    """
+    saved_data = UserSavedData.objects.filter(user=request.user)
+    data_dict = {item.key: item.value for item in saved_data}
+    return JsonResponse({"status": "success", "data": data_dict})
+
+
+@login_required
 @require_http_methods(["POST"])
 @ensure_csrf_cookie
 def save_data(request):

@@ -1057,7 +1057,7 @@
         var username = (authEl.getAttribute('data-username') || '').trim();
         if (!username) return;
         function getJobKey() {
-            var raw = localStorage.getItem('currentJobSelection');
+            var raw = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobSelection');
             if (raw) {
                 try {
                     var sel = JSON.parse(raw);
@@ -1067,19 +1067,19 @@
                     if (nom && couleur && poste) return nom + ' ' + couleur + ' ' + poste;
                 } catch (e) {}
             }
-            var num = (localStorage.getItem('currentJobNumber') || '').trim();
+            var num = ((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber') || '').trim();
             return num ? 'POSTE ' + num : null;
         }
         var jobKey = getJobKey();
         if (!jobKey) return;
         var storeKey = 'cyberalignProgress';
         var store = {};
-        try { store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {}; } catch (e) {}
+        try { store = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem(storeKey) || '{}') || {}; } catch (e) {}
         store[username] = store[username] || {};
         store[username][jobKey] = store[username][jobKey] || {};
         store[username][jobKey].step2 = true;
-        localStorage.setItem(storeKey, JSON.stringify(store));
-        localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem(storeKey, JSON.stringify(store));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('cyberalignProgressLastUpdate', String(Date.now()));
     })();
     </script>
     <!-- Ajout de la navbar -->
@@ -1913,8 +1913,8 @@
         console.log('Données formatées pour summary chart:', formattedData);
         
         // Sauvegarder dans les deux formats utilisés par l'application
-        localStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
-        localStorage.setItem('activateStep3', 'true');
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('currentKsatSelection', JSON.stringify(formattedData));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('activateStep3', 'true');
         
         // Sauvegarder aussi dans serverStorage si disponible
         if (typeof serverStorage !== 'undefined' && typeof serverStorage.setItem === 'function') {
@@ -2871,10 +2871,10 @@
           step3Btn.addEventListener('click', function(e) {
             e.preventDefault();
             if (selectedDomains.length > 0) {
-              localStorage.setItem('selectedNFDomains', JSON.stringify(selectedDomains));
+              (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('selectedNFDomains', JSON.stringify(selectedDomains));
               window.location.href = "{% url 'attributs_part_deux' %}";
             } else {
-              const currentJobNumber = localStorage.getItem('currentJobNumber');
+              const currentJobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
               if (currentJobNumber) {
                 const posteParam = encodeURIComponent(currentJobNumber);
                 window.location.href = `{% url 'attributs_part_deux_opm_id' %}?postes=${posteParam}`;
@@ -2950,7 +2950,7 @@
         // Méthode 2: Si aucune carte trouvée, récupérer depuis localStorage
         if (selectedOpmIds.length === 0) {
           try {
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             if (step0Data) {
               const data = JSON.parse(step0Data);
               if (data.selectedWorkRoles && data.selectedWorkRoles.length > 0) {
@@ -3084,7 +3084,7 @@
       // Fonction pour visualiser les work roles de Step0
       function visualizeStep0Roles() {
         try {
-          const step0Data = localStorage.getItem('step0_baseline_data');
+          const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
           if (!step0Data) {
             console.log('Aucune donnée Step0 trouvée');
             return;
@@ -3177,7 +3177,7 @@
       // Fonction pour appliquer les work roles de Step0 et passer à l'étape du summary_chart
       function applyStep0RolesAndGoToSummary() {
         try {
-          const step0Data = localStorage.getItem('step0_baseline_data');
+          const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
           if (!step0Data) {
             console.log('Aucune donnée Step0 trouvée');
             return;
@@ -3217,8 +3217,8 @@
           console.log('Données formatées pour summary chart:', formattedData);
           
           // Sauvegarder dans les deux formats utilisés par l'application
-          localStorage.setItem('currentKsatSelection', JSON.stringify(formattedData));
-          localStorage.setItem('activateStep3', 'true');
+          (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('currentKsatSelection', JSON.stringify(formattedData));
+          (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('activateStep3', 'true');
           
           // Sauvegarder aussi dans serverStorage si disponible
           if (typeof serverStorage !== 'undefined' && typeof serverStorage.setItem === 'function') {
@@ -3380,7 +3380,7 @@
       // Fonction pour charger et afficher les sélections de Step0
       function loadAndDisplayStep0Selections() {
         try {
-          const step0Data = localStorage.getItem('step0_baseline_data');
+          const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
           if (!step0Data) {
             console.log('Aucune donnée Step0 trouvée');
             return;
@@ -3606,7 +3606,8 @@
       }
       
       // Charger les sélections Step0 au chargement de la page
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', async function() {
+        if (typeof userStorage !== 'undefined') await userStorage.ready();
         loadAndDisplayStep0Selections();
       });
     </script>

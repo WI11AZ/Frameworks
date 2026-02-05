@@ -3202,8 +3202,9 @@ function openComparisonWindow() {
   }).catch(error => {
     console.error('Error saving comparison data:', error);
     // Fallback en cas d'erreur
-    localStorage.setItem('comparisonData', JSON.stringify(comparisonData));
-    localStorage.setItem('opmIdsData', JSON.stringify(opmIdsData));
+    const st = typeof getStorage === 'function' ? getStorage() : localStorage;
+    st.setItem('comparisonData', JSON.stringify(comparisonData));
+    st.setItem('opmIdsData', JSON.stringify(opmIdsData));
     window.open("{% url 'ksat_compare_details' %}", "_blank", "width=1200,height=800");
   });
 }
@@ -3320,7 +3321,7 @@ function saveCurrentSelection() {
   });
   
   // Récupérer le numéro de poste du localStorage
-  const currentJobNumber = localStorage.getItem('currentJobNumber') || '';
+  const currentJobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber') || '';
   
   // Générer un identifiant unique pour cette sauvegarde
   const saveId = `save_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
@@ -3392,7 +3393,7 @@ function saveCurrentSelection() {
     // Garder une copie dans localStorage pour compatibilité avec le code existant
     try {
       // Charger les sauvegardes existantes
-      let savedSelections = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+      let savedSelections = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('ksatSavedSelections') || '[]');
       
       // Ajouter la nouvelle sauvegarde
       savedSelections.push(saveData);
@@ -3403,7 +3404,7 @@ function saveCurrentSelection() {
       }
       
       // Sauvegarder dans localStorage (comme avant)
-      localStorage.setItem('ksatSavedSelections', JSON.stringify(savedSelections));
+      (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('ksatSavedSelections', JSON.stringify(savedSelections));
     } catch (error) {
       console.error('Erreur localStorage:', error);
       // Continuer malgré l'erreur localStorage car les données sont sur le serveur
@@ -3481,7 +3482,7 @@ function loadSavedSelectionsFromServer() {
         if (data.data.length > 0) {
           // Fusionner avec les sauvegardes locales existantes
           try {
-            let localSelections = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+            let localSelections = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('ksatSavedSelections') || '[]');
             
             // Créer un ensemble d'IDs locaux pour éviter les doublons
             const localIds = new Set(localSelections.map(item => item.id));
@@ -3505,7 +3506,7 @@ function loadSavedSelectionsFromServer() {
               }
               
               // Mettre à jour le localStorage
-              localStorage.setItem('ksatSavedSelections', JSON.stringify(localSelections));
+              (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('ksatSavedSelections', JSON.stringify(localSelections));
               console.log(`localStorage mis à jour avec ${addedCount} nouvelles sauvegardes du serveur`);
             } else {
               console.log('Aucune nouvelle sauvegarde à ajouter.');
@@ -4583,7 +4584,7 @@ function restoreStateOnLoad() {
         .then(explicitLoadDataJSON => {
             // Si serverStorage retourne null, essayer localStorage directement
             if (!explicitLoadDataJSON) {
-                explicitLoadDataJSON = localStorage.getItem('currentOpeningSelection');
+                explicitLoadDataJSON = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentOpeningSelection');
             }
             
             const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
@@ -4616,7 +4617,7 @@ function restoreStateOnLoad() {
         .catch(error => {
             console.error("Erreur lors de la récupération de la sélection à charger:", error);
             // Fallback vers localStorage
-            const localStorageData = localStorage.getItem('currentOpeningSelection');
+            const localStorageData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentOpeningSelection');
             const sessionStateJSON = sessionStorage.getItem('ksatLastSavedState');
             
             if (localStorageData) {
@@ -4803,12 +4804,12 @@ function saveGlobalControlsState() {
         attendu: document.getElementById('global-niveau-attendu-select')?.value || '',
         tolere: document.getElementById('global-niveau-tolere-select')?.value || ''
     };
-    localStorage.setItem('ksatGlobalControlsState', JSON.stringify(data));
+    (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('ksatGlobalControlsState', JSON.stringify(data));
 }
 
 function restoreGlobalControlsState() {
     try {
-        const dataJSON = localStorage.getItem('ksatGlobalControlsState');
+        const dataJSON = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('ksatGlobalControlsState');
         if (!dataJSON) return;
         
         const data = JSON.parse(dataJSON);
@@ -5006,7 +5007,7 @@ function checkSavedSelections() {
     if (!button) return;
     
     // Vérifier si des work roles sont sélectionnés depuis Step0
-    const step0Data = localStorage.getItem('step0_baseline_data');
+    const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
     let hasWorkRoles = false;
     
     if (step0Data) {
@@ -5019,7 +5020,7 @@ function checkSavedSelections() {
     }
     
     // Vérifier dans localStorage s'il y a des sélections sauvegardées
-    const savedSelections = localStorage.getItem('ksatSavedSelections');
+    const savedSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('ksatSavedSelections');
     const hasSelections = savedSelections && JSON.parse(savedSelections).length > 0;
     
     // Activer le bouton si des work roles sont sélectionnés OU s'il y a des sauvegardes
@@ -5861,7 +5862,7 @@ function getElementAbbreviation(element) {
 // Fonction pour charger et afficher les sélections de Step0
 function loadAndDisplayStep0Selections() {
     try {
-        const step0Data = localStorage.getItem('step0_baseline_data');
+        const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
         if (!step0Data) {
             console.log('Aucune donnée Step0 trouvée');
             return;
@@ -6031,7 +6032,8 @@ function loadAndDisplayStep0Selections() {
 }
 
 // Charger les sélections Step0 au chargement de la page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof userStorage !== 'undefined') await userStorage.ready();
     loadAndDisplayStep0Selections();
     
     // Vérifier aussi si des work roles sont dans l'URL (paramètres GET)

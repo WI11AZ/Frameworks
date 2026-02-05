@@ -13,7 +13,7 @@ from .models import (
     AIWorkRole
 )
 from .models.user_saved_data import UserSavedData
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from django.db.models import Q
@@ -252,6 +252,7 @@ def technologia_song_view(request):
     response['Content-Disposition'] = 'inline; filename="technologia.mp3"'
     return response
 
+@ensure_csrf_cookie
 def step0_baseline_view(request):
     """Vue pour servir le programme Step0 Baseline"""
     # Vérifier que l'utilisateur est connecté
@@ -280,6 +281,19 @@ def step0_baseline_view(request):
         json_url = request.build_absolute_uri('/step0-baseline/json/')
     
     content = content.replace("fetch('mega_baseline.json')", f"fetch('{json_url}')")
+    
+    # Injecter userStorage pour sauvegardes côté serveur (accès multi-machine)
+    from django.middleware.csrf import get_token
+    get_token(request)  # Force le token CSRF
+    static_base = request.build_absolute_uri('/static/')
+    user_storage_injection = f'''
+    <div id="user-authenticated" data-authenticated="True" data-username="{request.user.username}" style="display:none;"></div>
+    <script src="{static_base}js/serverStorage.js"></script>
+    '''
+    if '<body' in content:
+        body_pos = content.find('<body')
+        body_tag_end = content.find('>', body_pos) + 1
+        content = content[:body_tag_end] + '\n' + user_storage_injection + '\n' + content[body_tag_end:]
     
     # Injecter la navbar Django dans le HTML
     # Charger le template menu.html

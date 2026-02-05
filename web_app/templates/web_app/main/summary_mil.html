@@ -813,7 +813,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadAndDisplayStep0Selections() {
         return new Promise((resolve, reject) => {
             try {
-                const step0Data = localStorage.getItem('step0_baseline_data');
+                const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                 if (!step0Data) {
                     console.log('Aucune donnée Step0 trouvée');
                     resolve();
@@ -1483,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sunIcon = document.getElementById('sunIcon');
     
     const updateDarkMode = () => {
-        const isDark = localStorage.getItem('darkMode') === 'true';
+        const isDark = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('darkMode') === 'true';
         if (isDark) {
             document.body.classList.add('dark-mode');
             moonIcon.classList.add('hidden');
@@ -1497,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const toggleDarkMode = () => {
         const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', !isDark);
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('darkMode', !isDark);
         updateDarkMode();
     };
     
@@ -1595,7 +1595,7 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmBtn.addEventListener('click', () => {
         console.log('Profil de poste confirmé et enregistré:', selectedSkills);
         // Sauvegarder selectedSkills dans localStorage
-        localStorage.setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
         closeModal();
         const notif = document.createElement('div');
         notif.className = 'fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-xl animate-pulse';
@@ -2020,7 +2020,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fonction pour confirmer et sauvegarder
     function confirmAndSaveWizard() {
         // Load existing data to merge (don't overwrite data from summary_chart_full.html)
-        const existingData = localStorage.getItem('wizardLevelSelections');
+        const existingData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
         let mergedSelections = {};
         
         if (existingData) {
@@ -2067,8 +2067,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Sauvegarder les données (même si vides, car cette étape est optionnelle)
-        localStorage.setItem('wizardLevelSelections', JSON.stringify(mergedSelections));
-        localStorage.setItem('wizardOpmAverages', JSON.stringify(opmAverages));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardLevelSelections', JSON.stringify(mergedSelections));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardOpmAverages', JSON.stringify(opmAverages));
         console.log('Merged wizardLevelSelections saved:', mergedSelections);
         
         const summary = {
@@ -2078,12 +2078,12 @@ document.addEventListener('DOMContentLoaded', function() {
             completedAt: new Date().toISOString()
         };
         
-        localStorage.setItem('wizardSummary', JSON.stringify(summary));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardSummary', JSON.stringify(summary));
         console.log('Données sauvegardées:', summary);
         
         // Sauvegarder aussi selectedSkills si disponible
         if (typeof selectedSkills !== 'undefined' && Object.keys(selectedSkills).length > 0) {
-            localStorage.setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('summaryMilSelectedSkills', JSON.stringify(selectedSkills));
         }
         
         // Sauvegarder les compétences affichées dans les cartes de rôles
@@ -2112,7 +2112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         if (Object.keys(roleCompetences).length > 0) {
-            localStorage.setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
             console.log('Compétences des rôles sauvegardées:', roleCompetences);
         }
         
@@ -2216,7 +2216,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             if (Object.keys(roleCompetences).length > 0) {
-                localStorage.setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
+                (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('summaryMilRoleCompetences', JSON.stringify(roleCompetences));
             }
             
             // Rediriger directement vers project recap

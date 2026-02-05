@@ -1,162 +1,178 @@
 /**
  * serverStorage.js
- * 
- * Une alternative côté serveur au localStorage du navigateur.
- * Fournit une interface similaire mais stocke les données sur le serveur.
- * Utilisation :
- * - serverStorage.getItem(key) : récupère une valeur depuis le serveur
- * - serverStorage.setItem(key, value) : sauvegarde une valeur sur le serveur
- * - serverStorage.removeItem(key) : supprime une valeur du serveur
- * - serverStorage.keys() : liste toutes les clés disponibles
+ *
+ * Stockage côté serveur pour les données utilisateur.
+ * Chaque utilisateur a accès à ses sauvegardes depuis n'importe quelle machine.
+ *
+ * userStorage : interface sync (après preload) - utilise le serveur si authentifié
+ * serverStorage : interface async - pour les appels directs
  */
 
 const serverStorage = {
-  // Cache local pour réduire les appels API
   _cache: {},
-  
-  // Renvoie le token CSRF
+  _preloadPromise: null,
+
   _getCsrfToken() {
-    return document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const input = document.querySelector('input[name="csrfmiddlewaretoken"]');
+    if (input && input.value) return input.value;
+    const match = document.cookie.match(/csrftoken=([^;]+)/);
+    return match ? match[1] : '';
   },
-  
-  // Détermine si l'utilisateur est connecté
+
   _isAuthenticated() {
-    // Vérifie si l'élément avec l'ID 'user-authenticated' existe et a l'attribut data-authenticated="True"
     const authElem = document.getElementById('user-authenticated');
     return authElem && authElem.getAttribute('data-authenticated') === 'True';
   },
-  
-  // Si l'utilisateur n'est pas connecté, utilise le localStorage comme fallback
+
+  /**
+   * Précharge toutes les données utilisateur depuis le serveur.
+   * À appeler au chargement de la page avant toute lecture.
+   */
+  async preload() {
+    if (!this._isAuthenticated()) return;
+    if (this._preloadPromise) return this._preloadPromise;
+    this._preloadPromise = (async () => {
+      try {
+        const response = await fetch('/api/saved-data/all/');
+        if (!response.ok) return;
+        const result = await response.json();
+        if (result.status === 'success' && result.data) {
+          for (const [key, value] of Object.entries(result.data)) {
+            this._cache[key] = typeof value === 'string' ? value : JSON.stringify(value);
+          }
+        }
+      } catch (e) {
+        console.error('serverStorage.preload:', e);
+      }
+    })();
+    return this._preloadPromise;
+  },
+
   async getItem(key) {
-    if (!this._isAuthenticated()) {
-      console.warn('Utilisateur non authentifié, utilisation du localStorage');
-      return localStorage.getItem(key);
-    }
-    
+    if (!this._isAuthenticated()) return localStorage.getItem(key);
+    if (this._cache[key] !== undefined) return this._cache[key];
     try {
-      // Si dans le cache, renvoie directement
-      if (this._cache[key] !== undefined) {
-        return this._cache[key];
-      }
-      
       const response = await fetch(`/api/saved-data/${encodeURIComponent(key)}/`);
-      
       if (!response.ok) {
-        // Si 404, renvoie null comme le ferait localStorage
         if (response.status === 404) return null;
-        throw new Error(`Erreur lors de la récupération des données: ${response.statusText}`);
+        throw new Error(response.statusText);
       }
-      
       const result = await response.json();
-      // Mise en cache
       this._cache[key] = JSON.stringify(result.data);
-      return JSON.stringify(result.data);
-    } catch (error) {
-      console.error('Erreur serverStorage.getItem:', error);
-      // Fallback à localStorage en cas d'erreur
-      return localStorage.getItem(key);
+      return this._cache[key];
+    } catch (e) {
+      console.error('serverStorage.getItem:', e);
+      return null; // Ne pas renvoyer localStorage quand connecté (éviter fuite de données)
     }
   },
-  
+
   async setItem(key, value) {
     if (!this._isAuthenticated()) {
-      console.warn('Utilisateur non authentifié, utilisation du localStorage');
-      return localStorage.setItem(key, value);
+      localStorage.setItem(key, value);
+      return;
     }
-    
+    let parsedValue;
     try {
-      // Parse la valeur si c'est une chaîne JSON
-      let parsedValue;
-      try {
-        parsedValue = JSON.parse(value);
-      } catch (e) {
-        // Si ce n'est pas du JSON valide, utilise la valeur telle quelle
-        parsedValue = value;
-      }
-      
+      parsedValue = typeof value === 'string' ? JSON.parse(value) : value;
+    } catch (_) {
+      parsedValue = value;
+    }
+    this._cache[key] = typeof value === 'string' ? value : JSON.stringify(value);
+    try {
       const response = await fetch('/api/saved-data/save/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': this._getCsrfToken()
         },
-        body: JSON.stringify({
-          key: key,
-          value: parsedValue
-        })
+        body: JSON.stringify({ key, value: parsedValue })
       });
-      
-      if (!response.ok) {
-        throw new Error(`Erreur lors de la sauvegarde des données: ${response.statusText}`);
-      }
-      
-      // Met à jour le cache
-      this._cache[key] = value;
-      
-      return true;
-    } catch (error) {
-      console.error('Erreur serverStorage.setItem:', error);
-      // Fallback à localStorage en cas d'erreur
-      return localStorage.setItem(key, value);
+      if (!response.ok) throw new Error(response.statusText);
+    } catch (e) {
+      console.error('serverStorage.setItem:', e);
+      // En cas d'erreur, garder au moins dans le cache local pour la session
+      this._cache[key] = typeof value === 'string' ? value : JSON.stringify(value);
     }
   },
-  
+
   async removeItem(key) {
     if (!this._isAuthenticated()) {
-      console.warn('Utilisateur non authentifié, utilisation du localStorage');
-      return localStorage.removeItem(key);
+      localStorage.removeItem(key);
+      return;
     }
-    
+    delete this._cache[key];
     try {
       const response = await fetch(`/api/saved-data/delete/${encodeURIComponent(key)}/`, {
         method: 'DELETE',
-        headers: {
-          'X-CSRFToken': this._getCsrfToken()
-        }
+        headers: { 'X-CSRFToken': this._getCsrfToken() }
       });
-      
-      if (!response.ok) {
-        throw new Error(`Erreur lors de la suppression des données: ${response.statusText}`);
-      }
-      
-      // Supprime du cache
-      delete this._cache[key];
-      
-      return true;
-    } catch (error) {
-      console.error('Erreur serverStorage.removeItem:', error);
-      // Fallback à localStorage en cas d'erreur
-      return localStorage.removeItem(key);
+      if (!response.ok) throw new Error(response.statusText);
+    } catch (e) {
+      console.error('serverStorage.removeItem:', e);
+      localStorage.removeItem(key);
     }
   },
-  
+
   async keys() {
-    if (!this._isAuthenticated()) {
-      console.warn('Utilisateur non authentifié, utilisation du localStorage');
-      return Object.keys(localStorage);
-    }
-    
+    if (!this._isAuthenticated()) return Object.keys(localStorage);
     try {
       const response = await fetch('/api/saved-data/');
-      
-      if (!response.ok) {
-        throw new Error(`Erreur lors de la récupération des clés: ${response.statusText}`);
-      }
-      
+      if (!response.ok) throw new Error(response.statusText);
       const result = await response.json();
       return result.data.map(item => item.key);
-    } catch (error) {
-      console.error('Erreur serverStorage.keys:', error);
-      // Fallback à localStorage en cas d'erreur
+    } catch (e) {
+      console.error('serverStorage.keys:', e);
       return Object.keys(localStorage);
     }
   }
 };
 
-// Fonction d'initialisation à appeler dans chaque page
-function initServerStorage() {
-  // Ajoute un élément caché qui indique si l'utilisateur est authentifié
-  // Cette fonction doit être appelée depuis les templates Django où
-  // vous avez accès à la variable user.is_authenticated
-  console.log('serverStorage initialisé');
-} 
+/**
+ * userStorage : interface sync pour les données utilisateur.
+ * - Si authentifié : lit/écrit via le serveur (cache après preload)
+ * - Sinon : localStorage
+ *
+ * IMPORTANT : appeler await userStorage.ready() au début du DOMContentLoaded
+ * avant toute lecture des données utilisateur.
+ */
+const userStorage = {
+  _ready: false,
+
+  async ready() {
+    if (this._ready) return;
+    await serverStorage.preload();
+    this._ready = true;
+  },
+
+  getItem(key) {
+    if (serverStorage._isAuthenticated()) {
+      // Ne jamais utiliser localStorage quand connecté : éviter de voir les données d'un autre compte
+      return serverStorage._cache[key] !== undefined ? serverStorage._cache[key] : null;
+    }
+    return localStorage.getItem(key);
+  },
+
+  setItem(key, value) {
+    const str = typeof value === 'string' ? value : JSON.stringify(value);
+    if (serverStorage._isAuthenticated()) {
+      serverStorage._cache[key] = str;
+      serverStorage.setItem(key, str);
+    } else {
+      localStorage.setItem(key, str);
+    }
+  },
+
+  removeItem(key) {
+    if (serverStorage._isAuthenticated()) {
+      delete serverStorage._cache[key];
+      serverStorage.removeItem(key);
+    } else {
+      localStorage.removeItem(key);
+    }
+  }
+};
+
+/** Helper: retourne userStorage si dispo (données serveur), sinon localStorage */
+function getStorage() {
+  return typeof userStorage !== 'undefined' ? userStorage : localStorage;
+}

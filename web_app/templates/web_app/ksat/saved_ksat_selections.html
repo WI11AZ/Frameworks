@@ -150,20 +150,27 @@
   // Fonction pour charger toutes les sélections (déplacée hors du document.ready)
   function loadAllSelections() {
     try {
-      // Charger d'abord les données du localStorage pour un affichage rapide
-      rawKsat = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
-      rawStep2 = JSON.parse(localStorage.getItem('ksatSelections') || '[]');
-      var pr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
-      rawProjectRecap = pr.map(function(x) {
-        var o = Object.assign({}, x);
-        if (!o._key) o._key = 'project_recap_' + (o.id || '');
-        return o;
-      });
+      var storage = (typeof getStorage === 'function' ? getStorage() : localStorage);
+      var isAuth = document.getElementById('user-authenticated')?.getAttribute('data-authenticated') === 'True';
       
-      // Afficher immédiatement les données du localStorage
-      renderSelections(rawKsat, rawStep2, rawProjectRecap);
+      // Si connecté: ne pas utiliser localStorage (données d'un autre compte). Charger uniquement depuis le serveur.
+      if (!isAuth) {
+        rawKsat = JSON.parse(storage.getItem('ksatSavedSelections') || '[]');
+        rawStep2 = JSON.parse(storage.getItem('ksatSelections') || '[]');
+        var pr = JSON.parse(storage.getItem('projectRecapSaves') || '[]');
+        rawProjectRecap = pr.map(function(x) {
+          var o = Object.assign({}, x);
+          if (!o._key) o._key = 'project_recap_' + (o.id || '');
+          return o;
+        });
+        renderSelections(rawKsat, rawStep2, rawProjectRecap);
+      } else {
+        rawKsat = [];
+        rawStep2 = [];
+        rawProjectRecap = [];
+      }
       
-      // Ensuite charger les données du serveur
+      // Charger les données du serveur (obligatoire si connecté, complément sinon)
       fetch('/api/ksat-selections/')
         .then(response => {
           if (!response.ok) {
@@ -175,7 +182,8 @@
           if (data && data.status === "success" && data.data && Array.isArray(data.data)) {
             console.log('Sauvegardes chargées depuis le serveur:', data.data.length);
             
-            if (data.data.length > 0) {
+            if (data.data.length > 0 || isAuth) {
+              var st = (typeof getStorage === 'function' ? getStorage() : localStorage);
               // --- KSAT: uniquement les clés ksat_selection_*
               const localKsatIds = new Set(rawKsat.map(item => item.id));
               let ksatAdded = 0;
@@ -187,17 +195,25 @@
               });
               if (ksatAdded > 0) {
                 rawKsat.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
-                localStorage.setItem('ksatSavedSelections', JSON.stringify(rawKsat));
+                st.setItem('ksatSavedSelections', JSON.stringify(rawKsat));
+              }
+              if (isAuth) {
+                rawKsat = data.data.filter(x => x && x.key && x.key.indexOf('ksat_selection_') === 0 && x.value).map(x => x.value);
+                rawKsat.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
               }
               
               // --- Project Recap: clés project_recap_*
-              data.data.forEach(serverItem => {
-                if (!serverItem || !serverItem.key || serverItem.key.indexOf('project_recap_') !== 0 || !serverItem.value) return;
-                var v = serverItem.value;
-                if (!rawProjectRecap.some(x => x.id === v.id)) {
-                  rawProjectRecap.push(Object.assign({ _key: serverItem.key }, v));
-                }
-              });
+              if (isAuth) {
+                rawProjectRecap = data.data.filter(x => x && x.key && x.key.indexOf('project_recap_') === 0 && x.value).map(x => Object.assign({ _key: x.key }, x.value));
+              } else {
+                data.data.forEach(serverItem => {
+                  if (!serverItem || !serverItem.key || serverItem.key.indexOf('project_recap_') !== 0 || !serverItem.value) return;
+                  var v = serverItem.value;
+                  if (!rawProjectRecap.some(x => x.id === v.id)) {
+                    rawProjectRecap.push(Object.assign({ _key: serverItem.key }, v));
+                  }
+                });
+              }
               if (rawProjectRecap.length) {
                 rawProjectRecap.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
               }
@@ -206,6 +222,7 @@
               console.log('Affichage mis à jour avec les données du serveur');
             }
           } else {
+            if (isAuth) renderSelections(rawKsat, rawStep2, rawProjectRecap);
             console.log('Aucune sauvegarde trouvée sur le serveur ou format de réponse incorrect');
           }
         })
@@ -328,7 +345,8 @@
     renderSelections(filteredKsat, filteredStep2, rawProjectRecap);
   }
   
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof userStorage !== 'undefined') await userStorage.ready();
     const ksatList = document.getElementById('ksat-list');
     const step2List = document.getElementById('step2-list');
     const noMsg = document.getElementById('no-saved-selections');
@@ -371,11 +389,8 @@
   
   function openKsatSelection(i) {
     try {
-      // Afficher l'animation de chargement
       document.getElementById('loading-overlay').classList.remove('hidden');
-      
-      const saved = JSON.parse(localStorage.getItem('ksatSavedSelections')||'[]');
-      const item = saved[i];
+      const item = rawKsat[i];
       console.log('Tentative d\'ouverture de la sélection KSAT index:', i);
       
       if (!item) {
@@ -386,9 +401,8 @@
         return;
       }
       
-      // Stocker toutes les données de la sélection
       try {
-        localStorage.setItem('currentOpeningSelection', JSON.stringify(item));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('currentOpeningSelection', JSON.stringify(item));
         console.log('Données stockées dans currentOpeningSelection');
       } catch (storageError) {
         console.error('Erreur lors du stockage des données:', storageError);
@@ -493,11 +507,9 @@
   }
   
   function openStep2Selection(i) {
-    // Afficher l'animation de chargement
     document.getElementById('loading-overlay').classList.remove('hidden');
-    
     try {
-      const item = JSON.parse(localStorage.getItem('ksatSelections')||'[]')[i];
+      const item = rawStep2[i];
       if (!item) {
         // Masquer l'animation si erreur
         document.getElementById('loading-overlay').classList.add('hidden');
@@ -505,7 +517,7 @@
         return;
       }
       
-      localStorage.setItem('currentOpeningStep2', JSON.stringify(item));
+      (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('currentOpeningStep2', JSON.stringify(item));
       window.location.href = `/ksat/resume_step2/${i}/`;
       // L'animation restera visible pendant le chargement de la nouvelle page
     } catch (error) {
@@ -517,13 +529,12 @@
   }
   
   function deleteKsatSelection(i) {
-    let arr = JSON.parse(localStorage.getItem('ksatSavedSelections') || '[]');
+    var st = (typeof getStorage === 'function' ? getStorage() : localStorage);
+    let arr = JSON.parse(st.getItem('ksatSavedSelections') || '[]');
     if (i >= 0 && i < arr.length && confirm('Supprimer cette sélection KSAT ?')) {
       const item = arr[i];
-      
-      // Supprimer l'élément à l'index i du localStorage
       arr.splice(i, 1);
-      localStorage.setItem('ksatSavedSelections', JSON.stringify(arr));
+      st.setItem('ksatSavedSelections', JSON.stringify(arr));
       
       // Si l'élément a un ID, tenter de le supprimer également du serveur
       if (item && item.id) {
@@ -555,13 +566,11 @@
   }
   
   function deleteStep2Selection(i) {
-    let arr = JSON.parse(localStorage.getItem('ksatSelections') || '[]');
+    var st = (typeof getStorage === 'function' ? getStorage() : localStorage);
+    let arr = JSON.parse(st.getItem('ksatSelections') || '[]');
     if (i >= 0 && i < arr.length && confirm('Supprimer cette sélection Poste ?')) {
-      // Supprimer l'élément à l'index i
       arr.splice(i, 1);
-      
-      // Sauvegarder le tableau mis à jour dans le localStorage
-      localStorage.setItem('ksatSelections', JSON.stringify(arr));
+      st.setItem('ksatSelections', JSON.stringify(arr));
       
       // Recharger la page pour refléter les changements
       loadAllSelections();
@@ -575,18 +584,19 @@
       return;
     }
     var st = item.state;
+    var storage = (typeof getStorage === 'function' ? getStorage() : localStorage);
     for (var k in st) {
       if (!st.hasOwnProperty(k)) continue;
       var v = st[k];
       if (v === null || v === undefined) {
         try { sessionStorage.removeItem(k); } catch(e) {}
-        try { localStorage.removeItem(k); } catch(e) {}
+        try { storage.removeItem(k); } catch(e) {}
       } else {
         var s = (typeof v === 'string') ? v : JSON.stringify(v);
         if (k === 'ksatLastSavedState') {
           try { sessionStorage.setItem(k, s); } catch(e) {}
         } else {
-          try { localStorage.setItem(k, s); } catch(e) {}
+          try { storage.setItem(k, s); } catch(e) {}
         }
       }
     }
@@ -598,8 +608,9 @@
     if (!item || !confirm('Supprimer cette sauvegarde Project Recap ?')) return;
     var key = item._key || ('project_recap_' + (item.id || ''));
     rawProjectRecap.splice(i, 1);
-    var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]').filter(function(x) { return x.id !== item.id; });
-    localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+    var st = (typeof getStorage === 'function' ? getStorage() : localStorage);
+    var arr = JSON.parse(st.getItem('projectRecapSaves') || '[]').filter(function(x) { return x.id !== item.id; });
+    st.setItem('projectRecapSaves', JSON.stringify(arr));
     fetch('/api/ksat-selections/delete/' + encodeURIComponent(key) + '/', { method: 'POST' })
       .catch(function(e) { console.warn('Delete project recap on server:', e); });
     renderSelections(rawKsat, rawStep2, rawProjectRecap);

@@ -449,7 +449,7 @@
             try {
                 // Try to get from localStorage first (from etape2_first_step)
                 // The key used in etape2_first_step is 'selectedNFDomains'
-                let storedData = localStorage.getItem('selectedNFDomains');
+                let storedData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains');
                 
                 if (storedData) {
                     try {
@@ -464,7 +464,7 @@
 
                 // Also try other possible keys
                 if (selectedNFCOMs.length === 0) {
-                    storedData = localStorage.getItem('selectedDomains') || localStorage.getItem('nfcomSelections');
+                    storedData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedDomains') || (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('nfcomSelections');
                     if (storedData) {
                         try {
                             const parsed = JSON.parse(storedData);
@@ -496,7 +496,7 @@
 
                 // If still no NF-COMs, check for currentKsatSelection
                 if (selectedNFCOMs.length === 0) {
-                    const ksatData = localStorage.getItem('currentKsatSelection');
+                    const ksatData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentKsatSelection');
                     if (ksatData) {
                         try {
                             const parsed = JSON.parse(ksatData);
@@ -522,7 +522,7 @@
                 // This prevents old selections from persisting when restarting the process
                 // If you want to load saved selections, uncomment the code below:
                 /*
-                const savedSelections = localStorage.getItem('nfcomAttributeSelections');
+                const savedSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('nfcomAttributeSelections');
                 if (savedSelections) {
                     try {
                         const parsed = JSON.parse(savedSelections);
@@ -1111,7 +1111,7 @@
             console.log('All NF-COM selections:', selectedLevels);
             
             // Save to localStorage (for potential future use, but we'll reset after)
-            localStorage.setItem('nfcomAttributeSelections', JSON.stringify(selectedLevels));
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('nfcomAttributeSelections', JSON.stringify(selectedLevels));
             
             // Save to serverStorage if available
             if (typeof serverStorage !== 'undefined') {

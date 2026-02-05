@@ -802,7 +802,11 @@
 
 <script>
     // Synchronisation du numéro de poste dans le header avec validation
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Précharger les données utilisateur (serveur) si connecté
+        if (typeof userStorage !== 'undefined') {
+            await userStorage.ready();
+        }
         // Vérifier si l'utilisateur est authentifié avant d'initialiser
         const isAuthenticated = document.getElementById('user-authenticated')?.dataset.authenticated === 'True';
         if (!isAuthenticated) {
@@ -845,8 +849,8 @@
                     headerJobCouleurSelect.appendChild(option);
                 });
                 
-                // Restaurer la sélection depuis localStorage si disponible
-                const savedSelection = localStorage.getItem('currentJobSelection');
+                // Restaurer la sélection depuis le stockage utilisateur (serveur ou localStorage)
+                const savedSelection = (typeof userStorage !== 'undefined' ? userStorage : localStorage).getItem('currentJobSelection');
                 if (savedSelection) {
                     try {
                         const selection = JSON.parse(savedSelection);
@@ -864,8 +868,8 @@
                     }
                 }
                 
-                // Restaurer aussi le numéro de poste depuis localStorage
-        const currentJobNumber = localStorage.getItem('currentJobNumber');
+                // Restaurer aussi le numéro de poste depuis le stockage utilisateur
+        const currentJobNumber = (typeof userStorage !== 'undefined' ? userStorage : localStorage).getItem('currentJobNumber');
         if (currentJobNumber) {
             headerJobNumberValue.textContent = currentJobNumber;
             headerJobNumber.classList.remove('hidden');
@@ -981,14 +985,15 @@
                 return;
             }
             
-            // Sauvegarder la sélection complète
+            // Sauvegarder la sélection complète (côté serveur si connecté)
             const selection = { nom, couleur, poste };
-            localStorage.setItem('currentJobSelection', JSON.stringify(selection));
-            localStorage.setItem('currentJobNumber', poste);
+            const store = typeof userStorage !== 'undefined' ? userStorage : localStorage;
+            store.setItem('currentJobSelection', JSON.stringify(selection));
+            store.setItem('currentJobNumber', poste);
             // Notifier les pages (même onglet) que le poste a changé
             try { window.dispatchEvent(new Event('cyberalignJobChanged')); } catch (_) {}
             // Notifier aussi les autres onglets (storage event)
-            localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+            store.setItem('cyberalignProgressLastUpdate', String(Date.now()));
             
             // Afficher le numéro de poste
             headerJobNumberValue.textContent = poste;
@@ -1015,7 +1020,7 @@
 
             // Clé stable "Nom COULEUR Poste" (ex: "Belisarius YELLOW 122")
             function getJobKey() {
-                const raw = localStorage.getItem('currentJobSelection');
+                const raw = (typeof userStorage !== 'undefined' ? userStorage : localStorage).getItem('currentJobSelection');
                 if (raw) {
                     try {
                         const sel = JSON.parse(raw);
@@ -1027,7 +1032,7 @@
                         // ignore
                     }
                 }
-                const num = (localStorage.getItem('currentJobNumber') || '').trim();
+                const num = ((typeof userStorage !== 'undefined' ? userStorage : localStorage).getItem('currentJobNumber') || '').trim();
                 return num ? `POSTE ${num}` : null;
             }
 
@@ -1042,9 +1047,10 @@
             if (!step) return;
 
             const storeKey = 'cyberalignProgress';
+            const storage = typeof userStorage !== 'undefined' ? userStorage : localStorage;
             let store = {};
             try {
-                store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {};
+                store = JSON.parse(storage.getItem(storeKey) || '{}') || {};
             } catch (_) {
                 store = {};
             }
@@ -1052,8 +1058,8 @@
             store[username] = store[username] || {};
             store[username][jobKey] = store[username][jobKey] || {};
             store[username][jobKey][step] = true;
-            localStorage.setItem(storeKey, JSON.stringify(store));
-            localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+            storage.setItem(storeKey, JSON.stringify(store));
+            storage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
         })();
         
         // Charger les données au démarrage
@@ -1459,7 +1465,7 @@
         const headerJobNumberValue = document.getElementById('header-job-number-value');
         
         if (headerJobNumber && headerJobNumberValue) {
-            const currentJobNumber = localStorage.getItem('currentJobNumber');
+            const currentJobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
             if (currentJobNumber) {
                 headerJobNumberValue.textContent = currentJobNumber;
                 headerJobNumber.classList.remove('hidden');

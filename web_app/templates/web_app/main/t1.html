@@ -711,7 +711,8 @@
         // Fonction pour charger et afficher les sélections de Step0
         function loadAndDisplayStep0Selections() {
             try {
-                const step0Data = localStorage.getItem('step0_baseline_data');
+                const store = (typeof userStorage !== 'undefined' ? userStorage : localStorage);
+                const step0Data = store.getItem('step0_baseline_data');
                 if (!step0Data) {
                     console.log('Aucune donnée Step0 trouvée');
                     return;
@@ -903,9 +904,9 @@
             }, 100);
         }
         
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             console.log('DOMContentLoaded déclenché');
-            
+            if (typeof userStorage !== 'undefined') await userStorage.ready();
             // Charger et afficher les work roles sélectionnés depuis Step0
             loadAndDisplayStep0Selections();
             
@@ -1806,7 +1807,7 @@
             // Filtrer pour n'afficher que les work roles sélectionnés dans Step0 (header section)
             let step0SelectedOpmIds = new Set();
             try {
-                const step0Str = localStorage.getItem('step0_baseline_data');
+                const step0Str = (typeof userStorage !== 'undefined' ? userStorage : localStorage).getItem('step0_baseline_data');
                 if (step0Str) {
                     const step0Data = JSON.parse(step0Str);
                     if (step0Data.selectedWorkRoles && Array.isArray(step0Data.selectedWorkRoles)) {

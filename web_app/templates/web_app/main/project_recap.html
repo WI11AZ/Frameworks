@@ -463,7 +463,7 @@
                 state[k] = sessionStorage.getItem(k);
             });
             PROJECT_RECAP_LOCAL_KEYS.forEach(function(k) {
-                state[k] = localStorage.getItem(k);
+                state[k] = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem(k);
             });
             const saveId = 'save_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
             let saveName = prompt('Donnez un nom à cette sauvegarde Project Recap (optionnel) :', '');
@@ -490,25 +490,26 @@
             })
             .then(function(res) {
                 if (res.status !== 'success') throw new Error(res.message || 'Erreur');
-                var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
+                var arr = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('projectRecapSaves') || '[]');
                 saveData._key = key;
                 arr.push(saveData);
                 if (arr.length > 50) arr = arr.slice(-50);
-                localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+                (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('projectRecapSaves', JSON.stringify(arr));
                 alert('Project Recap sauvegardé. Vous le retrouverez dans Sauvegardes.');
             })
             .catch(function(err) {
-                var arr = JSON.parse(localStorage.getItem('projectRecapSaves') || '[]');
+                var arr = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('projectRecapSaves') || '[]');
                 saveData._key = key;
                 arr.push(saveData);
                 if (arr.length > 50) arr = arr.slice(-50);
-                localStorage.setItem('projectRecapSaves', JSON.stringify(arr));
+                (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('projectRecapSaves', JSON.stringify(arr));
                 alert('Project Recap sauvegardé localement. ' + (err.message || ''));
             });
         }
         
         // Load and display all data
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (typeof userStorage !== 'undefined') await userStorage.ready();
             loadAllRecapData();
         });
 
@@ -522,19 +523,19 @@
             // Debug: Log available data in localStorage
             console.log('=== PROJECT RECAP DEBUG INFO ===');
             console.log('Step 1 - Job & Work Roles:');
-            console.log('  step0_baseline_data:', localStorage.getItem('step0_baseline_data') ? 'Available' : 'Missing');
-            console.log('  currentJobNumber:', localStorage.getItem('currentJobNumber') || 'Missing');
+            console.log('  step0_baseline_data:', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data') ? 'Available' : 'Missing');
+            console.log('  currentJobNumber:', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber') || 'Missing');
             console.log('Step 2 - KSAT Selection (Auto-selected from compare page):');
             console.log('  ksatLastSavedState (session):', sessionStorage.getItem('ksatLastSavedState') ? 'Available' : 'Missing');
             console.log('Step 3 - NF-COM Selection (Optional):');
-            console.log('  selectedNFDomains:', localStorage.getItem('selectedNFDomains') ? 'Available' : 'Missing');
-            console.log('  nfcomAttributeSelections:', localStorage.getItem('nfcomAttributeSelections') ? 'Available' : 'Missing');
+            console.log('  selectedNFDomains:', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains') ? 'Available' : 'Missing');
+            console.log('  nfcomAttributeSelections:', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('nfcomAttributeSelections') ? 'Available' : 'Missing');
             console.log('Step 4 - Poste Attribute Levels (REQUIRED):');
-            console.log('  posteAttributeSelections:', localStorage.getItem('posteAttributeSelections') ? 'Available ✓' : 'Missing ✗');
+            console.log('  posteAttributeSelections:', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('posteAttributeSelections') ? 'Available ✓' : 'Missing ✗');
             console.log('Step 5 - Skill Levels (Optional):');
-            console.log('  wizardLevelSelections (summary_chart_full):', localStorage.getItem('wizardLevelSelections') ? 'Available' : 'Missing');
-            console.log('  summaryMilRoleCompetences (summary_mil checkboxes):', localStorage.getItem('summaryMilRoleCompetences') ? 'Available' : 'Missing');
-            console.log('  summaryMilSelectedSkills (summary_mil direct):', localStorage.getItem('summaryMilSelectedSkills') ? 'Available' : 'Missing');
+            console.log('  wizardLevelSelections (summary_chart_full):', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections') ? 'Available' : 'Missing');
+            console.log('  summaryMilRoleCompetences (summary_mil checkboxes):', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('summaryMilRoleCompetences') ? 'Available' : 'Missing');
+            console.log('  summaryMilSelectedSkills (summary_mil direct):', (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('summaryMilSelectedSkills') ? 'Available' : 'Missing');
             console.log('================================');
 
             // 1. Job Position Information
@@ -569,8 +570,8 @@
             const container = document.getElementById('job-info-container');
             if (!container) return;
 
-            const jobNumber = localStorage.getItem('currentJobNumber');
-            const jobSelection = localStorage.getItem('currentJobSelection');
+            const jobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
+            const jobSelection = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobSelection');
             
             let html = '';
             
@@ -612,7 +613,7 @@
             const container = document.getElementById('emerging-work-roles-container');
             if (!container) return;
 
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             if (!step0Data) {
                 container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic">No emerging work roles selected.</p><p class="text-sm text-gray-500 mt-2">Emerging work roles (SANS and CEMA) can be selected in Step 0 (step0-baseline) if needed.</p></div>';
                 return;
@@ -712,7 +713,7 @@
             const container = document.getElementById('work-roles-container');
             if (!container) return;
 
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             if (!step0Data) {
                 container.innerHTML = '<p class="text-gray-500 italic">No work roles selected</p>';
                 return;
@@ -796,7 +797,7 @@
             // Fallback to localStorage
             if (!ksatData) {
                 console.log('Trying localStorage fallback...');
-                const localData = localStorage.getItem('currentKsatSelection');
+                const localData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentKsatSelection');
                 console.log('localStorage currentKsatSelection exists:', !!localData);
                 
                 if (localData) {
@@ -818,7 +819,7 @@
             
             // If no saved URL, try to construct it from step0
             if (!savedUrl) {
-                const step0Data = localStorage.getItem('step0_baseline_data');
+                const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                 if (step0Data) {
                     try {
                         const data = JSON.parse(step0Data);
@@ -1365,7 +1366,7 @@
             const container = document.getElementById('nf-com-container');
             if (!container) return;
 
-            const selectedDomains = localStorage.getItem('selectedNFDomains');
+            const selectedDomains = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains');
             if (!selectedDomains) {
                 container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No NF-COM competency areas selected.</strong></p><p class="text-sm text-gray-500 mt-2">This step is optional. NF-COM competency areas are selected in Step 3 (etape2_first_step.html) after clicking "Select Level". You can proceed without selecting any.</p></div>';
                 return;
@@ -1436,10 +1437,10 @@
             if (!container) return;
 
             // Load selected NF-COM domains
-            const selectedNFDomains = localStorage.getItem('selectedNFDomains');
+            const selectedNFDomains = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains');
             
             // Load NF-COM attribute levels from AttributsPartDeux.html
-            const nfcomAttributeData = localStorage.getItem('nfcomAttributeSelections');
+            const nfcomAttributeData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('nfcomAttributeSelections');
             
             if (!selectedNFDomains) {
                 container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No NF-COM competency areas selected.</strong></p><p class="text-sm text-gray-500 mt-2">This section displays the generic attributes (AUTO, INFL, COMP, KNGE) for each selected NF-COM. Please go to Step 3 (etape2_first_step) and select NF-COM domains, then complete Step 3b (AttributsPartDeux) to set attribute levels.</p></div>';
@@ -1579,7 +1580,7 @@
             if (!container) return;
 
             // Get OPM-IDs from step0
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             let opmIds = [];
             let workRolesMap = {};
             
@@ -1608,11 +1609,11 @@
 
             // Load wizardLevelSelections (may contain data from BOTH summary_chart_full.html and summary_mil.html wizards)
             // FILTER: Only keep OPM-IDs that are in step0 (current selection)
-            const wizardSelections = localStorage.getItem('wizardLevelSelections');
+            const wizardSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
             console.log('Raw wizardLevelSelections from localStorage:', wizardSelections);
             
             // Also check for wizardSummary which might contain additional info
-            const wizardSummary = localStorage.getItem('wizardSummary');
+            const wizardSummary = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardSummary');
             let summaryData = null;
             if (wizardSummary) {
                 try {
@@ -2052,8 +2053,8 @@
             if (!container) return;
 
             // Load from posteAttributeSelections (from attributs-part-deux-opm-id)
-            const posteData = localStorage.getItem('posteAttributeSelections');
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const posteData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('posteAttributeSelections');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             
             if (!posteData) {
                 container.innerHTML = '<div class="bg-gray-50 border border-gray-300 rounded-lg p-4"><p class="text-gray-600 italic"><strong>No competency area averages available.</strong></p><p class="text-sm text-gray-500 mt-2">This data comes from Step 4 (attributs-part-deux-opm-id). Once you complete that step, average levels for each competency area will be calculated and displayed here.</p></div>';
@@ -2143,11 +2144,11 @@
             const container = document.getElementById('global-stats-container');
             if (!container) return;
 
-            const levelSelections = localStorage.getItem('wizardLevelSelections');
-            const posteData = localStorage.getItem('posteAttributeSelections');
-            const step0Data = localStorage.getItem('step0_baseline_data');
+            const levelSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
+            const posteData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('posteAttributeSelections');
+            const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
             const ksatData = sessionStorage.getItem('ksatLastSavedState');
-            const selectedNFDomains = localStorage.getItem('selectedNFDomains');
+            const selectedNFDomains = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains');
 
             let totalSkills = 0;
             let totalKSAT = 0;
@@ -2467,12 +2468,12 @@
                 const wb = XLSX.utils.book_new();
                 
                 // Get all data from localStorage
-                const step0Data = localStorage.getItem('step0_baseline_data');
+                const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                 const ksatData = sessionStorage.getItem('ksatLastSavedState');
-                const levelSelections = localStorage.getItem('wizardLevelSelections');
-                const posteData = localStorage.getItem('posteAttributeSelections');
-                const selectedNFDomains = localStorage.getItem('selectedNFDomains');
-                const nfcomAttributeSelections = localStorage.getItem('nfcomAttributeSelections');
+                const levelSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
+                const posteData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('posteAttributeSelections');
+                const selectedNFDomains = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('selectedNFDomains');
+                const nfcomAttributeSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('nfcomAttributeSelections');
                 
                 // Sheet 1: Job Position Information
                 const jobInfoData = [];

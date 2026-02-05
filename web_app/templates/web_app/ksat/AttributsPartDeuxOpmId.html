@@ -343,7 +343,7 @@
         var username = (authEl.getAttribute('data-username') || '').trim();
         if (!username) return;
         function getJobKey() {
-            var raw = localStorage.getItem('currentJobSelection');
+            var raw = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobSelection');
             if (raw) {
                 try {
                     var sel = JSON.parse(raw);
@@ -353,19 +353,19 @@
                     if (nom && couleur && poste) return nom + ' ' + couleur + ' ' + poste;
                 } catch (e) {}
             }
-            var num = (localStorage.getItem('currentJobNumber') || '').trim();
+            var num = ((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber') || '').trim();
             return num ? 'POSTE ' + num : null;
         }
         var jobKey = getJobKey();
         if (!jobKey) return;
         var storeKey = 'cyberalignProgress';
         var store = {};
-        try { store = JSON.parse(localStorage.getItem(storeKey) || '{}') || {}; } catch (e) {}
+        try { store = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem(storeKey) || '{}') || {}; } catch (e) {}
         store[username] = store[username] || {};
         store[username][jobKey] = store[username][jobKey] || {};
         store[username][jobKey].step3 = true;
-        localStorage.setItem(storeKey, JSON.stringify(store));
-        localStorage.setItem('cyberalignProgressLastUpdate', String(Date.now()));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem(storeKey, JSON.stringify(store));
+        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('cyberalignProgressLastUpdate', String(Date.now()));
     })();
     </script>
     <nav class="bg-gray-800 mb-0 -mx-0 -mt-0 px-4" style="margin-top: 0 !important; margin-bottom: 0 !important;">
@@ -461,8 +461,8 @@
                 const selectedPostesList = [];
                 
                 // Method 1: Get from localStorage (currentJobNumber or currentJobSelection)
-                const currentJobNumber = localStorage.getItem('currentJobNumber');
-                const currentJobSelection = localStorage.getItem('currentJobSelection');
+                const currentJobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
+                const currentJobSelection = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobSelection');
                 
                 if (currentJobNumber) {
                     const poste = currentJobNumber.trim();
@@ -1141,7 +1141,7 @@
             console.log('All Poste selections:', selectedLevels);
             
             // Save to localStorage
-            localStorage.setItem('posteAttributeSelections', JSON.stringify(selectedLevels));
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('posteAttributeSelections', JSON.stringify(selectedLevels));
             
             // Save to serverStorage if available
             if (typeof serverStorage !== 'undefined') {

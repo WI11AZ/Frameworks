@@ -24278,7 +24278,8 @@ const niceNameToWrlLookup = {
             };
             
             try {
-                localStorage.setItem('step0_baseline_data', JSON.stringify(step0Data));
+                const store = (typeof userStorage !== 'undefined' ? userStorage : localStorage);
+                store.setItem('step0_baseline_data', JSON.stringify(step0Data));
                 console.log('Data saved:', step0Data);
                 console.log('Primary Role OPM ID (normalized):', normalizedPrimaryRoleOpmId);
             } catch (e) {

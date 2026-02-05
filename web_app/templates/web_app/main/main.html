@@ -712,7 +712,7 @@
     };
 
     function getJobKey() {
-      const raw = localStorage.getItem('currentJobSelection');
+      const raw = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobSelection');
       if (raw) {
         try {
           const sel = JSON.parse(raw);
@@ -722,14 +722,14 @@
           if (nom && couleur && poste) return `${nom} ${couleur} ${poste}`;
         } catch (_) {}
       }
-      const num = (localStorage.getItem('currentJobNumber') || '').trim();
+      const num = ((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber') || '').trim();
       return num ? `POSTE ${num}` : null;
     }
 
     function readProgress(jobKey) {
       if (!username || !jobKey) return {};
       try {
-        const store = JSON.parse(localStorage.getItem('cyberalignProgress') || '{}') || {};
+        const store = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('cyberalignProgress') || '{}') || {};
         return (store[username] && store[username][jobKey]) ? store[username][jobKey] : {};
       } catch (_) {
         return {};
@@ -852,7 +852,7 @@
   // Fonctions pour gérer les clics sur les panneaux d'étapes
   function handleEtape0Click() {
     // Vérifier si un numéro de poste a été entré
-    const jobNumber = localStorage.getItem('currentJobNumber');
+    const jobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
     if (!jobNumber) {
       showJobNumberRequiredMessage();
     } else {
@@ -863,7 +863,7 @@
   
   function handleEtape1Click() {
     // Vérifier si un numéro de poste a été entré
-    const jobNumber = localStorage.getItem('currentJobNumber');
+    const jobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
     if (!jobNumber) {
       showJobNumberRequiredMessage();
     } else {
@@ -873,7 +873,7 @@
   
   function handleEtape2Click() {
     // Vérifier si un numéro de poste a été entré
-    const jobNumber = localStorage.getItem('currentJobNumber');
+    const jobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
     if (!jobNumber) {
       showJobNumberRequiredMessage();
       return;
@@ -883,7 +883,7 @@
   
   function handleEtape3Click() {
     // Vérifier si un numéro de poste a été entré
-    const jobNumber = localStorage.getItem('currentJobNumber');
+    const jobNumber = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentJobNumber');
     if (!jobNumber) {
       showJobNumberRequiredMessage();
       return;

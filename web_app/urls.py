@@ -10,7 +10,7 @@ from .views import (
     qf_viewer_view, qf_download_view
 )
 from .views_auth import main_view, login_view, signup_view, logout_view, account_options_view, change_password_view, delete_account_view
-from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data
+from .views_saved_data import get_saved_data, list_saved_data, save_data, delete_saved_data, get_all_saved_data
 
 urlpatterns = [
     # Page principale et authentification
@@ -45,6 +45,7 @@ urlpatterns = [
     
     # API pour les données sauvegardées utilisateur
     path('api/saved-data/', list_saved_data, name='list_saved_data'),
+    path('api/saved-data/all/', get_all_saved_data, name='get_all_saved_data'),
     path('api/saved-data/<str:key>/', get_saved_data, name='get_saved_data'),
     path('api/saved-data/save/', save_data, name='save_data'),
     path('api/saved-data/delete/<str:key>/', delete_saved_data, name='delete_saved_data'),

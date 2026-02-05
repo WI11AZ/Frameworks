@@ -1209,12 +1209,13 @@
         }
     ];
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
+        if (typeof userStorage !== 'undefined') await userStorage.ready();
         // Fonction pour charger et afficher les sélections de Step0
         function loadAndDisplayStep0Selections() {
             return new Promise((resolve, reject) => {
                 try {
-                    const step0Data = localStorage.getItem('step0_baseline_data');
+                    const step0Data = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                     if (!step0Data) {
                         console.log('Aucune donnée Step0 trouvée');
                         resolve();
@@ -2116,7 +2117,7 @@
                 // PRIORITÉ 2: Si pas de rôles dans step0-selected-roles, utiliser la logique normale
                 if (rolesWithOpmIds.length === 0) {
                     // Vérifier si nous avons une sélection active pour l'étape 3
-                    const activateStep3 = localStorage.getItem('activateStep3');
+                    const activateStep3 = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('activateStep3');
                     console.log('Activation étape 3:', activateStep3);
                     
                     // Essayer d'abord de récupérer les données depuis serverStorage
@@ -2132,14 +2133,14 @@
                     } else {
                         // Fallback à localStorage si serverStorage ne contient pas les données
                         console.log('Aucune donnée dans serverStorage, tentative avec localStorage');
-                        currentSelection = JSON.parse(localStorage.getItem('currentKsatSelection') || '{}');
+                        currentSelection = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentKsatSelection') || '{}');
                         dataSource = 'localStorage';
                         console.log('Sélection récupérée depuis localStorage (fallback)');
                     }
                 } catch (error) {
                     // En cas d'erreur avec serverStorage, utiliser localStorage
                     console.error('Erreur avec serverStorage, utilisation de localStorage:', error);
-                    currentSelection = JSON.parse(localStorage.getItem('currentKsatSelection') || '{}');
+                    currentSelection = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('currentKsatSelection') || '{}');
                     dataSource = 'localStorage';
                 }
                 
@@ -2149,7 +2150,7 @@
                 // Vérifier aussi si on a des données Step0
                 let step0Data = null;
                 try {
-                    const step0DataStr = localStorage.getItem('step0_baseline_data');
+                    const step0DataStr = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                     if (step0DataStr) {
                         step0Data = JSON.parse(step0DataStr);
                     }
@@ -2314,7 +2315,7 @@
                         // Récupérer le work role principal depuis localStorage
                         let primaryRoleOpmId = null;
                         try {
-                            const step0DataStr = localStorage.getItem('step0_baseline_data');
+                            const step0DataStr = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('step0_baseline_data');
                             if (step0DataStr) {
                                 const step0Data = JSON.parse(step0DataStr);
                                 if (step0Data.primaryRoleOpmId) {
@@ -2475,9 +2476,9 @@
                                 
                                 // Sauvegarder l'état dans localStorage
                                 try {
-                                    const filterStates = JSON.parse(localStorage.getItem('opmFilterStates') || '{}');
+                                    const filterStates = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('opmFilterStates') || '{}');
                                     filterStates[opmId] = this.checked;
-                                    localStorage.setItem('opmFilterStates', JSON.stringify(filterStates));
+                                    (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('opmFilterStates', JSON.stringify(filterStates));
                                 } catch (e) {
                                     console.error('Erreur lors de la sauvegarde de l\'état du filtre:', e);
                                 }
@@ -2709,7 +2710,7 @@
                         // Restaurer l'état des cases de filtrage depuis localStorage
                         setTimeout(() => {
                             try {
-                                const filterStates = JSON.parse(localStorage.getItem('opmFilterStates') || '{}');
+                                const filterStates = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('opmFilterStates') || '{}');
                                 
                                 document.querySelectorAll('.opm-filter-checkbox').forEach(checkbox => {
                                     const opmId = checkbox.dataset.opmId;
@@ -3127,7 +3128,7 @@
         const darkModeToggle = document.getElementById('darkModeToggle');
         const moonIcon = document.getElementById('moonIcon');
         const sunIcon = document.getElementById('sunIcon');
-        const isDarkMode = () => localStorage.getItem('darkMode') === 'true';
+        const isDarkMode = () => (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('darkMode') === 'true';
 
         const updateDarkMode = () => {
             if (isDarkMode()) {
@@ -3142,7 +3143,7 @@
         };
 
         darkModeToggle.addEventListener('click', () => {
-            localStorage.setItem('darkMode', !isDarkMode());
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('darkMode', !isDarkMode());
             updateDarkMode();
         });
 
@@ -4659,7 +4660,7 @@
             // Récupérer les états des cases à cocher depuis localStorage
             let checkboxStates = {};
             try {
-                checkboxStates = JSON.parse(localStorage.getItem('opmCheckboxStates') || '{}');
+                checkboxStates = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('opmCheckboxStates') || '{}');
                 console.log('États des cases à cocher récupérés:', checkboxStates);
             } catch (e) {
                 console.error('Erreur lors de la récupération des états des cases à cocher:', e);
@@ -4678,7 +4679,7 @@
                     // Sauvegarder l'état par défaut
                     try {
                         checkboxStates[opmId] = true;
-                        localStorage.setItem('opmCheckboxStates', JSON.stringify(checkboxStates));
+                        (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('opmCheckboxStates', JSON.stringify(checkboxStates));
                     } catch (e) {
                         console.error('Erreur lors de la sauvegarde de l\'état par défaut:', e);
                     }
@@ -4979,7 +4980,7 @@
         // Récupérer les états des cases à cocher depuis localStorage
         let checkboxStates = {};
         try {
-            checkboxStates = JSON.parse(localStorage.getItem('opmCheckboxStates') || '{}');
+            checkboxStates = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('opmCheckboxStates') || '{}');
             console.log('États des cases à cocher récupérés:', checkboxStates);
         } catch (e) {
             console.error('Erreur lors de la récupération des états des cases à cocher:', e);
@@ -4998,7 +4999,7 @@
                 // Sauvegarder l'état par défaut
                 try {
                     checkboxStates[opmId] = true;
-                    localStorage.setItem('opmCheckboxStates', JSON.stringify(checkboxStates));
+                    (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('opmCheckboxStates', JSON.stringify(checkboxStates));
                 } catch (e) {
                     console.error('Erreur lors de la sauvegarde de l\'état par défaut:', e);
                 }
@@ -5427,7 +5428,7 @@
         function saveLevelSelections() {
             try {
                 // Load existing data to merge (don't overwrite data from summary_mil.html)
-                const existingData = localStorage.getItem('wizardLevelSelections');
+                const existingData = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
                 let mergedSelections = {};
                 
                 if (existingData) {
@@ -5459,8 +5460,8 @@
                     });
                 });
                 
-                localStorage.setItem('wizardLevelSelections', JSON.stringify(mergedSelections));
-                localStorage.setItem('wizardOpmAverages', JSON.stringify(opmAverages));
+                (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardLevelSelections', JSON.stringify(mergedSelections));
+                (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardOpmAverages', JSON.stringify(opmAverages));
                 console.log('Merged wizardLevelSelections saved:', mergedSelections);
             } catch (e) {
                 console.error('Erreur lors de la sauvegarde des sélections:', e);
@@ -5470,8 +5471,8 @@
         // Fonction pour charger les sélections depuis localStorage
         function loadLevelSelections() {
             try {
-                const savedSelections = localStorage.getItem('wizardLevelSelections');
-                const savedAverages = localStorage.getItem('wizardOpmAverages');
+                const savedSelections = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardLevelSelections');
+                const savedAverages = (typeof getStorage === 'function' ? getStorage() : localStorage).getItem('wizardOpmAverages');
                 
                 if (savedSelections) {
                     levelSelections = JSON.parse(savedSelections);
@@ -5595,7 +5596,7 @@
             saveLevelSelections();
             
             // Sauvegarder un flag indiquant que le wizard est terminé
-            localStorage.setItem('wizardCompleted', 'true');
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardCompleted', 'true');
             
             // Préparer un résumé des sélections
             const summary = {
@@ -5606,7 +5607,7 @@
             };
             
             // Sauvegarder le résumé
-            localStorage.setItem('wizardSummary', JSON.stringify(summary));
+            (typeof getStorage === 'function' ? getStorage() : localStorage).setItem('wizardSummary', JSON.stringify(summary));
             
             console.log('Données sauvegardées:', summary);
             
@@ -5761,7 +5762,7 @@
                 // Récupérer les états des cases à cocher depuis localStorage
                 let checkboxStates = {};
                 try {
-                    checkboxStates = JSON.parse(localStorage.getItem('opmCheckboxStates') || '{}');
+                    checkboxStates = JSON.parse((typeof getStorage === 'function' ? getStorage() : localStorage).getItem('opmCheckboxStates') || '{}');
                 } catch (e) {
                     console.error('Erreur lors de la récupération des états des cases à cocher:', e);
                 }
