@@ -322,41 +322,6 @@
             flex-direction: column;
             width: 100%;
         }
-        .overview-relation-mode-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 6px;
-            padding: 4px 0;
-            flex-shrink: 0;
-            font-size: 11px;
-            color: #6b7280;
-        }
-        .overview-relation-mode-label {
-            font-weight: 600;
-            color: #9ca3af;
-        }
-        .overview-relation-mode-btn {
-            padding: 4px 10px;
-            border: 1px solid #e5e7eb;
-            background: #fafafa;
-            color: #6b7280;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
-        }
-        .overview-relation-mode-btn:hover {
-            background: #f3f4f6;
-            color: #374151;
-            border-color: #d1d5db;
-        }
-        .overview-relation-mode-btn.active {
-            background: #e0e7ff;
-            color: #3730a3;
-            border-color: #818cf8;
-        }
         .overview-section-title {
             font-weight: 800;
             color: #111827;
@@ -412,30 +377,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             transform: scale(1.06);
             z-index: 2;
-        }
-        .overview-tile.overview-dimmed {
-            opacity: 0.28;
-            pointer-events: none;
-        }
-        .overview-tile.overview-dimmed:hover {
-            transform: none;
-        }
-        .overview-physics-container .overview-family-zone {
-            z-index: 1;
-        }
-        .overview-relations-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .overview-relations-svg line {
-            stroke: #6366f1;
-            stroke-width: 1.5;
-            stroke-opacity: 0.85;
         }
         .overview-tile-opm {
             font-size: clamp(10px, 1.2vh, 13px);
@@ -909,10 +850,6 @@
         .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); display:none; z-index: 999; }
         .modal { position: fixed; top:50%; left:50%; transform: translate(-50%, -50%) scale(.98); width: min(1100px, 96vw); max-height: 90vh; background:#fff; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,.2); opacity:0; pointer-events:none; transition: .2s ease; overflow:auto; z-index: 1000; }
         .modal.open { opacity:1; transform: translate(-50%, -50%) scale(1); pointer-events:auto; }
-        /* Modal KSAT (au-dessus de tout) */
-        #ksatModalBackdrop { z-index: 1099; }
-        #ksatModal { z-index: 1100; max-width: min(700px, 92vw); max-height: 85vh; }
-        #ksatModal .modal-body-inner { padding: 16px 20px 24px; overflow-y: auto; max-height: calc(85vh - 60px); }
         .modal-header { 
             position: sticky; 
             top:0; 
@@ -1004,22 +941,22 @@
         }
         
         .search-box {
-            padding: 10px 12px;
-            font-size: 13px;
+            padding: 14px 16px;
+            font-size: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            border-radius: 8px;
             width: 100%;
-            min-width: 0;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
             background: white;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .search-box:focus {
             outline: none;
             border-color: #0078d4;
-            box-shadow: 0 0 0 2px rgba(0,120,212,0.2);
+            box-shadow: 0 4px 12px rgba(0,120,212,0.15);
+            background: #fafafa;
         }
         
         .search-box::placeholder {
@@ -1027,35 +964,31 @@
             font-style: italic;
         }
         
+        .selector-section .roles-list {
+            max-height: 280px;
+        }
+        
         .roles-list {
             background: white;
+            max-height: 400px;
             overflow-y: auto;
-            overflow-x: hidden;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 6px;
+            margin-top: 10px;
             display: none;
-            box-sizing: border-box;
-            margin: 0;
         }
         
         .roles-list.active {
             display: block;
-            position: fixed;
-            z-index: 10050;
-            max-height: min(70vh, 500px);
-            min-height: 80px;
-            width: min(420px, calc(100vw - 32px));
-            box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
         }
         
         .role-item {
-            padding: 10px 12px;
+            padding: 15px;
             border-bottom: 1px solid #e0e0e0;
             cursor: pointer;
             transition: background 0.2s;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            gap: 30px;
             background: white;
         }
         
@@ -1069,8 +1002,7 @@
         
         .role-item-section {
             flex: 1;
-            min-width: 0;
-            padding: 8px 10px;
+            padding: 10px;
             border-radius: 6px;
             background: #fafafa;
             cursor: pointer;
@@ -1153,11 +1085,9 @@
         .role-item-title {
             font-weight: 600;
             color: #333;
-            margin-bottom: 6px;
-            font-size: 13px;
-            line-height: 1.35;
-            word-break: break-word;
-            overflow-wrap: break-word;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.4;
         }
         
         .role-item-id {
@@ -1608,12 +1538,6 @@
         .border.border-gray-200 .role-checkbox-container {
             opacity: 1;
         }
-        /* Checkboxes à droite uniquement dans les sections emerging work role (SANS / CEMA) */
-        #emerging-work-roles-sans .role-checkbox-container,
-        #emerging-work-roles-cema .role-checkbox-container {
-            left: auto;
-            right: 10px;
-        }
         
         .role-checkbox {
             width: 20px;
@@ -2061,10 +1985,9 @@
         <div id="modalBackdrop" class="modal-backdrop" onclick="closeModal()"></div>
         <div id="detailsModal" class="modal" aria-hidden="true">
             <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 12px;">
                     <div id="modalTitle" style="font-weight:800;color:#111827;"></div>
                     <div id="modalOpmId" style="font-size: 14px; color: #6b7280; font-weight: 600; padding: 4px 12px; background: #f3f4f6; border-radius: 6px;"></div>
-                    <button type="button" id="modalShowKsatBtn" onclick="showModalDcwfKsat()" style="font-size: 12px; padding: 4px 10px; background: #e0e7ff; color: #3730a3; border: 1px solid #818cf8; border-radius: 6px; cursor: pointer; font-weight: 600; white-space: nowrap;">Show DCWF KSAT</button>
                 </div>
                 <div class="modal-header-right">
                     <div class="modal-checkbox-container">
@@ -2080,16 +2003,6 @@
                 </div>
             </div>
             <div id="modalBody" style="padding:18px 20px 30px 20px;"></div>
-        </div>
-        
-        <!-- Modal KSAT (affichée devant tout) -->
-        <div id="ksatModalBackdrop" class="modal-backdrop" style="display: none;" onclick="closeKsatModal()"></div>
-        <div id="ksatModal" class="modal" aria-hidden="true" style="display: none;">
-            <div class="modal-header">
-                <div id="ksatModalTitle" style="font-weight: 800; color: #111827;">DCWF 25 KSAT</div>
-                <button type="button" class="close-btn" onclick="closeKsatModal()">Close</button>
-            </div>
-            <div id="ksatModalBody" class="modal-body-inner"></div>
         </div>
         
         <!-- Confirmation Modal for Step 1 -->
@@ -22511,56 +22424,30 @@ const niceNameToWrlLookup = {
             });
         }
 
-        function positionRolesListOverlay() {
-            const searchBox = document.getElementById('searchBox');
-            const rolesList = document.getElementById('rolesList');
-            if (!searchBox || !rolesList || !rolesList.classList.contains('active')) return;
-            const r = searchBox.getBoundingClientRect();
-            const gap = 4;
-            const padding = 16;
-            rolesList.style.top = (r.bottom + gap) + 'px';
-            rolesList.style.left = r.left + 'px';
-            rolesList.style.width = Math.min(420, window.innerWidth - r.left - padding) + 'px';
-        }
-        
         function searchRoles() {
-            const searchBox = document.getElementById('searchBox');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
             const rolesList = document.getElementById('rolesList');
-            if (!searchBox || !rolesList) return;
             
-            const searchTerm = searchBox.value.trim().toLowerCase();
             if (searchTerm.length < 2) {
                 rolesList.classList.remove('active');
-                rolesList.innerHTML = '';
                 return;
             }
             
-            if (!allRolesData || !allRolesData.length) {
-                rolesList.innerHTML = '<div class="no-data-message">Données en cours de chargement…</div>';
-                rolesList.classList.add('active');
-                positionRolesListOverlay();
-                return;
-            }
-            
-            const filtered = allRolesData.filter((role) => {
+            const filtered = allRolesData.filter((role, index) => {
                 const niceName = (role.nice?.work_role || '').toLowerCase();
                 const ncwfTitleFromBaseline = (getNCWFTitle(role.opm_code) || '').toLowerCase();
                 const dcwfName = (role.dcwf?.work_role || '').toLowerCase();
-                const dcwfElement = (role.dcwf?.element || '').toLowerCase();
-                const ncwfElement = (role.nice?.element || '').toLowerCase();
-                const opmCode = String(role.opm_code || '').toLowerCase();
+                const opmCode = String(role.opm_code).toLowerCase();
                 const wrlIdFromBaseline = (getWRLID(role.opm_code) || '').toLowerCase();
                 const wrlId = (role.nice?.id || '').toLowerCase();
                 
-                return niceName.includes(searchTerm) ||
+                return niceName.includes(searchTerm) || 
                        ncwfTitleFromBaseline.includes(searchTerm) ||
-                       dcwfName.includes(searchTerm) ||
-                       dcwfElement.includes(searchTerm) ||
-                       ncwfElement.includes(searchTerm) ||
+                       dcwfName.includes(searchTerm) || 
                        opmCode.includes(searchTerm) ||
                        wrlId.includes(searchTerm) ||
                        wrlIdFromBaseline.includes(searchTerm);
-            }).map((role) => ({ role, originalIndex: allRolesData.indexOf(role) }));
+            }).map((role, originalIndex) => ({role, originalIndex: allRolesData.indexOf(role)}));
             
             if (filtered.length > 0) {
                 rolesList.innerHTML = filtered.map(({role, originalIndex}) => {
@@ -22599,24 +22486,11 @@ const niceNameToWrlLookup = {
                     `;
                 }).join('');
                 rolesList.classList.add('active');
-                positionRolesListOverlay();
             } else {
                 rolesList.innerHTML = '<div class="no-data-message">No role found</div>';
                 rolesList.classList.add('active');
-                positionRolesListOverlay();
             }
         }
-        
-        (function initRolesListOverlayListeners() {
-            var rolesList = document.getElementById('rolesList');
-            var searchBox = document.getElementById('searchBox');
-            if (!rolesList || !searchBox) return;
-            var onScrollResize = function () {
-                if (rolesList.classList.contains('active')) positionRolesListOverlay();
-            };
-            window.addEventListener('scroll', onScrollResize, true);
-            window.addEventListener('resize', onScrollResize);
-        })();
 
         function selectRoleFromSearch(index) {
             const dcwfSelector = document.getElementById('dcwfSelector');
@@ -23095,17 +22969,17 @@ const niceNameToWrlLookup = {
                     </div>
 
                     <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-lg">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Key Information</h3>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                             <div>
                                 <p><strong>Source:</strong> ${sansData.metadata.source}</p>
-                                <p><strong>Observation period:</strong> 2 years</p>
-                                <p><strong>Method:</strong> SANS Summit, expert discussions</p>
+                                <p><strong>Période d'observation:</strong> 2 ans</p>
+                                <p><strong>Méthode:</strong> SANS Summit, discussions d'experts</p>
                             </div>
                             <div>
-                                <p><strong>Focus:</strong> Defense of AI technological capabilities</p>
-                                <p><strong>Type:</strong> Emerging roles with real impact</p>
-                                <p><strong>Domain:</strong> AI Cybersecurity</p>
+                                <p><strong>Focus:</strong> Défense des capacités technologiques IA</p>
+                                <p><strong>Type:</strong> Rôles émergents avec impact réel</p>
+                                <p><strong>Domaine:</strong> Cybersécurité IA</p>
                             </div>
                         </div>
                     </div>
@@ -23208,17 +23082,17 @@ const niceNameToWrlLookup = {
                     </div>
 
                     <div class="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Key Information</h3>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">ℹ️ Informations Clés</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                             <div>
                                 <p><strong>Source:</strong> ${cemaData.metadata.source}</p>
-                                <p><strong>Domain:</strong> Cyberspace & Electromagnetic Warfare</p>
-                                <p><strong>Focus:</strong> Integration and synchronization</p>
+                                <p><strong>Domaine:</strong> Cyberspace & Guerre Électromagnétique</p>
+                                <p><strong>Focus:</strong> Intégration et synchronisation</p>
                             </div>
                             <div>
-                                <p><strong>Type:</strong> Specialized military roles</p>
-                                <p><strong>Responsibility:</strong> CEMA operations</p>
-                                <p><strong>Level:</strong> Tactical and operational</p>
+                                <p><strong>Type:</strong> Rôles militaires spécialisés</p>
+                                <p><strong>Responsabilité:</strong> Opérations CEMA</p>
+                                <p><strong>Niveau:</strong> Tactique et opérationnel</p>
                             </div>
                         </div>
                     </div>
@@ -23292,15 +23166,7 @@ const niceNameToWrlLookup = {
             overviewTiles.forEach(t => { byFamily[t.family].push(t); });
             const familiesWithTiles = DCWF_ORDER.filter(f => byFamily[f].length > 0);
             const nFamilies = Math.max(1, familiesWithTiles.length);
-            let overviewHtml = '<div class="overview-section">' +
-                '<div class="overview-relation-mode-bar">' +
-                '<span class="overview-relation-mode-label">Relations:</span>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="tks" title="Survol: afficher les Related Roles by TKS (Top 5)">Related Roles by TKS (Top 5)</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="secondary" title="Survol: afficher les Top 5 Secondary Work Roles (Federal Data)">Top 5 Secondary (Federal)</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="on_ramps" title="Survol: afficher les On Ramps">On Ramps</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="off_ramps" title="Survol: afficher les Off Ramps">Off Ramps</button>' +
-                '</div>' +
-                '<div class="overview-physics-container" id="overviewPhysicsContainer"><svg class="overview-relations-svg" aria-hidden="true"></svg>';
+            let overviewHtml = '<div class="overview-section"><div class="overview-section-title">📋 Vue d\'ensemble – ' + overviewCount + ' Work Roles</div><div class="overview-physics-container" id="overviewPhysicsContainer">';
             familiesWithTiles.forEach((fam, fi) => {
                 const zoneLeft = (100 * fi / nFamilies) + '%';
                 const zoneWidth = (100 / nFamilies) + '%';
@@ -23313,13 +23179,7 @@ const niceNameToWrlLookup = {
                 overviewHtml += '</div></div>';
             });
             overviewHtml += '</div></div>';
-            setTimeout(() => {
-                if (document.getElementById('overviewPhysicsContainer')) {
-                    initOverviewForceLayout();
-                    initOverviewRelationHover();
-                    bindOverviewRelationModeButtons();
-                }
-            }, 100);
+            setTimeout(() => { if (document.getElementById('overviewPhysicsContainer')) initOverviewForceLayout(); }, 100);
             
             // Check si un bouton DCWF est actif (même si c'est 'all')
             const dcwfButtonActive = document.querySelector('.dcwf-filter.active') !== null;
@@ -23611,107 +23471,6 @@ const niceNameToWrlLookup = {
             });
         }
         
-        let overviewRelationMode = '';
-        function getOverviewRelatedRoleNames(role, mode) {
-            const nice = role.nice;
-            if (!nice) return [];
-            if (mode === 'tks' && Array.isArray(nice.related_roles_tks)) return nice.related_roles_tks.map(r => (r && r.name) ? r.name : r).filter(Boolean);
-            if (mode === 'secondary' && Array.isArray(nice.top_5_secondary)) return nice.top_5_secondary.map(r => (r && r.name) ? r.name : r).filter(Boolean);
-            if (mode === 'on_ramps' && Array.isArray(nice.on_ramps)) return nice.on_ramps.slice();
-            if (mode === 'off_ramps' && Array.isArray(nice.off_ramps)) return nice.off_ramps.slice();
-            return [];
-        }
-        function getOverviewRelatedIndices(names) {
-            if (!names || !names.length || typeof allRolesData === 'undefined') return new Set();
-            const set = new Set();
-            const nameSet = new Set(names.map(n => (n || '').trim().toLowerCase()));
-            allRolesData.forEach((r, idx) => {
-                const nw = (r.nice && r.nice.work_role) ? String(r.nice.work_role).trim().toLowerCase() : '';
-                const dw = (r.dcwf && r.dcwf.work_role) ? String(r.dcwf.work_role).trim().toLowerCase() : '';
-                if (nameSet.has(nw) || nameSet.has(dw)) set.add(idx);
-            });
-            return set;
-        }
-        function bindOverviewRelationModeButtons() {
-            const bar = document.querySelector('.overview-relation-mode-bar');
-            if (!bar) return;
-            bar.querySelectorAll('.overview-relation-mode-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const mode = this.getAttribute('data-mode') || '';
-                    bar.querySelectorAll('.overview-relation-mode-btn').forEach(b => b.classList.remove('active'));
-                    if (overviewRelationMode === mode) { overviewRelationMode = ''; return; }
-                    overviewRelationMode = mode;
-                    this.classList.add('active');
-                    clearOverviewRelationLines();
-                    document.querySelectorAll('.overview-tile.overview-dimmed').forEach(t => t.classList.remove('overview-dimmed'));
-                });
-            });
-        }
-        function clearOverviewRelationLines() {
-            const svg = document.querySelector('#overviewPhysicsContainer .overview-relations-svg');
-            if (svg) svg.innerHTML = '';
-        }
-        function drawOverviewRelationLines(fromTile, toTiles) {
-            const container = document.getElementById('overviewPhysicsContainer');
-            if (!container || !fromTile || !toTiles.length) return;
-            const cr = container.getBoundingClientRect();
-            const fr = fromTile.getBoundingClientRect();
-            const x1 = fr.left - cr.left + fr.width / 2;
-            const y1 = fr.top - cr.top + fr.height / 2;
-            const w = cr.width;
-            const h = cr.height;
-            let svg = container.querySelector('.overview-relations-svg');
-            if (!svg) return;
-            svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-            svg.setAttribute('width', w);
-            svg.setAttribute('height', h);
-            toTiles.forEach(tile => {
-                const tr = tile.getBoundingClientRect();
-                const x2 = tr.left - cr.left + tr.width / 2;
-                const y2 = tr.top - cr.top + tr.height / 2;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', x1);
-                line.setAttribute('y1', y1);
-                line.setAttribute('x2', x2);
-                line.setAttribute('y2', y2);
-                svg.appendChild(line);
-            });
-        }
-        function initOverviewRelationHover() {
-            const container = document.getElementById('overviewPhysicsContainer');
-            if (!container) return;
-            function clearHighlight() {
-                clearOverviewRelationLines();
-                container.querySelectorAll('.overview-tile.overview-dimmed').forEach(t => t.classList.remove('overview-dimmed'));
-            }
-            container.addEventListener('mouseover', function (e) {
-                if (!overviewRelationMode) return;
-                const tile = e.target.closest('.overview-tile');
-                if (!tile) { clearHighlight(); return; }
-                const idx = parseInt(tile.getAttribute('data-idx'), 10);
-                if (isNaN(idx) || !allRolesData || !allRolesData[idx]) return;
-                const role = allRolesData[idx];
-                const names = getOverviewRelatedRoleNames(role, overviewRelationMode);
-                const relatedIdxs = getOverviewRelatedIndices(names);
-                const highlightSet = new Set([idx, ...relatedIdxs]);
-                container.querySelectorAll('.overview-tile').forEach(t => {
-                    const i = parseInt(t.getAttribute('data-idx'), 10);
-                    if (highlightSet.has(i)) t.classList.remove('overview-dimmed');
-                    else t.classList.add('overview-dimmed');
-                });
-                const toTiles = [];
-                container.querySelectorAll('.overview-tile').forEach(t => {
-                    const i = parseInt(t.getAttribute('data-idx'), 10);
-                    if (i !== idx && relatedIdxs.has(i)) toTiles.push(t);
-                });
-                clearOverviewRelationLines();
-                drawOverviewRelationLines(tile, toTiles);
-            }, true);
-            container.addEventListener('mouseleave', function (e) {
-                if (!e.relatedTarget || !container.contains(e.relatedTarget)) clearHighlight();
-            }, true);
-        }
-        
         // Recalcul adaptatif du layout en fonction de la taille de l'écran
         let overviewLayoutResizeTimer = null;
         window.addEventListener('resize', function () {
@@ -23724,8 +23483,6 @@ const niceNameToWrlLookup = {
                 const overviewNow = document.getElementById('overviewView');
                 if (boxNow && boxNow.parentElement && overviewNow && overviewNow.classList.contains('active')) {
                     initOverviewForceLayout();
-                    clearOverviewRelationLines();
-                    boxNow.querySelectorAll('.overview-tile.overview-dimmed').forEach(t => t.classList.remove('overview-dimmed'));
                 }
             }, 150);
         });
@@ -24306,117 +24063,6 @@ const niceNameToWrlLookup = {
             document.getElementById('modalBody').innerHTML = html;
             document.getElementById('modalBackdrop').style.display = 'block';
             document.getElementById('detailsModal').classList.add('open');
-            closeKsatModal();
-        }
-        
-        function closeKsatModal() {
-            const back = document.getElementById('ksatModalBackdrop');
-            const modal = document.getElementById('ksatModal');
-            if (back) back.style.display = 'none';
-            if (modal) { modal.style.display = 'none'; modal.classList.remove('open'); }
-        }
-        
-        function openKsatModal(title) {
-            const titleEl = document.getElementById('ksatModalTitle');
-            if (titleEl) titleEl.textContent = title || 'KSAT';
-            const back = document.getElementById('ksatModalBackdrop');
-            const modal = document.getElementById('ksatModal');
-            if (back) back.style.display = 'block';
-            if (modal) { modal.style.display = 'block'; modal.classList.add('open'); }
-        }
-        
-        function getKsatApiBase() {
-            if (typeof window !== 'undefined' && window.location && window.location.origin && !window.location.protocol.startsWith('file')) {
-                return window.location.origin;
-            }
-            return '';
-        }
-        
-        function showModalDcwfKsat() {
-            if (currentModalIndex == null || !allRolesData || !allRolesData[currentModalIndex]) return;
-            const role = allRolesData[currentModalIndex];
-            const opm = role.opm_code;
-            if (opm == null || opm === '') return;
-            const opmStr = String(opm);
-            const base = getKsatApiBase();
-            const btn = document.getElementById('modalShowKsatBtn');
-            if (!base) {
-                if (btn) { btn.disabled = false; btn.textContent = 'Show DCWF KSAT'; }
-                alert('KSAT data is available when the page is served from the application (e.g. /step0-baseline/).');
-                return;
-            }
-            if (btn) { btn.disabled = true; btn.textContent = 'Loading…'; }
-            closeKsatModal();
-            if (opmStr === '141') {
-                fetch(base + '/api/ksat-data/ncwf/')
-                    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-                    .then(data => {
-                        const items = Array.isArray(data) ? data : [];
-                        const filtered = items.filter(item => (String(item['OPM-ID'] || '') === '141') && ['T','K','S'].includes((item.KSAT || '').trim().toUpperCase().charAt(0)));
-                        renderModalKsatSection(filtered, 'NCWF 25 (TKS only)', { id: 'ID', ksat: 'KSAT', desc: 'Description' }, false, false);
-                    })
-                    .catch(() => renderModalKsatSection(null, 'NCWF 25 (TKS only)', null, true, false))
-                    .finally(() => { if (btn) { btn.disabled = false; btn.textContent = 'Show DCWF KSAT'; } });
-                return;
-            }
-            if (opmStr === '112' || opmStr === '333') {
-                renderModalKsatSection([], 'NCWF 24 (OPM ' + opmStr + ')', null, false, true);
-                if (btn) { btn.disabled = false; btn.textContent = 'Show DCWF KSAT'; }
-                return;
-            }
-            fetch(base + '/api/ksat-data/dcwf/')
-                .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-                .then(data => {
-                    const items = Array.isArray(data) ? data : [];
-                    const filtered = items.filter(item => String(item.opm_id || '') === opmStr);
-                    renderModalKsatSection(filtered, 'DCWF 25', { id: 'id', ksat: 'ksat', desc: 'description' }, false, false);
-                })
-                .catch(() => renderModalKsatSection(null, 'DCWF 25', null, true, false))
-                .finally(() => { if (btn) { btn.disabled = false; btn.textContent = 'Show DCWF KSAT'; } });
-        }
-        
-        function renderModalKsatSection(items, title, fieldMap, isError, isNcwf24Placeholder) {
-            const body = document.getElementById('ksatModalBody');
-            if (!body) return;
-            const idKey = fieldMap && fieldMap.id || 'id';
-            const ksatKey = fieldMap && fieldMap.ksat || 'ksat';
-            const descKey = fieldMap && fieldMap.desc || 'description';
-            if (isNcwf24Placeholder) {
-                body.innerHTML = '<p style="color:#64748b;font-size:14px;">NCWF 24 KSAT for this OPM is available in the KSAT comparison flow.</p>';
-                openKsatModal(title);
-                return;
-            }
-            if (isError || !items || items.length === 0) {
-                body.innerHTML = '<p style="color:#64748b;font-size:14px;">' + (isError ? 'Unable to load KSAT data.' : 'No KSAT found for this role.') + '</p>';
-                openKsatModal(title);
-                return;
-            }
-            const byType = { T: [], K: [], S: [], A: [] };
-            items.forEach(item => {
-                const k = (item[ksatKey] || '').toString().trim().toUpperCase().charAt(0);
-                if (byType[k]) byType[k].push(item); else if (['T','K','S','A'].indexOf(k) !== -1) byType[k] = [item];
-            });
-            const typeLabels = { T: 'Tasks', K: 'Knowledge', S: 'Skills', A: 'Abilities' };
-            let html = '<div style="margin-bottom:14px;font-size:13px;color:#64748b;">' + items.length + ' KSAT(s)</div>';
-            ['T','K','S','A'].forEach(t => {
-                const list = byType[t] || [];
-                if (list.length === 0) return;
-                html += '<div style="margin-bottom:14px;"><strong style="font-size:13px;color:#475569;">' + (typeLabels[t] || t) + ' (' + list.length + ')</strong><ul style="margin:6px 0 0 0;padding-left:20px;font-size:13px;color:#334155;line-height:1.5;max-height:220px;overflow-y:auto;">';
-                list.forEach(item => {
-                    const id = item[idKey] || '';
-                    const desc = (item[descKey] || '').trim() || '—';
-                    html += '<li><span style="color:#6366f1;font-weight:600;">' + escapeHtml(String(id)) + '</span> ' + escapeHtml(desc) + '</li>';
-                });
-                html += '</ul></div>';
-            });
-            body.innerHTML = html;
-            openKsatModal(title);
-        }
-        
-        function escapeHtml(s) {
-            const div = document.createElement('div');
-            div.textContent = s;
-            return div.innerHTML;
         }
         
         function updateModalCheckbox(index) {

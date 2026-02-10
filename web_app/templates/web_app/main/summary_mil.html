@@ -379,6 +379,23 @@
         .wizard-opm-item.active::after {
             width: 80%;
         }
+
+        /* Finish popup modal (military) */
+        .mil-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+        .mil-popup-overlay.hidden { display: none; }
+        .mil-popup-box { background: white; border-radius: 12px; padding: 24px; max-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; }
+        .mil-popup-close { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border: none; background: transparent; color: #6b7280; cursor: pointer; font-size: 18px; line-height: 1; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: color 0.2s; }
+        .mil-popup-close:hover { color: #1f2937; background: #f3f4f6; }
+        .mil-popup-title { font-size: 18px; font-weight: 700; color: #1f2937; margin-bottom: 12px; }
+        .mil-popup-workroles { font-size: 14px; color: #4b5563; margin: 12px 0 8px 0; padding: 10px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        .mil-popup-note { font-size: 13px; color: #6b7280; margin-bottom: 20px; font-style: italic; }
+        .mil-popup-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .mil-popup-btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; transition: all 0.2s; }
+        .mil-popup-btn-yes { background: #3b82f6; color: white; }
+        .mil-popup-btn-yes:hover { background: #2563eb; }
+        .mil-popup-btn-no { background: #6b7280; color: white; display: flex; flex-direction: column; align-items: center; }
+        .mil-popup-btn-no:hover { background: #4b5563; }
+        .mil-popup-btn-no .next-label { font-size: 11px; font-weight: 400; margin-top: 2px; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -787,6 +804,22 @@
         </div>
     </div>
 
+    <!-- Finish popup: Military Skills or Next to project_recap -->
+    <div id="milPopupOverlay" class="mil-popup-overlay hidden">
+        <div class="mil-popup-box">
+            <button type="button" class="mil-popup-close" onclick="milPopupClose()" aria-label="Close">×</button>
+            <div class="mil-popup-title">Do you want to select skills for the work roles?</div>
+            <div id="milPopupWorkRoles" class="mil-popup-workroles"></div>
+            <div class="mil-popup-note">These work roles are specified for military.</div>
+            <div class="mil-popup-buttons">
+                <button type="button" class="mil-popup-btn mil-popup-btn-no" onclick="milPopupNo()">
+                    NO<br><span class="next-label">Next</span>
+                </button>
+                <button type="button" class="mil-popup-btn mil-popup-btn-yes" onclick="milPopupYes()">Selected Military Skills</button>
+            </div>
+        </div>
+    </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Variable globale pour stocker les données du JSON militaire
@@ -1106,8 +1139,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Charger les sélections Step0 au chargement de la page
-    loadAndDisplayStep0Selections();
-    
+    loadAndDisplayStep0Selections().then(() => {
+        if (sessionStorage.getItem('showSummaryMilPopup') === '1') {
+            sessionStorage.removeItem('showSummaryMilPopup');
+            showMilPopup();
+        }
+    }).catch(() => {
+        if (sessionStorage.getItem('showSummaryMilPopup') === '1') {
+            sessionStorage.removeItem('showSummaryMilPopup');
+            showMilPopup();
+        }
+    });
+
+    function getWorkRolesFromStep0() {
+        const store = typeof getStorage === 'function' ? getStorage() : localStorage;
+        let roles = [];
+        try {
+            const step0Raw = store.getItem('step0_baseline_data');
+            if (step0Raw) {
+                const step0Data = typeof step0Raw === 'string' ? JSON.parse(step0Raw) : step0Raw;
+                roles = step0Data.selectedWorkRoles || [];
+            }
+        } catch (e) {}
+        if (roles.length === 0) {
+            try {
+                const ksatRaw = store.getItem('currentKsatSelection');
+                if (ksatRaw) {
+                    const ksatData = typeof ksatRaw === 'string' ? JSON.parse(ksatRaw) : ksatRaw;
+                    roles = ksatData.selectedWorkRoles || ksatData.roles || [];
+                }
+            } catch (e) {}
+        }
+        return roles.map(role => {
+            const opmId = role.opm_code || role.opm_id || role.opmId || role.dcwf_code || role.ncwf_id || '';
+            const roleName = role.ncwf_work_role || role.dcwf_work_role || role.title || '';
+            return `• OPM-ID: ${opmId}${roleName ? ' — ' + roleName : ''}`;
+        }).join('<br>') || '';
+    }
+
+    function showMilPopup() {
+        const workRolesEl = document.getElementById('milPopupWorkRoles');
+        if (workRolesEl) workRolesEl.innerHTML = getWorkRolesFromStep0() || 'No work roles selected';
+        const overlay = document.getElementById('milPopupOverlay');
+        if (overlay) overlay.classList.remove('hidden');
+    }
+
+    function milPopupYes() {
+        document.getElementById('milPopupOverlay').classList.add('hidden');
+    }
+
+    function milPopupNo() {
+        document.getElementById('milPopupOverlay').classList.add('hidden');
+        window.location.href = "{% url 'project_recap' %}";
+    }
+
+    function milPopupClose() {
+        document.getElementById('milPopupOverlay').classList.add('hidden');
+    }
+
+    window.milPopupYes = milPopupYes;
+    window.milPopupNo = milPopupNo;
+    window.milPopupClose = milPopupClose;
+
     const militaryFrameworkData = [
         {
             name: "Command, Strategy & Governance",

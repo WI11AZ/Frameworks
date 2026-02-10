@@ -1366,42 +1366,42 @@
          </button>
        </div>
 
-       <!-- Légende des niveaux de corrélation -->
+       <!-- Correlation levels legend -->
        <div class="w-full max-w-7xl mt-6 mb-4 p-4 bg-gray-50 rounded-lg shadow-sm legend-container">
-         <h3 class="text-lg font-semibold mb-3 text-gray-800">Légende des niveaux de corrélation</h3>
+         <h3 class="text-lg font-semibold mb-3 text-gray-800">Correlation Levels Legend</h3>
          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #ffffff;"></span>
-             <span class="text-sm"><strong>0:</strong> Aucune corrélation</span>
+             <span class="text-sm"><strong>0:</strong> No correlation</span>
            </div>
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #e6eeff;"></span>
-             <span class="text-sm"><strong>1:</strong> Corrélation minimale</span>
+             <span class="text-sm"><strong>1:</strong> Minimal correlation</span>
            </div>
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #99bbff;"></span>
-             <span class="text-sm"><strong>2:</strong> Corrélation faible</span>
+             <span class="text-sm"><strong>2:</strong> Weak correlation</span>
            </div>
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #4d88ff; border-color: rgba(255,255,255,0.2);"></span>
-             <span class="text-sm"><strong>3:</strong> Corrélation modérée</span>
+             <span class="text-sm"><strong>3:</strong> Moderate correlation</span>
            </div>
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #0044cc; border-color: rgba(255,255,255,0.2);"></span>
-             <span class="text-sm"><strong>4:</strong> Corrélation forte</span>
+             <span class="text-sm"><strong>4:</strong> Strong correlation</span>
            </div>
            <div class="flex items-center">
              <span class="legend-color-square" style="background-color: #002266; border-color: rgba(255,255,255,0.2);"></span>
-             <span class="text-sm"><strong>5:</strong> Corrélation critique</span>
+             <span class="text-sm"><strong>5:</strong> Critical correlation</span>
            </div>
          </div>
          <div class="mt-3 text-sm text-gray-600 legend-detail">
-           <p><strong>0:</strong> Aucune corrélation</p>
-           <p><strong>1:</strong> Corrélation minimale (compréhension basique, implication périphérique)</p>
-           <p><strong>2:</strong> Corrélation faible (connaissance fonctionnelle, sans être un aspect central dans les responsabilités quotidiennes)</p>
-           <p><strong>3:</strong> Corrélation modérée (utilisation régulière, constitue une partie importante, mais non principale des fonctions)</p>
-           <p><strong>4:</strong> Corrélation forte (application fréquente et approfondie, compétence essentielle pour le WRL considéré)</p>
-           <p><strong>5:</strong> Corrélation critique (domaine fondamental, exige une maîtrise complète et une expertise avancée)</p>
+           <p><strong>0:</strong> No correlation</p>
+           <p><strong>1:</strong> Minimal correlation (basic understanding, peripheral involvement)</p>
+           <p><strong>2:</strong> Weak correlation (functional knowledge, not a central aspect of daily responsibilities)</p>
+           <p><strong>3:</strong> Moderate correlation (regular use, an important but non-primary part of job functions)</p>
+           <p><strong>4:</strong> Strong correlation (frequent and deep application, essential competency for the considered WRL)</p>
+           <p><strong>5:</strong> Critical correlation (fundamental domain, requires full mastery and advanced expertise)</p>
          </div>
          
          <!-- Section des domaines spéciaux -->
@@ -1410,18 +1410,18 @@
            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
              <div class="bg-blue-50 p-3 rounded-lg border border-blue-200">
                <h5 class="font-semibold text-blue-800 mb-1">NF-COM-002: Artificial Intelligence (AI) Security</h5>
-               <p class="text-sm text-blue-700 mb-2">Sécurité de l'Intelligence Artificielle</p>
+               <p class="text-sm text-blue-700 mb-2">Artificial Intelligence Security</p>
                <button onclick="window.open('{% url 'nf_com_002_details' %}', '_blank', 'width=1000,height=800')" 
                        class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors">
-                 Voir les détails ↗
+                 View details ↗
                </button>
              </div>
              <div class="bg-green-50 p-3 rounded-lg border border-green-200">
                <h5 class="font-semibold text-green-800 mb-1">NF-COM-007: Cyber Resiliency</h5>
-               <p class="text-sm text-green-700 mb-2">Résilience cyber</p>
+               <p class="text-sm text-green-700 mb-2">Cyber resilience</p>
                <button onclick="window.open('{% url 'nf_com_007_details' %}', '_blank', 'width=1000,height=800')" 
                        class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">
-                 Voir les détails ↗
+                 View details ↗
                </button>
              </div>
            </div>
@@ -1430,9 +1430,9 @@
 
       <footer class="mt-12 text-center text-gray-600 text-sm">
         <p>
-          Basé sur les domaines de compétence du NCWF v2.0.0 (2024) et les rôles professionnels du DCWF (2017, 2024, 2025).
+          Based on the NCWF v2.0.0 (2024) competency domains and the DCWF (2017, 2024, 2025) professional roles.
         </p>
-        <p>Sources: <a href="https://niccs.cisa.gov/tools/nice-framework/competency-area" class="text-blue-500 hover:underline">NICCS CISA</a> et <a href="https://dl.dod.cyber.mil/wp-content/uploads/dcwf/ElementsMap/story.html" class="text-blue-500 hover:underline">DoD Cyber Workforce Framework</a></p>
+        <p>Sources: <a href="https://niccs.cisa.gov/tools/nice-framework/competency-area" class="text-blue-500 hover:underline">NICCS CISA</a> and <a href="https://dl.dod.cyber.mil/wp-content/uploads/dcwf/ElementsMap/story.html" class="text-blue-500 hover:underline">DoD Cyber Workforce Framework</a></p>
       </footer>
     </div>
 
@@ -1489,7 +1489,7 @@
         // Cybersecurity - 200s  
         "211", "212", "221",
         // Cyberspace Effects - 300s
-        "311", "312", "322", "331", "332", "333", "341",
+        "311", "312", "321", "322", "331", "332", "333", "341",
         // Cyberspace Enablers - 400s
         "411", "421", "422", "423", "424", "431", "441", "442", "443", "451", "461", "462", "463",
         // Intelligence - 500s
@@ -1501,7 +1501,7 @@
         // Management - 800s
         "801", "802", "803", "804", "805", "806",
         // Leadership - 900s
-        "901", "902", "903"
+        "901"
       ];
 
       // Les 15 domaines de compétence du NCWF v2.0.0. de 2024
@@ -1542,7 +1542,7 @@
         
         // Artificial Intelligence Security (NF-COM-002): Sécurité de l'IA
         ai_security: {
-          critical: ["623", "624", "672", "673", "733", "902", "903"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Leadership
+          critical: ["623", "624", "672", "673", "733"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Risk and Ethics
           high: ["422", "423", "424", "653", "661", "753", "754"],     // Data Analyst, Data Scientist, Data Steward, Research
           medium: ["421", "461", "541", "611", "631", "641"],   // Database, Security, Development
           low: ["451", "511", "521", "612", "622", "652"],      // Admin, Defense, Security Architecture
@@ -1641,8 +1641,8 @@
         
         // Cybersecurity Leadership (NF-COM-013): Leadership en cybersécurité
         cybersecurity_leadership: {
-          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
-          high: ["611", "612", "722", "723", "724", "731", "732", "733", "741", "742", "902", "903"],     // Security, Legal, AI Leadership
+          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
+          high: ["611", "612", "722", "723", "724", "731", "732", "733", "741", "742"],     // Security, Legal, AI Risk
           medium: ["511", "512", "521", "522", "531", "532", "541", "542", "551", "552", "561", "562", "651", "652"],   // Security, Defense, Architecture
           low: ["421", "422", "441", "442", "451", "461", "462", "631", "641", "642"],      // Admin, Network, Security Development
           minimal: ["411", "412", "431", "621", "622", "623", "624", "625", "626", "627", "628", "629", "671", "672", "673"]   // Support, Data, Development
@@ -1663,7 +1663,7 @@
           high: ["461", "462", "511", "512", "541", "542", "611", "612", "652"],     // Security Analysis, Security Assessment
           medium: ["421", "422", "441", "442", "451", "521", "522", "641", "642", "673"],   // Admin, Network, Testing
           low: ["411", "412", "431", "531", "532", "551", "552", "651", "671", "672", "722", "723", "724"],      // Support, Incident Response, Management
-          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
         }
       };
 

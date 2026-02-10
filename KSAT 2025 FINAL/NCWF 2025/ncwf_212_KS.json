@@ -1,0 +1,967 @@
+{
+  "work_role": {
+    "wrl_id": "PD-WRL-002",
+    "opm_id": "212",
+    "title": "Digital Forensics"
+  },
+  "count": {
+    "knowledge": 94,
+    "skills": 42
+  },
+  "knowledge": [
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of encryption algorithms",
+      "ID": "K0018",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of decryption",
+      "ID": "K0635",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of decryption tools and techniques",
+      "ID": "K0636",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of data repositories",
+      "ID": "K0637",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of computer networking protocols",
+      "ID": "K0674",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of risk management processes",
+      "ID": "K0675",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity laws and regulations",
+      "ID": "K0676",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity policies and procedures",
+      "ID": "K0677",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of privacy laws and regulations",
+      "ID": "K0678",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of privacy policies and procedures",
+      "ID": "K0679",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity principles and practices",
+      "ID": "K0680",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of privacy principles and practices",
+      "ID": "K0681",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity threats",
+      "ID": "K0682",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity vulnerabilities",
+      "ID": "K0683",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cybersecurity threat characteristics",
+      "ID": "K0684",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital forensic data principles and practices",
+      "ID": "K0696",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of encryption algorithm capabilities and applications",
+      "ID": "K0697",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of data backup and recovery policies and procedures",
+      "ID": "K0701",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of enterprise cybersecurity architecture principles and practices",
+      "ID": "K0710",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of incident response principles and practices",
+      "ID": "K0724",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of incident response tools and techniques",
+      "ID": "K0725",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of incident handling tools and techniques",
+      "ID": "K0726",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of operating system (OS) systems and software",
+      "ID": "K0744",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of system threats",
+      "ID": "K0751",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of system vulnerabilities",
+      "ID": "K0752",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of client and server architecture",
+      "ID": "K0759",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of server diagnostic tools and techniques",
+      "ID": "K0760",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of Fault Detection and Diagnostics (FDD) tools and techniques",
+      "ID": "K0761",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of system administration principles and practices",
+      "ID": "K0770",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of enterprise information technology (IT) architecture principles and practices",
+      "ID": "K0778",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of physical computer components",
+      "ID": "K0786",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of computer peripherals",
+      "ID": "K0787",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of defense-in-depth principles and practices",
+      "ID": "K0791",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of file extensions",
+      "ID": "K0793",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of file system implementation principles and practices",
+      "ID": "K0794",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence seizure policies and procedures",
+      "ID": "K0795",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence preservation policies and procedures",
+      "ID": "K0796",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of ethical hacking tools and techniques",
+      "ID": "K0797",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of evidence admissibility laws and regulations",
+      "ID": "K0800",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of chain of custody policies and procedures",
+      "ID": "K0802",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of persistent data principles and practices",
+      "ID": "K0804",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of machine virtualization tools and techniques",
+      "ID": "K0806",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of web mail tools and techniques",
+      "ID": "K0807",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of system file characteristics",
+      "ID": "K0808",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital forensics data characteristics",
+      "ID": "K0809",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of deployable forensics principles and practices",
+      "ID": "K0810",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital communication systems and software",
+      "ID": "K0812",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of event correlation tools and techniques",
+      "ID": "K0817",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of hardening tools and techniques",
+      "ID": "K0837",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of hardware reverse engineering tools and techniques",
+      "ID": "K0840",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of software reverse engineering tools and techniques",
+      "ID": "K0842",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of data carving tools and techniques",
+      "ID": "K0850",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of reverse engineering principles and practices",
+      "ID": "K0851",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of anti-forensics tools and techniques",
+      "ID": "K0852",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of forensics lab design principles and practices",
+      "ID": "K0853",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of forensics lab design systems and software",
+      "ID": "K0854",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of debugging tools and techniques",
+      "ID": "K0855",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of filename extension abuse",
+      "ID": "K0856",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of malware analysis tools and techniques",
+      "ID": "K0857",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of virtual machine detection tools and techniques",
+      "ID": "K0858",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of encryption tools and techniques",
+      "ID": "K0859",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of enterprise architecture (EA) reference models and frameworks",
+      "ID": "K0870",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of enterprise architecture (EA) principles and practices",
+      "ID": "K0871",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of cyber defense laws and regulations",
+      "ID": "K0892",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of binary analysis tools and techniques",
+      "ID": "K0914",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of network architecture principles and practices",
+      "ID": "K0915",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of malware analysis principles and practices",
+      "ID": "K0916",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of operating system structures and internals",
+      "ID": "K0923",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of packet-level analysis tools and techniques",
+      "ID": "K0939",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of operational design principles and practices",
+      "ID": "K0959",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of targeting laws and regulations",
+      "ID": "K0962",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of exploitation laws and regulations",
+      "ID": "K0963",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of intelligence collection management tools and techniques",
+      "ID": "K0977",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of information searching tools and techniques",
+      "ID": "K0979",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of intelligence collection sources",
+      "ID": "K0980",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of computer networking principles and practices",
+      "ID": "K0983",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of reporting policies and procedures",
+      "ID": "K1004",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of network security principles and practices",
+      "ID": "K1014",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of code obfuscation tools and techniques",
+      "ID": "K1016",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital forensics principles and practices",
+      "ID": "K1055",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of virtual machine tools and technologies",
+      "ID": "K1069",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of web application security risks",
+      "ID": "K1079",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of media forensics",
+      "ID": "K1091",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital forensics tools and techniques",
+      "ID": "K1092",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of Chain of Custody (CoC) processes and procedures",
+      "ID": "K1115",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of data integrity principles and practices",
+      "ID": "K1147",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence cataloging tools and techniques",
+      "ID": "K1151",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence extraction tools and techniques",
+      "ID": "K1152",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence handling principles and practices",
+      "ID": "K1153",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence packaging tools and techniques",
+      "ID": "K1154",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of digital evidence preservation tools and techniques",
+      "ID": "K1155",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of forensic image processing tools and techniques",
+      "ID": "K1163",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of network monitoring tools and techniques",
+      "ID": "K1175",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "K",
+      "Description": "Knowledge of packet analysis tools and techniques",
+      "ID": "K1193",
+      "WRL-ID": "PD-WRL-002"
+    }
+  ],
+  "skills": [
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing packet-level analysis",
+      "ID": "S0156",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in decrypting information",
+      "ID": "S0378",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in developing virtual machines",
+      "ID": "S0472",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in maintaining virtual machines",
+      "ID": "S0473",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in finding system files",
+      "ID": "S0474",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in recognizing digital forensics data",
+      "ID": "S0475",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in identifying filename extension abuse",
+      "ID": "S0476",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in processing digital forensic data",
+      "ID": "S0491",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing intelligence collection analysis",
+      "ID": "S0499",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in developing network infrastructure contingency and recovery plans",
+      "ID": "S0575",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in testing network infrastructure contingency and recovery plans",
+      "ID": "S0576",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in preparing reports",
+      "ID": "S0579",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in preserving digital evidence integrity",
+      "ID": "S0589",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing memory dump analysis",
+      "ID": "S0599",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in identifying forensics data in diverse media",
+      "ID": "S0603",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in extracting forensics data in diverse media",
+      "ID": "S0604",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in storing digital evidence",
+      "ID": "S0605",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in manipulating operating system components",
+      "ID": "S0606",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in collecting digital evidence",
+      "ID": "S0607",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in processing digital evidence",
+      "ID": "S0608",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in transporting digital evidence",
+      "ID": "S0609",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in disassembling Personal Computers (PCs)",
+      "ID": "S0611",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing digital forensics analysis",
+      "ID": "S0612",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing binary analysis",
+      "ID": "S0621",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in implementing one-way hash functions",
+      "ID": "S0622",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing source code analysis",
+      "ID": "S0623",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing volatile data analysis",
+      "ID": "S0624",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in interpreting debugger results",
+      "ID": "S0625",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing malware analysis",
+      "ID": "S0651",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing bit-level analysis",
+      "ID": "S0652",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in creating digital evidence copies",
+      "ID": "S0653",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in implementing network infrastructure contingency and recovery plans",
+      "ID": "S0671",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in administering operating systems",
+      "ID": "S0678",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in collaborating with internal and external stakeholders",
+      "ID": "S0821",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing data analysis",
+      "ID": "S0854",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing digital evidence analysis",
+      "ID": "S0856",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing dynamic analysis",
+      "ID": "S0857",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing file system forensic analysis",
+      "ID": "S0860",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing log file analysis",
+      "ID": "S0866",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing network traffic packet analysis",
+      "ID": "S0875",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing static analysis",
+      "ID": "S0882",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "S",
+      "Description": "Skill in performing static malware analysis",
+      "ID": "S0884",
+      "WRL-ID": "PD-WRL-002"
+    }
+  ]
+}

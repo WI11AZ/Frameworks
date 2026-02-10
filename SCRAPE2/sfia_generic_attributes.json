@@ -155,31 +155,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Works mostly on their own tasks and interacts with their immediate team only. Develops an understanding of how their work supports others."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Understands the need to collaborate with their team and considers user/customer needs."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Understands and collaborates on the analysis of user/customer needs and represents this in their work."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Facilitates collaboration between stakeholders who share common objectives. Engages with and contributes to the work of cross-functional teams to ensure that user/customer needs are being met throughout the deliverable/scope of work."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Facilitates collaboration between stakeholders who have diverse objectives. Ensures collaborative ways of working throughout all stages of work to meet user/customer needs. Builds effective relationships across the organisation and with customers, suppliers and partners."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Leads collaboration with a diverse range of stakeholders across competing objectives within the organisation. Builds strong, influential connections with key internal and external contacts at senior management/technical leader level."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Collaboration in SFIA represents a progression from basic team interaction to strategic partnerships and stakeholder management. It involves:"
+        "description": "Drives collaboration, engaging with leadership stakeholders ensuring alignment to corporate vision and strategy. Builds strong, influential relationships with customers, partners and industry leaders."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/collaboration"
@@ -192,31 +192,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates with immediate team to understand and deliver on their assigned tasks. Observes, listens, and with encouragement, asks questions to seek information or clarify instructions."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates familiar information with immediate team and stakeholders directly related to their role. Listens to gain understanding and asks relevant questions to clarify or seek further information."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates with team and stakeholders inside and outside the organisation clearly explaining and presenting information. Contributes to a range of work-related conversations and listens to others to gain an understanding and asks probing questions relevant to their role."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates with both technical and non-technical audiences including team and stakeholders inside and outside the organisation. As required, takes the lead in explaining complex concepts to support decision making. Listens and asks insightful questions to identify different perspectives to clarify and confirm understanding."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates clearly with impact, articulating complex information and ideas to broad audiences with different viewpoints. Leads and encourages conversations to share ideas and build consensus on actions to be taken."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates with credibility at all levels across the organisation to broad audiences with divergent objectives. Explains complex information and ideas clearly, influencing the strategic direction. Promotes information sharing across the organisation."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Communication in SFIA represents a progression from basic team interaction to complex, organisation-wide influence and external engagement. It involves:"
+        "description": "Communicates to audiences at all levels within own organisation and engages with industry. Presents compelling arguments and ideas authoritatively and convincingly to achieve business objectives."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/communication"
@@ -229,31 +229,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Identifies opportunities for improvement in own tasks. Suggests basic enhancements when prompted."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Proposes ideas to improve own work area. Implements agreed changes to assigned work tasks."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Identifies and implements improvements in own work area. Contributes to team-level process enhancements."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Encourages and supports team discussions on improvement initiatives. Implements procedural changes within a defined scope of work."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Identifies and evaluates potential improvements to products, practices, or services. Leads implementation of enhancements within own area of responsibility. Assesses effectiveness of implemented changes."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Drives improvement initiatives that have a significant impact on the organisation. Aligns improvement strategies with organisational objectives. Engages stakeholders in improvement processes."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Having an improvement mindset in SFIA represents a progression from recognising opportunities for enhancement to driving a culture of ongoing optimisation. It involves:"
+        "description": "Defines and communicates the organisational approach to continuous improvement. Cultivates a culture of ongoing enhancement. Evaluates the impact of improvement initiatives on organisational success."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/improvement"
@@ -266,31 +266,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Participates in the generation of new ideas when prompted."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Applies creative thinking to suggest new ways to approach a task and solve problems."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Applies and contributes to creative thinking techniques to contribute new ideas for their own work and for team activities."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Applies, facilitates and develops creative thinking concepts and finds alternative ways to approach team outcomes."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Creatively applies innovative thinking and design practices in identifying solutions that will deliver value for the benefit of the customer/stakeholder."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Creatively applies a wide range of new ideas and effective management techniques to achieve results that align with organisational strategy."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Creativity in SFIA represents a progression from basic idea generation to driving strategic innovation. It involves:"
+        "description": "Champions creativity and innovation in driving strategy development to enable business opportunities."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/creativity"
@@ -303,31 +303,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses little discretion in attending to enquiries. Is expected to seek guidance in unexpected situations."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses limited discretion in resolving issues or enquiries. Decides when to seek guidance in unexpected situations."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses discretion in identifying and responding to complex issues related to own assignments. Determines when issues should be escalated to a higher level."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses judgment and substantial discretion in identifying and responding to complex issues and assignments related to projects and team objectives. Escalates when scope is impacted."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses judgement to make informed decisions on actions to achieve organisational outcomes such as meeting targets, deadlines, and budget. Raises issues when objectives are at risk."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses judgement to make decisions that initiate the achievement of agreed strategic objectives including financial performance. Escalates when broader strategic direction is impacted."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Decision making in SFIA represents a progression from routine choices to strategic, high-impact decisions. It involves:"
+        "description": "Uses judgement in making decisions critical to the organisational strategic direction and success. Escalates when business executive management input is required through established governance structures."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/decision"
@@ -340,31 +340,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Has basic digital skills to learn and use applications, processes and tools for their role."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Has sufficient digital skills for their role; understands and uses appropriate methods, tools, applications and processes."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Explores and applies relevant digital tools and skills for their role. Understands and effectively applies appropriate methods, tools, applications and processes."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Maximises the capabilities of applications for their role and evaluates and supports the use of new technologies and digital tools. Selects appropriately from, and assesses the impact of change to applicable standards, methods, tools, applications and processes relevant to own specialism."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Recognises and evaluates the organisational impact of new technologies and digital services. Implements new and effective practices. Advises on available standards, methods, tools, applications and processes relevant to group specialism(s) and can make appropriate choices from alternatives."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Leads the enhancement of the organisation's digital capabilities. Identifies and endorses opportunities to adopt new technologies and digital services. Leads digital governance and compliance with relevant legislation and the need for products and services."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Having a digital mindset in SFIA represents a progression from basic digital literacy to driving organisational digital strategy. It involves:"
+        "description": "Leads the development of the organisation's digital culture and the transformational vision. Advances capability and/or exploitation of technology within one or more organisations through a deep understanding of the industry and the implications of emerging technologies. Accountable for assessing how laws and regulations impact organisational objectives and its use of digital, data and technology capabilities."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/digital_mindset"
@@ -377,31 +377,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Proactively increases their understanding of their work tasks and responsibilities."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Takes ownership to develop their work experience."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Provides basic guidance and support to less experienced team members as needed."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Leads, supports or guides team members. Develops solutions for complex work activities related to assignments. Demonstrates an understanding of risk factors in their work. Contributes specialist expertise to requirements definition in support of proposals."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Provides leadership at an operational level. Implements and executes policies aligned to strategic plans. Assesses and evaluates risk. Takes all requirements into account when considering proposals."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Provides leadership at an organisational level. Contributes to the development and implementation of policy and strategy. Understands and communicates industry developments, and the role and impact of technology. Manages and mitigates organisational risk. Balances the requirements of proposals with the broader needs of the organisation."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Leadership in SFIA represents a progression from self-management to shaping organisational strategy. It involves:"
+        "description": "Leads strategic management. Applies the highest level of leadership to the formulation and implementation of strategy. Communicates the potential impact of emerging practices and technologies on organisations and individuals and assesses the risks of using or not using such practices and technologies. Establishes governance to address business risk. Ensures proposals align with the strategic direction of the organisation."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/leadership"
@@ -414,31 +414,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Applies newly acquired knowledge to develop skills for their role. Contributes to identifying own development opportunities."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Absorbs and applies new information to tasks. Recognises personal skills and knowledge gaps and seeks learning opportunities to address them."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Absorbs and applies new information effectively with the ability to share learnings with colleagues. Takes the initiative in identifying and negotiating their own appropriate development opportunities."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Rapidly absorbs and critically assesses new information and applies it effectively. Maintains an understanding of emerging practices and their application and takes responsibility for driving own and team members' development opportunities."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Uses their skills and knowledge to help establish the standards that others in the organisation will apply. Takes the initiative to develop a wider breadth of knowledge across industry and/or business and identify and manage development opportunities in area of responsibility."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Promotes the application of knowledge to support strategic imperatives. Actively develops their strategic and technical leadership skills and leads the development of skills in their area of accountability."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Learning and professional development in SFIA represents a progression from personal skill enhancement to shaping organisational learning culture. It involves:"
+        "description": "Inspires a learning culture to align with business objectives. Maintains strategic insight into contemporary and emerging industry landscapes. Ensures the organisation develops and mobilises the full range of required skills and capabilities."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/learning"
@@ -451,31 +451,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Confirms required steps for individual tasks."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Plans own work within short time horizons in an organised way."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Organises and keeps track of own work (and others where needed) to meet agreed timescales."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Plans, schedules and monitors work to meet given personal and/or team objectives and processes, demonstrating an analytical approach to meet time and quality targets."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Analyses, designs, plans, establishes milestones, and executes and evaluates work to time, cost and quality targets."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Initiates and influences strategic objectives and assigns responsibilities."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Planning in SFIA represents a progression from organising individual work to leading strategic planning across an organisation. It involves:"
+        "description": "Plans and leads at the highest level of authority over all aspects of a significant area of work."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/planning"
@@ -488,31 +488,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Works towards understanding the issue and seeks assistance in resolving unexpected problems."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Investigates and resolves routine issues."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Applies a methodical approach to investigate and evaluate options to resolve routine and moderately complex issues."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Investigates the cause and impact, evaluates options and resolves a broad range of complex issues."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Investigates complex issues to identify the root causes and impacts, assesses a range of solutions, and makes informed decisions on the best course of action, often in collaboration with other experts."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Anticipates and leads in addressing problems and opportunities that may impact organisational objectives, establishing a strategic approach and allocating resources."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Problem solving in SFIA represents a progression from addressing routine issues to managing strategic challenges. It involves:"
+        "description": "Manages inter-relationships between impacted parties and strategic imperatives, recognising the broader business context and drawing accurate conclusions when resolving problems."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/problem"
@@ -525,31 +525,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Accepts change and is open to new ways of working."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Adjusts to different team dynamics and work requirements. Participates in team adaptation processes."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Adapts and is responsive to change and shows initiative in adopting new methods or technologies."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Enables others to adapt and change in response to challenges and changes in the work environment."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Leads adaptations to changing business environments. Guides teams through transitions, maintaining focus on organisational objectives."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Drives organisational adaptability by initiating and leading significant changes. Influences change management strategies at an organisational level."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Adaptability and resilience in SFIA represent a progression from personal flexibility to shaping organisational agility. It involves:"
+        "description": "Champions organisational agility and resilience. Embeds adaptability into organisational culture and strategic planning."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/adaptability"
@@ -562,31 +562,31 @@
     "skill_levels": [
       {
         "level": "Level 1 - Follow",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Develops an understanding of the rules and expectations of their role and the organisation."
       },
       {
         "level": "Level 2 - Assist",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Has a good understanding of their role and the organisation's rules and expectations."
       },
       {
         "level": "Level 3 - Apply",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Applies appropriate professionalism and working practices and knowledge to work."
       },
       {
         "level": "Level 4 - Enable",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Adapts and applies applicable standards, recognising their importance in achieving team outcomes."
       },
       {
         "level": "Level 5 - Ensure, advise",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Contributes proactively to the implementation of professional working practices and helps promote a supportive organisational culture."
       },
       {
         "level": "Level 6 - Initiate, influence",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Takes a leading role in promoting and ensuring appropriate culture and working practices, including the provision of equal access and opportunity to people with diverse abilities."
       },
       {
         "level": "Level 7 - Set strategy, inspire, mobilise",
-        "description": "Security, privacy and ethics in SFIA represent a progression from basic awareness to strategic leadership. It involves:"
+        "description": "Provides clear direction and strategic leadership for embedding compliance, organisational culture, and working practices, and actively promotes diversity and inclusivity."
       }
     ],
     "url": "https://sfia-online.org/en/sfia-9/responsibilities/generic-attributes-business-skills-behaviours/security"

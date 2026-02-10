@@ -1,0 +1,332 @@
+{
+  "work_role": {
+    "wrl_id": "PD-WRL-002",
+    "opm_id": "212",
+    "title": "Digital Forensics"
+  },
+  "count": 46,
+  "tasks": [
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform file signature analysis",
+      "ID": "T0167",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform data comparison against established database",
+      "ID": "T0168",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform real-time forensic analysis (e.g., using Helix in conjunction with LiveView)",
+      "ID": "T0172",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform timeline analysis",
+      "ID": "T0173",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform static media analysis",
+      "ID": "T0179",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform tier 1, 2, and 3 malware analysis",
+      "ID": "T0182",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform Windows registry analysis",
+      "ID": "T0397",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Determine the operational and safety impacts of cybersecurity lapses",
+      "ID": "T1020",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Set up a forensic workstation",
+      "ID": "T1051",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Identify anomalous network activity",
+      "ID": "T1084",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Determine best methods for identifying the perpetrator(s) of a network intrusion",
+      "ID": "T1090",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Identify intrusions",
+      "ID": "T1102",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Analyze intrusions",
+      "ID": "T1103",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Document what is known about intrusions",
+      "ID": "T1104",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Identify vulnerabilities",
+      "ID": "T1118",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Recommend vulnerability remediation strategies",
+      "ID": "T1119",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Create forensically sound duplicates of evidence",
+      "ID": "T1120",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Decrypt seized data",
+      "ID": "T1121",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Create technical summary of findings reports",
+      "ID": "T1159",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Determine if digital media chain or custody processes meet Federal Rules of Evidence requirements",
+      "ID": "T1175",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Determine relevance of recovered data",
+      "ID": "T1191",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Identify digital evidence for analysis",
+      "ID": "T1199",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform dynamic analysis on drives",
+      "ID": "T1253",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform real-time cyber defense incident handling",
+      "ID": "T1260",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Prepare digital media for imaging",
+      "ID": "T1282",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Report forensic artifacts indicative of a particular operating system",
+      "ID": "T1301",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Capture network traffic associated with malicious activities",
+      "ID": "T1322",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Analyze network traffic associated with malicious activities",
+      "ID": "T1323",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Process digital evidence",
+      "ID": "T1324",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Document digital evidence",
+      "ID": "T1325",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Collect intrusion artifacts",
+      "ID": "T1370",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Mitigate potential cyber defense incidents",
+      "ID": "T1371",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Advise law enforcement personnel as technical expert",
+      "ID": "T1372",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Scan digital media for viruses",
+      "ID": "T1381",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Mount a drive image",
+      "ID": "T1382",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Utilize deployable forensics toolkit",
+      "ID": "T1383",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Validate intrusion detection system alerts",
+      "ID": "T1387",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Correlate threat assessment data",
+      "ID": "T1407",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Process forensic images",
+      "ID": "T1486",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Perform file and registry monitoring on running systems",
+      "ID": "T1487",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Enter digital media information into tracking databases",
+      "ID": "T1488",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Correlate incident data",
+      "ID": "T1489",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Prepare cyber defense toolkits",
+      "ID": "T1490",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Preserve digital evidence",
+      "ID": "T1510",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Recover information from forensic data sources",
+      "ID": "T1607",
+      "WRL-ID": "PD-WRL-002"
+    },
+    {
+      "OPM-ID": "212",
+      "KSAT": "T",
+      "Description": "Prepare cyber defense reports",
+      "ID": "T1617",
+      "WRL-ID": "PD-WRL-002"
+    }
+  ]
+}

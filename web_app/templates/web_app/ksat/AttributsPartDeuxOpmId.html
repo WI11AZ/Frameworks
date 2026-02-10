@@ -331,6 +331,22 @@
         .summary-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 20px 0; }
         .summary-title { font-size: 24px; font-weight: bold; color: #1f2937; margin-bottom: 20px; text-align: center; }
         .summary-item { display: flex; justify-content: space-between; padding: 15px; margin: 10px 0; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        /* Finish popup modal */
+        .finish-popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+        .finish-popup-overlay.hidden { display: none; }
+        .finish-popup-box { background: white; border-radius: 12px; padding: 24px; max-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; }
+        .finish-popup-close { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border: none; background: transparent; color: #6b7280; cursor: pointer; font-size: 18px; line-height: 1; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: color 0.2s; }
+        .finish-popup-close:hover { color: #1f2937; background: #f3f4f6; }
+        .finish-popup-title { font-size: 18px; font-weight: 700; color: #1f2937; margin-bottom: 12px; }
+        .finish-popup-workroles { font-size: 14px; color: #4b5563; margin: 12px 0 8px 0; padding: 10px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        .finish-popup-note { font-size: 13px; color: #6b7280; margin-bottom: 20px; font-style: italic; }
+        .finish-popup-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .finish-popup-btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; transition: all 0.2s; }
+        .finish-popup-btn-yes { background: #3b82f6; color: white; }
+        .finish-popup-btn-yes:hover { background: #2563eb; }
+        .finish-popup-btn-no { background: #6b7280; color: white; display: flex; flex-direction: column; align-items: center; }
+        .finish-popup-btn-no:hover { background: #4b5563; }
+        .finish-popup-btn-no .next-label { font-size: 11px; font-weight: 400; margin-top: 2px; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -436,6 +452,22 @@
                 <div class="flex justify-end gap-2">
                     <button class="btn btn-secondary" onclick="closeCopyModal()">Cancel</button>
                     <button class="btn btn-primary" id="confirmCopyBtn" onclick="confirmCopySelections()" disabled>Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Finish popup: Civil Skills or Military -->
+        <div id="finishPopupOverlay" class="finish-popup-overlay hidden">
+            <div class="finish-popup-box">
+                <button type="button" class="finish-popup-close" id="finishPopupCloseBtn" onclick="finishPopupClose()" aria-label="Close">×</button>
+                <div class="finish-popup-title">Do you want to select skills for the work roles?</div>
+                <div id="finishPopupWorkRoles" class="finish-popup-workroles"></div>
+                <div class="finish-popup-note">These work roles are specified for civilians.</div>
+                <div class="finish-popup-buttons">
+                    <button type="button" class="finish-popup-btn finish-popup-btn-no" id="finishPopupNoBtn" onclick="finishPopupNo()">
+                        NO<br><span class="next-label">Next</span>
+                    </button>
+                    <button type="button" class="finish-popup-btn finish-popup-btn-yes" id="finishPopupYesBtn" onclick="finishPopupYes()">Selected Civil Skills</button>
                 </div>
             </div>
         </div>
@@ -1136,6 +1168,37 @@
             document.getElementById('backButton').style.display = 'block';
         }
 
+        // Get work roles from step0 (step0_baseline_data) - those selected in div#step0, NOT postes
+        function getWorkRolesFromSelectedRoleCards() {
+            const store = typeof getStorage === 'function' ? getStorage() : localStorage;
+            let roles = [];
+
+            try {
+                const step0Raw = store.getItem('step0_baseline_data');
+                if (step0Raw) {
+                    const step0Data = typeof step0Raw === 'string' ? JSON.parse(step0Raw) : step0Raw;
+                    roles = step0Data.selectedWorkRoles || [];
+                }
+            } catch (e) {}
+
+            if (roles.length === 0) {
+                try {
+                    const ksatRaw = store.getItem('currentKsatSelection');
+                    if (ksatRaw) {
+                        const ksatData = typeof ksatRaw === 'string' ? JSON.parse(ksatRaw) : ksatRaw;
+                        roles = ksatData.selectedWorkRoles || ksatData.roles || [];
+                    }
+                } catch (e) {}
+            }
+
+            const items = roles.map(role => {
+                const opmId = role.opm_code || role.opm_id || role.opmId || role.dcwf_code || role.ncwf_id || '';
+                const roleName = role.ncwf_work_role || role.dcwf_work_role || role.title || '';
+                return `• OPM-ID: ${opmId}${roleName ? ' — ' + roleName : ''}`;
+            });
+            return items.length > 0 ? items.join('<br>') : '';
+        }
+
         function confirmSelections() {
             // Save all Poste selections
             console.log('All Poste selections:', selectedLevels);
@@ -1150,11 +1213,26 @@
                     .catch(err => console.error('Error saving to server:', err));
             }
             
-            // Afficher un message de confirmation
-            alert(`Toutes les sélections pour ${selectedPostes.length} poste(s) ont été sauvegardées avec succès ! Redirection vers Step 4...`);
-            
-            // Rediriger vers Step 4 (summary chart)
+            // Populate and show finish popup with work roles (same format as div.selected-role-card from step0)
+            const workRolesEl = document.getElementById('finishPopupWorkRoles');
+            const workRolesHtml = getWorkRolesFromSelectedRoleCards();
+            workRolesEl.innerHTML = workRolesHtml || 'No work roles selected';
+            document.getElementById('finishPopupOverlay').classList.remove('hidden');
+        }
+
+        function finishPopupYes() {
+            document.getElementById('finishPopupOverlay').classList.add('hidden');
             window.location.href = "{% url 'summary_chart' %}";
+        }
+
+        function finishPopupNo() {
+            document.getElementById('finishPopupOverlay').classList.add('hidden');
+            sessionStorage.setItem('showSummaryMilPopup', '1');
+            window.location.href = "{% url 'summary_mil' %}";
+        }
+
+        function finishPopupClose() {
+            document.getElementById('finishPopupOverlay').classList.add('hidden');
         }
 
         // Reset all Poste selections
