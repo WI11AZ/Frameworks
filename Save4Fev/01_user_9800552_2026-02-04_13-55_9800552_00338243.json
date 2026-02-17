@@ -4,17 +4,1287 @@
   "timestamp": "2026-02-04T13:55:15.499Z",
   "type": "project_recap",
   "state": {
-    "ksatLastSavedState": "{\"timestamp\":\"2026-02-04T13:48:43.027Z\",\"roles\":[{\"title\":\"802\",\"framework\":\"DCWF 2025\",\"opmId\":\"802\",\"modelType\":\"dcwf_2025\",\"roleId\":\"245\"},{\"title\":\"802\",\"framework\":\"DCWF 2025\",\"opmId\":\"802\",\"modelType\":\"dcwf_2025\",\"roleId\":\"245\"},{\"title\":\"802\",\"framework\":\"DCWF 2025\",\"opmId\":\"802\",\"modelType\":\"dcwf_2025\",\"roleId\":\"245\"},{\"title\":\"802\",\"framework\":\"DCWF 2025\",\"opmId\":\"802\",\"modelType\":\"dcwf_2025\",\"roleId\":\"245\"}],\"ksatData\":{\"task\":[{\"description\":\"Develop methods to monitor and measure risk, compliance, and assurance efforts.\",\"id\":\"537\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Identify and address cyber workforce planning and management issues (e.g. recruitment, retention, and training).\",\"id\":\"629A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Lead and oversee budget, staffing, and contracting.\",\"id\":\"680A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Perform needs analysis to determine opportunities for new and improved business process solutions.\",\"id\":\"760\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Provide advice on project costs, design concepts, or design changes.\",\"id\":\"797\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Provide enterprise cybersecurity and supply chain risk management guidance for development of the Continuity of Operations Plans.\",\"id\":\"801\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Provide ongoing optimization and problem solving support.\",\"id\":\"811\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Provide recommendations for possible improvements and upgrades.\",\"id\":\"813\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Resolve conflicts in laws, regulations, policies, standards, or procedures.\",\"id\":\"834\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Review or conduct audits of programs and projects.\",\"id\":\"840B\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Evaluate the effectiveness of procurement function in addressing information security requirements and supply chain risks through procurement activities and recommend improvements.\",\"id\":\"949\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Draft and publish supply chain security and risk management documents.\",\"id\":\"955A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Develop and document supply chain risks for critical system elements, as appropriate.\",\"id\":\"1003\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Participate in the acquisition process as necessary.\",\"id\":\"1017A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ensure all acquisitions, procurements, and outsourcing efforts address information security requirements consistent with organization goals.\",\"id\":\"1018\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Conduct import/export reviews for acquiring systems and software.\",\"id\":\"1143A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Develop supply chain, system, network, performance, and cyber security requirements.\",\"id\":\"1148A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ensure supply chain, system, network, performance, and cyber security requirements are included in contract language and delivered.\",\"id\":\"1148B\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Act as a primary stakeholder in the underlying information technology (IT) operational processes and functions that support the service, provide direction and monitor all significant activities so the service is delivered successfully.\",\"id\":\"5010\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Coordinate and manage the overall service provided to a customer end-to-end.\",\"id\":\"5150\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ensure that appropriate SLAs and underpinning contracts have been defined that clearly set out for the customer a description of the service and the measures for monitoring the service.\",\"id\":\"5310\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Gather feedback on customer satisfaction and internal service performance to foster continual improvement.\",\"id\":\"5380\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Manage the internal relationship with information technology (IT) process owners supporting the service, assisting with the definition and agreement of operating level agreements (OLAs).\",\"id\":\"5410\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Review service performance reports identifying any significant issues and variances, initiating, where necessary, corrective actions and ensuring that all outstanding issues are followed up.\",\"id\":\"5610\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Work with other service managers and product owners to balance and prioritize services to meet overall customer requirements, constraints, and objectives.\",\"id\":\"5660\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true}],\"knowledge\":[{\"description\":\"Knowledge of capabilities and requirements analysis.\",\"id\":\"16\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of computer networking concepts and protocols, and network security methodologies.\",\"id\":\"22\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of industry-standard and organizationally accepted analysis principles and methods.\",\"id\":\"62\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of information technology (IT) architectural concepts and frameworks.\",\"id\":\"68\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of risk management processes and requirements per the Risk Management Framework (RMF).\",\"id\":\"69A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of new and emerging control systems technologies.\",\"id\":\"88B\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of resource management principles and techniques.\",\"id\":\"107\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of risk management processes (e.g., methods for assessing and mitigating risk).\",\"id\":\"108\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of system life cycle management principles, including software security and usability.\",\"id\":\"129\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of the organization’s enterprise information technology (IT) goals and objectives.\",\"id\":\"143\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of how information needs and collection requirements are translated, tracked, and prioritized across the extended enterprise.\",\"id\":\"296\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of the organization's core business/mission processes.\",\"id\":\"942\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of import/export control regulations and responsible agencies for the purposes of reducing supply chain risk.\",\"id\":\"954\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of supply chain risk management standards, processes, and practices.\",\"id\":\"979\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of information technology (IT) acquisition/procurement requirements.\",\"id\":\"1004A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of functionality, quality, and security requirements and how these will apply to specific items of supply (i.e., elements and processes).\",\"id\":\"1005\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of risk threat assessment.\",\"id\":\"1021\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of information technology (IT) supply chain security and risk management policies, requirements, and procedures.\",\"id\":\"1037\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of the acquisition/procurement life cycle process.\",\"id\":\"1061A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of Cloud-based knowledge management technologies and concepts related to security, governance, procurement, and administration.\",\"id\":\"1125\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of Import/Export Regulations related to cryptography and other security technologies.\",\"id\":\"1127\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of organizational process improvement concepts and process maturity models (e.g., Capability Maturity Model Integration (CMMI) for Development, CMMI for Services, and CMMI for Acquisitions).\",\"id\":\"1130\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":false},{\"description\":\"Knowledge of service management concepts for networks and related standards (e.g., Information Technology Infrastructure Library, current version [ITIL]).\",\"id\":\"1133\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of national and international laws, regulations, policies, and ethics as they relate to cybersecurity.\",\"id\":\"1157\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of cybersecurity principles.\",\"id\":\"1158\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of cyber threats and vulnerabilities.\",\"id\":\"1159\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Knowledge of how to leverage government research and development centers, think tanks, academic research, and industry systems.\",\"id\":\"6290\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of specific operational impacts of cybersecurity lapses.\",\"id\":\"6900\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"* Knowledge of cloud computing service models Software as Service (SaaS), Infrastructure as a Service (IaaS), and Platform as a Service (PaaS).\",\"id\":\"6935\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":false},{\"description\":\"* Knowledge of cloud computing deployment models in private, public, and hybrid environment and the difference between on-premises and off-premises environments.\",\"id\":\"6938\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":false}],\"skill\":[{\"description\":\"Skill in identifying measures or indicators of system performance and the actions needed to improve or correct performance, relative to the goals of the system.\",\"id\":\"203\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true}],\"abilitie\":[{\"description\":\"Ability to ensure security practices are followed throughout the acquisition process.\",\"id\":\"325A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ability to evaluate/ensure the trustworthiness of the supplier and/or product.\",\"id\":\"1039A\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ability to apply supply chain risk management standards.\",\"id\":\"1122\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true},{\"description\":\"Ability to oversee the development and update of the lifecycle cost estimate.\",\"id\":\"6160\",\"roleStatuses\":{\"802\":true,\"802_DCWF 2025\":true},\"checked\":true}]},\"allSelectValues\":{\"task\":{\"537\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"760\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"797\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"801\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"811\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"813\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"834\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"949\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1003\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1018\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5010\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5150\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5310\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5380\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5410\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5610\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"5660\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"629A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"680A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"840B\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"955A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1017A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1143A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1148A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1148B\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"}},\"knowledge\":{\"16\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"22\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"62\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"68\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"107\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"108\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"129\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"143\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"296\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"942\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"954\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"979\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1005\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1021\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1037\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1125\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1127\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1133\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1157\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1158\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1159\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"6290\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"6900\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"69A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"88B\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1004A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1061A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"}},\"skill\":{\"203\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"}},\"abilitie\":{\"1122\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"6160\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"325A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"},\"1039A\":{\"primary\":\"1\",\"secondary\":\"\",\"tertiary\":\"\"}}},\"currentUrl\":\"http://127.0.0.1:8000/compare/?dcwf_2025_ids=245\"}",
-    "step0_baseline_data": "{\"selectedWorkRoles\":[{\"index\":32,\"opm_code\":\"802\",\"dcwf_work_role\":\"IT Project Manager\",\"dcwf_element\":\"Cyber Enablers (EN)\",\"ncwf_work_role\":\"Secure Project Management\",\"ncwf_id\":\"OG-WRL-011\",\"ncwf_element\":\"Oversight & Governance\"}],\"primaryRoleOpmId\":\"802\",\"selectedSansRoles\":[],\"selectedCemaRoles\":[],\"timestamp\":\"2026-02-04T13:45:05.010Z\"}",
+    "ksatLastSavedState": {
+      "timestamp": "2026-02-04T13:48:43.027Z",
+      "roles": [
+        {
+          "title": "802",
+          "framework": "DCWF 2025",
+          "opmId": "802",
+          "modelType": "dcwf_2025",
+          "roleId": "245"
+        },
+        {
+          "title": "802",
+          "framework": "DCWF 2025",
+          "opmId": "802",
+          "modelType": "dcwf_2025",
+          "roleId": "245"
+        },
+        {
+          "title": "802",
+          "framework": "DCWF 2025",
+          "opmId": "802",
+          "modelType": "dcwf_2025",
+          "roleId": "245"
+        },
+        {
+          "title": "802",
+          "framework": "DCWF 2025",
+          "opmId": "802",
+          "modelType": "dcwf_2025",
+          "roleId": "245"
+        }
+      ],
+      "ksatData": {
+        "task": [
+          {
+            "description": "Develop methods to monitor and measure risk, compliance, and assurance efforts.",
+            "id": "537",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Identify and address cyber workforce planning and management issues (e.g. recruitment, retention, and training).",
+            "id": "629A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Lead and oversee budget, staffing, and contracting.",
+            "id": "680A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Perform needs analysis to determine opportunities for new and improved business process solutions.",
+            "id": "760",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Provide advice on project costs, design concepts, or design changes.",
+            "id": "797",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Provide enterprise cybersecurity and supply chain risk management guidance for development of the Continuity of Operations Plans.",
+            "id": "801",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Provide ongoing optimization and problem solving support.",
+            "id": "811",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Provide recommendations for possible improvements and upgrades.",
+            "id": "813",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Resolve conflicts in laws, regulations, policies, standards, or procedures.",
+            "id": "834",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Review or conduct audits of programs and projects.",
+            "id": "840B",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Evaluate the effectiveness of procurement function in addressing information security requirements and supply chain risks through procurement activities and recommend improvements.",
+            "id": "949",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Draft and publish supply chain security and risk management documents.",
+            "id": "955A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Develop and document supply chain risks for critical system elements, as appropriate.",
+            "id": "1003",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Participate in the acquisition process as necessary.",
+            "id": "1017A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ensure all acquisitions, procurements, and outsourcing efforts address information security requirements consistent with organization goals.",
+            "id": "1018",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Conduct import/export reviews for acquiring systems and software.",
+            "id": "1143A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Develop supply chain, system, network, performance, and cyber security requirements.",
+            "id": "1148A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ensure supply chain, system, network, performance, and cyber security requirements are included in contract language and delivered.",
+            "id": "1148B",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Act as a primary stakeholder in the underlying information technology (IT) operational processes and functions that support the service, provide direction and monitor all significant activities so the service is delivered successfully.",
+            "id": "5010",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Coordinate and manage the overall service provided to a customer end-to-end.",
+            "id": "5150",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ensure that appropriate SLAs and underpinning contracts have been defined that clearly set out for the customer a description of the service and the measures for monitoring the service.",
+            "id": "5310",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Gather feedback on customer satisfaction and internal service performance to foster continual improvement.",
+            "id": "5380",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Manage the internal relationship with information technology (IT) process owners supporting the service, assisting with the definition and agreement of operating level agreements (OLAs).",
+            "id": "5410",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Review service performance reports identifying any significant issues and variances, initiating, where necessary, corrective actions and ensuring that all outstanding issues are followed up.",
+            "id": "5610",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Work with other service managers and product owners to balance and prioritize services to meet overall customer requirements, constraints, and objectives.",
+            "id": "5660",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          }
+        ],
+        "knowledge": [
+          {
+            "description": "Knowledge of capabilities and requirements analysis.",
+            "id": "16",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of computer networking concepts and protocols, and network security methodologies.",
+            "id": "22",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of industry-standard and organizationally accepted analysis principles and methods.",
+            "id": "62",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of information technology (IT) architectural concepts and frameworks.",
+            "id": "68",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of risk management processes and requirements per the Risk Management Framework (RMF).",
+            "id": "69A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of new and emerging control systems technologies.",
+            "id": "88B",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of resource management principles and techniques.",
+            "id": "107",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of risk management processes (e.g., methods for assessing and mitigating risk).",
+            "id": "108",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of system life cycle management principles, including software security and usability.",
+            "id": "129",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of the organization’s enterprise information technology (IT) goals and objectives.",
+            "id": "143",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of how information needs and collection requirements are translated, tracked, and prioritized across the extended enterprise.",
+            "id": "296",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of the organization's core business/mission processes.",
+            "id": "942",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of import/export control regulations and responsible agencies for the purposes of reducing supply chain risk.",
+            "id": "954",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of supply chain risk management standards, processes, and practices.",
+            "id": "979",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of information technology (IT) acquisition/procurement requirements.",
+            "id": "1004A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of functionality, quality, and security requirements and how these will apply to specific items of supply (i.e., elements and processes).",
+            "id": "1005",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of risk threat assessment.",
+            "id": "1021",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of information technology (IT) supply chain security and risk management policies, requirements, and procedures.",
+            "id": "1037",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of the acquisition/procurement life cycle process.",
+            "id": "1061A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of Cloud-based knowledge management technologies and concepts related to security, governance, procurement, and administration.",
+            "id": "1125",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of Import/Export Regulations related to cryptography and other security technologies.",
+            "id": "1127",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of organizational process improvement concepts and process maturity models (e.g., Capability Maturity Model Integration (CMMI) for Development, CMMI for Services, and CMMI for Acquisitions).",
+            "id": "1130",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": false
+          },
+          {
+            "description": "Knowledge of service management concepts for networks and related standards (e.g., Information Technology Infrastructure Library, current version [ITIL]).",
+            "id": "1133",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of national and international laws, regulations, policies, and ethics as they relate to cybersecurity.",
+            "id": "1157",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of cybersecurity principles.",
+            "id": "1158",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of cyber threats and vulnerabilities.",
+            "id": "1159",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Knowledge of how to leverage government research and development centers, think tanks, academic research, and industry systems.",
+            "id": "6290",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of specific operational impacts of cybersecurity lapses.",
+            "id": "6900",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "* Knowledge of cloud computing service models Software as Service (SaaS), Infrastructure as a Service (IaaS), and Platform as a Service (PaaS).",
+            "id": "6935",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": false
+          },
+          {
+            "description": "* Knowledge of cloud computing deployment models in private, public, and hybrid environment and the difference between on-premises and off-premises environments.",
+            "id": "6938",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": false
+          }
+        ],
+        "skill": [
+          {
+            "description": "Skill in identifying measures or indicators of system performance and the actions needed to improve or correct performance, relative to the goals of the system.",
+            "id": "203",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          }
+        ],
+        "abilitie": [
+          {
+            "description": "Ability to ensure security practices are followed throughout the acquisition process.",
+            "id": "325A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ability to evaluate/ensure the trustworthiness of the supplier and/or product.",
+            "id": "1039A",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ability to apply supply chain risk management standards.",
+            "id": "1122",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          },
+          {
+            "description": "Ability to oversee the development and update of the lifecycle cost estimate.",
+            "id": "6160",
+            "roleStatuses": {
+              "802": true,
+              "802_DCWF 2025": true
+            },
+            "checked": true
+          }
+        ]
+      },
+      "allSelectValues": {
+        "task": {
+          "537": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "760": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "797": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "801": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "811": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "813": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "834": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "949": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1003": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1018": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5010": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5150": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5310": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5380": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5410": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5610": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "5660": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "629A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "680A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "840B": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "955A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1017A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1143A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1148A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1148B": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          }
+        },
+        "knowledge": {
+          "16": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "22": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "62": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "68": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "107": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "108": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "129": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "143": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "296": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "942": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "954": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "979": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1005": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1021": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1037": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1125": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1127": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1133": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1157": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1158": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1159": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "6290": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "6900": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "69A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "88B": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1004A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1061A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          }
+        },
+        "skill": {
+          "203": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          }
+        },
+        "abilitie": {
+          "1122": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "6160": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "325A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "1039A": {
+            "primary": "1",
+            "secondary": "",
+            "tertiary": ""
+          }
+        }
+      },
+      "currentUrl": "http://127.0.0.1:8000/compare/?dcwf_2025_ids=245"
+    },
+    "step0_baseline_data": {
+      "selectedWorkRoles": [
+        {
+          "index": 32,
+          "opm_code": "802",
+          "dcwf_work_role": "IT Project Manager",
+          "dcwf_element": "Cyber Enablers (EN)",
+          "ncwf_work_role": "Secure Project Management",
+          "ncwf_id": "OG-WRL-011",
+          "ncwf_element": "Oversight & Governance"
+        }
+      ],
+      "primaryRoleOpmId": "802",
+      "selectedSansRoles": [],
+      "selectedCemaRoles": [],
+      "timestamp": "2026-02-04T13:45:05.010Z"
+    },
     "currentJobNumber": "305",
-    "currentJobSelection": "{\"nom\":\"Hannibal\",\"couleur\":\"BLUE\",\"poste\":\"305\"}",
-    "selectedNFDomains": "[\"NF-COM-013\",\"NF-COM-001\",\"NF-COM-003\",\"NF-COM-005\",\"NF-COM-006\",\"NF-COM-007\",\"NF-COM-009\",\"NF-COM-010\",\"NF-COM-014\"]",
-    "nfcomAttributeSelections": "{\"NF-COM-013\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-001\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-003\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-005\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-006\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-007\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-009\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-010\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6},\"NF-COM-014\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6}}",
-    "posteAttributeSelections": "{\"305\":{\"AUTO\":6,\"INFL\":6,\"COMP\":6,\"KNGE\":6,\"COLL\":6,\"COMM\":6,\"IMPM\":6,\"CRTY\":6,\"DECM\":6,\"DIGI\":6,\"LEAD\":6,\"LADV\":6,\"PLAN\":6,\"PROB\":6,\"ADAP\":6,\"SCPE\":6}}",
-    "wizardLevelSelections": "{\"211\":{\"SCTY\":\"3\",\"INAS\":\"3\",\"PROD\":\"3\",\"DMIA\":\"2\",\"AFML\":\"2\"},\"221\":{\"BURM\":\"3\",\"SCAD\":\"1\",\"IHLC\":\"4\"},\"312\":{\"BUSA\":\"2\"},\"411\":{},\"421\":{\"DATM\":\"5\",\"DEOM\":\"2\",\"DTAN\":\"5\",\"DBDS\":\"5\",\"GIC2\":\"2\",\"ICRE\":\"2\"},\"422\":{\"RSCH\":\"2\",\"CPMG\":\"2\",\"DATM\":\"5\",\"DTAN\":\"5\"},\"431\":{\"DATM\":\"3\",\"AMCY\":\"3\",\"CFSP\":\"2\",\"IRMG\":\"1\",\"PSOC\":\"1\"},\"441\":{\"SCTY\":\"4\",\"ASZT\":\"4\",\"TEST\":\"4\",\"NFTS\":\"4\",\"ITOP\":\"4\",\"NTAS\":\"4\",\"HSIN\":\"4\",\"AVMT\":\"4\",\"CPMG\":\"4\",\"PBMG\":\"4\",\"SCAD\":\"4\",\"CRGC\":\"4\",\"SIPL\":\"4\",\"GICL\":\"4\",\"MCOO\":\"4\",\"MFND\":\"4\",\"CIPX\":\"4\",\"CTIF\":\"4\",\"MAOP\":\"4\"},\"451\":{\"TEST\":\"4\",\"SLEN\":\"4\",\"SCTY\":\"4\",\"ASZT\":\"4\",\"NFTS\":\"4\",\"INCA\":\"4\",\"ASUP\":\"4\",\"ITOP\":\"4\",\"SYSP\":\"4\",\"NTAS\":\"4\",\"HSIN\":\"4\",\"CFMG\":\"4\",\"DEPL\":\"4\",\"STMG\":\"4\",\"AVMT\":\"4\",\"USUP\":\"4\",\"PBMG\":\"4\",\"CHMG\":\"4\",\"SCAD\":\"4\",\"IAMT\":\"4\",\"CRGC\":\"4\",\"GICL\":\"4\"},\"531\":{\"SCTY\":\"4\",\"IECM\":\"1\"},\"611\":{\"RLMT\":\"7\",\"SCTY\":\"7\",\"GOVN\":\"6\",\"PEDP\":\"6\",\"INAS\":\"6\",\"ISCO\":\"6\",\"IRMG\":\"7\",\"GIC2\":\"1\",\"SCPL\":\"2\",\"CMCM\":\"2\"},\"612\":{\"SCTY\":\"3\",\"INAS\":\"4\",\"PEDP\":\"4\",\"TEST\":\"2\",\"DCAC\":\"2\",\"ROEN\":\"2\",\"APDI\":\"2\"},\"632\":{},\"641\":{\"DESN\":\"5\",\"DLMG\":\"5\"},\"651\":{\"ITSP\":\"3\",\"SCTY\":\"4\",\"EMRG\":\"6\",\"SORC\":\"3\",\"DSASI\":\"4\",\"ASZT\":\"4\",\"CRGC\":\"4\",\"SIPL\":\"4\"},\"652\":{\"RLMT\":\"4\",\"AVMT\":\"3\",\"MFND\":\"4\",\"CIPX\":\"4\",\"CTIF\":\"4\",\"MAOP\":\"4\"},\"731\":{\"RLMT\":\"6\",\"ITCM\":\"3\",\"INAS\":\"7\",\"DEOM\":\"3\"},\"752\":{\"SCTY\":\"5\",\"STPL\":\"6\",\"IRMG\":\"6\",\"ISCO\":\"6\",\"ITSP\":\"6\",\"GOVN\":\"6\",\"BURM\":\"6\",\"AUDT\":\"6\"},\"802\":{\"FMIT\":\"6\",\"SCTY\":\"6\",\"BURM\":\"6\",\"CHMG\":\"6\",\"PRMG\":\"6\",\"PROF\":\"6\",\"FEAS\":\"6\",\"REQM\":\"6\",\"RLMT\":\"6\",\"CPIA\":\"6\",\"PSPR\":\"6\",\"GTPC\":\"6\",\"IECM\":\"6\",\"MCPR\":\"6\",\"VSAS\":\"6\",\"TTCX\":\"6\",\"SCRM\":\"6\"},\"901\":{\"OCDV\":\"5\",\"ORDI\":\"5\",\"DEOM\":\"2\",\"GIC2\":\"3\",\"ICRE\":\"3\",\"IIAO\":\"3\",\"GICL\":\"3\",\"APBD\":\"3\",\"MCOO\":\"3\"}}",
-    "wizardSummary": "{\"opmIds\":[\"802\"],\"levelSelections\":{\"802\":{\"CPIA\":\"6\",\"PSPR\":\"6\",\"GTPC\":\"6\",\"IECM\":\"6\",\"MCPR\":\"6\",\"VSAS\":\"6\",\"TTCX\":\"6\",\"SCRM\":\"6\"}},\"opmAverages\":{\"802\":6},\"completedAt\":\"2026-02-04T13:54:39.273Z\"}",
-    "summaryMilRoleCompetences": "{\"802\":[{\"code\":\"DEOM\",\"level\":\"HIGH\"},{\"code\":\"GIC2\",\"level\":\"HIGH\"},{\"code\":\"ICRE\",\"level\":\"HIGH\"},{\"code\":\"IIAO\",\"level\":\"HIGH\"},{\"code\":\"IECM\",\"level\":\"HIGH\"},{\"code\":\"CPIA\",\"level\":\"HIGH\"},{\"code\":\"PSPR\",\"level\":\"HIGH\"},{\"code\":\"GTPC\",\"level\":\"HIGH\"},{\"code\":\"MCPR\",\"level\":\"HIGH\"},{\"code\":\"VSAS\",\"level\":\"HIGH\"},{\"code\":\"TTCX\",\"level\":\"HIGH\"},{\"code\":\"SCRM\",\"level\":\"HIGH\"}]}",
-    "summaryMilSelectedSkills": "{\"ASZT\":4,\"DSASI\":4,\"CRGC\":4}",
-    "currentKsatSelection": "{\"roles\":[{\"index\":1,\"opm_code\":431,\"dcwf_work_role\":\"Knowledge Manager\",\"dcwf_element\":\"Information Technology (IT)\",\"ncwf_work_role\":\"Knowledge Management\",\"ncwf_id\":\"IO-WRL-003\",\"ncwf_element\":\"Implementation & Operation\",\"opmId\":431},{\"index\":2,\"opm_code\":441,\"dcwf_work_role\":\"Network Operations Specialist\",\"dcwf_element\":\"Information Technology (IT)\",\"ncwf_work_role\":\"Network Operations\",\"ncwf_id\":\"IO-WRL-004\",\"ncwf_element\":\"Implementation & Operation\",\"opmId\":441},{\"index\":3,\"opm_code\":451,\"dcwf_work_role\":\"System Administrator\",\"dcwf_element\":\"Information Technology (IT)\",\"ncwf_work_role\":\"Systems Administration\",\"ncwf_id\":\"IO-WRL-005\",\"ncwf_element\":\"Implementation & Operation\",\"opmId\":451}],\"timestamp\":\"2025-12-01T14:44:24.790Z\",\"fromEtape2\":true,\"title\":\"Sélection Step0 - 01/12/2025 15:44:24\"}"
+    "currentJobSelection": {
+      "nom": "Hannibal",
+      "couleur": "BLUE",
+      "poste": "305"
+    },
+    "selectedNFDomains": [
+      "NF-COM-013",
+      "NF-COM-001",
+      "NF-COM-003",
+      "NF-COM-005",
+      "NF-COM-006",
+      "NF-COM-007",
+      "NF-COM-009",
+      "NF-COM-010",
+      "NF-COM-014"
+    ],
+    "nfcomAttributeSelections": {
+      "NF-COM-013": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-001": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-003": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-005": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-006": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-007": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-009": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-010": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      },
+      "NF-COM-014": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6
+      }
+    },
+    "posteAttributeSelections": {
+      "305": {
+        "AUTO": 6,
+        "INFL": 6,
+        "COMP": 6,
+        "KNGE": 6,
+        "COLL": 6,
+        "COMM": 6,
+        "IMPM": 6,
+        "CRTY": 6,
+        "DECM": 6,
+        "DIGI": 6,
+        "LEAD": 6,
+        "LADV": 6,
+        "PLAN": 6,
+        "PROB": 6,
+        "ADAP": 6,
+        "SCPE": 6
+      }
+    },
+    "wizardLevelSelections": {
+      "211": {
+        "SCTY": "3",
+        "INAS": "3",
+        "PROD": "3",
+        "DMIA": "2",
+        "AFML": "2"
+      },
+      "221": {
+        "BURM": "3",
+        "SCAD": "1",
+        "IHLC": "4"
+      },
+      "312": {
+        "BUSA": "2"
+      },
+      "411": {},
+      "421": {
+        "DATM": "5",
+        "DEOM": "2",
+        "DTAN": "5",
+        "DBDS": "5",
+        "GIC2": "2",
+        "ICRE": "2"
+      },
+      "422": {
+        "RSCH": "2",
+        "CPMG": "2",
+        "DATM": "5",
+        "DTAN": "5"
+      },
+      "431": {
+        "DATM": "3",
+        "AMCY": "3",
+        "CFSP": "2",
+        "IRMG": "1",
+        "PSOC": "1"
+      },
+      "441": {
+        "SCTY": "4",
+        "ASZT": "4",
+        "TEST": "4",
+        "NFTS": "4",
+        "ITOP": "4",
+        "NTAS": "4",
+        "HSIN": "4",
+        "AVMT": "4",
+        "CPMG": "4",
+        "PBMG": "4",
+        "SCAD": "4",
+        "CRGC": "4",
+        "SIPL": "4",
+        "GICL": "4",
+        "MCOO": "4",
+        "MFND": "4",
+        "CIPX": "4",
+        "CTIF": "4",
+        "MAOP": "4"
+      },
+      "451": {
+        "TEST": "4",
+        "SLEN": "4",
+        "SCTY": "4",
+        "ASZT": "4",
+        "NFTS": "4",
+        "INCA": "4",
+        "ASUP": "4",
+        "ITOP": "4",
+        "SYSP": "4",
+        "NTAS": "4",
+        "HSIN": "4",
+        "CFMG": "4",
+        "DEPL": "4",
+        "STMG": "4",
+        "AVMT": "4",
+        "USUP": "4",
+        "PBMG": "4",
+        "CHMG": "4",
+        "SCAD": "4",
+        "IAMT": "4",
+        "CRGC": "4",
+        "GICL": "4"
+      },
+      "531": {
+        "SCTY": "4",
+        "IECM": "1"
+      },
+      "611": {
+        "RLMT": "7",
+        "SCTY": "7",
+        "GOVN": "6",
+        "PEDP": "6",
+        "INAS": "6",
+        "ISCO": "6",
+        "IRMG": "7",
+        "GIC2": "1",
+        "SCPL": "2",
+        "CMCM": "2"
+      },
+      "612": {
+        "SCTY": "3",
+        "INAS": "4",
+        "PEDP": "4",
+        "TEST": "2",
+        "DCAC": "2",
+        "ROEN": "2",
+        "APDI": "2"
+      },
+      "632": {},
+      "641": {
+        "DESN": "5",
+        "DLMG": "5"
+      },
+      "651": {
+        "ITSP": "3",
+        "SCTY": "4",
+        "EMRG": "6",
+        "SORC": "3",
+        "DSASI": "4",
+        "ASZT": "4",
+        "CRGC": "4",
+        "SIPL": "4"
+      },
+      "652": {
+        "RLMT": "4",
+        "AVMT": "3",
+        "MFND": "4",
+        "CIPX": "4",
+        "CTIF": "4",
+        "MAOP": "4"
+      },
+      "731": {
+        "RLMT": "6",
+        "ITCM": "3",
+        "INAS": "7",
+        "DEOM": "3"
+      },
+      "752": {
+        "SCTY": "5",
+        "STPL": "6",
+        "IRMG": "6",
+        "ISCO": "6",
+        "ITSP": "6",
+        "GOVN": "6",
+        "BURM": "6",
+        "AUDT": "6"
+      },
+      "802": {
+        "FMIT": "6",
+        "SCTY": "6",
+        "BURM": "6",
+        "CHMG": "6",
+        "PRMG": "6",
+        "PROF": "6",
+        "FEAS": "6",
+        "REQM": "6",
+        "RLMT": "6",
+        "CPIA": "6",
+        "PSPR": "6",
+        "GTPC": "6",
+        "IECM": "6",
+        "MCPR": "6",
+        "VSAS": "6",
+        "TTCX": "6",
+        "SCRM": "6"
+      },
+      "901": {
+        "OCDV": "5",
+        "ORDI": "5",
+        "DEOM": "2",
+        "GIC2": "3",
+        "ICRE": "3",
+        "IIAO": "3",
+        "GICL": "3",
+        "APBD": "3",
+        "MCOO": "3"
+      }
+    },
+    "wizardSummary": {
+      "opmIds": [
+        "802"
+      ],
+      "levelSelections": {
+        "802": {
+          "CPIA": "6",
+          "PSPR": "6",
+          "GTPC": "6",
+          "IECM": "6",
+          "MCPR": "6",
+          "VSAS": "6",
+          "TTCX": "6",
+          "SCRM": "6"
+        }
+      },
+      "opmAverages": {
+        "802": 6
+      },
+      "completedAt": "2026-02-04T13:54:39.273Z"
+    },
+    "summaryMilRoleCompetences": {
+      "802": [
+        {
+          "code": "DEOM",
+          "level": "HIGH"
+        },
+        {
+          "code": "GIC2",
+          "level": "HIGH"
+        },
+        {
+          "code": "ICRE",
+          "level": "HIGH"
+        },
+        {
+          "code": "IIAO",
+          "level": "HIGH"
+        },
+        {
+          "code": "IECM",
+          "level": "HIGH"
+        },
+        {
+          "code": "CPIA",
+          "level": "HIGH"
+        },
+        {
+          "code": "PSPR",
+          "level": "HIGH"
+        },
+        {
+          "code": "GTPC",
+          "level": "HIGH"
+        },
+        {
+          "code": "MCPR",
+          "level": "HIGH"
+        },
+        {
+          "code": "VSAS",
+          "level": "HIGH"
+        },
+        {
+          "code": "TTCX",
+          "level": "HIGH"
+        },
+        {
+          "code": "SCRM",
+          "level": "HIGH"
+        }
+      ]
+    },
+    "summaryMilSelectedSkills": {
+      "ASZT": 4,
+      "DSASI": 4,
+      "CRGC": 4
+    },
+    "currentKsatSelection": {
+      "roles": [
+        {
+          "index": 1,
+          "opm_code": 431,
+          "dcwf_work_role": "Knowledge Manager",
+          "dcwf_element": "Information Technology (IT)",
+          "ncwf_work_role": "Knowledge Management",
+          "ncwf_id": "IO-WRL-003",
+          "ncwf_element": "Implementation & Operation",
+          "opmId": 431
+        },
+        {
+          "index": 2,
+          "opm_code": 441,
+          "dcwf_work_role": "Network Operations Specialist",
+          "dcwf_element": "Information Technology (IT)",
+          "ncwf_work_role": "Network Operations",
+          "ncwf_id": "IO-WRL-004",
+          "ncwf_element": "Implementation & Operation",
+          "opmId": 441
+        },
+        {
+          "index": 3,
+          "opm_code": 451,
+          "dcwf_work_role": "System Administrator",
+          "dcwf_element": "Information Technology (IT)",
+          "ncwf_work_role": "Systems Administration",
+          "ncwf_id": "IO-WRL-005",
+          "ncwf_element": "Implementation & Operation",
+          "opmId": 451
+        }
+      ],
+      "timestamp": "2025-12-01T14:44:24.790Z",
+      "fromEtape2": true,
+      "title": "Sélection Step0 - 01/12/2025 15:44:24"
+    }
   }
 }

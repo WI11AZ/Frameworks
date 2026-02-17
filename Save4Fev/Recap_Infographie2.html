@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Recap — 9800552_00338243</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f2efe6;
+      --ink: #1c1916;
+      --muted: #6b5b4f;
+      --accent: #c45c3e;
+      --accent2: #2d6a6a;
+      --paper: #faf8f4;
+      --rule: #d4cfc4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px 48px; }
+
+    /* Hero */
+    .hero {
+      padding: 48px 0 40px;
+      border-bottom: 3px solid var(--accent);
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      margin: 0 0 8px 0;
+      color: var(--ink);
+    }
+    .hero .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .hero .kpi {
+      margin-top: 32px;
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero .kpi-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.5rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero .kpi-label { font-size: 0.9rem; color: var(--muted); }
+
+    /* Bandeaux pleine largeur */
+    .strip {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      align-items: start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    @media (max-width: 600px) { .strip { grid-template-columns: 1fr; } }
+    .strip-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+    .strip-content { font-size: 0.95rem; }
+    .strip-content strong { color: var(--ink); }
+    .strip-content .meta { color: var(--muted); font-size: 0.9rem; }
+
+    /* Domaines comme étiquettes */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tags span {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      font-size: 0.8rem;
+      color: var(--ink);
+    }
+
+    /* Section titre */
+    .sec {
+      margin-top: 40px;
+    }
+    .sec-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      margin: 0 0 20px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent2);
+      color: var(--ink);
+    }
+
+    /* Chiffres clés en grille */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 560px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .kpi-cell {
+      background: var(--paper);
+      padding: 20px;
+      border-left: 4px solid var(--accent2);
+    }
+    .kpi-cell .n { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--accent2); }
+    .kpi-cell .l { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Barres de progression horizontales (remplacent donut) */
+    .bar-stack { margin-bottom: 24px; }
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .bar-row .label { width: 90px; font-size: 0.9rem; }
+    .bar-row .track {
+      flex: 1;
+      height: 24px;
+      background: var(--rule);
+      overflow: hidden;
+    }
+    .bar-row .fill {
+      height: 100%;
+      border-radius: 0 2px 2px 0;
+    }
+    .bar-row .val { width: 32px; text-align: right; font-weight: 600; font-size: 0.9rem; }
+
+    /* Niveaux MIL en pilules */
+    .mil-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .mil-pill {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .mil-pill.high { background: #1b3d2f; color: #a8e6b4; }
+    .mil-pill.med { background: #4a3728; color: #e8d4a8; }
+    .mil-pill.low { background: #3d2a2a; color: #f0b0b0; }
+
+    /* Attributs poste : grille de barres horizontales */
+    .attr-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px 20px;
+      margin-top: 16px;
+    }
+    @media (max-width: 640px) { .attr-grid { grid-template-columns: repeat(2, 1fr); } }
+    .attr-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .attr-item .code { width: 36px; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+    .attr-item .bar-wrap { flex: 1; height: 12px; background: var(--rule); overflow: hidden; }
+    .attr-item .bar { height: 100%; background: var(--accent2); border-radius: 0 2px 2px 0; }
+    .attr-item .v { width: 18px; text-align: right; font-size: 0.8rem; font-weight: 600; }
+
+    /* NF-COM : barres horizontales par domaine */
+    .nf-bars { margin-top: 16px; }
+    .nf-bars .bar-row .label { width: 110px; }
+
+    /* Wizard : barres */
+    .wiz-bars .bar-row .label { width: 60px; }
+
+    /* KSAT liste (toggle) */
+    .ksat-zone { margin-top: 24px; }
+    .ksat-trigger {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ksat-trigger:hover { background: var(--accent2); }
+    #ksat-list { display: none; margin-top: 20px; padding: 20px; background: var(--paper); border: 1px solid var(--rule); max-height: 70vh; overflow: auto; }
+    #ksat-list.show { display: block; }
+    .ksat-block { margin-bottom: 28px; }
+    .ksat-block h3 { font-size: 0.9rem; color: var(--accent2); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.06em; }
+    .ksat-item { padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 0.9rem; }
+    .ksat-item .id { color: var(--muted); margin-right: 10px; font-size: 0.85rem; }
+
+    /* Skills MIL + Rôles KSAT */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+    .two-col .cap { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+    .two-col ul { margin: 0; padding: 0; list-style: none; }
+    .two-col li { padding: 6px 0; border-bottom: 1px solid var(--rule); font-size: 0.9rem; }
+
+    /* Chart containers (pour ceux qu'on garde en Chart.js) */
+    .chart-wrap { height: 260px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1>9800552_00338243</h1>
+    <p class="meta">Project Recap · id: save_1770213286601_ufw5xx3 · 2026-02-04T13:55:15.499Z</p>
+    <div class="hero kpi">
+      <div>
+        <span class="kpi-num">57</span>
+        <span class="kpi-label">KSAT sélectionnés</span>
+      </div>
+      <div>
+        <span class="kpi-num">802</span>
+        <span class="kpi-label">Rôle principal</span>
+      </div>
+      <div>
+        <span class="kpi-num">305</span>
+        <span class="kpi-label">Poste</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="strip">
+    <span class="strip-tag">Work role</span>
+    <div class="strip-content">
+      <strong>IT Project Manager</strong><br>
+      <span class="meta">opm_code: 802 · Cyber Enablers (EN)</span><br>
+      <span class="meta">NCWF: Secure Project Management (OG-WRL-011) · Oversight &amp; Governance</span>
+    </div>
+  </section>
+  <section class="strip">
+    <span class="strip-tag">Poste / Job</span>
+    <div class="strip-content">
+      <strong>Hannibal</strong> · Poste 305 · BLUE
+    </div>
+  </section>
+  <section class="strip">
+    <span class="strip-tag">NF-COM</span>
+    <div class="strip-content">
+      <div class="tags">
+        <span>NF-COM-013</span><span>NF-COM-001</span><span>NF-COM-003</span><span>NF-COM-005</span>
+        <span>NF-COM-006</span><span>NF-COM-007</span><span>NF-COM-009</span><span>NF-COM-010</span><span>NF-COM-014</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">Répartition KSAT</h2>
+    <p class="meta">Tasks: 25 · Knowledge: 27 · Skills: 1 · Abilities: 4</p>
+    <div class="chart-wrap"><canvas id="c1"></canvas></div>
+    <div class="bar-stack" style="margin-top:20px;">
+      <div class="bar-row">
+        <span class="label">Tasks</span>
+        <div class="track"><div class="fill" style="width:44%; background:#2d6a6a;"></div></div>
+        <span class="val">25</span>
+      </div>
+      <div class="bar-row">
+        <span class="label">Knowledge</span>
+        <div class="track"><div class="fill" style="width:47%; background:#5a8a8a;"></div></div>
+        <span class="val">27</span>
+      </div>
+      <div class="bar-row">
+        <span class="label">Skills</span>
+        <div class="track"><div class="fill" style="width:2%; background:#c45c3e;"></div></div>
+        <span class="val">1</span>
+      </div>
+      <div class="bar-row">
+        <span class="label">Abilities</span>
+        <div class="track"><div class="fill" style="width:7%; background:#a04a32;"></div></div>
+        <span class="val">4</span>
+      </div>
+    </div>
+    <div class="ksat-zone">
+      <button type="button" class="ksat-trigger" id="btn-ksat">Afficher la liste des KSAT</button>
+      <div id="ksat-list"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">Compétences MIL (rôle 802)</h2>
+    <p class="meta">HIGH: 12 · MEDIUM: 0 · LOW: 0</p>
+    <div class="mil-pills">
+      <span class="mil-pill high">DEOM HIGH</span>
+      <span class="mil-pill high">GIC2 HIGH</span>
+      <span class="mil-pill high">ICRE HIGH</span>
+      <span class="mil-pill high">IIAO HIGH</span>
+      <span class="mil-pill high">IECM HIGH</span>
+      <span class="mil-pill high">CPIA HIGH</span>
+      <span class="mil-pill high">PSPR HIGH</span>
+      <span class="mil-pill high">GTPC HIGH</span>
+      <span class="mil-pill high">MCPR HIGH</span>
+      <span class="mil-pill high">VSAS HIGH</span>
+      <span class="mil-pill high">TTCX HIGH</span>
+      <span class="mil-pill high">SCRM HIGH</span>
+    </div>
+    <div class="chart-wrap"><canvas id="c2"></canvas></div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">Attributs poste 305</h2>
+    <p class="meta">AUTO, INFL, COMP, KNGE, COLL, COMM, IMPM, CRTY, DECM, DIGI, LEAD, LADV, PLAN, PROB, ADAP, SCPE</p>
+    <div class="attr-grid">
+      <div class="attr-item"><span class="code">AUTO</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">INFL</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">COMP</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">KNGE</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">COLL</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">COMM</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">IMPM</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">CRTY</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">DECM</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">DIGI</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">LEAD</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">LADV</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">PLAN</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">PROB</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">ADAP</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+      <div class="attr-item"><span class="code">SCPE</span><div class="bar-wrap"><div class="bar" style="width:86%;"></div></div><span class="v">6</span></div>
+    </div>
+    <div class="chart-wrap"><canvas id="c3"></canvas></div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">NF-COM · Moyenne par domaine</h2>
+    <div class="nf-bars">
+      <div class="bar-row"><span class="label">NF-COM-013</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">NF-COM-001</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">NF-COM-003</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">NF-COM-005</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">NF-COM-006</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">NF-COM-007</span><div class="track"><div class="fill" style="width:86%; background:#2d6a6a;"></div></div><span class="val">6</span></div>
+    </div>
+    <div class="chart-wrap"><canvas id="c4"></canvas></div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">Wizard rôle 802 — niveaux</h2>
+    <p class="meta">CPIA 6, PSPR 6, GTPC 6, IECM 6, MCPR 6, VSAS 6, TTCX 6, SCRM 6 · Moyenne: 6</p>
+    <div class="wiz-bars">
+      <div class="bar-row"><span class="label">CPIA</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">PSPR</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">GTPC</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">IECM</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">MCPR</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">VSAS</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">TTCX</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+      <div class="bar-row"><span class="label">SCRM</span><div class="track"><div class="fill" style="width:86%; background:#c45c3e;"></div></div><span class="val">6</span></div>
+    </div>
+    <div class="chart-wrap"><canvas id="c5"></canvas></div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">Skills MIL &amp; Rôles KSAT</h2>
+    <div class="two-col">
+      <div>
+        <p class="cap">Skills MIL sélectionnés</p>
+        <p>ASZT: <strong>4</strong> · DSASI: <strong>4</strong> · CRGC: <strong>4</strong></p>
+      </div>
+      <div>
+        <p class="cap">Rôles KSAT (currentKsatSelection)</p>
+        <ul>
+          <li><strong>Knowledge Manager</strong> · IT · Knowledge Management (IO-WRL-003)</li>
+          <li><strong>Network Operations Specialist</strong> · IT · Network Operations (IO-WRL-004)</li>
+          <li><strong>System Administrator</strong> · IT · Systems Administration (IO-WRL-005)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+var KSAT_TASKS = [
+  {id:"537", desc:"Develop methods to monitor and measure risk, compliance, and assurance efforts.", checked:true},
+  {id:"629A", desc:"Identify and address cyber workforce planning and management issues (e.g. recruitment, retention, and training).", checked:true},
+  {id:"680A", desc:"Lead and oversee budget, staffing, and contracting.", checked:true},
+  {id:"760", desc:"Perform needs analysis to determine opportunities for new and improved business process solutions.", checked:true},
+  {id:"797", desc:"Provide advice on project costs, design concepts, or design changes.", checked:true},
+  {id:"801", desc:"Provide enterprise cybersecurity and supply chain risk management guidance for development of the Continuity of Operations Plans.", checked:true},
+  {id:"811", desc:"Provide ongoing optimization and problem solving support.", checked:true},
+  {id:"813", desc:"Provide recommendations for possible improvements and upgrades.", checked:true},
+  {id:"834", desc:"Resolve conflicts in laws, regulations, policies, standards, or procedures.", checked:true},
+  {id:"840B", desc:"Review or conduct audits of programs and projects.", checked:true},
+  {id:"949", desc:"Evaluate the effectiveness of procurement function in addressing information security requirements and supply chain risks through procurement activities and recommend improvements.", checked:true},
+  {id:"955A", desc:"Draft and publish supply chain security and risk management documents.", checked:true},
+  {id:"1003", desc:"Develop and document supply chain risks for critical system elements, as appropriate.", checked:true},
+  {id:"1017A", desc:"Participate in the acquisition process as necessary.", checked:true},
+  {id:"1018", desc:"Ensure all acquisitions, procurements, and outsourcing efforts address information security requirements consistent with organization goals.", checked:true},
+  {id:"1143A", desc:"Conduct import/export reviews for acquiring systems and software.", checked:true},
+  {id:"1148A", desc:"Develop supply chain, system, network, performance, and cyber security requirements.", checked:true},
+  {id:"1148B", desc:"Ensure supply chain, system, network, performance, and cyber security requirements are included in contract language and delivered.", checked:true},
+  {id:"5010", desc:"Act as a primary stakeholder in the underlying information technology (IT) operational processes and functions that support the service, provide direction and monitor all significant activities so the service is delivered successfully.", checked:true},
+  {id:"5150", desc:"Coordinate and manage the overall service provided to a customer end-to-end.", checked:true},
+  {id:"5310", desc:"Ensure that appropriate SLAs and underpinning contracts have been defined that clearly set out for the customer a description of the service and the measures for monitoring the service.", checked:true},
+  {id:"5380", desc:"Gather feedback on customer satisfaction and internal service performance to foster continual improvement.", checked:true},
+  {id:"5410", desc:"Manage the internal relationship with information technology (IT) process owners supporting the service, assisting with the definition and agreement of operating level agreements (OLAs).", checked:true},
+  {id:"5610", desc:"Review service performance reports identifying any significant issues and variances, initiating, where necessary, corrective actions and ensuring that all outstanding issues are followed up.", checked:true},
+  {id:"5660", desc:"Work with other service managers and product owners to balance and prioritize services to meet overall customer requirements, constraints, and objectives.", checked:true}
+];
+var KSAT_KNOWLEDGE = [
+  {id:"16", desc:"Knowledge of capabilities and requirements analysis.", checked:true},
+  {id:"22", desc:"* Knowledge of computer networking concepts and protocols, and network security methodologies.", checked:true},
+  {id:"62", desc:"Knowledge of industry-standard and organizationally accepted analysis principles and methods.", checked:true},
+  {id:"68", desc:"Knowledge of information technology (IT) architectural concepts and frameworks.", checked:true},
+  {id:"69A", desc:"Knowledge of risk management processes and requirements per the Risk Management Framework (RMF).", checked:true},
+  {id:"88B", desc:"Knowledge of new and emerging control systems technologies.", checked:true},
+  {id:"107", desc:"Knowledge of resource management principles and techniques.", checked:true},
+  {id:"108", desc:"* Knowledge of risk management processes (e.g., methods for assessing and mitigating risk).", checked:true},
+  {id:"129", desc:"Knowledge of system life cycle management principles, including software security and usability.", checked:true},
+  {id:"143", desc:"Knowledge of the organization's enterprise information technology (IT) goals and objectives.", checked:true},
+  {id:"296", desc:"Knowledge of how information needs and collection requirements are translated, tracked, and prioritized across the extended enterprise.", checked:true},
+  {id:"942", desc:"Knowledge of the organization's core business/mission processes.", checked:true},
+  {id:"954", desc:"Knowledge of import/export control regulations and responsible agencies for the purposes of reducing supply chain risk.", checked:true},
+  {id:"979", desc:"Knowledge of supply chain risk management standards, processes, and practices.", checked:true},
+  {id:"1004A", desc:"Knowledge of information technology (IT) acquisition/procurement requirements.", checked:true},
+  {id:"1005", desc:"Knowledge of functionality, quality, and security requirements and how these will apply to specific items of supply (i.e., elements and processes).", checked:true},
+  {id:"1021", desc:"Knowledge of risk threat assessment.", checked:true},
+  {id:"1037", desc:"Knowledge of information technology (IT) supply chain security and risk management policies, requirements, and procedures.", checked:true},
+  {id:"1061A", desc:"Knowledge of the acquisition/procurement life cycle process.", checked:true},
+  {id:"1125", desc:"Knowledge of Cloud-based knowledge management technologies and concepts related to security, governance, procurement, and administration.", checked:true},
+  {id:"1127", desc:"Knowledge of Import/Export Regulations related to cryptography and other security technologies.", checked:true},
+  {id:"1130", desc:"Knowledge of organizational process improvement concepts and process maturity models (e.g., Capability Maturity Model Integration (CMMI) for Development, CMMI for Services, and CMMI for Acquisitions).", checked:false},
+  {id:"1133", desc:"Knowledge of service management concepts for networks and related standards (e.g., Information Technology Infrastructure Library, current version [ITIL]).", checked:true},
+  {id:"1157", desc:"* Knowledge of national and international laws, regulations, policies, and ethics as they relate to cybersecurity.", checked:true},
+  {id:"1158", desc:"* Knowledge of cybersecurity principles.", checked:true},
+  {id:"1159", desc:"* Knowledge of cyber threats and vulnerabilities.", checked:true},
+  {id:"6290", desc:"Knowledge of how to leverage government research and development centers, think tanks, academic research, and industry systems.", checked:true},
+  {id:"6900", desc:"* Knowledge of specific operational impacts of cybersecurity lapses.", checked:true},
+  {id:"6935", desc:"* Knowledge of cloud computing service models Software as Service (SaaS), Infrastructure as a Service (IaaS), and Platform as a Service (PaaS).", checked:false},
+  {id:"6938", desc:"* Knowledge of cloud computing deployment models in private, public, and hybrid environment and the difference between on-premises and off-premises environments.", checked:false}
+];
+var KSAT_SKILLS = [
+  {id:"203", desc:"Skill in identifying measures or indicators of system performance and the actions needed to improve or correct performance, relative to the goals of the system.", checked:true}
+];
+var KSAT_ABILITIES = [
+  {id:"325A", desc:"Ability to ensure security practices are followed throughout the acquisition process.", checked:true},
+  {id:"1039A", desc:"Ability to evaluate/ensure the trustworthiness of the supplier and/or product.", checked:true},
+  {id:"1122", desc:"Ability to apply supply chain risk management standards.", checked:true},
+  {id:"6160", desc:"Ability to oversee the development and update of the lifecycle cost estimate.", checked:true}
+];
+
+function renderKsat() {
+  var el = document.getElementById("ksat-list");
+  if (el.classList.contains("show")) {
+    el.classList.remove("show");
+    el.innerHTML = "";
+    document.getElementById("btn-ksat").textContent = "Afficher la liste des KSAT";
+    return;
+  }
+  var html = "";
+  html += "<div class=\"ksat-block\"><h3>Tasks (" + KSAT_TASKS.length + ")</h3>";
+  KSAT_TASKS.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Knowledge (" + KSAT_KNOWLEDGE.length + ")</h3>";
+  KSAT_KNOWLEDGE.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Skills (" + KSAT_SKILLS.length + ")</h3>";
+  KSAT_SKILLS.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Abilities (" + KSAT_ABILITIES.length + ")</h3>";
+  KSAT_ABILITIES.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  el.innerHTML = html;
+  el.classList.add("show");
+  document.getElementById("btn-ksat").textContent = "Masquer la liste des KSAT";
+}
+document.getElementById("btn-ksat").onclick = renderKsat;
+
+(function(){
+  // KSAT : Polar Area (au lieu de doughnut)
+  new Chart(document.getElementById("c1"), {
+    type: "polarArea",
+    data: {
+      labels: ["Tasks", "Knowledge", "Skills", "Abilities"],
+      datasets: [{ data: [25, 27, 1, 4], backgroundColor: ["#2d6a6a", "#4a8a8a", "#c45c3e", "#a04a32"], borderWidth: 2, borderColor: "#faf8f4" }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
+  });
+
+  // MIL : Doughnut (au lieu de barres)
+  new Chart(document.getElementById("c2"), {
+    type: "doughnut",
+    data: {
+      labels: ["HIGH", "MEDIUM", "LOW"],
+      datasets: [{ data: [12, 0, 0], backgroundColor: ["#1b3d2f", "#4a3728", "#3d2a2a"], borderWidth: 3, borderColor: "#faf8f4" }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
+  });
+
+  // Attributs poste : Barres horizontales (au lieu de radar)
+  new Chart(document.getElementById("c3"), {
+    type: "bar",
+    data: {
+      labels: ["AUTO","INFL","COMP","KNGE","COLL","COMM","IMPM","CRTY","DECM","DIGI","LEAD","LADV","PLAN","PROB","ADAP","SCPE"],
+      datasets: [{ label: "Poste 305", data: [6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6], backgroundColor: "#2d6a6a" }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: { x: { min: 0, max: 7, ticks: { stepSize: 1 } }, y: { grid: { display: false } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // NF-COM : Courbe / Line (au lieu de barres)
+  new Chart(document.getElementById("c4"), {
+    type: "line",
+    data: {
+      labels: ["NF-COM-013","NF-COM-001","NF-COM-003","NF-COM-005","NF-COM-006","NF-COM-007"],
+      datasets: [{ label: "Moyenne", data: [6,6,6,6,6,6], borderColor: "#2d6a6a", backgroundColor: "rgba(45,106,106,0.2)", fill: true, tension: 0.3 }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: { y: { min: 0, max: 7, ticks: { stepSize: 1 } }, x: { grid: { display: false } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // Wizard : Courbe / Line (au lieu de barres)
+  new Chart(document.getElementById("c5"), {
+    type: "line",
+    data: {
+      labels: ["CPIA","PSPR","GTPC","IECM","MCPR","VSAS","TTCX","SCRM"],
+      datasets: [{ label: "Niveau", data: [6,6,6,6,6,6,6,6], borderColor: "#c45c3e", backgroundColor: "rgba(196,92,62,0.2)", fill: true, tension: 0.3 }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: { y: { min: 0, max: 7, ticks: { stepSize: 1 } }, x: { grid: { display: false } } },
+      plugins: { legend: { display: false } }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -539,9 +539,10 @@
     "OPM-ID": "902",
     "Community DCWF": "DA",
     "WRL-ID": null,
-    "NCWF 2025 - Titre": "AI Innovation Leadship",
+    "NCWF 2025 - Titre": "AI Innovation Leadership",
     "DCWF 2025 - Titre": "AI Innovation Leader",
-    "OPM_Levels": "6_7"
+    "OPM_Levels": "6_7",
+    "definition": "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."
   },
   {
     "OPM-ID": "903",
@@ -549,7 +550,8 @@
     "WRL-ID": null,
     "NCWF 2025 - Titre": "Data Governance",
     "DCWF 2025 - Titre": "Data Officer",
-    "OPM_Levels": "6_7"
+    "OPM_Levels": "6_7",
+    "definition": "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance."
   },
   {
     "OPM-ID": "461",

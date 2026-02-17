@@ -357,6 +357,11 @@
             color: #3730a3;
             border-color: #818cf8;
         }
+        .overview-relation-mode-btn.active-ramps {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #10b981;
+        }
         .overview-section-title {
             font-weight: 800;
             color: #111827;
@@ -467,6 +472,39 @@
         }
         .overview-tile:not(.el-it):not(.el-cs):not(.el-en):not(.el-ce):not(.el-ci):not(.el-da):not(.el-se) .overview-tile-title {
             color: #4b5563;
+        }
+        /* Point discret NCWF (couleur communauté) dans le carré */
+        .overview-tile .overview-ncwf-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            top: 4px;
+            right: 4px;
+        }
+        .overview-tile.overview-ncwf-og .overview-ncwf-dot { background: #3b82f6; }
+        .overview-tile.overview-ncwf-io .overview-ncwf-dot { background: #10b981; }
+        .overview-tile.overview-ncwf-dd .overview-ncwf-dot { background: #ef4444; }
+        .overview-tile.overview-ncwf-pd .overview-ncwf-dot { background: #ec4899; }
+        .overview-tile.overview-ncwf-in .overview-ncwf-dot { background: #8b5cf6; }
+        .overview-tile.overview-ncwf-cy .overview-ncwf-dot { background: #6b7280; }
+        /* Carrés communauté SANS / CEMA – même disposition que les tuiles (force layout) */
+        .overview-tile.overview-community-badge {
+            cursor: default;
+            background: #f3f4f6 !important;
+            border: 2px solid #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overview-tile.overview-community-badge .overview-community-badge-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #374151;
+        }
+        .overview-tile.overview-community-badge .overview-tile-opm,
+        .overview-tile.overview-community-badge .overview-tile-title {
+            display: none;
         }
         
         /* Grille des rôles */
@@ -22156,9 +22194,10 @@ const niceNameToWrlLookup = {
       "OPM-ID": "902",
       "Community DCWF": "DA",
       "WRL-ID": null,
-      "NCWF 2025 - Titre": "AI Innovation Leadship",
+      "NCWF 2025 - Titre": "AI Innovation Leadership",
       "DCWF 2025 - Titre": "AI Innovation Leader",
-      "OPM_Levels": "6_7"
+      "OPM_Levels": "6_7",
+      "definition": "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used."
     },
     {
       "OPM-ID": "903",
@@ -22166,7 +22205,8 @@ const niceNameToWrlLookup = {
       "WRL-ID": null,
       "NCWF 2025 - Titre": "Data Governance",
       "DCWF 2025 - Titre": "Data Officer",
-      "OPM_Levels": "6_7"
+      "OPM_Levels": "6_7",
+      "definition": "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance."
     },
     {
       "OPM-ID": "461",
@@ -23284,7 +23324,10 @@ const niceNameToWrlLookup = {
                 const tileClass = tileClassForKey(dcwfKeyVal);
                 const opm = role.opm_code !== null ? role.opm_code : '—';
                 const title = (role.dcwf?.work_role || '—').replace(/\s+/g, ' ').replace(/"/g, '&quot;');
-                overviewTiles.push({ role, idx, tileClass, opm, title, family: dcwfKeyVal });
+                const wrlId = getRealWRLID(role);
+                const ncwfChip = chipClassForNice(role.nice?.element || '', wrlId);
+                const ncwfBorderClass = ncwfChip ? 'overview-ncwf-' + ncwfChip.replace('chip-', '') : '';
+                overviewTiles.push({ role, idx, tileClass, opm, title, family: dcwfKeyVal, ncwfBorderClass });
                 overviewCount++;
             });
             const byFamily = {};
@@ -23295,18 +23338,24 @@ const niceNameToWrlLookup = {
             let overviewHtml = '<div class="overview-section">' +
                 '<div class="overview-relation-mode-bar">' +
                 '<span class="overview-relation-mode-label">Relations:</span>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="tks" title="Survol: afficher les Related Roles by TKS (Top 5)">Related Roles by TKS (Top 5)</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="secondary" title="Survol: afficher les Top 5 Secondary Work Roles (Federal Data)">Top 5 Secondary (Federal)</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="on_ramps" title="Survol: afficher les On Ramps">On Ramps</button>' +
-                '<button type="button" class="overview-relation-mode-btn" data-mode="off_ramps" title="Survol: afficher les Off Ramps">Off Ramps</button>' +
+                '<button type="button" class="overview-relation-mode-btn" data-mode="tks" data-basket="relation" title="Survol: afficher les Related Roles by TKS (Top 5)">Related Roles by TKS (Top 5)</button>' +
+                '<button type="button" class="overview-relation-mode-btn" data-mode="secondary" data-basket="relation" title="Survol: afficher les Top 5 Secondary Work Roles (Federal Data)">Top 5 Secondary (Federal)</button>' +
+                '<button type="button" class="overview-relation-mode-btn" data-mode="on_ramps" data-basket="ramps" title="Survol: afficher les On Ramps">On Ramps</button>' +
+                '<button type="button" class="overview-relation-mode-btn" data-mode="off_ramps" data-basket="ramps" title="Survol: afficher les Off Ramps">Off Ramps</button>' +
                 '</div>' +
                 '<div class="overview-physics-container" id="overviewPhysicsContainer"><svg class="overview-relations-svg" aria-hidden="true"></svg>';
             familiesWithTiles.forEach((fam, fi) => {
                 const zoneLeft = (100 * fi / nFamilies) + '%';
                 const zoneWidth = (100 / nFamilies) + '%';
                 overviewHtml += `<div class="overview-family-zone" data-family="${fam}" style="left:${zoneLeft};width:${zoneWidth}"><div class="overview-zone-inner">`;
-                byFamily[fam].forEach(({ tileClass, opm, title, idx }) => {
-                    overviewHtml += `<div class="overview-tile ${tileClass}" onclick="openModal(${idx})" title="${title}" data-idx="${idx}" data-family="${fam}">` +
+                if (fam === 'tbd') {
+                    overviewHtml += `<div class="overview-tile overview-community-badge" title="SANS" data-family="${fam}"><span class="overview-tile-opm"></span><span class="overview-tile-title"></span><span class="overview-community-badge-text">SANS</span></div>`;
+                    overviewHtml += `<div class="overview-tile overview-community-badge" title="CEMA" data-family="${fam}"><span class="overview-tile-opm"></span><span class="overview-tile-title"></span><span class="overview-community-badge-text">CEMA</span></div>`;
+                }
+                byFamily[fam].forEach(({ tileClass, opm, title, idx, ncwfBorderClass }) => {
+                    const ncwfCls = (ncwfBorderClass || '').trim();
+                    overviewHtml += `<div class="overview-tile ${tileClass}${ncwfCls ? ' ' + ncwfCls : ''}" onclick="openModal(${idx})" title="${title}" data-idx="${idx}" data-family="${fam}">` +
+                        (ncwfCls ? '<span class="overview-ncwf-dot"></span>' : '') +
                         `<span class="overview-tile-opm">${opm}</span>` +
                         `<span class="overview-tile-title">${title}</span></div>`;
                 });
@@ -23611,7 +23660,8 @@ const niceNameToWrlLookup = {
             });
         }
         
-        let overviewRelationMode = '';
+        let overviewRelationModeTks = '';
+        let overviewRelationModeRamps = '';
         function getOverviewRelatedRoleNames(role, mode) {
             const nice = role.nice;
             if (!nice) return [];
@@ -23638,10 +23688,14 @@ const niceNameToWrlLookup = {
             bar.querySelectorAll('.overview-relation-mode-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const mode = this.getAttribute('data-mode') || '';
-                    bar.querySelectorAll('.overview-relation-mode-btn').forEach(b => b.classList.remove('active'));
-                    if (overviewRelationMode === mode) { overviewRelationMode = ''; return; }
-                    overviewRelationMode = mode;
-                    this.classList.add('active');
+                    const basket = this.getAttribute('data-basket') || '';
+                    if (basket === 'relation') {
+                        bar.querySelectorAll('.overview-relation-mode-btn[data-basket="relation"]').forEach(b => b.classList.remove('active'));
+                        if (overviewRelationModeTks === mode) { overviewRelationModeTks = ''; } else { overviewRelationModeTks = mode; this.classList.add('active'); }
+                    } else if (basket === 'ramps') {
+                        bar.querySelectorAll('.overview-relation-mode-btn[data-basket="ramps"]').forEach(b => { b.classList.remove('active'); b.classList.remove('active-ramps'); });
+                        if (overviewRelationModeRamps === mode) { overviewRelationModeRamps = ''; } else { overviewRelationModeRamps = mode; this.classList.add('active'); this.classList.add('active-ramps'); }
+                    }
                     clearOverviewRelationLines();
                     document.querySelectorAll('.overview-tile.overview-dimmed').forEach(t => t.classList.remove('overview-dimmed'));
                 });
@@ -23685,14 +23739,16 @@ const niceNameToWrlLookup = {
                 container.querySelectorAll('.overview-tile.overview-dimmed').forEach(t => t.classList.remove('overview-dimmed'));
             }
             container.addEventListener('mouseover', function (e) {
-                if (!overviewRelationMode) return;
+                if (!overviewRelationModeTks && !overviewRelationModeRamps) return;
                 const tile = e.target.closest('.overview-tile');
                 if (!tile) { clearHighlight(); return; }
                 const idx = parseInt(tile.getAttribute('data-idx'), 10);
                 if (isNaN(idx) || !allRolesData || !allRolesData[idx]) return;
                 const role = allRolesData[idx];
-                const names = getOverviewRelatedRoleNames(role, overviewRelationMode);
-                const relatedIdxs = getOverviewRelatedIndices(names);
+                let allNames = [];
+                if (overviewRelationModeTks) allNames = allNames.concat(getOverviewRelatedRoleNames(role, overviewRelationModeTks));
+                if (overviewRelationModeRamps) allNames = allNames.concat(getOverviewRelatedRoleNames(role, overviewRelationModeRamps));
+                const relatedIdxs = getOverviewRelatedIndices(allNames);
                 const highlightSet = new Set([idx, ...relatedIdxs]);
                 container.querySelectorAll('.overview-tile').forEach(t => {
                     const i = parseInt(t.getAttribute('data-idx'), 10);

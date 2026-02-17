@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Recap — 1504629_111_APPATECH_NEWXXX</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f6f8fa; color: #1f2328; margin: 0; padding: 24px; }
+    h1 { color: #0969da; font-size: 1.5rem; margin: 0 0 8px 0; }
+    .meta { color: #656d76; font-size: 0.9rem; }
+    .card { background: #ffffff; border: 1px solid #d0d7de; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .card h2 { color: #0969da; font-size: 1rem; margin: 0 0 12px 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    ul { margin: 0; padding: 0; list-style: none; }
+    ul li { padding: 8px 0; border-bottom: 1px solid #d0d7de; }
+    .job { display: flex; align-items: center; gap: 12px; padding: 12px; background: #ddf4ff; border: 1px solid #b6e3ff; border-radius: 8px; }
+    .job-dot { width: 14px; height: 14px; border-radius: 50%; background: #0969da; }
+    .nf span { display: inline-block; padding: 6px 12px; background: #eaeef2; color: #1f2328; border-radius: 6px; margin: 4px; font-size: 0.85rem; }
+    .chart-box { height: 280px; position: relative; }
+    .btn { background: #2da44e; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+    .btn:hover { background: #2c974b; }
+    #ksat-list { display: none; margin-top: 16px; max-height: 70vh; overflow: auto; }
+    #ksat-list.show { display: block; }
+    .ksat-block { margin-bottom: 24px; }
+    .ksat-block h3 { color: #0969da; font-size: 0.95rem; margin: 0 0 8px 0; }
+    .ksat-item { padding: 8px 12px; margin: 4px 0; background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; font-size: 0.9rem; color: #1f2328; }
+    .ksat-item .id { color: #656d76; margin-right: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Recap — 1504629_111_APPATECH_NEWXXX</h1>
+  <p class="meta">id: save_1770204276648_ih1r0nq · 2026-02-04T11:24:56.247Z</p>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Work role (Step0)</h2>
+    <ul>
+      <li><strong>Technical Support Specialist</strong></li>
+      <li class="meta">opm_code: 411 · Information Technology (IT)</li>
+      <li class="meta">NCWF: Technical Support  (IO-WRL-007) · Implementation &amp; Operation</li>
+      <li><strong>System Administrator</strong></li>
+      <li class="meta">opm_code: 451 · Information Technology (IT)</li>
+      <li class="meta">NCWF: Systems Administration (IO-WRL-005) · Implementation &amp; Operation</li>
+    </ul>
+    <p class="meta">primaryRoleOpmId: 451</p>
+  </div>
+  <div class="card">
+    <h2>Poste / Job</h2>
+    <div class="job">
+      <span class="job-dot"></span>
+      <div>
+        <strong>Hannibal</strong><br>
+        <span class="meta">Poste 111 · YELLOW</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>NF-COM domaines</h2>
+    <div class="nf">
+      <span>NF-COM-003</span>      <span>NF-COM-009</span>      <span>NF-COM-007</span>      <span>NF-COM-012</span>      <span>NF-COM-010</span>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Tous les KSAT</h2>
+  <button type="button" class="btn" id="btn-ksat">Lire les KSAT</button>
+  <div id="ksat-list"></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>KSAT sélectionnés</h2>
+    <p>Tasks: <strong>55</strong> · Knowledge: <strong>145</strong> · Skills: <strong>64</strong> · Abilities: <strong>6</strong></p>
+    <div class="chart-box"><canvas id="c1"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Compétences MIL (rôle 451)</h2>
+    <p>HIGH: <strong>11</strong> · MEDIUM: 15 · LOW: 8</p>
+    <div class="chart-box"><canvas id="c2"></canvas></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Attributs poste 111 (radar)</h2>
+    <p class="meta">AUTO, INFL, COMP, KNGE, COLL, COMM, IMPM, CRTY, DECM, DIGI, LEAD, LADV, PLAN, PROB, ADAP, SCPE</p>
+    <div class="chart-box"><canvas id="c3"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>NF-COM moyenne par domaine</h2>
+    <p class="meta">Moyenne AUTO, INFL, COMP, KNGE par domaine</p>
+    <div class="chart-box"><canvas id="c4"></canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Wizard rôle 451 — niveaux</h2>
+  <p class="meta">Niveau moyen: 0</p>
+  <div class="chart-box"><canvas id="c5"></canvas></div>
+</div>
+<div class="card">
+  <h2>Skills MIL sélectionnés</h2>
+  <p class="meta">Aucun</p>
+</div>
+<div class="card">
+  <h2>Rôles KSAT (currentKsatSelection)</h2>
+  <p class="meta">Non renseigné</p>
+</div>
+
+<script>
+var KSAT_TASKS = [{"id": "T0237", "desc": "Troubleshoot system hardware and software", "checked": true}, {"id": "T0431", "desc": "Check system hardware availability, functionality, integrity, and efficiency", "checked": true}, {"id": "T0531", "desc": "Troubleshoot hardware/software interface and interoperability problems", "checked": true}, {"id": "T1020", "desc": "Determine the operational and safety impacts of cybersecurity lapses", "checked": true}, {"id": "T1024", "desc": "Implement organizational security policies and procedures", "checked": false}, {"id": "T1092", "desc": "Conduct functional and connectivity testing", "checked": true}, {"id": "T1130", "desc": "Develop group policies and access control lists", "checked": false}, {"id": "T1140", "desc": "Develop systems administration standard operating procedures", "checked": false}, {"id": "T1141", "desc": "Document systems administration standard operating procedures", "checked": false}, {"id": "T1214", "desc": "Install network infrastructure device operating system software", "checked": false}, {"id": "T1215", "desc": "Maintain network infrastructure device operating system software", "checked": true}, {"id": "T1228", "desc": "Maintain baseline system security", "checked": true}, {"id": "T1275", "desc": "Determine the effectiveness of data redundancy and system recovery procedures", "checked": true}, {"id": "T1276", "desc": "Develop data redundancy and system recovery procedures", "checked": true}, {"id": "T1277", "desc": "Execute data redundancy and system recovery procedures", "checked": true}, {"id": "T1334", "desc": "Produce cybersecurity instructional materials", "checked": false}, {"id": "T1405", "desc": "Identify emerging incident trends", "checked": true}, {"id": "T1411", "desc": "Develop technical training curriculum and resources", "checked": false}, {"id": "T1412", "desc": "Deliver technical training to customers", "checked": true}, {"id": "T1427", "desc": "Maintain incident tracking and solution databases", "checked": true}, {"id": "T1429", "desc": "Prepare trend analysis reports", "checked": false}, {"id": "T1500", "desc": "Install systems and servers", "checked": true}, {"id": "T1501", "desc": "Update systems and servers", "checked": true}, {"id": "T1502", "desc": "Troubleshoot systems and servers", "checked": true}, {"id": "T1512", "desc": "Perform periodic system maintenance", "checked": true}, {"id": "T1527", "desc": "Define baseline system security requirements", "checked": true}, {"id": "T1530", "desc": "Develop local network usage policies and procedures", "checked": true}, {"id": "T1531", "desc": "Determine compliance with local network usage policies and procedures", "checked": true}, {"id": "T1538", "desc": "Resolve customer-reported system incidents and events", "checked": true}, {"id": "T1554", "desc": "Recommend enhancements to software and hardware solutions", "checked": true}, {"id": "T1566", "desc": "Install system hardware, software, and peripheral equipment", "checked": true}, {"id": "T1567", "desc": "Configure system hardware, software, and peripheral equipment", "checked": true}, {"id": "T1569", "desc": "Administer system and network user accounts", "checked": true}, {"id": "T1570", "desc": "Establish system and network rights processes and procedures", "checked": false}, {"id": "T1571", "desc": "Establish systems and equipment access protocols", "checked": false}, {"id": "T1572", "desc": "Inventory technology resources", "checked": true}, {"id": "T1578", "desc": "Monitor system and server configurations", "checked": true}, {"id": "T1579", "desc": "Maintain system and server configurations", "checked": true}, {"id": "T1580", "desc": "Monitor client-level computer system performance", "checked": false}, {"id": "T1581", "desc": "Create client-level computer system performance reports", "checked": false}, {"id": "T1588", "desc": "Diagnose faulty system and server hardware", "checked": true}, {"id": "T1589", "desc": "Repair faulty system and server hardware", "checked": true}, {"id": "T1606", "desc": "Prepare impact reports", "checked": false}, {"id": "T1626", "desc": "Determine impact of new systems and system interfaces on current and target environments", "checked": true}, {"id": "434A", "desc": "Check system hardware availability, functionality, integrity, and efficiency.", "checked": true}, {"id": "452", "desc": "Conduct functional and connectivity testing to ensure continuing operability.", "checked": true}, {"id": "456A", "desc": "Conduct periodic system maintenance including cleaning (both physically and electronically), disk checks, routine reboots, data dumps, and testing.", "checked": true}, {"id": "499", "desc": "Design group policies and access control lists to ensure compatibility with organizational standards, business rules, and needs.", "checked": false}, {"id": "518", "desc": "Develop and document systems administration standard operating procedures.", "checked": false}, {"id": "518A", "desc": "Comply with organization systems administration standard operating procedures.", "checked": true}, {"id": "521A", "desc": "Implement and enforce local network usage policies and procedures.", "checked": false}, {"id": "554A", "desc": "Diagnose and resolve customer reported system incidents, problems, and events.", "checked": true}, {"id": "572", "desc": "Ensure application of security patches for commercial products integrated into system design meet the timelines dictated by the management authority for the intended operational environment.", "checked": true}, {"id": "639A", "desc": "Make recommendations based on trend analysis for enhancements to software and hardware solutions to enhance customer experience.", "checked": true}, {"id": "665A", "desc": "Install and configure hardware, software, and peripheral equipment for system users in accordance with organizational standards.", "checked": true}, {"id": "683", "desc": "Maintain baseline system security according to organizational policies.", "checked": true}, {"id": "695", "desc": "Manage accounts, network rights, and access to systems and equipment.", "checked": false}, {"id": "695A", "desc": "Administer accounts, network rights, and access to systems and equipment.", "checked": false}, {"id": "698A", "desc": "Perform asset management/inventory of information technology (IT) resources.", "checked": true}, {"id": "701A", "desc": "Manage system/server resources including performance, capacity, availability, serviceability, and recoverability.", "checked": true}, {"id": "713A", "desc": "Monitor and maintain system/server configuration.", "checked": true}, {"id": "714A", "desc": "Monitor and report client-level computer system performance.", "checked": false}, {"id": "728A", "desc": "Oversee installation, implementation, configuration, and support of system components.", "checked": true}, {"id": "763A", "desc": "Diagnose faulty system/server hardware.", "checked": true}, {"id": "763B", "desc": "Perform repairs on faulty system/server hardware.", "checked": true}, {"id": "781", "desc": "Plan, execute, and verify data redundancy and system recovery procedures.", "checked": true}, {"id": "811", "desc": "Provide ongoing optimization and problem solving support.", "checked": true}, {"id": "830A", "desc": "Develop a trend analysis and impact report.", "checked": true}, {"id": "835A", "desc": "Troubleshoot hardware/software interface and interoperability problems.", "checked": true}, {"id": "866", "desc": "Troubleshoot system hardware and software.", "checked": true}, {"id": "1153A", "desc": "Install, update, and troubleshoot systems/servers.", "checked": true}, {"id": "2016", "desc": "Analyze incident data for emerging trends.", "checked": true}, {"id": "2253", "desc": "Develop and deliver technical training to educate others or meet customer needs.", "checked": true}, {"id": "2549", "desc": "Maintain incident tracking and solution database.", "checked": true}];
+var KSAT_KNOWLEDGE = [{"id": "K0064", "desc": "Knowledge of performance tuning tools and techniques", "checked": true}, {"id": "K0645", "desc": "Knowledge of standard operating procedures (SOPs)", "checked": true}, {"id": "K0674", "desc": "Knowledge of computer networking protocols", "checked": true}, {"id": "K0675", "desc": "Knowledge of risk management processes", "checked": true}, {"id": "K0676", "desc": "Knowledge of cybersecurity laws and regulations", "checked": true}, {"id": "K0677", "desc": "Knowledge of cybersecurity policies and procedures", "checked": true}, {"id": "K0678", "desc": "Knowledge of privacy laws and regulations", "checked": true}, {"id": "K0679", "desc": "Knowledge of privacy policies and procedures", "checked": true}, {"id": "K0680", "desc": "Knowledge of cybersecurity principles and practices", "checked": true}, {"id": "K0681", "desc": "Knowledge of privacy principles and practices", "checked": true}, {"id": "K0682", "desc": "Knowledge of cybersecurity threats", "checked": true}, {"id": "K0683", "desc": "Knowledge of cybersecurity vulnerabilities", "checked": true}, {"id": "K0684", "desc": "Knowledge of cybersecurity threat characteristics", "checked": true}, {"id": "K0685", "desc": "Knowledge of access control principles and practices", "checked": true}, {"id": "K0686", "desc": "Knowledge of authentication and authorization tools and techniques", "checked": true}, {"id": "K0710", "desc": "Knowledge of enterprise cybersecurity architecture principles and practices", "checked": true}, {"id": "K0712", "desc": "Knowledge of Local Area Networks (LAN)", "checked": true}, {"id": "K0713", "desc": "Knowledge of Wide Area Networks (WAN)", "checked": true}, {"id": "K0716", "desc": "Knowledge of host access control (HAC) systems and software", "checked": true}, {"id": "K0717", "desc": "Knowledge of network access control (NAC) systems and software", "checked": true}, {"id": "K0725", "desc": "Knowledge of incident response tools and techniques", "checked": true}, {"id": "K0726", "desc": "Knowledge of incident handling tools and techniques", "checked": true}, {"id": "K0728", "desc": "Knowledge of Confidentiality, Integrity and Availability (CIA) principles and practices", "checked": true}, {"id": "K0729", "desc": "Knowledge of non-repudiation principles and practices", "checked": true}, {"id": "K0730", "desc": "Knowledge of cyber safety principles and practices", "checked": true}, {"id": "K0731", "desc": "Knowledge of systems security engineering (SSE) principles and practices", "checked": true}, {"id": "K0736", "desc": "Knowledge of information technology (IT) security principles and practices", "checked": true}, {"id": "K0737", "desc": "Knowledge of bandwidth management tools and techniques", "checked": true}, {"id": "K0740", "desc": "Knowledge of system performance indicators", "checked": true}, {"id": "K0741", "desc": "Knowledge of system availability measures", "checked": true}, {"id": "K0744", "desc": "Knowledge of operating system (OS) systems and software", "checked": true}, {"id": "K0746", "desc": "Knowledge of policy-based access controls", "checked": true}, {"id": "K0747", "desc": "Knowledge of Risk Adaptive (Adaptable) Access Controls (RAdAC)", "checked": true}, {"id": "K0749", "desc": "Knowledge of process engineering principles and practices", "checked": true}, {"id": "K0751", "desc": "Knowledge of system threats", "checked": true}, {"id": "K0752", "desc": "Knowledge of system vulnerabilities", "checked": true}, {"id": "K0758", "desc": "Knowledge of server administration principles and practices", "checked": true}, {"id": "K0759", "desc": "Knowledge of client and server architecture", "checked": true}, {"id": "K0760", "desc": "Knowledge of server diagnostic tools and techniques", "checked": true}, {"id": "K0761", "desc": "Knowledge of Fault Detection and Diagnostics (FDD) tools and techniques", "checked": true}, {"id": "K0762", "desc": "Knowledge of software debugging principles and practices", "checked": true}, {"id": "K0765", "desc": "Knowledge of software engineering principles and practices", "checked": true}, {"id": "K0769", "desc": "Knowledge of system design standards and best practices", "checked": true}, {"id": "K0770", "desc": "Knowledge of system administration principles and practices", "checked": true}, {"id": "K0778", "desc": "Knowledge of enterprise information technology (IT) architecture principles and practices", "checked": true}, {"id": "K0779", "desc": "Knowledge of systems engineering processes", "checked": true}, {"id": "K0780", "desc": "Knowledge of hardware maintenance policies and procedures", "checked": true}, {"id": "K0781", "desc": "Knowledge of virtual private network (VPN) systems and software", "checked": true}, {"id": "K0786", "desc": "Knowledge of physical computer components", "checked": true}, {"id": "K0787", "desc": "Knowledge of computer peripherals", "checked": true}, {"id": "K0791", "desc": "Knowledge of defense-in-depth principles and practices", "checked": true}, {"id": "K0792", "desc": "Knowledge of network configurations", "checked": true}, {"id": "K0793", "desc": "Knowledge of file extensions", "checked": true}, {"id": "K0794", "desc": "Knowledge of file system implementation principles and practices", "checked": true}, {"id": "K0805", "desc": "Knowledge of command-line tools and techniques", "checked": true}, {"id": "K0806", "desc": "Knowledge of machine virtualization tools and techniques", "checked": true}, {"id": "K0829", "desc": "Knowledge of account creation policies and procedures", "checked": true}, {"id": "K0830", "desc": "Knowledge of password policies and procedures", "checked": true}, {"id": "K0837", "desc": "Knowledge of hardening tools and techniques", "checked": true}, {"id": "K0840", "desc": "Knowledge of hardware reverse engineering tools and techniques", "checked": true}, {"id": "K0842", "desc": "Knowledge of software reverse engineering tools and techniques", "checked": true}, {"id": "K0851", "desc": "Knowledge of reverse engineering principles and practices", "checked": true}, {"id": "K0858", "desc": "Knowledge of virtual machine detection tools and techniques", "checked": true}, {"id": "K0859", "desc": "Knowledge of encryption tools and techniques", "checked": true}, {"id": "K0863", "desc": "Knowledge of cloud computing principles and practices", "checked": true}, {"id": "K0864", "desc": "Knowledge of knowledge management principles and practices", "checked": true}, {"id": "K0865", "desc": "Knowledge of data classification standards and best practices", "checked": true}, {"id": "K0866", "desc": "Knowledge of data classification tools and techniques", "checked": true}, {"id": "K0870", "desc": "Knowledge of enterprise architecture (EA) reference models and frameworks", "checked": true}, {"id": "K0871", "desc": "Knowledge of enterprise architecture (EA) principles and practices", "checked": true}, {"id": "K0872", "desc": "Knowledge of service management principles and practices", "checked": true}, {"id": "K0873", "desc": "Knowledge of service management standards and best practices", "checked": true}, {"id": "K0877", "desc": "Knowledge of application firewall principles and practices", "checked": true}, {"id": "K0878", "desc": "Knowledge of network firewall principles and practices", "checked": true}, {"id": "K0891", "desc": "Knowledge of the Open Systems Interconnect (OSI) reference model", "checked": true}, {"id": "K0898", "desc": "Knowledge of cloud service models and frameworks", "checked": true}, {"id": "K0903", "desc": "Knowledge of service desk principles and practices", "checked": true}, {"id": "K0911", "desc": "Knowledge of remote access tools and techniques", "checked": true}, {"id": "K0915", "desc": "Knowledge of network architecture principles and practices", "checked": true}, {"id": "K0917", "desc": "Knowledge of Personally Identifiable Information (PII) data security standards and best practices", "checked": true}, {"id": "K0918", "desc": "Knowledge of Payment Card Industry (PCI) data security standards and best practices", "checked": true}, {"id": "K0919", "desc": "Knowledge of Personal Health Information (PHI) data security standards and best practices", "checked": true}, {"id": "K0925", "desc": "Knowledge of wireless communication tools and techniques", "checked": true}, {"id": "K0926", "desc": "Knowledge of signal jamming tools and techniques", "checked": true}, {"id": "K0928", "desc": "Knowledge of systems engineering principles and practices", "checked": true}, {"id": "K0934", "desc": "Knowledge of data classification policies and procedures", "checked": true}, {"id": "K0935", "desc": "Knowledge of incident, event, and problem management policies and procedures", "checked": true}, {"id": "K0946", "desc": "Knowledge of incident reporting policies and procedures", "checked": true}, {"id": "K0947", "desc": "Knowledge of computer engineering principles and practices", "checked": true}, {"id": "K0958", "desc": "Knowledge of system integration principles and practices", "checked": true}, {"id": "K0983", "desc": "Knowledge of computer networking principles and practices", "checked": true}, {"id": "K1014", "desc": "Knowledge of network security principles and practices", "checked": true}, {"id": "K1069", "desc": "Knowledge of virtual machine tools and technologies", "checked": true}, {"id": "K1072", "desc": "Knowledge of automated security control testing tools and techniques", "checked": true}, {"id": "K1090", "desc": "Knowledge of software, hardware, and peripheral equipment repair tools and techniques", "checked": true}, {"id": "K1112", "desc": "Knowledge of asset management policies and procedures", "checked": true}, {"id": "K1127", "desc": "Knowledge of customer experience principles and practices", "checked": true}, {"id": "K1188", "desc": "Knowledge of organizational policies and procedures", "checked": true}, {"id": "K1191", "desc": "Knowledge of organizational security posture", "checked": true}, {"id": "K1226", "desc": "Knowledge of systems administration standard operating policies and procedures", "checked": true}, {"id": "7A", "desc": "Knowledge of successful capabilities to identify the solutions to less common and more complex system problems.", "checked": true}, {"id": "22", "desc": "* Knowledge of computer networking concepts and protocols, and network security methodologies.", "checked": true}, {"id": "33A", "desc": "Knowledge of procedures used for documenting and querying reported incidents, problems, and events.", "checked": true}, {"id": "61", "desc": "Knowledge of incident response and handling methodologies.", "checked": true}, {"id": "70", "desc": "Knowledge of information technology (IT) security principles and methods (e.g., firewalls, demilitarized zones, encryption).", "checked": true}, {"id": "72", "desc": "Knowledge of local area and wide area networking principles and concepts including bandwidth management.", "checked": true}, {"id": "76", "desc": "Knowledge of measures or indicators of system performance and availability.", "checked": true}, {"id": "79", "desc": "Knowledge of network access, identity, and access management (e.g., public key infrastructure [PKI]).", "checked": true}, {"id": "81A", "desc": "Knowledge of network protocols such as TCP/IP, Dynamic Host Configuration, Domain Name System (DNS), and directory services.", "checked": true}, {"id": "96", "desc": "Knowledge of performance tuning tools and techniques.", "checked": true}, {"id": "99A", "desc": "Knowledge of principles and methods for integrating system components.", "checked": true}, {"id": "108", "desc": "* Knowledge of risk management processes (e.g., methods for assessing and mitigating risk).", "checked": true}, {"id": "112A", "desc": "Knowledge of systems engineering theories, concepts, and methods.", "checked": true}, {"id": "113", "desc": "Knowledge of server and client operating systems.", "checked": true}, {"id": "114A", "desc": "Knowledge of system/server diagnostic tools and fault identification techniques.", "checked": true}, {"id": "118A", "desc": "Knowledge of software development models, methodologies, and practices (Waterfall Model, Spiral, Agile, DevSecOps).", "checked": true}, {"id": "127", "desc": "Knowledge of systems administration concepts.", "checked": true}, {"id": "141", "desc": "Knowledge of the enterprise information technology (IT) architecture.", "checked": true}, {"id": "142A", "desc": "Knowledge of the operations and processes for incident, problem, and event management.", "checked": true}, {"id": "145", "desc": "Knowledge of the type and frequency of routine maintenance needed to keep equipment functioning properly.", "checked": true}, {"id": "145A", "desc": "Knowledge of IT system operation, maintenance, and security needed to keep equipment functioning properly.", "checked": true}, {"id": "148", "desc": "Knowledge of Virtual Private Network (VPN) security.", "checked": true}, {"id": "222B", "desc": "Knowledge of the basic operation of computers.", "checked": true}, {"id": "264A", "desc": "Knowledge of basic physical computer components and architectures.", "checked": true}, {"id": "281", "desc": "Knowledge of electronic devices (e.g., computer systems/components, access control devices, digital cameras, electronic organizers, hard drives, memory cards, modems, network components, printers, removable storage devices, scanners, telephones, copiers, credit card skimmers, facsimile machines, global positioning systems [GPSs]).", "checked": true}, {"id": "287", "desc": "Knowledge of file system implementations (e.g., New Technology File System [NTFS], File Allocation Table [FAT], File Extension [EXT]).", "checked": true}, {"id": "342A", "desc": "Knowledge of operating system command line/prompt.", "checked": true}, {"id": "344", "desc": "Knowledge of virtualization technologies and virtual machine development and maintenance.", "checked": true}, {"id": "986", "desc": "Knowledge of organizational information technology (IT) user security policies (e.g., account creation, password rules, access control).", "checked": true}, {"id": "1033", "desc": "Knowledge of basic system administration, network, and operating system hardening techniques.", "checked": true}, {"id": "1034A", "desc": "Knowledge of Personally Identifiable Information (PII) data security standards.", "checked": true}, {"id": "1034B", "desc": "Knowledge of Payment Card Industry (PCI) data security standards.", "checked": true}, {"id": "1034C", "desc": "Knowledge of Personal Health Information (PHI) data security standards.", "checked": true}, {"id": "1072", "desc": "Knowledge of network security architecture concepts including topology, protocols, components, and principles (e.g., application of defense-in-depth, Zero Trust).", "checked": true}, {"id": "1074A", "desc": "Knowledge of transmission records (e.g., Bluetooth, Radio Frequency Identification (RFID), Infrared Networking (IR), Wireless Fidelity (Wi-Fi). paging, cellular, satellite dishes, Voice over Internet Protocol (VoIP)), and jamming techniques that enable transmission of undesirable information, or prevent installed systems from operating correctly.", "checked": true}, {"id": "1141A", "desc": "Knowledge of an organization's information classification program and procedures for information compromise.", "checked": true}, {"id": "1157", "desc": "* Knowledge of national and international laws, regulations, policies, and ethics as they relate to cybersecurity.", "checked": true}, {"id": "1158", "desc": "* Knowledge of cybersecurity principles.", "checked": true}, {"id": "1159", "desc": "* Knowledge of cyber threats and vulnerabilities.", "checked": true}, {"id": "6310", "desc": "Knowledge of industry best practices for service desk.", "checked": true}, {"id": "6350", "desc": "Knowledge of organizational security policies.", "checked": true}, {"id": "6400", "desc": "Knowledge of remote access processes, tools, and capabilities related to customer support.", "checked": true}, {"id": "6900", "desc": "* Knowledge of specific operational impacts of cybersecurity lapses.", "checked": true}, {"id": "6935", "desc": "* Knowledge of cloud computing service models Software as Service (SaaS), Infrastructure as a Service (IaaS), and Platform as a Service (PaaS).", "checked": true}, {"id": "6938", "desc": "* Knowledge of cloud computing deployment models in private, public, and hybrid environment and the difference between on-premises and off-premises environments.", "checked": true}];
+var KSAT_SKILLS = [{"id": "S0045", "desc": "Skill in optimizing database performance", "checked": true}, {"id": "S0111", "desc": "Skill in interfacing with customers", "checked": true}, {"id": "S0407", "desc": "Skill in developing standard operating procedures (SOPs)", "checked": true}, {"id": "S0408", "desc": "Skill in maintaining standard operating procedures (SOPs)", "checked": true}, {"id": "S0430", "desc": "Skill in collaborating with others", "checked": true}, {"id": "S0438", "desc": "Skill in functioning effectively in a dynamic, fast-paced environment", "checked": true}, {"id": "S0448", "desc": "Skill in creating automated security control systems", "checked": true}, {"id": "S0449", "desc": "Skill in maintaining automated security control systems", "checked": true}, {"id": "S0451", "desc": "Skill in deploying continuous monitoring technologies", "checked": true}, {"id": "S0472", "desc": "Skill in developing virtual machines", "checked": true}, {"id": "S0473", "desc": "Skill in maintaining virtual machines", "checked": true}, {"id": "S0478", "desc": "Skill in providing customer support", "checked": true}, {"id": "S0487", "desc": "Skill in operating IT systems", "checked": true}, {"id": "S0488", "desc": "Skill in maintaining IT systems", "checked": true}, {"id": "S0561", "desc": "Skill in configuring software", "checked": true}, {"id": "S0577", "desc": "Skill in troubleshooting computer networks", "checked": true}, {"id": "S0582", "desc": "Skill in troubleshooting system performance", "checked": true}, {"id": "S0587", "desc": "Skill in maintaining directory services", "checked": true}, {"id": "S0593", "desc": "Skill in handling incidents", "checked": true}, {"id": "S0594", "desc": "Skill in repairing hardware", "checked": true}, {"id": "S0595", "desc": "Skill in repairing system peripherals", "checked": true}, {"id": "S0606", "desc": "Skill in manipulating operating system components", "checked": true}, {"id": "S0613", "desc": "Skill in configuring software-based computer protection tools", "checked": true}, {"id": "S0661", "desc": "Skill in troubleshooting client-level problems", "checked": true}, {"id": "S0662", "desc": "Skill in managing servers", "checked": true}, {"id": "S0663", "desc": "Skill in managing workstations", "checked": true}, {"id": "S0672", "desc": "Skill in troubleshooting failed system components", "checked": true}, {"id": "S0674", "desc": "Skill in installing system and component upgrades", "checked": true}, {"id": "S0675", "desc": "Skill in optimizing system performance", "checked": true}, {"id": "S0677", "desc": "Skill in recovering failed systems", "checked": true}, {"id": "S0678", "desc": "Skill in administering operating systems", "checked": true}, {"id": "S0679", "desc": "Skill in configuring network workstations and peripherals", "checked": true}, {"id": "S0680", "desc": "Skill in validating network workstations and peripherals", "checked": true}, {"id": "S0687", "desc": "Skill in performing administrative planning activities", "checked": true}, {"id": "S0729", "desc": "Skill in preparing plans", "checked": true}, {"id": "S0741", "desc": "Skill in administering servers", "checked": true}, {"id": "S0762", "desc": "Skill in integrating organization objectives", "checked": true}, {"id": "S0805", "desc": "Skill in designing incident responses", "checked": true}, {"id": "S0806", "desc": "Skill in performing incident responses", "checked": true}, {"id": "S0807", "desc": "Skill in solving problems", "checked": true}, {"id": "S0844", "desc": "Skill in managing account access rights", "checked": true}, {"id": "S0852", "desc": "Skill in performing cyber defense trend analysis", "checked": true}, {"id": "S0854", "desc": "Skill in performing data analysis", "checked": true}, {"id": "S0892", "desc": "Skill in performing trend analysis", "checked": true}, {"id": "165A", "desc": "Skill in conducting research for troubleshooting novel client-level problems.", "checked": true}, {"id": "167A", "desc": "Skill in conducting system/server planning, management, and maintenance.", "checked": true}, {"id": "170", "desc": "Skill in configuring and optimizing software.", "checked": true}, {"id": "171A", "desc": "Skill in correcting physical and technical problems that impact system/server performance.", "checked": true}, {"id": "194", "desc": "Skill in diagnosing connectivity problems.", "checked": true}, {"id": "195A", "desc": "Skill in troubleshooting failed system components (i.e., servers)", "checked": true}, {"id": "202A", "desc": "Skill in identifying and anticipating system/server performance, availability, capacity, or configuration problems.", "checked": true}, {"id": "204", "desc": "Skill in identifying possible causes of degradation of system performance or availability and initiating actions needed to mitigate this degradation.", "checked": true}, {"id": "206A", "desc": "Skill in installing system and component upgrades.", "checked": true}, {"id": "209", "desc": "Skill in maintaining directory services.", "checked": true}, {"id": "211A", "desc": "Skill in monitoring and optimizing system/server performance.", "checked": true}, {"id": "216A", "desc": "Skill in recovering failed systems/servers.", "checked": true}, {"id": "219A", "desc": "Skill in operating system administration.", "checked": true}, {"id": "221A", "desc": "Skill in configuring and validating network workstations and peripherals in accordance with approved standards and/or specifications.", "checked": true}, {"id": "235", "desc": "Skill in using the appropriate tools for repairing software, hardware, and peripheral equipment of a system.", "checked": true}, {"id": "386", "desc": "Skill in using virtual machines.", "checked": true}, {"id": "892", "desc": "Skill in configuring and utilizing software-based computer protection tools (e.g., software firewalls, anti-virus software, anti-spyware).", "checked": true}, {"id": "6590", "desc": "Skill in interfacing with customers.", "checked": true}, {"id": "6942", "desc": "Skill in designing or implementing cloud computing deployment models.", "checked": true}, {"id": "6945", "desc": "Skill in migrating workloads to, from, and among the different cloud computing service models.", "checked": true}];
+var KSAT_ABILITIES = [{"id": "4295", "desc": "Ability to integrate information security requirements into the acquisition process, using applicable baseline security controls as one of the sources for security requirements, and ensuring a robust software quality control process.", "checked": true}, {"id": "6010", "desc": "Ability to accurately define incidents, problems, and events in the trouble ticketing system.", "checked": true}, {"id": "6110", "desc": "Ability to develop, update, and/or maintain standard operating procedures (SOPs).", "checked": true}, {"id": "6918", "desc": "Ability to apply cybersecurity strategy to cloud computing service and deployment models, identifying proper architecture for different operating environments.", "checked": true}, {"id": "6919", "desc": "Ability to determine the best cloud deployment model for the appropriate operating environment.", "checked": true}, {"id": "7082", "desc": "Ability to implement Zero Trust security in DoD Systems/Software.", "checked": true}];
+
+function renderKsat() {
+  var el = document.getElementById("ksat-list");
+  if (el.classList.contains("show")) {
+    el.classList.remove("show");
+    el.innerHTML = "";
+    document.getElementById("btn-ksat").textContent = "Lire les KSAT";
+    return;
+  }
+  var html = "";
+  html += "<div class=\"ksat-block\"><h3>Tasks (" + KSAT_TASKS.length + ")</h3>";
+  KSAT_TASKS.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc.replace(/</g, "&lt;") + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Knowledge (" + KSAT_KNOWLEDGE.length + ")</h3>";
+  KSAT_KNOWLEDGE.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc.replace(/</g, "&lt;") + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Skills (" + KSAT_SKILLS.length + ")</h3>";
+  KSAT_SKILLS.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc.replace(/</g, "&lt;") + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  html += "<div class=\"ksat-block\"><h3>Abilities (" + KSAT_ABILITIES.length + ")</h3>";
+  KSAT_ABILITIES.forEach(function(t) {
+    html += "<div class=\"ksat-item\"><span class=\"id\">" + t.id + "</span>" + t.desc.replace(/</g, "&lt;") + (t.checked ? " ✓" : "") + "</div>";
+  });
+  html += "</div>";
+  el.innerHTML = html;
+  el.classList.add("show");
+  document.getElementById("btn-ksat").textContent = "Masquer les KSAT";
+}
+document.getElementById("btn-ksat").onclick = renderKsat;
+
+(function(){
+  new Chart(document.getElementById("c1"), {
+    type: "doughnut",
+    data: {
+      labels: ["Tasks", "Knowledge", "Skills", "Abilities"],
+      datasets: [{ data: [55,145,64,6], backgroundColor: ["#58a6ff", "#3fb950", "#d29922", "#a371f7"], borderWidth: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
+  });
+
+  new Chart(document.getElementById("c2"), {
+    type: "bar",
+    data: {
+      labels: ["HIGH", "MEDIUM", "LOW"],
+      datasets: [{ data: [11,15,8], backgroundColor: ["#3fb950", "#d29922", "#f85149"] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
+  });
+
+  new Chart(document.getElementById("c3"), {
+    type: "radar",
+    data: {
+      labels: ["AUTO", "INFL", "COMP", "KNGE", "COLL", "COMM", "IMPM", "CRTY", "DECM", "DIGI", "LEAD", "LADV", "PLAN", "PROB", "ADAP", "SCPE"],
+      datasets: [{ label: "Poste 111", data: [5, 4, 4, 4, 6, 4, 5, 5, 4, 4, 4, 5, 3, 5, 5, 7], fill: true, backgroundColor: "rgba(88,166,255,0.2)", borderColor: "#58a6ff", pointBackgroundColor: "#58a6ff" }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 7 } } }
+  });
+
+  new Chart(document.getElementById("c4"), {
+    type: "bar",
+    data: {
+      labels: ["NF-COM-003", "NF-COM-009", "NF-COM-007", "NF-COM-012", "NF-COM-010"],
+      datasets: [{ label: "Moyenne", data: [5.2, 3.0, 4.0, 4.0, 4.0], backgroundColor: "#a371f7" }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: "y", scales: { x: { max: 7, beginAtZero: true } }, plugins: { legend: { display: false } } }
+  });
+
+  new Chart(document.getElementById("c5"), {
+    type: "bar",
+    data: {
+      labels: ["\u2014"],
+      datasets: [{ label: "Niveau", data: [0], backgroundColor: "#3fb950" }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 7, beginAtZero: true } }, plugins: { legend: { display: false } } }
+  });
+})();
+</script>
+</body>
+</html>

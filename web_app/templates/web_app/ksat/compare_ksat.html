@@ -6623,6 +6623,14 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(tryInitializeAndSave, 500);
 });
 
+// Warn when closing tab or leaving page: all unsaved progress will be lost
+window.addEventListener('beforeunload', function (e) {
+    var msg = 'Are you sure you want to leave? All unsaved progress will be lost.';
+    e.preventDefault();
+    e.returnValue = msg;
+    return msg;
+});
+
 // Note: KSAT data is now saved only when clicking "Step 3" button (in checkAndGoToEtape2 function)
 // No auto-save on checkbox changes
 </script>

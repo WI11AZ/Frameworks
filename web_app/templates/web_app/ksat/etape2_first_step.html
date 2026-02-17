@@ -1088,7 +1088,7 @@
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center">
-                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.2.5</span>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.3.0</span>
                         <span class="text-2xl font-bold text-white">Cyber Align</span>
                     </div>
                     <div class="hidden md:block">
@@ -1500,8 +1500,8 @@
         "711", "712", "722", "723", "731", "732", "733", "751", "752", "753",
         // Management - 800s
         "801", "802", "803", "804", "805", "806",
-        // Leadership - 900s
-        "901"
+        // Leadership / Data & AI - 900s
+        "901", "902", "903"
       ];
 
       // Les 15 domaines de compétence du NCWF v2.0.0. de 2024
@@ -1537,13 +1537,13 @@
           high: ["421", "451", "511", "521", "541", "651"],     // Database Admin, System Admin, Cyber Defense, Vulnerability Assessment
           medium: ["411", "441", "461", "621", "622", "641"],   // Tech Support, Network Ops, Systems Security, Software Dev
           low: ["211", "221", "331", "531", "671", "712"],      // Forensics, Investigation, Planning, Incident Response
-          minimal: ["111", "131", "151", "751", "801", "803"]   // Management, Leadership roles
+          minimal: ["111", "131", "151", "751", "801", "803", "902", "903"]   // Management, Leadership roles
         },
         
         // Artificial Intelligence Security (NF-COM-002): Sécurité de l'IA
         ai_security: {
           critical: ["623", "624", "672", "673", "733"], // AI/ML Specialist, AI Test & Eval, AI Risk & Ethics, AI Risk and Ethics
-          high: ["422", "423", "424", "653", "661", "753", "754"],     // Data Analyst, Data Scientist, Data Steward, Research
+          high: ["422", "423", "424", "653", "661", "753", "754", "902", "903"],     // Data Analyst, Data Scientist, Data Steward, Research, AI Innovation Leader, Data Officer
           medium: ["421", "461", "541", "611", "631", "641"],   // Database, Security, Development
           low: ["451", "511", "521", "612", "622", "652"],      // Admin, Defense, Security Architecture
           minimal: ["711", "712", "731", "732", "751", "801"]   // Training, Legal, Management
@@ -1555,7 +1555,7 @@
           high: ["441", "461", "541", "611", "612", "651"],     // Network Ops, Security, Architecture
           medium: ["431", "531", "631", "641", "652", "722"],   // Knowledge Management, Security
           low: ["621", "622", "632", "671", "712", "732"],      // Development, Testing
-          minimal: ["111", "151", "331", "751", "801", "901"]   // Intelligence, Leadership
+          minimal: ["111", "151", "331", "751", "801", "901", "902", "903"]   // Intelligence, Leadership
         },
         
         // Cloud Security (NF-COM-004): Sécurité du cloud
@@ -1564,7 +1564,7 @@
           high: ["441", "511", "521", "612", "622", "651"],     // Network, Defense, Architecture
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["531", "671", "722", "732", "752", "802"],      // Incident Response, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Communications Security (NF-COM-005): Sécurité des communications
@@ -1573,7 +1573,7 @@
           high: ["421", "451", "531", "611", "612", "652"],     // Admin, Security
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["422", "622", "651", "671", "722", "732"],      // Data, Testing, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Cryptography (NF-COM-006): Cryptographie
@@ -1582,7 +1582,7 @@
           high: ["421", "441", "451", "521", "622", "652"],     // Admin, Network, Security
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["422", "531", "651", "671", "722", "732"],      // Data, Incident Response, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Cyber Resiliency (NF-COM-007): Résilience cyber
@@ -1591,7 +1591,7 @@
           high: ["421", "441", "451", "461", "541", "651"],     // Admin, Network, Vulnerability Assessment
           medium: ["411", "431", "631", "641", "652", "732"],   // Support, Security Development
           low: ["422", "621", "622", "671", "751", "752"],      // Data, Development, Workforce
-          minimal: ["711", "712", "731", "801", "803", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "801", "803", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // DevSecOps (NF-COM-008): DevSecOps
@@ -1600,7 +1600,7 @@
           high: ["451", "461", "462", "511", "611", "631", "652"],     // Admin, Security, Architecture
           medium: ["421", "441", "442", "521", "541", "612", "641"],   // Database, Network, Defense
           low: ["411", "431", "531", "671", "722", "732"],      // Support, Incident Response, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Operating Systems Security (NF-COM-009): Sécurité des systèmes d'exploitation
@@ -1609,7 +1609,7 @@
           high: ["441", "461", "541", "611", "612", "652"],     // Network, Security Assessment
           medium: ["431", "531", "621", "622", "641", "722"],   // Knowledge, Incident Response, Development
           low: ["422", "632", "651", "671", "732", "752"],      // Data, Architecture, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Operational Technology Security (NF-COM-010): Sécurité des technologies opérationnelles
@@ -1618,7 +1618,7 @@
           high: ["421", "441", "451", "461", "541", "652"],     // Admin, Network, Vulnerability
           medium: ["411", "431", "621", "622", "641", "722"],   // Support, Development, Management
           low: ["422", "532", "651", "671", "732", "752"],      // Data, Architecture, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Supply Chain Security (NF-COM-011): Sécurité de la chaîne d'approvisionnement
@@ -1627,7 +1627,7 @@
           high: ["421", "451", "511", "521", "541", "722"],     // Admin, Security, Defense
           medium: ["441", "461", "631", "641", "651", "652"],   // Network, Security Development, Architecture
           low: ["411", "431", "621", "622", "671", "732"],      // Support, Development, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Cybersecurity Fundamentals (NF-COM-012): Fondamentaux de la cybersécurité
@@ -1636,12 +1636,12 @@
           high: ["441", "461", "531", "541", "612", "631"],     // Network, Incident Response, Security Dev
           medium: ["431", "621", "622", "641", "651", "652"],   // Knowledge, Development, Architecture
           low: ["422", "632", "671", "722", "732", "752"],      // Data, Testing, Management
-          minimal: ["711", "712", "731", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Cybersecurity Leadership (NF-COM-013): Leadership en cybersécurité
         cybersecurity_leadership: {
-          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
+          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
           high: ["611", "612", "722", "723", "724", "731", "732", "733", "741", "742"],     // Security, Legal, AI Risk
           medium: ["511", "512", "521", "522", "531", "532", "541", "542", "551", "552", "561", "562", "651", "652"],   // Security, Defense, Architecture
           low: ["421", "422", "441", "442", "451", "461", "462", "631", "641", "642"],      // Admin, Network, Security Development
@@ -1651,10 +1651,10 @@
         // Data Security (NF-COM-014): Sécurité des données
         data_security: {
           critical: ["421", "422", "423", "424", "511", "512", "611", "631"], // Database, Data Analysis, Security
-          high: ["451", "461", "462", "521", "522", "541", "542", "612", "652"],     // Data Steward, Admin, Defense
+          high: ["451", "461", "462", "521", "522", "541", "542", "612", "652", "902", "903"],     // Data Steward, Admin, Defense, AI Innovation Leader, Data Officer
           medium: ["411", "412", "441", "442", "461", "621", "622", "623", "624", "641", "642"],   // Support, Network, Development
           low: ["431", "531", "532", "551", "552", "651", "671", "672", "722", "732", "733"],      // Knowledge, Incident Response, Management
-          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "801", "901"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Secure Programming (NF-COM-015): Programmation sécurisée
@@ -1663,7 +1663,7 @@
           high: ["461", "462", "511", "512", "541", "542", "611", "612", "652"],     // Security Analysis, Security Assessment
           medium: ["421", "422", "441", "442", "451", "521", "522", "641", "642", "673"],   // Admin, Network, Testing
           low: ["411", "412", "431", "531", "532", "551", "552", "651", "671", "672", "722", "723", "724"],      // Support, Incident Response, Management
-          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
         }
       };
 
@@ -3698,9 +3698,24 @@
 
     <!-- Zone flottante en bas à droite : Back, Focus, NEXT -->
     <div class="etape2-floating-container">
-      <a href="{% url 'compare' %}" class="etape2-floating-back">Back</a>
+      <a href="{% url 'compare' %}" id="etape2-back-link" class="etape2-floating-back">Back</a>
       <button id="focus-heatmap-btn" class="etape2-floating-btn">Focus</button>
       <button id="step3-btn" class="etape2-floating-next">NEXT</button>
     </div>
+    <script>
+      (function() {
+        var backLink = document.getElementById('etape2-back-link');
+        if (backLink) {
+          backLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.href = backLink.getAttribute('href');
+            }
+          });
+        }
+      })();
+    </script>
 </body>
 </html>

@@ -152,6 +152,10 @@
         #nfcomSelector {
             width: 100%;
         }
+        .nfcom-definition-block #currentNfcomDefinitionText {
+            max-height: 120px;
+            overflow-y: auto;
+        }
         #nfcomSelector .bg-white {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -339,7 +343,7 @@
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center">
-                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">bêta v0.1.2</span>
+                        <span class="mr-2 px-2 py-1 text-sm font-bold text-white rounded" style="border: 1px solid rgba(255, 255, 255, 0.5); text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); animation: holographic 3s infinite alternate; background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1), rgba(0, 150, 255, 0.2), rgba(183, 0, 255, 0.1));">Bêta v0.3.0</span>
                         <span class="text-2xl font-bold text-white">DCWF</span>
                     </div>
                     <div class="hidden md:block">
@@ -370,6 +374,10 @@
                         <button id="copySelectionsBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="showCopySelectionsModal()">Copy Selections</button>
                         <button id="resetCurrentBtn" class="btn btn-secondary" style="display: none; padding: 6px 16px; font-size: 12px;" onclick="resetCurrentNFCOM()">Reset Current</button>
                     </div>
+                </div>
+                <div id="currentNfcomDefinitionBlock" class="mt-3 nfcom-definition-block border border-gray-200 rounded-lg p-3 bg-gray-50" style="display: none;">
+                    <h4 class="text-sm font-semibold mb-2 text-gray-700">Definition of current Competency Area (NF-COM)</h4>
+                    <p id="currentNfcomDefinitionText" class="text-gray-600 text-xs leading-relaxed"></p>
                 </div>
             </div>
         </div>
@@ -425,7 +433,7 @@
             'KNGE': 'Knowledge'
         };
 
-        // NF-COM data mapping
+        // NF-COM data mapping (names)
         const nfcomData = {
             'NF-COM-001': 'Access Controls',
             'NF-COM-002': 'Artificial Intelligence (AI) Security',
@@ -442,6 +450,25 @@
             'NF-COM-013': 'Cybersecurity Leadership',
             'NF-COM-014': 'Data Security',
             'NF-COM-015': 'Secure Programming'
+        };
+
+        // NF-COM definitions (English) for the current Competency Area display
+        const nfcomDefinitions = {
+            'NF-COM-001': "Access Controls: Describes a learner's capabilities to define, manage, and monitor the roles and secure access privileges of who is authorized to access protected data and resources and understand the impact of different types of access controls.",
+            'NF-COM-002': "Artificial Intelligence (AI) Security: Describes a learner's capabilities to secure Artificial Intelligence (AI) against cyberattacks, to ensure it is adequately contained where it is used, and to mitigate the threat AI presents where it or its users have malicious intent.",
+            'NF-COM-003': "Asset Management: Describes a learner's capabilities to conduct and maintain an accurate inventory of all digital assets, to include identifying, developing, operating, maintaining, upgrading, and disposing of assets.",
+            'NF-COM-004': "Cloud Security: Describes a learner's capabilities to protect cloud data, applications, and infrastructure from internal and external threats.",
+            'NF-COM-005': "Communications Security: Describes a learner's capabilities to secure the transmissions, broadcasting, switching, control, and operation of communications and related network infrastructures.",
+            'NF-COM-006': "Cryptography: Describes a learner's capabilities to transform data using cryptographic processes to ensure it can only be read by the person who is authorized to access it.",
+            'NF-COM-007': "Cyber Resiliency: Describes a learner's capability related to architecting, designing, developing, implementing, and maintaining the trustworthiness of systems that use or are enabled by cyber resources in order to anticipate, withstand, recover from, and adapt to adverse conditions, stresses, attacks, or compromises.",
+            'NF-COM-008': "DevSecOps: Describes a learner's capabilities to integrate security as a shared responsibility throughout the development, security, and operations (DevSecOps) life cycle of technologies.",
+            'NF-COM-009': "Operating Systems (OS) Security: Describes a learner's capabilities to install, administer, troubleshoot, backup, and conduct recovery of Operating Systems (OS), including in simulated environments.",
+            'NF-COM-010': "Operational Technology (OT) Security: Describes a learner's capabilities to improve and maintain the security of Operational Technology (OT) systems while addressing their unique performance, reliability, and safety requirements.",
+            'NF-COM-011': "Supply Chain Security: Describes a learner's capabilities to analyze and control digital and physical risks presented by technology products or services purchased from parties outside your organization.",
+            'NF-COM-012': "Cybersecurity Fundamentals: Describes a learner's capabilities to understand and apply core cybersecurity principles including the CIA triad (confidentiality, integrity, availability), identify common threat vectors and attack surfaces, comprehend fundamental risk management concepts, and demonstrate knowledge of essential cybersecurity terminology, frameworks, and best practices that form the foundation for all cybersecurity disciplines.",
+            'NF-COM-013': "Cybersecurity Leadership: Describes a learner's capabilities to lead cybersecurity initiatives and teams through strategic planning, effective communication of security concepts to diverse stakeholders, development of security culture within organizations, risk prioritization and resource allocation, incident response coordination, and the ability to align cybersecurity objectives with business goals while fostering collaboration across organizational boundaries.",
+            'NF-COM-014': "Data Security: Describes a learner's capabilities to protect digital information throughout its entire lifecycle from creation to destruction, implement data classification schemes and access controls, apply appropriate encryption and data masking techniques, ensure compliance with data protection regulations, and maintain data integrity and availability while preventing unauthorized access, corruption, or theft of sensitive information.",
+            'NF-COM-015': "Secure Programming: Describes a learner's capabilities to develop computer software using secure coding practices that prevent the introduction of security vulnerabilities, identify and remediate common programming flaws, implement security controls within application architecture, conduct code security reviews, and integrate security considerations throughout the software development lifecycle to protect against both known and emerging threats."
         };
 
         // Load selected NF-COMs from etape2_first_step
@@ -591,6 +618,18 @@
             // Show/hide action buttons
             document.getElementById('copySelectionsBtn').style.display = selectedNFCOMs.length > 1 ? 'block' : 'none';
             document.getElementById('resetCurrentBtn').style.display = currentNFCOM ? 'block' : 'none';
+
+            // Update definition of current NF-COM below Selected Competency Areas
+            const defBlock = document.getElementById('currentNfcomDefinitionBlock');
+            const defText = document.getElementById('currentNfcomDefinitionText');
+            if (defBlock && defText) {
+                if (currentNFCOM && nfcomDefinitions[currentNFCOM]) {
+                    defText.textContent = nfcomDefinitions[currentNFCOM];
+                    defBlock.style.display = 'block';
+                } else {
+                    defBlock.style.display = 'none';
+                }
+            }
         }
 
         // Check if NF-COM selection is complete

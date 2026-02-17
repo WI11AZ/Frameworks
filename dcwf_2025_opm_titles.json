@@ -1,0 +1,306 @@
+[
+  {
+    "OPM-ID": "711",
+    "title": "Cyber Instructional Curriculum Developer"
+  },
+  {
+    "OPM-ID": "712",
+    "title": "Cyber Instructor"
+  },
+  {
+    "OPM-ID": "801",
+    "title": "Program Manager"
+  },
+  {
+    "OPM-ID": "802",
+    "title": "IT Project Manager"
+  },
+  {
+    "OPM-ID": "803",
+    "title": "Product Support Manager"
+  },
+  {
+    "OPM-ID": "804",
+    "title": "IT Investment/Portfolio Manager"
+  },
+  {
+    "OPM-ID": "805",
+    "title": "IT Program Auditor"
+  },
+  {
+    "OPM-ID": "732",
+    "title": "Privacy Compliance Manager"
+  },
+  {
+    "OPM-ID": "751",
+    "title": "Cyber Workforce Developer and Manager"
+  },
+  {
+    "OPM-ID": "752",
+    "title": "Cyber Policy and Strategy Planner"
+  },
+  {
+    "OPM-ID": "901",
+    "title": "Executive Cyber Leader"
+  },
+  {
+    "OPM-ID": "731",
+    "title": "Cyber Legal Advisor"
+  },
+  {
+    "OPM-ID": "211",
+    "title": "Forensics Analyst"
+  },
+  {
+    "OPM-ID": "221",
+    "title": "Cyber Crime Investigator"
+  },
+  {
+    "OPM-ID": "411",
+    "title": "Technical Support Specialist"
+  },
+  {
+    "OPM-ID": "421",
+    "title": "Database Administrator"
+  },
+  {
+    "OPM-ID": "431",
+    "title": "Knowledge Manager"
+  },
+  {
+    "OPM-ID": "441",
+    "title": "Network Operations Specialist"
+  },
+  {
+    "OPM-ID": "451",
+    "title": "System Administrator"
+  },
+  {
+    "OPM-ID": "632",
+    "title": "Systems Developer"
+  },
+  {
+    "OPM-ID": "641",
+    "title": "Systems Requirements Planner"
+  },
+  {
+    "OPM-ID": "651",
+    "title": "Enterprise Architect"
+  },
+  {
+    "OPM-ID": "661",
+    "title": "Research & Development Specialist"
+  },
+  {
+    "OPM-ID": "671",
+    "title": "System Testing and Evaluation Specialist"
+  },
+  {
+    "OPM-ID": "611",
+    "title": "Authorizing Official/Designated Representative"
+  },
+  {
+    "OPM-ID": "612",
+    "title": "Security Control Assessor"
+  },
+  {
+    "OPM-ID": "722",
+    "title": "Information Systems Security Manager"
+  },
+  {
+    "OPM-ID": "723",
+    "title": "COMSEC Manager"
+  },
+  {
+    "OPM-ID": "622",
+    "title": "Secure Software Assessor"
+  },
+  {
+    "OPM-ID": "631",
+    "title": "Information Systems Security Developer"
+  },
+  {
+    "OPM-ID": "652",
+    "title": "Security Architect"
+  },
+  {
+    "OPM-ID": "212",
+    "title": "Cyber Defense Forensic Analyst"
+  },
+  {
+    "OPM-ID": "511",
+    "title": "Cyber Defense Analyst"
+  },
+  {
+    "OPM-ID": "521",
+    "title": "Cyber Defense Infrastructure Support Specialist"
+  },
+  {
+    "OPM-ID": "531",
+    "title": "Cyber Defense Incident Responder"
+  },
+  {
+    "OPM-ID": "541",
+    "title": "Vulnerability Assessment Specialist"
+  },
+  {
+    "OPM-ID": "462",
+    "title": "Control Systems Security Specialist"
+  },
+  {
+    "OPM-ID": "111",
+    "title": "All-Source Analyst"
+  },
+  {
+    "OPM-ID": "151",
+    "title": "Multi-Disciplined Language Analyst"
+  },
+  {
+    "OPM-ID": "311",
+    "title": "All-Source Collection Manager"
+  },
+  {
+    "OPM-ID": "312",
+    "title": "All-Source Collection Requirements Manager"
+  },
+  {
+    "OPM-ID": "331",
+    "title": "Cyber Intelligence Planner"
+  },
+  {
+    "OPM-ID": "121",
+    "title": "Exploitation Analyst"
+  },
+  {
+    "OPM-ID": "122",
+    "title": "Digital Network Exploitation Analyst"
+  },
+  {
+    "OPM-ID": "131",
+    "title": "Joint Targeting Analyst"
+  },
+  {
+    "OPM-ID": "132",
+    "title": "Target Digital Network Analyst"
+  },
+  {
+    "OPM-ID": "133",
+    "title": "Target Analyst Reporter"
+  },
+  {
+    "OPM-ID": "321",
+    "title": "Access Network Operator"
+  },
+  {
+    "OPM-ID": "322",
+    "title": "Cyberspace Operator"
+  },
+  {
+    "OPM-ID": "332",
+    "title": "Cyber Operations Planner"
+  },
+  {
+    "OPM-ID": "341",
+    "title": "Cyberspace Capability Developer"
+  },
+  {
+    "OPM-ID": "442",
+    "title": "Network Technician"
+  },
+  {
+    "OPM-ID": "443",
+    "title": "Network Analyst"
+  },
+  {
+    "OPM-ID": "463",
+    "title": "Host Analyst"
+  },
+  {
+    "OPM-ID": "551",
+    "title": "Red Team Specialist"
+  },
+  {
+    "OPM-ID": "422",
+    "title": "Data Analyst"
+  },
+  {
+    "OPM-ID": "423",
+    "title": "Data Scientist"
+  },
+  {
+    "OPM-ID": "424",
+    "title": "Data Steward"
+  },
+  {
+    "OPM-ID": "623",
+    "title": "AI/ML Specialist"
+  },
+  {
+    "OPM-ID": "624",
+    "title": "Data Operations Specialist"
+  },
+  {
+    "OPM-ID": "653",
+    "title": "Data Architect"
+  },
+  {
+    "OPM-ID": "672",
+    "title": "AI Test & Evaluation Specialist"
+  },
+  {
+    "OPM-ID": "733",
+    "title": "AI Risk and Ethics Specialist"
+  },
+  {
+    "OPM-ID": "753",
+    "title": "AI Adoption Specialist"
+  },
+  {
+    "OPM-ID": "902",
+    "title": "AI Innovation Leader"
+  },
+  {
+    "OPM-ID": "903",
+    "title": "Data Officer"
+  },
+  {
+    "OPM-ID": "621",
+    "title": "Software Developer"
+  },
+  {
+    "OPM-ID": "461",
+    "title": "Systems Security Analyst"
+  },
+  {
+    "OPM-ID": "625",
+    "title": "Product Designer User Interface (UI)"
+  },
+  {
+    "OPM-ID": "626",
+    "title": "Service Designer User Experience (UX)"
+  },
+  {
+    "OPM-ID": "627",
+    "title": "DevSecOps Specialist"
+  },
+  {
+    "OPM-ID": "628",
+    "title": "Software/Cloud Architect"
+  },
+  {
+    "OPM-ID": "673",
+    "title": "Software Test & Evaluation Specialist"
+  },
+  {
+    "OPM-ID": "806",
+    "title": "Product Manager"
+  },
+  {
+    "OPM-ID": "TBD-A",
+    "title": "Insider Threat Analysis"
+  },
+  {
+    "OPM-ID": "TBD-B",
+    "title": "Operational Technology (OT) Cybersecurity Engineering"
+  }
+]
