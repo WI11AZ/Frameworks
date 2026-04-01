@@ -1,0 +1,3856 @@
+[
+  {
+    "OPM-ID": "111",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "All-Source Analyst",
+    "titre_ncwf": "All-Source Analysis",
+    "description_dcwf": "Analyzes data/information from one or multiple sources to conduct preparation of the environment, respond to requests for information, and submit intelligence collection and production requirements in support of planning and operations.",
+    "description_ncwf": null,
+    "T": 41,
+    "K": 58,
+    "S": 17,
+    "A": 18,
+    "categorie_dcwf": "CI",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "112",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Mission Assessment Specialist",
+    "titre_ncwf": "Mission Assessment",
+    "description_dcwf": "Develops assessment plans and measures of performance/effectiveness. Conducts strategic and operational effectiveness assessments as required for cyber events. Determines whether systems performed as expected and provides input to the determination of operational effectiveness.",
+    "description_ncwf": null,
+    "T": null,
+    "K": null,
+    "S": null,
+    "A": null,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "121",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Exploitation Analyst",
+    "titre_ncwf": "Exploitation Analysis",
+    "description_dcwf": "Partners with cyberspace operations customers to identify access and collection gaps that can be satisfied through cyberspace exploitation. Develops detailed plans that are executed by cyber operators. Functions as navigator in cyber operations. Uses all source data to understand cyberspace targets. Employs all available techniques against targeted networks. Identifies capability gaps and submits cyberspace capability requirements to capability development organizations.",
+    "description_ncwf": null,
+    "T": 67,
+    "K": 61,
+    "S": 25,
+    "A": 28,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "122",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Digital Network Exploitation Analyst",
+    "titre_ncwf": "Digital Network Exploitation Analysis",
+    "description_dcwf": "The DNEA analyzes intercepted intelligence information for metadata and content. They use this data to reconstruct and document target networks to judge the intelligence value and maintain target continuity. DNEAs understand and analyze target implementation of communication technologies and digital network systems. They discover methods and suggest strategies to exploit specific target networks, computer systems, or specific hardware and/or software.",
+    "description_ncwf": null,
+    "T": 81,
+    "K": 93,
+    "S": 60,
+    "A": 16,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "131",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Joint Targeting Analyst",
+    "titre_ncwf": "Target Analysis",
+    "description_dcwf": "Joint Targeting Analyst conduct target development at the system, component and entity levels. Builds and maintains Electronic Target Folders (ETFs), to include inputs from JIPOE, Target System Analysis (TSA), GMI and other IC sources. Senior analysts run collaborative target working groups across Geographic Combatant Commands (GCCs) and IC members, and present candidate targets for IC vetting and commander's approval for inclusion on target lists. JTAs assess damage resulting from the application of lethal or non-lethal military force, and write Battle Damage Assessment (BDA) reports and coordinate federated support as required.",
+    "description_ncwf": null,
+    "T": 22,
+    "K": 49,
+    "S": 15,
+    "A": 11,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "132",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Target Digital Network Analyst",
+    "titre_ncwf": "Target Network Analysis",
+    "description_dcwf": "The TDNA conducts advanced analysis of collection and open-source data to ensure target continuity, profile targets and their activities, and develop techniques to gain more target cyberspace operations related information. They possess knowledge of target cyberspace technologies and apply skills and knowledge of cyberspace networks and the applications on them to determine how targets communicate, move, operate, and live within the cyberspace domain. TDNAs apply analytical techniques to review relevant content carried in target cyberspace communications. The TDNA uses data from networks of all forms for target development. TDNAs are technology savvy and can be flexible enough to rapidly shift from one target to another.",
+    "description_ncwf": null,
+    "T": 72,
+    "K": 89,
+    "S": 47,
+    "A": 17,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "133",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Target Analyst Reporter",
+    "titre_ncwf": "Target Reporting Analysis",
+    "description_dcwf": "The Target Analyst Reporter (TAR) provides synthesized products to customers by researching, analyzing, and reporting intelligence via appropriate reporting vehicles in response to customer requirements and IAW missions of SIGINT, cybersecurity, and cyberspace operations. They prioritize, assess, evaluate, and report information obtained from SIGINT collection, cyber surveillance, and reconnaissance operations sources. The TAR enhances reporting with collateral information as required, maintains awareness of internal and external customer requirements, and collaborates with other collectors and analysts to refine collection and reporting requirements. The TAR shares target-related information and provides feedback to customers as appropriate. The TAR develops working aids and provides database updates on target activity to enhance and build target knowledge and improve collection. The TAR performs quality control and product-release functions.",
+    "description_ncwf": null,
+    "T": 70,
+    "K": 86,
+    "S": 49,
+    "A": 17,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "141",
+    "WRL-ID": "PD-WRL-006",
+    "titre_dcwf": "Threat Analyst",
+    "titre_ncwf": "Threat Analysis",
+    "description_dcwf": "Responsible for collecting, processing, analyzing, and disseminating cybersecurity threat/warning assessments. Develops cybersecurity indicators to maintain awareness of the status of the highly dynamic operating environment.",
+    "description_ncwf": null,
+    "T": null,
+    "K": null,
+    "S": null,
+    "A": null,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Defensive Cybersecurity"
+    ],
+    "off_ramps": [],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "32.35%"
+      },
+      {
+        "name": "Cybersecurity Curriculum Development",
+        "percentage": "31.68%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "31.67%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "28.81%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Defensive Cybersecurity",
+        "percentage": "25%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "20.65%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "9.78%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "151",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Multi-Disciplined Language Analyst",
+    "titre_ncwf": "Multi-Disciplined Language Analysis",
+    "description_dcwf": "Applies language and culture expertise with target/threat and technical knowledge to process, analyze, and/or disseminate intelligence information derived from language, voice and/or graphic material. Creates, and maintains language specific databases and working aids to support cyber action execution and ensure critical knowledge sharing. Provides subject matter expertise in foreign language-intensive or interdisciplinary projects.",
+    "description_ncwf": null,
+    "T": 30,
+    "K": 49,
+    "S": 28,
+    "A": 4,
+    "categorie_dcwf": "CI",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "211",
+    "WRL-ID": "IN-WRL-002",
+    "titre_dcwf": "Forensics Analyst",
+    "titre_ncwf": "Digital Evidence Analysis",
+    "description_dcwf": "Conducts deep-dive investigations on computer-based crimes establishing documentary or physical evidence, to include digital media and logs associated with cyber intrusion incidents.",
+    "description_ncwf": "Responsible for identifying, collecting, examining, and preserving digital evidence using controlled and documented analytical and investigative techniques.",
+    "T": 34,
+    "K": 44,
+    "S": 19,
+    "A": 2,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "IN",
+    "on_ramps": [
+      "Cybercrime Investigation",
+      "Digital Forensics",
+      "Incident Response"
+    ],
+    "off_ramps": [
+      "Cybercrime Investigation",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Digital Forensics",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Digital Forensics",
+        "percentage": "74.73%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "48.54%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "36.45%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "35.53%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "31.25%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Digital Forensics",
+        "percentage": "13.71%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "4.18%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "0.57%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "0.46%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "212",
+    "WRL-ID": "PD-WRL-002",
+    "titre_dcwf": "Digital Forensics Analyst",
+    "titre_ncwf": "Digital Forensics",
+    "description_dcwf": "Analyzes digital evidence and investigates computer security incidents to derive useful information in support of system/network vulnerability mitigation.",
+    "description_ncwf": "Responsible for analyzing digital evidence from computer security incidents to derive useful information in support of system and network vulnerability mitigation.",
+    "T": 40,
+    "K": 48,
+    "S": 22,
+    "A": 2,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Incident Response",
+      "Secure Software Development"
+    ],
+    "off_ramps": [
+      "Cybercrime Investigation",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Digital Evidence Analysis",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Digital Evidence Analysis",
+        "percentage": "77.71%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "49.51%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "45.79%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "36.84%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "35.05%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Defensive Cybersecurity",
+        "percentage": "31.11%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "21.11%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "14.44%"
+      },
+      {
+        "name": "Digital Evidence Analysis",
+        "percentage": "11.11%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "4.44%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "221",
+    "WRL-ID": "IN-WRL-001",
+    "titre_dcwf": "Cyber Crime Investigator",
+    "titre_ncwf": "Cybercrime Investigation",
+    "description_dcwf": "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques.",
+    "description_ncwf": "Responsible for investigating cyberspace intrusion incidents and crimes. Applies tactics, techniques, and procedures for a full range of investigative tools and processes and appropriately balances the benefits of prosecution versus intelligence gathering.",
+    "T": 24,
+    "K": 19,
+    "S": 4,
+    "A": 0,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "IN",
+    "on_ramps": [
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Incident Response"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Digital Evidence Analysis",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "38.98%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "31.78%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "30.88%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "28.95%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Digital Evidence Analysis",
+        "percentage": "0.84%"
+      },
+      {
+        "name": "Cybersecurity Instruction",
+        "percentage": "0.27%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "311",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "All-Source Collection Manager",
+    "titre_ncwf": "All-Source Collection Management",
+    "description_dcwf": "Identifies collection authorities and environment; incorporates priority information requirements into collection management; develops concepts to meet leadership's intent. Determines capabilities of available collection assets, identifies new collection capabilities; and constructs and disseminates collection plans. Monitors execution of tasked collection to ensure effective execution of the collection plan.",
+    "description_ncwf": null,
+    "T": 47,
+    "K": 84,
+    "S": 22,
+    "A": 5,
+    "categorie_dcwf": "CI",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "312",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "All-Source Collection Requirements Manager",
+    "titre_ncwf": "All-Source Collection Requirements Management",
+    "description_dcwf": "Evaluates collection operations and develops effects-based collection requirements strategies using available sources and methods to improve collection. Develops, processes, validates, and coordinates submission of collection requirements. Evaluates performance of collection assets and collection operations.",
+    "description_ncwf": null,
+    "T": 34,
+    "K": 76,
+    "S": 18,
+    "A": 3,
+    "categorie_dcwf": "CI",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "321",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "(CyberSpace) Access Network Operator",
+    "titre_ncwf": "Cyberspace Network Operations",
+    "description_dcwf": "Conducts access collection, processing, and/or geolocation of wired or wireless computer and digital networks in order to exploit, locate, and/or track targets of interest.",
+    "description_ncwf": null,
+    "T": 19,
+    "K": 40,
+    "S": 17,
+    "A": 3,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "322",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Cyberspace Operator",
+    "titre_ncwf": "Cyberspace Operations",
+    "description_dcwf": "Cyberspace Operators use a wide range of software applications for network navigation, tactical forensic analysis, surveillance and reconnaissance, and executing on-net operations in support of offensive cyberspace operations when directed.",
+    "description_ncwf": null,
+    "T": 51,
+    "K": 107,
+    "S": 24,
+    "A": 60,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "331",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Cyber Intelligence Planner",
+    "titre_ncwf": "Cyber Intelligence Planning",
+    "description_dcwf": "Develops detailed intelligence plans to satisfy cyber operations requirements. Collaborates with cyber operations planners to identify, validate, and levy requirements for collection and analysis. Participates in targeting selection, validation, synchronization, and execution of cyber actions. Synchronizes intelligence activities to support organization objectives in cyberspace.",
+    "description_ncwf": null,
+    "T": 46,
+    "K": 91,
+    "S": 35,
+    "A": 16,
+    "categorie_dcwf": "CI",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "332",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Cyber Operations Planner",
+    "titre_ncwf": "Cyber Operations Planning",
+    "description_dcwf": "The Cyberspace Operations Planner applies in-depth knowledge of the JOPP to develop detailed plans and orders supporting CCMD cyberspace operation requirements. Uses Joint, Service, and interagency planning and operational experience to conduct strategic and operational level planning across the full range of military operations for integrated information and cyberspace operations. Develops and maintains deliberate and crisis action planning products. Collaborates with cyberspace operators to identify and levy requirements for intelligence collection and analysis. Participates in targeting selection, validation, synchronization, and execution of complex cyberspace operations. Has sufficient technical knowledge to understand cyberspace operations capabilities, target vulnerabilities, and effects. Collaborates with cyberspace operators, analysts, enablers and planners to gain access and technical intelligence to meet planning objectives.",
+    "description_ncwf": null,
+    "T": 60,
+    "K": 63,
+    "S": 4,
+    "A": 9,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "333",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Partner Integration Planner",
+    "titre_ncwf": "Partner Integration Planning",
+    "description_dcwf": "Works to advance cooperation across organizational or national borders between cyber operations partners. Aids the integration of cyber partner teams by providing guidance, resources, and collaboration to develop best practices and facilitate organizational support for achieving objectives in integrated cyber actions.",
+    "description_ncwf": null,
+    "T": null,
+    "K": null,
+    "S": null,
+    "A": null,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "341",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Cyberspace Capability Developer",
+    "titre_ncwf": "Cyberspace Capability Development",
+    "description_dcwf": "Provides software and hardware capabilities that produce cyberspace effects in and throughout cyberspace operations through vulnerability analysis, and software research and development.",
+    "description_ncwf": null,
+    "T": 59,
+    "K": 49,
+    "S": 7,
+    "A": 6,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "411",
+    "WRL-ID": "IO-WRL-007",
+    "titre_dcwf": "Technical Support Specialist",
+    "titre_ncwf": "Technical Support",
+    "description_dcwf": "Provides technical support to customers who need assistance utilizing client level hardware and software in accordance with established or approved organizational process components.",
+    "description_ncwf": "Responsible for providing technical support to customers who need assistance utilizing client-level hardware and software in accordance with established or approved organizational policies and processes.",
+    "T": 11,
+    "K": 24,
+    "S": 4,
+    "A": 2,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "IO",
+    "on_ramps": [],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Systems Administration",
+      "Systems Testing and Evaluation"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "40.68%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "40%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "35.53%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "35.42%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "32.12%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Administration",
+        "percentage": "43.69%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "17.16%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "5.85%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "4.29%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "4.23%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "421",
+    "WRL-ID": "IO-WRL-002",
+    "titre_dcwf": "Database Administrator",
+    "titre_ncwf": "Database Administration",
+    "description_dcwf": "Administers databases and/or data management systems that allow for the storage, query, and utilization of data.",
+    "description_ncwf": "Responsible for administering databases and data management systems that allow for the secure storage, query, protection, and utilization of data.",
+    "T": 10,
+    "K": 26,
+    "S": 4,
+    "A": 0,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Data Analysis",
+      "Knowledge Management",
+      "Network Operations",
+      "Systems Administration",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Network Operations",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Systems Administration",
+      "Systems Requirements Planning"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Knowledge Management",
+        "percentage": "43.33%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "42.19%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "30.26%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Data Analysis",
+        "percentage": "23.49%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "22.65%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "15.32%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "5.73%"
+      },
+      {
+        "name": "Secure Software Development",
+        "percentage": "5.21%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "422",
+    "WRL-ID": "IO-WRL-001",
+    "titre_dcwf": "Data Analyst",
+    "titre_ncwf": "Data Analysis",
+    "description_dcwf": "Analyzes and interprets data from multiple disparate sources and builds visualizations and dashboards to report insights",
+    "description_ncwf": "Responsible for analyzing data from multiple disparate sources to provide cybersecurity and privacy insight. Designs and implements custom algorithms, workflow processes, and layouts for complex, enterprise-scale data sets used for modeling, data mining, and research purposes.",
+    "T": 12,
+    "K": 19,
+    "S": 6,
+    "A": 4,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Database Administration",
+      "Knowledge Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Knowledge Management",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Systems Security Analysis",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Database Administration",
+        "percentage": "63.53%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "38.33%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "28.95%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Knowledge Management",
+        "percentage": "22.42%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "14.32%"
+      },
+      {
+        "name": "Secure Software Development",
+        "percentage": "9.59%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "7.85%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "7.1%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "423",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Data Scientist",
+    "titre_ncwf": "Data Science",
+    "description_dcwf": "Uncovers and explains actionable insights from data by combining scientific method, math and statistics, specialized programming, advanced analytics, AI, and storytelling.",
+    "description_ncwf": null,
+    "T": 16,
+    "K": 19,
+    "S": 10,
+    "A": 5,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "424",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Data Steward",
+    "titre_ncwf": "Data Management",
+    "description_dcwf": "Develops and maintains plans, policies, and processes for data management, data governance, security, quality, accessibility, use, and disposal.",
+    "description_ncwf": null,
+    "T": 16,
+    "K": 20,
+    "S": 4,
+    "A": 2,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "431",
+    "WRL-ID": "IO-WRL-003",
+    "titre_dcwf": "Knowledge Manager",
+    "titre_ncwf": "Knowledge Management",
+    "description_dcwf": "Responsible for the management and administration of processes and tools that enable the organization to identify, document, and access intellectual capital and information content.",
+    "description_ncwf": "Responsible for managing and administering processes and tools to identify, document, and access an organization’s intellectual capital.",
+    "T": 9,
+    "K": 25,
+    "S": 4,
+    "A": 1,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Data Analysis",
+      "Systems Requirements Planning",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "32.2%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "30.59%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "26.47%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "25.26%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Technical Support",
+        "percentage": "21.69%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "13.59%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "7.99%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "7.15%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "5.13%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "441",
+    "WRL-ID": "IO-WRL-004",
+    "titre_dcwf": "Network Operations Specialist",
+    "titre_ncwf": "Network Operations",
+    "description_dcwf": "Plans, implements, and operates network services/systems, to include hardware and virtual environments.",
+    "description_ncwf": "Responsible for planning, implementing, and operating network services and systems, including hardware and virtual environments.",
+    "T": 12,
+    "K": 40,
+    "S": 11,
+    "A": 9,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Database Administration",
+      "Systems Administration",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Infrastructure Support",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Systems Development",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "49.51%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "48.68%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "43.07%"
+      },
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "43.04%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "38.98%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Technical Support",
+        "percentage": "32.97%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "25.67%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "6.49%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "4.6%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "3.85%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "442",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Network Technician",
+    "titre_ncwf": "Network Technics",
+    "description_dcwf": "The Network Technician provides enterprise and tactical infrastructure knowledge, experience, and integration to the Cyber Protection Team (CPT). The Network Technician supports CPT elements by understanding of network technologies, defining mission scope, and identifying terrain.",
+    "description_ncwf": null,
+    "T": 51,
+    "K": 69,
+    "S": 27,
+    "A": 23,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "443",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Network Analyst",
+    "titre_ncwf": "Network Analysis",
+    "description_dcwf": "The Network Analyst (NA) will understand network traffic signatures and discover anomalies through network traffic and packet capture (PCAP) analysis. The Network Analyst will identify, assess, and mitigate intrusions into networks that are vital to cyberspace operations security. Network Analysts also use GUI or command-line based tools and assist in developing network mapping and signatures. Network Analysts will develop advanced network detection rules and alerts, queries and dashboards to gain a holistic view of the network.",
+    "description_ncwf": null,
+    "T": 43,
+    "K": 93,
+    "S": 41,
+    "A": 62,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "451",
+    "WRL-ID": "IO-WRL-005",
+    "titre_dcwf": "System Administrator",
+    "titre_ncwf": "Systems Administration",
+    "description_dcwf": "Installs, configures, troubleshoots, and maintains hardware, software, and administers system accounts.",
+    "description_ncwf": "Responsible for setting up and maintaining a system or specific components of a system in adherence with organizational security policies and procedures. Includes hardware and software installation, configuration, and updates; user account management; backup and recovery management; and security control implementation.",
+    "T": 19,
+    "K": 35,
+    "S": 16,
+    "A": 4,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Database Administration",
+      "Technical Support"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Infrastructure Support",
+      "Network Operations",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Infrastructure Support",
+        "percentage": "53.95%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "48.36%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "46.32%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "42.37%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "41.75%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Technical Support",
+        "percentage": "41.3%"
+      },
+      {
+        "name": "Database Administration",
+        "percentage": "10.26%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "9.48%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "8.39%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "3.81%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "461",
+    "WRL-ID": "IO-WRL-006",
+    "titre_dcwf": "Systems Security Analyst",
+    "titre_ncwf": "Systems Security Analysis ",
+    "description_dcwf": "Responsible for analysis and development of systems/software security through the product lifecycle to include integration, testing, operations and maintenance.",
+    "description_ncwf": "Responsible for developing and analyzing the integration, testing, operations, and maintenance of systems security. Prepares, performs, and manages the security aspects of implementing and operating a system.",
+    "T": 40,
+    "K": 54,
+    "S": 8,
+    "A": 3,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "IO",
+    "on_ramps": [
+      "Data Analysis",
+      "Network Operations",
+      "Secure Software Development",
+      "Security Control Assessment",
+      "Systems Administration",
+      "Systems Testing and Evaluation"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Defensive Cybersecurity",
+      "Incident Response",
+      "Infrastructure Support",
+      "Product Support Management",
+      "Secure Project Management",
+      "Security Control Assessment",
+      "Systems Security Management",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "50.63%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "50.49%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "47.57%"
+      },
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "47.44%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "46.39%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Technical Support",
+        "percentage": "13.56%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "12.1%"
+      },
+      {
+        "name": "Security Control Assessment",
+        "percentage": "10.32%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "8.13%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "7.61%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "462",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Control Systems Security Specialist",
+    "titre_ncwf": "Control Systems Security",
+    "description_dcwf": "Responsible for device, equipment, and system-level cybersecurity configuration and day-to-day security operations of control systems, including security monitoring and maintenance along with stakeholder coordination to ensure the system and its interconnections are secure in support of mission operations.",
+    "description_ncwf": null,
+    "T": 18,
+    "K": 22,
+    "S": 7,
+    "A": 0,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "463",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Host Analyst",
+    "titre_ncwf": "Hosting Analysis",
+    "description_dcwf": "A Host Analyst (HA) will have knowledge of various system configurations encountered. This work role also performs analysis using built-in tools and capabilities. A Host Analyst will have knowledge of system services and the security and configuration of them, as well as knowledge of file systems, permissions, and operation system configurations. The Host Analyst conducts analysis using built-in tools and capabilities.",
+    "description_ncwf": null,
+    "T": 26,
+    "K": 107,
+    "S": 20,
+    "A": 72,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "511",
+    "WRL-ID": "PD-WRL-001",
+    "titre_dcwf": "Cyber Defense Analyst",
+    "titre_ncwf": "Defensive Cybersecurity",
+    "description_dcwf": "Uses data collected from a variety of cyber defense tools (e.g., IDS alerts, firewalls, network traffic logs.) to analyze events that occur within their environments for the purposes of mitigating threats.",
+    "description_ncwf": "Responsible for analyzing data collected from various cybersecurity defense tools to mitigate risks.",
+    "T": 35,
+    "K": 70,
+    "S": 14,
+    "A": 2,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Data Analysis",
+      "Network Operations",
+      "Systems Administration",
+      "Systems Security Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Digital Forensics",
+      "Incident Response",
+      "Infrastructure Support",
+      "Secure Project Management",
+      "Systems Security Management",
+      "Threat Analysis",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "61.86%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "59.21%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "57.94%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "55.33%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "51.46%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Incident Response",
+        "percentage": "38.59%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "21.77%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "8.71%"
+      },
+      {
+        "name": "Digital Forensics",
+        "percentage": "2.4%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "521",
+    "WRL-ID": "PD-WRL-004",
+    "titre_dcwf": "Cyber Defense Infrastructure Support Specialist",
+    "titre_ncwf": "Infrastructure Support",
+    "description_dcwf": "Tests, implements, deploys, maintains, and administers the infrastructure hardware and software.",
+    "description_ncwf": "Responsible for testing, implementing, deploying, maintaining, and administering infrastructure hardware and software for cybersecurity. ",
+    "T": 10,
+    "K": 27,
+    "S": 10,
+    "A": 2,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Defensive Cybersecurity",
+      "Network Operations",
+      "Systems Administration",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Incident Response",
+      "Product Support Management",
+      "Secure Project Management",
+      "Systems Security Management",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Incident Response",
+        "percentage": "37.38%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "35.42%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "35.05%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "30.33%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "15.09%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "12.58%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "12.26%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "11.64%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "10.06%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "531",
+    "WRL-ID": "PD-WRL-003",
+    "titre_dcwf": "Cyber Defense Incident Responder",
+    "titre_ncwf": "Incident Response",
+    "description_dcwf": "Investigates, analyzes, and responds to cyber incidents within the network environment or enclave.",
+    "description_ncwf": "Responsible for investigating, analyzing, and responding to network cybersecurity incidents.",
+    "T": 18,
+    "K": 32,
+    "S": 7,
+    "A": 0,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Defensive Cybersecurity",
+      "Infrastructure Support",
+      "Systems Security Analysis"
+    ],
+    "off_ramps": [
+      "Cybercrime Investigation",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Privacy Compliance",
+      "Secure Project Management",
+      "Systems Security Management",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Infrastructure Support",
+        "percentage": "52.63%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "50.52%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "34.74%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Defensive Cybersecurity",
+        "percentage": "56.42%"
+      },
+      {
+        "name": "Digital Forensics",
+        "percentage": "6.33%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "5.97%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "5.24%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "4.7%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "541",
+    "WRL-ID": "PD-WRL-007",
+    "titre_dcwf": "Vulnerability Assessment Analyst",
+    "titre_ncwf": "Vulnerability Analysis",
+    "description_dcwf": "Performs assessments of systems and networks within the NE or enclave and identifies where those systems/networks deviate from acceptable configurations, enclave policy, or local policy. Measures effectiveness of defense-in-depth architecture against known vulnerabilities.",
+    "description_ncwf": "Responsible for assessing systems and networks to identify deviations from acceptable configurations, enclave policy, or local policy. Measure effectiveness of defense-in-depth architecture against known vulnerabilities.",
+    "T": 9,
+    "K": 37,
+    "S": 11,
+    "A": 3,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "PD",
+    "on_ramps": [
+      "Defensive Cybersecurity",
+      "Incident Response",
+      "Infrastructure Support",
+      "Network Operations",
+      "Security Control Assessment",
+      "Systems Administration",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Secure Project Management",
+      "Security Control Assessment",
+      "Systems Security Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Incident Response",
+        "percentage": "45.79%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "44.74%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "37.86%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "35.92%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Infrastructure Support",
+        "percentage": "15.04%"
+      },
+      {
+        "name": "Security Control Assessment",
+        "percentage": "9.13%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "8.87%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "8.61%"
+      },
+      {
+        "name": "Incident Response",
+        "percentage": "6.81%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "551",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Red Team Specialist",
+    "titre_ncwf": "Red Teaming",
+    "description_dcwf": "Leverages tools, systems, and utilities necessary to enhance the security posture of an organization, conducts threat and risk assessments, and performs testing and evaluation in accordance with legal and organizational requirements, policies, and regulations.",
+    "description_ncwf": null,
+    "T": 19,
+    "K": 70,
+    "S": 18,
+    "A": 13,
+    "categorie_dcwf": "CE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "611",
+    "WRL-ID": "OG-WRL-013",
+    "titre_dcwf": "Authorizing Official/Designated Representative",
+    "titre_ncwf": "Systems Authorization",
+    "description_dcwf": "Senior official or executive with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organizational operations (including mission, functions, image, or reputation), organizational assets, individuals, other organizations, and the Nation (CNSSI 4009).",
+    "description_ncwf": "Responsible for operating an information system at an acceptable level of risk to organizational operations, organizational assets, individuals, other organizations, and the nation.",
+    "T": 14,
+    "K": 49,
+    "S": 2,
+    "A": 0,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership",
+      "Program Management"
+    ],
+    "off_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "66.1%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "47.92%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "42.65%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "39.47%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "39.06%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Program Management",
+        "percentage": "21.07%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "9.92%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "9.5%"
+      },
+      {
+        "name": "Security Control Assessment",
+        "percentage": "8.68%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "7.44%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "612",
+    "WRL-ID": "OG-WRL-012",
+    "titre_dcwf": "Security Control Assessor",
+    "titre_ncwf": "Security Control Assessment",
+    "description_dcwf": "Conducts independent comprehensive assessments of the management, operational, and technical security controls and control enhancements employed within or inherited by an information technology (IT) system to determine the overall effectiveness of the controls (as defined in NIST 800-37).",
+    "description_ncwf": "Responsible for conducting independent comprehensive assessments of management, operational, and technical security controls and control enhancements employed within or inherited by a system to determine their overall effectiveness. ",
+    "T": 18,
+    "K": 38,
+    "S": 6,
+    "A": 0,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Software Security Assessment",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Systems Authorization",
+        "percentage": "91.26%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "66.1%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "66.02%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "64.95%"
+      },
+      {
+        "name": "Technology Research and Development",
+        "percentage": "61.02%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "18.94%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "14.55%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "7.85%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "7.74%"
+      },
+      {
+        "name": "Software Security Assessment",
+        "percentage": "6.81%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "621",
+    "WRL-ID": "DD-WRL-003",
+    "titre_dcwf": "Software Developer",
+    "titre_ncwf": "Secure Software Development",
+    "description_dcwf": "Executes software planning, requirements, risk management, design, development, architecture, modeling, estimation, configuration management, quality, security, and tests using software development methodologies, architectural structures, viewpoints, styles, design decisions, and frameworks across all lifecycle phases.",
+    "description_ncwf": "Responsible for developing, creating, modifying, and maintaining computer applications, software, or specialized utility programs.",
+    "T": 37,
+    "K": 47,
+    "S": 16,
+    "A": 4,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Data Analysis",
+      "Database Administration",
+      "Systems Administration",
+      "Systems Requirements Planning"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Digital Forensics",
+      "Enterprise Architecture",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Systems Development",
+      "Software Security Assessment",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Software Security Assessment",
+        "percentage": "88.73%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "47.92%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "44.66%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "39.06%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "37.86%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "632-Secure Systems Development",
+        "percentage": "44.2%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "9.12%"
+      },
+      {
+        "name": "Data Analysis",
+        "percentage": "5.8%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "5.14%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "5.11%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "622",
+    "WRL-ID": "DD-WRL-005",
+    "titre_dcwf": "Software Security Assessment Specialist",
+    "titre_ncwf": "Software Security Assessment",
+    "description_dcwf": "Analyzes the security of new or existing computer applications, software, or specialized utility programs and provides actionable results.",
+    "description_ncwf": "Responsible for analyzing the security of new or existing computer applications, software, or specialized utility programs and delivering actionable results.",
+    "T": 28,
+    "K": 47,
+    "S": 11,
+    "A": 1,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Secure Software Development",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Secure Project Management",
+      "Security Control Assessment",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Secure Software Development",
+        "percentage": "78.26%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "47.92%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "44.66%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "40%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "35.94%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Secure Software Development",
+        "percentage": "48.48%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "19.7%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "5.05%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "3.54%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "3.03%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "623",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "AI/ML Specialist",
+    "titre_ncwf": "AI/ML Design",
+    "description_dcwf": "Designs, develops, and modifies AI applications, tools, and/or other solutions to enable successful accomplishment of mission objectives.",
+    "description_ncwf": null,
+    "T": 22,
+    "K": 39,
+    "S": 10,
+    "A": 1,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "624",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Data Operations Specialist",
+    "titre_ncwf": "Data Operations",
+    "description_dcwf": "Builds, manages, and operationalizes data pipelines.",
+    "description_ncwf": null,
+    "T": 19,
+    "K": 26,
+    "S": 10,
+    "A": 1,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "625",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Product Designer User Interface (UI)",
+    "titre_ncwf": "Product  & User Interface Design (UI)",
+    "description_dcwf": "Manages the user interface design portion of the design process of a product.",
+    "description_ncwf": null,
+    "T": 10,
+    "K": 17,
+    "S": 3,
+    "A": 0,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "626",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Service Designer User Experience (UX)",
+    "titre_ncwf": "Service & User Experience Design (UX)",
+    "description_dcwf": "Manages the user interface design portion of the design process of a product.",
+    "description_ncwf": null,
+    "T": 14,
+    "K": 15,
+    "S": 4,
+    "A": 0,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "627",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "DevSecOps Specialist",
+    "titre_ncwf": "DevSecOps",
+    "description_dcwf": "Selects/Deploys/Maintains the set of Continuous Integration/Continuous Deployment (CI/CD) tools and processes used by the development team and/or maintains the deployed software product and ensures observability and security across the lifecycle.",
+    "description_ncwf": null,
+    "T": 42,
+    "K": 34,
+    "S": 7,
+    "A": 3,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "628",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Software/Cloud Architect",
+    "titre_ncwf": "Software/Cloud Architecture",
+    "description_dcwf": "Manages and identifies program high-level technical specifications, which may include application design, cloud computing strategy and adoption, and integration of software applications into a functioning system to meet requirements.",
+    "description_ncwf": null,
+    "T": 19,
+    "K": 25,
+    "S": 2,
+    "A": 2,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "631",
+    "WRL-ID": "DD-WRL-004",
+    "titre_dcwf": "Information Systems Security Developer",
+    "titre_ncwf": "Secure Systems Development",
+    "description_dcwf": "Designs, develops, tests, and evaluates information system security throughout the systems development lifecycle.",
+    "description_ncwf": null,
+    "T": 41,
+    "K": 61,
+    "S": 11,
+    "A": 2,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Data Analysis",
+      "Network Operations",
+      "Secure Software Development",
+      "Systems Requirements Planning",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Enterprise Architecture",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Systems Requirements Planning",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "61.54%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "60.67%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "57.28%"
+      },
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "55.71%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "65.22%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Software Security Assessment",
+        "percentage": "32.18%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "20.17%"
+      },
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "8.83%"
+      },
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "8.44%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "8.44%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "632",
+    "WRL-ID": "DD-WRL-004",
+    "titre_dcwf": "Systems Developer",
+    "titre_ncwf": "Secure Systems Development",
+    "description_dcwf": "Designs, develops, tests, and evaluates information systems throughout the systems development lifecycle.",
+    "description_ncwf": null,
+    "T": 37,
+    "K": 61,
+    "S": 13,
+    "A": 0,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Data Analysis",
+      "Network Operations",
+      "Secure Software Development",
+      "Systems Requirements Planning",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Enterprise Architecture",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Systems Requirements Planning",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "61.54%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "60.67%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "57.28%"
+      },
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "55.71%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "65.22%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Software Security Assessment",
+        "percentage": "32.18%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "20.17%"
+      },
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "8.83%"
+      },
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "8.44%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "8.44%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "641",
+    "WRL-ID": "DD-WRL-006",
+    "titre_dcwf": "Systems Requirements Planner",
+    "titre_ncwf": "Systems Requirements Planning",
+    "description_dcwf": "Consults with customers to evaluate functional requirements and translate functional requirements into technical solutions.",
+    "description_ncwf": "Responsible for consulting with internal and external customers to evaluate and translate functional requirements and integrating security policies into technical solutions. ",
+    "T": 20,
+    "K": 48,
+    "S": 6,
+    "A": 1,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Database Administration",
+      "Network Operations",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Systems Administration"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Knowledge Management",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Systems Testing and Evaluation",
+      "Technology Research and Development"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "53.16%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "47.57%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "45.83%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "45.76%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "42.19%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "37.99%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "11.36%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "10.24%"
+      },
+      {
+        "name": "Secure Systems Development",
+        "percentage": "4.3%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "3.91%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "651",
+    "WRL-ID": "DD-WRL-002",
+    "titre_dcwf": "Enterprise Architect",
+    "titre_ncwf": "Enterprise Architecture",
+    "description_dcwf": "Develops and maintains business, systems, and information processes to support enterprise mission needs; develops information technology (IT) rules and requirements that describe baseline and target architectures.",
+    "description_ncwf": "Responsible for developing and maintaining business, systems, and information processes to support enterprise mission needs. Develops technology rules and requirements that describe baseline and target architectures. ",
+    "T": 19,
+    "K": 53,
+    "S": 7,
+    "A": 6,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Cybersecurity Architecture",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership",
+      "Program Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "64.38%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "49.33%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "46.6%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "44.2%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "43.3%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "18.52%"
+      },
+      {
+        "name": "Cybersecurity Architecture",
+        "percentage": "9.32%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "8.3%"
+      },
+      {
+        "name": "632-Secure Systems Development",
+        "percentage": "8.07%"
+      },
+      {
+        "name": "Technology Research and Development",
+        "percentage": "7.95%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "652",
+    "WRL-ID": "DD-WRL-001",
+    "titre_dcwf": "Security Architect",
+    "titre_ncwf": "Cybersecurity Architecture",
+    "description_dcwf": "Designs enterprise and systems security throughout the development lifecycle; translates technology and environmental conditions (e.g., law and regulation) into security designs and processes.",
+    "description_ncwf": "Responsible for ensuring that security requirements are adequately addressed in all aspects of enterprise architecture, including reference models, segment and solution architectures, and the resulting systems that protect and support organizational mission and business processes.",
+    "T": 30,
+    "K": 61,
+    "S": 13,
+    "A": 9,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Enterprise Architecture",
+      "Secure Systems Development",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Enterprise Architecture",
+      "Executive Cybersecurity Leadership",
+      "Program Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "90.38%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "58%"
+      },
+      {
+        "name": "Secure Systems Development",
+        "percentage": "52.59%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "51.45%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "49.18%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "632-Secure Systems Development",
+        "percentage": "8.06%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "12.8%"
+      },
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "8.53%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "5.69%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "653",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Data Architect",
+    "titre_ncwf": "Data Architure",
+    "description_dcwf": "Designs a system's data models, data flow, interfaces, and infrastructure to meet the information requirements of a business or mission.",
+    "description_ncwf": null,
+    "T": 12,
+    "K": 27,
+    "S": 3,
+    "A": 0,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "661",
+    "WRL-ID": "DD-WRL-008",
+    "titre_dcwf": "Research & Development Specialist",
+    "titre_ncwf": "Technology Research and Development",
+    "description_dcwf": "Conducts software and systems engineering and software systems research in order to develop new capabilities, ensuring cybersecurity is fully integrated. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems.",
+    "description_ncwf": "Responsible for conducting software and systems engineering and software systems research to develop new capabilities with fully integrated cybersecurity. Conducts comprehensive technology research to evaluate potential vulnerabilities in cyberspace systems. ",
+    "T": 9,
+    "K": 23,
+    "S": 6,
+    "A": 4,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Data Analysis",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Software Security Assessment",
+      "Systems Requirements Planning",
+      "Systems Testing and Evaluation"
+    ],
+    "off_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Enterprise Architecture",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Systems Development",
+      "Software Security Assessment",
+      "Systems Testing and Evaluation"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "43.75%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "43.3%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "41.75%"
+      },
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "40.51%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "38.98%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Enterprise Architecture",
+        "percentage": "17.06%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "11.04%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "10.37%"
+      },
+      {
+        "name": "Secure Software Development",
+        "percentage": "8.7%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "7.69%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "671",
+    "WRL-ID": "DD-WRL-007",
+    "titre_dcwf": "System Testing and Evaluation Specialist",
+    "titre_ncwf": "Systems Testing and Evaluation",
+    "description_dcwf": "Plans, prepares, and executes tests of systems to evaluate results against specifications and requirements as well as analyze/report test results.",
+    "description_ncwf": "Responsible for planning, preparing, and executing system tests; evaluating test results against specifications and requirements; and reporting test results and findings.",
+    "T": 15,
+    "K": 28,
+    "S": 14,
+    "A": 3,
+    "categorie_dcwf": "IT",
+    "categorie_ncwf": "DD",
+    "on_ramps": [
+      "Network Operations",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Technical Support",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Infrastructure Support",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "43.75%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "41.8%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "40.79%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "40.21%"
+      },
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "39.24%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Administration",
+        "percentage": "16.63%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "11.82%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "10.1%"
+      },
+      {
+        "name": "Network Operations",
+        "percentage": "8.99%"
+      },
+      {
+        "name": "632-Secure Systems Development",
+        "percentage": "7.51%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "672",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "AI Test & Evaluation Specialist",
+    "titre_ncwf": "AI Test & Evaluation",
+    "description_dcwf": "Performs testing, evaluation, verification, and validation on AI solutions to ensure they are developed to be and remain robust, resilient, responsible, secure, and trustworthy; and communicates results and concerns to leadership.",
+    "description_ncwf": null,
+    "T": 28,
+    "K": 35,
+    "S": 11,
+    "A": 2,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "673",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Software Test & Evaluation Specialist",
+    "titre_ncwf": "Software Test & Evaluation",
+    "description_dcwf": "Plans, prepares, and performs testing, evaluation, verification, and validation of software to evaluate results against specifications, requirements, and operational need.",
+    "description_ncwf": null,
+    "T": 29,
+    "K": 32,
+    "S": 18,
+    "A": 6,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "711",
+    "WRL-ID": "OG-WRL-004",
+    "titre_dcwf": "Cyber Instructional Curriculum Developer",
+    "titre_ncwf": "Cybersecurity Curriculum Development",
+    "description_dcwf": "Develops, plans, coordinates, and evaluates cyber training/education courses, methods, and techniques based on instructional needs.",
+    "description_ncwf": "Responsible for developing, planning, coordinating, and evaluating cybersecurity awareness, training, or education content, methods, and techniques based on instructional needs and requirements.",
+    "T": 14,
+    "K": 20,
+    "S": 5,
+    "A": 5,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Communications Security (COMSEC) Management",
+      "Cybercrime Investigation",
+      "Cybersecurity Architecture",
+      "Cybersecurity Instruction",
+      "Cybersecurity Legal Advice",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Enterprise Architecture",
+      "Incident Response",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Instruction",
+        "percentage": "55.9%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "36.76%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "36.67%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "33.9%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "33.33%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Cybersecurity Instruction",
+        "percentage": "40.26%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "17.53%"
+      },
+      {
+        "name": "Cybersecurity Workforce Management",
+        "percentage": "11.69%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "7.79%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "3.25%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "712",
+    "WRL-ID": "OG-WRL-005",
+    "titre_dcwf": "Cyber Instructor",
+    "titre_ncwf": "Cybersecurity Instruction",
+    "description_dcwf": "Develops and conducts training or education of personnel within cyber domain.",
+    "description_ncwf": "Responsible for developing and conducting cybersecurity awareness, training, or education. ",
+    "T": 23,
+    "K": 28,
+    "S": 5,
+    "A": 13,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Communications Security (COMSEC) Management",
+      "Cybercrime Investigation",
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Legal Advice",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Enterprise Architecture",
+      "Incident Response",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Curriculum Development",
+        "percentage": "89.11%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "41.67%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "37.29%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "37.11%"
+      },
+      {
+        "name": "Infrastructure Support",
+        "percentage": "35.53%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Cybersecurity Curriculum Development",
+        "percentage": "57.14%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "16.07%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "10.71%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "3.57%"
+      },
+      {
+        "name": "Systems Testing and Evaluation",
+        "percentage": "1.79%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "722",
+    "WRL-ID": "OG-WRL-014",
+    "titre_dcwf": "Information Systems Security Manager",
+    "titre_ncwf": "Systems Security Management",
+    "description_dcwf": "Responsible for the cybersecurity of a program, organization, system, or enclave.",
+    "description_ncwf": "Responsible for managing the cybersecurity of a program, organization, system, or enclave. ",
+    "T": 55,
+    "K": 53,
+    "S": 3,
+    "A": 1,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Communications Security (COMSEC) Management",
+      "Defensive Cybersecurity",
+      "Incident Response",
+      "Infrastructure Support",
+      "Network Operations",
+      "Privacy Compliance",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Communications Security (COMSEC) Management",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Executive Cybersecurity Leadership",
+      "Privacy Compliance",
+      "Secure Project Management",
+      "Security Control Assessment"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "82.28%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "60.42%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "56.31%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "55%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "50%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Security Control Assessment",
+        "percentage": "16.61%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "11.75%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "9.47%"
+      },
+      {
+        "name": "Systems Security Analysis",
+        "percentage": "8.61%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "5.67%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "723",
+    "WRL-ID": "OG-WRL-001",
+    "titre_dcwf": "COMSEC Manager",
+    "titre_ncwf": "Communications Security (COMSEC) Management",
+    "description_dcwf": "Manages the Communications Security (COMSEC) resources of an organization (CNSSI No. 4009).",
+    "description_ncwf": "Responsible for managing the Communications Security (COMSEC) resources of an organization.",
+    "T": 10,
+    "K": 19,
+    "S": 1,
+    "A": 0,
+    "categorie_dcwf": "CS",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Systems Security Management"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Secure Project Management",
+      "Systems Security Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "37.5%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "35.59%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "31.86%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "31.67%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "31.25%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Security Management",
+        "percentage": "12.9%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "12.1%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "12.1%"
+      },
+      {
+        "name": "Communications Security (COMSEC) Management",
+        "percentage": "5.65%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "5.24%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "731",
+    "WRL-ID": "OG-WRL-006",
+    "titre_dcwf": "Cyber Legal Advisor",
+    "titre_ncwf": "Cybersecurity Legal Advice",
+    "description_dcwf": "Provides legal advice and recommendations on relevant topics related to cyber law.",
+    "description_ncwf": "Responsible for providing cybersecurity legal advice and recommendations, including monitoring related legislation and regulations.",
+    "T": 14,
+    "K": 15,
+    "S": 0,
+    "A": 1,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership",
+      "Privacy Compliance"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Systems Authorization",
+        "percentage": "37.86%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "37.5%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "31.67%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "31%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "29.69%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Data Analysis",
+        "percentage": "34.29%"
+      },
+      {
+        "name": "Privacy Compliance",
+        "percentage": "20%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "15.71%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "7.14%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "5.71%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "732",
+    "WRL-ID": "OG-WRL-008",
+    "titre_dcwf": "Privacy Compliance Manager",
+    "titre_ncwf": "Privacy Compliance",
+    "description_dcwf": "Develops and oversees privacy compliance program and privacy program staff, supporting privacy compliance needs of privacy and security executives and their teams.",
+    "description_ncwf": "Responsible for developing and overseeing an organization’s privacy compliance program and staff, including establishing and managing privacy-related governance, policy, and incident response needs.",
+    "T": 72,
+    "K": 22,
+    "S": 3,
+    "A": 11,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybersecurity Legal Advice",
+      "Cybersecurity Policy and Planning",
+      "Data Analysis",
+      "Database Administration",
+      "Incident Response",
+      "Knowledge Management",
+      "Network Operations",
+      "Product Support Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Program Auditing",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Secure Project Management",
+      "Systems Security Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "44.12%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "38.98%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "37.5%"
+      },
+      {
+        "name": "Cybersecurity Curriculum Development",
+        "percentage": "35.64%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "33%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "16.82%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "15.89%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "11.21%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "7.48%"
+      },
+      {
+        "name": "Cybersecurity Workforce Management",
+        "percentage": "4.67%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "733",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "AI Risk and Ethics Specialist",
+    "titre_ncwf": "AI Risk and Ethics",
+    "description_dcwf": "Educates those involved in the development of AI and conducts assessments on the technical and societal risks across the lifecycle of AI solutions from acquisition or design to deployment and use.",
+    "description_ncwf": null,
+    "T": 19,
+    "K": 25,
+    "S": 7,
+    "A": 0,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "751",
+    "WRL-ID": "OG-WRL-003",
+    "titre_dcwf": "Cyber Workforce Developer and Manager",
+    "titre_ncwf": "Cybersecurity Workforce Management",
+    "description_dcwf": "Develop cyberspace workforce plans, strategies and guidance to support cyberspace workforce manpower, personnel, training and education requirements and to address changes to cyberspace policy, doctrine, materiel, force structure, and education and training requirements.",
+    "description_ncwf": "Responsible for developing cybersecurity workforce plans, assessments, strategies, and guidance, including cybersecurity-related staff training, education, and hiring processes. Makes adjustments in response to or in anticipation of changes to cybersecurity-related policy, technology, and staffing needs and requirements. Authors mandated workforce planning strategies to maintain compliance with legislation, regulation, and policy.",
+    "T": 36,
+    "K": 20,
+    "S": 2,
+    "A": 5,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybercrime Investigation",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Data Analysis",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Incident Response",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Program Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Secure Project Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "91.18%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "64.58%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "45.31%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "43%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "38.83%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "34.51%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "21.77%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "5.84%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "5.84%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "3.89%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "752",
+    "WRL-ID": "OG-WRL-002",
+    "titre_dcwf": "Cyber Policy and Strategy Planner",
+    "titre_ncwf": "Cybersecurity Policy and Planning",
+    "description_dcwf": "Develops cyberspace plans, strategy and policy to support and align with organizational cyberspace missions and initiatives.",
+    "description_ncwf": "Responsible for developing and maintaining cybersecurity plans, strategy, and policy to support and align with organizational cybersecurity initiatives and regulatory compliance.",
+    "T": 19,
+    "K": 20,
+    "S": 0,
+    "A": 3,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybercrime Investigation",
+      "Cybersecurity Architecture",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Legal Advice",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Enterprise Architecture",
+      "Incident Response",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Program Management",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Authorization",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Portfolio Management",
+      "Technology Program Auditing",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Workforce Management",
+      "Executive Cybersecurity Leadership",
+      "Privacy Compliance",
+      "Program Management",
+      "Secure Project Management",
+      "Systems Authorization"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "54.17%"
+      },
+      {
+        "name": "Cybersecurity Workforce Management",
+        "percentage": "46.97%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "37.5%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "32.2%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "30%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Program Management",
+        "percentage": "17.1%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "9.28%"
+      },
+      {
+        "name": "Cybersecurity Workforce Management",
+        "percentage": "8.24%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "8.03%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "6.47%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "753",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "AI Adoption Specialist",
+    "titre_ncwf": "AI Adoption",
+    "description_dcwf": "Facilitates AI adoption by supporting the users of AI-enabled solutions.",
+    "description_ncwf": null,
+    "T": 17,
+    "K": 30,
+    "S": 4,
+    "A": 3,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "801",
+    "WRL-ID": "OG-WRL-010",
+    "titre_dcwf": "Program Manager",
+    "titre_ncwf": "Program Management",
+    "description_dcwf": "Leads, coordinates, communicates, integrates and is accountable for the overall success of the program, ensuring alignment with critical agency priorities.",
+    "description_ncwf": "Responsible for leading, coordinating, and the overall success of a defined program. Includes communicating about the program and ensuring alignment with agency or organizational  priorities.",
+    "T": 22,
+    "K": 28,
+    "S": 1,
+    "A": 4,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Policy and Planning",
+      "Enterprise Architecture",
+      "Product Support Management",
+      "Secure Project Management",
+      "Technology Portfolio Management"
+    ],
+    "off_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Executive Cybersecurity Leadership",
+      "Systems Authorization",
+      "Technology Portfolio Management",
+      "Technology Program Auditing"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "100%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "91.82%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "90.63%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "83.33%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "38.24%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Secure Project Management",
+        "percentage": "28.97%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "9.33%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "7.28%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "7.28%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "5.94%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "802",
+    "WRL-ID": "OG-WRL-011",
+    "titre_dcwf": "IT Project Manager",
+    "titre_ncwf": "Secure Project Management",
+    "description_dcwf": "Work that involves directly managing information technology projects to provide a unique service or product.",
+    "description_ncwf": "Responsible for overseeing and directly managing technology projects. Ensures cybersecurity is built into projects to protect the organization’s critical infrastructure and assets, reduce risk, and meet organizational goals. Tracks and communicates project status and demonstrates project value to the organization.",
+    "T": 26,
+    "K": 31,
+    "S": 1,
+    "A": 4,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Communications Security (COMSEC) Management",
+      "Cybercrime Investigation",
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Instruction",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Data Analysis",
+      "Database Administration",
+      "Defensive Cybersecurity",
+      "Digital Evidence Analysis",
+      "Digital Forensics",
+      "Incident Response",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Privacy Compliance",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Software Security Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Security Management",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Research and Development",
+      "Vulnerability Analysis"
+    ],
+    "off_ramps": [
+      "Cybersecurity Curriculum Development",
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Privacy Compliance",
+      "Product Support Management",
+      "Program Management",
+      "Technology Portfolio Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "100%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "98.44%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "98.06%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "91.23%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "41.18%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "29.24%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "13.53%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "8.48%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "8%"
+      },
+      {
+        "name": "Systems Administration",
+        "percentage": "5.2%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "803",
+    "WRL-ID": "OG-WRL-009",
+    "titre_dcwf": "Product Support Manager",
+    "titre_ncwf": "Product Support Management",
+    "description_dcwf": "Manages the package of support functions required to field and maintain the readiness and operational capability of systems and components.",
+    "description_ncwf": "Responsible for planning, estimating costs, budgeting, developing, implementing, and managing product support strategies in order to field and maintain the readiness and operational capability of systems and components.",
+    "T": 26,
+    "K": 29,
+    "S": 1,
+    "A": 5,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Data Analysis",
+      "Database Administration",
+      "Infrastructure Support",
+      "Knowledge Management",
+      "Network Operations",
+      "Secure Project Management",
+      "Secure Software Development",
+      "Secure Systems Development",
+      "Security Control Assessment",
+      "Systems Administration",
+      "Systems Requirements Planning",
+      "Systems Security Analysis",
+      "Systems Testing and Evaluation",
+      "Technical Support",
+      "Technology Research and Development"
+    ],
+    "off_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Cybersecurity Workforce Management",
+      "Privacy Compliance",
+      "Program Management",
+      "Technology Portfolio Management",
+      "Technology Program Auditing"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "97.92%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "95.31%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "94.55%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "92.23%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "41.18%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "31.25%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "12.5%"
+      },
+      {
+        "name": "Technical Support",
+        "percentage": "8.13%"
+      },
+      {
+        "name": "Knowledge Management",
+        "percentage": "5.25%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "5.13%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "804",
+    "WRL-ID": "OG-WRL-015",
+    "titre_dcwf": "IT Investment/Portfolio Manager",
+    "titre_ncwf": "Technology Portfolio Management",
+    "description_dcwf": "Manages a portfolio of IT capabilities that align with the overall needs of mission and business enterprise priorities.",
+    "description_ncwf": "Responsible for managing a portfolio of technology investments that align with the overall needs of mission and enterprise priorities.",
+    "T": 9,
+    "K": 20,
+    "S": 0,
+    "A": 3,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Product Support Management",
+      "Program Management",
+      "Secure Project Management",
+      "Technology Program Auditing"
+    ],
+    "off_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership",
+      "Program Management",
+      "Technology Program Auditing"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "60.94%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "46.6%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "43.64%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "41.23%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "38.24%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Program Management",
+        "percentage": "24.08%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "13.79%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "10.65%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "10.3%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "7.16%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "805",
+    "WRL-ID": "OG-WRL-016",
+    "titre_dcwf": "IT Program Auditor",
+    "titre_ncwf": "Technology Program Auditing",
+    "description_dcwf": "Conducts evaluations of an IT program or its individual components, to determine compliance with published standards.",
+    "description_ncwf": "Responsible for conducting evaluations of technology programs or their individual components to determine compliance with published standards. ",
+    "T": 11,
+    "K": 25,
+    "S": 4,
+    "A": 3,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Product Support Management",
+      "Program Management",
+      "Technology Portfolio Management"
+    ],
+    "off_ramps": [
+      "Cybersecurity Policy and Planning",
+      "Executive Cybersecurity Leadership",
+      "Privacy Compliance",
+      "Technology Portfolio Management"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "81.25%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "57.27%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "56.31%"
+      },
+      {
+        "name": "Product Support Management",
+        "percentage": "53.51%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "35.29%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Security Control Assessment",
+        "percentage": "15.72%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "14.41%"
+      },
+      {
+        "name": "Systems Security Management",
+        "percentage": "10.48%"
+      },
+      {
+        "name": "Systems Requirements Planning",
+        "percentage": "8.73%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "6.55%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "806",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Product Manager",
+    "titre_ncwf": "Product Management",
+    "description_dcwf": "Manages the development of products including the resource management, product strategy (physical or digital), functional requirements, and releases. Coordinate work done by functions (like software engineers, data scientists, and product designers).",
+    "description_ncwf": null,
+    "T": 20,
+    "K": 24,
+    "S": 8,
+    "A": 1,
+    "categorie_dcwf": "SE",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "901",
+    "WRL-ID": "OG-WRL-007",
+    "titre_dcwf": "Executive Cyber Leader",
+    "titre_ncwf": "Executive Cybersecurity Leadership",
+    "description_dcwf": "Executes decision-making authorities and establishes vision and direction for an organization's cyber and cyber-related policies, resources, and/or operations, while maintaining responsibility for risk-related decisions affecting mission success.",
+    "description_ncwf": "Responsible for establishing vision and direction for an organization's cybersecurity operations and resources and their impact on digital and physical spaces. Possesses authority to make and execute decisions that impact an organization broadly, including policy approval and stakeholder engagement.",
+    "T": 60,
+    "K": 24,
+    "S": 5,
+    "A": 14,
+    "categorie_dcwf": "EN",
+    "categorie_ncwf": "OG",
+    "on_ramps": [
+      "Cybersecurity Architecture",
+      "Cybersecurity Legal Advice",
+      "Cybersecurity Policy and Planning",
+      "Enterprise Architecture",
+      "Program Management",
+      "Systems Authorization",
+      "Systems Security Management",
+      "Technology Portfolio Management",
+      "Technology Program Auditing"
+    ],
+    "off_ramps": [
+      "Systems Authorization"
+    ],
+    "related_roles_by_tks": [
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "52.54%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "44.12%"
+      },
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "41.67%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "37.86%"
+      },
+      {
+        "name": "Cybersecurity Curriculum Development",
+        "percentage": "32.67%"
+      }
+    ],
+    "top_5_secondary_work_role": [
+      {
+        "name": "Program Management",
+        "percentage": "21.15%"
+      },
+      {
+        "name": "Cybersecurity Policy and Planning",
+        "percentage": "12.25%"
+      },
+      {
+        "name": "Systems Authorization",
+        "percentage": "10.08%"
+      },
+      {
+        "name": "Cybersecurity Workforce Management",
+        "percentage": "8.3%"
+      },
+      {
+        "name": "Secure Project Management",
+        "percentage": "7.31%"
+      }
+    ]
+  },
+  {
+    "OPM-ID": "902",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "AI Innovation Leader",
+    "titre_ncwf": "AI Innovation Leadership",
+    "description_dcwf": "Builds the organization's AI vision and plan and leads policy and doctrine formation, including how AI solutions can or will be used.",
+    "description_ncwf": null,
+    "T": 28,
+    "K": 34,
+    "S": 7,
+    "A": 4,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "903",
+    "WRL-ID": "N/A",
+    "titre_dcwf": "Data Officer",
+    "titre_ncwf": "Data Governance",
+    "description_dcwf": "Holds responsibility for developing, promoting, and overseeing implementation of data as an asset and the establishment and enforcement of data-related strategies, policies, standards, processes, and governance.",
+    "description_ncwf": null,
+    "T": 21,
+    "K": 24,
+    "S": 3,
+    "A": 3,
+    "categorie_dcwf": "DA",
+    "categorie_ncwf": "N/A",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "TBD-A",
+    "WRL-ID": "PD-WRL-005",
+    "titre_dcwf": "Insider Threat Analyst",
+    "titre_ncwf": "Insider Threat Analysis",
+    "description_dcwf": "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.",
+    "description_ncwf": "Responsible for identifying and assessing the capabilities and activities of cybersecurity insider threats; produces findings to help initialize and support law enforcement and counterintelligence activities and investigations.",
+    "T": null,
+    "K": null,
+    "S": null,
+    "A": null,
+    "categorie_dcwf": "Cx",
+    "categorie_ncwf": "PD",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "35.42%"
+      },
+      {
+        "name": "Cybercrime Investigation",
+        "percentage": "30.1%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "25.42%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "23.44%"
+      },
+      {
+        "name": "Executive Cybersecurity Leadership",
+        "percentage": "23%"
+      }
+    ],
+    "top_5_secondary_work_role": []
+  },
+  {
+    "OPM-ID": "TBD-B",
+    "WRL-ID": "DD-WRL-009",
+    "titre_dcwf": "Operational Technology (OT) Cybersecurity Engineer",
+    "titre_ncwf": "Operational Technology (OT) Cybersecurity Engineering",
+    "description_dcwf": "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.",
+    "description_ncwf": "Responsible for working within the engineering department to design and create systems, processes, and procedures that maintain the safety, reliability, controllability, and security of industrial systems in the face of intentional and incidental cyber-related events. Interfaces with Chief Information Security Officer, plant managers, and industrial cybersecurity technicians.",
+    "T": null,
+    "K": null,
+    "S": null,
+    "A": null,
+    "categorie_dcwf": "Cx",
+    "categorie_ncwf": "DD",
+    "on_ramps": [],
+    "off_ramps": [],
+    "related_roles_by_tks": [
+      {
+        "name": "Technology Portfolio Management",
+        "percentage": "25%"
+      },
+      {
+        "name": "Technology Program Auditing",
+        "percentage": "18.75%"
+      },
+      {
+        "name": "Cybersecurity Legal Advice",
+        "percentage": "18.64%"
+      },
+      {
+        "name": "Program Management",
+        "percentage": "16.5%"
+      },
+      {
+        "name": "Vulnerability Analysis",
+        "percentage": "16.49%"
+      }
+    ],
+    "top_5_secondary_work_role": []
+  }
+]

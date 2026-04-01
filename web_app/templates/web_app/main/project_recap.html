@@ -824,27 +824,52 @@
                     try {
                         const data = JSON.parse(step0Data);
                         const selectedRoles = data.selectedWorkRoles || [];
-                        
-                        // Build URL with parameters from step0
+
+                        // 1) Prefer explicit IDs if already present in step0 data
                         const params = new URLSearchParams();
                         selectedRoles.forEach(role => {
-                            if (role.dcwf_2025_id) {
-                                params.append('dcwf_2025_ids', role.dcwf_2025_id);
-                            }
-                            if (role.ncwf_2025_id) {
-                                params.append('ncwf_2025_ids', role.ncwf_2025_id);
-                            }
-                            if (role.dcwf_id) {
-                                params.append('dcwf_ids', role.dcwf_id);
-                            }
-                            if (role.ncwf_2017_id) {
-                                params.append('ncwf_2017_ids', role.ncwf_2017_id);
-                            }
-                            if (role.ncwf_2024_id) {
-                                params.append('ncwf_2024_ids', role.ncwf_2024_id);
-                            }
+                            if (role.dcwf_2025_id) params.append('dcwf_2025_ids', role.dcwf_2025_id);
+                            if (role.ncwf_2025_id) params.append('ncwf_2025_ids', role.ncwf_2025_id);
+                            if (role.dcwf_id) params.append('dcwf_ids', role.dcwf_id);
+                            if (role.ncwf_2017_id) params.append('ncwf_2017_ids', role.ncwf_2017_id);
+                            if (role.ncwf_2024_id) params.append('ncwf_2024_ids', role.ncwf_2024_id);
                         });
-                        
+
+                        // 2) Fallback: convert Step0 OPM codes to DB IDs when explicit framework IDs are missing
+                        if (!params.toString()) {
+                            const opmCodes = selectedRoles
+                                .map(role => role.opm_code)
+                                .filter(code => code !== null && code !== undefined && code !== '');
+
+                            if (opmCodes.length > 0) {
+                                const conversionParams = new URLSearchParams();
+                                opmCodes.forEach(code => {
+                                    const normalized = String(code).trim();
+                                    conversionParams.append('dcwf_2025_codes', normalized);
+                                    conversionParams.append('dcwf_2017_codes', normalized);
+                                    conversionParams.append('ncwf_2017_codes', normalized);
+                                    conversionParams.append('ncwf_2024_codes', normalized);
+                                });
+
+                                try {
+                                    const conversionResp = await fetch(`/api/convert-t1-codes-to-ids/?${conversionParams.toString()}`);
+                                    if (conversionResp.ok) {
+                                        const converted = await conversionResp.json();
+
+                                        (converted.dcwf_2025_ids || []).forEach(id => params.append('dcwf_2025_ids', id));
+                                        (converted.dcwf_ids || []).forEach(id => params.append('dcwf_ids', id));
+                                        (converted.ncwf_2017_ids || []).forEach(id => params.append('ncwf_2017_ids', id));
+                                        (converted.ncwf_2024_ids || []).forEach(id => params.append('ncwf_2024_ids', id));
+                                        (converted.ncwf_2025_ids || []).forEach(id => params.append('ncwf_2025_ids', id));
+                                    } else {
+                                        console.warn('convert-t1-codes-to-ids returned non-OK status:', conversionResp.status);
+                                    }
+                                } catch (convErr) {
+                                    console.error('Error converting Step0 OPM codes to IDs:', convErr);
+                                }
+                            }
+                        }
+
                         if (params.toString()) {
                             savedUrl = `/compare/?${params.toString()}`;
                         }

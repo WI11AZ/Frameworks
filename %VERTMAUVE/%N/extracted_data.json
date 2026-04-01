@@ -12626,5 +12626,19 @@
     "Ksat_commun": "T:0, K:0, S:0",
     "Pourcent_vert": 0.0,
     "Pourcent_mauve": 0.0
+  },
+  {
+    "OPM_ID_principale": 452,
+    "OPM_ID_Cible": 452,
+    "Ksat_commun": "T:0, K:0, S:0",
+    "Pourcent_vert": 100.0,
+    "Pourcent_mauve": 100.0
+  },
+  {
+    "OPM_ID_principale": 633,
+    "OPM_ID_Cible": 633,
+    "Ksat_commun": "T:0, K:0, S:0",
+    "Pourcent_vert": 100.0,
+    "Pourcent_mauve": 100.0
   }
 ]

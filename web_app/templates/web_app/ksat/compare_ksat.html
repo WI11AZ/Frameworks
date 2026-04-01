@@ -5127,9 +5127,10 @@ function checkAndGoToEtape2() {
         saveMessage.className = 'fixed top-20 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl z-50';
         saveMessage.innerHTML = '<strong>✓ KSAT data saved successfully!</strong><br><small>Redirecting...</small>';
         
-        // Attendre un peu pour que l'utilisateur voie le message, puis rediriger
+        // Attendre un peu pour que l'utilisateur voie le message, puis rediriger (sans afficher le message "quitter la page")
         setTimeout(() => {
             console.log('[STEP 3] Redirecting to etape2_first_step...');
+            if (typeof allowUnloadWithoutConfirm !== 'undefined') allowUnloadWithoutConfirm = true;
             window.location.href = "{% url 'etape2_first_step' %}";
         }, 1000);
         
@@ -6623,12 +6624,13 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(tryInitializeAndSave, 500);
 });
 
-// Warn when closing tab or leaving page: all unsaved progress will be lost
+// Warn when closing tab or leaving page (not when clicking NEXT)
+var allowUnloadWithoutConfirm = false;
 window.addEventListener('beforeunload', function (e) {
-    var msg = 'Are you sure you want to leave? All unsaved progress will be lost.';
+    if (allowUnloadWithoutConfirm) return;
     e.preventDefault();
-    e.returnValue = msg;
-    return msg;
+    e.returnValue = '';
+    return '';
 });
 
 // Note: KSAT data is now saved only when clicking "Step 3" button (in checkAndGoToEtape2 function)

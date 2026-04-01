@@ -1,0 +1,581 @@
+{
+  "source": "SUMAARYMIL/military_skills_data.json — aligné summary_mil",
+  "skill_count": 115,
+  "skills": [
+    {
+      "code": "AGMS",
+      "name": "Analyse Géopolitique et des Menaces Stratégiques",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "AOAL",
+      "name": "Alignement sur les Objectifs de l'Alliance",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "APDI",
+      "name": "Analyse de Proportionnalité et de Distinction",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "DCAC",
+      "name": "Maîtrise du Droit des Conflits Armés (DCA) appliqué au Cyber",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "DDCM",
+      "name": "Développement de la Doctrine Cyber Militaire",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "GCAI",
+      "name": "Gestion de la Conformité et des Accords Internationaux",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "GRIO",
+      "name": "Gestion du Risque Opérationnel",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "PSOC",
+      "name": "Planification Stratégique des Opérations Cyber",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "ROEN",
+      "name": "Élaboration et Application des Règles d'Engagement",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "SEIA",
+      "name": "Supervision Éthique de l'IA en contexte militaire",
+      "category": "Commandement, Stratégie & Gouvernance"
+    },
+    {
+      "code": "CCFC",
+      "name": "Conception de Cursus de Formation Cyber",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "CPIA",
+      "name": "Coopération et Partage avec les Alliés",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "EVGC",
+      "name": "Évaluation et Gestion des Compétences",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "GTPC",
+      "name": "Gestion des Talents et Planification Carrière",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "IECM",
+      "name": "Intégration des Effets Cyber (Multi-Domaines)",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "OEEN",
+      "name": "Organisation d'Exercices (NAT/OTAN)",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "PSPR",
+      "name": "Partenariats (Privé/Recherche)",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "QCOC",
+      "name": "Qualification et Certification des Opérateurs",
+      "category": "Développement de la Force & Alliances"
+    },
+    {
+      "code": "APBD",
+      "name": "Administration des plateformes Big Data",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "DEOM",
+      "name": "Développement d'Outils sur Mesure",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "GIC2",
+      "name": "Gestion de l'Infrastructure de C2",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "GICL",
+      "name": "Gestion des Infrastructures Classifiées",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "ICRE",
+      "name": "Ingénierie des \"Cyber Ranges\"",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "IIAO",
+      "name": "Intégration de l'IA dans les outils",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "MCOO",
+      "name": "Maintien en Condition Opérationnelle des Outils",
+      "category": "Ingénierie & Soutien des Systèmes"
+    },
+    {
+      "code": "CACM",
+      "name": "Classification and Compartmentalization",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "CDAS",
+      "name": "Collateral Damage Assessment",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "CWLI",
+      "name": "Cyber Warfare Law Integration",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "IHLC",
+      "name": "International Humanitarian Law Compliance",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "MCET",
+      "name": "Military Cyber Ethics",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "MCPR",
+      "name": "Military Cyber Procurement",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "OSPL",
+      "name": "Operational Security Planning",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "ROED",
+      "name": "Rules of Engagement Development",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "SCRM",
+      "name": "Supply Chain Risk Management",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "TLAG",
+      "name": "Targeting Legal Assessment",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "TTCX",
+      "name": "Technology Transfer Control",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "VSAS",
+      "name": "Vendor Security Assessment",
+      "category": "Legal and Compliance Operations"
+    },
+    {
+      "code": "CDAC",
+      "name": "Cross-Domain Attack Coordination",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "CEIO",
+      "name": "Cyber-Enabled Information Operations",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "CEWF",
+      "name": "Cyber Electronic Warfare",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "CIPX",
+      "name": "Critical Infrastructure Protection",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "CTIF",
+      "name": "Cyber Threat Intelligence Fusion",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "IEAS",
+      "name": "Information Environment Assessment",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "MAOP",
+      "name": "Mission Assurance Operations",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "MCYT",
+      "name": "Military Cyber Targeting",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "MFND",
+      "name": "Military Network Defense",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "PSYT",
+      "name": "Psychological Operations Integration",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "SCEA",
+      "name": "Strategic Cyber Effects Assessment",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "VLOP",
+      "name": "Virtual Layer Operations",
+      "category": "Military Cyberspace Operations"
+    },
+    {
+      "code": "ADCI",
+      "name": "Air Defense Cyber Integration",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "AGES",
+      "name": "Aerospace Ground Equipment Security",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "ALCO",
+      "name": "Air-Launched Cyber Operations",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "AVCS",
+      "name": "Aviation Cybersecurity",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "BFCE",
+      "name": "Battlefield Cyber Effects",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "FOBS",
+      "name": "Forward Operating Base Security",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "GVCS",
+      "name": "Ground Vehicle Cybersecurity",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "MCOP",
+      "name": "Maritime Cyber Operations",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "NCSS",
+      "name": "Naval Combat System Security",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "PHCS",
+      "name": "Port and Harbor Cybersecurity",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "TNOP",
+      "name": "Tactical Network Operations",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "UCPR",
+      "name": "Undersea Cable Protection",
+      "category": "Multi-Domain Cyber Integration"
+    },
+    {
+      "code": "ACEU",
+      "name": "Analyse Comportementale des Entités et Utilisateurs",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "AFML",
+      "name": "Analyse Forensique Multi-couches",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "ASZT",
+      "name": "Architecture de Sécurité \"Zero Trust\"",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "CRGC",
+      "name": "Cryptographie et Gestion des Clés",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "CTHA",
+      "name": "Chasse aux Menaces (\"Threat Hunting\") Active",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "DMIA",
+      "name": "Détection de Menaces par IA/ML",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "DSASI",
+      "name": "Durcissement des Systèmes d'Armes et Industriels (OT/SCADA)",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "DVSA",
+      "name": "Développement Sécurisé d'Applications (DevSecOps)",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "GCRI",
+      "name": "Gestion de Crise et Réponse aux Incidents Majeurs",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "SIPL",
+      "name": "Sécurité des Infrastructures Physiques et Logiques",
+      "category": "Opérations Cyber Défensives"
+    },
+    {
+      "code": "ASCT",
+      "name": "Analyse des Systèmes Cibles",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "COEN",
+      "name": "Conduite d'Opérations d'Effets",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "CRAN",
+      "name": "Cartographie des Réseaux Adversaires",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "DAMA",
+      "name": "Développement et Maintien d'Accès",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "DIMA",
+      "name": "Dissimulation et Maintien de l'Anonymat",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "DNPO",
+      "name": "Désengagement et Nettoyage Post-Opération",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "EEDC",
+      "name": "Estimation des Effets et Dommages Collatéraux",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "ICPM",
+      "name": "Ingénierie des charges utiles (Malware)",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "OIVS",
+      "name": "Opérations d'Influence (Virtuel/Social)",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "RVDE",
+      "name": "Recherche de Vulnérabilités et Développement d'Exploits",
+      "category": "Opérations Cyber Offensives"
+    },
+    {
+      "code": "AMCY",
+      "name": "Analyse de la Menace Cyber (Threat Intelligence)",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "ATAS",
+      "name": "Attribution des Attaques",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "EDDM",
+      "name": "Exploitation des Données et \"Data Mining\"",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "FRMS",
+      "name": "Fusion de Renseignement Multi-sources",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "IASC",
+      "name": "Interception et Analyse de Signaux (SIGINT)",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "ISCO",
+      "name": "Ingénierie Sociale pour la Collecte",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "MDAD",
+      "name": "Modélisation de l'Adversaire (TTPs)",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "PDRA",
+      "name": "Production de Renseignement Actionnable",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "REAP",
+      "name": "Reconnaissance Active et Passive",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "RSOS",
+      "name": "Renseignement en Sources Ouvertes (OSINT/SOCMINT)",
+      "category": "Renseignement & Reconnaissance Cyber"
+    },
+    {
+      "code": "AICO",
+      "name": "Artificial Intelligence Cyber Operations",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "ASYS",
+      "name": "Autonomous System Security",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "ATAV",
+      "name": "Attribution Avoidance",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "BTCS",
+      "name": "Biotechnology Cybersecurity",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "CCMG",
+      "name": "Covert Channel Management",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "DTPN",
+      "name": "Deep Target Penetration",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "EMWI",
+      "name": "Electromagnetic Warfare Integration",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "HEOP",
+      "name": "Hardware Exploitation Operations",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "INTG",
+      "name": "Infrastructure Targeting",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "LTAM",
+      "name": "Long-Term Access Maintenance",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "QROP",
+      "name": "Quantum-Resistant Operations",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "SICI",
+      "name": "Signal Intelligence Cyber Integration",
+      "category": "Specialized Military Cyber Capabilities"
+    },
+    {
+      "code": "ACCX",
+      "name": "Alliance Cyber Coordination",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "ARCL",
+      "name": "Academic Research Collaboration",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "CADV",
+      "name": "Capability Development",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "CFSP",
+      "name": "Cyber Force Structure Planning",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "CMCM",
+      "name": "Cyber Mission Command",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "CRDM",
+      "name": "Crisis Decision Making",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "DOCD",
+      "name": "Doctrine Development",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "IACX",
+      "name": "Inter-Agency Coordination",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "ICDP",
+      "name": "International Cyber Diplomacy",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "PPPM",
+      "name": "Public-Private Partnership",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "SCPL",
+      "name": "Strategic Cyber Planning",
+      "category": "Strategic Cyber Leadership"
+    },
+    {
+      "code": "TEMG",
+      "name": "Training and Education Management",
+      "category": "Strategic Cyber Leadership"
+    }
+  ]
+}

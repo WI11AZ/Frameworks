@@ -1534,7 +1534,7 @@
         // Access Controls (NF-COM-001): Contrôle d'accès et gestion des identités
         access_controls: {
           critical: ["611", "612", "631", "632", "652", "722"], // Authorizing Official, Security Control Assessor, Security Developers, Security Architects
-          high: ["421", "451", "511", "521", "541", "651"],     // Database Admin, System Admin, Cyber Defense, Vulnerability Assessment
+          high: ["421", "451", "511", "521", "541", "651"],     // + SCS, SSE; Database Admin, System Admin, Cyber Defense, Vulnerability Assessment
           medium: ["411", "441", "461", "621", "622", "641"],   // Tech Support, Network Ops, Systems Security, Software Dev
           low: ["211", "221", "331", "531", "671", "712"],      // Forensics, Investigation, Planning, Incident Response
           minimal: ["111", "131", "151", "751", "801", "803", "902", "903"]   // Management, Leadership roles
@@ -1551,8 +1551,8 @@
         
         // Asset Management (NF-COM-003): Gestion des actifs
         asset_management: {
-          critical: ["411", "421", "451", "511", "521", "803"], // Admin, Operations, Management
-          high: ["441", "461", "541", "611", "612", "651"],     // Network Ops, Security, Architecture
+          critical: ["411", "421", "451", "511", "521", "803"], // Admin, SCS, Operations, Management
+          high: ["441", "461", "541", "611", "612", "651"],     // Network Ops, Security, SSE, Architecture
           medium: ["431", "531", "631", "641", "652", "722"],   // Knowledge Management, Security
           low: ["621", "622", "632", "671", "712", "732"],      // Development, Testing
           minimal: ["111", "151", "331", "751", "801", "901", "902", "903"]   // Intelligence, Leadership
@@ -1560,8 +1560,8 @@
         
         // Cloud Security (NF-COM-004): Sécurité du cloud
         cloud_security: {
-          critical: ["421", "451", "611", "628", "631", "652"], // Admin, Cloud Architect, Security
-          high: ["441", "511", "521", "612", "622", "651"],     // Network, Defense, Architecture
+          critical: ["421", "451", "611", "628", "631", "652"], // Admin, SCS, Cloud Architect, Security
+          high: ["441", "511", "521", "612", "622", "651"],     // Network, Defense, SSE, Architecture
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["531", "671", "722", "732", "752", "802"],      // Incident Response, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1570,7 +1570,7 @@
         // Communications Security (NF-COM-005): Sécurité des communications
         communications_security: {
           critical: ["441", "511", "521", "631", "632", "723"], // Network, Defense, COMSEC
-          high: ["421", "451", "531", "611", "612", "652"],     // Admin, Security
+          high: ["421", "451", "531", "611", "612", "652"],     // Admin, SCS, SSE, Security
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["422", "622", "651", "671", "722", "732"],      // Data, Testing, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1579,7 +1579,7 @@
         // Cryptography (NF-COM-006): Cryptographie
         cryptography: {
           critical: ["511", "521", "611", "612", "631", "723"], // Security, Defense, COMSEC
-          high: ["421", "441", "451", "521", "622", "652"],     // Admin, Network, Security
+          high: ["421", "441", "451", "521", "622", "652"],     // Admin, SCS, SSE, Network, Security
           medium: ["411", "431", "461", "541", "621", "641"],   // Support, Development
           low: ["422", "531", "651", "671", "722", "732"],      // Data, Incident Response, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1588,7 +1588,7 @@
         // Cyber Resiliency (NF-COM-007): Résilience cyber
         cyber_resiliency: {
           critical: ["511", "521", "531", "611", "612", "722"], // Security, Defense, Incident Response
-          high: ["421", "441", "451", "461", "541", "651"],     // Admin, Network, Vulnerability Assessment
+          high: ["421", "441", "451", "461", "541", "651"],     // Admin, SCS, Network, SSE, Vulnerability Assessment
           medium: ["411", "431", "631", "641", "652", "732"],   // Support, Security Development
           low: ["422", "621", "622", "671", "751", "752"],      // Data, Development, Workforce
           minimal: ["711", "712", "731", "801", "803", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1597,7 +1597,7 @@
         // DevSecOps (NF-COM-008): DevSecOps
         devsecops: {
           critical: ["621", "622", "623", "624", "627", "628", "629", "673"], // Development, DevSecOps, Testing
-          high: ["451", "461", "462", "511", "611", "631", "652"],     // Admin, Security, Architecture
+          high: ["451", "461", "462", "511", "611", "631", "652"],     // Admin, SCS, Security, SSE, Architecture
           medium: ["421", "441", "442", "521", "541", "612", "641"],   // Database, Network, Defense
           low: ["411", "431", "531", "671", "722", "732"],      // Support, Incident Response, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1605,8 +1605,8 @@
         
         // Operating Systems Security (NF-COM-009): Sécurité des systèmes d'exploitation
         os_security: {
-          critical: ["411", "421", "451", "511", "521", "631"], // Admin, Security
-          high: ["441", "461", "541", "611", "612", "652"],     // Network, Security Assessment
+          critical: ["411", "421", "451", "511", "521", "631"], // Admin, SCS, Security
+          high: ["441", "461", "541", "611", "612", "652"],     // Network, SSE, Security Assessment
           medium: ["431", "531", "621", "622", "641", "722"],   // Knowledge, Incident Response, Development
           low: ["422", "632", "651", "671", "732", "752"],      // Data, Architecture, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1615,7 +1615,7 @@
         // Operational Technology Security (NF-COM-010): Sécurité des technologies opérationnelles
         ot_security: {
           critical: ["462", "511", "521", "531", "611", "631"], // Control Systems, Security, Defense
-          high: ["421", "441", "451", "461", "541", "652"],     // Admin, Network, Vulnerability
+          high: ["421", "441", "451", "461", "541", "652"],     // Admin, SCS, SSE, Network, Vulnerability
           medium: ["411", "431", "621", "622", "641", "722"],   // Support, Development, Management
           low: ["422", "532", "651", "671", "732", "752"],      // Data, Architecture, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1624,7 +1624,7 @@
         // Supply Chain Security (NF-COM-011): Sécurité de la chaîne d'approvisionnement
         supply_chain_security: {
           critical: ["211", "212", "221", "611", "612", "803"], // Forensics, Investigation, Security Assessment
-          high: ["421", "451", "511", "521", "541", "722"],     // Admin, Security, Defense
+          high: ["421", "451", "511", "521", "541", "722"],     // Admin, SCS, SSE, Security, Defense
           medium: ["441", "461", "631", "641", "651", "652"],   // Network, Security Development, Architecture
           low: ["411", "431", "621", "622", "671", "732"],      // Support, Development, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1633,15 +1633,15 @@
         // Cybersecurity Fundamentals (NF-COM-012): Fondamentaux de la cybersécurité
         cybersecurity_fundamentals: {
           critical: ["411", "421", "451", "511", "521", "611"], // Admin, Security, Defense
-          high: ["441", "461", "531", "541", "612", "631"],     // Network, Incident Response, Security Dev
-          medium: ["431", "621", "622", "641", "651", "652"],   // Knowledge, Development, Architecture
-          low: ["422", "632", "671", "722", "732", "752"],      // Data, Testing, Management
+          high: ["441", "461", "531", "541", "612", "631"],     // Network, SCS, Incident Response, Security Dev, SSE
+          medium: ["431", "621", "622", "632", "641", "651", "652"],   // Knowledge, Development, Architecture
+          low: ["422", "671", "722", "732", "752"],      // Data, Testing, Management
           minimal: ["711", "712", "731", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
         },
         
         // Cybersecurity Leadership (NF-COM-013): Leadership en cybersécurité
         cybersecurity_leadership: {
-          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"], // Workforce, Policy, Management, Leadership
+          critical: ["751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903"], // Workforce, Policy, Management, Leadership
           high: ["611", "612", "722", "723", "724", "731", "732", "733", "741", "742"],     // Security, Legal, AI Risk
           medium: ["511", "512", "521", "522", "531", "532", "541", "542", "551", "552", "561", "562", "651", "652"],   // Security, Defense, Architecture
           low: ["421", "422", "441", "442", "451", "461", "462", "631", "641", "642"],      // Admin, Network, Security Development
@@ -1651,7 +1651,7 @@
         // Data Security (NF-COM-014): Sécurité des données
         data_security: {
           critical: ["421", "422", "423", "424", "511", "512", "611", "631"], // Database, Data Analysis, Security
-          high: ["451", "461", "462", "521", "522", "541", "542", "612", "652", "902", "903"],     // Data Steward, Admin, Defense, AI Innovation Leader, Data Officer
+          high: ["451", "461", "462", "521", "522", "541", "542", "612", "652", "902", "903"],     // Admin, SCS, Defense, SSE, AI Innovation Leader, Data Officer
           medium: ["411", "412", "441", "442", "461", "621", "622", "623", "624", "641", "642"],   // Support, Network, Development
           low: ["431", "531", "532", "551", "552", "651", "671", "672", "722", "732", "733"],      // Knowledge, Incident Response, Management
           minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "801", "901", "902", "903"]   // Training, Legal, Leadership
@@ -1660,10 +1660,10 @@
         // Secure Programming (NF-COM-015): Programmation sécurisée
         secure_programming: {
           critical: ["621", "622", "623", "624", "625", "626", "627", "628", "629", "631"], // Development, DevSecOps, Security Dev
-          high: ["461", "462", "511", "512", "541", "542", "611", "612", "652"],     // Security Analysis, Security Assessment
+          high: ["461", "462", "511", "512", "541", "542", "611", "612", "652"],     // Security Analysis, SSE, Security Assessment
           medium: ["421", "422", "441", "442", "451", "521", "522", "641", "642", "673"],   // Admin, Network, Testing
           low: ["411", "412", "431", "531", "532", "551", "552", "651", "671", "672", "722", "723", "724"],      // Support, Incident Response, Management
-          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903", "904", "905", "906", "907", "908", "909"]   // Training, Legal, Leadership
+          minimal: ["711", "712", "731", "732", "733", "741", "742", "751", "752", "753", "754", "755", "756", "757", "758", "759", "801", "802", "803", "804", "805", "806", "807", "808", "809", "901", "902", "903"]   // Training, Legal, Leadership
         }
       };
 

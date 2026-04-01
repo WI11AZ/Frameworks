@@ -66,4 +66,3 @@ try:
 except Exception as e:
     print(f"Erreur: {e}", file=sys.stderr)
     sys.exit(1)
-

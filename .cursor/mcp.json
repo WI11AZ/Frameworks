@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "example": {
+      "url": "https://mcp.example.com/mcp"
+    },
+    "agentation": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "agentation-mcp",
+        "server"
+      ]
+    }
+  }
+}

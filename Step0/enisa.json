@@ -1,0 +1,133 @@
+  {
+  "meta": {
+    "source": "ENISA",
+    "description": "Twelve cybersecurity roles with indicative SFIA 9 skills and levels of responsibility (levelled roles).",
+    "role_count": 12
+  },
+  "roles": [
+    {
+      "id": 1,
+      "title": "Chief Information Security Officer (CISO)",
+      "description": "Manages an organisation's cybersecurity strategy and its implementation to ensure that digital systems, services and assets are adequately secure and protected.",
+      "sfia_skills": [
+        { "skill_name": "Information security", "code": "SCTY", "level_from": 5, "level_to": 7 },
+        { "skill_name": "Risk management", "code": "BURM", "level_from": 5, "level_to": 7 },
+        { "skill_name": "Information assurance", "code": "INAS", "level_from": 5, "level_to": 7 }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Cyber Incident Responder",
+      "description": "Monitor the organisation's cybersecurity state, handle incidents during cyber-attacks and assure the continued operations of ICT systems.",
+      "sfia_skills": [
+        { "skill_name": "Incident management", "code": "USUP", "level_from": 2, "level_to": 5 },
+        { "skill_name": "Security operations", "code": "SCAD", "level_from": 2, "level_to": 5 },
+        { "skill_name": "Continuity management", "code": "COPL", "level_from": 2, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Cyber Legal, Policy & Compliance Officer",
+      "description": "Manages compliance with cybersecurity-related standards, legal and regulatory frameworks based on the organisation's strategy and legal requirements.",
+      "sfia_skills": [
+        { "skill_name": "Personal data protection", "code": "PEDP", "level_from": 4, "level_to": 6 }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Cyber Threat Intelligence Specialist",
+      "description": "Collect, process, analyse data and information to produce actionable intelligence reports and disseminate them to target stakeholders.",
+      "sfia_skills": [
+        { "skill_name": "Threat intelligence", "code": "THIN", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Data visualisation", "code": "VISL", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Security operations", "code": "SCAD", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cybersecurity Architect",
+      "description": "Plans and designs security-by-design solutions (infrastructures, systems, assets, software, hardware and services) and cybersecurity controls.",
+      "sfia_skills": [
+        { "skill_name": "Information security", "code": "SCTY", "level_from": 4, "level_to": 6 },
+        { "skill_name": "Enterprise and business architecture", "code": "STPL", "level_from": 5, "level_to": 6 },
+        { "skill_name": "Solution architecture", "code": "ARCH", "level_from": 4, "level_to": 6 },
+        { "skill_name": "Requirements definition and management", "code": "REQM", "level_from": 4, "level_to": 6 }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Cybersecurity Auditor",
+      "description": "Perform cybersecurity audits on the organisation's ecosystem. Ensuring compliance with statutory, regulatory, policy information, security requirements, industry standards and best practices.",
+      "sfia_skills": [
+        { "skill_name": "Audit", "code": "AUDT", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Information assurance", "code": "INAS", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Risk management", "code": "BURM", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Quality assurance", "code": "QUAS", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Cybersecurity Educator",
+      "description": "Designs, develops and conducts awareness, training and educational programmes in cybersecurity and data protection-related topics. Uses appropriate teaching and training methods, techniques and instruments to communicate and enhance the cybersecurity culture, capabilities, knowledge and skills of human resources.",
+      "sfia_skills": [
+        { "skill_name": "Learning delivery", "code": "ETDL", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Teaching", "code": "TEAC", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Learning design and development", "code": "TMCR", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Content authoring", "code": "INCA", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Cybersecurity Implementer",
+      "description": "Develop, deploy and operate cybersecurity solutions (systems, assets, software, controls and services) on infrastructures and products.",
+      "sfia_skills": [
+        { "skill_name": "Information security", "code": "SCTY", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Vulnerability assessment", "code": "VUAS", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Continuity management", "code": "COPL", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Solution architecture", "code": "ARCH", "level_from": 4, "level_to": 5 },
+        { "skill_name": "Systems design", "code": "DESN", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Testing", "code": "TEST", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Penetration testing", "code": "PENT", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Cybersecurity Researcher",
+      "description": "Research the cybersecurity domain and incorporate results in cybersecurity solutions.",
+      "sfia_skills": [
+        { "skill_name": "Vulnerability research", "code": "VURE", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Research", "code": "RSCH", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Emerging technology monitoring", "code": "EMRG", "level_from": 4, "level_to": 5 },
+        { "skill_name": "Specialist advice", "code": "TECH", "level_from": 4, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Cybersecurity Risk Manager",
+      "description": "Manage the organisation's cybersecurity-related risks aligned to the organisation's strategy. Develop, maintain and communicate the risk management processes and reports.",
+      "sfia_skills": [
+        { "skill_name": "Information security", "code": "SCTY", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Audit", "code": "AUDT", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Information assurance", "code": "INAS", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Risk management", "code": "BURM", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Digital Forensics Investigator",
+      "description": "Identifies, collects, examines, and preserves evidence using controlled and documented analytical and investigative techniques.",
+      "sfia_skills": [
+        { "skill_name": "Digital forensics", "code": "DGFS", "level_from": 3, "level_to": 5 }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Penetration Tester",
+      "description": "Assess the effectiveness of security controls, reveals and utilise cybersecurity vulnerabilities, assessing their criticality if exploited by threat actors.",
+      "sfia_skills": [
+        { "skill_name": "Penetration testing", "code": "PENT", "level_from": 3, "level_to": 5 },
+        { "skill_name": "Vulnerability assessment", "code": "VUAS", "level_from": 3, "level_to": 5 }
+      ]
+    }
+  ]
+}
